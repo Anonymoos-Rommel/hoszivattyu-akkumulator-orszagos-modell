@@ -8,7 +8,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from tools.validate_registry import QUESTION_ID_PATTERN, read_csv, validate  # noqa: E402
+from tools.validate_registry import (  # noqa: E402
+    API_VERSION_PATTERN,
+    DATASET_ID_PATTERN,
+    DIMENSION_ID_PATTERN,
+    QUESTION_ID_PATTERN,
+    read_csv,
+    validate,
+)
 
 
 class RegistryContractTests(unittest.TestCase):
@@ -40,6 +47,30 @@ class RegistryContractTests(unittest.TestCase):
         )
         self.assertIn("számszerű modellkapu nincs lezárva", source_pack)
         self.assertIn("egyikhez sincs numerikus érték", source_pack)
+
+    def test_b02_dataset_contract_pins_expected_ksh_flows(self) -> None:
+        _, rows = read_csv(ROOT / "registry" / "datasets.csv")
+        flows = {row["dataflow_id"] for row in rows if row["module_id"] == "B02"}
+        self.assertEqual({"WBL010", "WBL011", "WBL016", "WBL017"}, flows)
+        for row in rows:
+            self.assertIsNotNone(DATASET_ID_PATTERN.fullmatch(row["dataset_id"]))
+            self.assertIsNotNone(API_VERSION_PATTERN.fullmatch(row["api_version"]))
+            self.assertIn(f"/{row['dataflow_id']}/{row['api_version']}", row["data_endpoint"])
+
+    def test_b02_contracted_dimensions_have_source_datasets(self) -> None:
+        _, rows = read_csv(ROOT / "registry" / "archetype_dimensions.csv")
+        for row in rows:
+            self.assertIsNotNone(DIMENSION_ID_PATTERN.fullmatch(row["dimension_id"]))
+            if row["status"] == "CONTRACTED":
+                self.assertTrue(row["source_dataset_ids"])
+
+    def test_b02_contract_keeps_baseline_separate_from_eligibility(self) -> None:
+        contract = (ROOT / "modules" / "B02" / "data_contract.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("nem a technikailag alkalmas célállomány", contract)
+        self.assertIn("HOSZIV=9", contract)
+        self.assertIn("nem azonos a `HOSZIV=0`", contract)
 
 
 if __name__ == "__main__":

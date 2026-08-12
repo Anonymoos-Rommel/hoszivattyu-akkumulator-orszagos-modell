@@ -28,4 +28,6 @@ A magyar lakásállomány reprodukálható archetípusokra bontása, archetípus
 
 ## Állapot
 
-`IN_PROGRESS` – a hivatalos forráskapuk rögzítve, de a mezőkivonat, kategóriahatárok és alkalmassági szabály nincs lezárva.
+`IN_PROGRESS` – a KSH V67 `WBL011` és `WBL017` fő adatfolyam, a járási kontrollok és a megfigyelt dimenziók szerződése ellenőrizve. Az épülettípus, hőleadó, energetikai kapcsolat és alkalmassági szabály nincs lezárva.
+
+Részletes szerződés: [`data_contract.md`](data_contract.md).

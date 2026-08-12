@@ -72,6 +72,43 @@ EXPECTED_HEADERS = {
         "owner",
         "notes",
     ],
+    "datasets.csv": [
+        "dataset_id",
+        "module_id",
+        "title",
+        "institution",
+        "source_id",
+        "api_version",
+        "dataflow_id",
+        "structure_endpoint",
+        "data_endpoint",
+        "geography_grain",
+        "reference_period",
+        "dimensions",
+        "measure_id",
+        "unit",
+        "evidence_status",
+        "retrieved_at",
+        "license",
+        "snapshot_policy",
+        "raw_storage_path",
+        "notes",
+    ],
+    "archetype_dimensions.csv": [
+        "dimension_id",
+        "module_id",
+        "name",
+        "source_dataset_ids",
+        "source_dimension_ids",
+        "role",
+        "canonical_grain",
+        "observability",
+        "required",
+        "aggregation_rule",
+        "unknown_policy",
+        "status",
+        "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -80,11 +117,25 @@ ALLOWED_SOURCE_TIERS = {"P1", "P2", "P3", "P4"}
 ALLOWED_RELIABILITY = {"HIGH", "MEDIUM", "LOW"}
 ALLOWED_QUESTION_PRIORITY = {"CRITICAL", "HIGH", "MEDIUM", "LOW"}
 ALLOWED_QUESTION_STATUS = {"OPEN", "BLOCKED", "RESOLVED"}
+ALLOWED_DIMENSION_OBSERVABILITY = {"OBS", "MODELLED", "Q"}
+ALLOWED_DIMENSION_REQUIRED = {"yes", "no"}
+ALLOWED_DIMENSION_STATUS = {"CONTRACTED", "PROPOSED", "GAP"}
+ALLOWED_DIMENSION_ROLES = {
+    "archetype_key",
+    "baseline_flag",
+    "eligibility_input",
+    "energy_input",
+    "stratifier",
+    "universe_filter",
+}
 
 MODULE_ID_PATTERN = re.compile(r"B(?:0[1-9]|1[0-9]|20)")
 SOURCE_ID_PATTERN = re.compile(r"SRC-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 VARIABLE_ID_PATTERN = re.compile(r"VAR-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 QUESTION_ID_PATTERN = re.compile(r"Q-(B(?:0[1-9]|1[0-9]|20))-\d{3}")
+DATASET_ID_PATTERN = re.compile(r"DATA-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
+DIMENSION_ID_PATTERN = re.compile(r"DIM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
+API_VERSION_PATTERN = re.compile(r"V\d+")
 
 
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
@@ -248,6 +299,107 @@ def validate() -> list[str]:
                 errors.append(f"unknown source references for {variable_id}: {unknown_sources!r}")
             if row["status"] in {"OBS", "DER"} and not referenced_sources:
                 errors.append(f"{row['status']} variable has no source for {variable_id}")
+
+    dataset_ids: set[str] = set()
+    dataset_path = REGISTRY / "datasets.csv"
+    if dataset_path.is_file():
+        _, dataset_rows = read_csv(dataset_path)
+        all_dataset_ids = [row["dataset_id"] for row in dataset_rows]
+        duplicates = duplicate_values(all_dataset_ids)
+        if duplicates:
+            errors.append(f"duplicate dataset IDs: {duplicates!r}")
+        dataset_ids = set(all_dataset_ids)
+
+        for row in dataset_rows:
+            dataset_id = row["dataset_id"]
+            match = DATASET_ID_PATTERN.fullmatch(dataset_id)
+            if not match:
+                errors.append(f"invalid dataset ID: {dataset_id!r}")
+            elif match.group(1) != row["module_id"]:
+                errors.append(f"dataset/module mismatch: {dataset_id!r} -> {row['module_id']!r}")
+            if row["module_id"] not in known_ids:
+                errors.append(f"unknown dataset module for {dataset_id}: {row['module_id']!r}")
+            for field in (
+                "title",
+                "institution",
+                "source_id",
+                "api_version",
+                "dataflow_id",
+                "structure_endpoint",
+                "data_endpoint",
+                "geography_grain",
+                "reference_period",
+                "dimensions",
+                "measure_id",
+                "unit",
+                "evidence_status",
+                "retrieved_at",
+                "license",
+                "snapshot_policy",
+                "raw_storage_path",
+                "notes",
+            ):
+                if not row[field].strip():
+                    errors.append(f"missing {field} for dataset {dataset_id}")
+            if row["source_id"] not in source_ids:
+                errors.append(f"unknown source for dataset {dataset_id}: {row['source_id']!r}")
+            if not API_VERSION_PATTERN.fullmatch(row["api_version"]):
+                errors.append(f"invalid API version for dataset {dataset_id}: {row['api_version']!r}")
+            if not row["structure_endpoint"].startswith("https://"):
+                errors.append(f"invalid structure endpoint for dataset {dataset_id}")
+            if not row["data_endpoint"].startswith("https://"):
+                errors.append(f"invalid data endpoint for dataset {dataset_id}")
+            if row["evidence_status"] not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid evidence status for dataset {dataset_id}")
+            if not is_iso_date(row["retrieved_at"]):
+                errors.append(f"invalid retrieved_at for dataset {dataset_id}")
+            if not row["raw_storage_path"].startswith("data/raw/"):
+                errors.append(f"dataset raw path must be under data/raw for {dataset_id}")
+
+    dimension_path = REGISTRY / "archetype_dimensions.csv"
+    if dimension_path.is_file():
+        _, dimension_rows = read_csv(dimension_path)
+        dimension_ids = [row["dimension_id"] for row in dimension_rows]
+        duplicates = duplicate_values(dimension_ids)
+        if duplicates:
+            errors.append(f"duplicate dimension IDs: {duplicates!r}")
+
+        for row in dimension_rows:
+            dimension_id = row["dimension_id"]
+            match = DIMENSION_ID_PATTERN.fullmatch(dimension_id)
+            if not match:
+                errors.append(f"invalid dimension ID: {dimension_id!r}")
+            elif match.group(1) != row["module_id"]:
+                errors.append(f"dimension/module mismatch: {dimension_id!r} -> {row['module_id']!r}")
+            if row["module_id"] not in known_ids:
+                errors.append(f"unknown dimension module for {dimension_id}: {row['module_id']!r}")
+            for field in (
+                "name",
+                "role",
+                "canonical_grain",
+                "observability",
+                "required",
+                "aggregation_rule",
+                "unknown_policy",
+                "status",
+                "notes",
+            ):
+                if not row[field].strip():
+                    errors.append(f"missing {field} for dimension {dimension_id}")
+            referenced_datasets = [item for item in row["source_dataset_ids"].split(";") if item]
+            unknown_datasets = [item for item in referenced_datasets if item not in dataset_ids]
+            if unknown_datasets:
+                errors.append(f"unknown dataset references for {dimension_id}: {unknown_datasets!r}")
+            if row["status"] == "CONTRACTED" and not referenced_datasets:
+                errors.append(f"contracted dimension has no dataset for {dimension_id}")
+            if row["role"] not in ALLOWED_DIMENSION_ROLES:
+                errors.append(f"invalid role for {dimension_id}: {row['role']!r}")
+            if row["observability"] not in ALLOWED_DIMENSION_OBSERVABILITY:
+                errors.append(f"invalid observability for {dimension_id}: {row['observability']!r}")
+            if row["required"] not in ALLOWED_DIMENSION_REQUIRED:
+                errors.append(f"invalid required flag for {dimension_id}: {row['required']!r}")
+            if row["status"] not in ALLOWED_DIMENSION_STATUS:
+                errors.append(f"invalid dimension status for {dimension_id}: {row['status']!r}")
 
     question_path = REGISTRY / "open_questions.csv"
     if question_path.is_file():
