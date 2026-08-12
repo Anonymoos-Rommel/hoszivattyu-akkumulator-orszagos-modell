@@ -78,9 +78,10 @@ EXPECTED_HEADERS = {
         "title",
         "institution",
         "source_id",
-        "api_version",
+        "access_method",
+        "source_version",
         "dataflow_id",
-        "structure_endpoint",
+        "metadata_endpoint",
         "data_endpoint",
         "geography_grain",
         "reference_period",
@@ -128,6 +129,7 @@ ALLOWED_DIMENSION_ROLES = {
     "stratifier",
     "universe_filter",
 }
+ALLOWED_DATASET_ACCESS_METHODS = {"KSH_CENSUS_API", "EMBEDDED_HTML"}
 
 MODULE_ID_PATTERN = re.compile(r"B(?:0[1-9]|1[0-9]|20)")
 SOURCE_ID_PATTERN = re.compile(r"SRC-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
@@ -135,7 +137,8 @@ VARIABLE_ID_PATTERN = re.compile(r"VAR-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 QUESTION_ID_PATTERN = re.compile(r"Q-(B(?:0[1-9]|1[0-9]|20))-\d{3}")
 DATASET_ID_PATTERN = re.compile(r"DATA-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 DIMENSION_ID_PATTERN = re.compile(r"DIM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
-API_VERSION_PATTERN = re.compile(r"V\d+")
+SOURCE_VERSION_PATTERN = re.compile(r"(?:V\d+|\d{4}-\d{2}-\d{2})")
+FORMULA_ID_PATTERN = re.compile(r"FORM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 
 
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
@@ -269,10 +272,12 @@ def validate() -> list[str]:
             if snapshot and not re.fullmatch(r"[0-9a-f]{64}", snapshot):
                 errors.append(f"invalid snapshot SHA-256 for {source_id}")
 
+    variable_ids_set: set[str] = set()
     variable_path = REGISTRY / "variables.csv"
     if variable_path.is_file():
         _, variable_rows = read_csv(variable_path)
         variable_ids = [row["variable_id"] for row in variable_rows]
+        variable_ids_set = set(variable_ids)
         duplicates = duplicate_values(variable_ids)
         if duplicates:
             errors.append(f"duplicate variable IDs: {duplicates!r}")
@@ -300,6 +305,44 @@ def validate() -> list[str]:
             if row["status"] in {"OBS", "DER"} and not referenced_sources:
                 errors.append(f"{row['status']} variable has no source for {variable_id}")
 
+    formula_path = REGISTRY / "formulas.csv"
+    if formula_path.is_file():
+        _, formula_rows = read_csv(formula_path)
+        formula_ids = [row["formula_id"] for row in formula_rows]
+        duplicates = duplicate_values(formula_ids)
+        if duplicates:
+            errors.append(f"duplicate formula IDs: {duplicates!r}")
+
+        for row in formula_rows:
+            formula_id = row["formula_id"]
+            match = FORMULA_ID_PATTERN.fullmatch(formula_id)
+            if not match:
+                errors.append(f"invalid formula ID: {formula_id!r}")
+            elif match.group(1) != row["module_id"]:
+                errors.append(f"formula/module mismatch: {formula_id!r} -> {row['module_id']!r}")
+            if row["module_id"] not in known_ids:
+                errors.append(f"unknown formula module for {formula_id}: {row['module_id']!r}")
+            for field in (
+                "output_variable_id",
+                "expression",
+                "input_variable_ids",
+                "output_unit",
+                "status",
+                "notes",
+            ):
+                if not row[field].strip():
+                    errors.append(f"missing {field} for formula {formula_id}")
+            if row["output_variable_id"] not in variable_ids_set:
+                errors.append(
+                    f"unknown output variable for {formula_id}: {row['output_variable_id']!r}"
+                )
+            inputs = [item for item in row["input_variable_ids"].split(";") if item]
+            unknown_inputs = [item for item in inputs if item not in variable_ids_set]
+            if unknown_inputs:
+                errors.append(f"unknown input variables for {formula_id}: {unknown_inputs!r}")
+            if row["status"] != "DER":
+                errors.append(f"formula status must be DER for {formula_id}")
+
     dataset_ids: set[str] = set()
     dataset_path = REGISTRY / "datasets.csv"
     if dataset_path.is_file():
@@ -323,9 +366,10 @@ def validate() -> list[str]:
                 "title",
                 "institution",
                 "source_id",
-                "api_version",
+                "access_method",
+                "source_version",
                 "dataflow_id",
-                "structure_endpoint",
+                "metadata_endpoint",
                 "data_endpoint",
                 "geography_grain",
                 "reference_period",
@@ -343,10 +387,16 @@ def validate() -> list[str]:
                     errors.append(f"missing {field} for dataset {dataset_id}")
             if row["source_id"] not in source_ids:
                 errors.append(f"unknown source for dataset {dataset_id}: {row['source_id']!r}")
-            if not API_VERSION_PATTERN.fullmatch(row["api_version"]):
-                errors.append(f"invalid API version for dataset {dataset_id}: {row['api_version']!r}")
-            if not row["structure_endpoint"].startswith("https://"):
-                errors.append(f"invalid structure endpoint for dataset {dataset_id}")
+            if row["access_method"] not in ALLOWED_DATASET_ACCESS_METHODS:
+                errors.append(
+                    f"invalid access method for dataset {dataset_id}: {row['access_method']!r}"
+                )
+            if not SOURCE_VERSION_PATTERN.fullmatch(row["source_version"]):
+                errors.append(
+                    f"invalid source version for dataset {dataset_id}: {row['source_version']!r}"
+                )
+            if not row["metadata_endpoint"].startswith("https://"):
+                errors.append(f"invalid metadata endpoint for dataset {dataset_id}")
             if not row["data_endpoint"].startswith("https://"):
                 errors.append(f"invalid data endpoint for dataset {dataset_id}")
             if row["evidence_status"] not in ALLOWED_EVIDENCE_STATUS:

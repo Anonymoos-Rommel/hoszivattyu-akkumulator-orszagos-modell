@@ -1,1 +1,2 @@
 formula_id,module_id,output_variable_id,expression,input_variable_ids,output_unit,status,notes
+FORM-B02-PUBLISHED-BIN-COVERAGE,B02,VAR-B02-PUBLISHED-BIN-COVERAGE,VAR-B02-PUBLISHED-BIN-DWELLINGS / VAR-B02-CENSUS-DWELLING-UNIVERSE,VAR-B02-PUBLISHED-BIN-DWELLINGS;VAR-B02-CENSUS-DWELLING-UNIVERSE,ratio,DER,"4 575 790 / 4 580 538 = 0.9989634405390808; a 4 748 lakás maradék oka a publikált ábrából nem azonosítható."

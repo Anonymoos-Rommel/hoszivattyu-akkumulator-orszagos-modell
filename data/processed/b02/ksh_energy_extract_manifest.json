@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "module_id": "B02",
+  "source_ids": [
+    "SRC-B02-KSH-ENERGY-2025",
+    "SRC-B02-KSH-ENERGY-METHOD-2025"
+  ],
+  "retrieved_at": "2026-08-12",
+  "publication": {
+    "url": "https://www.ksh.hu/s/kiserleti-statisztika/kiadvanyok/a-magyar-lakasallomany-primerenergia-igenyenek-becslese/",
+    "sha256": "1a312ae2943238c139623ac6595ff9bb0ebe656fd12d2b7ab80739488b527c31"
+  },
+  "methodology": {
+    "url": "https://www.ksh.hu/s/kiserleti-statisztika/kiadvanyok/a-magyar-lakasallomany-primerenergia-igenyenek-becslese/modszertan",
+    "sha256": "c91c1b5ee8e36e5e63327d5931da2560545b46c6fbe3881f8be9b0da32855bfc"
+  },
+  "outputs": {
+    "benchmarks": "data/processed/b02/ksh_energy_archetype_benchmarks_2022.csv",
+    "distribution": "data/processed/b02/ksh_energy_distribution_2022.csv",
+    "energyClasses": "data/processed/b02/ksh_energy_class_distribution_2022.csv",
+    "coverage": "data/processed/b02/ksh_energy_coverage_2022.csv"
+  },
+  "controls": {
+    "chart_count": 7,
+    "benchmark_rows": 16,
+    "distribution_rows": 944,
+    "energy_class_rows": 17,
+    "census_dwelling_universe": 4580538,
+    "linked_energy_certificates": 279020,
+    "family_house_records_in_published_bins": 2881310,
+    "multi_dwelling_records_in_published_bins": 1694480,
+    "all_records_in_published_bins": 4575790,
+    "published_bin_residual": 4748,
+    "published_bin_coverage": 0.9989634405390808
+  }
+}

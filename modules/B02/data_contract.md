@@ -49,6 +49,19 @@ A KSH kódlisták hierarchikusak. `TOTAL`, részösszeg és gyermek kód együtt
 
 A népszámlálási `OBS_VALUE` aggregált megfigyelés. A KSH kísérleti primerenergia-igény viszont modellbecslés; ezt `MODELLED` mezőként, módszertani verzióval és bizonytalansággal kell továbbadni B05 és B06 felé. Az egyik nem örökölheti a másik `OBS` státuszát.
 
+## Energetikai modellkapcsolat
+
+A KSH 2025-ös kísérleti statisztikája külön random-forest modellt és publikált eredményt ad családi házakra és többlakásos épületekre. Ez alapján a B02 kanonikus épülettípus-kódjai:
+
+- `FAMILY_HOUSE`;
+- `MULTI_DWELLING`.
+
+A publikált HTML-ből determinisztikusan kinyert adatok 16 épülettípus × építési időszak átlagot és 944 energiaigény-eloszlási cellát tartalmaznak. A binekben 4 575 790 lakás szerepel; a módszertani 4 580 538 lakásos univerzumhoz képest a levezetett maradék 4 748 lakás, a publikált-bin lefedettség 0,9989634405390808.
+
+Ez nem jelenti azt, hogy a teljes állomány energetikai tanúsítvánnyal rendelkezik. A módszertan 279 020 kapcsolt tanúsítványt és kerekítve 6,1%-os kapcsolási arányt közöl. Az egész állományra kiterjesztett energiaigény `MODELLED`, a lefedettségi arány pedig `DER`.
+
+A népszámlálási `Y_GE2011` kategória és az energetikai publikáció `2011–2015`, illetve `2016–2022` kategóriái nem azonosak. Összevonásuk csak a publikált cellaszámokkal súlyozott, külön képlettel dokumentált transzformáció lehet.
+
 ## Reprodukálható lekérdezés
 
 Az API a dimenziókat a struktúrában megadott sorrendben, `/d/` útvonalon fogadja. Példa az országos, lakott, hőszivattyúval rendelkező lakások kontroll-lekérdezésére:
@@ -83,8 +96,10 @@ Ez hálózati ellenőrzés, ezért nem része az alap GitHub Actions munkafolyam
 
 A B02 következő számszerű kapuja csak akkor nyitható, ha elkészül:
 
-- az épülettípus és hőleadó rendszer elsődleges forrása vagy igazolt proxyja;
-- a KSH kísérleti energetikai tábla mezőszintű kapcsolása;
+- a hőleadó rendszer elsődleges forrása vagy igazolt proxyja;
+- a népszámlálási WBL-cellák és a két energetikai épülettípus reprodukálható kapcsolata;
 - az archetípus-cellák lefedettségi és ritkasági jelentése;
 - a műszaki kizárási és minimális retrofit-szabály Joseph jóváhagyásával;
 - az országos/vármegyei visszaegyeztetés és bizonytalansági tartomány.
+
+Feldolgozott energetikai csomag: [`data/processed/b02/`](../../data/processed/b02/README.md).

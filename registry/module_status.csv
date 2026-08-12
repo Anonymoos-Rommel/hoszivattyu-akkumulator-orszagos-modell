@@ -1,6 +1,6 @@
 module_id,module_name,depends_on,status,readiness_percent,gate_note
 B01,Programterjedelem és penetráció,,IN_PROGRESS,10,P1-A forrástérkép és változószerződés elkészült; célállomány nincs validálva
-B02,Épületállomány és archetipizálás,,IN_PROGRESS,20,P1-B KSH V67 adatfolyam- és mezőszerződés ellenőrizve; épülettípus hőleadó energetikai kapcsolat és alkalmas állomány nincs validálva
+B02,Épületállomány és archetipizálás,,IN_PROGRESS,30,P1-C épülettípus és KSH modellezett energiaigény-kivonat 99.896% publikált-bin lefedettséggel; hőleadó cellajoin és alkalmas állomány nincs validálva
 B03,Gázár és földgáz-kitettség,,IN_PROGRESS,10,P1-A piaci deviza- és konverziós forráskapuk rögzítve; árpálya nincs validálva
 B04,Villamosenergia-ár és tarifák,,IN_PROGRESS,10,P1-A tarifa- és jogi forráskapuk rögzítve; hatálynapos teljes díjtábla nincs validálva
 B05,Hőszivattyú fizikai modell,B02;B03;B04,NOT_STARTED,0,

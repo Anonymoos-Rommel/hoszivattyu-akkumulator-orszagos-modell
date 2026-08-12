@@ -9,10 +9,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from tools.validate_registry import (  # noqa: E402
-    API_VERSION_PATTERN,
     DATASET_ID_PATTERN,
     DIMENSION_ID_PATTERN,
     QUESTION_ID_PATTERN,
+    SOURCE_VERSION_PATTERN,
     read_csv,
     validate,
 )
@@ -50,12 +50,20 @@ class RegistryContractTests(unittest.TestCase):
 
     def test_b02_dataset_contract_pins_expected_ksh_flows(self) -> None:
         _, rows = read_csv(ROOT / "registry" / "datasets.csv")
-        flows = {row["dataflow_id"] for row in rows if row["module_id"] == "B02"}
+        flows = {
+            row["dataflow_id"]
+            for row in rows
+            if row["access_method"] == "KSH_CENSUS_API"
+        }
         self.assertEqual({"WBL010", "WBL011", "WBL016", "WBL017"}, flows)
         for row in rows:
             self.assertIsNotNone(DATASET_ID_PATTERN.fullmatch(row["dataset_id"]))
-            self.assertIsNotNone(API_VERSION_PATTERN.fullmatch(row["api_version"]))
-            self.assertIn(f"/{row['dataflow_id']}/{row['api_version']}", row["data_endpoint"])
+            self.assertIsNotNone(SOURCE_VERSION_PATTERN.fullmatch(row["source_version"]))
+            if row["access_method"] == "KSH_CENSUS_API":
+                self.assertIn(
+                    f"/{row['dataflow_id']}/{row['source_version']}",
+                    row["data_endpoint"],
+                )
 
     def test_b02_contracted_dimensions_have_source_datasets(self) -> None:
         _, rows = read_csv(ROOT / "registry" / "archetype_dimensions.csv")
