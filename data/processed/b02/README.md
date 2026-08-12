@@ -15,6 +15,9 @@ Források: KSH, *A magyar lakásállomány primerenergia-igényének becslése* 
 - `b02_archetype_cell_coverage_2022.csv`: a 16 energetikai cella rangja, részesedése és pozitív/nulla binleltára;
 - `b02_archetype_joinability_2022.csv`: a B02 részgrainen megengedett és tiltott adatkapcsolatok;
 - `b02_archetype_coverage_manifest.json`: a P1-G bemeneti/kimeneti hash-ek és lefedettségi kontrollok.
+- `ksh_wbl_joint_cells_2022.csv`: 47 960, közvetlenül visszaadott `OBS` WBL011/WBL017 cella három elkülönített projekcióban;
+- `ksh_wbl_joint_cell_coverage_2022.csv`: a jelölt, visszaadott és nem visszaadott kombinációk, valamint az egzakt gyakorisági sávok leltára;
+- `ksh_wbl_joint_manifest.json`: 60 kérés URL-je, válasz-hash-e, struktúra-hash-ek és projekciós kontrollok.
 
 ## Újragenerálás
 
@@ -22,6 +25,7 @@ Források: KSH, *A magyar lakásállomány primerenergia-igényének becslése* 
 python -m pip install -r requirements-research.txt
 node tools/extract_b02_ksh_energy.mjs --output-dir data/processed/b02 --retrieved-at 2026-08-12
 python tools/build_b02_building_type_proxy.py --output-dir data/processed/b02 --retrieved-at 2026-08-12
+python tools/extract_b02_ksh_wbl_joint_cells.py --output-dir data/processed/b02 --retrieved-at 2026-08-12
 python tools/build_b02_archetype_coverage.py --data-dir data/processed/b02 --retrieved-at 2026-08-12
 ```
 
@@ -38,3 +42,5 @@ A 99,896%-os publikált-bin lefedettség nem tanúsítvány-mérési lefedettsé
 A 2015-ös KSH táblasorok `OBS` felmérési becslések. A 2015-ös településtípus-arányok 2022-es WBL lakásszámokra vetített eredménye `ASS`: nem közvetlen népszámlálási épülettípus-megfigyelés. A 2015-ös kerekített részösszegek 100 lakással eltérnek a közölt országos összesentől; ezt a manifest külön maradványként őrzi.
 
 A P1-G lefedettségi kimenet a `MODELLED` energetikai cellákból `DER` rangot, részesedést és binleltárt képez. Nem kapcsolja össze a külön WBL-, épülettípus-, energetikai és hőleadó-grain margóit. A teljes B02 joint továbbra is `Q`.
+
+A P1-H három elkülönített, valóban együtt megfigyelt WBL-projekciót materializál. A nem visszaadott API-kombináció nem bizonyított nulla. A WBL017 `HOSZIV` meglévő felszereltségi jelzője nem műszaki alkalmasság, és a három projekció cellaszinten nem kapcsolható össze.

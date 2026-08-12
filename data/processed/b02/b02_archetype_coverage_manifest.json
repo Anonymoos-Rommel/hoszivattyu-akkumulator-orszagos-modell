@@ -19,6 +19,10 @@
     "ksh_building_type_proxy_2022.csv": {
       "sha256": "1dc707d8ae313871fd20e9ee796b28468d2d054ed35cfb5f5a4eef6d7bae5f6c",
       "bytes": 5335
+    },
+    "ksh_wbl_joint_cell_coverage_2022.csv": {
+      "sha256": "936c43e7fa1844d7f616f124643633d73ce0a014330f7cc1fe8de122b4ee5336",
+      "bytes": 1382
     }
   },
   "controls": {
@@ -31,7 +35,8 @@
     "largest_benchmark_cell_dwellings": 902651,
     "building_type_proxy_rows": 8,
     "building_type_proxy_dwellings": 4008541,
-    "joinability_rows": 6,
+    "joinability_rows": 9,
+    "wbl_materialized_projection_rows": 47960,
     "full_joint_evidence_status": "Q"
   },
   "outputs": {
@@ -40,8 +45,8 @@
       "bytes": 4921
     },
     "b02_archetype_joinability_2022.csv": {
-      "sha256": "e9fdba6d0b8f91e85421b7139466f0f1ceed3f2d465fa8005847f6638be22781",
-      "bytes": 2959
+      "sha256": "7b5171a57cce62bf28ffd42ae34cde21ed15f6657ffa2470e7814aeeb19ba2f7",
+      "bytes": 4191
     }
   }
 }

@@ -101,6 +101,12 @@ A P1-G gépi leltár 16 pozitív épülettípus × építési időszak energetik
 
 A [`b02_archetype_joinability_2022.csv`](../../data/processed/b02/b02_archetype_joinability_2022.csv) fail-closed szerződése szerint a WBL011/WBL017, az energetikai modell, az épülettípus-proxy és a leendő OÉNY-hőleadó minta eltérő grain. A külön margók keresztbeszorzása nem képezhet `OBS` vagy `DER` teljes archetípust. Ilyen összekapcsolás csak új közös adat vagy Joseph által jóváhagyott, kalibrált statisztikai modell alapján készülhet.
 
+### P1-H WBL közös cellák
+
+A `WBL011` épületburok- és fűtés–tüzelőanyag-projekciója, valamint a `WBL017` kombinált fűtés/tüzelőanyag × meglévő hőszivattyú-projekciója determinisztikusan materializált. A két WBL011 nézet külön-külön 4 008 541 lakásra egyezik vissza; ettől még egymással nem kapcsolhatók cellaszinten. A WBL017 leaf-projekció 3 919 564 lakást fed le, a 88 977 lakásos különbség nem imputálható.
+
+Az API által nem visszaadott jelölt kombináció nem bizonyított nulla. A `HOSZIV=1` meglévő felszereltséget jelent, nem műszaki alkalmasságot. A teljes archetípus-joint és az alkalmassági státusz továbbra is `Q`.
+
 ## Reprodukálható lekérdezés
 
 Az API a dimenziókat a struktúrában megadott sorrendben, `/d/` útvonalon fogadja. Példa az országos, lakott, hőszivattyúval rendelkező lakások kontroll-lekérdezésére:

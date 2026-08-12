@@ -21,6 +21,7 @@ DEFAULT_DATA = ROOT / "data" / "processed" / "b02"
 BENCHMARK_FILE = "ksh_energy_archetype_benchmarks_2022.csv"
 DISTRIBUTION_FILE = "ksh_energy_distribution_2022.csv"
 PROXY_FILE = "ksh_building_type_proxy_2022.csv"
+WBL_JOINT_COVERAGE_FILE = "ksh_wbl_joint_cell_coverage_2022.csv"
 COVERAGE_FILE = "b02_archetype_cell_coverage_2022.csv"
 JOINABILITY_FILE = "b02_archetype_joinability_2022.csv"
 MANIFEST_FILE = "b02_archetype_coverage_manifest.json"
@@ -155,12 +156,30 @@ def build_coverage_rows(
     return output, controls
 
 
-def build_joinability_rows(proxy_rows: list[dict[str, str]]) -> list[list[object]]:
+def build_joinability_rows(
+    proxy_rows: list[dict[str, str]], wbl_rows: list[dict[str, str]]
+) -> list[list[object]]:
     if len(proxy_rows) != 8 or {row["evidence_status"] for row in proxy_rows} != {"ASS"}:
         raise ValueError("building-type proxy must contain 8 ASS rows")
     proxy_total = sum(int(row["proxy_2022_dwelling_count"]) for row in proxy_rows)
     if proxy_total != 4_008_541:
         raise ValueError(f"building-type proxy total drift: {proxy_total}")
+    wbl = {row["projection_id"]: row for row in wbl_rows}
+    expected_wbl = {
+        "WBL011_ENVELOPE": (32_655, 4_008_541),
+        "WBL011_HEATING_FUEL": (7_682, 4_008_541),
+        "WBL017_HEAT_PUMP_BASELINE": (7_623, 3_919_564),
+    }
+    if set(wbl) != set(expected_wbl):
+        raise ValueError(f"WBL projection drift: {sorted(wbl)!r}")
+    for projection_id, (records, dwellings) in expected_wbl.items():
+        row = wbl[projection_id]
+        actual = (int(row["returned_records"]), int(row["returned_numeric_dwelling_sum"]))
+        if actual != (records, dwellings):
+            raise ValueError(
+                f"{projection_id} control drift: expected={(records, dwellings)!r} "
+                f"actual={actual!r}"
+            )
 
     return [
         [
@@ -169,12 +188,38 @@ def build_joinability_rows(proxy_rows: list[dict[str, str]]) -> list[list[object
             "geography;construction_period;wall_material;floor_area;comfort;heating_mode;heating_fuel",
             "DATA-B02-KSH-WBL011",
             "OBS",
-            "CONTRACTED_NOT_MATERIALIZED",
+            "PARTIALLY_MATERIALIZED",
             "",
             "",
             "dwelling",
-            "Only dimensions returned together by one pinned WBL011 query may be treated as an observed joint distribution.",
+            "Separate envelope and heating-fuel projections are materialized; only dimensions returned together by one query are jointly observed.",
             "Do not attach building type, primary energy, heat emitter, or temperature as OBS/DER without new joint evidence.",
+        ],
+        [
+            "JOIN-B02-WBL011-ENVELOPE",
+            "county_x_settlement_type_x_construction_period_x_wall_material_x_floor_area_x_comfort",
+            "geography;construction_period;wall_material;floor_area;comfort",
+            "DATA-B02-KSH-WBL011",
+            "OBS",
+            "MATERIALIZED",
+            int(wbl["WBL011_ENVELOPE"]["returned_records"]),
+            int(wbl["WBL011_ENVELOPE"]["returned_numeric_dwelling_sum"]),
+            "dwelling",
+            "These dimensions are returned together while heating mode and fuel are held at TOTAL.",
+            "Do not join cell-by-cell to the separate heating-fuel projection.",
+        ],
+        [
+            "JOIN-B02-WBL011-HEATING-FUEL",
+            "county_x_settlement_type_x_construction_period_x_heating_mode_x_heating_fuel",
+            "geography;construction_period;heating_mode;heating_fuel",
+            "DATA-B02-KSH-WBL011",
+            "OBS",
+            "MATERIALIZED",
+            int(wbl["WBL011_HEATING_FUEL"]["returned_records"]),
+            int(wbl["WBL011_HEATING_FUEL"]["returned_numeric_dwelling_sum"]),
+            "dwelling",
+            "These dimensions are returned together while wall, area, and comfort are held at TOTAL.",
+            "Do not join cell-by-cell to the separate envelope projection.",
         ],
         [
             "JOIN-B02-WBL017-BASELINE",
@@ -182,12 +227,25 @@ def build_joinability_rows(proxy_rows: list[dict[str, str]]) -> list[list[object
             "geography;construction_period;wall_material;floor_area;comfort;combined_heating_fuel;heat_pump_presence",
             "DATA-B02-KSH-WBL017",
             "OBS",
-            "CONTRACTED_NOT_MATERIALIZED",
+            "PARTIALLY_MATERIALIZED",
             "",
             "",
             "dwelling",
-            "Only dimensions returned together by one pinned WBL017 query may be treated as an observed joint distribution.",
+            "A heating-fuel and existing-heat-pump projection is materialized; the wider envelope joint remains unmaterialized.",
             "Existing heat-pump presence is a baseline flag, not heat-pump eligibility.",
+        ],
+        [
+            "JOIN-B02-WBL017-HEAT-PUMP",
+            "county_x_settlement_type_x_construction_period_x_combined_heating_fuel_x_heat_pump_presence",
+            "geography;construction_period;combined_heating_fuel;heat_pump_presence",
+            "DATA-B02-KSH-WBL017",
+            "OBS",
+            "MATERIALIZED",
+            int(wbl["WBL017_HEAT_PUMP_BASELINE"]["returned_records"]),
+            int(wbl["WBL017_HEAT_PUMP_BASELINE"]["returned_numeric_dwelling_sum"]),
+            "dwelling",
+            "These dimensions are returned together while envelope and other equipment dimensions are held at TOTAL.",
+            "Existing heat-pump presence is not technical eligibility; unreturned combinations are not proven zeros.",
         ],
         [
             "JOIN-B02-KSH-ENERGY",
@@ -253,7 +311,8 @@ def main() -> int:
     benchmarks_path = args.data_dir / BENCHMARK_FILE
     distribution_path = args.data_dir / DISTRIBUTION_FILE
     proxy_path = args.data_dir / PROXY_FILE
-    inputs = [benchmarks_path, distribution_path, proxy_path]
+    wbl_joint_coverage_path = args.data_dir / WBL_JOINT_COVERAGE_FILE
+    inputs = [benchmarks_path, distribution_path, proxy_path, wbl_joint_coverage_path]
     for path in inputs:
         if not path.is_file():
             raise FileNotFoundError(path)
@@ -261,8 +320,9 @@ def main() -> int:
     benchmarks = read_csv(benchmarks_path)
     distributions = read_csv(distribution_path)
     proxy_rows = read_csv(proxy_path)
+    wbl_rows = read_csv(wbl_joint_coverage_path)
     coverage_rows, controls = build_coverage_rows(benchmarks, distributions)
-    joinability_rows = build_joinability_rows(proxy_rows)
+    joinability_rows = build_joinability_rows(proxy_rows, wbl_rows)
 
     coverage_path = args.data_dir / COVERAGE_FILE
     joinability_path = args.data_dir / JOINABILITY_FILE
@@ -318,6 +378,9 @@ def main() -> int:
                 int(row["proxy_2022_dwelling_count"]) for row in proxy_rows
             ),
             "joinability_rows": len(joinability_rows),
+            "wbl_materialized_projection_rows": sum(
+                int(row["returned_records"]) for row in wbl_rows
+            ),
             "full_joint_evidence_status": "Q",
         }
     )
