@@ -12,3 +12,5 @@ A repository a következőket őrzi:
 - a feldolgozott adatkészlet sémája és minőségellenőrzése.
 
 A `data/raw/` és `data/interim/` helyi munkaterület, ezért Git által figyelmen kívül hagyott. Publikálható, kisméretű eredményt csak licencellenőrzés után szabad verziókezelni.
+
+A `data/processed/` kizárólag kis méretű, nyilvános licenc alatt újraközölhető és determinisztikusan regenerálható feldolgozott adatot tartalmazhat. Minden ilyen csomaghoz forrás-URL, lekérési dátum, forráslenyomat, generáló eszköz és visszaegyeztetési kontroll szükséges.

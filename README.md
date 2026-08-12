@@ -22,7 +22,7 @@ Minden érdemi számnak visszavezethetőnek kell lennie:
 ## Projektfelépítés
 
 - `modules/` — a B01–B20 kutatási modulok szerződése és státusza;
-- `registry/` — forrás-, változó-, képlet-, kérdés- és modulregiszter;
+- `registry/` — forrás-, adatkészlet-, archetípusdimenzió-, változó-, képlet-, kérdés- és modulregiszter;
 - `data/` — adatkezelési és reprodukciós szabályok;
 - `model/` — a későbbi számítási motor;
 - `scenarios/` — forgatókönyvek és stressztesztek;

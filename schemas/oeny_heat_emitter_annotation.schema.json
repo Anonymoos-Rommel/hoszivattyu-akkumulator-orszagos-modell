@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/schemas/oeny_heat_emitter_annotation.schema.json",
+  "title": "OÉNY heat-emitter double-blind annotation record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "annotation_id",
+    "document_id",
+    "redacted_source_sha256",
+    "annotation_role",
+    "annotator_id",
+    "emitter_status",
+    "emitter_types",
+    "emitter_evidence",
+    "temperature_status",
+    "supply_temperature_c",
+    "return_temperature_c",
+    "temperature_basis",
+    "page_references",
+    "review_flags",
+    "pii_check",
+    "adjudication_of"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "annotation_id": {"type": "string", "pattern": "^ANN-[A-F0-9]{16}$"},
+    "document_id": {"type": "string", "pattern": "^DOC-[A-F0-9]{32}$"},
+    "redacted_source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "annotation_role": {"enum": ["ANNOTATOR_A", "ANNOTATOR_B", "ADJUDICATOR"]},
+    "annotator_id": {"type": "string", "pattern": "^RATER-[A-Z0-9]{4,16}$"},
+    "emitter_status": {"enum": ["OBS", "Q"]},
+    "emitter_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["RADIATOR", "FLOOR_HEATING", "WALL_HEATING", "CEILING_HEATING", "FAN_COIL", "AIR_HEATING", "DIRECT_ELECTRIC", "OTHER", "NOT_STATED", "UNREADABLE"]}
+    },
+    "emitter_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["TEXT_EXPLICIT", "TABLE_EXPLICIT", "SCHEMATIC_EXPLICIT", "PHOTO_EXPLICIT", "NONE"]}
+    },
+    "temperature_status": {"enum": ["OBS", "Q"]},
+    "supply_temperature_c": {"type": ["number", "null"], "minimum": -50, "maximum": 150},
+    "return_temperature_c": {"type": ["number", "null"], "minimum": -50, "maximum": 150},
+    "temperature_basis": {"enum": ["DESIGN_EXPLICIT", "CALCULATION_INPUT", "OPERATING_MEASURED", "REFERENCE_ASSUMPTION", "NOT_STATED"]},
+    "page_references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page", "evidence_kind"],
+        "properties": {
+          "page": {"type": "integer", "minimum": 1},
+          "evidence_kind": {"enum": ["EMITTER", "TEMPERATURE", "EMITTER_AND_TEMPERATURE"]}
+        }
+      }
+    },
+    "review_flags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["OTHER_NEEDS_CODEBOOK", "MULTIPLE_SYSTEMS", "SOURCE_CONFLICT", "OCR_UNCERTAIN"]}
+    },
+    "pii_check": {"const": "PASS"},
+    "adjudication_of": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^ANN-[A-F0-9]{16}$"}
+    }
+  }
+}

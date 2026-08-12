@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "module_id": "B02",
+  "retrieved_at": "2026-08-12",
+  "method": {
+    "coverage": "rank and cumulative share over the 16 published KSH-modelled building-type x construction-period cells",
+    "rarity": "exact positive/zero energy-bin counts and extrema; no arbitrary rare-cell threshold",
+    "joinability": "fail-closed grain inventory; separate margins are not cross-multiplied"
+  },
+  "inputs": {
+    "ksh_energy_archetype_benchmarks_2022.csv": {
+      "sha256": "429bece076378fd32bd2f9c90e3fc943b10767ca4a76dbdea5fa8a143ec3cec7",
+      "bytes": 6670
+    },
+    "ksh_energy_distribution_2022.csv": {
+      "sha256": "608befc7edb0ff74b4d7740a97a27083d53cfa1a7f0eb3a6bedc7157f207c6da",
+      "bytes": 282357
+    },
+    "ksh_building_type_proxy_2022.csv": {
+      "sha256": "1dc707d8ae313871fd20e9ee796b28468d2d054ed35cfb5f5a4eef6d7bae5f6c",
+      "bytes": 5335
+    },
+    "ksh_wbl_joint_cell_coverage_2022.csv": {
+      "sha256": "936c43e7fa1844d7f616f124643633d73ce0a014330f7cc1fe8de122b4ee5336",
+      "bytes": 1382
+    }
+  },
+  "controls": {
+    "benchmark_cells": 16,
+    "distribution_bins": 944,
+    "positive_distribution_bins": 864,
+    "zero_distribution_bins": 80,
+    "modelled_dwellings_in_published_bins": 4575790,
+    "smallest_benchmark_cell_dwellings": 22145,
+    "largest_benchmark_cell_dwellings": 902651,
+    "building_type_proxy_rows": 8,
+    "building_type_proxy_dwellings": 4008541,
+    "joinability_rows": 9,
+    "wbl_materialized_projection_rows": 47960,
+    "full_joint_evidence_status": "Q"
+  },
+  "outputs": {
+    "b02_archetype_cell_coverage_2022.csv": {
+      "sha256": "6d2f0a14275e18224b5b975d0e024a1697d971f4aa952e052c486d77e5d0a44f",
+      "bytes": 4921
+    },
+    "b02_archetype_joinability_2022.csv": {
+      "sha256": "7b5171a57cce62bf28ffd42ae34cde21ed15f6657ffa2470e7814aeeb19ba2f7",
+      "bytes": 4191
+    }
+  }
+}
