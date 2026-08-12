@@ -85,6 +85,37 @@ class RegistryContractTests(unittest.TestCase):
         self.assertIn("HOSZIV=9", contract)
         self.assertIn("nem azonos a `HOSZIV=0`", contract)
 
+    def test_p1e_oeny_audit_does_not_promote_document_fields_to_observations(self) -> None:
+        audit = (
+            ROOT / "docs" / "source_packs" / "P1E_B02_OENY_HEAT_EMITTER_FIELD_AUDIT.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("közvetlen országos hőleadó-adatmező nem igazolt", audit)
+        self.assertIn("nem tartalmaz külön mezőt", audit)
+        self.assertIn("dokumentumszintű adatjelölt", audit)
+        self.assertIn("nincs országos radiátor-", audit)
+
+    def test_p1e_heat_emitter_variables_remain_questions(self) -> None:
+        _, rows = read_csv(ROOT / "registry" / "variables.csv")
+        by_id = {row["variable_id"]: row for row in rows}
+        for variable_id in (
+            "VAR-B02-HEAT-EMITTER",
+            "VAR-B02-HEATING-WATER-TEMPERATURE",
+        ):
+            self.assertEqual("Q", by_id[variable_id]["status"])
+            self.assertEqual("", by_id[variable_id]["default_value"])
+
+    def test_p1e_oeny_sources_are_version_pinned(self) -> None:
+        _, rows = read_csv(ROOT / "registry" / "sources.csv")
+        by_id = {row["source_id"]: row for row in rows}
+        for source_id in (
+            "SRC-B02-OENY-SCHEMA-DICTIONARY-2026",
+            "SRC-B02-OENY-VALIDATION-2026",
+            "SRC-B02-OENY-FULL-EXAMPLE-2026",
+        ):
+            row = by_id[source_id]
+            self.assertIn("v3.0.14801", row["url"])
+            self.assertEqual(64, len(row["local_snapshot_sha256"]))
+
 
 if __name__ == "__main__":
     unittest.main()

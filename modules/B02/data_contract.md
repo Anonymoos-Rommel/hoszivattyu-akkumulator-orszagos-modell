@@ -75,11 +75,15 @@ Az eredmény 4 008 541 lakott lakásból 2 423 136 `FAMILY_HOUSE` és 1 585 405 
 
 A KSH táblájának kerekített épületnagyság-sorai 3 860 700 lakott lakást adnak, miközben a közölt országos összesen 3 860 600. A 100 lakásos kerekítési maradvány megmarad, nem kerül rejtett korrekcióra.
 
-## Hőleadó adatgap
+## OÉNY hőleadó- és hőmérsékletmező-audit
 
 A teljes Hosszú Távú Felújítási Stratégia rögzíti, hogy a korszerű hőleadók alacsonyabb fűtőközeg-hőmérsékleten is megfelelő komfortot adhatnak. A dokumentum azonban nem közöl országos radiátor-, felületfűtés- vagy fan-coil-megoszlást és tervezési előremenő hőmérsékletet. Emiatt fűtési mód vagy tüzelőanyag alapján hőleadó nem imputálható.
 
-A gap lezárásához anonimizált országos adminisztratív adat vagy épülettípus × kor × településtípus × fűtési mód szerint rétegzett reprezentatív műszaki felmérés szükséges. Minimális mezők: hőleadótípus, tervezési előremenő/visszatérő hőmérséklet, helyiséghőterhelés, beépített hőleadó-kapacitás, hidraulikai topológia és szabályozhatóság.
+A P1-E audit igazolta, hogy a 176/2008. (VI. 30.) Korm. rendelet alátámasztó munkarésze kezeli a hőfoklépcsőt, az OÉNY pedig JSON/XML forrásfájlt és kötelező számítási PDF-et tárol. A `v3.0.14801` feltöltési sémában ugyanakkor nincs dedikált mező a jelenlegi hőleadótípusra vagy a tervezési előremenő/visszatérő hőmérsékletre. A hőfoklépcső dokumentumba ágyazott adatjelölt; a kötelező hőleadófotó képi bizonyíték. A javaslati blokk `HeatExchangers` és `FanCoilUnits` elemei nem a jelenlegi állapot megfigyelései.
+
+A gap lezárásának első lépése ezért anonimizált OÉNY-adatszótár és rétegzett számítási PDF-minta beszerzése, mezőhiány- és kinyerhetőségi próbával. Ha ez nem ad reprodukálható hőleadótípust és hőfoklépcsőt, épülettípus × kor × településtípus × fűtési mód szerint rétegzett reprezentatív műszaki felmérés szükséges. Minimális mezők: hőleadótípus, tervezési előremenő/visszatérő hőmérséklet, helyiséghőterhelés, beépített hőleadó-kapacitás, hidraulikai topológia és szabályozhatóság.
+
+Az OÉNY tanúsítványállomány tranzakciós és szabályozási okból szelektált. Teljes hozzáférés esetén is tilos közvetlen országos megoszlásként kezelni; KSH-állományhoz kalibrált rétegzés, duplikációkezelés és dokumentált mintasúly szükséges.
 
 ## Reprodukálható lekérdezés
 
@@ -116,7 +120,7 @@ Ez hálózati ellenőrzés, ezért nem része az alap GitHub Actions munkafolyam
 
 A B02 következő számszerű kapuja csak akkor nyitható, ha elkészül:
 
-- a hőleadó rendszer országos elsődleges forrása vagy reprezentatív műszaki felmérése;
+- az OÉNY üzemeltetőjétől kapott adatszótár és anonimizált mintakivonat alapján a hőleadó/hőfoklépcső kinyerhetőségének bizonyítása, vagy reprezentatív műszaki felmérés;
 - a településtípusos épülettípus-proxy friss forrással vagy adminisztratív adattal történő validálása és az alcella-kapcsolat bizonyítása;
 - az archetípus-cellák lefedettségi és ritkasági jelentése;
 - a műszaki kizárási és minimális retrofit-szabály Joseph jóváhagyásával;
