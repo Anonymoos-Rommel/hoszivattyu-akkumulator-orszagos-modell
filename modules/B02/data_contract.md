@@ -81,9 +81,19 @@ A teljes Hosszú Távú Felújítási Stratégia rögzíti, hogy a korszerű hő
 
 A P1-E audit igazolta, hogy a 176/2008. (VI. 30.) Korm. rendelet alátámasztó munkarésze kezeli a hőfoklépcsőt, az OÉNY pedig JSON/XML forrásfájlt és kötelező számítási PDF-et tárol. A `v3.0.14801` feltöltési sémában ugyanakkor nincs dedikált mező a jelenlegi hőleadótípusra vagy a tervezési előremenő/visszatérő hőmérsékletre. A hőfoklépcső dokumentumba ágyazott adatjelölt; a kötelező hőleadófotó képi bizonyíték. A javaslati blokk `HeatExchangers` és `FanCoilUnits` elemei nem a jelenlegi állapot megfigyelései.
 
-A gap lezárásának első lépése ezért anonimizált OÉNY-adatszótár és rétegzett számítási PDF-minta beszerzése, mezőhiány- és kinyerhetőségi próbával. Ha ez nem ad reprodukálható hőleadótípust és hőfoklépcsőt, épülettípus × kor × településtípus × fűtési mód szerint rétegzett reprezentatív műszaki felmérés szükséges. Minimális mezők: hőleadótípus, tervezési előremenő/visszatérő hőmérséklet, helyiséghőterhelés, beépített hőleadó-kapacitás, hidraulikai topológia és szabályozhatóság.
+A gap lezárásának első lépése ezért anonimizált OÉNY-adatszótár és strukturált pilotminta beszerzése, mezőhiány- és kinyerhetőségi próbával. PDF-minta csak akkor kérhető, ha normalizált mező nincs, az adatgazda az átadást jogszerűnek ítéli, a személyes adatok eltávolíthatók, a biztonságos csatorna rögzített és Joseph külön jóváhagyta a második kaput. Ha ez nem ad reprodukálható hőleadótípust és hőfoklépcsőt, épülettípus × kor × településtípus × fűtési mód szerint rétegzett reprezentatív műszaki felmérés szükséges. Minimális mezők: hőleadótípus, tervezési előremenő/visszatérő hőmérséklet, helyiséghőterhelés, beépített hőleadó-kapacitás, hidraulikai topológia és szabályozhatóság.
 
 Az OÉNY tanúsítványállomány tranzakciós és szabályozási okból szelektált. Teljes hozzáférés esetén is tilos közvetlen országos megoszlásként kezelni; KSH-állományhoz kalibrált rétegzés, duplikációkezelés és dokumentált mintasúly szükséges.
+
+### P1-F beszerzési és annotációs szerződés
+
+A küldésre előkészített, de még nem jóváhagyott adatigénylési szöveg: [`docs/data_requests/P1F_OENY_DATA_REQUEST_DRAFT.md`](../../docs/data_requests/P1F_OENY_DATA_REQUEST_DRAFT.md). A kérés terhelés- és adatminimalizáló sorrendje:
+
+1. meglévő adatszótár, verziótörténet, rekordszám és mezőkitöltöttség;
+2. anonimizált strukturált pilotminta;
+3. csak külön megállapodással és jóváhagyással redaktált számítási-PDF-pilot.
+
+A valós fájlok nem kerülhetnek Gitbe. Feldolgozásukhoz kötelező a [`P1F OÉNY mintafeldolgozási protokoll`](../../docs/protocols/P1F_OENY_SAMPLE_PROCESSING_PROTOCOL.md), két független annotátor, eltéréskor harmadik adjudikátor, valamint a gépi [`oeny_heat_emitter_annotation.schema.json`](../../schemas/oeny_heat_emitter_annotation.schema.json) szerződés. A referencia-hőfoklépcső nem válhat `OBS` épületadattá, és következtetett hőleadótípus sem emelhető megfigyeléssé.
 
 ## Reprodukálható lekérdezés
 

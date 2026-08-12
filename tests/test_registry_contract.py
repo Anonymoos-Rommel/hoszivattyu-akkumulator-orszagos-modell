@@ -116,6 +116,22 @@ class RegistryContractTests(unittest.TestCase):
             self.assertIn("v3.0.14801", row["url"])
             self.assertEqual(64, len(row["local_snapshot_sha256"]))
 
+    def test_p1f_request_remains_human_gated_and_data_minimised(self) -> None:
+        request = (
+            ROOT / "docs" / "data_requests" / "P1F_OENY_DATA_REQUEST_DRAFT.md"
+        ).read_text(encoding="utf-8")
+        protocol = (
+            ROOT / "docs" / "protocols" / "P1F_OENY_SAMPLE_PROCESSING_PROTOCOL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("KÜLDÉSRE NEM JÓVÁHAGYOTT TERVEZET", request)
+        self.assertIn("Ilyen dokumentumot e levél alapján még nem kérünk", request)
+        self.assertIn("személyes adat", request)
+        self.assertIn("két, egymástól független annotátor", protocol)
+        self.assertIn("Egyetlen PII-jelzés is `BLOCKED`", protocol)
+        ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")
+        self.assertIn("/data/quarantine/", ignore_text)
+        self.assertIn("/data/restricted/", ignore_text)
+
 
 if __name__ == "__main__":
     unittest.main()

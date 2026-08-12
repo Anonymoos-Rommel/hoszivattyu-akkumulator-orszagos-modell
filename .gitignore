@@ -6,6 +6,8 @@
 # Large or reproducible datasets
 /data/raw/
 /data/interim/
+/data/quarantine/
+/data/restricted/
 *.parquet
 
 # Secrets and local configuration
