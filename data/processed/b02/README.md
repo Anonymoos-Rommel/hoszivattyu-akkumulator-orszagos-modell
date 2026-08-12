@@ -12,6 +12,9 @@ Források: KSH, *A magyar lakásállomány primerenergia-igényének becslése* 
 - `ksh_building_type_source_2015.csv`: a KSH 2015 felmérés 1. táblájának 40 megőrzött lakásszáma;
 - `ksh_building_type_proxy_2022.csv`: nyolc településtípus × épülettípus `ASS` proxyrekord;
 - `ksh_building_type_proxy_manifest.json`: PDF- és API-hash-ek, kerekítési kontrollok és módszertani korlátok.
+- `b02_archetype_cell_coverage_2022.csv`: a 16 energetikai cella rangja, részesedése és pozitív/nulla binleltára;
+- `b02_archetype_joinability_2022.csv`: a B02 részgrainen megengedett és tiltott adatkapcsolatok;
+- `b02_archetype_coverage_manifest.json`: a P1-G bemeneti/kimeneti hash-ek és lefedettségi kontrollok.
 
 ## Újragenerálás
 
@@ -19,6 +22,7 @@ Források: KSH, *A magyar lakásállomány primerenergia-igényének becslése* 
 python -m pip install -r requirements-research.txt
 node tools/extract_b02_ksh_energy.mjs --output-dir data/processed/b02 --retrieved-at 2026-08-12
 python tools/build_b02_building_type_proxy.py --output-dir data/processed/b02 --retrieved-at 2026-08-12
+python tools/build_b02_archetype_coverage.py --data-dir data/processed/b02 --retrieved-at 2026-08-12
 ```
 
 A kivonó nem hajt végre távoli JavaScriptet. Csak a KSH HTML-ben publikált, korlátozott karakterlánc- és numerikus tömbszerkezeteket fogadja el, és alakeltérés esetén hibával leáll.
@@ -32,3 +36,5 @@ A kivonó nem hajt végre távoli JavaScriptet. Csak a KSH HTML-ben publikált, 
 A 99,896%-os publikált-bin lefedettség nem tanúsítvány-mérési lefedettség. A tanúsítvánnyal összekapcsolt lakások publikált aránya 6,1%; a többi lakás energiaigénye modellbecslés.
 
 A 2015-ös KSH táblasorok `OBS` felmérési becslések. A 2015-ös településtípus-arányok 2022-es WBL lakásszámokra vetített eredménye `ASS`: nem közvetlen népszámlálási épülettípus-megfigyelés. A 2015-ös kerekített részösszegek 100 lakással eltérnek a közölt országos összesentől; ezt a manifest külön maradványként őrzi.
+
+A P1-G lefedettségi kimenet a `MODELLED` energetikai cellákból `DER` rangot, részesedést és binleltárt képez. Nem kapcsolja össze a külön WBL-, épülettípus-, energetikai és hőleadó-grain margóit. A teljes B02 joint továbbra is `Q`.

@@ -95,6 +95,12 @@ A küldésre előkészített, de még nem jóváhagyott adatigénylési szöveg:
 
 A valós fájlok nem kerülhetnek Gitbe. Feldolgozásukhoz kötelező a [`P1F OÉNY mintafeldolgozási protokoll`](../../docs/protocols/P1F_OENY_SAMPLE_PROCESSING_PROTOCOL.md), két független annotátor, eltéréskor harmadik adjudikátor, valamint a gépi [`oeny_heat_emitter_annotation.schema.json`](../../schemas/oeny_heat_emitter_annotation.schema.json) szerződés. A referencia-hőfoklépcső nem válhat `OBS` épületadattá, és következtetett hőleadótípus sem emelhető megfigyeléssé.
 
+### P1-G archetípus-lefedettség és joinability
+
+A P1-G gépi leltár 16 pozitív épülettípus × építési időszak energetikai cellát, 944 energiaigény-bint – ebből 864 pozitív és 80 nulla lakásszámút – valamint 8 településtípus × épülettípus proxycellát rögzít. A 4 575 790 lakásos energetikai binösszeg `DER` a KSH `MODELLED` eloszlásából; a 4 008 541 lakásos épülettípus-proxy továbbra is `ASS`.
+
+A [`b02_archetype_joinability_2022.csv`](../../data/processed/b02/b02_archetype_joinability_2022.csv) fail-closed szerződése szerint a WBL011/WBL017, az energetikai modell, az épülettípus-proxy és a leendő OÉNY-hőleadó minta eltérő grain. A külön margók keresztbeszorzása nem képezhet `OBS` vagy `DER` teljes archetípust. Ilyen összekapcsolás csak új közös adat vagy Joseph által jóváhagyott, kalibrált statisztikai modell alapján készülhet.
+
 ## Reprodukálható lekérdezés
 
 Az API a dimenziókat a struktúrában megadott sorrendben, `/d/` útvonalon fogadja. Példa az országos, lakott, hőszivattyúval rendelkező lakások kontroll-lekérdezésére:
