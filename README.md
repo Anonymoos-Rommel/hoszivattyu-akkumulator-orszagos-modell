@@ -1,6 +1,6 @@
-# Hőszivattyú + akkumulátor országos modell
+# Hőszigetelés + hőszivattyú + akkumulátor országos modell
 
-Nyilvános, forrásolt és reprodukálható kutatási projekt egy magyarországi, országos léptékű hőszivattyú- és háztartásiakkumulátor-program műszaki, hálózati, pénzügyi, fiskális, társadalmi és környezeti feltételeinek vizsgálatához.
+Nyilvános, forrásolt és reprodukálható kutatási projekt egy magyarországi, országos léptékű hőszigetelési, hőszivattyú- és háztartásiakkumulátor-program műszaki, hálózati, pénzügyi, fiskális, társadalmi és környezeti feltételeinek vizsgálatához.
 
 ## Jelenlegi állapot
 
