@@ -2,10 +2,10 @@
 
 | ID | Modul | Fő kimenet |
 |---|---|---|
-| B01 | Programterjedelem és penetráció | Éves telepítés és kumulált állomány |
-| B02 | Épületállomány és archetipizálás | Archetípusok, hőigény és retrofit-igény |
-| B03 | Gázár és földgáz-kitettség | Nagykereskedelmi és végfelhasználói árpályák |
-| B04 | Villamosenergia-ár és tarifák | Háztartási és töltési költségek |
+| [B01](B01/README.md) | Programterjedelem és penetráció | Éves telepítés és kumulált állomány |
+| [B02](B02/README.md) | Épületállomány és archetipizálás | Archetípusok, hőigény és retrofit-igény |
+| [B03](B03/README.md) | Gázár és földgáz-kitettség | Nagykereskedelmi és végfelhasználói árpályák |
+| [B04](B04/README.md) | Villamosenergia-ár és tarifák | Háztartási és töltési költségek |
 | B05 | Hőszivattyú fizikai modell | Éves, hidegnapi és csúcsórás villamosenergia-igény |
 | B06 | Energetikai korszerűsítés | CAPEX és módosított hőigény |
 | B07 | Háztartási akkumulátor és VPP | Elérhető GWh/GW és működési profil |

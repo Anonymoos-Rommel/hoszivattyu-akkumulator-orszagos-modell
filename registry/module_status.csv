@@ -1,8 +1,8 @@
 module_id,module_name,depends_on,status,readiness_percent,gate_note
-B01,Programterjedelem és penetráció,,NOT_STARTED,0,
-B02,Épületállomány és archetipizálás,,NOT_STARTED,0,
-B03,Gázár és földgáz-kitettség,,NOT_STARTED,0,
-B04,Villamosenergia-ár és tarifák,,NOT_STARTED,0,
+B01,Programterjedelem és penetráció,,IN_PROGRESS,10,P1-A forrástérkép és változószerződés elkészült; célállomány nincs validálva
+B02,Épületállomány és archetipizálás,,IN_PROGRESS,10,P1-A KSH forráskapuk rögzítve; archetípusok és alkalmas állomány nincs validálva
+B03,Gázár és földgáz-kitettség,,IN_PROGRESS,10,P1-A piaci deviza- és konverziós forráskapuk rögzítve; árpálya nincs validálva
+B04,Villamosenergia-ár és tarifák,,IN_PROGRESS,10,P1-A tarifa- és jogi forráskapuk rögzítve; hatálynapos teljes díjtábla nincs validálva
 B05,Hőszivattyú fizikai modell,B02;B03;B04,NOT_STARTED,0,
 B06,Energetikai korszerűsítés,B02,NOT_STARTED,0,
 B07,Háztartási akkumulátor és VPP,B04,NOT_STARTED,0,

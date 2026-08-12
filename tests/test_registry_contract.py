@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from tools.validate_registry import validate  # noqa: E402
+from tools.validate_registry import QUESTION_ID_PATTERN, read_csv, validate  # noqa: E402
 
 
 class RegistryContractTests(unittest.TestCase):
@@ -25,6 +25,21 @@ class RegistryContractTests(unittest.TestCase):
             "/Hoszivattyu_akkumulator_program_javaslat.docx",
             ignore_text,
         )
+
+    def test_question_ids_are_module_scoped(self) -> None:
+        _, rows = read_csv(ROOT / "registry" / "open_questions.csv")
+        self.assertGreater(len(rows), 0)
+        for row in rows:
+            match = QUESTION_ID_PATTERN.fullmatch(row["question_id"])
+            self.assertIsNotNone(match)
+            self.assertEqual(row["module_id"], match.group(1))
+
+    def test_source_pack_does_not_claim_validated_prices(self) -> None:
+        source_pack = (ROOT / "docs" / "source_packs" / "P1A_B01_B04.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("számszerű modellkapu nincs lezárva", source_pack)
+        self.assertIn("egyikhez sincs numerikus érték", source_pack)
 
 
 if __name__ == "__main__":
