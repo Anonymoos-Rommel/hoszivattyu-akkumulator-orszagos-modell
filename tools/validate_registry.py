@@ -129,7 +129,7 @@ ALLOWED_DIMENSION_ROLES = {
     "stratifier",
     "universe_filter",
 }
-ALLOWED_DATASET_ACCESS_METHODS = {"KSH_CENSUS_API", "EMBEDDED_HTML"}
+ALLOWED_DATASET_ACCESS_METHODS = {"KSH_CENSUS_API", "EMBEDDED_HTML", "PDF_TABLE"}
 
 MODULE_ID_PATTERN = re.compile(r"B(?:0[1-9]|1[0-9]|20)")
 SOURCE_ID_PATTERN = re.compile(r"SRC-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
@@ -137,7 +137,7 @@ VARIABLE_ID_PATTERN = re.compile(r"VAR-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 QUESTION_ID_PATTERN = re.compile(r"Q-(B(?:0[1-9]|1[0-9]|20))-\d{3}")
 DATASET_ID_PATTERN = re.compile(r"DATA-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 DIMENSION_ID_PATTERN = re.compile(r"DIM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
-SOURCE_VERSION_PATTERN = re.compile(r"(?:V\d+|\d{4}-\d{2}-\d{2})")
+SOURCE_VERSION_PATTERN = re.compile(r"(?:V\d+|Y\d{4}|\d{4}-\d{2}-\d{2})")
 FORMULA_ID_PATTERN = re.compile(r"FORM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 
 
@@ -273,11 +273,13 @@ def validate() -> list[str]:
                 errors.append(f"invalid snapshot SHA-256 for {source_id}")
 
     variable_ids_set: set[str] = set()
+    variable_status_by_id: dict[str, str] = {}
     variable_path = REGISTRY / "variables.csv"
     if variable_path.is_file():
         _, variable_rows = read_csv(variable_path)
         variable_ids = [row["variable_id"] for row in variable_rows]
         variable_ids_set = set(variable_ids)
+        variable_status_by_id = {row["variable_id"]: row["status"] for row in variable_rows}
         duplicates = duplicate_values(variable_ids)
         if duplicates:
             errors.append(f"duplicate variable IDs: {duplicates!r}")
@@ -340,8 +342,14 @@ def validate() -> list[str]:
             unknown_inputs = [item for item in inputs if item not in variable_ids_set]
             if unknown_inputs:
                 errors.append(f"unknown input variables for {formula_id}: {unknown_inputs!r}")
-            if row["status"] != "DER":
-                errors.append(f"formula status must be DER for {formula_id}")
+            if row["status"] not in {"DER", "ASS"}:
+                errors.append(f"formula status must be DER or ASS for {formula_id}")
+            output_status = variable_status_by_id.get(row["output_variable_id"])
+            if output_status and output_status != row["status"]:
+                errors.append(
+                    f"formula/output status mismatch for {formula_id}: "
+                    f"formula={row['status']!r} output={output_status!r}"
+                )
 
     dataset_ids: set[str] = set()
     dataset_path = REGISTRY / "datasets.csv"

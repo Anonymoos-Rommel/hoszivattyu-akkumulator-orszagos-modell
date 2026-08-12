@@ -64,6 +64,11 @@ class RegistryContractTests(unittest.TestCase):
                     f"/{row['dataflow_id']}/{row['source_version']}",
                     row["data_endpoint"],
                 )
+        housing_survey = next(
+            row for row in rows if row["dataset_id"] == "DATA-B02-KSH-HOUSING-SURVEY-2015"
+        )
+        self.assertEqual("PDF_TABLE", housing_survey["access_method"])
+        self.assertEqual("Y2015", housing_survey["source_version"])
 
     def test_b02_contracted_dimensions_have_source_datasets(self) -> None:
         _, rows = read_csv(ROOT / "registry" / "archetype_dimensions.csv")

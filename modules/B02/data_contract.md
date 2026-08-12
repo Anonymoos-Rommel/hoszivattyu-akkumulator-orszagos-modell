@@ -30,7 +30,7 @@ Az archetípus első megfigyelt magja:
 
 `EPEV_POC1 × FALA_V × LAT_V × KOMF × fűtési mód × fűtőanyag`
 
-Ehhez kapcsolódik a `HOSZIV` meglévőberendezés-jelző. Az épülettípus, hőleadó rendszer és fajlagos primerenergia-igény még nem lezárt, ezért ezek `GAP`, illetve `MODELLED` státuszúak.
+Ehhez kapcsolódik a `HOSZIV` meglévőberendezés-jelző. Az épülettípus kanonikus kategóriái szerződöttek, a WBL-kapcsolat azonban csak `ASS` proxy. A hőleadó rendszer `GAP`, a fajlagos primerenergia-igény `MODELLED`.
 
 ## Mérték és kódhierarchia
 
@@ -62,6 +62,25 @@ Ez nem jelenti azt, hogy a teljes állomány energetikai tanúsítvánnyal rende
 
 A népszámlálási `Y_GE2011` kategória és az energetikai publikáció `2011–2015`, illetve `2016–2022` kategóriái nem azonosak. Összevonásuk csak a publikált cellaszámokkal súlyozott, külön képlettel dokumentált transzformáció lehet.
 
+## WBL épülettípus-proxy
+
+A `WBL011` V67 struktúrájában nincs épülettípus-dimenzió. A KSH 2015-ös, 20 000 címes lakásfelmérésének 1. táblája viszont településtípusonként közli az 1–3, illetve 4 vagy több lakásos épületekben lévő lakott lakásokat. A szerződött proxy:
+
+1. `1–3` lakás az épületben → `FAMILY_HOUSE`;
+2. `4–12`, `13–24`, `25–50`, `50-nél több` → `MULTI_DWELLING`;
+3. településtípusonként a 2015-ös lakottlakás-arány vetítése a 2022-es `WBL011`, `DW_OC` összegre;
+4. `ROUND_HALF_UP` kerekítés a családi házas ágon, a többlakásos ág pedig maradék.
+
+Az eredmény 4 008 541 lakott lakásból 2 423 136 `FAMILY_HOUSE` és 1 585 405 `MULTI_DWELLING`. Mindkettő `ASS`. Budapest és község kategóriája pontosan illeszkedik; a 2015-ös `Megyeszékhely`–2022-es `MJV`, valamint `Város`–`EV` kapcsolat közelítő. A proxy nem vihető át automatikusan vármegye, építési időszak, falazat, alapterület, komfortosság vagy fűtési rendszer szerinti WBL alcellákra.
+
+A KSH táblájának kerekített épületnagyság-sorai 3 860 700 lakott lakást adnak, miközben a közölt országos összesen 3 860 600. A 100 lakásos kerekítési maradvány megmarad, nem kerül rejtett korrekcióra.
+
+## Hőleadó adatgap
+
+A teljes Hosszú Távú Felújítási Stratégia rögzíti, hogy a korszerű hőleadók alacsonyabb fűtőközeg-hőmérsékleten is megfelelő komfortot adhatnak. A dokumentum azonban nem közöl országos radiátor-, felületfűtés- vagy fan-coil-megoszlást és tervezési előremenő hőmérsékletet. Emiatt fűtési mód vagy tüzelőanyag alapján hőleadó nem imputálható.
+
+A gap lezárásához anonimizált országos adminisztratív adat vagy épülettípus × kor × településtípus × fűtési mód szerint rétegzett reprezentatív műszaki felmérés szükséges. Minimális mezők: hőleadótípus, tervezési előremenő/visszatérő hőmérséklet, helyiséghőterhelés, beépített hőleadó-kapacitás, hidraulikai topológia és szabályozhatóság.
+
 ## Reprodukálható lekérdezés
 
 Az API a dimenziókat a struktúrában megadott sorrendben, `/d/` útvonalon fogadja. Példa az országos, lakott, hőszivattyúval rendelkező lakások kontroll-lekérdezésére:
@@ -88,6 +107,7 @@ Az élő, rögzített szerkezet és a kontrollmegfigyelés ellenőrzése:
 
 ```powershell
 python tools/validate_b02_ksh_api.py
+python tools/build_b02_building_type_proxy.py --output-dir data/processed/b02 --retrieved-at 2026-08-12
 ```
 
 Ez hálózati ellenőrzés, ezért nem része az alap GitHub Actions munkafolyamatnak. A helyi registry- és egységtesztek hálózat nélkül futnak.
@@ -96,8 +116,8 @@ Ez hálózati ellenőrzés, ezért nem része az alap GitHub Actions munkafolyam
 
 A B02 következő számszerű kapuja csak akkor nyitható, ha elkészül:
 
-- a hőleadó rendszer elsődleges forrása vagy igazolt proxyja;
-- a népszámlálási WBL-cellák és a két energetikai épülettípus reprodukálható kapcsolata;
+- a hőleadó rendszer országos elsődleges forrása vagy reprezentatív műszaki felmérése;
+- a településtípusos épülettípus-proxy friss forrással vagy adminisztratív adattal történő validálása és az alcella-kapcsolat bizonyítása;
 - az archetípus-cellák lefedettségi és ritkasági jelentése;
 - a műszaki kizárási és minimális retrofit-szabály Joseph jóváhagyásával;
 - az országos/vármegyei visszaegyeztetés és bizonytalansági tartomány.

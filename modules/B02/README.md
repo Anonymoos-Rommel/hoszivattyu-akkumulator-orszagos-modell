@@ -28,6 +28,6 @@ A magyar lakásállomány reprodukálható archetípusokra bontása, archetípus
 
 ## Állapot
 
-`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok, a FAMILY_HOUSE/MULTI_DWELLING épülettípusok és a modellezett primerenergia-eloszlás reprodukálható szerződése ellenőrizve. A hőleadó, a népszámlálási cellajoin és az alkalmassági szabály nincs lezárva.
+`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok, a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. A proxy nem közvetlen cellajoin; a hőleadó és az alkalmassági szabály nincs lezárva.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
