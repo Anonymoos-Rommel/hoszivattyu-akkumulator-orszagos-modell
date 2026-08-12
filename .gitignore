@@ -1,0 +1,33 @@
+# Local source documents awaiting an explicit public-release decision
+/Hoszivattyu_akkumulator_program_Codex_kutatasi_prompt_V1.1.docx
+/Hoszivattyu_akkumulator_program_javaslat.docx
+/private/
+
+# Large or reproducible datasets
+/data/raw/
+/data/interim/
+*.parquet
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python and tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+
+# Office and operating-system temporary files
+~$*
+.DS_Store
+Thumbs.db
+
+# Rendered QA intermediates
+/tmp/
+/rendered/

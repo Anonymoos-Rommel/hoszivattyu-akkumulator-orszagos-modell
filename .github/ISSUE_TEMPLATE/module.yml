@@ -1,0 +1,30 @@
+name: Moduljavaslat vagy módszertani probléma
+description: B01-B20 modulhoz kapcsolódó javítás vagy kutatási kérdés.
+title: "[MODULE] "
+labels: ["research"]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Modulazonosító
+      placeholder: B01-B20
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Probléma vagy javaslat
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Döntési és downstream hatás
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Bizonyíték és ellenőrzési javaslat
+    validations:
+      required: true

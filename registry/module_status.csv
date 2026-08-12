@@ -1,0 +1,21 @@
+module_id,module_name,depends_on,status,readiness_percent,gate_note
+B01,Programterjedelem és penetráció,,NOT_STARTED,0,
+B02,Épületállomány és archetipizálás,,NOT_STARTED,0,
+B03,Gázár és földgáz-kitettség,,NOT_STARTED,0,
+B04,Villamosenergia-ár és tarifák,,NOT_STARTED,0,
+B05,Hőszivattyú fizikai modell,B02;B03;B04,NOT_STARTED,0,
+B06,Energetikai korszerűsítés,B02,NOT_STARTED,0,
+B07,Háztartási akkumulátor és VPP,B04,NOT_STARTED,0,
+B08,Villamos rendszerterhelés,B01;B05;B07,NOT_STARTED,0,
+B09,Termelési és tárolási portfólió,B04;B08,NOT_STARTED,0,
+B10,Hálózatfejlesztés,B01;B08;B09,NOT_STARTED,0,
+B11,Gázkiváltás és importhatás,B01;B02;B03;B05;B06,NOT_STARTED,0,
+B12,Háztartási gazdaságosság,B03;B04;B05;B06;B07;B11,NOT_STARTED,0,
+B13,Fiskális állami modell,B01;B03;B04;B11;B12,NOT_STARTED,0,
+B14,Pályázati és EU-forrástérkép,,NOT_STARTED,0,
+B15,Finanszírozási stratégia,B12;B13;B14,NOT_STARTED,0,B12+B13+B14 lezárása kötelező
+B16,Makrogazdasági hatás,B11;B12;B13;B15,NOT_STARTED,0,
+B17,Klíma levegő és egészség,B05;B09;B11,NOT_STARTED,0,
+B18,Kivitelezési kapacitás és iparpolitika,B01;B06;B10;B15,NOT_STARTED,0,
+B19,Kockázat és reziliencia,B01;B02;B03;B04;B05;B06;B07;B08;B09;B10;B11;B12;B13;B14;B15;B16;B17;B18,NOT_STARTED,0,
+B20,App interfész és scenario engine,B01;B02;B03;B04;B05;B06;B07;B08;B09;B10;B11;B12;B13;B14;B15;B16;B17;B18;B19,NOT_STARTED,0,B01-B19 stabil szerződése kötelező
