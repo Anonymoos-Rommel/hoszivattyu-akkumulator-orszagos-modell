@@ -147,12 +147,32 @@ class V12PortfolioContractTests(unittest.TestCase):
     def test_p1l_release_package_is_not_sent_and_has_explicit_decision(self) -> None:
         package = (ROOT / "docs" / "data_requests" / "P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md").read_text(encoding="utf-8")
         letter = (ROOT / "docs" / "data_requests" / "P1L_OENY_FINAL_REQUEST_LETTER.md").read_text(encoding="utf-8")
-        self.assertIn("READY_FOR_JOSEPH_APPROVAL", package)
+        self.assertIn("HOLD_PUBLIC_ACCESS_AUDIT", package)
         self.assertIn("NOT SENT", package)
         self.assertIn("NEM KÜLDÖTT", letter)
         self.assertIn("legfeljebb 500 rekordos", letter)
         self.assertNotIn("calculation_software", letter)
         self.assertNotIn("software_version", letter)
+
+    def test_p1m_public_mapping_covers_all_p1k_fields_and_is_fail_closed(self) -> None:
+        schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
+        headers, rows = read_csv(REGISTRY / "oeny_public_field_mapping.csv")
+        self.assertEqual(EXPECTED_HEADERS["oeny_public_field_mapping.csv"], headers)
+        self.assertEqual(set(schema["properties"]), {row["field_name"] for row in rows})
+        self.assertEqual(len(rows), 22)
+        self.assertIn("PUBLIC_PARTIAL", {row["availability_status"] for row in rows})
+        self.assertIn("UNCERTAIN", {row["availability_status"] for row in rows})
+        self.assertEqual(0, sum(row["availability_status"] == "PUBLIC_OBS_AVAILABLE" for row in rows))
+
+    def test_p1m_release_state_and_endpoint_registry_are_explicit(self) -> None:
+        endpoint_headers, endpoints = read_csv(REGISTRY / "oeny_public_endpoints.csv")
+        self.assertEqual(EXPECTED_HEADERS["oeny_public_endpoints.csv"], endpoint_headers)
+        self.assertTrue(any("cert-list/search" in row["endpoint_url_or_pattern"] for row in endpoints))
+        audit = (ROOT / "docs" / "source_packs" / "P1M_OENY_PUBLIC_MACHINE_ACCESS_AUDIT.md").read_text(encoding="utf-8")
+        release = (ROOT / "docs" / "data_requests" / "P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md").read_text(encoding="utf-8")
+        self.assertIn("PATH_B_HYBRID", audit)
+        self.assertIn("P1L=HOLD_PUBLIC_ACCESS_AUDIT", audit)
+        self.assertIn("HOLD_PUBLIC_ACCESS_AUDIT", release)
 
 
 if __name__ == "__main__":

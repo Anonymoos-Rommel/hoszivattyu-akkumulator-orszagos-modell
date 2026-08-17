@@ -1,10 +1,12 @@
 # P1-L OÉNY Data Request Release Gate
 
-**Állapot:** `READY_FOR_JOSEPH_APPROVAL / NOT SENT`
+**Állapot:** `HOLD_PUBLIC_ACCESS_AUDIT / NOT SENT`
 
 **Verzió:** 2026-08-17 / v1.0
 
 **Hatókör:** kizárólag a P1F adatigénylési tervezet tényleges kiküldésének biztonságos előkészítése. Új energetikai kutatás, külső adatbekérés és adatátvétel nem történt.
+
+A publikus gépi hozzáférés ellenőrzése a [P1-M OÉNY Public Machine Access Audittal](../source_packs/P1M_OENY_PUBLIC_MACHINE_ACCESS_AUDIT.md) lezárult; annak `PATH_B_HYBRID` döntése miatt ez a csomag jelenleg HOLD állapotú.
 
 ## 1. Csomag tartalma
 
@@ -52,9 +54,9 @@ Az eredeti rekordok nem kerülnek publikálásra vagy továbbadásra. Származta
 
 ## 8. Pre-send döntés
 
-**`READY_FOR_JOSEPH_APPROVAL`**
+**`HOLD_PUBLIC_ACCESS_AUDIT`**
 
-A package technikailag és scope szerint előkészített. Küldés előtt Josephnek kell kitöltenie az igénylő nevét/szervezetét, válaszcímét, választania kell az e-Papír és e-mail között, és jóvá kell hagynia a felhasználási, licenc- és retention-feltételeket.
+A P1M audit lezárultáig nincs küldés. A P1M eredménye `PATH_B_HYBRID`: a P1L csak a P1K-mezők publikus csatornán nem vagy nem teljesen bizonyított részére használható. A tényleges küldéshez ezután is Josephnek kell kitöltenie az igénylő nevét/szervezetét, válaszcímét, választania kell az e-Papír és e-mail között, és jóvá kell hagynia a felhasználási, licenc- és retention-feltételeket.
 
 **`REVISE`** szükséges, ha a címzett/csatorna eltér, új mező kerülne a levélbe, 500-nál nagyobb mintát kérnének, nincs disclosure-control, vagy a Lechner válasza új jogi/adatvédelmi feltételt támaszt.
 

@@ -1,6 +1,6 @@
 # P1-L címzett- és csatornajavaslat
 
-**Állapot:** NEM KÜLDÖTT / JOSEPH-APPROVAL KÖVETELMÉNY
+**Állapot:** HOLD_PUBLIC_ACCESS_AUDIT / NEM KÜLDÖTT
 
 **Ellenőrzés dátuma:** 2026-08-17
 

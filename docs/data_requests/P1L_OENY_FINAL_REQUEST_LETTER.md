@@ -1,6 +1,6 @@
 # P1-L OÉNY adatigénylési levél – végleges pre-send változat
 
-**Állapot:** VÉGLEGESÍTETT TERVEZET / NEM KÜLDÖTT
+**Állapot:** VÉGLEGESÍTETT TERVEZET / HOLD_PUBLIC_ACCESS_AUDIT / NEM KÜLDÖTT
 
 **Verzió:** 2026-08-17 / v1.0
 

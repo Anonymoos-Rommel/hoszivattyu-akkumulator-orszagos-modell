@@ -20,3 +20,4 @@ A `registry/household_state_model.json` és az üres, fejléc-szinten szerződö
 - [P1-J: B02 S0–S2 Evidence Gap Matrix](source_packs/P1J_B02_S0_S2_EVIDENCE_GAP_MATRIX.md) — mezőnkénti forrásfedés, OÉNY-pilot-határ és az OÉNY után is fennmaradó bizonytalanságok.
 - [P1-K: OÉNY Pilot Acceptance Contract](source_packs/P1K_OENY_PILOT_ACCEPTANCE_CONTRACT.md) — minden pilotmező elfogadási minimuma, tiltott következtetése és a P1-F adatigénylési tervezet readiness-döntése.
 - [P1-L: OÉNY Data Request Release Gate](data_requests/P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md) — végleges, de nem küldött levél, Joseph approval sheet, field manifest, jogi/adatvédelmi checklist és címzett/csatorna-javaslat.
+- [P1-M: OÉNY Public Machine Access Audit](source_packs/P1M_OENY_PUBLIC_MACHINE_ACCESS_AUDIT.md) — a nyilvános UI/XHR audit, 22 mezős visszamappelés, incremental feasibility és a PATH_B_HYBRID döntés.

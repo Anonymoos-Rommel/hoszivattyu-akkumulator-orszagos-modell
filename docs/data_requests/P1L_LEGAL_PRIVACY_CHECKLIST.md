@@ -1,6 +1,6 @@
 # P1-L jogi és adatvédelmi checklist
 
-**Állapot:** PRE-SEND CHECK / NEM KÜLDÖTT
+**Állapot:** HOLD_PUBLIC_ACCESS_AUDIT / NEM KÜLDÖTT
 
 Ez a checklist nem jogi vélemény és nem adatszolgáltatási engedély. Azt dokumentálja, hogy a kérés milyen korlátokkal készíthető elő.
 

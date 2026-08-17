@@ -6,9 +6,9 @@
 
 ## Döntési javaslat
 
-**`READY_FOR_JOSEPH_APPROVAL`**
+**`HOLD_PUBLIC_ACCESS_AUDIT`**
 
-Ez nem `SENT`, nem jogi vélemény és nem adatátvételi engedély. A levél csak az alábbi feltételek teljesülése után küldhető.
+Ez nem `SENT`, nem jogi vélemény és nem adatátvételi engedély. A P1M publikus gépi hozzáférési auditja lezárta a jelenlegi kaput; a levél csak a P1M szerinti szűkítés és új Joseph-döntés után küldhető.
 
 ## Mit ellenőriztem
 
@@ -50,7 +50,7 @@ Az aktuális hivatalos Lechner-oldal a Jogi Igazgatóságot jelöli közadat-fel
 
 ## Jóváhagyási mező
 
-**Döntés:** `READY_FOR_JOSEPH_APPROVAL` / `REVISE` / `NO_GO`
+**Döntés:** `HOLD_PUBLIC_ACCESS_AUDIT` / `READY_FOR_JOSEPH_APPROVAL` / `REVISE` / `NO_GO`
 
 **Joseph megjegyzése:** ________________________________________________
 
