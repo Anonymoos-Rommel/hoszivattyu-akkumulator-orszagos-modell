@@ -4,11 +4,13 @@ Nyilvános, forrásolt és reprodukálható kutatási projekt egy magyarországi
 
 ## Jelenlegi állapot
 
-**P0 — kutatási infrastruktúra.** A repository jelenleg a kutatás szerződését, modulstruktúráját, bizonyítási szabályait és géppel olvasható regisztereit tartalmazza. Még nem közöl végleges szakpolitikai következtetést vagy validált számszerű eredményt.
+**P0 — kutatási infrastruktúra és V1.2-szerződés.** A repository a kutatás szerződését, modulstruktúráját, bizonyítási szabályait, a B02 reprodukálható adat-alapját és a lépcsőzetes országos projektportfólió gépi szerződésének üres vázát tartalmazza. Még nem közöl végleges szakpolitikai következtetést vagy validált országos portfóliószámot.
 
 ## Alapelv
 
 Előbb a fizika és az adatok, utána a pénzügy. Előbb a kanonikus modell, utána a kommunikáció és az interaktív alkalmazás.
+
+A jelenlegi program-egység egy fázisokon átvezetett háztartási beavatkozás az éves portfólióban, nem egyszeri telepítés. Az állapotgép és a portfólió-kapuk szerződése: [`docs/methodology/v12_portfolio_transition_contract.md`](docs/methodology/v12_portfolio_transition_contract.md).
 
 Minden érdemi számnak visszavezethetőnek kell lennie:
 
@@ -23,6 +25,7 @@ Minden érdemi számnak visszavezethetőnek kell lennie:
 
 - `modules/` — a B01–B20 kutatási modulok szerződése és státusza;
 - `registry/` — forrás-, adatkészlet-, archetípusdimenzió-, változó-, képlet-, kérdés- és modulregiszter;
+- `registry/` — a V1.2 állapot-, beavatkozás-, prioritás-, portfólió-, readiness-, baseline-, inkrementális CAPEX- és fiskális headroom-sablonok;
 - `data/` — adatkezelési és reprodukciós szabályok;
 - `model/` — a későbbi számítási motor;
 - `scenarios/` — forgatókönyvek és stressztesztek;

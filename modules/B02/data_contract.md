@@ -6,6 +6,12 @@ API-verzió: **KSH V67**
 
 Ellenőrzés napja: **2026-08-12**
 
+## V1.2 átadási szabály
+
+B02 nem egyszeri telepítési darabszámot állít elő, hanem a V1.2 állapotgéphez archetípusos baseline-, hőigény-, műszaki readiness- és hiánybemenetet ad. Az `S0`–`S2` jelölt állapotokhoz minden mezőnél meg kell őrizni az `OBS`, `DER`, `ASS`, `SCN`, `POL` vagy `Q` státuszt. Hiányzó hőleadó, hőfoklépcső, villamos vagy engedélyezési bizonyíték nem alakítható automatikusan `TECHNICALLY_READY` állapottá.
+
+Az országos portfólió, éves sorrend és támogatási döntés nem B02-ban születik meg. B02 csak olyan archetípusos jelöltet adhat tovább, amelynek a bizonyíték-lineage-e, területi grainje, lefedettsége és maradék kategóriája visszaolvasható.
+
 ## Határ
 
 Ez a szerződés a 2022-es KSH népszámlálási adatbázisból reprodukálhatóan lekérhető, aggregált lakásjellemzőket rögzíti. Nem állítja, hogy a teljes lakásállomány vagy bármely tüzelőanyag-kategória hőszivattyúra alkalmas. A műszaki alkalmasság későbbi, szabályozott `DER` kimenet lesz.

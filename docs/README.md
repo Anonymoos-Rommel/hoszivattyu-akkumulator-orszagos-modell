@@ -5,8 +5,13 @@ Az itt található dokumentumok a kanonikus regiszterekből és számítási ere
 - `methodology/` — bizonyítási, modellezési és auditmódszerek;
 - `source_packs/` — modulonként lezárt vagy folyamatban lévő forrásfeltárási csomagok;
 - `generated_reports/` — később automatikusan előállított tanulmányok.
+- `methodology/v12_portfolio_transition_contract.md` — a V1.2 állapotgép-, portfólió-, baseline- és fiskális szerződése.
 
 A generált jelentés nem írhatja felül a kanonikus adatot vagy képletet.
+
+## V1.2 gépi szerződés
+
+A `registry/household_state_model.json` és az üres, fejléc-szinten szerződött portfólió-regiszterek a modell bővítési keretét adják. Üres állományba nem töltünk becslést: rekord csak lezárt forrás-, képlet- vagy szakpolitikai kapu után kerülhet.
 
 ## Első kutatási csomag
 

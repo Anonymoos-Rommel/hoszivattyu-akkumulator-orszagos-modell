@@ -1,0 +1,91 @@
+from __future__ import annotations
+
+import json
+import unittest
+from pathlib import Path
+
+from tools.validate_registry import EXPECTED_HEADERS, read_csv
+
+
+ROOT = Path(__file__).resolve().parents[1]
+REGISTRY = ROOT / "registry"
+
+
+class V12PortfolioContractTests(unittest.TestCase):
+    def test_state_model_has_monotone_s0_to_s5_contract(self) -> None:
+        model = json.loads((REGISTRY / "household_state_model.json").read_text(encoding="utf-8"))
+        self.assertEqual("CONTRACTED_SKELETON", model["status"])
+        self.assertEqual(["S0", "S1", "S2", "S3", "S4", "S5"], [s["state_id"] for s in model["states"]])
+        self.assertEqual(
+            [
+                "BASELINE_AUDITED",
+                "DEMAND_REDUCED",
+                "TECHNICALLY_READY",
+                "HEAT_PUMP_ACTIVE",
+                "FLEX_READY",
+                "TARGET_STATE",
+            ],
+            [s["name"] for s in model["states"]],
+        )
+        self.assertTrue(model["transition_invariants"])
+
+    def test_v12_registry_templates_are_header_only(self) -> None:
+        template_names = {
+            "intervention_catalog.csv",
+            "priority_components.csv",
+            "portfolio_schedule.csv",
+            "regional_readiness.csv",
+            "baseline_infrastructure.csv",
+            "incremental_capex_attribution.csv",
+            "fiscal_headroom.csv",
+        }
+        for name in template_names - {"priority_components.csv"}:
+            headers, rows = read_csv(REGISTRY / name)
+            self.assertEqual(EXPECTED_HEADERS[name], headers)
+            self.assertEqual([], rows, name)
+
+        headers, rows = read_csv(REGISTRY / "priority_components.csv")
+        self.assertEqual(EXPECTED_HEADERS["priority_components.csv"], headers)
+        self.assertEqual(
+            {
+                "SOCIAL_NEED",
+                "ENERGY_WASTE",
+                "HOUSEHOLD_GAIN",
+                "PUBLIC_EFFICIENCY",
+                "FISCAL_EFFECT",
+                "SYSTEM_VALUE",
+                "ENV_HEALTH",
+                "READINESS",
+                "REGIONAL_EQUITY",
+            },
+            {row["component_id"] for row in rows},
+        )
+        self.assertTrue(all(row["weight_status"] == "Q" for row in rows))
+
+    def test_v12_questions_are_registered(self) -> None:
+        _, rows = read_csv(REGISTRY / "open_questions.csv")
+        ids = {row["question_id"] for row in rows}
+        self.assertTrue(
+            {
+                "Q-B01-003",
+                "Q-B01-004",
+                "Q-B01-005",
+                "Q-B10-001",
+                "Q-B01-006",
+                "Q-B12-001",
+                "Q-B10-002",
+                "Q-B06-001",
+                "Q-B13-001",
+                "Q-B01-007",
+            }.issubset(ids)
+        )
+
+    def test_support_formula_is_explicit_assumption(self) -> None:
+        _, rows = read_csv(REGISTRY / "formulas.csv")
+        row = next(item for item in rows if item["formula_id"] == "FORM-B15-REQUIRED-PUBLIC-SUPPORT")
+        self.assertEqual("ASS", row["status"])
+        self.assertIn("max(0;", row["expression"])
+
+
+if __name__ == "__main__":
+    unittest.main()

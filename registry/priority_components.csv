@@ -1,0 +1,10 @@
+component_id,name,definition,unit,evidence_status,weight_status,lower_bound,upper_bound,source_ids,status,notes
+SOCIAL_NEED,Társadalmi szükséglet,"A háztartás vagy régió igazolt társadalmi sérülékenysége és szükséglete",score,POL,Q,,,,PROPOSED,"V1.2 komponens; mérési definíció és súly Q."
+ENERGY_WASTE,Energiapazarlás,"A bizonyítottan elkerülhető vagy csökkenthető energiaszolgáltatási veszteség",score,POL,Q,,,,PROPOSED,"V1.2 komponens; forrás, normalizálás és súly Q."
+HOUSEHOLD_GAIN,Háztartási nyereség,"A háztartás igazolt energia-, komfort-, költség- vagy rezilienciajavulása",score,POL,Q,,,,PROPOSED,"V1.2 komponens; az egyes hasznok duplaelszámolását tiltani kell."
+PUBLIC_EFFICIENCY,Közpénzhatékonyság,"A beavatkozással elérhető hatás egységnyi közpénzre vetítve",score,DER,Q,,,,PROPOSED,"V1.2 komponens; közös költség- és hatásdefiníció szükséges."
+FISCAL_EFFECT,Fiskális hatás,"A beavatkozás éves és kumulált államháztartási hatása",score,DER,Q,,,,PROPOSED,"V1.2 komponens; B13 ledgerhez kötendő."
+SYSTEM_VALUE,Rendszerérték,"A villamosenergia-rendszerben és a hálózati korlátban bizonyítottan monetizálható vagy fizikai érték",score,DER,Q,,,,PROPOSED,"V1.2 komponens; csak nem átfedő rendszerérték számolható."
+ENV_HEALTH,Környezet és egészség,"A környezeti és egészségügyi hatás bizonyított, elkülönített változása",score,DER,Q,,,,PROPOSED,"V1.2 komponens; B17 és egyéb haszonkategóriák között nincs duplaelszámolás."
+READINESS,Készenlét,"A háztartás, régió és kapacitás következő fázisra való bizonyított felkészültsége",score,DER,Q,,,,PROPOSED,"V1.2 komponens; S0–S5 kapukkal és regional_readiness-szel kapcsolandó."
+REGIONAL_EQUITY,Regionális méltányosság,"A régiók közötti hozzáférés és minimumszint igazolt egyenletessége",score,POL,Q,,,,PROPOSED,"V1.2 komponens; hard minimum Joseph döntése után rögzíthető."
