@@ -4,6 +4,8 @@
 
 Verzió: **2026-08-12 / v0.1**
 
+A tényleges pre-send előkészítéshez ezt a tervezetet a [P1-L OÉNY Data Request Release Gate](P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md) scope-discipline szerint kell használni; a P1-L végleges pre-send levele a mérvadó.
+
 Ez a nyilvános példány nem tartalmaz igénylői személyes adatot. A kitöltött változatot tilos Gitbe menteni. Az elküldéshez Joseph külön tartalmi jóváhagyása szükséges.
 
 ## Hivatalos címzés

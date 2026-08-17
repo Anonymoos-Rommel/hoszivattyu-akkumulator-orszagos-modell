@@ -262,6 +262,20 @@ EXPECTED_HEADERS = {
         "status",
         "notes",
     ],
+    "oeny_requested_field_manifest.csv": [
+        "manifest_id",
+        "request_stage",
+        "field_name",
+        "field_id",
+        "schema_path",
+        "requested_output",
+        "required_grain",
+        "required_or_optional",
+        "privacy_limit",
+        "acceptance_link",
+        "status",
+        "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}

@@ -134,6 +134,26 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertIn("külső adatbekérés nem történt", contract)
         self.assertIn("Joseph végső engedélyére", contract)
 
+    def test_p1l_manifest_covers_only_p1k_schema_properties(self) -> None:
+        schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
+        headers, rows = read_csv(REGISTRY / "oeny_requested_field_manifest.csv")
+        self.assertEqual(EXPECTED_HEADERS["oeny_requested_field_manifest.csv"], headers)
+        field_rows = [row for row in rows if row["field_name"] in schema["properties"]]
+        self.assertEqual(set(schema["properties"]), {row["field_name"] for row in field_rows})
+        self.assertTrue(all(row["status"] == "IN_SCOPE" for row in rows))
+        self.assertTrue(all(row["acceptance_link"] for row in rows))
+        self.assertEqual(len(rows), len({row["manifest_id"] for row in rows}))
+
+    def test_p1l_release_package_is_not_sent_and_has_explicit_decision(self) -> None:
+        package = (ROOT / "docs" / "data_requests" / "P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md").read_text(encoding="utf-8")
+        letter = (ROOT / "docs" / "data_requests" / "P1L_OENY_FINAL_REQUEST_LETTER.md").read_text(encoding="utf-8")
+        self.assertIn("READY_FOR_JOSEPH_APPROVAL", package)
+        self.assertIn("NOT SENT", package)
+        self.assertIn("NEM KÜLDÖTT", letter)
+        self.assertIn("legfeljebb 500 rekordos", letter)
+        self.assertNotIn("calculation_software", letter)
+        self.assertNotIn("software_version", letter)
+
 
 if __name__ == "__main__":
     unittest.main()
