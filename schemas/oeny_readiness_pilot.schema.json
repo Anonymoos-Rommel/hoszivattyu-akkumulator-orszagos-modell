@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/schemas/oeny_readiness_pilot.schema.json",
+  "title": "OÉNY anonymized readiness pilot record",
+  "description": "Minimal public schema for a future anonymized pilot. It contains no direct identifiers, addresses, photos, free text, linkage keys, or national weights.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pilot_record_id",
+    "reference_year",
+    "coarse_geography",
+    "building_category",
+    "construction_period_band",
+    "heated_floor_area_band",
+    "heating_system_quality",
+    "heating_energy_carrier",
+    "emitter_status",
+    "emitter_types",
+    "emitter_evidence",
+    "temperature_status",
+    "supply_temperature_c",
+    "return_temperature_c",
+    "temperature_basis",
+    "demand_reduction_status",
+    "hydraulic_readiness_status",
+    "electrical_readiness_status",
+    "permit_readiness_status",
+    "pii_check"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "pilot_record_id": {"type": "string", "pattern": "^PILOT-[A-F0-9]{16}$"},
+    "reference_year": {"type": "integer", "minimum": 2000, "maximum": 2100},
+    "coarse_geography": {"type": "string", "description": "Only an approved coarse region or settlement-type code; no address or coordinate."},
+    "building_category": {"enum": ["FAMILY_HOUSE", "MULTI_DWELLING", "OTHER", "NOT_STATED"]},
+    "construction_period_band": {"type": "string", "description": "Coarse, pre-agreed band; no exact address-linked construction date."},
+    "heated_floor_area_band": {"type": "string", "description": "Band only; no exact floor area unless separately approved."},
+    "heating_system_quality": {"enum": ["BAD", "POOR", "AVERAGE", "GOOD", "EXCELLENT", "NOT_STATED"]},
+    "heating_energy_carrier": {"enum": ["GAS", "ELECTRICITY", "SOLID_FUEL", "DISTRICT_HEAT", "MULTIPLE", "OTHER", "NOT_STATED"]},
+    "emitter_status": {"enum": ["OBS", "Q", "NOT_IN_SOURCE"]},
+    "emitter_types": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["RADIATOR", "FLOOR_HEATING", "WALL_HEATING", "CEILING_HEATING", "FAN_COIL", "AIR_HEATING", "DIRECT_ELECTRIC", "OTHER", "NOT_STATED", "UNREADABLE"]}
+    },
+    "emitter_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"enum": ["TEXT_EXPLICIT", "TABLE_EXPLICIT", "SCHEMATIC_EXPLICIT", "PHOTO_EXPLICIT", "NONE"]}
+    },
+    "temperature_status": {"enum": ["OBS", "Q", "NOT_IN_SOURCE"]},
+    "supply_temperature_c": {"type": ["number", "null"], "minimum": -50, "maximum": 150},
+    "return_temperature_c": {"type": ["number", "null"], "minimum": -50, "maximum": 150},
+    "temperature_basis": {"enum": ["DESIGN_EXPLICIT", "CALCULATION_INPUT", "OPERATING_MEASURED", "REFERENCE_ASSUMPTION", "NOT_STATED"]},
+    "demand_reduction_status": {"enum": ["OBS", "Q", "NOT_IN_SOURCE"]},
+    "hydraulic_readiness_status": {"enum": ["OBS", "Q", "NOT_IN_SOURCE"]},
+    "electrical_readiness_status": {"enum": ["OBS", "Q", "NOT_IN_SOURCE"]},
+    "permit_readiness_status": {"enum": ["OBS", "Q", "NOT_IN_SOURCE"]},
+    "evidence_pages": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 1}
+    },
+    "pii_check": {"const": "PASS"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"emitter_status": {"const": "OBS"}}},
+      "then": {"properties": {"emitter_evidence": {"not": {"contains": {"const": "NONE"}}}}}
+    },
+    {
+      "if": {"properties": {"temperature_status": {"const": "OBS"}}},
+      "then": {"properties": {"temperature_basis": {"enum": ["DESIGN_EXPLICIT", "CALCULATION_INPUT", "OPERATING_MEASURED"]}}}
+    }
+  ]
+}

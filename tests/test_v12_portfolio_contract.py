@@ -96,6 +96,24 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertTrue(blocked)
         self.assertTrue(all(row["evidence_status"] == "Q" for row in blocked))
 
+    def test_b02_evidence_gap_matrix_is_field_level_and_no_new_eligibility(self) -> None:
+        headers, rows = read_csv(REGISTRY / "b02_s0_s2_evidence_gap_matrix.csv")
+        self.assertEqual(EXPECTED_HEADERS["b02_s0_s2_evidence_gap_matrix.csv"], headers)
+        self.assertEqual({"S0", "S1", "S2"}, {row["state_id"] for row in rows})
+        self.assertTrue(any(row["readiness_field"] == "program_eligibility" for row in rows))
+        self.assertTrue(
+            all(row["allow_for_gate"] in {"yes", "partial", "no"} for row in rows)
+        )
+        self.assertTrue(
+            all(row["status"] == "GAP" for row in rows if row["state_id"] == "S2" and row["evidence_status"] == "Q")
+        )
+
+    def test_oeny_readiness_pilot_schema_is_strict_and_parseable(self) -> None:
+        schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
+        self.assertTrue(schema["additionalProperties"] is False)
+        self.assertIn("pii_check", schema["required"])
+        self.assertIn("pilot_record_id", schema["required"])
+
 
 if __name__ == "__main__":
     unittest.main()

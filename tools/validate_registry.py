@@ -228,6 +228,23 @@ EXPECTED_HEADERS = {
         "status",
         "notes",
     ],
+    "b02_s0_s2_evidence_gap_matrix.csv": [
+        "gap_id",
+        "state_id",
+        "readiness_field",
+        "requirement",
+        "current_source_ids",
+        "current_source_coverage",
+        "evidence_status",
+        "grain",
+        "coverage_scope",
+        "allow_for_gate",
+        "remaining_gap",
+        "pilot_relevance",
+        "downstream_modules",
+        "status",
+        "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
