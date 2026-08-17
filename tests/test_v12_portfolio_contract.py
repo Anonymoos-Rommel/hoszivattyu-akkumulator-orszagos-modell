@@ -147,7 +147,7 @@ class V12PortfolioContractTests(unittest.TestCase):
     def test_p1l_release_package_is_not_sent_and_has_explicit_decision(self) -> None:
         package = (ROOT / "docs" / "data_requests" / "P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md").read_text(encoding="utf-8")
         letter = (ROOT / "docs" / "data_requests" / "P1L_OENY_FINAL_REQUEST_LETTER.md").read_text(encoding="utf-8")
-        self.assertIn("HOLD_PUBLIC_ACCESS_AUDIT", package)
+        self.assertIn("READY_FOR_HUMAN_REVIEW", package)
         self.assertIn("NOT SENT", package)
         self.assertIn("NEM KÜLDÖTT", letter)
         self.assertIn("legfeljebb 500 rekordos", letter)
@@ -172,7 +172,27 @@ class V12PortfolioContractTests(unittest.TestCase):
         release = (ROOT / "docs" / "data_requests" / "P1L_OENY_DATA_REQUEST_RELEASE_PACKAGE.md").read_text(encoding="utf-8")
         self.assertIn("PATH_B_HYBRID", audit)
         self.assertIn("P1L=HOLD_PUBLIC_ACCESS_AUDIT", audit)
-        self.assertIn("HOLD_PUBLIC_ACCESS_AUDIT", release)
+        self.assertIn("READY_FOR_HUMAN_REVIEW", release)
+
+    def test_p1l_final_attachment_covers_all_22_p1k_fields(self) -> None:
+        schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
+        attachment = (ROOT / "docs" / "data_requests" / "P1L_FINAL_ATTACHMENT_1_REQUESTED_FIELDS.md").read_text(encoding="utf-8")
+        for field_name in schema["properties"]:
+            self.assertIn(f"| {field_name} |", attachment)
+        self.assertEqual(22, attachment.count("| P1K-"))
+        self.assertIn("Pilot maximum:** 500 rekord", attachment)
+
+    def test_p1l_final_package_has_human_review_state_and_minimal_approval_sheet(self) -> None:
+        letter = (ROOT / "docs" / "data_requests" / "P1L_FINAL_OENY_REQUEST_LETTER.md").read_text(encoding="utf-8")
+        email = (ROOT / "docs" / "data_requests" / "P1L_FINAL_EMAIL_COVER.md").read_text(encoding="utf-8")
+        approval = (ROOT / "docs" / "data_requests" / "P1L_FINAL_JOSEPH_APPROVAL_SHEET.md").read_text(encoding="utf-8")
+        self.assertIn("P1L_FINAL = READY_FOR_HUMAN_REVIEW", letter)
+        self.assertIn("NEM KÜLDÖTT", letter)
+        self.assertIn("READY_FOR_HUMAN_REVIEW", email)
+        for expected in ("Címzett", "Csatorna", "Tárgy", "Kért rekordszám", "Mezők száma", "Személyes adat", "AWAITING_JOSEPH_SEND_APPROVAL"):
+            self.assertIn(expected, approval)
+        self.assertIn("22", approval)
+        self.assertIn("NEM", approval)
 
 
 if __name__ == "__main__":

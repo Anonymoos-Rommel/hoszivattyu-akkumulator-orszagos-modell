@@ -1,20 +1,26 @@
 # P1-L OÉNY Data Request Release Gate
 
-**Állapot:** `HOLD_PUBLIC_ACCESS_AUDIT / NOT SENT`
+**Állapot:** `READY_FOR_HUMAN_REVIEW / NOT SENT`
 
 **Verzió:** 2026-08-17 / v1.0
 
 **Hatókör:** kizárólag a P1F adatigénylési tervezet tényleges kiküldésének biztonságos előkészítése. Új energetikai kutatás, külső adatbekérés és adatátvétel nem történt.
 
-A publikus gépi hozzáférés ellenőrzése a [P1-M OÉNY Public Machine Access Audittal](../source_packs/P1M_OENY_PUBLIC_MACHINE_ACCESS_AUDIT.md) lezárult; annak `PATH_B_HYBRID` döntése miatt ez a csomag jelenleg HOLD állapotú.
+A publikus gépi hozzáférés ellenőrzése a [P1-M OÉNY Public Machine Access Audittal](../source_packs/P1M_OENY_PUBLIC_MACHINE_ACCESS_AUDIT.md) lezárult. Mivel a P1K 22 mezőjéből egyetlen sem bizonyított teljes, P1K-kompatibilis publikus gépi forrásként, a célzott pilot-adatkérés indokolt.
 
 ## 1. Csomag tartalma
 
 - [Végleges, de nem küldött levél](P1L_OENY_FINAL_REQUEST_LETTER.md)
+- [P1L-FINAL hivatalos levél](P1L_FINAL_OENY_REQUEST_LETTER.md)
+- [P1L-FINAL rövid e-mail-kísérő](P1L_FINAL_EMAIL_COVER.md)
+- [P1L-FINAL 1. számú melléklet](P1L_FINAL_ATTACHMENT_1_REQUESTED_FIELDS.md)
+- [P1L-FINAL Joseph approval sheet](P1L_FINAL_JOSEPH_APPROVAL_SHEET.md)
 - [Joseph approval sheet](P1L_JOSEPH_APPROVAL_SHEET.md)
 - [Requested-field manifest](../../registry/oeny_requested_field_manifest.csv)
 - [Jogi/adatvédelmi checklist](P1L_LEGAL_PRIVACY_CHECKLIST.md)
 - [Címzett- és csatornajavaslat](P1L_RECIPIENT_CHANNEL_PROPOSAL.md)
+
+Az `P1L_OENY_FINAL_REQUEST_LETTER.md` és a `P1L_JOSEPH_APPROVAL_SHEET.md` korábbi P1L gate-artefaktumok; a küldésre előkészített kanonikus dokumentumok a fenti `P1L-FINAL` fájlok. Egyik változat sem küldhető ki Joseph külön jóváhagyása nélkül.
 
 ## 2. Forrás- és határszabály
 
@@ -54,9 +60,9 @@ Az eredeti rekordok nem kerülnek publikálásra vagy továbbadásra. Származta
 
 ## 8. Pre-send döntés
 
-**`HOLD_PUBLIC_ACCESS_AUDIT`**
+**`READY_FOR_HUMAN_REVIEW`**
 
-A P1M audit lezárultáig nincs küldés. A P1M eredménye `PATH_B_HYBRID`: a P1L csak a P1K-mezők publikus csatornán nem vagy nem teljesen bizonyított részére használható. A tényleges küldéshez ezután is Josephnek kell kitöltenie az igénylő nevét/szervezetét, válaszcímét, választania kell az e-Papír és e-mail között, és jóvá kell hagynia a felhasználási, licenc- és retention-feltételeket.
+A P1M audit lezárult, és `PATH_B_HYBRID` eredményt adott. A P1L-FINAL a teljes P1K-mezőkészletet kéri, mert egyik mező sem bizonyított teljes, P1K-kompatibilis publikus gépi forrásként. A tényleges küldéshez Josephnek kell kitöltenie az igénylő nevét/szervezetét és válaszcímét, választania kell az e-Papír és e-mail között, majd külön send approvalt adnia.
 
 **`REVISE`** szükséges, ha a címzett/csatorna eltér, új mező kerülne a levélbe, 500-nál nagyobb mintát kérnének, nincs disclosure-control, vagy a Lechner válasza új jogi/adatvédelmi feltételt támaszt.
 
