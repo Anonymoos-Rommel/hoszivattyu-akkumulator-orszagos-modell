@@ -41,11 +41,15 @@ A Lechner hivatalos igénylőlapja használható, de a központ tájékoztatója
 >
 > A mintában kizárólag a fenti kutatási változók, durvított idő- és területi kategóriák, valamint egy nem visszafejthető technikai rekordazonosító szerepeljen. Kifejezetten nem kérünk nevet, címet, helyrajzi számot, HET-azonosítót, e-mailt, telefonszámot, szabad szöveges megjegyzést, fényképet vagy bármely természetes személyre, tanúsítóra, tulajdonosra, megrendelőre vagy konkrét ingatlanra visszavezethető adatot.
 >
+> A minimális pilot-mezők és státuszok nyilvános szerződése: [`schemas/oeny_readiness_pilot.schema.json`](../../schemas/oeny_readiness_pilot.schema.json). Ez a séma nem kér országos alkalmassági, reprezentativitási vagy readiness-aggregációt; csak a mezők létezését, kitöltöttségét és bizonyítékalapját teszteli.
+>
 > **3. Külön későbbi kapu – számítási PDF pilot**
 >
 > Ha nincs normalizált hőleadó- vagy hőfoklépcsőmező, kérem egyelőre csak annak közlését, hogy jogszerűen és teljes anonimizálással átadható-e egy, a fenti rétegek szerint kiválasztott számítási-PDF-pilot. Ilyen dokumentumot e levél alapján még nem kérünk átadni. A pontos mintanagyságot, adatbiztonsági feltételeket és biztonságos átadási csatornát külön egyeztetés és új jóváhagyás után rögzítenénk.
 >
 > Az adatokból nem kérünk új szakmai minősítést vagy következtetést. Ha valamely felsorolt bontás vagy kimutatás nem létezik, kérem ennek rövid jelzését, valamint – ha lehetséges – a már meglévő, legközelebbi tartalmú adat vagy dokumentum megnevezését.
+>
+> Kifejezetten nem kérünk és nem tekintünk teljesítettnek: országos hőleadó- vagy hőfoklépcső-megoszlást, KSH/WBL közös archetípus-illesztést, S1 előtte/utána keresletcsökkentési hatást, hidraulikai/villamos/engedélyezési readiness-t, programjogosultságot vagy támogatási alkalmasságot.
 >
 > Kérem elektronikus, nem hiteles másolatban történő teljesítést. Nagy vagy korlátozott hozzáférésű állomány esetén kérem az Önök által jóváhagyott biztonságos átadási mód megjelölését; ilyen állományt kéretlen e-mail-mellékletként nem kérünk.
 >
