@@ -114,6 +114,26 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertIn("pii_check", schema["required"])
         self.assertIn("pilot_record_id", schema["required"])
 
+    def test_oeny_pilot_acceptance_covers_every_schema_property(self) -> None:
+        schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
+        headers, rows = read_csv(REGISTRY / "oeny_pilot_acceptance_contract.csv")
+        self.assertEqual(EXPECTED_HEADERS["oeny_pilot_acceptance_contract.csv"], headers)
+        self.assertEqual(set(schema["properties"]), {row["field_name"] for row in rows})
+        self.assertEqual(len(schema["properties"]), len(rows))
+        self.assertEqual(len(rows), len({row["field_id"] for row in rows}))
+        for row in rows:
+            for column in EXPECTED_HEADERS["oeny_pilot_acceptance_contract.csv"]:
+                self.assertTrue(row[column].strip(), f"empty {column} for {row['field_name']}")
+            self.assertEqual("CONTRACTED", row["status"])
+
+    def test_p1k_is_fail_closed_and_does_not_authorize_external_send(self) -> None:
+        contract = (ROOT / "docs" / "source_packs" / "P1K_OENY_PILOT_ACCEPTANCE_CONTRACT.md").read_text(encoding="utf-8")
+        self.assertIn("GO_FOR_REQUEST", contract)
+        self.assertIn("REVISE_REQUEST", contract)
+        self.assertIn("NO_GO", contract)
+        self.assertIn("külső adatbekérés nem történt", contract)
+        self.assertIn("Joseph végső engedélyére", contract)
+
 
 if __name__ == "__main__":
     unittest.main()

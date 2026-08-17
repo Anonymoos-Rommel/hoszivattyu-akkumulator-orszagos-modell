@@ -41,7 +41,7 @@ A Lechner hivatalos igénylőlapja használható, de a központ tájékoztatója
 >
 > A mintában kizárólag a fenti kutatási változók, durvított idő- és területi kategóriák, valamint egy nem visszafejthető technikai rekordazonosító szerepeljen. Kifejezetten nem kérünk nevet, címet, helyrajzi számot, HET-azonosítót, e-mailt, telefonszámot, szabad szöveges megjegyzést, fényképet vagy bármely természetes személyre, tanúsítóra, tulajdonosra, megrendelőre vagy konkrét ingatlanra visszavezethető adatot.
 >
-> A minimális pilot-mezők és státuszok nyilvános szerződése: [`schemas/oeny_readiness_pilot.schema.json`](../../schemas/oeny_readiness_pilot.schema.json). Ez a séma nem kér országos alkalmassági, reprezentativitási vagy readiness-aggregációt; csak a mezők létezését, kitöltöttségét és bizonyítékalapját teszteli.
+> A minimális pilot-mezők és státuszok nyilvános szerződése: [`schemas/oeny_readiness_pilot.schema.json`](../../schemas/oeny_readiness_pilot.schema.json). A mezőszintű elfogadási feltételeket a [P1-K OÉNY Pilot Acceptance Contract](../source_packs/P1K_OENY_PILOT_ACCEPTANCE_CONTRACT.md) és a [gépi acceptance-regiszter](../../registry/oeny_pilot_acceptance_contract.csv) rögzíti. Ez a séma és szerződés nem kér országos alkalmassági, reprezentativitási vagy readiness-aggregációt; csak a mezők létezését, kitöltöttségét és bizonyítékalapját teszteli.
 >
 > **3. Külön későbbi kapu – számítási PDF pilot**
 >

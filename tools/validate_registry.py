@@ -245,6 +245,23 @@ EXPECTED_HEADERS = {
         "status",
         "notes",
     ],
+    "oeny_pilot_acceptance_contract.csv": [
+        "field_id",
+        "field_name",
+        "schema_path",
+        "readiness_state",
+        "readiness_goal",
+        "required_grain",
+        "minimum_quality",
+        "missing_tolerance",
+        "sample_expectation",
+        "privacy_minimum",
+        "success_criteria",
+        "failure_criteria",
+        "prohibited_inferences",
+        "status",
+        "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
