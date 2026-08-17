@@ -86,6 +86,16 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertEqual("ASS", row["status"])
         self.assertIn("max(0;", row["expression"])
 
+    def test_b02_readiness_bridge_fails_closed_at_s1_and_s2(self) -> None:
+        headers, rows = read_csv(REGISTRY / "b02_readiness_bridge.csv")
+        self.assertEqual(EXPECTED_HEADERS["b02_readiness_bridge.csv"], headers)
+        self.assertEqual({"S0", "S1", "S2"}, {row["state_id"] for row in rows})
+        for row in rows:
+            self.assertEqual("no", row["allow_inference"])
+        blocked = [row for row in rows if row["state_id"] in {"S1", "S2"}]
+        self.assertTrue(blocked)
+        self.assertTrue(all(row["evidence_status"] == "Q" for row in blocked))
+
 
 if __name__ == "__main__":
     unittest.main()

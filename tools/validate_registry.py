@@ -214,6 +214,20 @@ EXPECTED_HEADERS = {
         "status",
         "notes",
     ],
+    "b02_readiness_bridge.csv": [
+        "bridge_id",
+        "state_id",
+        "field_id",
+        "field_name",
+        "current_source_or_registry",
+        "evidence_status",
+        "required_for_gate",
+        "allow_inference",
+        "block_reason",
+        "downstream_modules",
+        "status",
+        "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}

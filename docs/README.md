@@ -16,3 +16,4 @@ A `registry/household_state_model.json` és az üres, fejléc-szinten szerződö
 ## Első kutatási csomag
 
 - [P1-A: B01–B04 alapok](source_packs/P1A_B01_B04.md) — hivatalos forráskapuk, változószerződések és kritikus nyitott kérdések; számszerű modellkapu még nincs lezárva.
+- [P1-I: B02 V1.2 readiness-híd](source_packs/P1I_B02_V12_READINESS_BRIDGE.md) — a meglévő B02-kimenetek és az S0–S2 állapotkapuk tételes átadási és hiánytérképe.

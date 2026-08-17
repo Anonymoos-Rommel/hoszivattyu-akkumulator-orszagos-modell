@@ -12,6 +12,8 @@ B02 nem egyszeri telepítési darabszámot állít elő, hanem a V1.2 állapotg�
 
 Az országos portfólió, éves sorrend és támogatási döntés nem B02-ban születik meg. B02 csak olyan archetípusos jelöltet adhat tovább, amelynek a bizonyíték-lineage-e, területi grainje, lefedettsége és maradék kategóriája visszaolvasható.
 
+Az S0–S2 átadás tételes hídja: [`docs/source_packs/P1I_B02_V12_READINESS_BRIDGE.md`](../../docs/source_packs/P1I_B02_V12_READINESS_BRIDGE.md), gépi mezőlistája: [`registry/b02_readiness_bridge.csv`](../../registry/b02_readiness_bridge.csv).
+
 ## Határ
 
 Ez a szerződés a 2022-es KSH népszámlálási adatbázisból reprodukálhatóan lekérhető, aggregált lakásjellemzőket rögzíti. Nem állítja, hogy a teljes lakásállomány vagy bármely tüzelőanyag-kategória hőszivattyúra alkalmas. A műszaki alkalmasság későbbi, szabályozott `DER` kimenet lesz.
