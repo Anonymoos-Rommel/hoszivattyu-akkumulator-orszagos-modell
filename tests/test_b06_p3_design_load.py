@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 
-import pytest
+from math import isclose
 
 from modules.B06.design_load import (
     DesignLoadInputs,
@@ -200,7 +200,7 @@ def test_p3_post_load_enters_b05_bridge_and_capacity_shortfall_is_explicit():
     assert bridge.required_supply_temperature_c == 43.0
     assert bridge.status == "SCN / CAPACITY_SHORTFALL"
     assert bridge.available_capacity_kw == 4.2
-    assert bridge.capacity_shortfall_kw == pytest.approx(0.465)
+    assert isclose(bridge.capacity_shortfall_kw, 0.465, rel_tol=0.0, abs_tol=1e-12)
     unsupported = build_b05_design_point_bridge(
         post_load, SupplyTemperatureResult("SCN", 55.0, 5.0, ()), ev(-10.0), ev(0.0), performance_map, "TEST-AWHP-REFERENCE",
     )
