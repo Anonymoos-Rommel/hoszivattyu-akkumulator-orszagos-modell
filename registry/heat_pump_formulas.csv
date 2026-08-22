@@ -1,0 +1,7 @@
+formula_id,module_id,layer,output_variable_id,expression,input_variable_ids,output_unit,status,notes
+FORM-B05-COP-FROM-POINT,B05,PHYSICAL_PERFORMANCE,VAR-B05-COP-OPERATING-POINT,thermal_output_kW / total_electrical_input_kW,VAR-B05-THERMAL-CAPACITY;VAR-B05-TOTAL-ELECTRICAL-INPUT,ratio,DER,Only when both inputs are source-supported and positive.
+FORM-B05-ELECTRICITY-FROM-COP,B05,PHYSICAL_PERFORMANCE,VAR-B05-TOTAL-ELECTRICAL-INPUT,thermal_output_kW / COP,VAR-B05-THERMAL-CAPACITY;VAR-B05-COP-OPERATING-POINT,kW,DER,No tariff or monetary input.
+FORM-B05-HOURLY-ENERGY,B05,PHYSICAL_OUTPUT,VAR-B05-HOURLY-HEAT-DELIVERED,thermal_power_kW * timestep_hours,VAR-B05-THERMAL-CAPACITY,kWh,DER,Power-to-energy conversion; separate space/DHW/backup ledgers.
+FORM-B05-SEASONAL-COP,B05,PHYSICAL_OUTPUT,VAR-B05-SEASONAL-COP-SIMULATED,sum(hp_heat_delivered_kWh) / sum(hp_electricity_kWh),VAR-B05-THERMAL-CAPACITY;VAR-B05-TOTAL-ELECTRICAL-INPUT,ratio,DER,Heat-pump boundary only; not EN 14825 calculated.
+FORM-B05-SPF,B05,PHYSICAL_OUTPUT,VAR-B05-SPF-SIMULATED,sum(total_useful_heat_kWh) / sum(total_electricity_kWh),VAR-B05-THERMAL-CAPACITY;VAR-B05-TOTAL-ELECTRICAL-INPUT,ratio,DER,Includes backup only when explicitly enabled.
+FORM-B05-CAPACITY-SHORTFALL,B05,PHYSICAL_OUTPUT,VAR-B05-CAPACITY-SHORTFALL-KW,max(required_capacity_kW - available_capacity_kW - backup_capacity_kW; 0),VAR-B05-SPACE-HEATING-DEMAND;VAR-B05-DHW-DEMAND;VAR-B05-THERMAL-CAPACITY,kW,DER,Backup remains separately auditable.

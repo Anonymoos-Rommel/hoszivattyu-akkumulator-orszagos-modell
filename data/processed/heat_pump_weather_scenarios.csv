@@ -1,0 +1,4 @@
+record_id,scenario_id,timestamp,outdoor_temperature_C,relative_humidity_pct,status,source_id,notes
+TEST-REFERENCE-0001,B05-LOW-REFERENCE-SIZED,2026-01-01T00:00:00,0,,SCN,SRC-B05-SYNTHETIC-TEST-GRID,Synthetic one-hour unit fixture; not a Hungarian observed winter.
+TEST-COLD-0001,B05-LOW-COLD-UNDERSIZED,2026-01-02T00:00:00,-10,,SCN,SRC-B05-SYNTHETIC-TEST-GRID,Synthetic one-hour cold fixture; not a 1-in-10 claim.
+TEST-EXTREME-0001,B05-MEDIUM-EXTREME-UNDERSIZED,2026-01-03T00:00:00,-10,90,SCN,SRC-B05-SYNTHETIC-TEST-GRID,Synthetic one-hour extreme fixture; no defrost penalty inferred.

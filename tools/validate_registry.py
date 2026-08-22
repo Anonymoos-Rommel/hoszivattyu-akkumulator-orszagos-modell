@@ -346,6 +346,27 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "heat_pump_sources.csv": [
+        "source_id", "module_id", "layer", "title", "institution", "url",
+        "reference_period", "retrieved_at", "source_tier", "evidence_status",
+        "license_status", "local_snapshot_status", "notes",
+    ],
+    "heat_pump_variables.csv": [
+        "variable_id", "module_id", "layer", "name", "definition", "unit",
+        "status", "source_ids", "updated_at", "notes",
+    ],
+    "heat_pump_formulas.csv": [
+        "formula_id", "module_id", "layer", "output_variable_id", "expression",
+        "input_variable_ids", "output_unit", "status", "notes",
+    ],
+    "heat_pump_scenarios.csv": [
+        "scenario_id", "module_id", "emitter_case", "weather_case", "equipment_case",
+        "supply_temperature_C", "weather_status", "equipment_status", "status", "source_ids", "notes",
+    ],
+    "heat_pump_readiness.csv": [
+        "component_id", "module_id", "layer", "status", "readiness_percent",
+        "source_ids", "notes",
+    ],
 }
 
 PROCESSED_EXPECTED_HEADERS = {
@@ -408,6 +429,17 @@ PROCESSED_EXPECTED_HEADERS = {
         "bridge_id", "reference_period", "tariff_id", "layer", "energy_net_huf_per_kwh",
         "network_charge_huf_per_kwh", "fixed_charge_huf_per_year", "tax_huf_per_kwh",
         "vat_rate", "final_gross_huf_per_kwh", "status", "source_id", "notes",
+    ],
+    "heat_pump_performance_points.csv": [
+        "point_id", "equipment_id", "technology", "model_identifier", "outdoor_temperature_C",
+        "supply_temperature_C", "return_temperature_C", "delta_temperature_C",
+        "thermal_capacity_kW", "electrical_input_kW", "COP", "min_modulation_kW",
+        "operating_limit_min_outdoor_C", "operating_limit_max_outdoor_C", "unit_boundary",
+        "test_standard", "evidence_status", "source_id", "retrieved_at", "notes",
+    ],
+    "heat_pump_weather_scenarios.csv": [
+        "record_id", "scenario_id", "timestamp", "outdoor_temperature_C",
+        "relative_humidity_pct", "status", "source_id", "notes",
     ],
 }
 
@@ -563,6 +595,70 @@ def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"H battery charging must remain Q: {row.get('tariff_id')!r}")
             if filename == "h_tariff_schedule.csv" and row.get("export_status") != "Q":
                 errors.append(f"H export must remain Q: {row.get('tariff_id')!r}")
+
+
+def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B05 physical evidence labels, units, and fail-closed data."""
+    allowed_layers = {"PHYSICAL_PERFORMANCE", "THERMAL_DEMAND_INTERFACE", "WEATHER_INPUT", "OPERATING_CONFIG", "PHYSICAL_OUTPUT", "TEST_FIXTURE"}
+    registry_files = {
+        "heat_pump_sources.csv": "source_id", "heat_pump_variables.csv": "variable_id",
+        "heat_pump_formulas.csv": "formula_id", "heat_pump_scenarios.csv": "scenario_id",
+        "heat_pump_readiness.csv": "component_id",
+    }
+    for filename, id_field in registry_files.items():
+        path = REGISTRY / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        duplicates = duplicate_values([row[id_field] for row in rows])
+        if duplicates:
+            errors.append(f"duplicate B05 IDs in {filename}: {duplicates!r}")
+        for row in rows:
+            if row["module_id"] != "B05":
+                errors.append(f"B05 artifact has non-B05 module in {filename}: {row[id_field]!r}")
+            if row.get("layer") not in allowed_layers and filename not in {"heat_pump_formulas.csv", "heat_pump_readiness.csv", "heat_pump_scenarios.csv"}:
+                errors.append(f"invalid B05 layer in {filename}: {row[id_field]!r}")
+            if filename == "heat_pump_sources.csv" and row["source_id"] not in source_ids:
+                errors.append(f"B05 source not mirrored in sources.csv: {row['source_id']!r}")
+            if filename in {"heat_pump_variables.csv", "heat_pump_scenarios.csv"} and row.get("status", row.get("weather_status", "")) not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B05 evidence status in {filename}: {row[id_field]!r}")
+            if filename == "heat_pump_formulas.csv" and row["status"] not in {"DER", "ASS"}:
+                errors.append(f"invalid B05 formula status: {row['formula_id']!r}")
+            if filename == "heat_pump_readiness.csv" and row["status"] not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+                errors.append(f"invalid B05 readiness status: {row['component_id']!r}")
+
+    processed = ROOT / "data" / "processed"
+    for filename in ("heat_pump_performance_points.csv", "heat_pump_weather_scenarios.csv"):
+        path = processed / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        for row in rows:
+            status = row.get("evidence_status", row.get("status", ""))
+            if status not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B05 processed status in {filename}: {status!r}")
+            raw_refs = row.get("source_ids", "") or row.get("source_id", "")
+            refs = [item for item in raw_refs.split(";") if item]
+            unknown = [item for item in refs if item not in source_ids]
+            if unknown:
+                errors.append(f"unknown B05 processed source references in {filename}: {unknown!r}")
+            if filename == "heat_pump_performance_points.csv":
+                if row.get("unit_boundary") != "total_unit_input":
+                    errors.append(f"B05 performance point must use total-unit input: {row['point_id']!r}")
+                try:
+                    capacity = float(row["thermal_capacity_kW"])
+                    electrical = float(row["electrical_input_kW"])
+                    cop = float(row["COP"])
+                except ValueError:
+                    errors.append(f"non-numeric B05 performance point: {row['point_id']!r}")
+                else:
+                    if capacity < 0 or electrical < 0 or cop <= 0:
+                        errors.append(f"invalid physical bounds in B05 point: {row['point_id']!r}")
+                    elif abs(capacity / electrical - cop) > 1e-6:
+                        errors.append(f"inconsistent capacity/input/COP in B05 point: {row['point_id']!r}")
+                if status == "OBS" and row.get("source_id") == "SRC-B05-SYNTHETIC-TEST-GRID":
+                    errors.append(f"synthetic B05 point cannot be OBS: {row['point_id']!r}")
+
 
 
 def validate() -> list[str]:
@@ -898,6 +994,7 @@ def validate() -> list[str]:
 
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
+    validate_b05_artifacts(errors, source_ids)
 
     return errors
 
