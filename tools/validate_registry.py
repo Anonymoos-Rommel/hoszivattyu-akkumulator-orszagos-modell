@@ -496,6 +496,18 @@ PROCESSED_EXPECTED_HEADERS = {
         "weather_hours_below_domain", "weather_hours_above_domain",
         "coverage_share", "coldest_uncovered_Tout_C", "status", "source_id", "notes",
     ],
+    "retrofit_effect_evidence.csv": [
+        "evidence_id", "intervention_id", "intervention_family", "geography",
+        "building_type", "construction_period", "area_m2", "study_year",
+        "study_type", "evidence_class", "annual_before_kwh_m2a",
+        "annual_after_kwh_m2a", "annual_before_min_kwh_m2a",
+        "annual_before_max_kwh_m2a", "annual_after_min_kwh_m2a",
+        "annual_after_max_kwh_m2a", "annual_reduction_fraction",
+        "annual_reduction_min", "annual_reduction_max", "peak_before_kw",
+        "peak_after_kw", "peak_reduction_fraction", "weather_normalization",
+        "dhw_separation", "occupancy_control", "applicability_status",
+        "usable_for_engine", "status", "source_id", "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -793,6 +805,7 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
         "retrofit_readiness.csv": "component_id",
     }
     variable_ids: set[str] = set()
+    intervention_ids: set[str] = set()
     for filename, id_field in registry_files.items():
         path = REGISTRY / filename
         if not path.is_file():
@@ -803,6 +816,8 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append(f"duplicate B06 IDs in {filename}: {duplicates!r}")
         if filename == "retrofit_variables.csv":
             variable_ids = {row["variable_id"] for row in rows}
+        if filename == "retrofit_interventions.csv":
+            intervention_ids = {row["intervention_id"] for row in rows}
         for row in rows:
             if row["module_id"] != "B06":
                 errors.append(f"B06 artifact has non-B06 module in {filename}: {row[id_field]!r}")
@@ -838,6 +853,84 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
             unknown_inputs = [item for item in row["input_variable_ids"].split(";") if item and item not in variable_ids]
             if unknown_inputs:
                 errors.append(f"unknown B06 formula inputs for {row['formula_id']!r}: {unknown_inputs!r}")
+
+    effect_path = ROOT / "data" / "processed" / "retrofit_effect_evidence.csv"
+    if not effect_path.is_file():
+        return
+    _, effect_rows = read_csv(effect_path)
+    allowed_classes = {
+        "MEASURED_BEFORE_AFTER", "MODELLED_BEFORE_AFTER", "STANDARD_CALCULATION",
+        "ARCHETYPE_ESTIMATE", "POLICY_TARGET",
+    }
+    numeric_fields = {
+        "annual_before_kwh_m2a", "annual_after_kwh_m2a",
+        "annual_before_min_kwh_m2a", "annual_before_max_kwh_m2a",
+        "annual_after_min_kwh_m2a", "annual_after_max_kwh_m2a",
+        "annual_reduction_fraction", "annual_reduction_min", "annual_reduction_max",
+        "peak_before_kw", "peak_after_kw", "peak_reduction_fraction",
+    }
+
+    def as_float(row: dict[str, str], field: str) -> float | None:
+        value = row.get(field, "").strip()
+        if not value:
+            return None
+        try:
+            return float(value)
+        except ValueError:
+            errors.append(f"non-numeric B06 effect evidence {field}: {row.get('evidence_id')!r}")
+            return None
+
+    for row in effect_rows:
+        evidence_id = row["evidence_id"]
+        if not evidence_id.startswith("B06-"):
+            errors.append(f"invalid B06 effect evidence ID: {evidence_id!r}")
+        if row["intervention_id"] not in intervention_ids:
+            errors.append(f"unknown B06 effect intervention: {evidence_id!r}")
+        if row["evidence_class"] not in allowed_classes:
+            errors.append(f"invalid B06 effect evidence class: {evidence_id!r}")
+        if row["status"] not in ALLOWED_EVIDENCE_STATUS:
+            errors.append(f"invalid B06 effect evidence status: {evidence_id!r}")
+        if row["source_id"] not in source_ids:
+            errors.append(f"unknown B06 effect evidence source: {evidence_id!r}")
+        for field in numeric_fields:
+            as_float(row, field)
+
+        before = as_float(row, "annual_before_kwh_m2a")
+        after = as_float(row, "annual_after_kwh_m2a")
+        reduction = as_float(row, "annual_reduction_fraction")
+        if before is not None and after is not None:
+            if before <= 0 or after < 0:
+                errors.append(f"invalid B06 annual effect values: {evidence_id!r}")
+            if reduction is not None and abs(reduction - (before - after) / before) > 0.02:
+                errors.append(f"annual reduction does not match before/after values: {evidence_id!r}")
+        if reduction is not None and not 0 <= reduction <= 1:
+            errors.append(f"annual reduction outside 0-1: {evidence_id!r}")
+        annual_min = as_float(row, "annual_reduction_min")
+        annual_max = as_float(row, "annual_reduction_max")
+        if annual_min is not None and annual_max is not None:
+            if not (0 <= annual_min <= annual_max <= 1):
+                errors.append(f"invalid B06 annual reduction range: {evidence_id!r}")
+            if reduction is not None and not annual_min <= reduction <= annual_max:
+                errors.append(f"annual reduction outside stored range: {evidence_id!r}")
+
+        peak_before = as_float(row, "peak_before_kw")
+        peak_after = as_float(row, "peak_after_kw")
+        peak_reduction = as_float(row, "peak_reduction_fraction")
+        if (peak_before is None) != (peak_after is None):
+            errors.append(f"peak before/after must be paired: {evidence_id!r}")
+        if peak_before is not None and peak_after is not None:
+            if peak_before <= 0 or peak_after < 0:
+                errors.append(f"invalid B06 peak effect values: {evidence_id!r}")
+            if peak_reduction is not None and abs(peak_reduction - (peak_before - peak_after) / peak_before) > 0.02:
+                errors.append(f"peak reduction does not match before/after values: {evidence_id!r}")
+        if peak_reduction is not None and not 0 <= peak_reduction <= 1:
+            errors.append(f"peak reduction outside 0-1: {evidence_id!r}")
+        if row["status"] == "OBS" and row["weather_normalization"] in {"", "NOT_NORMALIZED", "NOT_DISCLOSED"}:
+            errors.append(f"weather-un-normalized B06 evidence cannot be OBS: {evidence_id!r}")
+        if row["dhw_separation"] == "INCLUDED_NOT_SEPARABLE" and row["status"] != "Q":
+            errors.append(f"DHW-contaminated B06 evidence must remain Q: {evidence_id!r}")
+        if row["usable_for_engine"] == "YES" and row["status"] not in {"OBS", "DER", "ASS"}:
+            errors.append(f"only evidence-backed B06 rows can be engine-usable: {evidence_id!r}")
 
 
 def validate() -> list[str]:
