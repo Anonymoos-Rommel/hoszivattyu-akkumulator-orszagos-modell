@@ -1,0 +1,4 @@
+bridge_id,reference_period,scenario,layer,commodity_huf_per_m3,network_huf_per_m3,storage_huf_per_m3,commercial_huf_per_m3,tax_huf_per_m3,vat_huf_per_m3,other_huf_per_m3,final_huf_per_m3,status,source_ids,notes
+B03-BRIDGE-MARKET-2026,2026,BASE,MARKET_RESIDENTIAL_FINAL,,,,,,,,,Q,SRC-B03-EUROSTAT-GAS-PRICES-2026,"All seven components must be sourced; no retail value is emitted while any component is missing."
+B03-BRIDGE-WHOLESALE-2026,2026,BASE,WHOLESALE_IMPORT,,,,,,,,,Q,SRC-B03-ACER-TTF-2026;SRC-B03-MNB-FX-2026;SRC-B03-FGSZ-GAS-QUALITY-2026,"Wholesale layer is not a retail component sum; it is a separate commodity/import conversion."
+B03-BRIDGE-REGULATED-2026,2026,BASE,REGULATED_RESIDENTIAL_TARIFF,,,,,,,,,Q,SRC-B03-MVM-GAS-TARIFFS-2026,"Regulated bands are represented in the tariff schedule, not substituted from market bridge."

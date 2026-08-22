@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "status": "CONTRACTED_SKELETON",
+  "source_method_baseline": [
+    "Hoszivattyu_akkumulator_program_Codex_kutatasi_prompt_V1.2.docx",
+    "Hoszivattyu_akkumulator_program_javaslat_V1.1_munkapeldany.docx"
+  ],
+  "unknown_policy": "Missing evidence is Q and cannot be promoted to a satisfied gate or zero.",
+  "states": [
+    {
+      "state_id": "S0",
+      "name": "BASELINE_AUDITED",
+      "entry_requirements": ["baseline_record", "eligibility_scope", "known_gaps"],
+      "exit_gate": "audit_complete"
+    },
+    {
+      "state_id": "S1",
+      "name": "DEMAND_REDUCED",
+      "entry_requirements": ["S0"],
+      "exit_gate": "demand_reduction_measured_or_not_required"
+    },
+    {
+      "state_id": "S2",
+      "name": "TECHNICALLY_READY",
+      "entry_requirements": ["S1", "emitter_or_temperature_evidence", "hydraulic_electrical_permit_readiness"],
+      "exit_gate": "technical_readiness_complete"
+    },
+    {
+      "state_id": "S3",
+      "name": "HEAT_PUMP_ACTIVE",
+      "entry_requirements": ["S2", "commissioning_and_measurement"],
+      "exit_gate": "heat_pump_operational_and_qa_complete"
+    },
+    {
+      "state_id": "S4",
+      "name": "FLEX_READY",
+      "entry_requirements": ["S3", "legal_metering_tariff_and_control_evidence"],
+      "exit_gate": "flexibility_ready"
+    },
+    {
+      "state_id": "S5",
+      "name": "TARGET_STATE",
+      "entry_requirements": ["S4", "lifecycle_guarantee_and_ex_post_measurement"],
+      "exit_gate": "target_state_verified"
+    }
+  ],
+  "transition_invariants": [
+    "Transitions are monotone S0 -> S1 -> S2 -> S3 -> S4 -> S5 unless blocked.",
+    "A skipped state requires evidence that its exit gate is already satisfied.",
+    "Existing heat-pump presence does not prove S2 or S3 readiness.",
+    "Every transition has evidence references, date, owner, and next gate."
+  ]
+}

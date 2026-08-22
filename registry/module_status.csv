@@ -1,9 +1,9 @@
 module_id,module_name,depends_on,status,readiness_percent,gate_note
-B01,Programterjedelem és penetráció,,IN_PROGRESS,10,P1-A forrástérkép és változószerződés elkészült; célállomány nincs validálva
-B02,Épületállomány és archetipizálás,,IN_PROGRESS,55,P1-H lezárva: 47 960 WBL011/WBL017 OBS cella három külön projekcióban materializált; a projekciók közötti és teljes WBL × épülettípus × energia × hőleadó joint továbbra is Q
-B03,Gázár és földgáz-kitettség,,IN_PROGRESS,10,P1-A piaci deviza- és konverziós forráskapuk rögzítve; árpálya nincs validálva
-B04,Villamosenergia-ár és tarifák,,IN_PROGRESS,10,P1-A tarifa- és jogi forráskapuk rögzítve; hatálynapos teljes díjtábla nincs validálva
-B05,Hőszivattyú fizikai modell,B02;B03;B04,NOT_STARTED,0,
+B01,Programterjedelem és penetráció,,IN_PROGRESS,10,P1-A forrástérkép és változószerződés elkészült; V1.2 state-stock/portfolio objective és célállomány nincs validálva
+B02,Épületállomány és archetipizálás,,IN_PROGRESS,55,P1-H lezárva: 47 960 WBL011/WBL017 OBS cella három külön projekcióban materializált; P1-I az S0–S2 readiness átadást fail-closed rögzíti; a projekciók közötti és teljes WBL × épülettípus × energia × hőleadó joint továbbra is Q
+B03,Gázár és földgáz-kitettség,,BLOCKED,55,REGULATED_RESIDENTIAL_TARIFF=VALIDATED a 2026-08-22-i MVM F.4 snapshot alapján; TTF licencelt export és MARKET_RESIDENTIAL_FINAL komponenshíd továbbra is Q
+B04,Villamosenergia-ár és tarifák,,BLOCKED,58,REGULATED_RESIDENTIAL_ELECTRICITY=VALIDATED; H_TARIFF=PARTIAL (battery/export Q); WHOLESALE_ELECTRICITY=Q (licensed history/forward); MARKET_BASED_RESIDENTIAL_ELECTRICITY=PARTIAL (component bridge Q); DYNAMIC_ELECTRICITY=Q
+B05,Hőszivattyú fizikai modell,B02;B03;B04,IN_PROGRESS,64,Contract-first bounded physical engine plus EU-origin source-native points, a STIEBEL HPA-O 4/8 W35 cold-side extension to -15 C and a five-station HungaroMet observed hourly weather panel; 1-in-10 return-period evidence, W45/W55 cold-side coverage, defrost, part-load degradation and product scaling remain Q; B03/B04 edges retained as orchestration gates but no tariff or money enters runtime.
 B06,Energetikai korszerűsítés,B02,NOT_STARTED,0,
 B07,Háztartási akkumulátor és VPP,B04,NOT_STARTED,0,
 B08,Villamos rendszerterhelés,B01;B05;B07,NOT_STARTED,0,
@@ -18,4 +18,4 @@ B16,Makrogazdasági hatás,B11;B12;B13;B15,NOT_STARTED,0,
 B17,Klíma levegő és egészség,B05;B09;B11,NOT_STARTED,0,
 B18,Kivitelezési kapacitás és iparpolitika,B01;B06;B10;B15,NOT_STARTED,0,
 B19,Kockázat és reziliencia,B01;B02;B03;B04;B05;B06;B07;B08;B09;B10;B11;B12;B13;B14;B15;B16;B17;B18,NOT_STARTED,0,
-B20,App interfész és scenario engine,B01;B02;B03;B04;B05;B06;B07;B08;B09;B10;B11;B12;B13;B14;B15;B16;B17;B18;B19,NOT_STARTED,0,B01-B19 stabil szerződése kötelező
+B20,App interfész és scenario engine,B01;B02;B03;B04;B05;B06;B07;B08;B09;B10;B11;B12;B13;B14;B15;B16;B17;B18;B19,NOT_STARTED,0,B01-B19 stabil szerződése kötelező; V1.2 state/portfolio/baseline/fiscal contracts must be approved before implementation

@@ -1,0 +1,17 @@
+scenario_id,scenario,year,layer,wholesale_eur_per_mwh,eur_huf,wholesale_huf_per_kwh,standard_residential_huf_per_kwh,h_tariff_huf_per_kwh,transition_rule,status,source_ids,notes
+ELEC-LOW-2026,ELEC-LOW,2026,WHOLESALE_ELECTRICITY,,,,,,use licensed wholesale observation when available,Q,SRC-B04-HUPX-DATA-2026,No market or retail price invented.
+ELEC-BASE-2026,ELEC-BASE,2026,WHOLESALE_ELECTRICITY,,,,,,use licensed wholesale observation when available,Q,SRC-B04-HUPX-DATA-2026,No market or retail price invented.
+ELEC-HIGH-2026,ELEC-HIGH,2026,WHOLESALE_ELECTRICITY,,,,,,use licensed wholesale observation when available,Q,SRC-B04-HUPX-DATA-2026,No market or retail price invented.
+ELEC-STRESS-2026,ELEC-STRESS,2026,WHOLESALE_ELECTRICITY,,,,,,use licensed wholesale observation when available,Q,SRC-B04-HUPX-DATA-2026,No market or retail price invented.
+ELEC-LOW-2038,ELEC-LOW,2038,WHOLESALE_ELECTRICITY,,,,,,transition after 12 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-BASE-2038,ELEC-BASE,2038,WHOLESALE_ELECTRICITY,,,,,,transition after 12 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-HIGH-2038,ELEC-HIGH,2038,WHOLESALE_ELECTRICITY,,,,,,transition after 12 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-STRESS-2038,ELEC-STRESS,2038,WHOLESALE_ELECTRICITY,,,,,,transition after 12 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-LOW-2041,ELEC-LOW,2041,WHOLESALE_ELECTRICITY,,,,,,transition after 15 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-BASE-2041,ELEC-BASE,2041,WHOLESALE_ELECTRICITY,,,,,,transition after 15 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-HIGH-2041,ELEC-HIGH,2041,WHOLESALE_ELECTRICITY,,,,,,transition after 15 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-STRESS-2041,ELEC-STRESS,2041,WHOLESALE_ELECTRICITY,,,,,,transition after 15 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-LOW-2046,ELEC-LOW,2046,WHOLESALE_ELECTRICITY,,,,,,transition after 20 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-BASE-2046,ELEC-BASE,2046,WHOLESALE_ELECTRICITY,,,,,,transition after 20 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-HIGH-2046,ELEC-HIGH,2046,WHOLESALE_ELECTRICITY,,,,,,transition after 20 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.
+ELEC-STRESS-2046,ELEC-STRESS,2046,WHOLESALE_ELECTRICITY,,,,,,transition after 20 years; policy scenario only,SCN,,Scenario placeholder; numeric path awaits B04 wholesale gate.

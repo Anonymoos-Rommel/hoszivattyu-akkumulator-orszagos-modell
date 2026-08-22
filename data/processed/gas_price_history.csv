@@ -1,0 +1,5 @@
+record_id,layer,benchmark,reference_date,reference_period,scenario,eur_per_mwh,eur_huf,huf_per_mwh,heating_value_kwh_per_m3,huf_per_m3,status,source_ids,notes
+B03-HIST-FX-2026-08-12,FX,MNB_EUR_HUF,2026-08-12,2026-08-12,, ,364.64,,,,OBS,SRC-B03-MNB-FX-2026,"Official MNB EUR/HUF observation."
+B03-HIST-FX-2026-08-17,FX,MNB_EUR_HUF,2026-08-17,2026-08-17,, ,362.45,,,,OBS,SRC-B03-MNB-FX-2026,"Official MNB EUR/HUF observation."
+B03-HIST-TTF-2015-2026,WHOLESALE_IMPORT,TTF,,2015-2026,,,,,,,Q,SRC-B03-ACER-TTF-2026;SRC-B03-EEX-GAS-MARKETS-2026;SRC-B03-ICE-TTF-FUTURES-2026,"Historical numeric export and licensing are open; no value inferred."
+B03-HIST-LHV-CURRENT,WHOLESALE_IMPORT,GAS_HEATING_VALUE,,2026,,,,,,,Q,SRC-B03-FGSZ-GAS-QUALITY-2026;SRC-B03-MVM-GAS-QUALITY-2026,"Point/period-specific heating value snapshot required."

@@ -1,0 +1,2 @@
+curve_id,layer,benchmark,as_of_date,delivery_start,delivery_end,scenario,eur_per_mwh,eur_huf,huf_per_m3,status,source_ids,notes
+B03-FWD-ACER-2026-08-22,WHOLESALE_IMPORT,TTF_FORWARD,2026-08-22,2026-08-22,2027-03-31,BASE,,,,Q,SRC-B03-ACER-TTF-2026,"Official ACER forward curve is available for export; local numeric snapshot is not captured."

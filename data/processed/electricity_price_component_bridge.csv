@@ -1,0 +1,4 @@
+bridge_id,reference_period,tariff_id,layer,energy_net_huf_per_kwh,network_charge_huf_per_kwh,fixed_charge_huf_per_year,tax_huf_per_kwh,vat_rate,final_gross_huf_per_kwh,status,source_id,notes
+B04-A1-DÉMÁSZ-BRIDGE,2026-03-01,A1-DÉMÁSZ-DISCOUNTED,COMPONENT_BRIDGE,5.25,23.40,1836.42,,0.27,36.386,OBS,SRC-B04-MVM-M1-2026;SRC-B04-MVM-RESIDENTIAL-TARIFF-2026,Final table is observed; exact current 2026 legal component extraction remains partial.
+B04-H-DÉMÁSZ-BRIDGE,2026-03-01,H-DÉMÁSZ-HEATING,COMPONENT_BRIDGE,1.90,20.10,601.98,,0.27,22.962,OBS,SRC-B04-MVM-M1-2026;SRC-B04-MVM-RESIDENTIAL-TARIFF-2026,Final table is observed; exact current 2026 legal component extraction remains partial.
+B04-MARKET-BRIDGE-Q,2026-08-22,A1-ALL-MARKET,COMPONENT_BRIDGE,,,,,0.27,,Q,SRC-B04-MEKH-SYSTEM-FEES-2024,Do not invent network/tax bridge when current legal component extraction is incomplete.
