@@ -345,9 +345,13 @@ PROCESSED_EXPECTED_HEADERS = {
         "source_ids", "notes",
     ],
     "residential_gas_tariff_schedule.csv": [
-        "tariff_id", "service_year", "valid_from", "valid_to", "band",
-        "threshold_m3", "threshold_mj", "price_huf_per_m3", "allocation_rule",
-        "status", "source_ids", "notes",
+        "tariff_id", "service_year", "valid_from", "valid_to", "tariff_band",
+        "tariff_scope", "threshold_mj", "threshold_m3_reference",
+        "gas_price_huf_per_mj", "price_status", "vat_rate",
+        "gross_price_huf_per_mj", "gross_price_status",
+        "reference_heating_value_mj_per_m3", "illustrative_gross_huf_per_m3",
+        "illustrative_status", "annual_fixed_charge_huf", "fixed_charge_status",
+        "status", "source_id", "notes",
     ],
     "gas_price_component_bridge.csv": [
         "bridge_id", "reference_period", "scenario", "layer",
@@ -446,7 +450,8 @@ def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
             status = row.get("status", "")
             if status not in ALLOWED_EVIDENCE_STATUS:
                 errors.append(f"invalid B03 processed status in {filename}: {status!r}")
-            refs = [item for item in row.get("source_ids", "").split(";") if item]
+            raw_refs = row.get("source_ids", "") or row.get("source_id", "")
+            refs = [item for item in raw_refs.split(";") if item]
             unknown = [item for item in refs if item not in source_ids]
             if unknown:
                 errors.append(f"unknown B03 processed source references in {filename}: {unknown!r}")

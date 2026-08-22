@@ -32,7 +32,7 @@ Időben változó, auditálható gázárpályák előállítása külön nagyker
 
 ## Állapot
 
-`BLOCKED` – a három réteg szerződve, a dimenzióbiztos képlet és teszt megvan; a licencelt TTF export, a teljes market-residential komponenshíd és a hatályos MVM Ft/m3 egységárak még Q.
+`BLOCKED` – a három réteg szerződve; a `REGULATED_RESIDENTIAL_TARIFF` réteg `VALIDATED` a 2026-08-22-i MVM snapshot alapján, miközben a licencelt TTF export és a teljes market-residential komponenshíd továbbra is Q.
 
 ## Kanonikus artefaktumok
 

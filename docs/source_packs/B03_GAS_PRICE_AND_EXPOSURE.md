@@ -8,7 +8,24 @@ Ez a csomag a B03 kanonikus gázár-motort írja le. A három ár-réteg külön
 2. `MARKET_RESIDENTIAL_FINAL`: commodity + network + storage + commercial + tax/VAT/other komponensek; ez a B12 piaci lakossági cash-flow bemenet.
 3. `REGULATED_RESIDENTIAL_TARIFF`: a hatályos egyetemes szolgáltatási, kedvezményes és küszöb feletti sáv; ez a B13 baseline.
 
-Az adatcsomag **Q/OBS fail-closed** állapotban van: a forráskapuk, a sémák és a dimenzióbiztos képletek rögzítve vannak, de licencelt TTF-idősor, teljes komponenshíd és a hatályos MVM Ft/m³ tarifatáblázat helyi, reprodukálható snapshotja nélkül numerikus végárat nem állítunk elő.
+Az adatcsomag **rétegenkénti fail-closed** állapotban van: a szabályozott lakossági tarifa 2026-08-22-i MJ-alapú MVM snapshotja lezárt, míg a licencelt TTF-idősor és a teljes piaci komponenshíd továbbra is Q; utóbbiakhoz numerikus végárat nem állítunk elő.
+
+## B03-P1 szabályozott tarifa snapshot (2026-08-22)
+
+Az MVM Next 2026. március 1-jétől hatályos Egyetemes földgázszolgáltatói üzletszabályzatának F.4 függeléke alapján, 2026-08-22-i lekéréssel:
+
+- A1, 20 m³/h alatti egyedi lakossági mérő: nettó kedvezményes gázdíj `2,256 Ft/MJ` (`OBS`).
+- Kedvezményes sáv felett, lakossági fogyasztóra: nettó `17,324 Ft/MJ`, bruttó `22,002 Ft/MJ` (`OBS`).
+- Lakossági ÁFA: `27%`; a kedvezményes bruttó `2,86512 Ft/MJ` a nettó tarifából és az ÁFÁ-ból képzett (`DER`).
+- A kedvezményes éves küszöb kanonikus értéke `63 645 MJ/felhasználási hely`; a `1 729 m³/év` csak tájékoztató referencia.
+- A kedvezményes év augusztus 1.–július 31.; az éves alapdíj az A1 sorban `9 192 Ft/év`, és csak egyszer kerül az éves számlaképletbe.
+- Az MVM kalkulátor `34,87 MJ/m³` értéke csak illusztratív referencia. A tényleges számla a mérési időszak fűtőértékét használja, ezért a Ft/m³ kimenet mindig `DER`.
+
+Az éves számla kanonikus képlete MJ-alapon:
+
+`min(consumption_mj, 63645) × discounted_gross_huf_per_mj + max(consumption_mj - 63645, 0) × higher_gross_huf_per_mj + applicable_fixed_charge`
+
+Források: az [MVM F.4 függelék](https://www.mvmnext.hu/foldgaz/contents/Documents/foldgaz/Dokumentumok/Jogszabalyok-szabalyzatok/AKTUALIS-UZLETSZABALYZAT-ALTALANOS-SZERZODESI-FELTETELEK/Egyetemes-foldgazszolgaltatoi-uzletszabalyzat-20260301.pdf?download=), az [MVM alkalmazott díjak](https://www.mvmnext.hu/foldgaz/Kozszolgaltatasi-informaciok/Alkalmazott-dijak) és az [MVM éves árkalkulátor](https://www.mvmnext.hu/foldgaz/Egyetemes-Szolgaltatas/Ugyintezes/Arak-dijszabasok/Eves-dijkalkulator/dijkalkulator). A szabályozott réteg `VALIDATED`; a teljes B03 továbbra is `BLOCKED` a TTF és market-residential Q kapuk miatt.
 
 ## Forrás- és adatpolitika
 
