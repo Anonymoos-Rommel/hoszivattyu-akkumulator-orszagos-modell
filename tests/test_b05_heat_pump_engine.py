@@ -127,6 +127,7 @@ class B05HeatPumpEngineTests(unittest.TestCase):
             registered_sources = {row["source_id"] for row in csv.DictReader(handle)}
         self.assertIn("SRC-B05-VAILLANT-SPLIT-EU-ORIGIN-2019", registered_sources)
         self.assertIn("SRC-B05-VAILLANT-PLUS-EU-ORIGIN-2020", registered_sources)
+        self.assertIn("SRC-B05-STIEBEL-EU-ORIGIN-2026", registered_sources)
         self.assertFalse(any(source_id.startswith("SRC-B05-DAIKIN-") for source_id in registered_sources))
 
         expected_nodes = {
@@ -134,6 +135,8 @@ class B05HeatPumpEngineTests(unittest.TestCase):
             "VAILLANT-AROTHERM-SPLIT-70": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
             "VAILLANT-AROTHERM-SPLIT-120": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
             "VAILLANT-AROTHERM-PLUS-55": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+            "STIEBEL-HPA-O-4-CS-PLUS-INT": {(-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+            "STIEBEL-HPA-O-8-CS-PLUS-INT": {(-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
         }
         for equipment_id, nodes in expected_nodes.items():
             product_rows = [row for row in real_rows if row["equipment_id"] == equipment_id]
@@ -150,6 +153,15 @@ class B05HeatPumpEngineTests(unittest.TestCase):
         plus_a7_w35 = next(row for row in plus_rows if row["outdoor_temperature_C"] == "7" and row["supply_temperature_C"] == "35")
         self.assertEqual(float(plus_a7_w35["min_modulation_kW"]), 2.10)
 
+        stiebel_map = PerformanceMap.from_csv(self.PRODUCT_POINTS, "STIEBEL-HPA-O-4-CS-PLUS-INT")
+        interpolated = stiebel_map.evaluate(-2.0, 40.0)
+        self.assertEqual(interpolated.status, "DER")
+        self.assertEqual(interpolated.point.interpolation, "bilinear_bounded")
+        self.assertAlmostEqual(interpolated.point.thermal_capacity_kw, 3.365, places=3)
+        self.assertAlmostEqual(interpolated.point.electrical_input_kw, 1.207, places=3)
+        self.assertAlmostEqual(interpolated.point.cop, 2.939, places=3)
+        self.assertEqual(stiebel_map.evaluate(-21.0, 35.0).status, "Q / OUT_OF_PERFORMANCE_DOMAIN")
+
         sparse_surface = PerformanceMap.from_csv(self.PRODUCT_POINTS, "VAILLANT-AROTHERM-SPLIT-35").evaluate(-2.0, 35.0)
         self.assertEqual(sparse_surface.status, "Q / MISSING_GRID_POINT")
         self.assertIsNone(sparse_surface.point)
@@ -159,6 +171,22 @@ class B05HeatPumpEngineTests(unittest.TestCase):
         self.assertEqual(fixture.evaluate(0.0, 35.0).status, "SCN")
         with self.assertRaises(PerformanceMapError):
             PerformanceMap.from_csv(self.PRODUCT_POINTS, "NOT-A-REAL-EQUIPMENT")
+
+    def test_coverage_matrix_marks_only_real_rectangle_corners_as_obs(self):
+        coverage_path = self.PRODUCT_POINTS.with_name("heat_pump_performance_coverage.csv")
+        with coverage_path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        for equipment_id in ("STIEBEL-HPA-O-4-CS-PLUS-INT", "STIEBEL-HPA-O-8-CS-PLUS-INT"):
+            matrix = {
+                (float(row["outdoor_temperature_C"]), float(row["supply_temperature_C"])): row["evidence_status"]
+                for row in rows
+                if row["equipment_id"] == equipment_id
+            }
+            self.assertEqual(
+                {key for key, status in matrix.items() if status == "OBS"},
+                {(-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+            )
+            self.assertEqual(matrix[(-7.0, 55.0)], "Q")
 
 
 if __name__ == "__main__":

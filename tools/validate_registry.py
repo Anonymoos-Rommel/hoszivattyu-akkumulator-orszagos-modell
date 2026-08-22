@@ -420,6 +420,10 @@ PROCESSED_EXPECTED_HEADERS = {
         "network_charge_huf_per_kwh", "fixed_charge_huf_per_year", "final_gross_huf_per_kwh",
         "status", "source_id", "notes",
     ],
+    "heat_pump_performance_coverage.csv": [
+        "equipment_id", "outdoor_temperature_C", "supply_temperature_C",
+        "evidence_status", "source_id", "notes",
+    ],
     "h_tariff_schedule.csv": [
         "tariff_id", "distributor_area", "period_type", "valid_from", "valid_to",
         "net_huf_per_kwh", "gross_huf_per_kwh", "separate_meter_required", "eligible_load_scope",

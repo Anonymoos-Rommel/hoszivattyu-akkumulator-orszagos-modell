@@ -9,7 +9,7 @@ A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-po
 - órás `timestamp` és `outdoor_temperature_C` időjárási input;
 - `space_heating_required_kW` és külön `dhw_required_kW` hőigény;
 - `required_supply_temperature_C` és külön HMV előremenő hőmérséklet;
-- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a B05-P1 adatcsomag Vaillant aroTHERM Split és aroTHERM plus EU-origin-gated pontokat tartalmaz;
+- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a B05-P2 adatcsomag Vaillant aroTHERM és STIEBEL ELTRON HPA-O EU-origin-gated pontokat tartalmaz, utóbbinál teljes -7/2/7 × W35/W45 surface-szel;
 - explicit backup-konfiguráció, ha van;
 - opcionális páratartalom csak bizonyított defrost-modellhez.
 
@@ -45,7 +45,7 @@ Az engine csak explicit órás időjárási inputot fogad. A normal/reference, 1
 
 ## Readiness és Q-k
 
-`PERFORMANCE_MAP=PARTIAL (55%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=Q`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (30%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
+`PERFORMANCE_MAP=PARTIAL (72%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=Q`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (45%)`; `OPERATING_ENVELOPE=PARTIAL (55%)`; `PRODUCT_DIVERSITY=PARTIAL (45%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
 
 ## Kanonikus artefaktumok
 
@@ -57,4 +57,5 @@ Az engine csak explicit órás időjárási inputot fogad. A normal/reference, 1
 - `registry/heat_pump_scenarios.csv`
 - `registry/heat_pump_readiness.csv`
 - `data/processed/heat_pump_performance_points.csv`
+- `data/processed/heat_pump_performance_coverage.csv`
 - `data/processed/heat_pump_weather_scenarios.csv`
