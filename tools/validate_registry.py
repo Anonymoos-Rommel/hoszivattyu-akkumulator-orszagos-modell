@@ -325,6 +325,27 @@ EXPECTED_HEADERS = {
         "formula_id", "module_id", "layer", "output_variable_id", "expression",
         "input_variable_ids", "output_unit", "status", "notes",
     ],
+    "electricity_price_sources.csv": [
+        "source_id", "module_id", "layer", "title", "institution", "url",
+        "reference_period", "retrieved_at", "source_tier", "evidence_status",
+        "license_status", "local_snapshot_status", "notes",
+    ],
+    "electricity_price_variables.csv": [
+        "variable_id", "module_id", "layer", "name", "definition", "unit",
+        "status", "source_ids", "updated_at", "notes",
+    ],
+    "electricity_price_formulas.csv": [
+        "formula_id", "module_id", "layer", "output_variable_id", "expression",
+        "input_variable_ids", "output_unit", "status", "notes",
+    ],
+    "electricity_tariff_rules.csv": [
+        "rule_id", "module_id", "layer", "tariff_id", "rule_type", "valid_from",
+        "valid_to", "condition", "action", "status", "source_ids", "notes",
+    ],
+    "electricity_readiness.csv": [
+        "component_id", "module_id", "layer", "status", "readiness_percent",
+        "source_ids", "notes",
+    ],
 }
 
 PROCESSED_EXPECTED_HEADERS = {
@@ -358,6 +379,35 @@ PROCESSED_EXPECTED_HEADERS = {
         "commodity_huf_per_m3", "network_huf_per_m3", "storage_huf_per_m3",
         "commercial_huf_per_m3", "tax_huf_per_m3", "vat_huf_per_m3",
         "other_huf_per_m3", "final_huf_per_m3", "status", "source_ids", "notes",
+    ],
+    "electricity_price_history.csv": [
+        "record_id", "layer", "market", "product", "reference_date", "reference_period",
+        "eur_per_mwh", "eur_huf", "huf_per_mwh", "status", "source_id", "notes",
+    ],
+    "electricity_price_forward_curve.csv": [
+        "curve_id", "layer", "market", "product", "as_of_date", "delivery_start",
+        "delivery_end", "eur_per_mwh", "status", "source_id", "notes",
+    ],
+    "electricity_price_scenarios.csv": [
+        "scenario_id", "scenario", "year", "layer", "wholesale_eur_per_mwh",
+        "eur_huf", "wholesale_huf_per_kwh", "standard_residential_huf_per_kwh",
+        "h_tariff_huf_per_kwh", "transition_rule", "status", "source_ids", "notes",
+    ],
+    "residential_electricity_tariff_schedule.csv": [
+        "tariff_id", "distributor_area", "tariff_band", "valid_from", "valid_to",
+        "threshold_kwh", "energy_price_net_huf_per_kwh", "energy_price_gross_huf_per_kwh",
+        "network_charge_huf_per_kwh", "fixed_charge_huf_per_year", "final_gross_huf_per_kwh",
+        "status", "source_id", "notes",
+    ],
+    "h_tariff_schedule.csv": [
+        "tariff_id", "distributor_area", "period_type", "valid_from", "valid_to",
+        "net_huf_per_kwh", "gross_huf_per_kwh", "separate_meter_required", "eligible_load_scope",
+        "battery_charging_status", "export_status", "status", "source_id", "notes",
+    ],
+    "electricity_price_component_bridge.csv": [
+        "bridge_id", "reference_period", "tariff_id", "layer", "energy_net_huf_per_kwh",
+        "network_charge_huf_per_kwh", "fixed_charge_huf_per_year", "tax_huf_per_kwh",
+        "vat_rate", "final_gross_huf_per_kwh", "status", "source_id", "notes",
     ],
 }
 
@@ -441,7 +491,8 @@ def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
             if filename == "gas_price_formulas.csv" and row["status"] not in {"DER", "ASS"}:
                 errors.append(f"invalid B03 formula status: {row['formula_id']!r}")
 
-    for filename in PROCESSED_EXPECTED_HEADERS:
+    for filename in ("gas_price_history.csv", "gas_price_forward_curve.csv", "gas_price_scenarios.csv",
+                     "residential_gas_tariff_schedule.csv", "gas_price_component_bridge.csv"):
         path = b03_processed / filename
         if not path.is_file():
             continue
@@ -455,6 +506,63 @@ def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
             unknown = [item for item in refs if item not in source_ids]
             if unknown:
                 errors.append(f"unknown B03 processed source references in {filename}: {unknown!r}")
+
+
+def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B04 layer separation and fail-closed H tariff constraints."""
+    allowed_layers = {
+        "WHOLESALE_ELECTRICITY", "REGULATED_RESIDENTIAL_ELECTRICITY", "H_TARIFF",
+        "MARKET_BASED_RESIDENTIAL_ELECTRICITY", "DYNAMIC_ELECTRICITY", "COMPONENT_BRIDGE",
+    }
+    registry_files = {
+        "electricity_price_sources.csv": "source_id",
+        "electricity_price_variables.csv": "variable_id",
+        "electricity_price_formulas.csv": "formula_id",
+        "electricity_tariff_rules.csv": "rule_id",
+        "electricity_readiness.csv": "component_id",
+    }
+    for filename, id_field in registry_files.items():
+        path = REGISTRY / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        duplicates = duplicate_values([row[id_field] for row in rows])
+        if duplicates:
+            errors.append(f"duplicate B04 IDs in {filename}: {duplicates!r}")
+        for row in rows:
+            if row["module_id"] != "B04":
+                errors.append(f"B04 artifact has non-B04 module in {filename}: {row[id_field]!r}")
+            if row.get("layer") not in allowed_layers and filename not in {"electricity_price_formulas.csv", "electricity_readiness.csv"}:
+                errors.append(f"invalid B04 layer in {filename}: {row[id_field]!r}")
+            if filename == "electricity_price_sources.csv" and row["source_id"] not in source_ids:
+                errors.append(f"B04 source not mirrored in sources.csv: {row['source_id']!r}")
+            if filename in {"electricity_price_variables.csv", "electricity_tariff_rules.csv"} and row["status"] not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B04 evidence status in {filename}: {row[id_field]!r}")
+            if filename == "electricity_price_formulas.csv" and row["status"] not in {"DER", "ASS"}:
+                errors.append(f"invalid B04 formula status: {row['formula_id']!r}")
+            if filename == "electricity_readiness.csv" and row["status"] not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+                errors.append(f"invalid B04 readiness status: {row['component_id']!r}")
+
+    processed = ROOT / "data" / "processed"
+    for filename in ("electricity_price_history.csv", "electricity_price_forward_curve.csv",
+                     "electricity_price_scenarios.csv", "residential_electricity_tariff_schedule.csv",
+                     "h_tariff_schedule.csv", "electricity_price_component_bridge.csv"):
+        path = processed / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        for row in rows:
+            if row.get("status") not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B04 processed status in {filename}: {row.get('status')!r}")
+            raw_refs = row.get("source_ids", "") or row.get("source_id", "")
+            refs = [item for item in raw_refs.split(";") if item]
+            unknown = [item for item in refs if item not in source_ids]
+            if unknown:
+                errors.append(f"unknown B04 processed source references in {filename}: {unknown!r}")
+            if filename == "h_tariff_schedule.csv" and row.get("battery_charging_status") != "Q":
+                errors.append(f"H battery charging must remain Q: {row.get('tariff_id')!r}")
+            if filename == "h_tariff_schedule.csv" and row.get("export_status") != "Q":
+                errors.append(f"H export must remain Q: {row.get('tariff_id')!r}")
 
 
 def validate() -> list[str]:
@@ -789,6 +897,7 @@ def validate() -> list[str]:
                 errors.append(f"invalid question status for {question_id}: {row['status']!r}")
 
     validate_b03_artifacts(errors, source_ids)
+    validate_b04_artifacts(errors, source_ids)
 
     return errors
 

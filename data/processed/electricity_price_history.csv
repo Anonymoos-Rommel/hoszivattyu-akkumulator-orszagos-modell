@@ -1,0 +1,3 @@
+record_id,layer,market,product,reference_date,reference_period,eur_per_mwh,eur_huf,huf_per_mwh,status,source_id,notes
+B04-HUPX-MARCH-2026,WHOLESALE_ELECTRICITY,HUPX,DAM baseload,2026-03-31,March 2026,103.52,,,OBS,SRC-B04-HUPX-MARCH-2026,Public HUPX control point; FX and HUF conversion intentionally blank.
+B04-HUPX-2015-2026-GAP,WHOLESALE_ELECTRICITY,HUPX,DAM history,2026-08-22,2015-2026,,,,Q,SRC-B04-HUPX-DATA-2026,Licensed export required; no invented historical values.

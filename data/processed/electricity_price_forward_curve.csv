@@ -1,0 +1,2 @@
+curve_id,layer,market,product,as_of_date,delivery_start,delivery_end,eur_per_mwh,status,source_id,notes
+B04-HUPX-FORWARD-2026-08-22,WHOLESALE_ELECTRICITY,HUPX,forward curve,2026-08-22,2026-09-01,2046-12-31,,Q,SRC-B04-HUPX-DATA-2026,Licensed forward export required; no forward value inferred.

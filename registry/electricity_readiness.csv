@@ -1,0 +1,7 @@
+component_id,module_id,layer,status,readiness_percent,source_ids,notes
+REGULATED_RESIDENTIAL_ELECTRICITY,B04,REGULATED_RESIDENTIAL_ELECTRICITY,VALIDATED,85,SRC-B04-MVM-M1-2026;SRC-B04-MVM-RESIDENTIAL-TARIFF-2026;SRC-B04-MVM-H-FAQ-2026,Current A1/A2 threshold and tariff snapshot proven; exact 2026 RHD component bridge remains partial.
+H_TARIFF,B04,H_TARIFF,PARTIAL,80,SRC-B04-MVM-M1-2026;SRC-B04-MVM-H-FAQ-2026,Season, eligibility and prices proven; battery charging/export remain Q.
+WHOLESALE_ELECTRICITY,B04,WHOLESALE_ELECTRICITY,Q,25,SRC-B04-HUPX-DATA-2026;SRC-B04-HUPX-MARCH-2026,One public March control point only; licensed history/forward not captured.
+MARKET_BASED_RESIDENTIAL_ELECTRICITY,B04,MARKET_BASED_RESIDENTIAL_ELECTRICITY,PARTIAL,60,SRC-B04-MVM-BILLING-2026;SRC-B04-MVM-M1-2026,Market final gross control point exists; full component bridge is Q.
+DYNAMIC_ELECTRICITY,B04,DYNAMIC_ELECTRICITY,Q,10,SRC-B04-HUPX-DATA-2026,No sourced household dynamic product.
+BATTERY_TARIFF_INTERFACE,B04,H_TARIFF,Q,0,SRC-B04-MVM-H-FAQ-2026,No proof that battery charging/export is permitted on H circuit.

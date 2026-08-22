@@ -1,0 +1,5 @@
+formula_id,module_id,layer,output_variable_id,expression,input_variable_ids,output_unit,status,notes
+FORM-B04-GROSS-UP,B04,REGULATED_RESIDENTIAL_ELECTRICITY,VAR-B04-A1-DISCOUNTED-GROSS,net_huf_per_kwh * (1 + vat_rate),VAR-B04-VAT-RATE,HUF/kWh,DER,Applied only when the net source value is observed.
+FORM-B04-THRESHOLD-BILL,B04,REGULATED_RESIDENTIAL_ELECTRICITY,VAR-B04-A1-MARKET-GROSS,"min(consumption_kwh; threshold_kwh) * discounted_gross + max(consumption_kwh - threshold_kwh; 0) * higher_gross + fixed_charge",VAR-B04-REGULATED-THRESHOLD-KWH;VAR-B04-A1-DISCOUNTED-GROSS;VAR-B04-A1-MARKET-GROSS;VAR-B04-FIXED-CHARGE,HUF,DER,Fixed charge is added once; only excess consumption receives the higher tariff.
+FORM-B04-H-SEASON-FALLBACK,B04,H_TARIFF,VAR-B04-H-HEATING-GROSS,"if date in [10-15,04-15] then h_heating_gross else a1_higher_gross",VAR-B04-H-SEASON;VAR-B04-H-HEATING-GROSS;VAR-B04-A1-MARKET-GROSS,HUF/kWh,DER,Outside-season H circuit uses the A1 higher rate.
+FORM-B04-WHOLESALE-HUF-KWH,B04,WHOLESALE_ELECTRICITY,VAR-B04-WHOLESALE-HISTORY,eur_per_mwh * eur_huf / 1000,VAR-B04-HUPX-DAM-BASELOAD;VAR-B04-EUR-HUF,HUF/kWh,DER,EUR/MWh times HUF/EUR divided by 1000.
