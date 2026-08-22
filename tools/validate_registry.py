@@ -654,7 +654,7 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 else:
                     if capacity < 0 or electrical < 0 or cop <= 0:
                         errors.append(f"invalid physical bounds in B05 point: {row['point_id']!r}")
-                    elif abs(capacity / electrical - cop) > 1e-6:
+                    elif abs(capacity / electrical - cop) > 0.05:
                         errors.append(f"inconsistent capacity/input/COP in B05 point: {row['point_id']!r}")
                 if status == "OBS" and row.get("source_id") == "SRC-B05-SYNTHETIC-TEST-GRID":
                     errors.append(f"synthetic B05 point cannot be OBS: {row['point_id']!r}")

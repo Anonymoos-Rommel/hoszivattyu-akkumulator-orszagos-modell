@@ -9,7 +9,7 @@ A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-po
 - órás `timestamp` és `outdoor_temperature_C` időjárási input;
 - `space_heating_required_kW` és külön `dhw_required_kW` hőigény;
 - `required_supply_temperature_C` és külön HMV előremenő hőmérséklet;
-- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép;
+- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a B05-P1 adatcsomag Vaillant aroTHERM Split és aroTHERM plus EU-origin-gated pontokat tartalmaz;
 - explicit backup-konfiguráció, ha van;
 - opcionális páratartalom csak bizonyított defrost-modellhez.
 
@@ -29,7 +29,7 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 
 - A V1 motor determinisztikus, bounded bilineáris interpolációt használ a teljesítménytérkép teljes téglalap-rácsán.
 - Ismert pontot változtatás nélkül reprodukál; hiányzó sarokpont vagy tartományon kívüli hőmérséklet `Q / OUT_OF_PERFORMANCE_DOMAIN` vagy `Q / MISSING_GRID_POINT`.
-- A kapacitás, teljes egység-input és COP közül kettőből a harmadik `DER`; három forrásérték inkonzisztenciája validációs hiba.
+- A kapacitás, teljes egység-input és COP közül kettőből a harmadik `DER`; három forrásérték inkonzisztenciája validációs hiba. A gyártói, két tizedesre kerekített táblákhoz legfeljebb 0,05 COP-eltérés tolerált; nagyobb eltérés Q/validációs hiba.
 - Modulation-floor hiányában nincs kitalált degradációs együttható; a motor csak `CYCLING_REQUIRED` állapotot jelez, implicit büntetést nem ad.
 - Defrost büntetés nincs beégetve: a defrost kimenetek Q-k, amíg bizonyított modell nem áll rendelkezésre.
 - Backup csak explicit engedélyezéssel, típussal, kapacitással és hatásfokkal működik, és külön fogyasztásként jelenik meg.
@@ -45,7 +45,7 @@ Az engine csak explicit órás időjárási inputot fogad. A normal/reference, 1
 
 ## Readiness és Q-k
 
-`PERFORMANCE_MAP=PARTIAL`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=Q`; `DEFROST=Q`; `MODULATION_CYCLING=Q`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
+`PERFORMANCE_MAP=PARTIAL (55%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=Q`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (30%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
 
 ## Kanonikus artefaktumok
 

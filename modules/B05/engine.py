@@ -7,9 +7,11 @@ thermal-demand and weather inputs and fails closed outside the validated surface
 
 from __future__ import annotations
 
+import csv
 from dataclasses import dataclass
 from datetime import datetime
 from math import isclose
+from pathlib import Path
 from typing import Iterable, Sequence
 
 
@@ -58,15 +60,18 @@ class OperatingPointResult:
 class PerformanceMap:
     """Rectangular operating-point grid with bounded bilinear interpolation."""
 
-    def __init__(self, equipment_id: str, technology: str, points: Iterable[PerformancePoint]):
+    def __init__(self, equipment_id: str, technology: str, points: Iterable[PerformancePoint], consistency_tolerance_cop: float = 0.05):
         self.equipment_id = equipment_id
         self.technology = technology
+        if consistency_tolerance_cop < 0:
+            raise PerformanceMapError("COP consistency tolerance cannot be negative")
+        self.consistency_tolerance_cop = consistency_tolerance_cop
         self.points = tuple(points)
         if not self.points:
             raise PerformanceMapError("performance map requires at least one point")
         self._grid: dict[tuple[float, float], PerformancePoint] = {}
         for point in self.points:
-            self._validate_point(point)
+            self._validate_point(point, consistency_tolerance_cop)
             key = (point.outdoor_temperature_c, point.supply_temperature_c)
             if key in self._grid:
                 raise PerformanceMapError(f"duplicate performance point: {key!r}")
@@ -74,8 +79,51 @@ class PerformanceMap:
         self._outdoor = tuple(sorted({key[0] for key in self._grid}))
         self._supply = tuple(sorted({key[1] for key in self._grid}))
 
+    @classmethod
+    def from_csv(
+        cls,
+        path: str | Path,
+        equipment_id: str,
+        technology: str | None = None,
+        consistency_tolerance_cop: float = 0.05,
+    ) -> "PerformanceMap":
+        """Load one source-native equipment map from the canonical point CSV.
+
+        Empty optional cells remain unknown; native capacity/input/COP triples
+        retain their CSV evidence status and source reference.  The loader is
+        deliberately equipment-scoped so synthetic fixtures and other products
+        cannot silently enter a product regression map.
+        """
+
+        def optional_float(row: dict[str, str], name: str) -> float | None:
+            value = row.get(name, "").strip()
+            return None if value == "" else float(value)
+
+        with Path(path).open(encoding="utf-8", newline="") as handle:
+            rows = [row for row in csv.DictReader(handle) if row.get("equipment_id") == equipment_id]
+        if not rows:
+            raise PerformanceMapError(f"no performance points found for equipment_id={equipment_id!r}")
+        map_technology = technology or rows[0].get("technology", "")
+        points = [
+            PerformancePoint(
+                outdoor_temperature_c=float(row["outdoor_temperature_C"]),
+                supply_temperature_c=float(row["supply_temperature_C"]),
+                thermal_capacity_kw=optional_float(row, "thermal_capacity_kW"),
+                electrical_input_kw=optional_float(row, "electrical_input_kW"),
+                cop=optional_float(row, "COP"),
+                min_modulation_kw=optional_float(row, "min_modulation_kW"),
+                return_temperature_c=optional_float(row, "return_temperature_C"),
+                delta_temperature_c=optional_float(row, "delta_temperature_C"),
+                evidence_status=row.get("evidence_status", "Q"),
+                source_id=row.get("source_id", ""),
+                unit_boundary=row.get("unit_boundary", "total_unit_input"),
+            )
+            for row in rows
+        ]
+        return cls(equipment_id, map_technology, points, consistency_tolerance_cop=consistency_tolerance_cop)
+
     @staticmethod
-    def _validate_point(point: PerformancePoint) -> None:
+    def _validate_point(point: PerformancePoint, consistency_tolerance_cop: float = 0.05) -> None:
         if point.evidence_status not in EVIDENCE_STATUSES:
             raise PerformanceMapError(f"invalid evidence status: {point.evidence_status!r}")
         if point.thermal_capacity_kw is not None and point.thermal_capacity_kw < 0:
@@ -93,7 +141,7 @@ class PerformanceMap:
             if point.electrical_input_kw == 0:
                 raise PerformanceMapError("capacity / input / COP are undefined at zero input")
             expected = point.thermal_capacity_kw / point.electrical_input_kw  # type: ignore[operator]
-            if not isclose(expected, point.cop, rel_tol=1e-6, abs_tol=1e-9):  # type: ignore[arg-type]
+            if not isclose(expected, point.cop, rel_tol=1e-6, abs_tol=consistency_tolerance_cop):  # type: ignore[arg-type]
                 raise PerformanceMapError("capacity / input / COP are inconsistent")
         if point.min_modulation_kw is not None and point.min_modulation_kw < 0:
             raise PerformanceMapError("minimum modulation cannot be negative")

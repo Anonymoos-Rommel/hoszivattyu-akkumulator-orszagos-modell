@@ -62,6 +62,7 @@ VAR-B05-EQUIPMENT-ID,B05,Berendezés azonosító,Equipment and model identifier,
 VAR-B05-THERMAL-CAPACITY,B05,Hőteljesítmény,Available thermal heating capacity at an operating point,kW,,,,Q,SRC-B05-EPREL-SPACEHEATERS-2026,2026-08-22,"Operating-point source data required; no generic scaling."
 VAR-B05-TOTAL-ELECTRICAL-INPUT,B05,Teljes egység villamos input,Whole heat-pump unit electrical input at an operating point,kW,,,,Q,SRC-B05-EPREL-2026,2026-08-22,"Compressor-only input is not accepted as total system input."
 VAR-B05-COP-OPERATING-POINT,B05,Operating-point COP,Useful thermal output divided by total unit electrical input,ratio,,,,DER,SRC-B05-JRC-COP-2023,2026-08-22,"Derived only when two source-supported values exist."
+VAR-B05-COP-ROUNDING-TOLERANCE,B05,COP kerekítési tolerancia,Explicit absolute tolerance for consistency checks on displayed source values,ratio,,,,ASS,SRC-B05-ENGINE-CONTRACT-2026,2026-08-22,"0.05 absolute COP tolerance for two-decimal manufacturer tables; larger mismatch fails validation."
 VAR-B05-MIN-MODULATION,B05,Minimum modulation,Minimum stable thermal modulation capacity,kW,,,,Q,SRC-B05-EPREL-2026,2026-08-22,"No degradation coefficient is invented when missing."
 VAR-B05-OUTDOOR-TEMPERATURE,B05,Külső hőmérséklet,Hourly outdoor temperature input,degC,,,,Q,SRC-B05-HUNGARY-HOURLY-2026,2026-08-22,"Explicit weather input; no embedded constant."
 VAR-B05-SPACE-HEATING-DEMAND,B05,Térfűtési hőigény,Externally supplied hourly space-heating demand,kW,,,,Q,,2026-08-22,"B02/B06 interface; no floor-area-only inference."

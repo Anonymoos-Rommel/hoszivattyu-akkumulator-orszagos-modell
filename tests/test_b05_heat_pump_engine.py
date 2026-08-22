@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
+import csv
+from pathlib import Path
 import unittest
 
 from modules.B05.engine import (
@@ -30,6 +32,8 @@ def demand(hour: int, load: float, outdoor: float = 0.0, supply: float = 35.0, d
 
 
 class B05HeatPumpEngineTests(unittest.TestCase):
+    PRODUCT_POINTS = Path(__file__).parents[1] / "data" / "processed" / "heat_pump_performance_points.csv"
+
     def test_exact_node_and_bounded_interpolation(self):
         result = test_map().evaluate(-10.0, 35.0)
         self.assertEqual(result.status, "SCN")
@@ -110,6 +114,51 @@ class B05HeatPumpEngineTests(unittest.TestCase):
         first = simulate_hourly(test_map(), [demand(0, 3.0)])
         second = simulate_hourly(test_map(), [demand(0, 3.0)])
         self.assertEqual(first.seasonal_total_electricity_kwh, second.seasonal_total_electricity_kwh)
+
+    def test_real_product_maps_are_source_native_and_regress_at_exact_nodes(self):
+        with self.PRODUCT_POINTS.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        real_rows = [row for row in rows if row["evidence_status"] == "OBS"]
+        equipment_ids = {row["equipment_id"] for row in real_rows}
+        self.assertGreaterEqual(len(equipment_ids), 4)
+        self.assertTrue(all(row["source_id"].startswith("SRC-B05-") for row in real_rows))
+        self.assertNotIn("SRC-B05-SYNTHETIC-TEST-GRID", {row["source_id"] for row in real_rows})
+        with (self.PRODUCT_POINTS.parents[2] / "registry" / "heat_pump_sources.csv").open(encoding="utf-8", newline="") as handle:
+            registered_sources = {row["source_id"] for row in csv.DictReader(handle)}
+        self.assertIn("SRC-B05-VAILLANT-SPLIT-EU-ORIGIN-2019", registered_sources)
+        self.assertIn("SRC-B05-VAILLANT-PLUS-EU-ORIGIN-2020", registered_sources)
+        self.assertFalse(any(source_id.startswith("SRC-B05-DAIKIN-") for source_id in registered_sources))
+
+        expected_nodes = {
+            "VAILLANT-AROTHERM-SPLIT-35": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
+            "VAILLANT-AROTHERM-SPLIT-70": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
+            "VAILLANT-AROTHERM-SPLIT-120": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
+            "VAILLANT-AROTHERM-PLUS-55": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+        }
+        for equipment_id, nodes in expected_nodes.items():
+            product_rows = [row for row in real_rows if row["equipment_id"] == equipment_id]
+            self.assertEqual({(float(row["outdoor_temperature_C"]), float(row["supply_temperature_C"])) for row in product_rows}, nodes)
+            performance_map = PerformanceMap.from_csv(self.PRODUCT_POINTS, equipment_id)
+            for row in product_rows:
+                result = performance_map.evaluate(float(row["outdoor_temperature_C"]), float(row["supply_temperature_C"]))
+                self.assertEqual(result.status, "OBS")
+                self.assertAlmostEqual(result.point.thermal_capacity_kw, float(row["thermal_capacity_kW"]))
+                self.assertAlmostEqual(result.point.electrical_input_kw, float(row["electrical_input_kW"]))
+                self.assertAlmostEqual(result.point.cop, float(row["COP"]))
+
+        plus_rows = [row for row in real_rows if row["equipment_id"] == "VAILLANT-AROTHERM-PLUS-55"]
+        plus_a7_w35 = next(row for row in plus_rows if row["outdoor_temperature_C"] == "7" and row["supply_temperature_C"] == "35")
+        self.assertEqual(float(plus_a7_w35["min_modulation_kW"]), 2.10)
+
+        sparse_surface = PerformanceMap.from_csv(self.PRODUCT_POINTS, "VAILLANT-AROTHERM-SPLIT-35").evaluate(-2.0, 35.0)
+        self.assertEqual(sparse_surface.status, "Q / MISSING_GRID_POINT")
+        self.assertIsNone(sparse_surface.point)
+
+    def test_csv_loader_keeps_synthetic_fixture_separate(self):
+        fixture = PerformanceMap.from_csv(self.PRODUCT_POINTS, "TEST-AWHP-REFERENCE")
+        self.assertEqual(fixture.evaluate(0.0, 35.0).status, "SCN")
+        with self.assertRaises(PerformanceMapError):
+            PerformanceMap.from_csv(self.PRODUCT_POINTS, "NOT-A-REAL-EQUIPMENT")
 
 
 if __name__ == "__main__":
