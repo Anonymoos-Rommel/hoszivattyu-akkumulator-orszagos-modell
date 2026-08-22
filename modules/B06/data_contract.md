@@ -91,4 +91,28 @@ A supply-temperature számítás külön gate. Csak explicit emitter névleges
 teljesítmény, névleges ΔT, hőmérséklet-kitevő, helyiséghőmérséklet és jelölt
 flow/return pontok mellett ad eredményt. Automatikus W35/W45/W55 váltás vagy
 rejtett 5/10/20 K visszatérő-különbség tiltott; az aktuális household-level
-emitter evidence hiányában a B05 teljes design-point handoff `Q`.
+emitter evidence hiányában a household-level B05 design-point handoff `Q`;
+P4 source-native SCN fixture-e ettől külön technikai method gate.
+
+## P4 emitter contract és B05 bridge
+
+A P4 canonical emitter evidence külön rétegben él. Egy emitter rekordnak meg
+kell őriznie a gyártót, modellt/típust, méreteket, névleges outputot, a
+névleges flow/return/room feltételt, a névleges ΔT-t, az `n` kitevőt és a
+korrekciós módszer forrását. A hiányzó emittermodell, output, rating condition,
+exponent, korrekciós módszer, return/delta-T szabály vagy room temperature `Q`.
+
+Az egyetlen lezárt módszer a Purmo által közölt EN 442-alapú output correction:
+aritmetikai mean-water delta-T, vagy `c < 0.7` esetén logaritmikus mean-water
+delta-T. A nominal rating condition nem normalizálódik univerzális 75/65/20
+feltételre; a kiválasztott rekordnál ez a konkrét source-native feltétel.
+
+Az explicit emitter-egységek outputja összeadható csak a megadott inventory-
+darabszám alapján. Más modell vagy méret outputja nem skálázható feltételezéssel.
+Az eredmény numeric `required_supply_temperature_c`; a W35/W45/W55 csak utólagos
+riport-label lehet, fizikai input nem.
+
+A B05 bridge a P3 post design loadot, a számított supply-t, a design Toutot,
+a külön DHW értéket és a meglévő B05 performance-map operating pointját adja
+át. A B05 map kívüli pont `Q`, a mapon belüli, de elégtelen kapacitás pedig
+explicit `CAPACITY_SHORTFALL`; egyik sem indít automatikus termékválasztást.
