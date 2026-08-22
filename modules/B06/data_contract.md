@@ -64,3 +64,31 @@ Mért vagy modellezett éves before/after adat csak a saját kontextusában
 nem áll rendelkezésre egyidejűleg reprodukálható időjárás-/üzemviteli
 normalizálás, komponens-attribúció és intervention-linked design-peak evidence.
 Tartomány esetén a minimum és maximum külön mező; középérték nem tölthető be.
+
+## P3 design-load contract
+
+A P3 canonical peak layer a `modules/B06/design_load.py` fizikai számítását és
+a `data/processed/retrofit_peak_design_evidence.csv` lineage-t használja. A
+baseline és post state nem faktorral módosul, hanem külön, explicit
+geometriával/U-értékekkel/szellőzéssel újraszámolódik:
+
+```text
+H_trans = Σ(U_i × A_i × boundary_correction_i)
+H_vent = air_volumetric_heat_capacity × airflow × (1 − heat_recovery)
+Q_design = (H_trans + H_vent + H_thermal_bridge) × (T_i − T_o)
+```
+
+Minden komponensnél kötelező az U (W/m²K), a felület (m²), a határ és a
+korrekció. A szellőzésnél kötelező a térfogat és pontosan egy explicit ACH vagy
+m³/h légáram, továbbá a hővisszanyerés és a levegő térfogati hőkapacitása. A
+tervezési külső hőmérséklet nem automatikus magyar országos érték: OBS
+meteorológiai adat, POL szabályozási referencia és SCN stressz külön mező.
+Hőhídmódszer, geometria, U, szellőzés vagy bármely tervezési hőmérséklet
+hiánya `Q`; éves kWh, kazán-/hőszivattyú-kapacitás vagy full-load-hours proxy
+nem input.
+
+A supply-temperature számítás külön gate. Csak explicit emitter névleges
+teljesítmény, névleges ΔT, hőmérséklet-kitevő, helyiséghőmérséklet és jelölt
+flow/return pontok mellett ad eredményt. Automatikus W35/W45/W55 váltás vagy
+rejtett 5/10/20 K visszatérő-különbség tiltott; az aktuális household-level
+emitter evidence hiányában a B05 teljes design-point handoff `Q`.
