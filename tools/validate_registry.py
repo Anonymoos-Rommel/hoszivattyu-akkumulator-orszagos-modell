@@ -312,6 +312,49 @@ EXPECTED_HEADERS = {
         "status",
         "notes",
     ],
+    "gas_price_sources.csv": [
+        "source_id", "module_id", "layer", "title", "institution", "url",
+        "reference_period", "retrieved_at", "source_tier", "evidence_status",
+        "license_status", "local_snapshot_status", "notes",
+    ],
+    "gas_price_variables.csv": [
+        "variable_id", "module_id", "layer", "name", "definition", "unit",
+        "status", "source_ids", "updated_at", "notes",
+    ],
+    "gas_price_formulas.csv": [
+        "formula_id", "module_id", "layer", "output_variable_id", "expression",
+        "input_variable_ids", "output_unit", "status", "notes",
+    ],
+}
+
+PROCESSED_EXPECTED_HEADERS = {
+    "gas_price_history.csv": [
+        "record_id", "layer", "benchmark", "reference_date", "reference_period",
+        "scenario", "eur_per_mwh", "eur_huf", "huf_per_mwh",
+        "heating_value_kwh_per_m3", "huf_per_m3", "status", "source_ids", "notes",
+    ],
+    "gas_price_forward_curve.csv": [
+        "curve_id", "layer", "benchmark", "as_of_date", "delivery_start",
+        "delivery_end", "scenario", "eur_per_mwh", "eur_huf", "huf_per_m3",
+        "status", "source_ids", "notes",
+    ],
+    "gas_price_scenarios.csv": [
+        "scenario_id", "scenario", "zone", "year", "layer",
+        "wholesale_eur_per_mwh", "market_residential_huf_per_m3",
+        "regulated_residential_huf_per_m3", "transition_rule", "status",
+        "source_ids", "notes",
+    ],
+    "residential_gas_tariff_schedule.csv": [
+        "tariff_id", "service_year", "valid_from", "valid_to", "band",
+        "threshold_m3", "threshold_mj", "price_huf_per_m3", "allocation_rule",
+        "status", "source_ids", "notes",
+    ],
+    "gas_price_component_bridge.csv": [
+        "bridge_id", "reference_period", "scenario", "layer",
+        "commodity_huf_per_m3", "network_huf_per_m3", "storage_huf_per_m3",
+        "commercial_huf_per_m3", "tax_huf_per_m3", "vat_huf_per_m3",
+        "other_huf_per_m3", "final_huf_per_m3", "status", "source_ids", "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -367,6 +410,48 @@ def duplicate_values(values: list[str]) -> list[str]:
     return sorted(duplicates)
 
 
+def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B03's layer/status/source invariants in addition to headers."""
+    b03_registry = REGISTRY
+    b03_processed = ROOT / "data" / "processed"
+    allowed_layers = {"FX", "WHOLESALE_IMPORT", "MARKET_RESIDENTIAL_FINAL", "REGULATED_RESIDENTIAL_TARIFF"}
+
+    for filename in ("gas_price_sources.csv", "gas_price_variables.csv", "gas_price_formulas.csv"):
+        path = b03_registry / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        id_field = {"gas_price_sources.csv": "source_id", "gas_price_variables.csv": "variable_id", "gas_price_formulas.csv": "formula_id"}[filename]
+        duplicates = duplicate_values([row[id_field] for row in rows])
+        if duplicates:
+            errors.append(f"duplicate B03 IDs in {filename}: {duplicates!r}")
+        for row in rows:
+            if row["module_id"] != "B03":
+                errors.append(f"B03 artifact has non-B03 module in {filename}: {row[id_field]!r}")
+            if row.get("layer") not in allowed_layers and filename != "gas_price_formulas.csv":
+                errors.append(f"invalid B03 layer in {filename}: {row[id_field]!r}")
+            if filename == "gas_price_sources.csv" and row["source_id"] not in source_ids:
+                errors.append(f"B03 source not mirrored in sources.csv: {row['source_id']!r}")
+            if filename == "gas_price_variables.csv" and row["status"] not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B03 variable status: {row['variable_id']!r}")
+            if filename == "gas_price_formulas.csv" and row["status"] not in {"DER", "ASS"}:
+                errors.append(f"invalid B03 formula status: {row['formula_id']!r}")
+
+    for filename in PROCESSED_EXPECTED_HEADERS:
+        path = b03_processed / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        for row in rows:
+            status = row.get("status", "")
+            if status not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B03 processed status in {filename}: {status!r}")
+            refs = [item for item in row.get("source_ids", "").split(";") if item]
+            unknown = [item for item in refs if item not in source_ids]
+            if unknown:
+                errors.append(f"unknown B03 processed source references in {filename}: {unknown!r}")
+
+
 def validate() -> list[str]:
     errors: list[str] = []
 
@@ -374,6 +459,18 @@ def validate() -> list[str]:
         path = REGISTRY / filename
         if not path.is_file():
             errors.append(f"missing registry file: {path.relative_to(ROOT)}")
+            continue
+        headers, _ = read_csv(path)
+        if headers != expected:
+            errors.append(
+                f"invalid headers in {path.relative_to(ROOT)}: expected={expected!r} actual={headers!r}"
+            )
+
+    processed = ROOT / "data" / "processed"
+    for filename, expected in PROCESSED_EXPECTED_HEADERS.items():
+        path = processed / filename
+        if not path.is_file():
+            errors.append(f"missing processed B03 file: {path.relative_to(ROOT)}")
             continue
         headers, _ = read_csv(path)
         if headers != expected:
@@ -685,6 +782,8 @@ def validate() -> list[str]:
                 errors.append(f"invalid priority for {question_id}: {row['priority']!r}")
             if row["status"] not in ALLOWED_QUESTION_STATUS:
                 errors.append(f"invalid question status for {question_id}: {row['status']!r}")
+
+    validate_b03_artifacts(errors, source_ids)
 
     return errors
 

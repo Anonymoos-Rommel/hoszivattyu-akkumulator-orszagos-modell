@@ -1,0 +1,9 @@
+scenario_id,scenario,zone,year,layer,wholesale_eur_per_mwh,market_residential_huf_per_m3,regulated_residential_huf_per_m3,transition_rule,status,source_ids,notes
+B03-GAS-LOW-FWD-2026,GAS-LOW,FORWARD,2026,WHOLESALE_IMPORT,,,,"Use licensed forward curve through last available delivery; no extrapolation",SCN,SRC-B03-ACER-TTF-2026,"Parameter values Q pending snapshot."
+B03-GAS-LOW-LR-2046,GAS-LOW,LONG_RUN,2046,WHOLESALE_IMPORT,,,,"Transition from last forward point to documented structural low case",SCN,,"Long-run parameter Q; no invented endpoint."
+B03-GAS-BASE-FWD-2026,GAS-BASE,FORWARD,2026,WHOLESALE_IMPORT,,,,"Use licensed forward curve through last available delivery; no extrapolation",SCN,SRC-B03-ACER-TTF-2026,"Parameter values Q pending snapshot."
+B03-GAS-BASE-LR-2046,GAS-BASE,LONG_RUN,2046,WHOLESALE_IMPORT,,,,"Transition from last forward point to documented structural base case",SCN,,"Long-run parameter Q; no invented endpoint."
+B03-GAS-HIGH-FWD-2026,GAS-HIGH,FORWARD,2026,WHOLESALE_IMPORT,,,,"Use licensed forward curve through last available delivery; no extrapolation",SCN,SRC-B03-ACER-TTF-2026,"Parameter values Q pending snapshot."
+B03-GAS-HIGH-LR-2046,GAS-HIGH,LONG_RUN,2046,WHOLESALE_IMPORT,,,,"Transition from last forward point to documented structural high case",SCN,,"Long-run parameter Q; no invented endpoint."
+B03-GAS-STRESS-FWD-2026,GAS-STRESS,FORWARD,2026,WHOLESALE_IMPORT,,,,"Apply explicitly documented stress uplift to forward zone only",SCN,SRC-B03-ACER-TTF-2026,"Stress parameter Q pending approval."
+B03-GAS-STRESS-LR-2046,GAS-STRESS,LONG_RUN,2046,WHOLESALE_IMPORT,,,,"Transition from last forward point to documented structural stress case",SCN,,"Long-run parameter Q; no invented endpoint."
