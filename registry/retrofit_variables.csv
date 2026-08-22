@@ -1,0 +1,20 @@
+variable_id,module_id,layer,name,definition,unit,status,source_ids,updated_at,notes
+VAR-B06-ARCHETYPE-ID,B06,BASELINE_DEMAND,Archetípus azonosító,Explicit B02 archetype identifier,enum,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,Separate B02 projections are not silently joined.
+VAR-B06-BASELINE-STATE-ID,B06,STATE_GATE,Baseline állapot,Required baseline state identifier,enum,ASS,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,P1 accepts only S0.
+VAR-B06-FLOOR-AREA-M2,B06,BASELINE_DEMAND,Alapterület,Explicit floor area input,m2,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,Not sufficient to reconstruct building physics.
+VAR-B06-HEATED-FLOOR-AREA-M2,B06,BASELINE_DEMAND,Fűtött alapterület,Explicit heated floor area input,m2,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,Missing value remains Q.
+VAR-B06-BUILDING-TYPE,B06,BASELINE_DEMAND,Épülettípus,Explicit building type or B02 archetype category,enum,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,ASS/modelled proxy is not OBS building truth.
+VAR-B06-CONSTRUCTION-PERIOD,B06,BASELINE_DEMAND,Építési időszak,Explicit construction-period input,enum,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,No default U-value is inferred.
+VAR-B06-WALL-ROOF-FLOOR-WINDOW-TYPES,B06,ENVELOPE_PHYSICS,Burok típusmezők,Wall roof floor and window type inputs,enum,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,Required only when a later envelope method supports them.
+VAR-B06-BASELINE-ANNUAL-SPACE-HEAT,B06,BASELINE_DEMAND,Baseline éves térfűtési igény,Annual baseline space-heating demand,kWh/year,DER,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,Modelled baseline input; not before/after retrofit measurement.
+VAR-B06-BASELINE-PEAK-HEAT-LOAD,B06,BASELINE_DEMAND,Baseline csúcshőigény,Explicit baseline design/peak space-heating load,kW,Q,SRC-B06-KSH-ENERGY-BASELINE-2025,2026-08-22,No national peak value is inferred from annual energy.
+VAR-B06-SUPPLY-TEMP-BEFORE,B06,SUPPLY_TEMPERATURE_EFFECT,Baseline előremenő hőmérséklet,Required supply temperature before intervention,degC,Q,SRC-B06-HU-ENERGY-RULES-2023,2026-08-22,Regulatory reference temperature is not an observed building value.
+VAR-B06-DHW-ANNUAL,B06,THERMAL_DEMAND_INTERFACE,Baseline éves HMV igény,Separate domestic-hot-water demand,kWh/year,Q,,2026-08-22,Envelope interventions do not silently reduce DHW.
+VAR-B06-DHW-PEAK,B06,THERMAL_DEMAND_INTERFACE,Baseline HMV csúcsigény,Separate domestic-hot-water peak demand,kW,Q,,2026-08-22,Kept separate for B05 handoff.
+VAR-B06-INTERVENTION-ANNUAL-FRACTION,B06,RETROFIT_INTERVENTION,Éves redukciós faktor,Explicit annual space-heat reduction fraction,ratio,SCN,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,SCN fixture only until source-native/calibrated evidence exists.
+VAR-B06-INTERVENTION-PEAK-FRACTION,B06,RETROFIT_INTERVENTION,Csúcsterhelési redukciós faktor,Explicit peak-load reduction fraction,ratio,SCN,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,Independent from annual factor; never substituted.
+VAR-B06-SUPPLY-TEMP-AFTER,B06,SUPPLY_TEMPERATURE_EFFECT,Post-retrofit előremenő hőmérséklet,Explicit post-intervention supply temperature,degC,Q,SRC-B06-HU-LTRS-2021,2026-08-22,No automatic W35/W45/W55 conversion.
+VAR-B06-POST-ANNUAL-SPACE-HEAT,B06,PHYSICAL_OUTPUT,Post-retrofit éves térfűtési igény,Sequentially derived post-retrofit annual demand,kWh/year,DER,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,Output is Q when any required intervention factor or applicability is Q.
+VAR-B06-POST-PEAK-HEAT-LOAD,B06,PHYSICAL_OUTPUT,Post-retrofit csúcshőigény,Sequentially derived post-retrofit peak load,kW,DER,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,Independent from annual output.
+VAR-B06-S1-GATE,B06,STATE_GATE,S1 kapu,Whether completion evidence satisfies S1 transition,enum,Q,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,No automatic S1 promotion from a catalog option.
+VAR-B06-B05-HANDOFF,B06,B05_HANDOFF,B05 design-point handoff,Post-retrofit peak heat and explicit supply/DHW interface,record,Q,SRC-B06-ENGINE-CONTRACT-2026,2026-08-22,Hourly B05 demand profile remains a separate explicit contract.

@@ -1,0 +1,9 @@
+component_id,module_id,layer,status,readiness_percent,source_ids,notes
+RETROFIT_CONTRACT,B06,PHYSICAL_CONTRACT,PARTIAL,70,SRC-B06-ENGINE-CONTRACT-2026,Executable contract exists; no national result.
+BASELINE_DEMAND_INPUT,B06,BASELINE_DEMAND,PARTIAL,45,SRC-B06-KSH-ENERGY-BASELINE-2025,Modelled annual baseline is usable; phase-linked household baseline/peak evidence remains Q.
+ENVELOPE_PHYSICS,B06,ENVELOPE_PHYSICS,PARTIAL,25,SRC-B06-HU-ENERGY-RULES-2023,Method boundary exists; observed/calibrated intervention U-value effects remain Q.
+PEAK_LOAD_EFFECT,B06,PHYSICAL_OUTPUT,PARTIAL,25,SRC-B06-ENGINE-CONTRACT-2026,Separate peak formula is executable in SCN fixtures; calibration remains Q.
+SUPPLY_TEMPERATURE_EFFECT,B06,SUPPLY_TEMPERATURE_EFFECT,Q,10,SRC-B06-HU-LTRS-2021,Explicit field and handoff exist; no automatic W35/W45/W55 evidence.
+INTERVENTION_APPLICABILITY,B06,RETROFIT_INTERVENTION,Q,15,,Catalog gates are explicit but intervention-level evidence is not acquired.
+B05_HANDOFF,B06,B05_HANDOFF,PARTIAL,35,SRC-B06-ENGINE-CONTRACT-2026,Design-point bridge exists; hourly demand profile remains Q.
+CAPEX_EVIDENCE,B06,PHYSICAL_CONTRACT,Q,0,,CAPEX interface is reserved; no monetary values in P1.
