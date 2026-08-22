@@ -9,7 +9,7 @@ A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-po
 - órás `timestamp` és `outdoor_temperature_C` időjárási input;
 - `space_heating_required_kW` és külön `dhw_required_kW` hőigény;
 - `required_supply_temperature_C` és külön HMV előremenő hőmérséklet;
-- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a B05-P2 adatcsomag Vaillant aroTHERM és STIEBEL ELTRON HPA-O EU-origin-gated pontokat tartalmaz, utóbbinál teljes -7/2/7 × W35/W45 surface-szel;
+- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a B05-P2 adatcsomag Vaillant aroTHERM és STIEBEL ELTRON HPA-O EU-origin-gated pontokat tartalmaz, utóbbinál W35 `-15/-7/2/7`, W45 `-7/2/7` surface-szel, míg W55 továbbra is izolált/Q;
 - explicit backup-konfiguráció, ha van;
 - opcionális páratartalom csak bizonyított defrost-modellhez.
 
@@ -43,7 +43,7 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 
 Az engine csak explicit órás időjárási inputot fogad. A HungaroMet ODP historikus automata-állomás adataiban a `Time` UTC, a `-999` hiányjel, a `ta` az elmúlt óra átlaghőmérséklete, a `t` pillanatnyi hőmérséklet, a `tn`/`tx` az óra minimuma/maximuma, az `u` pedig pillanatnyi relatív nedvesség. A canonical B05 `outdoor_temperature_C` kifejezetten `ta`-ból képzett `DER` leképezés; a source-native mezők `OBS` és a `t` nem cserélődik fel csendben.
 
-A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. A P4 STIEBEL HPA-O 4/8 W35 source-native felülete `−15…+7 °C`-ra bővült, W45/W55 hidegoldali tartomány továbbra is szűkebb. A `1-in-10` visszatérési idő továbbra is `Q`, az engine pedig az új performance-map határon kívül fail-closed módon működik.
+A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. A P4 STIEBEL HPA-O 4/8 W35 source-native felülete `−15…+7 °C`-ra bővült, P5 pedig külön W35/W45/W55 weather-domain coverage fájlt materializál. W45 `−7…+7 °C` marad, W55 felülete incomplete/Q. A `1-in-10` visszatérési idő továbbra is `Q`, az engine pedig a performance-map határon kívül fail-closed módon működik.
 
 ## Readiness és Q-k
 
@@ -64,5 +64,6 @@ A P3 materializáció öt állomás station-specific, legutóbbi közös teljes 
 - `data/processed/heat_pump_weather_hourly.csv`
 - `data/processed/heat_pump_weather_profiles.csv`
 - `data/processed/heat_pump_weather_coverage.csv`
+- `data/processed/heat_pump_weather_supply_coverage.csv`
 - `modules/B05/weather.py`
 - `tools/materialize_b05_weather.py` (raw ZIP input outside Git; bounded derived output only)

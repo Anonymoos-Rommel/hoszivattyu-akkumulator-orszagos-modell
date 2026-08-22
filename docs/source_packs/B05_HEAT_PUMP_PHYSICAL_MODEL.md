@@ -48,6 +48,12 @@ Az új `OBS` sarkok csak W35-re terjesztik ki a ténylegesen interpolálható ta
 
 A kézikönyv automatikus defrostot és defrost-energiaigényt említ, de az A-15/W35 táblapontok defrost-beszámítási határa nem különül el; P4 nem vezet be defrost-penaltyt.
 
+## B05-P5 high-supply audit
+
+A P5 audit elsődlegesen a STIEBEL ELTRON HPA-O 4/8 család hideg W45/W55 pontjait kereste. A hivatalos HPA-O kézikönyv A-7/W45-ig közöl teljes capacity/input/COP adatot; A-15/W45 vagy A-15/W55 HPA-O 4/8 pont nincs benne. A külön STIEBEL WPL-A kiegészítő táblázat tartalmaz A-15/W45 és A-15/W55 oszlopokat, de a P5-ben ellenőrzött sorok output-only adatok és a dokumentum estimated/interpolated caveatot jelöl; teljes total-unit input/COP hármas és HPA-O 4/8 modellazonosság nélkül ez a forrás `Q`, nem canonical `OBS`.
+
+Ezért nincs új hideg W45/W55 performance point, nincs W35→W45 fallback, és nincs readiness-emelés. A `data/processed/heat_pump_weather_supply_coverage.csv` külön W35/W45/W55 surface szerint jelenti a weather-domain lefedettséget. Az extrém 72 órás eseménynél W35: `35/72` (`48,6%`), W45: `9/72` (`12,5%`), W55: incomplete surface miatt `Q` és nem számszerűsített. Ez nem heating-runtime coverage.
+
 ## Output boundary
 
 Az operating-point outputok: `cop`, `thermal_capacity_kW`, `electrical_input_kW`, `available_capacity_kW`, `part_load_ratio`, `capacity_shortfall_kW`. Az órás outputok külön tartják a térfűtést, HMV-t, hőszivattyú-villamos energiát, backup-villamos energiát és összes villamos energiát.
@@ -56,7 +62,7 @@ Az operating-point outputok: `cop`, `thermal_capacity_kW`, `electrical_input_kW`
 
 ## Q-k és tilalmak
 
-1. A STIEBEL HPA-O 4/8 CS Plus int W35 felülete `−15/−7/2/7 °C` pontokra bővült; W45/W55 hideg-oldali kombinációk és a Vaillant hiányzó cellái továbbra is sparse-ok.
+1. A STIEBEL HPA-O 4/8 CS Plus int W35 felülete `−15/−7/2/7 °C`, W45 felülete `−7/2/7 °C`; W55 hideg-oldali kombinációk, a P5 output-only audit candidate és a Vaillant hiányzó cellái továbbra is sparse/Q-k.
 2. A megfigyelt 72 órás extrém esemény már materializálva van; a hivatalos, reprodukálható magyar `1-in-10` visszatérési idő, winter-metrika és stationarity gate továbbra is `Q`.
 3. Defrost-adat és külön modell hiányában nincs büntetés.
 4. Vaillantnál egy numeric minimum-modulation pont, STIEBEL HPA-O 4/8-nál A−7/A2/A7 W35 min/max kimeneti tartomány érhető el; part-load COP és cycling degradation továbbra is hiányzik, a motor csak állapotot jelez.

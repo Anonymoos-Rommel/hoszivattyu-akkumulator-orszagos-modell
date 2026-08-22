@@ -34,6 +34,62 @@ PERFORMANCE_EQUIPMENT = "STIEBEL-HPA-O-4-CS-PLUS-INT"
 PERFORMANCE_SUPPLY_C = 35.0
 OLD_PERFORMANCE_LOWER_C = -7.0
 NEW_PERFORMANCE_LOWER_C = -15.0
+SUPPLY_SURFACES = (
+    {
+        "equipment_id": "STIEBEL-HPA-O-4-CS-PLUS-INT",
+        "supply_temperature_C": 35.0,
+        "minimum_C": -15.0,
+        "maximum_C": 7.0,
+        "status": "OBS",
+        "source_id": "SRC-B05-STIEBEL-HPA-O-P4-COLD-2025",
+        "notes": "Weather-domain coverage only (not heating-runtime coverage); complete HPA-O 4 W35 source-native surface is -15/+7 C; no demand assumptions.",
+    },
+    {
+        "equipment_id": "STIEBEL-HPA-O-4-CS-PLUS-INT",
+        "supply_temperature_C": 45.0,
+        "minimum_C": -7.0,
+        "maximum_C": 7.0,
+        "status": "OBS",
+        "source_id": "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022",
+        "notes": "Weather-domain coverage only (not heating-runtime coverage); complete HPA-O 4 W45 source-native surface is -7/+7 C; no demand assumptions.",
+    },
+    {
+        "equipment_id": "STIEBEL-HPA-O-4-CS-PLUS-INT",
+        "supply_temperature_C": 55.0,
+        "minimum_C": None,
+        "maximum_C": None,
+        "status": "Q",
+        "source_id": "",
+        "notes": "No continuous HPA-O 4 W55 performance surface; A7/W55 is isolated and cannot define weather-domain coverage.",
+    },
+    {
+        "equipment_id": "STIEBEL-HPA-O-8-CS-PLUS-INT",
+        "supply_temperature_C": 35.0,
+        "minimum_C": -15.0,
+        "maximum_C": 7.0,
+        "status": "OBS",
+        "source_id": "SRC-B05-STIEBEL-HPA-O-P4-COLD-2025",
+        "notes": "Weather-domain coverage only (not heating-runtime coverage); complete HPA-O 8 W35 source-native surface is -15/+7 C; no demand assumptions.",
+    },
+    {
+        "equipment_id": "STIEBEL-HPA-O-8-CS-PLUS-INT",
+        "supply_temperature_C": 45.0,
+        "minimum_C": -7.0,
+        "maximum_C": 7.0,
+        "status": "OBS",
+        "source_id": "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022",
+        "notes": "Weather-domain coverage only (not heating-runtime coverage); complete HPA-O 8 W45 source-native surface is -7/+7 C; no demand assumptions.",
+    },
+    {
+        "equipment_id": "STIEBEL-HPA-O-8-CS-PLUS-INT",
+        "supply_temperature_C": 55.0,
+        "minimum_C": None,
+        "maximum_C": None,
+        "status": "Q",
+        "source_id": "",
+        "notes": "No continuous HPA-O 8 W55 performance surface; A7/W55 is isolated and cannot define weather-domain coverage.",
+    },
+)
 
 
 def _iso(value: datetime) -> str:
@@ -96,6 +152,49 @@ def _coverage_row(profile_id: str, station_id: str, records: list[WeatherRecord]
     }
 
 
+def _supply_coverage_rows(profile_id: str, station_id: str, records: list[WeatherRecord]) -> list[dict[str, str]]:
+    observed = [record.outdoor_temperature_c for record in records if record.outdoor_temperature_c is not None]
+    total = len(observed)
+    rows: list[dict[str, str]] = []
+
+    def fmt(value: float | int | None) -> str:
+        return "" if value is None else f"{value:g}"
+
+    for surface in SUPPLY_SURFACES:
+        minimum, maximum = surface["minimum_C"], surface["maximum_C"]
+        if minimum is None or maximum is None:
+            inside = below = above = share = None
+            coldest_uncovered = min(observed) if observed else None
+        else:
+            in_domain = [value for value in observed if minimum <= value <= maximum]
+            outside = [value for value in observed if value < minimum or value > maximum]
+            inside = len(in_domain)
+            below = sum(value < minimum for value in observed)
+            above = sum(value > maximum for value in observed)
+            share = inside / total if total else None
+            coldest_uncovered = min(outside) if outside else None
+        rows.append(
+            {
+                "weather_profile_id": profile_id,
+                "station_id": station_id,
+                "equipment_id": surface["equipment_id"],
+                "supply_temperature_C": fmt(surface["supply_temperature_C"]),
+                "performance_domain_min_Tout_C": fmt(minimum),
+                "performance_domain_max_Tout_C": fmt(maximum),
+                "weather_hours_total": fmt(total),
+                "weather_hours_inside_domain": fmt(inside),
+                "weather_hours_below_domain": fmt(below),
+                "weather_hours_above_domain": fmt(above),
+                "coverage_share": fmt(share),
+                "coldest_uncovered_Tout_C": fmt(coldest_uncovered),
+                "status": surface["status"],
+                "source_id": surface["source_id"],
+                "notes": surface["notes"],
+            }
+        )
+    return rows
+
+
 def materialize(raw_dir: Path, output_dir: Path) -> None:
     all_records: dict[str, tuple[WeatherRecord, ...]] = {}
     for station_id in STATIONS:
@@ -108,6 +207,7 @@ def materialize(raw_dir: Path, output_dir: Path) -> None:
     hourly: list[dict[str, str]] = []
     profiles: list[dict[str, str]] = []
     coverages: list[dict[str, str]] = []
+    supply_coverages: list[dict[str, str]] = []
 
     reference_start = datetime(REFERENCE_YEAR, 1, 1, tzinfo=timezone.utc)
     reference_end = datetime(REFERENCE_YEAR + 1, 1, 1, tzinfo=timezone.utc)
@@ -147,6 +247,7 @@ def materialize(raw_dir: Path, output_dir: Path) -> None:
                 "Weather-domain coverage only (not heating-runtime coverage); old STIEBEL domain is -7/+7 C and new HPA-O 4 W35 source-native domain is -15/+7 C; no demand assumptions.",
             )
         )
+        supply_coverages.extend(_supply_coverage_rows(profile_id, station_id, list(selected)))
 
     hourly.extend(_record_rows(selected_reference))
 
@@ -190,6 +291,7 @@ def materialize(raw_dir: Path, output_dir: Path) -> None:
             "Observed event weather-domain coverage only (not heating-runtime coverage); old -7/+7 C versus new -15/+7 C HPA-O 4 W35 source-native domain; this is not a return-period estimate.",
         )
     )
+    supply_coverages.extend(_supply_coverage_rows(profile_id, station_id, list(window)))
 
     def write(name: str, rows: list[dict[str, str]]) -> None:
         if not rows:
@@ -202,6 +304,7 @@ def materialize(raw_dir: Path, output_dir: Path) -> None:
     write("heat_pump_weather_hourly.csv", hourly)
     write("heat_pump_weather_profiles.csv", profiles)
     write("heat_pump_weather_coverage.csv", coverages)
+    write("heat_pump_weather_supply_coverage.csv", supply_coverages)
 
 
 def main() -> int:
