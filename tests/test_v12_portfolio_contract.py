@@ -153,6 +153,9 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertIn("legfeljebb 500 rekordos", letter)
         self.assertNotIn("calculation_software", letter)
         self.assertNotIn("software_version", letter)
+        self.assertIn("nem mind OÉNY-forrásmező", package)
+        self.assertIn("source-native", package)
+        self.assertNotIn("a teljes P1K-mezőkészletet kéri", package)
 
     def test_p1m_public_mapping_covers_all_p1k_fields_and_is_fail_closed(self) -> None:
         schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
@@ -174,24 +177,32 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertIn("P1L=HOLD_PUBLIC_ACCESS_AUDIT", audit)
         self.assertIn("READY_FOR_HUMAN_REVIEW", release)
 
-    def test_p1l_final_attachment_covers_all_22_p1k_fields(self) -> None:
+    def test_p1l_final_attachment_separates_source_native_and_derived_fields(self) -> None:
         schema = json.loads((ROOT / "schemas" / "oeny_readiness_pilot.schema.json").read_text(encoding="utf-8"))
         attachment = (ROOT / "docs" / "data_requests" / "P1L_FINAL_ATTACHMENT_1_REQUESTED_FIELDS.md").read_text(encoding="utf-8")
+        self.assertEqual(22, len(schema["properties"]))
+        self.assertIn("## 1. SOURCE-NATIVE REQUEST FIELDS", attachment)
+        self.assertIn("## 2. INTERNAL P1K DERIVED FIELDS", attachment)
+        self.assertIn("P1K célmezők:** 22", attachment)
+        source_section = attachment.split("## 2. INTERNAL P1K DERIVED FIELDS", 1)[0]
+        for field_name in ("schema_version", "pilot_record_id", "emitter_status", "temperature_status", "demand_reduction_status", "hydraulic_readiness_status", "electrical_readiness_status", "permit_readiness_status", "pii_check"):
+            self.assertNotIn(f"| `{field_name}` |", source_section)
         for field_name in schema["properties"]:
-            self.assertIn(f"| {field_name} |", attachment)
-        self.assertEqual(22, attachment.count("| P1K-"))
-        self.assertIn("Pilot maximum:** 500 rekord", attachment)
+            self.assertIn(f"`{field_name}`", attachment)
+        self.assertIn("Nem kérünk új kategorizálást", attachment)
+        self.assertIn("BAD/POOR/... saját enumot", attachment)
 
     def test_p1l_final_package_has_human_review_state_and_minimal_approval_sheet(self) -> None:
         letter = (ROOT / "docs" / "data_requests" / "P1L_FINAL_OENY_REQUEST_LETTER.md").read_text(encoding="utf-8")
         email = (ROOT / "docs" / "data_requests" / "P1L_FINAL_EMAIL_COVER.md").read_text(encoding="utf-8")
         approval = (ROOT / "docs" / "data_requests" / "P1L_FINAL_JOSEPH_APPROVAL_SHEET.md").read_text(encoding="utf-8")
-        self.assertIn("P1L_FINAL = READY_FOR_HUMAN_REVIEW", letter)
+        self.assertIn("P1L_FINAL_R1 = READY_FOR_HUMAN_REVIEW", letter)
         self.assertIn("NEM KÜLDÖTT", letter)
         self.assertIn("READY_FOR_HUMAN_REVIEW", email)
-        for expected in ("Címzett", "Csatorna", "Tárgy", "Kért rekordszám", "Mezők száma", "Személyes adat", "AWAITING_JOSEPH_SEND_APPROVAL"):
+        for expected in ("Címzett", "Csatorna", "Tárgy", "Kért rekordszám", "P1K célmezők száma", "Lechnertől kért source-native kutatási fogalmak száma", "Személyes adat", "AWAITING_JOSEPH_SEND_APPROVAL"):
             self.assertIn(expected, approval)
-        self.assertIn("22", approval)
+        self.assertIn("22 (canonical contract; változatlan)", approval)
+        self.assertIn("| Lechnertől kért source-native kutatási fogalmak száma | 9 |", approval)
         self.assertIn("NEM", approval)
 
 

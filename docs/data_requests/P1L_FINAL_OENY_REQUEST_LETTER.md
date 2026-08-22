@@ -1,6 +1,6 @@
-# P1L-FINAL – OÉNY pilot adatigénylés
+# P1L-FINAL-R1 – OÉNY pilot adatigénylés
 
-**Státusz:** `P1L_FINAL = READY_FOR_HUMAN_REVIEW`
+**Státusz:** `P1L_FINAL_R1 = READY_FOR_HUMAN_REVIEW`
 
 **Küldési állapot:** NEM KÜLDÖTT
 
@@ -24,9 +24,11 @@ A kérés célja egy magyarországi lakásenergetikai kutatási modell módszert
 
 Kérjük egy egyszeri, legfeljebb **500 rekordos**, anonimizált és strukturált pilot-adatkészlet átadásának lehetőségét. Lehetőség szerint kérünk disclosure-safe, rétegzett mintát, amelyben több építési korszak, épülettípus, energetikai állapot és durva földrajzi kategória megjelenhet. A rétegzés célja a kinyerhetőség és a torzítás vizsgálata; nem állítunk és nem kérünk országos reprezentativitást.
 
-A kért 22 adatmező és kutatási céljuk az **1. számú mellékletben** szerepel. A mezők értelmezéséhez kérjük az alkalmazott adatszótárat, kódlistákat, mértékegységeket és séma-/exportverziót is, amennyiben ezek meglévő dokumentációként rendelkezésre állnak.
+A P1K 22 célmezője és kutatási céljuk az **1. számú mellékletben** szerepel. A melléklet különválasztja a Lechnertől kért, OÉNY-ben ténylegesen meglévő forrásnatív adatokat a pilot ingest során általunk létrehozandó belső P1K-státusz-, azonosító-, QA-, readiness- és kategorizáló mezőktől. A mezők értelmezéséhez kérjük az alkalmazott adatszótárat, kódlistákat, mértékegységeket és séma-/exportverziót is, amennyiben ezek meglévő dokumentációként rendelkezésre állnak.
 
-Elsődleges átadási formátumként UTF-8 CSV vagy JSON formátumot kérünk. Ha valamely kért mező nem létezik strukturáltan, kérjük ennek külön jelzését; nem kérjük a Lechnert új adat, új elemzés vagy új összekapcsolás létrehozására.
+A mellékletben alkalmazott megnevezések kutatási fogalmak; amennyiben az OÉNY-ben azonos vagy tartalmilag megfelelő adat más mezőnéven, kódolással vagy granularitással szerepel, kérjük az eredeti forrásmező és annak adatszótára/kódlistája szerinti rendelkezésre bocsátását. Nem kérünk új kategorizálást, minősítést vagy származtatott adat előállítását.
+
+Elsődleges átadási formátumként UTF-8 CSV vagy JSON formátumot kérünk. Ha valamely kért forrásnatív adat nem létezik strukturáltan, kérjük ennek külön jelzését; nem kérjük a Lechnert új adat, új elemzés vagy új összekapcsolás létrehozására.
 
 ### Adatminimalizálás és adatvédelem
 
@@ -60,4 +62,4 @@ Tisztelettel:
 
 ## Melléklet
 
-1. számú melléklet – Kért adatmezők és kutatási céljuk
+1. számú melléklet – Kért forrásnatív adatok és P1K célmezők

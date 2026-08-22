@@ -1,8 +1,8 @@
 # P1-L OÉNY Data Request Release Gate
 
-**Állapot:** `READY_FOR_HUMAN_REVIEW / NOT SENT`
+**Állapot:** `P1L_FINAL_R1 = READY_FOR_HUMAN_REVIEW / NOT SENT`
 
-**Verzió:** 2026-08-17 / v1.0
+**Verzió:** 2026-08-22 / R1
 
 **Hatókör:** kizárólag a P1F adatigénylési tervezet tényleges kiküldésének biztonságos előkészítése. Új energetikai kutatás, külső adatbekérés és adatátvétel nem történt.
 
@@ -32,7 +32,7 @@ A release package a következő kanonikus artefaktumokból készült:
 - `schemas/oeny_readiness_pilot.schema.json`;
 - `registry/oeny_pilot_acceptance_contract.csv`.
 
-A P1L a P1F korábbi, szélesebb leltárkérését scope-discipline okból szűkíti. A végleges levél nem kéri a P1K-ban nem szereplő tanúsítási ok, számítási szoftver vagy szoftververzió mezőit. Ezek kutatásilag érdekesek lehetnek, de ebben a release gate-ben nem bizonyítottan szükségesek.
+A P1L-FINAL-R1 a P1F korábbi, szélesebb leltárkérését scope-discipline okból szűkíti. A 22 P1K mező célmező és canonical contract; nem mind OÉNY-forrásmező. A végleges levél csak a mellékletben felsorolt, OÉNY-ben ténylegesen meglévő source-native adatokat kéri. A státusz-, azonosító-, QA-, readiness- és P1K-kategorizáló mezőket mi hozzuk létre a pilot ingest során.
 
 ## 3. Címzett és csatorna
 
@@ -52,7 +52,7 @@ Az exact address, coordinate, HET-ID, name, contact data, free text, photo, PDF,
 
 ## 6. Pilot-kérés
 
-Egyszeri, legfeljebb **500 rekordos** strukturált pilot, lehetőleg disclosure-safe rétegzéssel. Kisebb arányos minta elfogadható; 500 fölé külön Joseph-jóváhagyás nélkül nem megyünk. Elsődleges formátum UTF-8 CSV/JSON a schema 1.0 szerint; PDF/fotó/dokumentum-pilot nincs ebben a kérésben.
+Egyszeri, legfeljebb **500 rekordos** strukturált pilot, lehetőleg disclosure-safe rétegzéssel. Kisebb arányos minta elfogadható; 500 fölé külön Joseph-jóváhagyás nélkül nem megyünk. Elsődleges formátum UTF-8 CSV/JSON a meglévő OÉNY-séma és kódlista szerint; a P1K-séma az ingest célmodellje, nem a Lechner által kitöltendő forrásinterfész. PDF/fotó/dokumentum-pilot nincs ebben a kérésben.
 
 ## 7. Felhasználás, megőrzés és törlés
 
@@ -62,7 +62,7 @@ Az eredeti rekordok nem kerülnek publikálásra vagy továbbadásra. Származta
 
 **`READY_FOR_HUMAN_REVIEW`**
 
-A P1M audit lezárult, és `PATH_B_HYBRID` eredményt adott. A P1L-FINAL a teljes P1K-mezőkészletet kéri, mert egyik mező sem bizonyított teljes, P1K-kompatibilis publikus gépi forrásként. A tényleges küldéshez Josephnek kell kitöltenie az igénylő nevét/szervezetét és válaszcímét, választania kell az e-Papír és e-mail között, majd külön send approvalt adnia.
+A P1M audit lezárult, és `PATH_B_HYBRID` eredményt adott. A P1L-FINAL-R1 a 22 P1K célmezőt a forrásnatív és belső derived rétegre bontja: a Lechner csak a meglévő source-native adatot és adatszótárat/kódlistát adhatja át; a P1K státusz-, ID-, QA-, readiness- és kategorizáló mezőket mi állítjuk elő. A tényleges küldéshez Josephnek kell kitöltenie az igénylő nevét/szervezetét és válaszcímét, választania kell az e-Papír és e-mail között, majd külön send approvalt adnia.
 
 **`REVISE`** szükséges, ha a címzett/csatorna eltér, új mező kerülne a levélbe, 500-nál nagyobb mintát kérnének, nincs disclosure-control, vagy a Lechner válasza új jogi/adatvédelmi feltételt támaszt.
 
