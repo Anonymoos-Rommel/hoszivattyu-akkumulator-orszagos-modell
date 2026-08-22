@@ -1,0 +1,10 @@
+intervention_id,module_id,family,description,applicability_gates,annual_effect_basis,peak_effect_basis,supply_temperature_effect,capex_interface,evidence_status,source_ids,status,notes
+B06-ATTIC-ROOF-INSULATION,B06,envelope,Padlás/födém vagy tetősík hőszigetelés,roof/floor geometry and moisture condition explicit,Q,Q,Q,explicit after-temperature evidence required,Q,,Q,Candidate family; no universal percentage.
+B06-EXTERNAL-WALL-INSULATION,B06,envelope,Külső falszigetelés,wall type area moisture and heritage constraints explicit,Q,Q,Q,interface only,Q,,Q,Candidate family; no universal percentage.
+B06-GROUND-FLOOR-INSULATION,B06,envelope,Talajon fekvő padló/pincefödém szigetelés,floor construction and moisture condition explicit,Q,Q,Q,interface only,Q,,Q,Candidate family; no universal percentage.
+B06-WINDOW-REPLACEMENT,B06,envelope,Ablakcsere,window type area and ventilation implications explicit,Q,Q,Q,interface only,Q,,Q,Candidate family; no universal percentage.
+B06-AIRTIGHTNESS-VENTILATION,B06,envelope,Légzárás/infiltráció és szellőzés javítása,ventilation and IAQ evidence explicit,Q,Q,Q,interface only,Q,,Q,Separate infiltration evidence required.
+B06-HYDRAULIC-BALANCING,B06,system,hidraulikai beszabályozás,hydraulic survey and control evidence explicit,Q,Q,Q,interface only,Q,,Q,Does not by itself prove envelope demand reduction.
+B06-EMITTER-UPGRADE,B06,emitter,Alacsony hőmérsékletű radiátor/fan-coil upgrade,existing emitter and design temperatures explicit,Q,Q,Q,interface only,Q,,Q,Supply-temperature effect is separate from envelope heat loss.
+B06-DISTRIBUTION-INSULATION,B06,system,Elosztócső-szigetelés,distribution topology and accessible pipe surfaces explicit,Q,Q,Q,interface only,Q,,Q,Effect on space heat demand requires explicit boundary.
+B06-COMBINED-PACKAGE,B06,package,Intervention combination,all component applicability and sequence gates explicit,Q,Q,Q,interface only,Q,,Q,Recalculate sequentially; do not sum percentages.

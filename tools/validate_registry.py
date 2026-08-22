@@ -367,6 +367,28 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "retrofit_sources.csv": [
+        "source_id", "module_id", "layer", "title", "institution", "url",
+        "reference_period", "retrieved_at", "source_tier", "evidence_status",
+        "license_status", "local_snapshot_status", "notes",
+    ],
+    "retrofit_variables.csv": [
+        "variable_id", "module_id", "layer", "name", "definition", "unit",
+        "status", "source_ids", "updated_at", "notes",
+    ],
+    "retrofit_formulas.csv": [
+        "formula_id", "module_id", "layer", "output_variable_id", "expression",
+        "input_variable_ids", "output_unit", "status", "notes",
+    ],
+    "retrofit_interventions.csv": [
+        "intervention_id", "module_id", "family", "description", "applicability_gates",
+        "annual_effect_basis", "peak_effect_basis", "supply_temperature_effect",
+        "capex_interface", "evidence_status", "source_ids", "status", "notes",
+    ],
+    "retrofit_readiness.csv": [
+        "component_id", "module_id", "layer", "status", "readiness_percent",
+        "source_ids", "notes",
+    ],
 }
 
 PROCESSED_EXPECTED_HEADERS = {
@@ -756,6 +778,68 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
 
 
 
+def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B06 physical retrofit contract registries."""
+    allowed_layers = {
+        "BASELINE_DEMAND", "ENVELOPE_PHYSICS", "SUPPLY_TEMPERATURE_EFFECT",
+        "THERMAL_DEMAND_INTERFACE", "RETROFIT_INTERVENTION", "PHYSICAL_OUTPUT",
+        "STATE_GATE", "B05_HANDOFF", "PHYSICAL_CONTRACT",
+    }
+    registry_files = {
+        "retrofit_sources.csv": "source_id",
+        "retrofit_variables.csv": "variable_id",
+        "retrofit_formulas.csv": "formula_id",
+        "retrofit_interventions.csv": "intervention_id",
+        "retrofit_readiness.csv": "component_id",
+    }
+    variable_ids: set[str] = set()
+    for filename, id_field in registry_files.items():
+        path = REGISTRY / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        duplicates = duplicate_values([row[id_field] for row in rows])
+        if duplicates:
+            errors.append(f"duplicate B06 IDs in {filename}: {duplicates!r}")
+        if filename == "retrofit_variables.csv":
+            variable_ids = {row["variable_id"] for row in rows}
+        for row in rows:
+            if row["module_id"] != "B06":
+                errors.append(f"B06 artifact has non-B06 module in {filename}: {row[id_field]!r}")
+            if filename in {"retrofit_sources.csv", "retrofit_variables.csv", "retrofit_formulas.csv", "retrofit_readiness.csv"} and row.get("layer") not in allowed_layers:
+                errors.append(f"invalid B06 layer in {filename}: {row[id_field]!r}")
+            if filename == "retrofit_sources.csv" and row["source_id"] not in source_ids:
+                errors.append(f"B06 source not mirrored in sources.csv: {row['source_id']!r}")
+            if filename in {"retrofit_variables.csv", "retrofit_interventions.csv"}:
+                if row.get("status", "") not in ALLOWED_EVIDENCE_STATUS:
+                    errors.append(f"invalid B06 evidence status in {filename}: {row[id_field]!r}")
+                refs = [item for item in row.get("source_ids", "").split(";") if item]
+                unknown = [item for item in refs if item not in source_ids]
+                if unknown:
+                    errors.append(f"unknown B06 source references in {filename}: {unknown!r}")
+            if filename == "retrofit_formulas.csv" and row["status"] not in {"DER", "ASS"}:
+                errors.append(f"invalid B06 formula status: {row['formula_id']!r}")
+            if filename == "retrofit_readiness.csv":
+                if row["status"] not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+                    errors.append(f"invalid B06 readiness status: {row['component_id']!r}")
+                try:
+                    readiness = int(row["readiness_percent"])
+                except ValueError:
+                    errors.append(f"non-numeric B06 readiness: {row['component_id']!r}")
+                else:
+                    if not 0 <= readiness <= 100:
+                        errors.append(f"invalid B06 readiness percent: {row['component_id']!r}")
+    formula_path = REGISTRY / "retrofit_formulas.csv"
+    if formula_path.is_file():
+        _, formula_rows = read_csv(formula_path)
+        for row in formula_rows:
+            if row["output_variable_id"] not in variable_ids:
+                errors.append(f"unknown B06 formula output: {row['formula_id']!r}")
+            unknown_inputs = [item for item in row["input_variable_ids"].split(";") if item and item not in variable_ids]
+            if unknown_inputs:
+                errors.append(f"unknown B06 formula inputs for {row['formula_id']!r}: {unknown_inputs!r}")
+
+
 def validate() -> list[str]:
     errors: list[str] = []
 
@@ -1090,6 +1174,7 @@ def validate() -> list[str]:
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
+    validate_b06_artifacts(errors, source_ids)
 
     return errors
 
