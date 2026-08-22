@@ -53,3 +53,9 @@ STIEBEL-HPA-O-8-CS-PLUS-INT,2,55,Q,,No source-native point; no fill
 STIEBEL-HPA-O-8-CS-PLUS-INT,7,35,OBS,SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022,Source-native point; complete W35/W45 rectangle
 STIEBEL-HPA-O-8-CS-PLUS-INT,7,45,OBS,SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022,Source-native point; complete W35/W45 rectangle
 STIEBEL-HPA-O-8-CS-PLUS-INT,7,55,OBS,SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022,Isolated W55 point; no cold-side W55 fill
+STIEBEL-HPA-O-4-CS-PLUS-INT,-15,35,OBS,SRC-B05-STIEBEL-HPA-O-P4-COLD-2025,Source-native A-15/W35 point; W35 cold-side lower bound extends to -15 C
+STIEBEL-HPA-O-4-CS-PLUS-INT,-15,45,Q,,No source-native A-15/W45 point; no fill
+STIEBEL-HPA-O-4-CS-PLUS-INT,-15,55,Q,,No source-native A-15/W55 point; no fill
+STIEBEL-HPA-O-8-CS-PLUS-INT,-15,35,OBS,SRC-B05-STIEBEL-HPA-O-P4-COLD-2025,Source-native A-15/W35 point; W35 cold-side lower bound extends to -15 C
+STIEBEL-HPA-O-8-CS-PLUS-INT,-15,45,Q,,No source-native A-15/W45 point; no fill
+STIEBEL-HPA-O-8-CS-PLUS-INT,-15,55,Q,,No source-native A-15/W55 point; no fill

@@ -459,10 +459,13 @@ PROCESSED_EXPECTED_HEADERS = {
         "retrieved_at", "completeness", "status", "source_id", "notes",
     ],
     "heat_pump_weather_coverage.csv": [
-        "weather_profile_id", "station_id", "hours_total",
-        "hours_below_minus7C", "hours_inside_performance_domain",
+        "weather_profile_id", "station_id", "equipment_id", "supply_temperature_C",
+        "hours_total", "hours_below_minus7C", "hours_inside_performance_domain",
         "hours_above_plus7C", "share_inside_current_performance_domain",
-        "minimum_observed_temperature_C", "status", "source_id", "notes",
+        "minimum_observed_temperature_C", "new_hours_inside_performance_domain",
+        "new_share_inside_performance_domain",
+        "remaining_hours_below_new_minimum_performance_C",
+        "new_minimum_performance_temperature_C", "status", "source_id", "notes",
     ],
 }
 
@@ -711,6 +714,13 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 else:
                     if not 0 <= share <= 1:
                         errors.append(f"invalid B05 weather domain share: {row['weather_profile_id']!r}")
+                try:
+                    new_share = float(row["new_share_inside_performance_domain"])
+                except ValueError:
+                    errors.append(f"non-numeric B05 new weather domain share: {row['weather_profile_id']!r}")
+                else:
+                    if not 0 <= new_share <= 1:
+                        errors.append(f"invalid B05 new weather domain share: {row['weather_profile_id']!r}")
 
 
 

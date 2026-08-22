@@ -30,6 +30,10 @@ STATIONS = {
     "46304": ("Kecskemét K-puszta", 46.9656, 19.5450, 125.9),
     "52744": ("Miskolc Diósgyőr", 48.0947, 20.7267, 161.0),
 }
+PERFORMANCE_EQUIPMENT = "STIEBEL-HPA-O-4-CS-PLUS-INT"
+PERFORMANCE_SUPPLY_C = 35.0
+OLD_PERFORMANCE_LOWER_C = -7.0
+NEW_PERFORMANCE_LOWER_C = -15.0
 
 
 def _iso(value: datetime) -> str:
@@ -60,6 +64,36 @@ def _record_rows(records: list[tuple[str, WeatherRecord]]) -> list[dict[str, str
             }
         )
     return rows
+
+
+def _coverage_row(profile_id: str, station_id: str, records: list[WeatherRecord], status: str, notes: str) -> dict[str, str]:
+    old = coverage(records, lower_c=OLD_PERFORMANCE_LOWER_C, upper_c=7.0)
+    new = coverage(records, lower_c=NEW_PERFORMANCE_LOWER_C, upper_c=7.0)
+
+    def fmt(value: float | int | None) -> str:
+        return "" if value is None else f"{value:g}"
+
+    return {
+        "weather_profile_id": profile_id,
+        "station_id": station_id,
+        "equipment_id": PERFORMANCE_EQUIPMENT,
+        "supply_temperature_C": f"{PERFORMANCE_SUPPLY_C:g}",
+        "hours_total": fmt(old["hours_total"]),
+        "hours_below_minus7C": fmt(old["hours_below_minus7C"]),
+        "hours_inside_performance_domain": fmt(old["hours_inside_performance_domain"]),
+        "hours_above_plus7C": fmt(old["hours_above_plus7C"]),
+        "share_inside_current_performance_domain": fmt(old["share_inside_current_performance_domain"]),
+        "minimum_observed_temperature_C": fmt(old["minimum_observed_temperature_C"]),
+        "new_hours_inside_performance_domain": fmt(new["hours_inside_performance_domain"]),
+        "new_share_inside_performance_domain": fmt(new["share_inside_current_performance_domain"]),
+        "remaining_hours_below_new_minimum_performance_C": fmt(
+            sum(1 for record in records if record.outdoor_temperature_c is not None and record.outdoor_temperature_c < NEW_PERFORMANCE_LOWER_C)
+        ),
+        "new_minimum_performance_temperature_C": f"{NEW_PERFORMANCE_LOWER_C:g}",
+        "status": status,
+        "source_id": SOURCE_ID,
+        "notes": notes,
+    }
 
 
 def materialize(raw_dir: Path, output_dir: Path) -> None:
@@ -104,16 +138,14 @@ def materialize(raw_dir: Path, output_dir: Path) -> None:
                 "notes": f"{observed}/{expected} hours with non-missing ta; source archive {_iso(records[0].timestamp_utc)}..{_iso(records[-1].timestamp_utc)}; no imputation; station-specific panel, no national weighting.",
             }
         )
-        stats = coverage(selected)
         coverages.append(
-            {
-                "weather_profile_id": profile_id,
-                "station_id": station_id,
-                **{key: "" if value is None else f"{value:g}" for key, value in stats.items()},
-                "status": "OBS" if ratio == 1.0 else "Q",
-                "source_id": SOURCE_ID,
-                "notes": "Coverage is calculated only on non-missing canonical ta values; -7/+7 C bounds are the current STIEBEL product-map domain.",
-            }
+            _coverage_row(
+                profile_id,
+                station_id,
+                list(selected),
+                "OBS" if ratio == 1.0 else "Q",
+                "Weather-domain coverage only (not heating-runtime coverage); old STIEBEL domain is -7/+7 C and new HPA-O 4 W35 source-native domain is -15/+7 C; no demand assumptions.",
+            )
         )
 
     hourly.extend(_record_rows(selected_reference))
@@ -149,16 +181,14 @@ def materialize(raw_dir: Path, output_dir: Path) -> None:
         }
     )
     hourly.extend(_record_rows([(profile_id, record) for record in window]))
-    stats = coverage(window)
     coverages.append(
-        {
-            "weather_profile_id": profile_id,
-            "station_id": station_id,
-            **{key: "" if value is None else f"{value:g}" for key, value in stats.items()},
-            "status": "OBS",
-            "source_id": SOURCE_ID,
-            "notes": "Observed event coverage; this is not a return-period estimate.",
-        }
+        _coverage_row(
+            profile_id,
+            station_id,
+            list(window),
+            "OBS",
+            "Observed event weather-domain coverage only (not heating-runtime coverage); old -7/+7 C versus new -15/+7 C HPA-O 4 W35 source-native domain; this is not a return-period estimate.",
+        )
     )
 
     def write(name: str, rows: list[dict[str, str]]) -> None:

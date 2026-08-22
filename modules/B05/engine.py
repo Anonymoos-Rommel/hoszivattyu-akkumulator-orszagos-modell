@@ -184,6 +184,41 @@ class PerformanceMap:
                 return lower, upper
         return axis[-1], axis[-1]
 
+    def _evaluate_observed_boundary_axis(self, outdoor_temperature_c: float, supply_temperature_c: float) -> OperatingPointResult | None:
+        """Interpolate only along an explicitly observed one-supply cold boundary."""
+
+        if supply_temperature_c not in self._supply or len(self._outdoor) < 2:
+            return None
+        coldest = self._outdoor[0]
+        coldest_row = [point for point in self.points if point.outdoor_temperature_c == coldest]
+        # This narrow path is reserved for a genuinely colder extension; the
+        # existing sparse Vaillant maps start at -7 C and remain rectangular.
+        if coldest >= -10 or len(coldest_row) != 1 or coldest_row[0].supply_temperature_c != supply_temperature_c:
+            return None
+        next_outdoor = self._outdoor[1]
+        if not coldest < outdoor_temperature_c < next_outdoor:
+            return None
+        lower, upper = self._point(coldest, supply_temperature_c), self._point(next_outdoor, supply_temperature_c)
+        low_capacity, low_input, low_cop = self._complete(lower)
+        high_capacity, high_input, high_cop = self._complete(upper)
+        weight = (outdoor_temperature_c - coldest) / (next_outdoor - coldest)
+        minimums = [value for value in (lower.min_modulation_kw, upper.min_modulation_kw) if value is not None]
+        minimum = sum(minimums) / len(minimums) if len(minimums) == 2 else None
+        return OperatingPointResult(
+            "DER",
+            OperatingPoint(
+                outdoor_temperature_c,
+                supply_temperature_c,
+                low_capacity + weight * (high_capacity - low_capacity),
+                low_input + weight * (high_input - low_input),
+                low_cop + weight * (high_cop - low_cop),
+                minimum,
+                "DER",
+                tuple(sorted({source_id for source_id in (lower.source_id, upper.source_id) if source_id})),
+                "bounded_axis_linear",
+            ),
+        )
+
     def evaluate(self, outdoor_temperature_c: float, supply_temperature_c: float) -> OperatingPointResult:
         exact = self._grid.get((outdoor_temperature_c, supply_temperature_c))
         if exact is not None:
@@ -192,6 +227,9 @@ class PerformanceMap:
                 status=status,
                 point=OperatingPoint(outdoor_temperature_c, supply_temperature_c, capacity, electrical, cop, exact.min_modulation_kw, status, (exact.source_id,) if exact.source_id else (), "exact"),
             )
+        boundary = self._evaluate_observed_boundary_axis(outdoor_temperature_c, supply_temperature_c)
+        if boundary is not None:
+            return boundary
         outdoor_bracket = self._bracket(outdoor_temperature_c, self._outdoor)
         supply_bracket = self._bracket(supply_temperature_c, self._supply)
         if outdoor_bracket is None or supply_bracket is None:

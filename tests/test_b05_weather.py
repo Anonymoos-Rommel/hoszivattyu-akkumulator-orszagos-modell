@@ -70,6 +70,12 @@ class B05WeatherEvidenceTests(unittest.TestCase):
         self.assertIn("not 1-in-10", extreme[0]["notes"])
         self.assertEqual(coverage[extreme[0]["weather_profile_id"]]["hours_total"], "72")
         self.assertLess(float(coverage[extreme[0]["weather_profile_id"]]["share_inside_current_performance_domain"]), 1.0)
+        extreme_coverage = coverage[extreme[0]["weather_profile_id"]]
+        self.assertEqual(extreme_coverage["equipment_id"], "STIEBEL-HPA-O-4-CS-PLUS-INT")
+        self.assertEqual(extreme_coverage["supply_temperature_C"], "35")
+        self.assertEqual(extreme_coverage["new_hours_inside_performance_domain"], "35")
+        self.assertEqual(extreme_coverage["remaining_hours_below_new_minimum_performance_C"], "37")
+        self.assertAlmostEqual(float(extreme_coverage["new_share_inside_performance_domain"]), 35 / 72, places=5)
 
     def test_real_weather_integrates_with_existing_product_map_and_fails_closed(self):
         points = ROOT / "data" / "processed" / "heat_pump_performance_points.csv"
@@ -78,7 +84,7 @@ class B05WeatherEvidenceTests(unittest.TestCase):
         with weather_path.open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
         inside = next(row for row in rows if -7 <= float(row["outdoor_temperature_C"]) <= 7)
-        outside = next(row for row in rows if float(row["outdoor_temperature_C"]) < -7)
+        outside = next(row for row in rows if float(row["outdoor_temperature_C"]) < -15)
 
         def run(row):
             timestamp = datetime.fromisoformat(row["timestamp_utc"].replace("Z", "+00:00"))

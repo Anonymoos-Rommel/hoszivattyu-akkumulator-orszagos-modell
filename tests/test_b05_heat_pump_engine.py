@@ -135,8 +135,8 @@ class B05HeatPumpEngineTests(unittest.TestCase):
             "VAILLANT-AROTHERM-SPLIT-70": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
             "VAILLANT-AROTHERM-SPLIT-120": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 55.0)},
             "VAILLANT-AROTHERM-PLUS-55": {(-7.0, 35.0), (2.0, 35.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
-            "STIEBEL-HPA-O-4-CS-PLUS-INT": {(-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
-            "STIEBEL-HPA-O-8-CS-PLUS-INT": {(-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+            "STIEBEL-HPA-O-4-CS-PLUS-INT": {(-15.0, 35.0), (-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+            "STIEBEL-HPA-O-8-CS-PLUS-INT": {(-15.0, 35.0), (-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
         }
         for equipment_id, nodes in expected_nodes.items():
             product_rows = [row for row in real_rows if row["equipment_id"] == equipment_id]
@@ -161,6 +161,11 @@ class B05HeatPumpEngineTests(unittest.TestCase):
         self.assertAlmostEqual(interpolated.point.electrical_input_kw, 1.207, places=3)
         self.assertAlmostEqual(interpolated.point.cop, 2.939, places=3)
         self.assertEqual(stiebel_map.evaluate(-21.0, 35.0).status, "Q / OUT_OF_PERFORMANCE_DOMAIN")
+        self.assertEqual(stiebel_map.evaluate(-15.0, 35.0).status, "OBS")
+        self.assertEqual(stiebel_map.evaluate(-18.0, 35.0).status, "Q / OUT_OF_PERFORMANCE_DOMAIN")
+        cold_interpolated = stiebel_map.evaluate(-11.0, 35.0)
+        self.assertEqual(cold_interpolated.status, "DER")
+        self.assertEqual(cold_interpolated.point.interpolation, "bounded_axis_linear")
 
         sparse_surface = PerformanceMap.from_csv(self.PRODUCT_POINTS, "VAILLANT-AROTHERM-SPLIT-35").evaluate(-2.0, 35.0)
         self.assertEqual(sparse_surface.status, "Q / MISSING_GRID_POINT")
@@ -184,9 +189,10 @@ class B05HeatPumpEngineTests(unittest.TestCase):
             }
             self.assertEqual(
                 {key for key, status in matrix.items() if status == "OBS"},
-                {(-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
+                {(-15.0, 35.0), (-7.0, 35.0), (-7.0, 45.0), (2.0, 35.0), (2.0, 45.0), (7.0, 35.0), (7.0, 45.0), (7.0, 55.0)},
             )
             self.assertEqual(matrix[(-7.0, 55.0)], "Q")
+            self.assertEqual(matrix[(-15.0, 45.0)], "Q")
 
 
 if __name__ == "__main__":

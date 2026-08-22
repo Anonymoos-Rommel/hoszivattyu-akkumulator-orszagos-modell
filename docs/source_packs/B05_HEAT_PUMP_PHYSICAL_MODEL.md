@@ -25,6 +25,7 @@ A gépi lefedettségi mátrix a `data/processed/heat_pump_performance_coverage.c
 
 | Tout | W35 | W45 | W55 |
 |---:|:---:|:---:|:---:|
+| −15 °C | OBS | Q | Q |
 | −7 °C | OBS | OBS | Q |
 | +2 °C | OBS | OBS | Q |
 | +7 °C | OBS | OBS | OBS |
@@ -37,7 +38,15 @@ Az `data/processed/heat_pump_weather_hourly.csv` fájlban öt állomás (Szombat
 
 Az `OBSERVED_EXTREME_COLD_SPELL` profil a teljes elérhető panel-archívumból a leghidegebb, folytonos 72 órás `ta` ablakot materializálja (Szombathely, 2005-02-07 09:00Z – 2005-02-10 08:00Z); ez nem 1-in-10 visszatérési idő. A 1991–2020 homogenizált normál-klíma evidence layer külön marad a raw observed hourly eseményrétegtől. Nincs országos vagy népességsúlyozás.
 
-A `data/processed/heat_pump_weather_coverage.csv` az aktuális STIEBEL `−7…+7 °C` performance-map tartomány órás lefedettségét méri. A tartományon kívüli órák `Q / OUT_OF_PERFORMANCE_DOMAIN` állapotot kapnak; operating envelope-ból nem következik teljesítmény-map extrapoláció.
+A `data/processed/heat_pump_weather_coverage.csv` külön méri a régi `−7…+7 °C` és az új HPA-O 4 W35 `−15…+7 °C` performance-map tartomány weather-domain coverage értékeit. Ez nem heating-runtime coverage. A tartományon kívüli órák `Q / OUT_OF_PERFORMANCE_DOMAIN` állapotot kapnak; operating envelope-ból nem következik teljesítmény-map extrapoláció.
+
+## B05-P4 cold-side extension
+
+Az STIEBEL ELTRON hivatalos HPA-O CS Plus int kézikönyvének EN 14511 táblája source-native pontokat közöl `A-15/W35` mellett: HPA-O 4: 3,43 kW hőteljesítmény, 1,42 kW teljes egység-input, COP 2,41; HPA-O 8: 7,07 kW, 2,84 kW, COP 2,49. A kézikönyv az integrált segédhajtások inputját az EN 14511 output details részének tekinti, és külön jelzi a −20 °C hőforrás-alkalmazási határt; ez utóbbi nem performance point.
+
+Az új `OBS` sarkok csak W35-re terjesztik ki a ténylegesen interpolálható tartományt `−7 °C`-ról `−15 °C`-ra. W45/W55 hidegoldali cellák továbbra is `Q`. A Szombathelyi 72 órás eseményben a W35 weather-domain coverage 9/72 (12,5%) értékről 35/72-re (48,6%) nő; 37 óra `Q` marad `Tout < −15 °C` miatt.
+
+A kézikönyv automatikus defrostot és defrost-energiaigényt említ, de az A-15/W35 táblapontok defrost-beszámítási határa nem különül el; P4 nem vezet be defrost-penaltyt.
 
 ## Output boundary
 
@@ -47,7 +56,7 @@ Az operating-point outputok: `cop`, `thermal_capacity_kW`, `electrical_input_kW`
 
 ## Q-k és tilalmak
 
-1. A STIEBEL HPA-O 4/8 CS Plus int már használható teljes `-7/2/7 × W35/W45` `OBS` surface-ként; a Vaillant pontkészletek és a W55 hideg-oldali kombinációk továbbra is sparse-ok.
+1. A STIEBEL HPA-O 4/8 CS Plus int W35 felülete `−15/−7/2/7 °C` pontokra bővült; W45/W55 hideg-oldali kombinációk és a Vaillant hiányzó cellái továbbra is sparse-ok.
 2. A megfigyelt 72 órás extrém esemény már materializálva van; a hivatalos, reprodukálható magyar `1-in-10` visszatérési idő, winter-metrika és stationarity gate továbbra is `Q`.
 3. Defrost-adat és külön modell hiányában nincs büntetés.
 4. Vaillantnál egy numeric minimum-modulation pont, STIEBEL HPA-O 4/8-nál A−7/A2/A7 W35 min/max kimeneti tartomány érhető el; part-load COP és cycling degradation továbbra is hiányzik, a motor csak állapotot jelez.
