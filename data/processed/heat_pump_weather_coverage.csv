@@ -1,0 +1,7 @@
+weather_profile_id,station_id,hours_total,hours_below_minus7C,hours_inside_performance_domain,hours_above_plus7C,share_inside_current_performance_domain,minimum_observed_temperature_C,status,source_id,notes
+B05-REF-OBS-2025-15310,15310,8760,14,3147,5599,0.359247,-10.7,OBS,SRC-B05-HUNGARY-HOURLY-HIST-2026,Coverage is calculated only on non-missing canonical ta values; -7/+7 C bounds are the current STIEBEL product-map domain.
+B05-REF-OBS-2025-44527,44527,8760,9,2852,5899,0.325571,-8,OBS,SRC-B05-HUNGARY-HOURLY-HIST-2026,Coverage is calculated only on non-missing canonical ta values; -7/+7 C bounds are the current STIEBEL product-map domain.
+B05-REF-OBS-2025-58102,58102,8760,0,2526,6234,0.288356,-4.6,OBS,SRC-B05-HUNGARY-HOURLY-HIST-2026,Coverage is calculated only on non-missing canonical ta values; -7/+7 C bounds are the current STIEBEL product-map domain.
+B05-REF-OBS-2025-46304,46304,8760,73,3040,5647,0.347032,-12.5,OBS,SRC-B05-HUNGARY-HOURLY-HIST-2026,Coverage is calculated only on non-missing canonical ta values; -7/+7 C bounds are the current STIEBEL product-map domain.
+B05-REF-OBS-2025-52744,52744,8760,55,3132,5573,0.357534,-9.6,OBS,SRC-B05-HUNGARY-HOURLY-HIST-2026,Coverage is calculated only on non-missing canonical ta values; -7/+7 C bounds are the current STIEBEL product-map domain.
+B05-EXTREME-OBSERVED-72H-15310,15310,72,63,9,0,0.125,-21.9,OBS,SRC-B05-HUNGARY-HOURLY-HIST-2026,Observed event coverage; this is not a return-period estimate.

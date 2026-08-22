@@ -445,6 +445,25 @@ PROCESSED_EXPECTED_HEADERS = {
         "record_id", "scenario_id", "timestamp", "outdoor_temperature_C",
         "relative_humidity_pct", "status", "source_id", "notes",
     ],
+    "heat_pump_weather_hourly.csv": [
+        "record_id", "weather_profile_id", "station_id", "timestamp_utc",
+        "outdoor_temperature_C", "temperature_source_variable",
+        "instantaneous_temperature_C", "relative_humidity_pct",
+        "hourly_min_temperature_C", "hourly_max_temperature_C",
+        "evidence_status", "source_id", "retrieved_at",
+    ],
+    "heat_pump_weather_profiles.csv": [
+        "weather_profile_id", "profile_type", "station_id", "station_name",
+        "latitude", "longitude", "elevation_m", "period_start_utc",
+        "period_end_utc", "selection_method", "source_reference_period",
+        "retrieved_at", "completeness", "status", "source_id", "notes",
+    ],
+    "heat_pump_weather_coverage.csv": [
+        "weather_profile_id", "station_id", "hours_total",
+        "hours_below_minus7C", "hours_inside_performance_domain",
+        "hours_above_plus7C", "share_inside_current_performance_domain",
+        "minimum_observed_temperature_C", "status", "source_id", "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -632,7 +651,13 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"invalid B05 readiness status: {row['component_id']!r}")
 
     processed = ROOT / "data" / "processed"
-    for filename in ("heat_pump_performance_points.csv", "heat_pump_weather_scenarios.csv"):
+    for filename in (
+        "heat_pump_performance_points.csv",
+        "heat_pump_weather_scenarios.csv",
+        "heat_pump_weather_hourly.csv",
+        "heat_pump_weather_profiles.csv",
+        "heat_pump_weather_coverage.csv",
+    ):
         path = processed / filename
         if not path.is_file():
             continue
@@ -662,6 +687,30 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                         errors.append(f"inconsistent capacity/input/COP in B05 point: {row['point_id']!r}")
                 if status == "OBS" and row.get("source_id") == "SRC-B05-SYNTHETIC-TEST-GRID":
                     errors.append(f"synthetic B05 point cannot be OBS: {row['point_id']!r}")
+            if filename == "heat_pump_weather_hourly.csv":
+                if row.get("temperature_source_variable") != "ta":
+                    errors.append(f"B05 canonical weather must map ta: {row['record_id']!r}")
+                if not row.get("timestamp_utc", "").endswith("Z"):
+                    errors.append(f"B05 weather timestamp must be UTC Z: {row['record_id']!r}")
+                if "-999" in row.get("outdoor_temperature_C", ""):
+                    errors.append(f"B05 weather missing sentinel leaked into canonical value: {row['record_id']!r}")
+            if filename == "heat_pump_weather_profiles.csv":
+                try:
+                    completeness = float(row["completeness"])
+                except ValueError:
+                    errors.append(f"non-numeric B05 weather completeness: {row['weather_profile_id']!r}")
+                else:
+                    if not 0 <= completeness <= 1:
+                        errors.append(f"invalid B05 weather completeness: {row['weather_profile_id']!r}")
+            if filename == "heat_pump_weather_coverage.csv":
+                try:
+                    share = float(row["share_inside_current_performance_domain"])
+                except ValueError:
+                    if row["hours_total"] != "0":
+                        errors.append(f"non-numeric B05 weather domain share: {row['weather_profile_id']!r}")
+                else:
+                    if not 0 <= share <= 1:
+                        errors.append(f"invalid B05 weather domain share: {row['weather_profile_id']!r}")
 
 
 

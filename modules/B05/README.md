@@ -41,11 +41,13 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 
 ## Időjárás és forgatókönyvek
 
-Az engine csak explicit órás időjárási inputot fogad. A normal/reference, 1-in-10 cold és multi-day extreme címkék nem kerülnek OBS státuszba: a jelenlegi tesztadatok `SCN`, a hivatalos magyar órás és extrém-időjárási bizonyíték Q. A HungaroMet nyílt adattára az adatbeszerzés elsődleges kapuja.
+Az engine csak explicit órás időjárási inputot fogad. A HungaroMet ODP historikus automata-állomás adataiban a `Time` UTC, a `-999` hiányjel, a `ta` az elmúlt óra átlaghőmérséklete, a `t` pillanatnyi hőmérséklet, a `tn`/`tx` az óra minimuma/maximuma, az `u` pedig pillanatnyi relatív nedvesség. A canonical B05 `outdoor_temperature_C` kifejezetten `ta`-ból képzett `DER` leképezés; a source-native mezők `OBS` és a `t` nem cserélődik fel csendben.
+
+A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. A `1-in-10` visszatérési idő továbbra is `Q`, az engine pedig a STIEBEL `-7…+7 °C` performance-map határon kívül fail-closed módon működik.
 
 ## Readiness és Q-k
 
-`PERFORMANCE_MAP=PARTIAL (72%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=Q`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (45%)`; `OPERATING_ENVELOPE=PARTIAL (55%)`; `PRODUCT_DIVERSITY=PARTIAL (45%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
+`PERFORMANCE_MAP=PARTIAL (72%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=PARTIAL (65%)`; `WEATHER_SOURCE=VALIDATED`; `HOURLY_WEATHER_INPUT=PARTIAL`; `REFERENCE_WEATHER=PARTIAL`; `COLD_1_IN_10=Q`; `EXTREME_COLD_EVENT=VALIDATED`; `SPATIAL_COVERAGE=PARTIAL`; `WEATHER_PERFORMANCE_DOMAIN_COVERAGE=PARTIAL`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (45%)`; `OPERATING_ENVELOPE=PARTIAL (55%)`; `PRODUCT_DIVERSITY=PARTIAL (45%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
 
 ## Kanonikus artefaktumok
 
@@ -59,3 +61,8 @@ Az engine csak explicit órás időjárási inputot fogad. A normal/reference, 1
 - `data/processed/heat_pump_performance_points.csv`
 - `data/processed/heat_pump_performance_coverage.csv`
 - `data/processed/heat_pump_weather_scenarios.csv`
+- `data/processed/heat_pump_weather_hourly.csv`
+- `data/processed/heat_pump_weather_profiles.csv`
+- `data/processed/heat_pump_weather_coverage.csv`
+- `modules/B05/weather.py`
+- `tools/materialize_b05_weather.py` (raw ZIP input outside Git; bounded derived output only)
