@@ -518,6 +518,21 @@ PROCESSED_EXPECTED_HEADERS = {
         "post_design_heat_load_kw", "peak_reduction_kw", "peak_reduction_fraction",
         "method_id", "source_ids", "evidence_status", "provenance", "limitations",
     ],
+    "emitter_performance_evidence.csv": [
+        "emitter_id", "manufacturer", "model_type", "emitter_type", "height_mm", "length_mm",
+        "quantity", "nominal_output_kw", "nominal_flow_temperature_c",
+        "nominal_return_temperature_c", "nominal_room_temperature_c", "nominal_delta_t_k",
+        "temperature_exponent_n", "correction_method", "source_id", "status", "retrieval_date",
+        "limitations",
+    ],
+    "emitter_supply_temperature_results.csv": [
+        "case_id", "design_load_kw", "emitter_id", "emitter_quantity", "room_temp_c",
+        "flow_temp_c", "return_temp_c", "mean_water_temp_c", "delta_t_mean_k",
+        "available_emitter_output_kw", "required_supply_temperature_c",
+        "design_outdoor_temperature_c", "dhw_required_kw", "scenario_role", "b05_equipment_id",
+        "b05_available_capacity_kw", "b05_electrical_input_kw", "b05_cop",
+        "b05_capacity_shortfall_kw", "status", "source_ids", "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -805,7 +820,7 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
     allowed_layers = {
         "BASELINE_DEMAND", "ENVELOPE_PHYSICS", "SUPPLY_TEMPERATURE_EFFECT",
         "THERMAL_DEMAND_INTERFACE", "RETROFIT_INTERVENTION", "PHYSICAL_OUTPUT",
-        "STATE_GATE", "B05_HANDOFF", "PHYSICAL_CONTRACT", "PEAK_LOAD_METHOD",
+        "STATE_GATE", "B05_HANDOFF", "PHYSICAL_CONTRACT", "PEAK_LOAD_METHOD", "EMITTER_EVIDENCE",
     }
     registry_files = {
         "retrofit_sources.csv": "source_id",

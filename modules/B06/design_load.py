@@ -9,7 +9,7 @@ boiler/heat-pump capacity or full-load-hours proxy is accepted here.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import isfinite
+from math import isfinite, log
 from typing import Iterable, Mapping
 
 from .engine import EVIDENCE_STATUSES, EvidenceValue
@@ -82,6 +82,12 @@ class EmitterRating:
     room_temperature_c: EvidenceValue[float]
     temperature_exponent: EvidenceValue[float]
     source_ids: tuple[str, ...] = ()
+    quantity: EvidenceValue[float] = EvidenceValue(None, "Q")
+    emitter_id: str = ""
+    manufacturer: str = ""
+    model_type: str = ""
+    dimensions_mm: str = ""
+    correction_method: EvidenceValue[str] = EvidenceValue(None, "Q")
 
 
 @dataclass(frozen=True)
@@ -100,6 +106,24 @@ class SupplyTemperatureResult:
     provenance: str = "DIRECT_PHYSICAL_DERIVATION"
 
 
+@dataclass(frozen=True)
+class B05DesignPointBridge:
+    """Complete B06 design-point handoff plus an explicit B05 map result."""
+
+    status: str
+    space_heating_required_kw: float | None
+    required_supply_temperature_c: float | None
+    design_outdoor_temperature_c: float | None
+    dhw_required_kw: float | None
+    equipment_id: str
+    available_capacity_kw: float | None
+    electrical_input_kw: float | None
+    cop: float | None
+    capacity_shortfall_kw: float | None
+    source_ids: tuple[str, ...]
+    notes: str
+
+
 def _check_value(value: EvidenceValue[float], name: str, *, nonnegative: bool = True) -> str | None:
     value.validate(name)
     if value.value is None:
@@ -109,6 +133,26 @@ def _check_value(value: EvidenceValue[float], name: str, *, nonnegative: bool = 
     if nonnegative and float(value.value) < 0:
         return f"{name} is negative"
     return None
+
+
+def _check_text(value: EvidenceValue[str], name: str) -> str | None:
+    value.validate(name)
+    if value.value is None or not str(value.value).strip():
+        return f"{name} is Q"
+    return None
+
+
+def _status_for_values(values: Iterable[EvidenceValue[object]]) -> str:
+    statuses = tuple(value.status for value in values)
+    if "Q" in statuses:
+        return "Q"
+    if "SCN" in statuses:
+        return "SCN"
+    if "ASS" in statuses:
+        return "ASS"
+    if "POL" in statuses:
+        return "POL"
+    return "DER"
 
 
 def _result_q(gaps: Iterable[str]) -> DesignLoadResult:
@@ -205,7 +249,13 @@ def derive_required_supply_temperature(
     emitter: EmitterRating,
     operating_points: Iterable[EmitterOperatingPoint],
 ) -> SupplyTemperatureResult:
-    """Use only explicitly supplied emitter ratings and flow/return points."""
+    """Use only explicitly supplied emitter ratings and flow/return points.
+
+    The Purmo public method uses arithmetic mean water temperature unless
+    ``c = (T_return - T_room) / (T_flow - T_room) < 0.7``; below that boundary
+    it uses the logarithmic mean.  The method must be explicitly declared on
+    the emitter record, so an unsupported or missing correction method is Q.
+    """
 
     gaps: list[str] = []
     gaps.append(_check_value(design_heat_load_kw, "design_heat_load_kw") or "")
@@ -215,20 +265,41 @@ def derive_required_supply_temperature(
         (emitter.nominal_return_temperature_c, "emitter.nominal_return_temperature_c"),
         (emitter.room_temperature_c, "emitter.room_temperature_c"),
         (emitter.temperature_exponent, "emitter.temperature_exponent"),
+        (emitter.quantity, "emitter.quantity"),
     )
     for value, name in fields:
         gaps.append(_check_value(value, name, nonnegative=False) or "")
+    gaps.append(_check_text(emitter.correction_method, "emitter.correction_method") or "")
+    if not emitter.emitter_id:
+        gaps.append("emitter.emitter_id is required")
+    if emitter.correction_method.value not in {"PURMO_EN442_ARITHMETIC_OR_LOG_MEAN", "EXPLICIT_ARITHMETIC_MEAN"}:
+        gaps.append("unsupported emitter correction method")
+    if emitter.quantity.value is not None and float(emitter.quantity.value) <= 0:
+        gaps.append("emitter.quantity must be positive")
     points = tuple(operating_points)
     if not points:
         gaps.append("no explicit emitter operating points")
     gaps = [gap for gap in gaps if gap]
     if gaps:
         return SupplyTemperatureResult("Q", None, None, tuple(gaps))
-    nominal_delta = ((float(emitter.nominal_flow_temperature_c.value) + float(emitter.nominal_return_temperature_c.value)) / 2) - float(emitter.room_temperature_c.value)
-    if nominal_delta <= 0 or float(emitter.temperature_exponent.value) <= 0:
+    nominal_flow = float(emitter.nominal_flow_temperature_c.value)
+    nominal_return = float(emitter.nominal_return_temperature_c.value)
+    nominal_room = float(emitter.room_temperature_c.value)
+    nominal_delta = (nominal_flow + nominal_return) / 2 - nominal_room
+    if nominal_delta <= 0 or float(emitter.temperature_exponent.value) <= 0 or nominal_return <= nominal_room:
         return SupplyTemperatureResult("Q", None, None, ("invalid nominal emitter temperature basis",))
     load = float(design_heat_load_kw.value)
     candidates: list[tuple[float, float]] = []
+    point_values: list[EvidenceValue[object]] = [
+        design_heat_load_kw,
+        emitter.nominal_output_kw,
+        emitter.nominal_flow_temperature_c,
+        emitter.nominal_return_temperature_c,
+        emitter.room_temperature_c,
+        emitter.temperature_exponent,
+        emitter.quantity,
+        emitter.correction_method,
+    ]
     for point in points:
         point_gaps = [
             _check_value(point.supply_temperature_c, "emitter operating-point supply", nonnegative=False),
@@ -237,16 +308,83 @@ def derive_required_supply_temperature(
         ]
         if any(point_gaps):
             return SupplyTemperatureResult("Q", None, None, tuple(g for g in point_gaps if g))
-        mean_delta = ((float(point.supply_temperature_c.value) + float(point.return_temperature_c.value)) / 2) - float(point.room_temperature_c.value)
+        point_values.extend((point.supply_temperature_c, point.return_temperature_c, point.room_temperature_c))
+        flow = float(point.supply_temperature_c.value)
+        return_temperature = float(point.return_temperature_c.value)
+        room = float(point.room_temperature_c.value)
+        if flow <= room or return_temperature <= room or flow <= return_temperature:
+            continue
+        ratio = (return_temperature - room) / (flow - room)
+        if emitter.correction_method.value == "PURMO_EN442_ARITHMETIC_OR_LOG_MEAN" and ratio < 0.7:
+            mean_delta = (flow - return_temperature) / log((flow - room) / (return_temperature - room))
+        else:
+            mean_delta = (flow + return_temperature) / 2 - room
         if mean_delta <= 0:
             continue
-        output = float(emitter.nominal_output_kw.value) * (mean_delta / nominal_delta) ** float(emitter.temperature_exponent.value)
+        output = float(emitter.nominal_output_kw.value) * float(emitter.quantity.value) * (mean_delta / nominal_delta) ** float(emitter.temperature_exponent.value)
         candidates.append((float(point.supply_temperature_c.value), output))
     sufficient = [(supply, output) for supply, output in candidates if output >= load]
     if not sufficient:
         return SupplyTemperatureResult("Q", None, None, ("no supported emitter point meets design load",))
     supply, output = min(sufficient, key=lambda item: item[0])
-    return SupplyTemperatureResult("DER", supply, output, ())
+    status = _status_for_values(point_values)
+    return SupplyTemperatureResult(status, supply, output, ())
+
+
+def build_b05_design_point_bridge(
+    design_load: DesignLoadResult,
+    supply: SupplyTemperatureResult,
+    design_outdoor_temperature_c: EvidenceValue[float],
+    dhw_required_kw: EvidenceValue[float],
+    performance_map: object,
+    equipment_id: str,
+) -> B05DesignPointBridge:
+    """Pass the numeric B06 point through the existing bounded B05 map.
+
+    ``performance_map`` is intentionally duck-typed to avoid making B06 a
+    second performance-map authority; its canonical ``evaluate`` method is
+    called and any unsupported outdoor/supply point remains Q.
+    """
+
+    gaps: list[str] = []
+    if design_load.design_heat_load_kw is None or design_load.status == "Q":
+        gaps.append("design heat load is Q")
+    if supply.required_supply_temperature_c is None or supply.status == "Q":
+        gaps.append("required supply temperature is Q")
+    gaps.append(_check_value(design_outdoor_temperature_c, "design_outdoor_temperature_c", nonnegative=False) or "")
+    gaps.append(_check_value(dhw_required_kw, "dhw_required_kw") or "")
+    gaps = [gap for gap in gaps if gap]
+    if gaps:
+        return B05DesignPointBridge(
+            "Q", design_load.design_heat_load_kw, supply.required_supply_temperature_c,
+            design_outdoor_temperature_c.value, dhw_required_kw.value, equipment_id,
+            None, None, None, None, (), "; ".join(gaps),
+        )
+    operating = performance_map.evaluate(
+        float(design_outdoor_temperature_c.value), float(supply.required_supply_temperature_c),
+    )
+    source_ids = tuple(operating.point.source_ids) if operating.point is not None else ()
+    if operating.point is None:
+        return B05DesignPointBridge(
+            operating.status, design_load.design_heat_load_kw, supply.required_supply_temperature_c,
+            design_outdoor_temperature_c.value, dhw_required_kw.value, equipment_id,
+            None, None, None, None, source_ids, operating.reason,
+        )
+    point = operating.point
+    shortfall = max(float(design_load.design_heat_load_kw) - point.thermal_capacity_kw, 0.0)
+    status = _status_for_values((design_outdoor_temperature_c, dhw_required_kw))
+    if supply.status == "SCN" or design_load.status == "SCN":
+        status = "SCN"
+    if shortfall > 0:
+        status = f"{status} / CAPACITY_SHORTFALL"
+    else:
+        status = f"{status} / VALID"
+    return B05DesignPointBridge(
+        status, design_load.design_heat_load_kw, supply.required_supply_temperature_c,
+        design_outdoor_temperature_c.value, dhw_required_kw.value, equipment_id,
+        point.thermal_capacity_kw, point.electrical_input_kw, point.cop, shortfall,
+            source_ids, f"B05 {point.interpolation} at the explicit B06 design point.",
+    )
 
 
 def b05_design_point_coverage(

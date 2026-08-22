@@ -68,5 +68,34 @@ kalibráció.
 Az emitter/supply-temperature segédút csak nominális hőleadó-teljesítmény,
 névleges és jelölt előremenő/visszatérő, helyiséghőmérséklet és kitevő explicit
 bizonyságával számol. Nincs automatikus W35/W45/W55 váltás. A jelenlegi
-kanonikus állapotban nincs ilyen household-level bizonyíték, ezért a supply
-eredmény és a teljes B05 design-point handoff továbbra is `Q`.
+P3 önmagában még nem adott numerikus supply-hőfokot; P4 egy gyártói módszerrel
+és SCN fixture-rel nyitja a technikai gate-et, miközben a household-level
+eredmény és a valós kalibráció továbbra is `Q`.
+
+## P4 emitter és B05 design-point bridge
+
+A P4 egyetlen, forrásolt hidronikus panelradiátor-útvonalat nyit meg: PURMO
+Plan Compact FC type 33, 600 × 3000 mm, gyártói névleges `6.927 kW` outputtal
+`75/65/20 °C` feltételen és `n = 1.3417` kitevővel. A gyártói módszer szerint:
+
+```text
+Q = quantity × Q_nominal × (ΔT_mean / ΔT_nominal)^n
+```
+
+ahol `c = (T_return − T_room) / (T_flow − T_room)`: `c < 0.7` esetén
+logaritmikus, egyébként aritmetikai mean-water delta-T kerül felhasználásra.
+Az előremenő, visszatérő és helyiséghőmérséklet minden jelölt pontban explicit;
+5/10/20 K visszatérő-különbség nem rejtett alapértelmezés.
+
+A `data/processed/emitter_supply_temperature_results.csv` három SCN esetet
+mutat: ugyanazzal a hat darabos explicit emitter-inventoryval a P3 baseline
+6.165 kW-hoz 44.8 °C, a post-envelope 4.665 kW-hoz 43.0 °C szükséges; nyolc
+explicit egység emitter-upgrade mellett ugyanaz a post-load 41.8 °C-ra csökken.
+Ezek nem magyar household-observationök és nem állományi arányok.
+
+A `build_b05_design_point_bridge` a meglévő B05 `PerformanceMap.evaluate`
+útvonalát hívja meg. Nem hoz létre új interpolációt és nem kerekít W35/W45/W55
+bandára. A fixture B05 oldalon `Tout=-10 °C`, `Tsupply=43.0 °C`,
+`space_heating_required_kw=4.665` és `DHW=0` mellett explicit
+`SCN / CAPACITY_SHORTFALL` eredményt ad; a capacity shortfall külön mező,
+nem rejtett termékválasztás.
