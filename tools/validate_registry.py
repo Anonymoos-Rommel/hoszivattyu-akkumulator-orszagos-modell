@@ -467,6 +467,13 @@ PROCESSED_EXPECTED_HEADERS = {
         "remaining_hours_below_new_minimum_performance_C",
         "new_minimum_performance_temperature_C", "status", "source_id", "notes",
     ],
+    "heat_pump_weather_supply_coverage.csv": [
+        "weather_profile_id", "station_id", "equipment_id", "supply_temperature_C",
+        "performance_domain_min_Tout_C", "performance_domain_max_Tout_C",
+        "weather_hours_total", "weather_hours_inside_domain",
+        "weather_hours_below_domain", "weather_hours_above_domain",
+        "coverage_share", "coldest_uncovered_Tout_C", "status", "source_id", "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -660,6 +667,7 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
         "heat_pump_weather_hourly.csv",
         "heat_pump_weather_profiles.csv",
         "heat_pump_weather_coverage.csv",
+        "heat_pump_weather_supply_coverage.csv",
     ):
         path = processed / filename
         if not path.is_file():
@@ -721,6 +729,30 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 else:
                     if not 0 <= new_share <= 1:
                         errors.append(f"invalid B05 new weather domain share: {row['weather_profile_id']!r}")
+            if filename == "heat_pump_weather_supply_coverage.csv":
+                try:
+                    total = int(row["weather_hours_total"])
+                except ValueError:
+                    errors.append(f"non-numeric B05 supply coverage total: {row['weather_profile_id']!r}")
+                    continue
+                if total < 0:
+                    errors.append(f"negative B05 supply coverage total: {row['weather_profile_id']!r}")
+                if row.get("status") == "Q":
+                    if any(row.get(field, "") for field in ("weather_hours_inside_domain", "weather_hours_below_domain", "weather_hours_above_domain", "coverage_share")):
+                        errors.append(f"incomplete B05 supply surface must remain unquantified: {row['equipment_id']!r}/{row['supply_temperature_C']!r}")
+                else:
+                    try:
+                        inside = int(row["weather_hours_inside_domain"])
+                        below = int(row["weather_hours_below_domain"])
+                        above = int(row["weather_hours_above_domain"])
+                        share = float(row["coverage_share"])
+                    except ValueError:
+                        errors.append(f"non-numeric B05 supply coverage: {row['weather_profile_id']!r}")
+                    else:
+                        if inside < 0 or below < 0 or above < 0 or inside + below + above != total:
+                            errors.append(f"inconsistent B05 supply coverage counts: {row['weather_profile_id']!r}")
+                        if not 0 <= share <= 1:
+                            errors.append(f"invalid B05 supply coverage share: {row['weather_profile_id']!r}")
 
 
 
