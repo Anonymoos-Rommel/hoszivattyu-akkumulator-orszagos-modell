@@ -66,6 +66,19 @@ Az operating-point outputok: `cop`, `thermal_capacity_kW`, `electrical_input_kW`
 2. A megfigyelt 72 órás extrém esemény már materializálva van; a hivatalos, reprodukálható magyar `1-in-10` visszatérési idő, winter-metrika és stationarity gate továbbra is `Q`.
 3. Defrost-adat és külön modell hiányában nincs büntetés.
 4. Vaillantnál egy numeric minimum-modulation pont, STIEBEL HPA-O 4/8-nál A−7/A2/A7 W35 min/max kimeneti tartomány érhető el; part-load COP és cycling degradation továbbra is hiányzik, a motor csak állapotot jelez.
+
+### P6 defrost- és cycling-audit
+
+A P6 audit a [külön bizonyítékkapu](B05_P6_DEFROST_CYCLING_EVIDENCE.md) szerint
+lezárta, hogy a jelenlegi forrásokból nem vezethető le külön, termékszintű
+defrost-energia- vagy cycling-degradation runtime-modell. A STIEBEL manual
+defrost-energy/hidraulikai feltételt, a Vaillant dokumentáció defrost-volume és
+anti-cycling/modulation állapotot közöl, de nem a source-native performance
+points elszámolási határát vagy mért Cdh-t. Az EU 813/2013 `Cdh=0,9` értéke
+elkülönített `POL` compliance default; nem kerül `OBS`-ként a registrybe és nem
+alkalmazzuk automatikusan a runtime-ra. A meglévő engine ezért változatlanul
+nem alkalmaz rejtett defrost- vagy cycling-penaltyt, és a humidity csak
+forrásnatív bemenet marad.
 5. HMV priority és magasabb előremenő üzemmód csak explicit termékadat esetén használható.
 6. Egy termék teljesítménytérképe nem skálázható automatikusan 6/8/10/12/16 kW gépekre.
 7. B04 tarifa, ár, gázár, számla, támogatás, finanszírozás, battery/VPP dispatch és pénzérték nem szerepel a B05 runtime-ban.

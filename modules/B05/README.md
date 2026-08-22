@@ -32,6 +32,7 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 - A kapacitás, teljes egység-input és COP közül kettőből a harmadik `DER`; három forrásérték inkonzisztenciája validációs hiba. A gyártói, két tizedesre kerekített táblákhoz legfeljebb 0,05 COP-eltérés tolerált; nagyobb eltérés Q/validációs hiba.
 - Modulation-floor hiányában nincs kitalált degradációs együttható; a motor csak `CYCLING_REQUIRED` állapotot jelez, implicit büntetést nem ad.
 - Defrost büntetés nincs beégetve: a defrost kimenetek Q-k, amíg bizonyított modell nem áll rendelkezésre.
+- P6 audit: a `defrost_accounting_boundary`, `defrost_runtime_penalty`, `cdh_measured` és `cycling_penalty_runtime` külön Q-változók; az EU 813/2013 szerinti `cdh_regulatory_default=0,9` csak POL compliance-method érték, nem runtime-korrekció.
 - Backup csak explicit engedélyezéssel, típussal, kapacitással és hatásfokkal működik, és külön fogyasztásként jelenik meg.
 - HMV eltérő hőmérsékleten egyidejű térfűtéssel csak explicit priority-konfigurációval fut; egyébként Q.
 
