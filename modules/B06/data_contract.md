@@ -53,3 +53,14 @@ A KSH energetikai output baseline-modellként `DER`, az ÉKM-szabályozás
 módszertani `POL`; egyik sem household-level before/after retrofit mérés.
 Az intervention-katalógus ezért numerikus hatás nélkül, `Q` státusszal marad.
 CAPEX csak későbbi szelet; hiánya nem blokkolja ezt a fizikai engine-t.
+
+## P2 evidence materialization
+
+Az intervention-specifikus audit a `data/processed/retrofit_effect_evidence.csv`
+fájlban él. A sorok külön éves és peak mezőket, bizonyítékosztályt,
+weather-normalization, DHW-szeparációs és applicability mezőket tartalmaznak.
+Mért vagy modellezett éves before/after adat csak a saját kontextusában
+érvényes; a P2-ben rögzített sorok jelenleg `Q` és `usable_for_engine=NO`, mert
+nem áll rendelkezésre egyidejűleg reprodukálható időjárás-/üzemviteli
+normalizálás, komponens-attribúció és intervention-linked design-peak evidence.
+Tartomány esetén a minimum és maximum külön mező; középérték nem tölthető be.

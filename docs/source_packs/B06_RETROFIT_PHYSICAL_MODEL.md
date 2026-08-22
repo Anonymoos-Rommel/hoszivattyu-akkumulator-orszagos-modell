@@ -43,3 +43,43 @@ képezhető; B06-P1 nem inventál ilyen profilt.
 Az intervention megléte vagy katalógusba vétele nem teljesíti az S1 kaput. Az
 engine csak `S1_CANDIDATE` állapotot ad, amíg nincs OBS completion evidence és
 source. A hiányzó adat nem jelent „retrofit nem szükséges” állapotot.
+
+## B06-P2 – retrofit-hatás evidence calibration (2026-08-22)
+
+A P2 a P1 scalar contractját változatlanul hagyja, és a bizonyítékot külön
+`data/processed/retrofit_effect_evidence.csv` táblában tartja. A tábla minden
+esetben külön kezeli az éves hőigényt és a peak/design hőterhelést. Nincs
+összevont `annual = peak` faktor, nincs nemzetközi adatból képzett magyar
+univerzális érték, és a csomaghatás nem kerül szétosztásra önkényesen az egyes
+komponensekre.
+
+### Forrásaudit és státuszok
+
+- A JRC Hvar-esettanulmány öt magánlakásnál közöl előtte/utána éves
+  hőigényt (a csomag jellemzően homlokzat + nyílászáró, néhol gépészeti
+  korszerűsítés). Ezek `MODELLED_BEFORE_AFTER`, kontextus-specifikus és
+  `Q` státuszú sorok: a jelentés nem közöl külön design-peak sorozatot, és az
+  időjárási normalizálás módja nem reprodukálható.
+- A timișoarai öt blokk mért fűtési tartományt közöl (130,2–167,4-ről
+  101,4–128,4 kWh/m²a-ra), valamint külön DHW-tartományokat. A forrás nem
+  normalizálja a before/after éveket, ezért a tartomány nyers bizonyíték,
+  nem engine-faktor.
+- A CONCERTO összesítő HDD18/15 korrekciót használ, de a közölt fűtési érték
+  explicit módon a DHW-előkészítést is tartalmazza. A 15–65%-os tartományt
+  tartományként őrizzük; középérték nincs materializálva, a sor `Q`.
+- Az Uddevalla-eset 16%-os mért csökkenést említ, de a 2017-es referenciaév
+  és a 2020-as utóállapot klímája eltér; ez is csak nem kalibrált `Q` evidence.
+
+Az időjárási és end-use szeparációs korlátokat a JRC renovációs mérési
+útmutatója alapján kezeljük: HDD/occupancy/üzemviteli normalizálás és DHW-
+leválasztás nélkül mért adat nem léphet `OBS` vagy engine-usable állapotba.
+
+### Peak, supply temperature és S1 kapu
+
+P2-ben nem került be hiteles, intervention-linked design-peak before/after
+eset. A telepített kazán- vagy hőszivattyú-kapacitás nem helyettesíti a
+tervezési hőterhelést. Emiatt `PEAK_LOAD_EFFECT` csak részleges marad, a B05
+design-point handoff peak mezője valós esetben továbbra is `Q`, és sem az
+envelope evidence, sem a katalógus nem emel automatikusan W35/W45/W55
+readiness-t. Az ex-post completion bizonyítéka külön marad; a P2 evidence
+önmagában nem nyitja az `S1_DEMAND_REDUCED` kaput.
