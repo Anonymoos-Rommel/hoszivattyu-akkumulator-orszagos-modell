@@ -508,6 +508,16 @@ PROCESSED_EXPECTED_HEADERS = {
         "dhw_separation", "occupancy_control", "applicability_status",
         "usable_for_engine", "status", "source_id", "notes",
     ],
+    "retrofit_peak_design_evidence.csv": [
+        "record_id", "archetype_or_building_id", "location_or_climate_zone",
+        "design_outdoor_temperature_c", "design_indoor_temperature_c", "component",
+        "u_value_w_m2k", "area_m2", "boundary", "correction_factor",
+        "thermal_bridge_h_w_per_k", "ventilation_volume_m3", "ventilation_air_change_rate_h",
+        "ventilation_airflow_m3_h", "heat_recovery_efficiency",
+        "air_volumetric_heat_capacity_wh_m3k", "baseline_design_heat_load_kw",
+        "post_design_heat_load_kw", "peak_reduction_kw", "peak_reduction_fraction",
+        "method_id", "source_ids", "evidence_status", "provenance", "limitations",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -795,7 +805,7 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
     allowed_layers = {
         "BASELINE_DEMAND", "ENVELOPE_PHYSICS", "SUPPLY_TEMPERATURE_EFFECT",
         "THERMAL_DEMAND_INTERFACE", "RETROFIT_INTERVENTION", "PHYSICAL_OUTPUT",
-        "STATE_GATE", "B05_HANDOFF", "PHYSICAL_CONTRACT",
+        "STATE_GATE", "B05_HANDOFF", "PHYSICAL_CONTRACT", "PEAK_LOAD_METHOD",
     }
     registry_files = {
         "retrofit_sources.csv": "source_id",

@@ -1,9 +1,9 @@
 component_id,module_id,layer,status,readiness_percent,source_ids,notes
 RETROFIT_CONTRACT,B06,PHYSICAL_CONTRACT,PARTIAL,70,SRC-B06-ENGINE-CONTRACT-2026,Executable contract exists; no national result.
 BASELINE_DEMAND_INPUT,B06,BASELINE_DEMAND,PARTIAL,45,SRC-B06-KSH-ENERGY-BASELINE-2025,Modelled annual baseline is usable; phase-linked household baseline/peak evidence remains Q.
-ENVELOPE_PHYSICS,B06,ENVELOPE_PHYSICS,PARTIAL,40,SRC-B06-HU-ENERGY-RULES-2023;SRC-B06-JRC-HVAR-2018;SRC-B06-REHVA-TIMISOARA-2012;SRC-B06-EC-CONCERTO-EXEC-2010;SRC-B06-EC-DECARBONAITE-UDDEVALLA-2023,Multiple context-specific annual before/after cases are catalogued; weather/DHW/component attribution gates keep all rows non-engine-usable Q.
-PEAK_LOAD_EFFECT,B06,PHYSICAL_OUTPUT,PARTIAL,25,SRC-B06-ENGINE-CONTRACT-2026,Separate peak formula is executable in SCN fixtures; calibration remains Q.
+ENVELOPE_PHYSICS,B06,ENVELOPE_PHYSICS,PARTIAL,45,SRC-B06-HU-ENERGY-RULES-2023;SRC-B06-HU-ENERGY-METHOD-2023;SRC-B06-JRC-HVAR-2018;SRC-B06-REHVA-TIMISOARA-2012;SRC-B06-EC-CONCERTO-EXEC-2010;SRC-B06-EC-DECARBONAITE-UDDEVALLA-2023,Explicit component U/area and thermal-bridge interfaces are executable; real household geometry and component attribution remain Q.
+PEAK_LOAD_EFFECT,B06,PHYSICAL_OUTPUT,PARTIAL,50,SRC-B06-HU-ENERGY-METHOD-2023;SRC-B06-ENGINE-CONTRACT-2026,Direct physical design-load pathway is executable in a documented SCN case; Hungarian real-building calibration remains Q.
 SUPPLY_TEMPERATURE_EFFECT,B06,SUPPLY_TEMPERATURE_EFFECT,Q,10,SRC-B06-HU-LTRS-2021,Explicit field and handoff exist; no automatic W35/W45/W55 evidence.
 INTERVENTION_APPLICABILITY,B06,RETROFIT_INTERVENTION,PARTIAL,25,SRC-B06-JRC-HVAR-2018;SRC-B06-REHVA-TIMISOARA-2012,Case-specific building types and intervention packages are documented; component-level and Hungarian applicability evidence remains Q.
-B05_HANDOFF,B06,B05_HANDOFF,PARTIAL,35,SRC-B06-ENGINE-CONTRACT-2026,Design-point bridge exists; hourly demand profile remains Q.
+B05_HANDOFF,B06,B05_HANDOFF,PARTIAL,40,SRC-B06-ENGINE-CONTRACT-2026;SRC-B06-HU-ENERGY-METHOD-2023,Peak-load handoff can carry the same post-state design load; supply temperature and hourly demand remain Q.
 CAPEX_EVIDENCE,B06,PHYSICAL_CONTRACT,Q,0,,CAPEX interface is reserved; no monetary values in P1.
