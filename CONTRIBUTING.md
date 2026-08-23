@@ -19,6 +19,16 @@ Köszönjük a szakmai javaslatokat. A projektben közvetlen írási jogosultsá
 - reprodukciós lépések és tesztek;
 - szerzői jogi vagy adatlicenc-korlátok jelzése.
 
+## Hozzájárulások licencelése
+
+Pull Request vagy más, a repository-ba beolvasztásra szánt hozzájárulás beküldésével a közreműködő kijelenti, hogy jogosult az adott anyag ilyen felhasználását engedélyezni, és elfogadja, hogy az elfogadott hozzájárulás a repository adott tartalomtípusára irányadó licenc alatt kerül közzétételre.
+
+- szoftverkód: `AGPL-3.0-only`;
+- saját dokumentáció, módszertan és eredeti kutatási anyag: `CC-BY-SA-4.0`;
+- harmadik féltől származó vagy külön licencelt anyag: kizárólag a forrás licencfeltételeinek megfelelően.
+
+A közreműködőnek minden harmadik féltől származó tartalmat és annak licenc- vagy felhasználási korlátját egyértelműen jeleznie kell. A repository-ba küldött anyag nem írhatja felül harmadik fél jogait.
+
 ## Nem fogadható el
 
 - forrás nélküli „józan becslés” tényként;
