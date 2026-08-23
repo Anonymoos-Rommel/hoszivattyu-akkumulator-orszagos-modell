@@ -1,0 +1,31 @@
+Repository licensing notice
+
+This repository uses a split licensing model.
+
+1. Software
+
+Unless a file or directory states otherwise, source code and executable software in `app/`, `model/`, `tools/`, `tests/`, and other software-code portions of this repository are licensed under the GNU Affero General Public License, version 3 only (SPDX-License-Identifier: AGPL-3.0-only).
+
+Official license text:
+https://www.gnu.org/licenses/agpl-3.0.html
+
+2. Documentation and original research material
+
+Unless a file or directory states otherwise, original documentation, methodology, reports, diagrams, tables, and explanatory research material authored for this repository are licensed under the Creative Commons Attribution-ShareAlike 4.0 International license (SPDX-License-Identifier: CC-BY-SA-4.0).
+
+Official license text:
+https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+3. Data and third-party material
+
+Third-party datasets, source material, quotations, extracts, and other externally sourced content remain subject to their original licenses, terms, copyright, database rights, attribution requirements, and other applicable restrictions. Inclusion in this repository does not relicense third-party material.
+
+Repository-created datasets are not automatically covered by the software license. Their applicable license must be declared explicitly in the relevant dataset metadata, registry entry, README, or adjacent license notice before external reuse is assumed.
+
+4. Precedence
+
+A file-specific or directory-specific license notice overrides this repository-level notice for that file or directory. Third-party license terms always remain applicable to third-party material.
+
+5. No additional rights
+
+No trademark, trade name, privacy, publicity, patent, confidential-information, or other right is granted except to the extent expressly provided by the applicable license or required by law.
