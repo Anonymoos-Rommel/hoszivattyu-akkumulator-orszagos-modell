@@ -40,3 +40,14 @@ A repository nyilvánosan olvasható. Külső közreműködők Issue, Discussion
 ## Publikációs megjegyzés
 
 A belső kiinduló dokumentumok nem részei az első nyilvános kiadásnak. Publikálásuk csak külön tartalmi, adatvédelmi és licencellenőrzés után történhet.
+
+## Licencelés
+
+A repository osztott licencelést használ:
+
+- a szoftverkód főszabály szerint **GNU AGPL-3.0-only**;
+- a saját dokumentáció, módszertan, jelentések és egyéb eredeti kutatási anyag főszabály szerint **CC BY-SA 4.0**;
+- a harmadik féltől származó adatok és tartalmak az eredeti forrás licenc- és felhasználási feltételei alatt maradnak;
+- a repository-ban létrehozott adatkészletek licencét külön, az adott adatcsomag metadata- vagy licencbejegyzésében kell rögzíteni.
+
+A részletes hatókört és elsőbbségi szabályokat a [`LICENSE`](LICENSE) fájl tartalmazza.
