@@ -1,0 +1,6 @@
+formula_id,module_id,layer,output_variable_id,expression,input_variable_ids,output_unit,status,notes
+FORM-B07-CHARGE-TRANSITION,B07,EFFICIENCY_BOUNDARY,VAR-B07-SOC,soc_after = soc_before + grid_charge_energy * charge_efficiency - energy_removed_from_storage,VAR-B07-SOC;VAR-B07-CHARGE-EFFICIENCY,kWh,DER,"Charge efficiency is applied exactly once; charge is AC/grid-side."
+FORM-B07-DISCHARGE-TRANSITION,B07,EFFICIENCY_BOUNDARY,VAR-B07-SOC,soc_after = soc_before - grid_energy_delivered / discharge_efficiency,VAR-B07-SOC;VAR-B07-DISCHARGE-EFFICIENCY,kWh,DER,"Discharge efficiency is applied exactly once."
+FORM-B07-POWER-ENERGY-CLIP,B07,POWER_ENERGY_LIMITS,VAR-B07-SOC,actual_energy = min(requested_power * timestep; power_limit * timestep; SOC_energy_limit),VAR-B07-SOC;VAR-B07-CHARGE-POWER-LIMIT;VAR-B07-DISCHARGE-POWER-LIMIT,kWh,DER,"Power and SOC limits remain separate."
+FORM-B07-GRID-BALANCE,B07,HOUSEHOLD_POWER_BALANCE,VAR-B07-SOC,grid_balance = household_load + heat_pump_load + other_load + charge - discharge - onsite_generation,VAR-B07-SOC,kW,DER,"No monetary or tariff term."
+FORM-B07-PHYSICAL-FLEX,B07,PHYSICAL_FLEXIBILITY,VAR-B07-SOC,charge_flex = min(charge_power_limit; SOC_headroom / charge_efficiency / timestep),VAR-B07-SOC;VAR-B07-CHARGE-EFFICIENCY,kW,DER,"Physical capability only; not VPP eligibility."

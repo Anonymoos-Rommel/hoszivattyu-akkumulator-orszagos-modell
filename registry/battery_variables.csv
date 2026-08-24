@@ -1,0 +1,13 @@
+variable_id,module_id,layer,name,definition,unit,status,source_ids,notes
+VAR-B07-NOMINAL-CAPACITY,B07,BATTERY_PHYSICAL_CONTRACT,Névleges kapacitás,Manufacturer or scenario nominal capacity,kWh,OBS,SRC-B07-VARTA-PULSE-NEO-2024;SRC-B07-SONNEN-10-PERFORMANCE-2026,"Never substituted for usable capacity."
+VAR-B07-USABLE-CAPACITY,B07,BATTERY_PHYSICAL_CONTRACT,Használható kapacitás,Explicit usable capacity or source-supported DoD derivation,kWh,DER,SRC-B07-VARTA-PULSE-NEO-2024,"Missing source value remains Q."
+VAR-B07-SOC,B07,SOC_STATE_ENGINE,SOC,Stored battery energy within explicit usable bounds,kWh,DER,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Bounded by soc_min and soc_max."
+VAR-B07-CHARGE-POWER-LIMIT,B07,POWER_ENERGY_LIMITS,Töltési teljesítménykorlát,Maximum grid-side charge power,kW,OBS,SRC-B07-VARTA-PULSE-NEO-2024;SRC-B07-SONNEN-10-PERFORMANCE-2026,"AC/DC boundary remains explicit."
+VAR-B07-DISCHARGE-POWER-LIMIT,B07,POWER_ENERGY_LIMITS,Kisütési teljesítménykorlát,Maximum grid-side discharge power,kW,OBS,SRC-B07-VARTA-PULSE-NEO-2024;SRC-B07-SONNEN-10-PERFORMANCE-2026,"AC/DC boundary remains explicit."
+VAR-B07-CHARGE-EFFICIENCY,B07,EFFICIENCY_BOUNDARY,Töltési egyirányú hatásfok,Grid-side energy to stored-energy multiplier,ratio,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Not derived from a round-trip value."
+VAR-B07-DISCHARGE-EFFICIENCY,B07,EFFICIENCY_BOUNDARY,Kisütési egyirányú hatásfok,Stored-energy removal to grid-delivered energy multiplier,ratio,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Not derived from a round-trip value."
+VAR-B07-ROUND-TRIP-EFFICIENCY,B07,PRODUCT_EVIDENCE,Rendszer/akkumulátor round-trip hatásfok,Source-declared efficiency with its boundary,ratio,OBS,SRC-B07-VARTA-PULSE-NEO-2024,"Never used as both one-way efficiencies."
+VAR-B07-H-TARIFF-CHARGE-ALLOWED,B07,B04_TARIFF_INTERFACE,H tarifa akkumulátortöltés engedélyezett-e,Legal and metering gate for charging,Q,Q,SRC-B04-MVM-H-FAQ-2026,"No assumption in physical engine."
+VAR-B07-H-TARIFF-DISCHARGE-ALLOWED,B07,B04_TARIFF_INTERFACE,H tarifa akkumulátorkisütés engedélyezett-e,Legal and metering gate for discharging,Q,Q,SRC-B04-MVM-H-FAQ-2026,"No assumption in physical engine."
+VAR-B07-H-TARIFF-EXPORT-ALLOWED,B07,B04_TARIFF_INTERFACE,H tarifa export engedélyezett-e,Legal and metering gate for export,Q,Q,SRC-B04-MVM-H-FAQ-2026,"No assumption in physical engine."
+VAR-B07-VPP-ELIGIBILITY,B07,VPP_LEGAL_MARKET_INTERFACE,VPP jogi/piaci jogosultság,Eligibility separate from physical flexibility,Q,Q,,"P1 does not implement market logic."

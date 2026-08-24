@@ -389,6 +389,32 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "battery_sources.csv": [
+        "source_id", "module_id", "layer", "title", "institution", "url",
+        "published_at", "retrieved_at", "source_tier", "evidence_status",
+        "reliability", "license", "notes",
+    ],
+    "battery_products.csv": [
+        "product_id", "module_id", "manufacturer", "model", "chemistry",
+        "nominal_capacity_kwh", "usable_capacity_kwh", "usable_capacity_status",
+        "max_charge_power_kw", "max_discharge_power_kw", "efficiency_value",
+        "efficiency_type", "efficiency_status", "operating_temp_min_c",
+        "operating_temp_max_c", "capacity_boundary", "power_boundary",
+        "inverter_relationship", "warranty_years", "warranty_cycles",
+        "warranty_retention_pct", "origin_status", "status", "source_ids", "notes",
+    ],
+    "battery_variables.csv": [
+        "variable_id", "module_id", "layer", "name", "definition", "unit",
+        "status", "source_ids", "notes",
+    ],
+    "battery_formulas.csv": [
+        "formula_id", "module_id", "layer", "output_variable_id", "expression",
+        "input_variable_ids", "output_unit", "status", "notes",
+    ],
+    "battery_readiness.csv": [
+        "component_id", "module_id", "layer", "status", "readiness_percent",
+        "source_ids", "notes",
+    ],
 }
 
 PROCESSED_EXPECTED_HEADERS = {
@@ -533,6 +559,22 @@ PROCESSED_EXPECTED_HEADERS = {
         "b05_available_capacity_kw", "b05_electrical_input_kw", "b05_cop",
         "b05_capacity_shortfall_kw", "status", "source_ids", "notes",
     ],
+    "battery_product_evidence.csv": [
+        "product_id", "manufacturer", "model", "chemistry", "nominal_capacity_kwh",
+        "usable_capacity_kwh", "usable_capacity_status", "max_charge_power_kw",
+        "max_discharge_power_kw", "peak_power_kw", "efficiency_value", "efficiency_type",
+        "efficiency_status", "operating_temp_min_c", "operating_temp_max_c",
+        "capacity_boundary", "power_boundary", "inverter_relationship", "warranty_years",
+        "warranty_cycles", "warranty_retention_pct", "origin_claim", "origin_status",
+        "source_ids", "retrieved_at", "status", "limitations",
+    ],
+    "battery_physical_fixture_results.csv": [
+        "case_id", "step_index", "timestep_hours", "requested_charge_kw",
+        "requested_discharge_kw", "actual_charge_kw", "actual_discharge_kw",
+        "soc_before_kwh", "soc_after_kwh", "charge_curtailed_kwh",
+        "discharge_unserved_kwh", "grid_import_kw", "grid_export_kw",
+        "physical_up_flex_kw", "physical_down_flex_kw", "status", "source_ids", "notes",
+    ],
 }
 
 ALLOWED_MODULE_STATUS = {"NOT_STARTED", "IN_PROGRESS", "BLOCKED", "VALIDATED"}
@@ -552,7 +594,7 @@ ALLOWED_DIMENSION_ROLES = {
     "stratifier",
     "universe_filter",
 }
-ALLOWED_DATASET_ACCESS_METHODS = {"KSH_CENSUS_API", "EMBEDDED_HTML", "PDF_TABLE"}
+ALLOWED_DATASET_ACCESS_METHODS = {"KSH_CENSUS_API", "EMBEDDED_HTML", "PDF_TABLE", "CSV_CURATED"}
 
 MODULE_ID_PATTERN = re.compile(r"B(?:0[1-9]|1[0-9]|20)")
 SOURCE_ID_PATTERN = re.compile(r"SRC-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
@@ -958,6 +1000,108 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append(f"only evidence-backed B06 rows can be engine-usable: {evidence_id!r}")
 
 
+def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B07 battery physical evidence and fail-closed policy edges."""
+    allowed_layers = {
+        "BATTERY_PHYSICAL_CONTRACT", "SOC_STATE_ENGINE", "POWER_ENERGY_LIMITS",
+        "EFFICIENCY_BOUNDARY", "PRODUCT_EVIDENCE", "DEGRADATION_MODEL",
+        "TEMPERATURE_ENVELOPE", "HOUSEHOLD_POWER_BALANCE", "PHYSICAL_FLEXIBILITY",
+        "B04_TARIFF_INTERFACE", "VPP_LEGAL_MARKET_INTERFACE", "B08_HANDOFF",
+        "PRODUCT_ORIGIN", "TEST_FIXTURE",
+    }
+    registry_files = {
+        "battery_sources.csv": "source_id", "battery_products.csv": "product_id",
+        "battery_variables.csv": "variable_id", "battery_formulas.csv": "formula_id",
+        "battery_readiness.csv": "component_id",
+    }
+    variable_ids: set[str] = set()
+    for filename, id_field in registry_files.items():
+        path = REGISTRY / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        duplicates = duplicate_values([row[id_field] for row in rows])
+        if duplicates:
+            errors.append(f"duplicate B07 IDs in {filename}: {duplicates!r}")
+        if filename == "battery_variables.csv":
+            variable_ids = {row["variable_id"] for row in rows}
+        for row in rows:
+            if row["module_id"] != "B07":
+                errors.append(f"B07 artifact has non-B07 module in {filename}: {row[id_field]!r}")
+            if filename != "battery_products.csv" and row.get("layer") not in allowed_layers:
+                errors.append(f"invalid B07 layer in {filename}: {row[id_field]!r}")
+            if filename == "battery_sources.csv" and row["source_id"] not in source_ids:
+                errors.append(f"B07 source not mirrored in sources.csv: {row['source_id']!r}")
+            if filename in {"battery_variables.csv", "battery_products.csv"}:
+                if row.get("status", "") not in ALLOWED_EVIDENCE_STATUS | {"PARTIAL"}:
+                    errors.append(f"invalid B07 evidence status in {filename}: {row[id_field]!r}")
+                refs = [item for item in row.get("source_ids", "").split(";") if item]
+                unknown = [item for item in refs if item not in source_ids and item not in variable_ids]
+                if unknown:
+                    errors.append(f"unknown B07 source references in {filename}: {unknown!r}")
+            if filename == "battery_formulas.csv" and row["status"] not in {"DER", "ASS"}:
+                errors.append(f"invalid B07 formula status: {row['formula_id']!r}")
+            if filename == "battery_readiness.csv":
+                if row["status"] not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+                    errors.append(f"invalid B07 readiness status: {row['component_id']!r}")
+                try:
+                    readiness = int(row["readiness_percent"])
+                except ValueError:
+                    errors.append(f"non-numeric B07 readiness: {row['component_id']!r}")
+                else:
+                    if not 0 <= readiness <= 100:
+                        errors.append(f"invalid B07 readiness percent: {row['component_id']!r}")
+    formula_path = REGISTRY / "battery_formulas.csv"
+    if formula_path.is_file():
+        _, formula_rows = read_csv(formula_path)
+        for row in formula_rows:
+            if row["output_variable_id"] not in variable_ids:
+                errors.append(f"unknown B07 formula output: {row['formula_id']!r}")
+            unknown_inputs = [item for item in row["input_variable_ids"].split(";") if item and item not in variable_ids]
+            if unknown_inputs:
+                errors.append(f"unknown B07 formula inputs for {row['formula_id']!r}: {unknown_inputs!r}")
+    products_path = REGISTRY / "battery_products.csv"
+    if products_path.is_file():
+        _, product_rows = read_csv(products_path)
+        for row in product_rows:
+            if row["origin_status"] != "OBS":
+                errors.append(f"EU-first B07 product origin must be explicit OBS: {row['product_id']!r}")
+            try:
+                nominal = float(row["nominal_capacity_kwh"])
+                charge = float(row["max_charge_power_kw"])
+                discharge = float(row["max_discharge_power_kw"])
+            except ValueError:
+                errors.append(f"non-numeric B07 product physical field: {row['product_id']!r}")
+                continue
+            if nominal <= 0 or charge < 0 or discharge < 0:
+                errors.append(f"invalid B07 product physical bounds: {row['product_id']!r}")
+            if row["usable_capacity_kwh"]:
+                try:
+                    usable = float(row["usable_capacity_kwh"])
+                except ValueError:
+                    errors.append(f"non-numeric B07 usable capacity: {row['product_id']!r}")
+                else:
+                    if usable <= 0 or usable > nominal:
+                        errors.append(f"invalid B07 usable capacity: {row['product_id']!r}")
+    processed = ROOT / "data" / "processed"
+    for filename in ("battery_product_evidence.csv", "battery_physical_fixture_results.csv"):
+        path = processed / filename
+        if not path.is_file():
+            continue
+        _, rows = read_csv(path)
+        for row in rows:
+            if row.get("status") not in ALLOWED_EVIDENCE_STATUS | {"PARTIAL"}:
+                errors.append(f"invalid B07 processed status in {filename}: {row.get('product_id', row.get('case_id'))!r}")
+            refs = [item for item in row.get("source_ids", "").split(";") if item]
+            unknown = [item for item in refs if item not in source_ids]
+            if unknown:
+                errors.append(f"unknown B07 processed source references in {filename}: {unknown!r}")
+            if filename == "battery_product_evidence.csv" and row.get("origin_status") != "OBS":
+                errors.append(f"EU-first product evidence origin is not OBS: {row['product_id']!r}")
+            if filename == "battery_physical_fixture_results.csv" and row.get("status") != "SCN":
+                errors.append(f"B07 physical fixture must remain SCN: {row['case_id']!r}")
+
+
 def validate() -> list[str]:
     errors: list[str] = []
 
@@ -1293,6 +1437,7 @@ def validate() -> list[str]:
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
+    validate_b07_artifacts(errors, source_ids)
 
     return errors
 

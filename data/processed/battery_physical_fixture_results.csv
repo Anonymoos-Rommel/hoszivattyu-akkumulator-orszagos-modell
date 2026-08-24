@@ -1,0 +1,7 @@
+case_id,step_index,timestep_hours,requested_charge_kw,requested_discharge_kw,actual_charge_kw,actual_discharge_kw,soc_before_kwh,soc_after_kwh,charge_curtailed_kwh,discharge_unserved_kwh,grid_import_kw,grid_export_kw,physical_up_flex_kw,physical_down_flex_kw,status,source_ids,notes
+SCN-B07-P1-DEMO,1,1,5,0,5,0,5,9.75,0,0,,,,,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"10 kWh usable fixture; 0.95 charge efficiency; power cap not binding."
+SCN-B07-P1-DEMO,2,1,0,0,0,0,9.75,9.75,0,0,,,,,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Idle step; no standing-loss term is invented."
+SCN-B07-P1-DEMO,3,1,0,5,0,5,9.75,4.4868421053,0,0,,,,,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"5 kW grid-side request is delivered after 0.95 discharge efficiency."
+SCN-B07-P1-DEMO-POWER-LIMIT,4,1,8,0,5,0,4.4868421053,9.2368421053,3,0,,,,,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Charge power clipping is explicit."
+SCN-B07-P1-DEMO-SOC-MAX,5,1,5,0,0.8033240997,0,9.2368421053,10,4.1966759003,0,,,,,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Upper SOC clipping is explicit."
+SCN-B07-P1-DEMO-SOC-MIN,6,1,0,8,0,5,10,4.7368421053,0,3,,,,,SCN,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Lower SOC/unserved discharge is explicit in the fixture ledger."
