@@ -24,11 +24,12 @@ Háztartási hőszivattyú- és akkumulátortöltési költség előállítása 
 - H tarifás fogyasztás csak a jogosult időszakra és mérőkörre számolható;
 - energiaár, rendszerhasználati díj és adó külön tétel;
 - az elosztói terület és hatálynap kötelező dimenzió;
-- akkumulátoros/VPP töltés nem rendelhető H tarifához elfogadott jogi-műszaki szabály nélkül.
+- akkumulátoros/VPP töltés, kisütés vagy export nem rendelhető H tarifához elfogadott, topológiára és hatályra vonatkozó jogi-műszaki szabály nélkül;
+- a `H_TARIFF_BATTERY_CHARGE_ALLOWED`, `H_TARIFF_BATTERY_DISCHARGE_ALLOWED` és `H_TARIFF_EXPORT_ALLOWED` kapuk egymástól függetlenek és Q esetén fail-closed.
 
 ## Állapot
 
-`BLOCKED` – a REGULATED_RESIDENTIAL_ELECTRICITY réteg aktuális MVM snapshotja és az A1/H szabályok lezárva; a H akkumulátor/export jogosultság Q, a teljes 2015–2026 HUPX history/forward licencelt adat Q, a MARKET_BASED komponenshíd részleges, a lakossági dinamikus termék Q.
+`BLOCKED` – a REGULATED_RESIDENTIAL_ELECTRICITY réteg aktuális MVM snapshotja és az A1/H szabályok lezárva; a H akkumulátor charge/discharge/export három független kapuja Q (a boundary contract auditálható), a teljes 2015–2026 HUPX history/forward licencelt adat Q, a MARKET_BASED komponenshíd részleges, a lakossági dinamikus termék Q.
 
 ## Kanonikus artefaktumok
 

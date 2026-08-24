@@ -1,6 +1,6 @@
 # B04 – Villamosenergia-ár, tarifák és háztartási elektrifikációs árinterfész
 
-Snapshot: 2026-08-22. Ez a dokumentum a háztartási villamosenergia-költség kanonikus árinterfésze; a B03 gáz- és OÉNY/P1K artefaktumokat nem módosítja.
+Snapshot: 2026-08-24. Ez a dokumentum a háztartási villamosenergia-költség kanonikus árinterfésze; a B03 gáz- és OÉNY/P1K artefaktumokat nem módosítja.
 
 ## Rétegek
 
@@ -27,17 +27,42 @@ annual_bill =
 
 Fix díj egyszer szerepel. A H idénybeli mennyiséget nem szabad automatikusan az A1 mérő 2523 kWh keretével összevonni; a mérőkör és az idény szerinti allokáció külön input. MWh → kWh átszámítás: `EUR/MWh × HUF/EUR / 1000 = HUF/kWh`.
 
+## H-mérő topológia és akkumulátor-interfész (2026-08-24)
+
+A hatályos NJT-szöveg (44/2008. (XII. 31.) KHEM rendelet 9. § (9)) és az MVM Next ügyfélszabálya a H-t **külön mért, állandóan bekötött, nem dugaszolható** áramkörként írja le, amely a megfelelő hőszivattyút/megújuló hőtermelőt és az azt közvetlenül kiszolgáló készülékeket látja el. Ez a forrásolt határ OBS/POL; nem minősíti önmagában az energiatárolót, a hybrid/common-bus bekötést vagy a H-oldali exportot.
+
+| Topológia | Kanonikus kezelés | Bizonyítási állapot |
+| --- | --- | --- |
+| H-only, dedikált mérőkör | H csak az explicit jogosult hőtermelő és közvetlen segédberendezés fogyasztására | OBS/POL |
+| Normál/A1 háztartási kör | Nem H-kör; H-jogosultság nem vihető át | Q boundary |
+| Akkumulátor csak normál/A1 oldalon | A B07 fizikai modell külön normál/A1 inputként kezelheti; H-tarifa nem rendelhető hozzá | Q legal status |
+| Akkumulátor fizikailag H-oldalon | Töltés és kisütés külön engedélyezési kapu; explicit authority hiányában blokkolt | Q |
+| Hybrid inverter/common AC bus | A fizikai csatolás nem bizonyítja a szerződéses/mérési engedélyt; wiring- és authority-evidence kell | Q |
+| HMKE/inverter/export-képes kapcsolat | POD- és elosztó-specifikus DSO/MGT bizonyítás szükséges; nem blanket H-export | Q |
+
+Ezért a három, egymástól független gépi kapu:
+
+```text
+H_TARIFF_BATTERY_CHARGE_ALLOWED    = Q
+H_TARIFF_BATTERY_DISCHARGE_ALLOWED = Q
+H_TARIFF_EXPORT_ALLOWED             = Q
+```
+
+Mindhárom kapu effective/applicability snapshotja `2026-08-24`; a hatályos források területi és mérési feltételei csak az adott elosztói/POD-topológiára alkalmazhatók. A forrás hallgatása nem YES és nem NO. A fizikai B07 capability nem írhatja felül a jogi/mérési Q státuszt; Q esetén nincs H-priced battery dispatch vagy export.
+
+Az MVM Émász berendezés-adatszolgáltatási oldala csak területileg korlátozott ellenőrző evidence: H-mérőhöz kapcsolódó berendezéseket kér nyilvántartani, de nem ad akkumulátor-töltési, kisütési vagy exportengedélyt. A MEKH HMKE-portál az export lehetőségét POD- és elosztó-specifikus MGT/igénybejelentéshez köti; ez sem H-tarifa battery-export authorization.
+
 ## Akkumulátor és downstream használat
 
-Az MVM-források H tarifára jogosult hőszivattyút/megújuló hőtermelőt és közvetlenül kiszolgáló készülékeket írnak le. Akkumulátortöltésre, export/VPP-re nincs explicit bizonyíték, ezért mindkettő **Q**, és az engine fail-closed. B05 csak a validált A1/H hőszivattyú inputokat használhatja; B07 nem tehet akkumulátort H mérőkörre. A HUPX érték nem bridge-elhető automatikusan lakossági végső árra.
+Az explicit gate-eket a `registry/electricity_price_variables.csv` és a `registry/electricity_tariff_rules.csv` tartalmazza. B05 csak a validált A1/H hőszivattyú inputokat használhatja; B07 fizikai flexibilitása nem VPP- vagy tarifaengedély, és Q gate mellett nem dispatcholhat H mérőkörön. A HUPX érték nem bridge-elhető automatikusan lakossági végső árra.
 
 ## Források és fennmaradó Q-k
 
-- MVM M.1 melléklet (hatály: 2026-03-01), MVM H tarifa FAQ, MVM lakossági díjtábla és számlamagyarázat: `registry/electricity_price_sources.csv`.
+- MVM M.1 melléklet (hatály: 2026-03-01), MVM H tarifa FAQ (lekérés: 2026-08-24), az NJT 44/2008. KHEM rendelet hatályos szövege, MVM Émász H-berendezés adatlap és MEKH HMKE-portál: `registry/electricity_price_sources.csv`.
 - HUPX DAM adatszolgáltatási specifikáció és licencelés: a teljes history/forward numerikus export Q.
 - MEKH/NJT rendszerhasználati díjak: a jelenlegi 2026-os komponenshíd teljes táblázati kibontása Q/partial.
-- Lakossági dinamikus termék, H akkumulátor/export szabály és wholesale → retail bridge: Q.
+- Lakossági dinamikus termék, H akkumulátor charge/discharge/export szabály és wholesale → retail bridge: Q. A következő lezáró evidence az adott POD elosztójának hatályos üzletszabályzata, csatlakozási/mérési rajza és kifejezett jogi/kereskedői értelmezése lenne.
 
 ## Readiness
 
-`REGULATED_RESIDENTIAL_ELECTRICITY=VALIDATED`; `H_TARIFF=PARTIAL`; `WHOLESALE_ELECTRICITY=Q`; `MARKET_BASED_RESIDENTIAL_ELECTRICITY=PARTIAL`; `DYNAMIC_ELECTRICITY=Q`; `BATTERY_TARIFF_INTERFACE=Q`. A teljes B04 státusza ezért `BLOCKED`; ez nem emeli a B03 vagy más modul státuszát.
+`REGULATED_RESIDENTIAL_ELECTRICITY=VALIDATED`; `H_TARIFF=PARTIAL`; `WHOLESALE_ELECTRICITY=Q`; `MARKET_BASED_RESIDENTIAL_ELECTRICITY=PARTIAL`; `DYNAMIC_ELECTRICITY=Q`; `BATTERY_TARIFF_INTERFACE=PARTIAL (20%)`. A három gate továbbra is Q, ezért a teljes B04 státusza `BLOCKED`; ez nem emeli a B03 vagy más modul státuszát.
