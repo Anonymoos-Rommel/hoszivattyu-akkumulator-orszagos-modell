@@ -4,4 +4,4 @@ H_TARIFF,B04,H_TARIFF,PARTIAL,80,SRC-B04-MVM-M1-2026;SRC-B04-MVM-H-FAQ-2026,Seas
 WHOLESALE_ELECTRICITY,B04,WHOLESALE_ELECTRICITY,Q,25,SRC-B04-HUPX-DATA-2026;SRC-B04-HUPX-MARCH-2026,One public March control point only; licensed history/forward not captured.
 MARKET_BASED_RESIDENTIAL_ELECTRICITY,B04,MARKET_BASED_RESIDENTIAL_ELECTRICITY,PARTIAL,60,SRC-B04-MVM-BILLING-2026;SRC-B04-MVM-M1-2026,Market final gross control point exists; full component bridge is Q.
 DYNAMIC_ELECTRICITY,B04,DYNAMIC_ELECTRICITY,Q,10,SRC-B04-HUPX-DATA-2026,No sourced household dynamic product.
-BATTERY_TARIFF_INTERFACE,B04,H_TARIFF,Q,0,SRC-B04-MVM-H-FAQ-2026,No proof that battery charging/export is permitted on H circuit.
+BATTERY_TARIFF_INTERFACE,B04,H_TARIFF,PARTIAL,20,SRC-B04-NJT-H-TARIFF-2026;SRC-B04-MVM-H-FAQ-2026;SRC-B04-MEKH-HMKE-EXPORT-2026,"Three independent charge/discharge/export gates and six topology boundaries are machine-readable; all gate values remain Q pending POD/DSO-specific explicit authority."

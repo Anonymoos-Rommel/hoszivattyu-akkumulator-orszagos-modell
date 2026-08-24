@@ -8,6 +8,6 @@ DEGRADATION_MODEL,B07,DEGRADATION_MODEL,Q,20,SRC-B07-VARTA-PULSE-NEO-2024;SRC-B0
 TEMPERATURE_ENVELOPE,B07,TEMPERATURE_ENVELOPE,PARTIAL,45,SRC-B07-VARTA-PULSE-NEO-2024,"VARTA operating range captured; sonnen product range Q; no derating curve invented."
 HOUSEHOLD_POWER_BALANCE,B07,HOUSEHOLD_POWER_BALANCE,VALIDATED,85,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"B05 electric load input and physical import/export ledger executable; export legality Q."
 PHYSICAL_FLEXIBILITY,B07,PHYSICAL_FLEXIBILITY,VALIDATED,85,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"SOC/power-derived up/down capability; not a market commitment."
-B04_TARIFF_INTERFACE,B07,B04_TARIFF_INTERFACE,Q,0,SRC-B04-MVM-H-FAQ-2026,"H-tariff battery charging, discharging and export remain Q."
+B04_TARIFF_INTERFACE,B07,B04_TARIFF_INTERFACE,PARTIAL,20,SRC-B04-NJT-H-TARIFF-2026;SRC-B04-MVM-H-FAQ-2026;SRC-B04-MEKH-HMKE-EXPORT-2026,"B04 now exposes independent charge/discharge/export gates and topology boundaries; all values remain Q and B07 physical engine cannot dispatch through H."
 VPP_LEGAL_MARKET_INTERFACE,B07,VPP_LEGAL_MARKET_INTERFACE,Q,0,,"No legal eligibility, market offer or revenue logic in P1."
 B08_HANDOFF,B07,B08_HANDOFF,VALIDATED,80,SRC-B07-SYNTHETIC-PHYSICAL-FIXTURE,"Minimal physical handoff fields implemented; aggregation remains B08 scope."
