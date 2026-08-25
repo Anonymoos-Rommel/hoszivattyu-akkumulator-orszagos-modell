@@ -36,6 +36,27 @@ def make_supply(load_rows, value_fn=lambda row, component: 0.0, *, component_ids
     return result
 
 
+def b08_group_row(base, *, state_id, truth, status):
+    return replace(
+        base,
+        b01_state_id=state_id,
+        truth_context=truth,
+        evidence_status=status,
+        evidence_statuses=(status,),
+    )
+
+
+def adequacy_status_for_b08_group(rows, *, truth, scope):
+    anchor = rows[0]
+    supply_status = "SCN" if truth == "SCN" else "OBS"
+    result = aggregate_adequacy(
+        rows,
+        make_supply((anchor,), status=supply_status, truth=truth),
+        scope=scope,
+    )
+    return result.status, result.rows[0]
+
+
 class B09SupplyAdequacyTests(unittest.TestCase):
     def test_valid_bounded_scn_fixture_and_exact_expected_totals(self):
         result = run_fixture(B09_FIXTURE)
@@ -137,6 +158,115 @@ class B09SupplyAdequacyTests(unittest.TestCase):
         for row in result.rows:
             original = next(item for item in loads if item.timestamp == row.timestamp and item.region_id == row.region_id)
             self.assertEqual(row.b08_net_grid_load_kw, original.net_grid_load_kw)
+
+    def test_scn_plus_q_b08_group_propagates_q(self):
+        base = unique_load_rows()[0]
+        rows = (
+            b08_group_row(base, state_id="S2", truth="SCN", status="SCN"),
+            b08_group_row(base, state_id="S3", truth="SCN", status="Q"),
+        )
+        status, result_row = adequacy_status_for_b08_group(
+            rows, truth="SCN", scope="BOUNDED_SCN_FIXTURE"
+        )
+        self.assertEqual(status, "Q")
+        self.assertEqual(result_row.evidence_status, "Q")
+        self.assertEqual(result_row.input_evidence_statuses, ("Q", "SCN"))
+
+    def test_real_obs_plus_q_b08_group_propagates_q(self):
+        base = unique_load_rows()[0]
+        rows = (
+            b08_group_row(base, state_id="S2", truth="REAL", status="OBS"),
+            b08_group_row(base, state_id="S3", truth="REAL", status="Q"),
+        )
+        status, result_row = adequacy_status_for_b08_group(
+            rows, truth="REAL", scope="BOUNDED_REAL_AGGREGATE"
+        )
+        self.assertEqual(status, "Q")
+        self.assertEqual(result_row.evidence_status, "Q")
+
+    def test_real_der_plus_q_b08_group_propagates_q(self):
+        base = unique_load_rows()[0]
+        rows = (
+            b08_group_row(base, state_id="S2", truth="REAL", status="DER"),
+            b08_group_row(base, state_id="S3", truth="REAL", status="Q"),
+        )
+        status, result_row = adequacy_status_for_b08_group(
+            rows, truth="REAL", scope="BOUNDED_REAL_AGGREGATE"
+        )
+        self.assertEqual(status, "Q")
+        self.assertEqual(result_row.evidence_status, "Q")
+
+    def test_real_obs_and_der_without_q_remains_der(self):
+        base = unique_load_rows()[0]
+        rows = (
+            b08_group_row(base, state_id="S2", truth="REAL", status="OBS"),
+            b08_group_row(base, state_id="S3", truth="REAL", status="DER"),
+        )
+        status, result_row = adequacy_status_for_b08_group(
+            rows, truth="REAL", scope="BOUNDED_REAL_AGGREGATE"
+        )
+        self.assertEqual(status, "DER")
+        self.assertEqual(result_row.evidence_status, "DER")
+
+    def test_q_status_is_order_independent(self):
+        base = unique_load_rows()[0]
+        scn = b08_group_row(base, state_id="S2", truth="SCN", status="SCN")
+        q = b08_group_row(base, state_id="S3", truth="SCN", status="Q")
+        first_status, first_row = adequacy_status_for_b08_group(
+            (scn, q), truth="SCN", scope="BOUNDED_SCN_FIXTURE"
+        )
+        last_status, last_row = adequacy_status_for_b08_group(
+            (q, scn), truth="SCN", scope="BOUNDED_SCN_FIXTURE"
+        )
+        self.assertEqual((first_status, first_row.evidence_status), ("Q", "Q"))
+        self.assertEqual((last_status, last_row.evidence_status), ("Q", "Q"))
+        self.assertEqual(first_row.input_evidence_statuses, last_row.input_evidence_statuses)
+
+    def test_b08_scope_total_input_alone_is_rejected(self):
+        scope_total = run_b08_fixture(B08_FIXTURE).scope_total_rows[0]
+        with self.assertRaises(B09ContractError):
+            aggregate_adequacy(
+                (scope_total,),
+                make_supply((scope_total,)),
+                scope="BOUNDED_SCN_FIXTURE",
+            )
+
+    def test_regional_plus_b08_scope_total_input_is_rejected(self):
+        regional = unique_load_rows()
+        scope_total = run_b08_fixture(B08_FIXTURE).scope_total_rows[0]
+        with self.assertRaises(B09ContractError):
+            aggregate_adequacy(
+                regional + (scope_total,),
+                make_supply(regional),
+                scope="BOUNDED_SCN_FIXTURE",
+            )
+
+    def test_valid_regional_rows_are_consumed_once(self):
+        regional = unique_load_rows()
+        result = aggregate_adequacy(
+            regional,
+            make_supply(regional),
+            scope="BOUNDED_SCN_FIXTURE",
+        )
+        self.assertEqual(len(result.rows), len(regional))
+        self.assertEqual(
+            sum(row.b08_net_grid_load_kw for row in result.rows),
+            sum(row.net_grid_load_kw for row in regional),
+        )
+
+    def test_b09_scope_total_equals_accepted_regional_sum_once(self):
+        regional = unique_load_rows()
+        result = aggregate_adequacy(
+            regional,
+            make_supply(regional),
+            scope="BOUNDED_SCN_FIXTURE",
+        )
+        for total in result.scope_total_rows:
+            accepted = [row for row in result.rows if row.timestamp == total.timestamp]
+            self.assertEqual(
+                total.b08_net_grid_load_kw,
+                sum(row.b08_net_grid_load_kw for row in accepted),
+            )
 
     def test_b08_flexibility_does_not_change_adequacy(self):
         loads = unique_load_rows()

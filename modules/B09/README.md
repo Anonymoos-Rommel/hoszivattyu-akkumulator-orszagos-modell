@@ -18,4 +18,5 @@ is `GENERATION_AC`.
 This slice does not dispatch B07 batteries, B08 flexibility, system storage or
 generation; it makes no tariff, market, reserve, curtailment, headroom,
 reinforcement, CAPEX, national-scaling or monetizable-system-value claim.
-`BOUNDED_SCOPE_TOTAL` is a bounded sum, never a national result.
+`BOUNDED_SCOPE_TOTAL` is a B09-derived bounded sum, never a national result.
+B08 `scope_total_rows` are summary inputs and are rejected by B09.

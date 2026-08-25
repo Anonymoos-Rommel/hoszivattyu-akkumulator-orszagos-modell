@@ -141,11 +141,10 @@ def _coalesce_b08(rows: Iterable[GridLoadAggregate]) -> tuple[GridLoadAggregate,
     for row in values:
         if not isinstance(row, GridLoadAggregate):
             raise B09ContractError("B09 input must be canonical B08 GridLoadAggregate rows")
-        _validate_b08_evidence(row)
         if row.region_id == "BOUNDED_SCOPE_TOTAL":
-            key = (row.timestamp, row.region_id, row.region_scheme)
-        else:
-            key = (row.timestamp, row.region_id, row.region_scheme)
+            raise B09ContractError("B09 rejects B08 BOUNDED_SCOPE_TOTAL inputs")
+        _validate_b08_evidence(row)
+        key = (row.timestamp, row.region_id, row.region_scheme)
         groups.setdefault(key, []).append(row)
     result: list[GridLoadAggregate] = []
     for key, group in sorted(groups.items()):
@@ -154,7 +153,12 @@ def _coalesce_b08(rows: Iterable[GridLoadAggregate]) -> tuple[GridLoadAggregate,
         if len({row.truth_context for row in group}) != 1:
             raise B09ContractError("mixed B08 truth contexts are rejected")
         first = group[0]
-        statuses = tuple(sorted({status for row in group for status in row.evidence_statuses}))
+        statuses = tuple(sorted({
+            status
+            for row in group
+            for status in (row.evidence_status, *row.evidence_statuses)
+        }))
+        evidence_status = _derived_status(first.truth_context, statuses)
         refs = tuple(sorted({ref for row in group for ref in row.source_refs}))
         load = sum(row.net_grid_load_kw for row in group)
         imports = sum(row.gross_grid_import_kw for row in group)
@@ -170,7 +174,7 @@ def _coalesce_b08(rows: Iterable[GridLoadAggregate]) -> tuple[GridLoadAggregate,
             battery_charge_kw=None, battery_discharge_kw=None, soc_fractions=(), diagnostic_complete=False,
             import_kwh=imports * first.timestep_hours,
             export_kwh=exports * first.timestep_hours, net_kwh=load * first.timestep_hours,
-            truth_context=first.truth_context, evidence_status=first.evidence_status,
+            truth_context=first.truth_context, evidence_status=evidence_status,
             evidence_statuses=statuses, source_refs=refs,
         ))
     return tuple(result)
