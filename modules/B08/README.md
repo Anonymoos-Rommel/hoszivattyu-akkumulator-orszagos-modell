@@ -12,6 +12,10 @@ B10 headroom/reinforcement, seasonal peaks, population scaling, and national
 claims remain outside this bounded contract and are Q/partial.
 
 The supplied fixture is SCN-only, dataset-licensed, two-region and explicit.
-`NATIONAL_FIXTURE_TOTAL` means the sum of those fixture records, not a national
-estimate. Missing values, duplicate keys, mixed region schemes, mixed truth
-contexts, negative physical inputs, and inconsistent timesteps fail closed.
+`BOUNDED_SCOPE_TOTAL` means the sum of the explicit bounded records, not a
+national estimate. Every source entity must be present at every run timestamp;
+missing values, duplicate keys, alternate boundaries, mixed region schemes,
+mixed truth contexts, negative physical inputs, naive timestamps, and
+inconsistent timesteps fail closed. Timestamps are timezone-aware and
+canonicalized to UTC; each timestamp denotes the start of an explicit interval
+whose duration is `timestep_hours`.

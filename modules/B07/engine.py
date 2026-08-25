@@ -150,6 +150,7 @@ class B08PhysicalHandoff:
     physical_down_flex_kw: float
     soc_fraction: float
     status: str = "DER"
+    timestep_hours: float | None = None
 
 
 def _nonnegative(value: float, name: str) -> float:
@@ -283,4 +284,6 @@ def make_b08_handoff(balance: HouseholdPowerBalance, result: BatteryStepResult, 
         physical_up_flex_kw=result.physical_discharge_flex_kw,
         physical_down_flex_kw=result.physical_charge_flex_kw,
         soc_fraction=result.soc_after_kwh / spec.usable_capacity_kwh,
-    )
+        status=result.status,
+        timestep_hours=spec.timestep_hours,
+        )

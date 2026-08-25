@@ -1349,6 +1349,8 @@ def validate_b08_artifacts(errors: list[str], source_ids: set[str]) -> None:
         errors.append("B08 fixture is missing its dataset-level license")
     if fixture.get("scope") != "BOUNDED_SCN_FIXTURE":
         errors.append("B08 fixture must be bounded SCN scope")
+    if not isinstance(fixture.get("region_scheme"), str) or not fixture.get("region_scheme", "").strip():
+        errors.append("B08 fixture requires top-level region_scheme")
     records = fixture.get("records", [])
     if not isinstance(records, list) or not records:
         errors.append("B08 fixture requires explicit records")
@@ -1357,14 +1359,22 @@ def validate_b08_artifacts(errors: list[str], source_ids: set[str]) -> None:
     if len(schemes) != 1 or None in schemes:
         errors.append("B08 fixture must use one explicit region scheme")
     seen: set[tuple[object, object, object]] = set()
-    required = {"timestamp", "source_entity_id", "region_id", "region_scheme", "b01_state_id", "truth_context", "evidence_status", "source_refs", "net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw"}
+    required = {"timestamp", "timestep_hours", "source_entity_id", "region_id", "region_scheme", "b01_state_id", "truth_context", "evidence_status", "source_refs", "net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw", "boundary_id"}
     for row in records:
         missing = sorted(required - set(row))
         if missing:
             errors.append(f"B08 fixture row missing fields: {missing!r}")
             continue
-        if row.get("truth_context") != "SCN" or row.get("evidence_status") != "SCN":
+        if row.get("truth_context") != "SCN" or row.get("evidence_status") not in {"SCN", "Q"}:
             errors.append(f"B08 fixture row is not SCN: {row.get('source_entity_id')!r}")
+        if row.get("region_scheme") != fixture.get("region_scheme"):
+            errors.append(f"B08 fixture row region scheme mismatch: {row.get('source_entity_id')!r}")
+        if row.get("boundary_id") != "AC_GRID":
+            errors.append(f"B08 fixture boundary must be AC_GRID: {row.get('source_entity_id')!r}")
+        if not isinstance(row.get("timestamp"), str) or not row["timestamp"].endswith(("Z", "+00:00")):
+            errors.append(f"B08 fixture timestamp must be explicit UTC: {row.get('source_entity_id')!r}")
+        if not isinstance(row.get("source_refs"), list) or not row.get("source_refs"):
+            errors.append(f"B08 fixture source_refs must be a non-empty list: {row.get('source_entity_id')!r}")
         refs = row.get("source_refs", [])
         unknown = [item for item in refs if item not in source_ids]
         if unknown:

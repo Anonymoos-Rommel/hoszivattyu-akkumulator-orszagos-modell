@@ -12,6 +12,10 @@ VAR-B08-GROSS-EXPORT-KW,B08,GRID_BOUNDARY_CONTRACT,Bruttó export,Explicit AC/gr
 VAR-B08-NET-LOAD-KW,B08,HOURLY_AGGREGATION,Nettó hálózati terhelés,Import minus export,kW,DER,SRC-B08-SCN-GRID-FIXTURE,Negative net load is valid.
 VAR-B08-UP-FLEX-KW,B08,PHYSICAL_FLEX_AGGREGATION,Fizikai felfelé rugalmasság,Explicit physical upward flex,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,Capability does not change load.
 VAR-B08-DOWN-FLEX-KW,B08,PHYSICAL_FLEX_AGGREGATION,Fizikai lefelé rugalmasság,Explicit physical downward flex,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,No dispatch or VPP decision.
+VAR-B08-BATTERY-CHARGE-KW,B08,B07_HANDOFF,Battery töltési teljesítmény,Lossless B07 diagnostic ledger,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,Diagnostic only; not an independent battery authority.
+VAR-B08-BATTERY-DISCHARGE-KW,B08,B07_HANDOFF,Battery kisütési teljesítmény,Lossless B07 diagnostic ledger,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,Diagnostic only; not an independent battery authority.
+VAR-B08-SOC-FRACTION,B08,B07_HANDOFF,SOC hányad,Lossless B07 SOC trace,fraction,SCN,SRC-B08-SCN-GRID-FIXTURE,Never summed as energy or power.
+VAR-B08-HANDOFF-STATUS,B08,PROVENANCE,B07 handoff státusz,Upstream B07 status retained,text,SCN,SRC-B08-SCN-GRID-FIXTURE,Caller cannot replace upstream truth status.
 VAR-B08-IMPORT-KWH,B08,ENERGY_INTEGRATION,Import energia,Import power times timestep,kWh,DER,SRC-B08-SCN-GRID-FIXTURE,Explicit timestep conversion.
 VAR-B08-EXPORT-KWH,B08,ENERGY_INTEGRATION,Export energia,Export power times timestep,kWh,DER,SRC-B08-SCN-GRID-FIXTURE,Explicit timestep conversion.
 VAR-B08-NET-KWH,B08,ENERGY_INTEGRATION,Nettó energia,Nettó power times timestep,kWh,DER,SRC-B08-SCN-GRID-FIXTURE,No hidden annualization.

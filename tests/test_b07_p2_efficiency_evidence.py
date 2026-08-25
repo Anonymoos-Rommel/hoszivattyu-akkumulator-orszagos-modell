@@ -102,7 +102,8 @@ class B07P2EfficiencyEvidenceTests(unittest.TestCase):
         handoff = make_b08_handoff(balance, result, spec)
         self.assertEqual(handoff.net_grid_import_kw, 1)
         self.assertEqual(handoff.net_grid_export_kw, 0)
-        self.assertEqual(handoff.status, "DER")
+        self.assertEqual(handoff.status, "SCN")
+        self.assertEqual(handoff.timestep_hours, spec.timestep_hours)
 
 
 if __name__ == "__main__":
