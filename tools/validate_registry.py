@@ -1031,6 +1031,27 @@ def _validate_product_efficiency_fields(errors: list[str], row: dict[str, str], 
         errors.append(f"missing efficiency boundary in {context}")
 
 
+def validate_b07_source_rows(
+    errors: list[str], headers: list[str], rows: list[dict[str, str | list[str] | None]]
+) -> None:
+    """Reject malformed B07 source rows before field-level checks can pass them through."""
+    expected = EXPECTED_HEADERS["battery_sources.csv"]
+    if headers != expected:
+        return
+    for row_number, row in enumerate(rows, start=2):
+        extra = row.get(None)
+        if extra is not None:
+            errors.append(f"misaligned CSV row in registry/battery_sources.csv:{row_number}: extra fields")
+        missing = [field for field in expected if not str(row.get(field) or "").strip()]
+        if missing:
+            errors.append(
+                f"missing required B07 source fields in registry/battery_sources.csv:{row_number}: {missing!r}"
+            )
+        reliability = row.get("reliability")
+        if reliability not in ALLOWED_RELIABILITY:
+            errors.append(f"invalid B07 source reliability at row {row_number}: {reliability!r}")
+
+
 def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
     """Validate B07 battery physical evidence and fail-closed policy edges."""
     allowed_layers = {
@@ -1050,7 +1071,9 @@ def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
         path = REGISTRY / filename
         if not path.is_file():
             continue
-        _, rows = read_csv(path)
+        headers, rows = read_csv(path)
+        if filename == "battery_sources.csv":
+            validate_b07_source_rows(errors, headers, rows)
         duplicates = duplicate_values([row[id_field] for row in rows])
         if duplicates:
             errors.append(f"duplicate B07 IDs in {filename}: {duplicates!r}")
