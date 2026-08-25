@@ -147,6 +147,11 @@ class HouseholdStateRecord:
             raise B01ContractError("evidence_refs cannot contain empty values")
         seen: set[str] = set()
         for evidence in self.transition_evidence:
+            if evidence.truth_context != self.truth_context:
+                raise B01ContractError(
+                    f"transition truth_context mismatch: household={self.truth_context!r} "
+                    f"transition={evidence.truth_context!r}"
+                )
             evidence.validate()
             if evidence.transition_id in seen:
                 raise B01ContractError(f"duplicate transition evidence: {evidence.transition_id!r}")
@@ -193,7 +198,8 @@ class TransitionDecision:
 def evaluate_next_transition(record: HouseholdStateRecord) -> TransitionDecision:
     current = determine_current_state(record)
     if current == STATE_ORDER[-1]:
-        return TransitionDecision("NONE", "COMPLETE", current, current, "NONE", "OBS", "S5 is already reached.")
+        completion_status = "OBS" if record.truth_context == "REAL" else "SCN"
+        return TransitionDecision("NONE", "COMPLETE", current, current, "NONE", completion_status, "S5 is already reached.")
     transition = _transition_for(current, STATE_ORDER[STATE_INDEX[current] + 1])
     required_gate = transition["required_gates"][0]
     evidence = next(
@@ -629,7 +635,7 @@ def _record_from_payload(payload: Mapping[str, Any]) -> HouseholdStateRecord:
             owner=item["owner"],
             skipped=bool(item.get("skipped", False)),
             skip_reason=item.get("skip_reason", ""),
-            truth_context=truth_context,
+            truth_context=item.get("truth_context", truth_context),
         )
         for item in payload.get("transition_evidence", [])
     )

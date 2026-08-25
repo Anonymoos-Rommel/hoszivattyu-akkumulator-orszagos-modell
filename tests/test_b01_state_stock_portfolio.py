@@ -99,6 +99,63 @@ class B01StateStockPortfolioTests(unittest.TestCase):
             )
         )
 
+    def test_s5_completion_decision_preserves_truth_context(self) -> None:
+        _, records, _, _, _, _ = fixture_inputs()
+        scn_record = next(record for record in records if record.household_id == "HH-SCN-006")
+        self.assertEqual("SCN", b01.evaluate_next_transition(scn_record).evidence_status)
+
+        real_evidence = tuple(
+            b01.TransitionEvidence(
+                transition_id,
+                "OBS",
+                (f"REAL-{transition_id}",),
+                True,
+                "2026-01-01",
+                "tester",
+                truth_context="REAL",
+            )
+            for transition_id in ("S0_TO_S1", "S1_TO_S2", "S2_TO_S3", "S3_TO_S4", "S4_TO_S5")
+        )
+        real_record = b01.HouseholdStateRecord(
+            "HH-REAL-S5", "ARCH-1", "R1", "S5", ("REAL-S5",), "2026-01-01", "tester",
+            "NONE", "", "ELIGIBLE", "OBS", real_evidence, truth_context="REAL",
+        )
+        self.assertEqual("OBS", b01.evaluate_next_transition(real_record).evidence_status)
+
+    def test_household_and_nested_transition_truth_context_must_match(self) -> None:
+        for household_context, transition_context, status in (
+            ("SCN", "REAL", "OBS"),
+            ("REAL", "SCN", "SCN"),
+        ):
+            with self.subTest(household_context=household_context, transition_context=transition_context):
+                record = b01.HouseholdStateRecord(
+                    "HH-MISMATCH", "ARCH-1", "R1", "S0", ("E0",), "2026-01-01", "tester",
+                    "audit_complete", "", "BLOCKED", "Q",
+                    (b01.TransitionEvidence(
+                        "S0_TO_S1", status, ("E0",), False, "2026-01-01", "tester",
+                        truth_context=transition_context,
+                    ),),
+                    truth_context=household_context,
+                )
+                with self.assertRaises(b01.B01ContractError):
+                    record.validate()
+
+    def test_matching_real_and_scn_nested_truth_contexts_pass(self) -> None:
+        real_record = b01.HouseholdStateRecord(
+            "HH-REAL", "ARCH-1", "R1", "S1", ("E1",), "2026-01-01", "tester",
+            "technical_readiness_complete", "", "ELIGIBLE", "OBS",
+            (b01.TransitionEvidence("S0_TO_S1", "OBS", ("E0",), True, "2026-01-01", "tester", truth_context="REAL"),),
+            truth_context="REAL",
+        )
+        scn_record = b01.HouseholdStateRecord(
+            "HH-SCN", "ARCH-1", "R1", "S1", ("E1",), "2026-01-01", "tester",
+            "technical_readiness_complete", "", "ELIGIBLE", "SCN",
+            (b01.TransitionEvidence("S0_TO_S1", "SCN", ("SCN-E0",), True, "2026-01-01", "tester", truth_context="SCN"),),
+            truth_context="SCN",
+        )
+        real_record.validate()
+        scn_record.validate()
+
     def test_candidate_gate_matches_canonical_contract(self) -> None:
         _, _, candidates, _, _, _ = fixture_inputs()
         candidate = next(item for item in candidates if item.intervention_id == "SCN-INT-002")
