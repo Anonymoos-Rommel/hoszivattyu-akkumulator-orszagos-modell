@@ -419,6 +419,18 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "b08_variables.csv": [
+        "variable_id", "module_id", "layer", "name", "definition", "unit",
+        "status", "source_ids", "notes",
+    ],
+    "b08_formulas.csv": [
+        "formula_id", "module_id", "layer", "output_variable_id", "expression",
+        "input_variable_ids", "output_unit", "status", "notes",
+    ],
+    "b08_readiness.csv": [
+        "component_id", "module_id", "layer", "status", "readiness_percent",
+        "source_ids", "notes",
+    ],
 }
 
 PROCESSED_EXPECTED_HEADERS = {
@@ -1267,6 +1279,112 @@ def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"B07 physical fixture must remain SCN: {row['case_id']!r}")
 
 
+def validate_b08_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B08's single bounded aggregation authority and SCN fixture."""
+    registry_files = {
+        "b08_variables.csv": "variable_id",
+        "b08_formulas.csv": "formula_id",
+        "b08_readiness.csv": "component_id",
+    }
+    variable_ids: set[str] = set()
+    for filename, id_field in registry_files.items():
+        path = REGISTRY / filename
+        if not path.is_file():
+            errors.append(f"missing B08 registry file: {filename}")
+            continue
+        headers, rows = read_csv(path)
+        ids = [str(row.get(id_field, "")) for row in rows]
+        duplicates = duplicate_values(ids)
+        if duplicates:
+            errors.append(f"duplicate B08 IDs in {filename}: {duplicates!r}")
+        if filename == "b08_variables.csv":
+            variable_ids = set(ids)
+        for row in rows:
+            identifier = row.get(id_field, "")
+            if row.get("module_id") != "B08":
+                errors.append(f"B08 artifact has non-B08 module in {filename}: {identifier!r}")
+            required = [id_field, "module_id", "layer", "notes"]
+            missing = [field for field in required if not str(row.get(field) or "").strip()]
+            if missing:
+                errors.append(f"missing B08 fields in {filename}:{identifier!r}: {missing!r}")
+            refs = [item for item in str(row.get("source_ids", "")).split(";") if item]
+            unknown = [item for item in refs if item not in source_ids]
+            if unknown:
+                errors.append(f"unknown B08 source references in {filename}:{identifier!r}: {unknown!r}")
+            if filename == "b08_variables.csv" and row.get("status") not in ALLOWED_EVIDENCE_STATUS:
+                errors.append(f"invalid B08 variable status: {identifier!r}")
+            if filename == "b08_formulas.csv" and row.get("status") not in {"DER", "ASS"}:
+                errors.append(f"invalid B08 formula status: {identifier!r}")
+            if filename == "b08_readiness.csv":
+                if row.get("status") not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+                    errors.append(f"invalid B08 readiness status: {identifier!r}")
+                try:
+                    readiness = int(row.get("readiness_percent", ""))
+                except ValueError:
+                    errors.append(f"non-numeric B08 readiness: {identifier!r}")
+                else:
+                    if not 0 <= readiness <= 100:
+                        errors.append(f"invalid B08 readiness percent: {identifier!r}")
+    formula_path = REGISTRY / "b08_formulas.csv"
+    if formula_path.is_file():
+        _, rows = read_csv(formula_path)
+        for row in rows:
+            if row.get("output_variable_id") not in variable_ids:
+                errors.append(f"unknown B08 formula output: {row.get('formula_id')!r}")
+            unknown = [item for item in row.get("input_variable_ids", "").split(";") if item and item not in variable_ids]
+            if unknown:
+                errors.append(f"unknown B08 formula inputs: {row.get('formula_id')!r}: {unknown!r}")
+    fixture_path = ROOT / "data" / "fixtures" / "b08_grid_load_scn.json"
+    if not fixture_path.is_file():
+        errors.append("missing B08 SCN fixture")
+        return
+    try:
+        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        errors.append(f"invalid B08 SCN fixture JSON: {exc}")
+        return
+    if fixture.get("status") != "SCN" or fixture.get("truth_context") != "SCN":
+        errors.append("B08 fixture must remain SCN truth")
+    if fixture.get("dataset_license") != "CC BY-SA 4.0":
+        errors.append("B08 fixture is missing its dataset-level license")
+    if fixture.get("scope") != "BOUNDED_SCN_FIXTURE":
+        errors.append("B08 fixture must be bounded SCN scope")
+    if not isinstance(fixture.get("region_scheme"), str) or not fixture.get("region_scheme", "").strip():
+        errors.append("B08 fixture requires top-level region_scheme")
+    records = fixture.get("records", [])
+    if not isinstance(records, list) or not records:
+        errors.append("B08 fixture requires explicit records")
+        return
+    schemes = {row.get("region_scheme") for row in records}
+    if len(schemes) != 1 or None in schemes:
+        errors.append("B08 fixture must use one explicit region scheme")
+    seen: set[tuple[object, object, object]] = set()
+    required = {"timestamp", "timestep_hours", "source_entity_id", "region_id", "region_scheme", "b01_state_id", "truth_context", "evidence_status", "source_refs", "net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw", "boundary_id"}
+    for row in records:
+        missing = sorted(required - set(row))
+        if missing:
+            errors.append(f"B08 fixture row missing fields: {missing!r}")
+            continue
+        if row.get("truth_context") != "SCN" or row.get("evidence_status") not in {"SCN", "Q"}:
+            errors.append(f"B08 fixture row is not SCN: {row.get('source_entity_id')!r}")
+        if row.get("region_scheme") != fixture.get("region_scheme"):
+            errors.append(f"B08 fixture row region scheme mismatch: {row.get('source_entity_id')!r}")
+        if row.get("boundary_id") != "AC_GRID":
+            errors.append(f"B08 fixture boundary must be AC_GRID: {row.get('source_entity_id')!r}")
+        if not isinstance(row.get("timestamp"), str) or not row["timestamp"].endswith(("Z", "+00:00")):
+            errors.append(f"B08 fixture timestamp must be explicit UTC: {row.get('source_entity_id')!r}")
+        if not isinstance(row.get("source_refs"), list) or not row.get("source_refs"):
+            errors.append(f"B08 fixture source_refs must be a non-empty list: {row.get('source_entity_id')!r}")
+        refs = row.get("source_refs", [])
+        unknown = [item for item in refs if item not in source_ids]
+        if unknown:
+            errors.append(f"unknown B08 fixture source references: {unknown!r}")
+        key = (row.get("timestamp"), row.get("source_entity_id"), row.get("boundary_id", "AC_GRID"))
+        if key in seen:
+            errors.append(f"duplicate B08 fixture key: {key!r}")
+        seen.add(key)
+
+
 def validate() -> list[str]:
     errors: list[str] = []
 
@@ -1604,6 +1722,7 @@ def validate() -> list[str]:
     validate_b05_artifacts(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
+    validate_b08_artifacts(errors, source_ids)
 
     return errors
 

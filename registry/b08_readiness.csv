@@ -1,0 +1,12 @@
+component_id,module_id,layer,status,readiness_percent,source_ids,notes
+GRID_BOUNDARY_CONTRACT,B08,GRID_BOUNDARY_CONTRACT,VALIDATED,90,SRC-B08-SCN-GRID-FIXTURE,Explicit AC/grid-side contract and provenance.
+HOURLY_AGGREGATION,B08,HOURLY_AGGREGATION,VALIDATED,85,SRC-B08-SCN-GRID-FIXTURE,Deterministic timestamp and duplicate-key checks.
+REGIONAL_AGGREGATION,B08,REGIONAL_AGGREGATION,VALIDATED,85,SRC-B08-SCN-GRID-FIXTURE,Explicit region scheme; mixed schemes fail closed.
+STATE_TRACE,B08,STATE_TRACE,VALIDATED,80,SRC-B08-SCN-GRID-FIXTURE,B01 state is carried without synthetic state-count load.
+PHYSICAL_FLEX_AGGREGATION,B08,PHYSICAL_FLEX_AGGREGATION,VALIDATED,85,SRC-B08-SCN-GRID-FIXTURE,Physical capability only; no dispatch.
+ENERGY_INTEGRATION,B08,ENERGY_INTEGRATION,VALIDATED,85,SRC-B08-SCN-GRID-FIXTURE,kWh follows explicit kW times timestep.
+PEAK_EXTRACTION,B08,PEAK_EXTRACTION,VALIDATED,80,SRC-B08-SCN-GRID-FIXTURE,Deterministic gross and net peaks with tied timestamps.
+SEASONAL_PEAK,B08,SEASONAL_PEAK,Q,0,SRC-B08-SCN-GRID-FIXTURE,No explicit season contract; no seasonal claim.
+NATIONAL_SCALING,B08,NATIONAL_SCALING,Q,0,SRC-B08-SCN-GRID-FIXTURE,Fixture total is not a Hungarian national result.
+B09_HANDOFF,B08,B09_HANDOFF,PARTIAL,20,SRC-B08-SCN-GRID-FIXTURE,Physical series only; no generation or dispatch.
+B10_HANDOFF,B08,B10_HANDOFF,PARTIAL,20,SRC-B08-SCN-GRID-FIXTURE,Peak/region series only; headroom and reinforcement remain Q.

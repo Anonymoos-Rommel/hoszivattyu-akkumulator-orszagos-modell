@@ -6,7 +6,7 @@ B04,Villamosenergia-ár és tarifák,,BLOCKED,58,REGULATED_RESIDENTIAL_ELECTRICI
 B05,Hőszivattyú fizikai modell,B02;B03;B04,IN_PROGRESS,64,Contract-first bounded physical engine plus EU-origin source-native points, a STIEBEL HPA-O 4/8 W35 cold-side extension to -15 C, and supply-temperature-specific weather-domain coverage; P5 high-supply audit did not promote output-only or estimated/interpolated values, and P6 confirms defrost accounting, measured Cdh/cycling degradation and product scaling remain Q; B03/B04 edges retained as orchestration gates but no tariff or money enters runtime.
 B06,Energetikai korszerűsítés,B02,IN_PROGRESS,55,B06-P4 adds a source-native Purmo radiator correction method and a complete SCN B06-to-B05 design-point bridge; real Hungarian emitter inventory/calibration and CAPEX remain Q; no tariffs or financing in runtime.
 B07,Háztartási akkumulátor és VPP,B04,IN_PROGRESS,58,B07-P1 physical SOC engine, AC/grid-side efficiency boundary, EU-first German product evidence and B08 physical handoff are executable; degradation runtime, H-tariff legality, VPP market eligibility and cell/supply-chain origin remain Q
-B08,Villamos rendszerterhelés,B01;B05;B07,NOT_STARTED,0,
+B08,Villamos rendszerterhelés,B01;B05;B07,IN_PROGRESS,45,"Bounded AC/grid-boundary aggregation, regional/state trace, explicit energy integration, physical flexibility and deterministic peaks are executable on SCN fixtures; national scaling, seasonal contract, headroom/reinforcement and B09 dispatch remain Q."
 B09,Termelési és tárolási portfólió,B04;B08,NOT_STARTED,0,
 B10,Hálózatfejlesztés,B01;B08;B09,NOT_STARTED,0,
 B11,Gázkiváltás és importhatás,B01;B02;B03;B05;B06,NOT_STARTED,0,
