@@ -1,7 +1,34 @@
 from datetime import datetime, timedelta
 from pathlib import Path
 
-import pytest
+import unittest
+
+
+class _Raises:
+    def __init__(self, expected):
+        self.expected = expected
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, _traceback):
+        if exc_type is None:
+            raise AssertionError(f"expected {self.expected.__name__}")
+        if not issubclass(exc_type, self.expected):
+            return False
+        return True
+
+
+class _Mark:
+    @staticmethod
+    def parametrize(_names, _values):
+        return lambda function: function
+
+
+class _PytestCompat:
+    mark = _Mark()
+    raises = staticmethod(_Raises)
+
+
+pytest = _PytestCompat()
 
 from modules.B05.engine import HourlyDemand, OperatingConfig, PerformanceMap, PerformancePoint, simulate_hourly
 from modules.B07.engine import BatteryEngine, BatterySpec, compute_household_balance, make_b08_handoff
@@ -127,7 +154,11 @@ def test_b05_b07_b08_path_does_not_double_count_heat_pump():
 
 
 @pytest.mark.parametrize("field", ["net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw"])
-def test_negative_physical_inputs_rejected(field):
+def test_negative_physical_inputs_rejected(field=None):
+    if field is None:
+        for candidate in ("net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw"):
+            test_negative_physical_inputs_rejected(candidate)
+        return
     with pytest.raises(B08ContractError):
         record(**{field: -0.1})
 
@@ -156,3 +187,31 @@ def test_provenance_is_present_on_rows_and_result():
     assert result.source_refs == SOURCE
     assert all(row.source_refs and row.evidence_statuses for row in result.rows)
     assert result.explanations[0]["truth_context"] == "SCN"
+
+
+class B08UnittestBridge(unittest.TestCase):
+    """Expose the pytest-style contract tests to the repository unittest runner."""
+
+    def test_contract_suite(self):
+        functions = (
+            test_import_export_net_identity_and_negative_net_is_retained,
+            test_explicit_timestep_converts_power_to_energy,
+            test_fixture_region_state_national_reconciliation_and_peaks,
+            test_deterministic_tied_peak_timestamps,
+            test_duplicate_canonical_key_rejected,
+            test_missing_or_q_values_fail_closed_without_fill_zero,
+            test_mixed_region_schemes_fail_closed_and_county_is_not_dso,
+            test_state_trace_does_not_synthesize_population_load,
+            test_flexibility_is_aggregated_but_does_not_change_load,
+            test_export_permission_remains_q_and_no_legal_claim_is_created,
+            test_b07_handoff_is_lossless,
+            test_b05_b07_b08_path_does_not_double_count_heat_pump,
+            test_negative_physical_inputs_rejected,
+            test_mixed_truth_context_rejected,
+            test_inconsistent_timestep_rejected,
+            test_bounded_result_has_no_b09_b10_or_seasonal_authority,
+            test_provenance_is_present_on_rows_and_result,
+        )
+        for function in functions:
+            with self.subTest(function=function.__name__):
+                function()
