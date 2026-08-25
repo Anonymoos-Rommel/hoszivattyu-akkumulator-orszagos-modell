@@ -1,0 +1,131 @@
+{
+  "dataset_id": "DATA-B01-STATE-STOCK-SCN-001",
+  "dataset_license": "CC BY-SA 4.0",
+  "scenario_id": "SCN-B01-STATE-STOCK-001",
+  "status": "SCN",
+  "truth_context": "SCN",
+  "plan_year": 2026,
+  "notes": "Bounded six-household fixture only; no national rollout, eligible-stock claim, or OBS promotion.",
+  "policy_target": {"value": 3, "status": "SCN", "source_ref": "SCN-B01-POLICY-TARGET-001"},
+  "technically_eligible_stock": {"value": 3, "status": "SCN", "source_ref": "SCN-B01-B02-ELIGIBLE-STOCK-001"},
+  "households": [
+    {
+      "household_id": "HH-SCN-001", "archetype_id": "ARCH-SCN-A", "region_id": "R1", "truth_context": "SCN", "current_state": "S0",
+      "evidence_refs": ["SCN-BASELINE-001"], "state_as_of": "2026-01-01", "owner": "SCN-fixture",
+      "next_gate": "audit_complete", "blocked_reason": "Eligibility and phase-linked demand-reduction evidence are missing.",
+      "eligibility_status": "BLOCKED", "eligibility_evidence_status": "Q"
+    },
+    {
+      "household_id": "HH-SCN-002", "archetype_id": "ARCH-SCN-A", "region_id": "R1", "truth_context": "SCN", "current_state": "S1",
+      "evidence_refs": ["SCN-BASELINE-002", "SCN-S0-S1-002"], "state_as_of": "2026-01-01", "owner": "SCN-fixture",
+      "next_gate": "technical_readiness_complete", "blocked_reason": "", "eligibility_status": "ELIGIBLE", "eligibility_evidence_status": "SCN",
+      "transition_evidence": [{"transition_id": "S0_TO_S1", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S0-S1-002"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"}]
+    },
+    {
+      "household_id": "HH-SCN-003", "archetype_id": "ARCH-SCN-B", "region_id": "R2", "truth_context": "SCN", "current_state": "S2",
+      "evidence_refs": ["SCN-S0-S1-003", "SCN-S1-S2-003"], "state_as_of": "2026-01-01", "owner": "SCN-fixture",
+      "next_gate": "heat_pump_operational_and_qa_complete", "blocked_reason": "", "eligibility_status": "ELIGIBLE", "eligibility_evidence_status": "SCN",
+      "transition_evidence": [
+        {"transition_id": "S0_TO_S1", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S0-S1-003"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S1_TO_S2", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S1-S2-003"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"}
+      ]
+    },
+    {
+      "household_id": "HH-SCN-004", "archetype_id": "ARCH-SCN-B", "region_id": "R2", "truth_context": "SCN", "current_state": "S3",
+      "evidence_refs": ["SCN-S0-S1-004", "SCN-S1-S2-004", "SCN-S2-S3-004"], "state_as_of": "2026-01-01", "owner": "SCN-fixture",
+      "next_gate": "flexibility_ready", "blocked_reason": "", "eligibility_status": "ELIGIBLE", "eligibility_evidence_status": "SCN",
+      "transition_evidence": [
+        {"transition_id": "S0_TO_S1", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S0-S1-004"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S1_TO_S2", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S1-S2-004"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S2_TO_S3", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S2-S3-004"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"}
+      ]
+    },
+    {
+      "household_id": "HH-SCN-005", "archetype_id": "ARCH-SCN-C", "region_id": "R1", "truth_context": "SCN", "current_state": "S4",
+      "evidence_refs": ["SCN-S0-S1-005", "SCN-S1-S2-005", "SCN-S2-S3-005", "SCN-S3-S4-005"], "state_as_of": "2026-01-01", "owner": "SCN-fixture",
+      "next_gate": "target_state_verified", "blocked_reason": "", "eligibility_status": "ELIGIBLE", "eligibility_evidence_status": "SCN",
+      "transition_evidence": [
+        {"transition_id": "S0_TO_S1", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S0-S1-005"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S1_TO_S2", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S1-S2-005"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S2_TO_S3", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S2-S3-005"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S3_TO_S4", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S3-S4-005"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"}
+      ]
+    },
+    {
+      "household_id": "HH-SCN-006", "archetype_id": "ARCH-SCN-C", "region_id": "R2", "truth_context": "SCN", "current_state": "S5",
+      "evidence_refs": ["SCN-S5-006"], "state_as_of": "2026-01-01", "owner": "SCN-fixture", "next_gate": "NONE", "blocked_reason": "",
+      "eligibility_status": "ELIGIBLE", "eligibility_evidence_status": "SCN",
+      "transition_evidence": [
+        {"transition_id": "S0_TO_S1", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S0-S1-006"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S1_TO_S2", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S1-S2-006"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S2_TO_S3", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S2-S3-006"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S3_TO_S4", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S3-S4-006"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"},
+        {"transition_id": "S4_TO_S5", "status": "SCN", "truth_context": "SCN", "evidence_refs": ["SCN-S4-S5-006"], "completed": true, "as_of": "2026-01-01", "owner": "SCN-fixture"}
+      ]
+    }
+  ],
+  "policy": {
+    "SOCIAL_NEED": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "ENERGY_WASTE": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "HOUSEHOLD_GAIN": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "PUBLIC_EFFICIENCY": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "FISCAL_EFFECT": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MINIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "SYSTEM_VALUE": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "ENV_HEALTH": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "READINESS": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"},
+    "REGIONAL_EQUITY": {"weight": 1.0, "weight_status": "SCN", "hard_minimum": 0.0, "hard_minimum_status": "SCN", "direction": "MAXIMIZE", "missing_value_policy": "FAIL_CLOSED", "source_ref": "SCN-B01-POLICY-001"}
+  },
+  "candidates": [
+    {
+      "household_id": "HH-SCN-001", "region_id": "R1", "intervention_id": "SCN-INT-001", "from_state": "S0", "target_state": "S1", "truth_context": "SCN",
+      "required_gate": "demand_reduction_measured_or_not_required", "required_gate_status": "Q", "required_gate_evidence_refs": [],
+      "scores": {"SOCIAL_NEED": null, "ENERGY_WASTE": null, "HOUSEHOLD_GAIN": null, "PUBLIC_EFFICIENCY": null, "FISCAL_EFFECT": null, "SYSTEM_VALUE": null, "ENV_HEALTH": null, "READINESS": null, "REGIONAL_EQUITY": null},
+      "score_statuses": {"SOCIAL_NEED": "Q", "ENERGY_WASTE": "Q", "HOUSEHOLD_GAIN": "Q", "PUBLIC_EFFICIENCY": "Q", "FISCAL_EFFECT": "Q", "SYSTEM_VALUE": "Q", "ENV_HEALTH": "Q", "READINESS": "Q", "REGIONAL_EQUITY": "Q"},
+      "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
+      "evidence_status": "Q", "missing_next_gate": "demand_reduction_measured_or_not_required", "why_now": "blocked until baseline eligibility is explicit", "why_here": "R1 fixture household", "binding_constraint": "UNASSIGNED"
+    },
+    {
+      "household_id": "HH-SCN-002", "region_id": "R1", "intervention_id": "SCN-INT-002", "from_state": "S1", "target_state": "S2", "truth_context": "SCN",
+      "required_gate": "technical_readiness_complete", "required_gate_status": "SCN", "required_gate_evidence_refs": ["SCN-GATE-002"],
+      "scores": {"SOCIAL_NEED": 1.0, "ENERGY_WASTE": 1.0, "HOUSEHOLD_GAIN": 1.0, "PUBLIC_EFFICIENCY": 1.0, "FISCAL_EFFECT": 0.1, "SYSTEM_VALUE": 1.0, "ENV_HEALTH": 1.0, "READINESS": 1.0, "REGIONAL_EQUITY": 1.0},
+      "score_statuses": {"SOCIAL_NEED": "SCN", "ENERGY_WASTE": "SCN", "HOUSEHOLD_GAIN": "SCN", "PUBLIC_EFFICIENCY": "SCN", "FISCAL_EFFECT": "SCN", "SYSTEM_VALUE": "SCN", "ENV_HEALTH": "SCN", "READINESS": "SCN", "REGIONAL_EQUITY": "SCN"},
+      "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
+      "evidence_status": "SCN", "missing_next_gate": "technical_readiness_complete", "why_now": "S1 predecessor is explicit and the scenario gate is available", "why_here": "R1 has an explicit fixture candidate", "binding_constraint": "UNASSIGNED"
+    },
+    {
+      "household_id": "HH-SCN-003", "region_id": "R2", "intervention_id": "SCN-INT-003", "from_state": "S2", "target_state": "S3", "truth_context": "SCN",
+      "required_gate": "heat_pump_operational_and_qa_complete", "required_gate_status": "SCN", "required_gate_evidence_refs": ["SCN-GATE-003"],
+      "scores": {"SOCIAL_NEED": 0.8, "ENERGY_WASTE": 0.7, "HOUSEHOLD_GAIN": 0.8, "PUBLIC_EFFICIENCY": 0.7, "FISCAL_EFFECT": 0.6, "SYSTEM_VALUE": 0.6, "ENV_HEALTH": 0.5, "READINESS": 0.8, "REGIONAL_EQUITY": 0.9},
+      "score_statuses": {"SOCIAL_NEED": "SCN", "ENERGY_WASTE": "SCN", "HOUSEHOLD_GAIN": "SCN", "PUBLIC_EFFICIENCY": "SCN", "FISCAL_EFFECT": "SCN", "SYSTEM_VALUE": "SCN", "ENV_HEALTH": "SCN", "READINESS": "SCN", "REGIONAL_EQUITY": "SCN"},
+      "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
+      "evidence_status": "SCN", "missing_next_gate": "heat_pump_operational_and_qa_complete", "why_now": "S2 technical readiness is explicit in the fixture", "why_here": "R2 carries the S2 candidate in this fixture", "binding_constraint": "UNASSIGNED"
+    },
+    {
+      "household_id": "HH-SCN-004", "region_id": "R2", "intervention_id": "SCN-INT-004", "from_state": "S3", "target_state": "S4", "truth_context": "SCN",
+      "required_gate": "flexibility_ready", "required_gate_status": "SCN", "required_gate_evidence_refs": ["SCN-GATE-004"],
+      "scores": {"SOCIAL_NEED": 0.7, "ENERGY_WASTE": 0.9, "HOUSEHOLD_GAIN": 0.6, "PUBLIC_EFFICIENCY": 0.8, "FISCAL_EFFECT": 0.7, "SYSTEM_VALUE": 0.7, "ENV_HEALTH": 0.6, "READINESS": 0.7, "REGIONAL_EQUITY": 0.8},
+      "score_statuses": {"SOCIAL_NEED": "SCN", "ENERGY_WASTE": "SCN", "HOUSEHOLD_GAIN": "SCN", "PUBLIC_EFFICIENCY": "SCN", "FISCAL_EFFECT": "SCN", "SYSTEM_VALUE": "SCN", "ENV_HEALTH": "SCN", "READINESS": "SCN", "REGIONAL_EQUITY": "SCN"},
+      "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
+      "evidence_status": "SCN", "missing_next_gate": "flexibility_ready", "why_now": "S3 operation is explicit but annual installer capacity is scarce", "why_here": "R2 is the candidate's explicit region", "binding_constraint": "UNASSIGNED"
+    },
+    {
+      "household_id": "HH-SCN-005", "region_id": "R1", "intervention_id": "SCN-INT-005", "from_state": "S4", "target_state": "S5", "truth_context": "SCN",
+      "required_gate": "target_state_verified", "required_gate_status": "Q", "required_gate_evidence_refs": [],
+      "scores": {"SOCIAL_NEED": 0.6, "ENERGY_WASTE": 0.6, "HOUSEHOLD_GAIN": 0.6, "PUBLIC_EFFICIENCY": 0.6, "FISCAL_EFFECT": 0.6, "SYSTEM_VALUE": 0.6, "ENV_HEALTH": 0.6, "READINESS": 0.6, "REGIONAL_EQUITY": 0.6},
+      "score_statuses": {"SOCIAL_NEED": "SCN", "ENERGY_WASTE": "SCN", "HOUSEHOLD_GAIN": "SCN", "PUBLIC_EFFICIENCY": "SCN", "FISCAL_EFFECT": "SCN", "SYSTEM_VALUE": "SCN", "ENV_HEALTH": "SCN", "READINESS": "SCN", "REGIONAL_EQUITY": "SCN"},
+      "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
+      "evidence_status": "Q", "missing_next_gate": "target_state_verified", "why_now": "blocked until ex-post target-state evidence exists", "why_here": "R1 S4 fixture household", "binding_constraint": "UNASSIGNED"
+    }
+  ],
+  "constraints": [
+    {"name": "public_money", "available": 300.0, "status": "SCN", "unit": "fixture_units", "constraint_type": "MAX_RESOURCE"},
+    {"name": "household_cashflow_floor", "available": 2.0, "status": "SCN", "unit": "fixture_floor_units", "constraint_type": "MIN_TOTAL"},
+    {"name": "installer_FTE", "available": 2.0, "status": "SCN", "unit": "FTE", "constraint_type": "MAX_RESOURCE"},
+    {"name": "supplier_capacity", "available": 3.0, "status": "SCN", "unit": "fixture_units", "constraint_type": "MAX_RESOURCE"},
+    {"name": "permitting_capacity", "available": 3.0, "status": "SCN", "unit": "fixture_units", "constraint_type": "MAX_RESOURCE"},
+    {"name": "grid_headroom", "available": 3.0, "status": "SCN", "unit": "fixture_units", "constraint_type": "MAX_RESOURCE"},
+    {"name": "regional_minimum", "available": 1.0, "status": "SCN", "unit": "households", "constraint_type": "MIN_REGION", "region_id": "R1"},
+    {"name": "regional_minimum", "available": 1.0, "status": "SCN", "unit": "households", "constraint_type": "MIN_REGION", "region_id": "R2"},
+    {"name": "debt_headroom", "available": 300.0, "status": "SCN", "unit": "fixture_units", "constraint_type": "MAX_RESOURCE"}
+  ]
+}
