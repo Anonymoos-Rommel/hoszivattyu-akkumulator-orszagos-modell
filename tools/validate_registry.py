@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import re
 import sys
 from datetime import date
@@ -634,6 +635,70 @@ def duplicate_values(values: list[str]) -> list[str]:
             duplicates.add(value)
         seen.add(value)
     return sorted(duplicates)
+
+
+def validate_b01_artifacts(errors: list[str]) -> None:
+    """Validate the single canonical B01 state/portfolio contract and SCN fixture."""
+    model_path = REGISTRY / "household_state_model.json"
+    if not model_path.is_file():
+        errors.append("missing B01 household state model")
+        return
+    try:
+        model = json.loads(model_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        errors.append(f"invalid B01 household state model JSON: {exc}")
+        return
+    state_ids = [row.get("state_id") for row in model.get("states", [])]
+    if state_ids != ["S0", "S1", "S2", "S3", "S4", "S5"]:
+        errors.append(f"invalid B01 state order: {state_ids!r}")
+    record_schema = model.get("household_record_schema", {})
+    required_record_fields = {
+        "household_id", "archetype_id", "region_id", "current_state", "evidence_refs",
+        "state_as_of", "owner", "next_gate", "blocked_reason", "eligibility_status",
+        "eligibility_evidence_status",
+    }
+    if set(record_schema.get("required", [])) != required_record_fields:
+        errors.append("B01 household record schema is missing required fields")
+    transitions = model.get("transition_contract", [])
+    transition_ids = [row.get("transition_id") for row in transitions]
+    if transition_ids != ["S0_TO_S1", "S1_TO_S2", "S2_TO_S3", "S3_TO_S4", "S4_TO_S5"]:
+        errors.append(f"invalid B01 transition contract order: {transition_ids!r}")
+    for transition in transitions:
+        if not transition.get("required_gates") or set(transition.get("allowed_completion_status", [])) != {"OBS", "DER"}:
+            errors.append(f"B01 transition is not fail-closed: {transition.get('transition_id')!r}")
+    expected_components = {
+        "SOCIAL_NEED", "ENERGY_WASTE", "HOUSEHOLD_GAIN", "PUBLIC_EFFICIENCY",
+        "FISCAL_EFFECT", "SYSTEM_VALUE", "ENV_HEALTH", "READINESS", "REGIONAL_EQUITY",
+    }
+    portfolio = model.get("portfolio_contract", {})
+    if set(portfolio.get("components", [])) != expected_components:
+        errors.append("B01 portfolio component contract is incomplete")
+    if portfolio.get("missing_value_policy") != "FAIL_CLOSED":
+        errors.append("B01 portfolio missing-value policy is not FAIL_CLOSED")
+    expected_constraints = {
+        "public_money", "household_cashflow_floor", "installer_FTE", "supplier_capacity",
+        "permitting_capacity", "grid_headroom", "regional_minimum", "debt_headroom",
+    }
+    if set(model.get("capacity_constraint_contract", {}).get("constraints", [])) != expected_constraints:
+        errors.append("B01 capacity constraint contract is incomplete")
+
+    fixture_path = ROOT / "data" / "fixtures" / "b01_state_stock_scn.json"
+    if not fixture_path.is_file():
+        errors.append("missing B01 SCN fixture")
+        return
+    try:
+        fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        errors.append(f"invalid B01 SCN fixture JSON: {exc}")
+        return
+    if fixture.get("status") != "SCN":
+        errors.append("B01 fixture must remain SCN")
+    if not isinstance(fixture.get("plan_year"), int):
+        errors.append("B01 fixture must expose an explicit plan_year")
+    if fixture.get("dataset_license") != "CC BY-SA 4.0":
+        errors.append("B01 fixture is missing its dataset-level license")
+    if not fixture.get("households") or not fixture.get("candidates") or not fixture.get("constraints"):
+        errors.append("B01 fixture must contain households, candidates, and explicit constraints")
 
 
 def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
@@ -1491,6 +1556,7 @@ def validate() -> list[str]:
             if row["status"] not in ALLOWED_QUESTION_STATUS:
                 errors.append(f"invalid question status for {question_id}: {row['status']!r}")
 
+    validate_b01_artifacts(errors)
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)

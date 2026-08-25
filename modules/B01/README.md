@@ -36,6 +36,34 @@
 - egyetlen éves kiválasztási súly vagy hard minimum sem lehet rejtett konstans;
 - az országos portfólió kiválasztott darabszáma nem haladhatja meg az éves pénz-, FTE-, beszállítói-, engedélyezési- vagy hálózati korlátot.
 
+## Executable B01-P1 contract
+
+`registry/household_state_model.json` az egyetlen canonical state-record,
+transition-, policy- és capacity-contract. A `modules/B01/engine.py` ezt a
+contractot tölti be; nem tart fenn második állapotgépet és nem ad rejtett
+országos optimumot.
+
+- `HouseholdStateRecord` csak explicit state-as-of, owner, next gate,
+  eligibility és transition evidence mellett értékelhető.
+- `OBS`/`DER` gate evidence nélkül az átmenet `BLOCKED/Q`; `ASS`, `SCN` és
+  `Q` nem teljesíthet egy observed household transitiont.
+- A meglévő hőszivattyú-jelző, fogyasztás, épületkor, tarifa vagy archetípus-
+  becslés önmagában nem emel állapotot.
+- A kiléptetett állapot csak monotónusan változhat; a kihagyás explicit,
+  már teljesült exit-gate evidence nélkül tiltott.
+- A candidate intervention a state predecessorhez, gate evidence-hez,
+  kilenc V1.2 komponenshez és explicit resource-needs mezőkhöz kötött.
+- MCDA, lexikografikus és capacity-limited ordering csak teljes, explicit
+  `POL`/`SCN`/`DER`/`OBS` policy-paraméterekkel fut; hiányzó érték nem nulla.
+- A state-stock aggregáció konzervál, régiós összeget képez, és csak `SCN`
+  outputot ad. A bounded fixture nem országos eligible-stock vagy rollout
+  eredmény.
+
+Bounded fixture: `data/fixtures/b01_state_stock_scn.json`.
+
 ## Állapot
 
-`IN_PROGRESS` – a V1.2 állapot- és portfólió-szerződés vázolva, de célállomány, objektívfüggvény, hard minimumok és éves kapacitáspályák még nincsenek validálva.
+`IN_PROGRESS` – a state-record, transition-gate, candidate, policy és éves
+capacity skeleton gépileg ellenőrizhető bounded SCN fixture-en; a Q-B01-006
+objective/hard-minimum döntés, a B02 national eligible stock, valamint a
+valós országos capacity path továbbra sincs lezárva.
