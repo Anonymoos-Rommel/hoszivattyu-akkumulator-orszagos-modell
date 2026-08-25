@@ -32,7 +32,7 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         model = json.loads((ROOT / "registry" / "household_state_model.json").read_text(encoding="utf-8"))
         self.assertEqual(
             [
-                "household_id", "archetype_id", "region_id", "current_state", "evidence_refs",
+                "household_id", "archetype_id", "region_id", "truth_context", "current_state", "evidence_refs",
                 "state_as_of", "owner", "next_gate", "blocked_reason", "eligibility_status",
                 "eligibility_evidence_status",
             ],
@@ -42,6 +42,83 @@ class B01StateStockPortfolioTests(unittest.TestCase):
             ["S0_TO_S1", "S1_TO_S2", "S2_TO_S3", "S3_TO_S4", "S4_TO_S5"],
             [row["transition_id"] for row in model["transition_contract"]],
         )
+
+    def test_transition_gate_semantics_align_with_state_exit_gates(self) -> None:
+        model = json.loads((ROOT / "registry" / "household_state_model.json").read_text(encoding="utf-8"))
+        exits = {row["state_id"]: row["exit_gate"] for row in model["states"]}
+        for transition in model["transition_contract"]:
+            with self.subTest(transition=transition["transition_id"]):
+                self.assertEqual(exits[transition["from_state"]], transition["source_exit_gate"])
+                self.assertEqual(exits[transition["to_state"]], transition["target_completion_gate"])
+                self.assertEqual(
+                    [transition["source_exit_gate"], transition["target_completion_gate"]],
+                    transition["required_gates"],
+                )
+
+    def test_scn_transition_label_mismatch_fails_closed(self) -> None:
+        for status in ("OBS", "DER", "ASS", "Q"):
+            with self.subTest(status=status):
+                evidence = b01.TransitionEvidence(
+                    "S0_TO_S1", status, ("SCN-EVIDENCE",), True,
+                    "2026-01-01", "SCN-fixture", truth_context="SCN",
+                )
+                with self.assertRaises(b01.B01ContractError):
+                    evidence.validate()
+
+    def test_real_transition_rejects_scn_ass_and_q_completion(self) -> None:
+        for status in ("SCN", "ASS", "Q"):
+            with self.subTest(status=status):
+                evidence = b01.TransitionEvidence(
+                    "S0_TO_S1", status, ("E0",), True,
+                    "2026-01-01", "tester",
+                )
+                with self.assertRaises(b01.B01ContractError):
+                    evidence.validate()
+
+    def test_scn_fixture_remains_scn_truth(self) -> None:
+        payload, records, candidates, _, _, _ = fixture_inputs()
+        self.assertEqual("SCN", payload["truth_context"])
+        self.assertTrue(all(record.truth_context == "SCN" for record in records))
+        self.assertTrue(all(record.eligibility_evidence_status in {"SCN", "Q"} for record in records))
+        self.assertTrue(
+            all(evidence.truth_context == "SCN" and evidence.status == "SCN" for record in records for evidence in record.transition_evidence)
+        )
+        self.assertTrue(all(candidate.truth_context == "SCN" for candidate in candidates))
+        self.assertTrue(all(candidate.required_gate_status == "SCN" for candidate in candidates))
+
+    def test_scn_fixture_runs_without_observed_evidence_fabrication(self) -> None:
+        output = b01.run_fixture(FIXTURE)
+        self.assertEqual("SCN", output.status)
+        self.assertEqual(2, len(output.selected_transitions))
+        payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+        self.assertFalse(
+            any(
+                evidence.get("status") in {"OBS", "DER"}
+                for household in payload["households"]
+                for evidence in household.get("transition_evidence", [])
+            )
+        )
+
+    def test_candidate_gate_matches_canonical_contract(self) -> None:
+        _, _, candidates, _, _, _ = fixture_inputs()
+        candidate = next(item for item in candidates if item.intervention_id == "SCN-INT-002")
+        transition = b01._transition_for(candidate.from_state, candidate.target_state)
+        self.assertEqual(transition["target_completion_gate"], candidate.required_gate)
+        candidate.validate()
+
+    def test_candidate_gate_mismatch_fails_closed(self) -> None:
+        _, _, candidates, _, _, _ = fixture_inputs()
+        candidate = next(item for item in candidates if item.intervention_id == "SCN-INT-002")
+        with self.assertRaises(b01.B01ContractError):
+            replace(candidate, required_gate="audit_complete").validate()
+
+    def test_fixture_candidate_gates_are_canonical(self) -> None:
+        _, _, candidates, _, _, _ = fixture_inputs()
+        for candidate in candidates:
+            with self.subTest(candidate=candidate.intervention_id):
+                transition = b01._transition_for(candidate.from_state, candidate.target_state)
+                self.assertEqual(transition["target_completion_gate"], candidate.required_gate)
+                self.assertIn(candidate.required_gate, transition["required_gates"])
 
     def test_missing_transition_evidence_is_blocked_q(self) -> None:
         record = b01.HouseholdStateRecord(

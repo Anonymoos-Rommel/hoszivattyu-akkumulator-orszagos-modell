@@ -72,6 +72,7 @@ class TransitionEvidence:
     owner: str
     skipped: bool = False
     skip_reason: str = ""
+    truth_context: str = "REAL"
 
     def validate(self) -> None:
         transition = TRANSITIONS.get(self.transition_id)
@@ -79,17 +80,25 @@ class TransitionEvidence:
             raise B01ContractError(f"unknown transition: {self.transition_id!r}")
         if self.status not in EVIDENCE_STATUSES:
             raise B01ContractError(f"invalid transition evidence status: {self.status!r}")
+        if self.truth_context not in set(MODEL["household_record_schema"]["truth_contexts"]):
+            raise B01ContractError(f"invalid transition truth_context: {self.truth_context!r}")
+        if self.truth_context == "SCN" and self.status != "SCN":
+            raise B01ContractError("SCN transition context cannot carry OBS/DER/ASS/Q labels")
+        if self.truth_context == "REAL" and self.status == "SCN":
+            raise B01ContractError("REAL transition context cannot carry SCN evidence")
         _iso_date(self.as_of, f"{self.transition_id}.as_of")
         _nonempty(self.owner, f"{self.transition_id}.owner")
         if any(not isinstance(ref, str) or not ref.strip() for ref in self.evidence_refs):
             raise B01ContractError(f"{self.transition_id} has an empty evidence reference")
-        if self.completed:
+        if self.completed and self.truth_context == "REAL":
             if self.status not in set(transition["allowed_completion_status"]):
                 raise B01ContractError(
                     f"{self.transition_id} cannot complete with {self.status} evidence"
                 )
             if not self.evidence_refs:
                 raise B01ContractError(f"{self.transition_id} completion requires evidence_refs")
+        if self.completed and self.truth_context == "SCN" and not self.evidence_refs:
+            raise B01ContractError(f"{self.transition_id} SCN projection requires evidence_refs")
         if self.skipped and (not self.completed or not self.skip_reason.strip()):
             raise B01ContractError(f"skipped {self.transition_id} requires explicit satisfied gate and reason")
 
@@ -108,6 +117,7 @@ class HouseholdStateRecord:
     eligibility_status: str
     eligibility_evidence_status: str
     transition_evidence: tuple[TransitionEvidence, ...] = ()
+    truth_context: str = "REAL"
 
     def validate(self) -> None:
         for field, value in (
@@ -121,12 +131,18 @@ class HouseholdStateRecord:
             raise B01ContractError("blocked_reason must be a string")
         if self.current_state not in STATE_INDEX:
             raise B01ContractError(f"unknown current_state: {self.current_state!r}")
+        if self.truth_context not in set(MODEL["household_record_schema"]["truth_contexts"]):
+            raise B01ContractError(f"invalid truth_context: {self.truth_context!r}")
         _iso_date(self.state_as_of, "state_as_of")
         _nonempty(self.owner, "owner")
         if self.eligibility_status not in set(MODEL["household_record_schema"]["eligibility_statuses"]):
             raise B01ContractError(f"invalid eligibility_status: {self.eligibility_status!r}")
         if self.eligibility_evidence_status not in EVIDENCE_STATUSES:
             raise B01ContractError(f"invalid eligibility_evidence_status: {self.eligibility_evidence_status!r}")
+        if self.truth_context == "SCN" and self.eligibility_evidence_status not in {"SCN", "Q"}:
+            raise B01ContractError("SCN household context requires SCN or Q eligibility evidence")
+        if self.truth_context == "REAL" and self.eligibility_evidence_status == "SCN":
+            raise B01ContractError("REAL household context cannot carry SCN eligibility evidence")
         if any(not isinstance(ref, str) or not ref.strip() for ref in self.evidence_refs):
             raise B01ContractError("evidence_refs cannot contain empty values")
         seen: set[str] = set()
@@ -194,7 +210,8 @@ def evaluate_next_transition(record: HouseholdStateRecord) -> TransitionDecision
             transition["transition_id"], "BLOCKED", current, transition["to_state"], required_gate,
             "Q", "Eligibility is not explicitly ELIGIBLE; missing evidence remains Q.",
         )
-    if record.eligibility_evidence_status not in {"OBS", "DER"}:
+    allowed_eligibility_statuses = {"OBS", "DER"} if record.truth_context == "REAL" else {"SCN"}
+    if record.eligibility_evidence_status not in allowed_eligibility_statuses:
         return TransitionDecision(
             transition["transition_id"], "BLOCKED", current, transition["to_state"], required_gate,
             record.eligibility_evidence_status, "Eligibility evidence is not OBS/DER.",
@@ -223,6 +240,7 @@ class CandidateIntervention:
     why_now: str
     why_here: str
     binding_constraint: str = "UNASSIGNED"
+    truth_context: str = "REAL"
 
     def validate(self) -> None:
         for field, value in (
@@ -236,9 +254,22 @@ class CandidateIntervention:
             ("binding_constraint", self.binding_constraint),
         ):
             _nonempty(value, field)
-        _transition_for(self.from_state, self.target_state)
+        transition = _transition_for(self.from_state, self.target_state)
+        canonical_gate = transition["target_completion_gate"]
+        if self.required_gate != canonical_gate:
+            raise B01ContractError(
+                f"candidate required_gate mismatch for {transition['transition_id']}: "
+                f"expected={canonical_gate!r} actual={self.required_gate!r}"
+            )
+        if self.truth_context not in set(MODEL["household_record_schema"]["truth_contexts"]):
+            raise B01ContractError(f"invalid candidate truth_context: {self.truth_context!r}")
         if self.required_gate_status not in EVIDENCE_STATUSES:
             raise B01ContractError(f"invalid required_gate_status: {self.required_gate_status!r}")
+        allowed_gate_statuses = {"OBS", "DER"} if self.truth_context == "REAL" else {"SCN"}
+        if self.required_gate_status not in allowed_gate_statuses:
+            raise B01ContractError(
+                f"{self.truth_context} candidate gate requires {sorted(allowed_gate_statuses)!r} evidence"
+            )
         if any(not ref.strip() for ref in self.required_gate_evidence_refs):
             raise B01ContractError("required_gate_evidence_refs cannot contain empty values")
         if self.evidence_status not in EVIDENCE_STATUSES:
@@ -282,15 +313,18 @@ class CandidateDecision:
 def assess_candidate(record: HouseholdStateRecord, candidate: CandidateIntervention) -> CandidateDecision:
     candidate.validate()
     current = determine_current_state(record)
+    if candidate.truth_context != record.truth_context:
+        return CandidateDecision(candidate, "BLOCKED", "Candidate and household truth contexts differ.", candidate.missing_next_gate)
     if candidate.household_id != record.household_id or candidate.from_state != current:
         return CandidateDecision(candidate, "BLOCKED", "Candidate predecessor state does not match household state.", candidate.missing_next_gate)
     next_transition = evaluate_next_transition(record)
     expected = _transition_for(candidate.from_state, candidate.target_state)
     if next_transition.transition_id != expected["transition_id"]:
         return CandidateDecision(candidate, "BLOCKED", "Candidate is not the next monotone transition.", candidate.missing_next_gate)
-    if record.eligibility_status != "ELIGIBLE" or record.eligibility_evidence_status not in {"OBS", "DER"}:
+    allowed_eligibility_statuses = {"OBS", "DER"} if record.truth_context == "REAL" else {"SCN"}
+    if record.eligibility_status != "ELIGIBLE" or record.eligibility_evidence_status not in allowed_eligibility_statuses:
         return CandidateDecision(candidate, "BLOCKED", "Eligibility is not explicitly evidenced; physical inputs cannot create policy eligibility.", candidate.missing_next_gate)
-    if candidate.required_gate_status not in {"OBS", "DER"} or not candidate.required_gate_evidence_refs:
+    if candidate.required_gate_status not in allowed_eligibility_statuses or not candidate.required_gate_evidence_refs:
         return CandidateDecision(candidate, "BLOCKED", "Required gate evidence is missing or not OBS/DER.", candidate.required_gate)
     if not candidate.score_complete:
         return CandidateDecision(candidate, "BLOCKED", "A portfolio component is missing or not numerically evidenced.", candidate.missing_next_gate)
@@ -584,6 +618,7 @@ def aggregate_state_stock(
 
 
 def _record_from_payload(payload: Mapping[str, Any]) -> HouseholdStateRecord:
+    truth_context = payload.get("truth_context", "REAL")
     evidence = tuple(
         TransitionEvidence(
             transition_id=item["transition_id"],
@@ -594,6 +629,7 @@ def _record_from_payload(payload: Mapping[str, Any]) -> HouseholdStateRecord:
             owner=item["owner"],
             skipped=bool(item.get("skipped", False)),
             skip_reason=item.get("skip_reason", ""),
+            truth_context=truth_context,
         )
         for item in payload.get("transition_evidence", [])
     )
@@ -610,6 +646,7 @@ def _record_from_payload(payload: Mapping[str, Any]) -> HouseholdStateRecord:
         eligibility_status=payload["eligibility_status"],
         eligibility_evidence_status=payload["eligibility_evidence_status"],
         transition_evidence=evidence,
+        truth_context=truth_context,
     )
 
 
@@ -631,6 +668,7 @@ def _candidate_from_payload(payload: Mapping[str, Any]) -> CandidateIntervention
         why_now=payload["why_now"],
         why_here=payload["why_here"],
         binding_constraint=payload.get("binding_constraint", "UNASSIGNED"),
+        truth_context=payload.get("truth_context", "REAL"),
     )
 
 
@@ -650,6 +688,8 @@ def run_fixture(path: str | Path) -> StateStockOutput:
     payload = json.loads(Path(path).read_text(encoding="utf-8"))
     if payload.get("status") != "SCN" or payload.get("dataset_license") != "CC BY-SA 4.0":
         raise B01ContractError("B01 fixture must be explicit SCN with dataset-level license")
+    if payload.get("truth_context", "SCN") != "SCN":
+        raise B01ContractError("SCN fixture must use SCN truth_context")
     records = tuple(_record_from_payload(item) for item in payload["households"])
     candidates = tuple(_candidate_from_payload(item) for item in payload["candidates"])
     policy = _policy_from_payload(payload["policy"])

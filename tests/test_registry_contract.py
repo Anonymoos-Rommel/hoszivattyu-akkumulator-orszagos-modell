@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +20,7 @@ from tools.validate_registry import (  # noqa: E402
     SOURCE_VERSION_PATTERN,
     read_csv,
     validate,
+    validate_b01_artifacts,
     validate_b07_source_rows,
 )
 
@@ -42,6 +46,42 @@ class RegistryContractTests(unittest.TestCase):
         validate_b07_source_rows(errors, headers, [row])
         self.assertTrue(any("invalid B07 source reliability" in error for error in errors))
         self.assertNotIn(row["reliability"], ALLOWED_RELIABILITY)
+
+    def test_b01_validator_rejects_scn_fixture_observed_transition(self) -> None:
+        from tools import validate_registry
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "registry").mkdir()
+            (root / "data" / "fixtures").mkdir(parents=True)
+            model = ROOT / "registry" / "household_state_model.json"
+            fixture = ROOT / "data" / "fixtures" / "b01_state_stock_scn.json"
+            (root / "registry" / model.name).write_text(model.read_text(encoding="utf-8"), encoding="utf-8")
+            payload = json.loads(fixture.read_text(encoding="utf-8"))
+            payload["households"][1]["transition_evidence"][0]["status"] = "OBS"
+            (root / "data" / "fixtures" / fixture.name).write_text(json.dumps(payload), encoding="utf-8")
+            errors: list[str] = []
+            with patch.object(validate_registry, "ROOT", root), patch.object(validate_registry, "REGISTRY", root / "registry"):
+                validate_b01_artifacts(errors)
+            self.assertTrue(any("SCN transition evidence is not SCN" in error for error in errors))
+
+    def test_b01_validator_rejects_noncanonical_candidate_gate(self) -> None:
+        from tools import validate_registry
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "registry").mkdir()
+            (root / "data" / "fixtures").mkdir(parents=True)
+            model = ROOT / "registry" / "household_state_model.json"
+            fixture = ROOT / "data" / "fixtures" / "b01_state_stock_scn.json"
+            (root / "registry" / model.name).write_text(model.read_text(encoding="utf-8"), encoding="utf-8")
+            payload = json.loads(fixture.read_text(encoding="utf-8"))
+            payload["candidates"][1]["required_gate"] = "audit_complete"
+            (root / "data" / "fixtures" / fixture.name).write_text(json.dumps(payload), encoding="utf-8")
+            errors: list[str] = []
+            with patch.object(validate_registry, "ROOT", root), patch.object(validate_registry, "REGISTRY", root / "registry"):
+                validate_b01_artifacts(errors)
+            self.assertTrue(any("candidate gate is not canonical" in error for error in errors))
 
     def test_internal_source_documents_are_gitignored(self) -> None:
         ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")

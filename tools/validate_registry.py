@@ -655,16 +655,32 @@ def validate_b01_artifacts(errors: list[str]) -> None:
     required_record_fields = {
         "household_id", "archetype_id", "region_id", "current_state", "evidence_refs",
         "state_as_of", "owner", "next_gate", "blocked_reason", "eligibility_status",
-        "eligibility_evidence_status",
+        "eligibility_evidence_status", "truth_context",
     }
     if set(record_schema.get("required", [])) != required_record_fields:
         errors.append("B01 household record schema is missing required fields")
+    if set(record_schema.get("truth_contexts", [])) != {"REAL", "SCN"}:
+        errors.append("B01 household record truth_context contract is incomplete")
+    if not model.get("transition_gate_semantics"):
+        errors.append("B01 transition gate semantics are missing")
     transitions = model.get("transition_contract", [])
     transition_ids = [row.get("transition_id") for row in transitions]
     if transition_ids != ["S0_TO_S1", "S1_TO_S2", "S2_TO_S3", "S3_TO_S4", "S4_TO_S5"]:
         errors.append(f"invalid B01 transition contract order: {transition_ids!r}")
+    state_exit_gates = {
+        row.get("state_id"): row.get("exit_gate")
+        for row in model.get("states", [])
+    }
     for transition in transitions:
-        if not transition.get("required_gates") or set(transition.get("allowed_completion_status", [])) != {"OBS", "DER"}:
+        source_exit_gate = state_exit_gates.get(transition.get("from_state"))
+        target_completion_gate = state_exit_gates.get(transition.get("to_state"))
+        if (
+            not transition.get("required_gates")
+            or set(transition.get("allowed_completion_status", [])) != {"OBS", "DER"}
+            or transition.get("source_exit_gate") != source_exit_gate
+            or transition.get("target_completion_gate") != target_completion_gate
+            or transition.get("required_gates") != [source_exit_gate, target_completion_gate]
+        ):
             errors.append(f"B01 transition is not fail-closed: {transition.get('transition_id')!r}")
     expected_components = {
         "SOCIAL_NEED", "ENERGY_WASTE", "HOUSEHOLD_GAIN", "PUBLIC_EFFICIENCY",
@@ -693,12 +709,32 @@ def validate_b01_artifacts(errors: list[str]) -> None:
         return
     if fixture.get("status") != "SCN":
         errors.append("B01 fixture must remain SCN")
+    if fixture.get("truth_context") != "SCN":
+        errors.append("B01 fixture truth_context must remain SCN")
     if not isinstance(fixture.get("plan_year"), int):
         errors.append("B01 fixture must expose an explicit plan_year")
     if fixture.get("dataset_license") != "CC BY-SA 4.0":
         errors.append("B01 fixture is missing its dataset-level license")
     if not fixture.get("households") or not fixture.get("candidates") or not fixture.get("constraints"):
         errors.append("B01 fixture must contain households, candidates, and explicit constraints")
+    for household in fixture.get("households", []):
+        if household.get("truth_context") != "SCN":
+            errors.append(f"B01 SCN household is not SCN truth: {household.get('household_id')!r}")
+        if household.get("eligibility_evidence_status") not in {"SCN", "Q"}:
+            errors.append(f"B01 SCN household has non-SCN eligibility evidence: {household.get('household_id')!r}")
+        for evidence in household.get("transition_evidence", []):
+            if evidence.get("truth_context") != "SCN" or evidence.get("status") != "SCN":
+                errors.append(f"B01 SCN transition evidence is not SCN: {household.get('household_id')!r}")
+    transition_by_states = {
+        (row.get("from_state"), row.get("to_state")): row
+        for row in transitions
+    }
+    for candidate in fixture.get("candidates", []):
+        transition = transition_by_states.get((candidate.get("from_state"), candidate.get("target_state")))
+        if transition is None or candidate.get("required_gate") != transition.get("target_completion_gate"):
+            errors.append(f"B01 candidate gate is not canonical: {candidate.get('intervention_id')!r}")
+        if candidate.get("truth_context") != "SCN" or candidate.get("required_gate_status") != "SCN":
+            errors.append(f"B01 SCN candidate is not SCN truth: {candidate.get('intervention_id')!r}")
 
 
 def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
