@@ -9,18 +9,39 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from tools.validate_registry import (  # noqa: E402
+    ALLOWED_RELIABILITY,
     DATASET_ID_PATTERN,
     DIMENSION_ID_PATTERN,
+    EXPECTED_HEADERS,
     QUESTION_ID_PATTERN,
     SOURCE_VERSION_PATTERN,
     read_csv,
     validate,
+    validate_b07_source_rows,
 )
 
 
 class RegistryContractTests(unittest.TestCase):
     def test_registry_contract_is_valid(self) -> None:
         self.assertEqual([], validate())
+
+    def test_b07_validator_rejects_misaligned_source_row(self) -> None:
+        headers = EXPECTED_HEADERS["battery_sources.csv"]
+        row = {field: "valid" for field in headers}
+        row["reliability"] = "HIGH"
+        row[None] = ["shifted notes"]
+        errors: list[str] = []
+        validate_b07_source_rows(errors, headers, [row])
+        self.assertTrue(any("misaligned CSV row" in error for error in errors))
+
+    def test_b07_validator_rejects_invalid_reliability(self) -> None:
+        headers = EXPECTED_HEADERS["battery_sources.csv"]
+        row = {field: "valid" for field in headers}
+        row["reliability"] = "Independent certified performance report"
+        errors: list[str] = []
+        validate_b07_source_rows(errors, headers, [row])
+        self.assertTrue(any("invalid B07 source reliability" in error for error in errors))
+        self.assertNotIn(row["reliability"], ALLOWED_RELIABILITY)
 
     def test_internal_source_documents_are_gitignored(self) -> None:
         ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")

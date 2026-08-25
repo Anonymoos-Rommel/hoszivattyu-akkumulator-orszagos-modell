@@ -41,6 +41,23 @@ European brand, EU sales or an EU office is not treated as proof of cell origin
 or supply-chain independence; those unresolved boundaries remain `Q`. No raw
 manual or copyrighted table is stored in the repository.
 
+## Product-specific efficiency boundary (B07-P2)
+
+The product registry keeps direction-specific fields separate from the legacy
+single efficiency field:
+
+* VARTA pulse neo 6: the `97.8%` observation is battery-only (`BATTERY_ONLY`),
+  not an AC/grid charge or discharge value. The HTW report also distinguishes
+  AC-system performance from AC2BAT and BAT2AC measurement curves. Charge,
+  discharge and round-trip product values therefore remain `Q`.
+* sonnenBatterie 10 performance: sonnen's `75–80%` figure is a practical
+  whole-system example, not an exact product/direction value. Charge,
+  discharge, round-trip and the precise AC/grid boundary remain `Q`.
+
+No square-root split, direction symmetry, hidden inverter multiplication or
+round-trip substitution is allowed. Runtime continues to use explicit SCN
+one-way inputs only until product-specific AC/grid evidence is available.
+
 ## Readiness boundaries
 
 P1 can close the physical SOC engine, power/energy limits, household balance

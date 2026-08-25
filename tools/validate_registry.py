@@ -398,7 +398,10 @@ EXPECTED_HEADERS = {
         "product_id", "module_id", "manufacturer", "model", "chemistry",
         "nominal_capacity_kwh", "usable_capacity_kwh", "usable_capacity_status",
         "max_charge_power_kw", "max_discharge_power_kw", "efficiency_value",
-        "efficiency_type", "efficiency_status", "operating_temp_min_c",
+        "efficiency_type", "efficiency_status", "charge_efficiency_value",
+        "charge_efficiency_status", "discharge_efficiency_value",
+        "discharge_efficiency_status", "round_trip_efficiency_value",
+        "round_trip_efficiency_status", "efficiency_boundary", "operating_temp_min_c",
         "operating_temp_max_c", "capacity_boundary", "power_boundary",
         "inverter_relationship", "warranty_years", "warranty_cycles",
         "warranty_retention_pct", "origin_status", "status", "source_ids", "notes",
@@ -563,7 +566,10 @@ PROCESSED_EXPECTED_HEADERS = {
         "product_id", "manufacturer", "model", "chemistry", "nominal_capacity_kwh",
         "usable_capacity_kwh", "usable_capacity_status", "max_charge_power_kw",
         "max_discharge_power_kw", "peak_power_kw", "efficiency_value", "efficiency_type",
-        "efficiency_status", "operating_temp_min_c", "operating_temp_max_c",
+        "efficiency_status", "charge_efficiency_value", "charge_efficiency_status",
+        "discharge_efficiency_value", "discharge_efficiency_status",
+        "round_trip_efficiency_value", "round_trip_efficiency_status", "efficiency_boundary",
+        "operating_temp_min_c", "operating_temp_max_c",
         "capacity_boundary", "power_boundary", "inverter_relationship", "warranty_years",
         "warranty_cycles", "warranty_retention_pct", "origin_claim", "origin_status",
         "source_ids", "retrieved_at", "status", "limitations",
@@ -1000,6 +1006,52 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append(f"only evidence-backed B06 rows can be engine-usable: {evidence_id!r}")
 
 
+def _validate_product_efficiency_fields(errors: list[str], row: dict[str, str], context: str) -> None:
+    """Keep direction-specific product efficiencies explicit and fail-closed."""
+    for field in (
+        "charge_efficiency",
+        "discharge_efficiency",
+        "round_trip_efficiency",
+    ):
+        value = row.get(f"{field}_value", "")
+        status = row.get(f"{field}_status", "")
+        if status not in ALLOWED_EVIDENCE_STATUS:
+            errors.append(f"invalid {field} status in {context}")
+        if status == "OBS" and not value:
+            errors.append(f"OBS {field} requires a value in {context}")
+        if value:
+            try:
+                numeric = float(value)
+            except ValueError:
+                errors.append(f"non-numeric {field} value in {context}")
+            else:
+                if not 0 < numeric <= 1:
+                    errors.append(f"invalid {field} range in {context}")
+    if not row.get("efficiency_boundary", ""):
+        errors.append(f"missing efficiency boundary in {context}")
+
+
+def validate_b07_source_rows(
+    errors: list[str], headers: list[str], rows: list[dict[str, str | list[str] | None]]
+) -> None:
+    """Reject malformed B07 source rows before field-level checks can pass them through."""
+    expected = EXPECTED_HEADERS["battery_sources.csv"]
+    if headers != expected:
+        return
+    for row_number, row in enumerate(rows, start=2):
+        extra = row.get(None)
+        if extra is not None:
+            errors.append(f"misaligned CSV row in registry/battery_sources.csv:{row_number}: extra fields")
+        missing = [field for field in expected if not str(row.get(field) or "").strip()]
+        if missing:
+            errors.append(
+                f"missing required B07 source fields in registry/battery_sources.csv:{row_number}: {missing!r}"
+            )
+        reliability = row.get("reliability")
+        if reliability not in ALLOWED_RELIABILITY:
+            errors.append(f"invalid B07 source reliability at row {row_number}: {reliability!r}")
+
+
 def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
     """Validate B07 battery physical evidence and fail-closed policy edges."""
     allowed_layers = {
@@ -1019,7 +1071,9 @@ def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
         path = REGISTRY / filename
         if not path.is_file():
             continue
-        _, rows = read_csv(path)
+        headers, rows = read_csv(path)
+        if filename == "battery_sources.csv":
+            validate_b07_source_rows(errors, headers, rows)
         duplicates = duplicate_values([row[id_field] for row in rows])
         if duplicates:
             errors.append(f"duplicate B07 IDs in {filename}: {duplicates!r}")
@@ -1039,6 +1093,8 @@ def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 unknown = [item for item in refs if item not in source_ids and item not in variable_ids]
                 if unknown:
                     errors.append(f"unknown B07 source references in {filename}: {unknown!r}")
+            if filename == "battery_products.csv":
+                _validate_product_efficiency_fields(errors, row, f"{filename}:{row[id_field]}")
             if filename == "battery_formulas.csv" and row["status"] not in {"DER", "ASS"}:
                 errors.append(f"invalid B07 formula status: {row['formula_id']!r}")
             if filename == "battery_readiness.csv":
@@ -1098,6 +1154,8 @@ def validate_b07_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"unknown B07 processed source references in {filename}: {unknown!r}")
             if filename == "battery_product_evidence.csv" and row.get("origin_status") != "OBS":
                 errors.append(f"EU-first product evidence origin is not OBS: {row['product_id']!r}")
+            if filename == "battery_product_evidence.csv":
+                _validate_product_efficiency_fields(errors, row, f"{filename}:{row['product_id']}")
             if filename == "battery_physical_fixture_results.csv" and row.get("status") != "SCN":
                 errors.append(f"B07 physical fixture must remain SCN: {row['case_id']!r}")
 
