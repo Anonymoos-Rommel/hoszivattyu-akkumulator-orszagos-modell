@@ -33,11 +33,17 @@ pytest = _PytestCompat()
 
 from modules.B05.engine import HourlyDemand, OperatingConfig, PerformanceMap, PerformancePoint, simulate_hourly
 from modules.B07.engine import BatteryEngine, BatterySpec, compute_household_balance, make_b08_handoff
-from modules.B08.engine import B08ContractError, GridBoundaryRecord, aggregate_grid_load, run_fixture
+from modules.B08.engine import B08ContractError, GridBoundaryRecord, aggregate_grid_load as _aggregate_grid_load, run_fixture
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ("SRC-B08-SCN-GRID-FIXTURE",)
+
+
+def aggregate_grid_load(records, **kwargs):
+    """Test helper makes the bounded SCN scope explicit for SCN fixtures."""
+    kwargs.setdefault("scope", "BOUNDED_SCN_FIXTURE")
+    return _aggregate_grid_load(records, **kwargs)
 
 
 def record(**overrides):
@@ -304,6 +310,52 @@ def test_bounded_totals_conserve_and_have_no_national_authority():
     assert sum(row.gross_grid_import_kw for row in result.rows if row.timestamp == result.scope_total_rows[0].timestamp) == result.scope_total_rows[0].gross_grid_import_kw
 
 
+def test_scope_must_match_truth_context():
+    real = record(truth_context="REAL", evidence_status="OBS")
+    assert _aggregate_grid_load([real], scope="BOUNDED_REAL_AGGREGATE").status == "DER"
+    scn = record()
+    assert _aggregate_grid_load([scn], scope="BOUNDED_SCN_FIXTURE").status == "SCN"
+    with pytest.raises(B08ContractError):
+        _aggregate_grid_load([scn], scope="BOUNDED_REAL_AGGREGATE")
+    with pytest.raises(B08ContractError):
+        _aggregate_grid_load([real], scope="BOUNDED_SCN_FIXTURE")
+    with pytest.raises(B08ContractError):
+        _aggregate_grid_load([scn])
+
+
+def test_generic_record_has_no_fabricated_b07_diagnostic_payload():
+    row = record()
+    assert row.battery_charge_kw is None
+    assert row.battery_discharge_kw is None
+    assert row.soc_fraction is None
+    assert row.handoff_status is None
+    assert row.upstream_timestep_hours is None
+    aggregate = aggregate_grid_load([row]).scope_total_rows[0]
+    assert aggregate.diagnostic_complete is False
+    assert aggregate.battery_charge_kw is None
+    assert aggregate.battery_discharge_kw is None
+
+
+def test_partial_diagnostic_payload_fails_closed():
+    with pytest.raises(B08ContractError):
+        record(battery_charge_kw=0.0)
+
+
+def test_b07_truth_status_cannot_be_relabelled():
+    spec = BatterySpec(10, 10, 0, 1, 5, 5, 0.9, 0.9, 0.5, status="SCN")
+    handoff = make_b08_handoff(compute_household_balance(1, 0, 0, 0, 0, 0), BatteryEngine(spec, 5).step(), spec)
+    with pytest.raises(B08ContractError):
+        GridBoundaryRecord.from_b07_handoff(timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc),
+            source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN", b01_state_id="S3",
+            handoff=handoff, truth_context="SCN", evidence_status="DER", source_refs=SOURCE)
+    real_spec = BatterySpec(10, 10, 0, 1, 5, 5, 0.9, 0.9, 0.5, status="DER")
+    real_handoff = make_b08_handoff(compute_household_balance(1, 0, 0, 0, 0, 0), BatteryEngine(real_spec, 5).step(), real_spec)
+    real_row = GridBoundaryRecord.from_b07_handoff(timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN", b01_state_id="S3",
+        handoff=real_handoff, truth_context="REAL", evidence_status="DER", source_refs=SOURCE)
+    assert real_row.handoff_status == "DER"
+
+
 class B08UnittestBridge(unittest.TestCase):
     """Expose the pytest-style contract tests to the repository unittest runner."""
 
@@ -336,6 +388,10 @@ class B08UnittestBridge(unittest.TestCase):
             test_household_import_and_export_cannot_both_be_positive,
             test_obs_inputs_produce_derived_real_aggregate_not_obs,
             test_bounded_totals_conserve_and_have_no_national_authority,
+            test_scope_must_match_truth_context,
+            test_generic_record_has_no_fabricated_b07_diagnostic_payload,
+            test_partial_diagnostic_payload_fails_closed,
+            test_b07_truth_status_cannot_be_relabelled,
         )
         for function in functions:
             with self.subTest(function=function.__name__):

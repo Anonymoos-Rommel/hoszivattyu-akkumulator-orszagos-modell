@@ -57,10 +57,10 @@ class GridBoundaryRecord:
     physical_up_flex_kw: float
     physical_down_flex_kw: float
     boundary_id: str = "AC_GRID"
-    battery_charge_kw: float = 0.0
-    battery_discharge_kw: float = 0.0
+    battery_charge_kw: float | None = None
+    battery_discharge_kw: float | None = None
     soc_fraction: float | None = None
-    handoff_status: str = "DER"
+    handoff_status: str | None = None
     upstream_timestep_hours: float | None = None
 
     def __post_init__(self) -> None:
@@ -84,14 +84,24 @@ class GridBoundaryRecord:
             raise B08ContractError("invalid evidence_status")
         if isinstance(self.source_refs, str) or not isinstance(self.source_refs, (tuple, list)) or not self.source_refs or any(not isinstance(ref, str) or not ref.strip() for ref in self.source_refs):
             raise B08ContractError("source_refs are required")
-        for name in ("net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw", "battery_charge_kw", "battery_discharge_kw"):
+        for name in ("net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw"):
             _finite_nonnegative(getattr(self, name), name)
-        if self.soc_fraction is not None and (not isinstance(self.soc_fraction, (int, float)) or not isfinite(self.soc_fraction) or not 0 <= self.soc_fraction <= 1):
-            raise B08ContractError("soc_fraction must be in [0, 1]")
-        if self.handoff_status not in {"OBS", "DER", "SCN", "Q"}:
-            raise B08ContractError("invalid handoff status")
-        if self.upstream_timestep_hours is not None and (not isfinite(self.upstream_timestep_hours) or self.upstream_timestep_hours <= 0):
-            raise B08ContractError("upstream timestep must be positive")
+        diagnostic_values = (self.battery_charge_kw, self.battery_discharge_kw, self.soc_fraction, self.handoff_status, self.upstream_timestep_hours)
+        if all(value is None for value in diagnostic_values):
+            pass
+        elif any(value is None for value in diagnostic_values):
+            raise B08ContractError("B07 diagnostic payload must be complete or absent")
+        else:
+            _finite_nonnegative(self.battery_charge_kw, "battery_charge_kw")
+            _finite_nonnegative(self.battery_discharge_kw, "battery_discharge_kw")
+            if not isinstance(self.soc_fraction, (int, float)) or not isfinite(self.soc_fraction) or not 0 <= self.soc_fraction <= 1:
+                raise B08ContractError("soc_fraction must be in [0, 1]")
+            if self.handoff_status not in {"OBS", "DER", "SCN", "Q"}:
+                raise B08ContractError("invalid handoff status")
+            if not isfinite(self.upstream_timestep_hours) or self.upstream_timestep_hours <= 0:
+                raise B08ContractError("upstream timestep must be positive")
+            if self.upstream_timestep_hours != self.timestep_hours:
+                raise B08ContractError("upstream timestep must equal B08 timestep")
         if self.net_grid_import_kw > 0 and self.net_grid_export_kw > 0:
             raise B08ContractError("AC_GRID import and export cannot both be positive")
         allowed = {"SCN", "Q"} if self.truth_context == "SCN" else {"OBS", "DER", "Q"}
@@ -99,6 +109,8 @@ class GridBoundaryRecord:
             raise B08ContractError("evidence status is incompatible with truth context")
         if self.truth_context == "REAL" and self.handoff_status in {"SCN", "ASS", "POL"}:
             raise B08ContractError("SCN/ASS/POL handoff status cannot enter REAL truth")
+        if self.truth_context == "SCN" and self.handoff_status in {"OBS", "DER"}:
+            raise B08ContractError("REAL handoff status cannot enter SCN truth")
 
     @classmethod
     def from_b07_handoff(cls, *, timestamp: datetime, timestep_hours: float | None = None, source_entity_id: str,
@@ -137,9 +149,10 @@ class GridLoadAggregate:
     net_grid_load_kw: float
     physical_up_flex_kw: float
     physical_down_flex_kw: float
-    battery_charge_kw: float
-    battery_discharge_kw: float
+    battery_charge_kw: float | None
+    battery_discharge_kw: float | None
     soc_fractions: tuple[float, ...]
+    diagnostic_complete: bool
     import_kwh: float
     export_kwh: float
     net_kwh: float
@@ -173,9 +186,10 @@ def _aggregate_group(records: tuple[GridBoundaryRecord, ...], *, region_id: str,
     exports = sum(row.net_grid_export_kw for row in records)
     up = sum(row.physical_up_flex_kw for row in records)
     down = sum(row.physical_down_flex_kw for row in records)
-    charge = sum(row.battery_charge_kw for row in records)
-    discharge = sum(row.battery_discharge_kw for row in records)
-    soc = tuple(sorted(row.soc_fraction for row in records if row.soc_fraction is not None))
+    diagnostic_complete = all(row.battery_charge_kw is not None for row in records)
+    charge = sum(row.battery_charge_kw for row in records) if diagnostic_complete else None
+    discharge = sum(row.battery_discharge_kw for row in records) if diagnostic_complete else None
+    soc = tuple(sorted(row.soc_fraction for row in records)) if diagnostic_complete else ()
     statuses = tuple(sorted({row.evidence_status for row in records}))
     refs = tuple(sorted({ref for row in records for ref in row.source_refs}))
     net = imports - exports
@@ -186,16 +200,19 @@ def _aggregate_group(records: tuple[GridBoundaryRecord, ...], *, region_id: str,
         gross_grid_export_kw=exports, net_grid_load_kw=net,
         physical_up_flex_kw=up, physical_down_flex_kw=down,
         battery_charge_kw=charge, battery_discharge_kw=discharge, soc_fractions=soc,
+        diagnostic_complete=diagnostic_complete,
         import_kwh=imports * dt, export_kwh=exports * dt, net_kwh=net * dt,
         truth_context=records[0].truth_context, evidence_status=_status((row.evidence_status for row in records), records[0].truth_context),
         evidence_statuses=statuses, source_refs=refs,
     )
 
 
-def aggregate_grid_load(records: Iterable[GridBoundaryRecord], *, scope: str = "BOUNDED_REAL_AGGREGATE") -> GridLoadResult:
+def aggregate_grid_load(records: Iterable[GridBoundaryRecord], *, scope: str | None = None) -> GridLoadResult:
     values = tuple(records)
     if not values:
         raise B08ContractError("at least one explicit grid boundary record is required")
+    if scope is None:
+        raise B08ContractError("B08 scope must be explicit")
     if scope not in ALLOWED_SCOPES:
         raise B08ContractError(f"unsupported B08 scope: {scope!r}")
     for row in values:
@@ -207,6 +224,9 @@ def aggregate_grid_load(records: Iterable[GridBoundaryRecord], *, scope: str = "
         raise B08ContractError("mixed region schemes are rejected")
     if len(truths) != 1:
         raise B08ContractError("mixed REAL and SCN truth contexts are rejected")
+    expected_truth = "REAL" if scope == "BOUNDED_REAL_AGGREGATE" else "SCN"
+    if next(iter(truths)) != expected_truth:
+        raise B08ContractError(f"scope {scope!r} is incompatible with truth_context {next(iter(truths))!r}")
     seen: set[tuple[datetime, str, str]] = set()
     for row in values:
         key = (row.timestamp, row.source_entity_id, row.boundary_id)
@@ -284,7 +304,7 @@ def _record_from_mapping(raw: Mapping[str, Any]) -> GridBoundaryRecord:
         timestamp = datetime.fromisoformat(timestamp_text.replace("Z", "+00:00"))
     except (TypeError, ValueError) as exc:
         raise B08ContractError("timestamp must be ISO datetime") from exc
-    return GridBoundaryRecord(timestamp=timestamp, timestep_hours=raw["timestep_hours"], source_entity_id=raw["source_entity_id"], region_id=raw["region_id"], region_scheme=raw["region_scheme"], b01_state_id=raw["b01_state_id"], truth_context=raw["truth_context"], evidence_status=raw["evidence_status"], source_refs=tuple(raw["source_refs"]), net_grid_import_kw=raw["net_grid_import_kw"], net_grid_export_kw=raw["net_grid_export_kw"], physical_up_flex_kw=raw["physical_up_flex_kw"], physical_down_flex_kw=raw["physical_down_flex_kw"], boundary_id=raw["boundary_id"], battery_charge_kw=raw.get("battery_charge_kw", 0.0), battery_discharge_kw=raw.get("battery_discharge_kw", 0.0), soc_fraction=raw.get("soc_fraction"), handoff_status=raw.get("handoff_status", "SCN" if raw["truth_context"] == "SCN" else "DER"), upstream_timestep_hours=raw.get("upstream_timestep_hours"))
+    return GridBoundaryRecord(timestamp=timestamp, timestep_hours=raw["timestep_hours"], source_entity_id=raw["source_entity_id"], region_id=raw["region_id"], region_scheme=raw["region_scheme"], b01_state_id=raw["b01_state_id"], truth_context=raw["truth_context"], evidence_status=raw["evidence_status"], source_refs=tuple(raw["source_refs"]), net_grid_import_kw=raw["net_grid_import_kw"], net_grid_export_kw=raw["net_grid_export_kw"], physical_up_flex_kw=raw["physical_up_flex_kw"], physical_down_flex_kw=raw["physical_down_flex_kw"], boundary_id=raw["boundary_id"], battery_charge_kw=raw.get("battery_charge_kw"), battery_discharge_kw=raw.get("battery_discharge_kw"), soc_fraction=raw.get("soc_fraction"), handoff_status=raw.get("handoff_status"), upstream_timestep_hours=raw.get("upstream_timestep_hours"))
 
 
 def run_fixture(path: str | Path) -> GridLoadResult:
