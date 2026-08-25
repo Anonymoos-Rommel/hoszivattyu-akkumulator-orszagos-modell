@@ -1,0 +1,158 @@
+from datetime import datetime, timedelta
+from pathlib import Path
+
+import pytest
+
+from modules.B05.engine import HourlyDemand, OperatingConfig, PerformanceMap, PerformancePoint, simulate_hourly
+from modules.B07.engine import BatteryEngine, BatterySpec, compute_household_balance, make_b08_handoff
+from modules.B08.engine import B08ContractError, GridBoundaryRecord, aggregate_grid_load, run_fixture
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ("SRC-B08-SCN-GRID-FIXTURE",)
+
+
+def record(**overrides):
+    values = dict(timestamp=datetime(2026, 1, 1), timestep_hours=1.0,
+                  source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN",
+                  b01_state_id="S3", truth_context="SCN", evidence_status="SCN",
+                  source_refs=SOURCE, net_grid_import_kw=2.0, net_grid_export_kw=0.0,
+                  physical_up_flex_kw=0.5, physical_down_flex_kw=0.25)
+    values.update(overrides)
+    return GridBoundaryRecord(**values)
+
+
+def test_import_export_net_identity_and_negative_net_is_retained():
+    result = aggregate_grid_load([record(net_grid_import_kw=0.0, net_grid_export_kw=1.5)])
+    row = result.national_rows[0]
+    assert row.net_grid_load_kw == -1.5
+    assert row.import_kwh - row.export_kwh == row.net_kwh
+
+
+def test_explicit_timestep_converts_power_to_energy():
+    result = aggregate_grid_load([record(timestep_hours=0.5, net_grid_import_kw=4.0, net_grid_export_kw=1.0)])
+    row = result.national_rows[0]
+    assert row.import_kwh == 2.0
+    assert row.export_kwh == 0.5
+    assert row.net_kwh == 1.5
+
+
+def test_fixture_region_state_national_reconciliation_and_peaks():
+    result = run_fixture(ROOT / "data/fixtures/b08_grid_load_scn.json")
+    assert result.status == result.truth_context == "SCN"
+    assert result.scope == "BOUNDED_SCN_FIXTURE"
+    assert len(result.rows) == 6 and len(result.national_rows) == 2
+    for timestamp in {row.timestamp for row in result.national_rows}:
+        regional = [row for row in result.rows if row.timestamp == timestamp]
+        national = next(row for row in result.national_rows if row.timestamp == timestamp)
+        assert sum(row.gross_grid_import_kw for row in regional) == national.gross_grid_import_kw
+        assert sum(row.gross_grid_export_kw for row in regional) == national.gross_grid_export_kw
+    assert result.peak_gross_import_kw == 4.5
+    assert result.peak_gross_export_kw == 1.0
+    assert result.peak_net_grid_load_kw == 4.5
+    assert result.explanations[0]["national_label_is_fixture_total"] is True
+
+
+def test_deterministic_tied_peak_timestamps():
+    first = record(timestamp=datetime(2026, 1, 1), source_entity_id="HH-1")
+    second = record(timestamp=datetime(2026, 1, 2), source_entity_id="HH-2")
+    result = aggregate_grid_load([second, first])
+    assert result.peak_gross_import_timestamps == (datetime(2026, 1, 1), datetime(2026, 1, 2))
+
+
+def test_duplicate_canonical_key_rejected():
+    with pytest.raises(B08ContractError):
+        aggregate_grid_load([record(), record()])
+
+
+def test_missing_or_q_values_fail_closed_without_fill_zero():
+    with pytest.raises(B08ContractError):
+        GridBoundaryRecord(**{**record().__dict__, "net_grid_import_kw": None})
+    result = aggregate_grid_load([record(evidence_status="Q")])
+    assert result.status == "Q" and result.national_rows[0].gross_grid_import_kw == 2.0
+
+
+def test_mixed_region_schemes_fail_closed_and_county_is_not_dso():
+    with pytest.raises(B08ContractError):
+        aggregate_grid_load([record(), record(source_entity_id="HH-2", region_scheme="DSO_SCN")])
+    result = aggregate_grid_load([record()])
+    assert result.region_scheme == "HU_COUNTY_SCN"
+    assert not hasattr(result, "dso")
+
+
+def test_state_trace_does_not_synthesize_population_load():
+    result = aggregate_grid_load([record(net_grid_import_kw=2.0)])
+    assert result.national_rows[0].source_entity_count == 1
+    assert result.national_rows[0].gross_grid_import_kw == 2.0
+
+
+def test_flexibility_is_aggregated_but_does_not_change_load():
+    result = aggregate_grid_load([record(physical_up_flex_kw=3.0, physical_down_flex_kw=4.0)])
+    row = result.national_rows[0]
+    assert (row.physical_up_flex_kw, row.physical_down_flex_kw) == (3.0, 4.0)
+    assert row.net_grid_load_kw == 2.0
+
+
+def test_export_permission_remains_q_and_no_legal_claim_is_created():
+    result = aggregate_grid_load([record(net_grid_import_kw=0.0, net_grid_export_kw=2.0)])
+    assert result.status == "SCN"
+    assert not hasattr(result.national_rows[0], "legal_export")
+
+
+def test_b07_handoff_is_lossless():
+    spec = BatterySpec(10, 10, 0, 1, 5, 5, 0.9, 0.9, 1.0, status="SCN")
+    engine = BatteryEngine(spec, 5)
+    step = engine.step()
+    balance = compute_household_balance(1.0, 0.0, 0.5, 0.0, 0.0, 0.0)
+    handoff = make_b08_handoff(balance, step, spec)
+    row = GridBoundaryRecord.from_b07_handoff(timestamp=datetime(2026, 1, 1), timestep_hours=1.0,
+        source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN", b01_state_id="S3",
+        handoff=handoff, truth_context="SCN", evidence_status="SCN", source_refs=SOURCE)
+    assert (row.net_grid_import_kw, row.net_grid_export_kw) == (handoff.net_grid_import_kw, handoff.net_grid_export_kw)
+
+
+def test_b05_b07_b08_path_does_not_double_count_heat_pump():
+    point = PerformancePoint(0.0, 35.0, thermal_capacity_kw=5.0, electrical_input_kw=2.0, cop=2.5, evidence_status="SCN")
+    hp = simulate_hourly(PerformanceMap("SCN-HP", "air_water", [point]),
+                         [HourlyDemand(datetime(2026, 1, 1), 0.0, 3.0, 35.0)], OperatingConfig())
+    hp_kw = hp.hourly[0].heat_pump_electricity_kwh
+    balance = compute_household_balance(0.0, hp_kw, 1.5, 0.0, 0.0, 0.0)
+    spec = BatterySpec(10, 10, 0, 1, 5, 5, 0.9, 0.9, 1.0, status="SCN")
+    handoff = make_b08_handoff(balance, BatteryEngine(spec, 5).step(), spec)
+    result = aggregate_grid_load([GridBoundaryRecord.from_b07_handoff(timestamp=datetime(2026, 1, 1), timestep_hours=1.0,
+        source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN", b01_state_id="S3",
+        handoff=handoff, truth_context="SCN", evidence_status="SCN", source_refs=SOURCE)])
+    assert result.national_rows[0].net_grid_load_kw == 2.7
+    assert result.national_rows[0].net_grid_load_kw != 3.9  # B05 electricity is not added a second time.
+
+
+@pytest.mark.parametrize("field", ["net_grid_import_kw", "net_grid_export_kw", "physical_up_flex_kw", "physical_down_flex_kw"])
+def test_negative_physical_inputs_rejected(field):
+    with pytest.raises(B08ContractError):
+        record(**{field: -0.1})
+
+
+def test_mixed_truth_context_rejected():
+    with pytest.raises(B08ContractError):
+        aggregate_grid_load([record(), record(source_entity_id="HH-2", truth_context="REAL", evidence_status="OBS")])
+
+
+def test_inconsistent_timestep_rejected():
+    with pytest.raises(B08ContractError):
+        aggregate_grid_load([record(), record(source_entity_id="HH-2", timestep_hours=0.5)])
+
+
+def test_bounded_result_has_no_b09_b10_or_seasonal_authority():
+    result = run_fixture(ROOT / "data/fixtures/b08_grid_load_scn.json")
+    assert not hasattr(result, "generation_kw")
+    assert not hasattr(result, "dispatch_kw")
+    assert not hasattr(result, "available_headroom_kw")
+    assert not hasattr(result, "reinforcement_kw")
+    assert not hasattr(result, "seasonal_peak_kw")
+
+
+def test_provenance_is_present_on_rows_and_result():
+    result = run_fixture(ROOT / "data/fixtures/b08_grid_load_scn.json")
+    assert result.source_refs == SOURCE
+    assert all(row.source_refs and row.evidence_statuses for row in result.rows)
+    assert result.explanations[0]["truth_context"] == "SCN"

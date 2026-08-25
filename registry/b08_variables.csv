@@ -1,0 +1,20 @@
+variable_id,module_id,layer,name,definition,unit,status,source_ids,notes
+VAR-B08-TIMESTAMP,B08,GRID_BOUNDARY_CONTRACT,Időbélyeg,Explicit interval timestamp,datetime,SCN,SRC-B08-SCN-GRID-FIXTURE,Required for deterministic aggregation.
+VAR-B08-TIMESTEP-HOURS,B08,GRID_BOUNDARY_CONTRACT,Lépésidő,Explicit interval duration,h,SCN,SRC-B08-SCN-GRID-FIXTURE,No implicit hourly assumption.
+VAR-B08-SOURCE-ENTITY,B08,GRID_BOUNDARY_CONTRACT,Forrás entitás,Stable household or source entity key,text,SCN,SRC-B08-SCN-GRID-FIXTURE,Part of duplicate key.
+VAR-B08-REGION-ID,B08,GRID_BOUNDARY_CONTRACT,Régió azonosító,Explicit region identifier,text,SCN,SRC-B08-SCN-GRID-FIXTURE,County-like fixture region only.
+VAR-B08-REGION-SCHEME,B08,GRID_BOUNDARY_CONTRACT,Régiós séma,Explicit geography scheme label,text,SCN,SRC-B08-SCN-GRID-FIXTURE,Mixed schemes fail closed; not a DSO claim.
+VAR-B08-B01-STATE,B08,STATE_TRACE,B01 állapot,Carried canonical B01 state ID,text,SCN,SRC-B08-SCN-GRID-FIXTURE,No synthetic state-count load.
+VAR-B08-TRUTH-CONTEXT,B08,PROVENANCE,Truth context,REAL or SCN record context,text,SCN,SRC-B08-SCN-GRID-FIXTURE,Nested context is never promoted.
+VAR-B08-EVIDENCE-STATUS,B08,PROVENANCE,Evidence status,Status carried and aggregated,enum,SCN,SRC-B08-SCN-GRID-FIXTURE,Mixed or Q evidence propagates Q.
+VAR-B08-GROSS-IMPORT-KW,B08,GRID_BOUNDARY_CONTRACT,Bruttó import,Explicit AC/grid-side import power,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,Non-negative physical input.
+VAR-B08-GROSS-EXPORT-KW,B08,GRID_BOUNDARY_CONTRACT,Bruttó export,Explicit AC/grid-side export power,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,Legal permission remains outside B08.
+VAR-B08-NET-LOAD-KW,B08,HOURLY_AGGREGATION,Nettó hálózati terhelés,Import minus export,kW,DER,SRC-B08-SCN-GRID-FIXTURE,Negative net load is valid.
+VAR-B08-UP-FLEX-KW,B08,PHYSICAL_FLEX_AGGREGATION,Fizikai felfelé rugalmasság,Explicit physical upward flex,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,Capability does not change load.
+VAR-B08-DOWN-FLEX-KW,B08,PHYSICAL_FLEX_AGGREGATION,Fizikai lefelé rugalmasság,Explicit physical downward flex,kW,SCN,SRC-B08-SCN-GRID-FIXTURE,No dispatch or VPP decision.
+VAR-B08-IMPORT-KWH,B08,ENERGY_INTEGRATION,Import energia,Import power times timestep,kWh,DER,SRC-B08-SCN-GRID-FIXTURE,Explicit timestep conversion.
+VAR-B08-EXPORT-KWH,B08,ENERGY_INTEGRATION,Export energia,Export power times timestep,kWh,DER,SRC-B08-SCN-GRID-FIXTURE,Explicit timestep conversion.
+VAR-B08-NET-KWH,B08,ENERGY_INTEGRATION,Nettó energia,Nettó power times timestep,kWh,DER,SRC-B08-SCN-GRID-FIXTURE,No hidden annualization.
+VAR-B08-PEAK-IMPORT-KW,B08,PEAK_EXTRACTION,Bruttó import csúcs,Deterministic maximum gross import,kW,DER,SRC-B08-SCN-GRID-FIXTURE,Tied timestamps retained.
+VAR-B08-PEAK-EXPORT-KW,B08,PEAK_EXTRACTION,Bruttó export csúcs,Deterministic maximum gross export,kW,DER,SRC-B08-SCN-GRID-FIXTURE,Tied timestamps retained.
+VAR-B08-PEAK-NET-KW,B08,PEAK_EXTRACTION,Nettó terhelési csúcs,Deterministic maximum net load,kW,DER,SRC-B08-SCN-GRID-FIXTURE,Tied timestamps retained.
