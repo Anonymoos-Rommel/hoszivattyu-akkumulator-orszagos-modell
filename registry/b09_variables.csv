@@ -1,0 +1,11 @@
+variable_id,module_id,layer,name,definition,unit,status,source_ids,notes
+VAR-B09-B08-NET-LOAD-KW,B09,B08_HANDOFF,B08 nettó hálózati terhelés,Canonical B08 AC/grid-side net load input,kW,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Consumed without adding B05/B07 again.
+VAR-B09-DELIVERED-GENERATION-KW,B09,GENERATION_PANEL,Szállított termelés,Explicit delivered generation per component/region/timestamp,kW,SCN,SRC-B09-SCN-SUPPLY-FIXTURE,Zero is valid only as an explicit row.
+VAR-B09-RESIDUAL-DEMAND-KW,B09,PHYSICAL_ADEQUACY,Maradék igény,B08 net load minus delivered generation,kW,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Physical identity only.
+VAR-B09-UNSERVED-RESIDUAL-KW,B09,PHYSICAL_ADEQUACY,Nem kielégített/maradék terhelés,Positive part of residual demand,kW,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Not dispatch or reserve.
+VAR-B09-SURPLUS-SUPPLY-KW,B09,PHYSICAL_ADEQUACY,Többlet kínálat,Positive part of negative residual demand,kW,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Not curtailment or market commitment.
+VAR-B09-NET-LOAD-KWH,B09,ENERGY_INTEGRATION,B08 terhelési energia,B08 net load times explicit timestep,kWh,DER,SRC-B09-SCN-SUPPLY-FIXTURE,No implicit hourly conversion.
+VAR-B09-GENERATION-KWH,B09,ENERGY_INTEGRATION,Termelési energia,Delivered generation times explicit timestep,kWh,DER,SRC-B09-SCN-SUPPLY-FIXTURE,No storage dispatch.
+VAR-B09-RESIDUAL-KWH,B09,ENERGY_INTEGRATION,Maradék energia,Residual demand times explicit timestep,kWh,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Negative residual energy is preserved.
+VAR-B09-PEAK-RESIDUAL-KW,B09,PEAK_EXTRACTION,Maradék csúcs,Bounded peak positive residual,kW,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Deterministic timestamps.
+VAR-B09-PEAK-SURPLUS-KW,B09,PEAK_EXTRACTION,Többlet csúcs,Bounded peak surplus,kW,DER,SRC-B09-SCN-SUPPLY-FIXTURE,Deterministic timestamps.

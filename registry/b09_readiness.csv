@@ -1,0 +1,8 @@
+component_id,module_id,layer,status,readiness_percent,source_ids,notes
+B08_LOAD_HANDOFF,B09,B08_HANDOFF,VALIDATED,80,SRC-B09-SCN-SUPPLY-FIXTURE,Consumes canonical B08 net-load rows without double counting.
+GENERATION_PANEL,B09,GENERATION_PANEL,VALIDATED,75,SRC-B09-SCN-SUPPLY-FIXTURE,Explicit component/region/timestamp panel with zero-row semantics.
+PHYSICAL_ADEQUACY,B09,PHYSICAL_ADEQUACY,VALIDATED,80,SRC-B09-SCN-SUPPLY-FIXTURE,Residual and surplus identities executable on bounded inputs.
+ENERGY_INTEGRATION,B09,ENERGY_INTEGRATION,VALIDATED,80,SRC-B09-SCN-SUPPLY-FIXTURE,Explicit timestep kW-to-kWh conversion.
+PEAK_EXTRACTION,B09,PEAK_EXTRACTION,VALIDATED,70,SRC-B09-SCN-SUPPLY-FIXTURE,Bounded residual/surplus peaks only.
+DISPATCH_STORAGE,B09,DISPATCH_STORAGE,Q,0,SRC-B09-SCN-SUPPLY-FIXTURE,No B07/system-storage dispatch authority in P1.
+NATIONAL_SCALING,B09,NATIONAL_SCALING,Q,0,SRC-B09-SCN-SUPPLY-FIXTURE,No national generation or adequacy claim.
