@@ -569,9 +569,9 @@ class StateStockOutput:
     blocked_transitions: tuple[str, ...]
     unmet_policy_target: int | None
     feasible_stock: EvidenceValue
-    binding_constraint: str
+    binding_constraints: tuple[str, ...]
     waiting_candidates: tuple[str, ...]
-    explanations: tuple[Mapping[str, str], ...]
+    explanations: tuple[Mapping[str, Any], ...]
 
     @property
     def selected_count(self) -> int:
@@ -584,7 +584,7 @@ def aggregate_state_stock(
     blocked: Sequence[CandidateDecision],
     policy_target: EvidenceValue,
     technically_eligible_stock: EvidenceValue,
-    binding_constraint: str,
+    binding_constraints: Sequence[str],
     waiting: Sequence[CandidateIntervention],
     plan_year: int,
     status: str = "SCN",
@@ -599,7 +599,7 @@ def aggregate_state_stock(
         state_counts[current] += 1
         regional.setdefault(record.region_id, {state_id: 0 for state_id in STATE_ORDER})[current] += 1
     selected_households: set[str] = set()
-    explanations: list[Mapping[str, str]] = []
+    explanations: list[Mapping[str, Any]] = []
     for candidate in selected:
         candidate.validate()
         if candidate.household_id in selected_households:
@@ -626,7 +626,7 @@ def aggregate_state_stock(
             "intervention_id": candidate.intervention_id,
             "why_now": candidate.why_now,
             "why_here": candidate.why_here,
-            "binding_constraint": binding_constraint or "none",
+            "binding_constraints": tuple(binding_constraints),
             "next_missing_gate": candidate.missing_next_gate,
         })
     if sum(state_counts.values()) != len(records):
@@ -639,7 +639,7 @@ def aggregate_state_stock(
             "intervention_id": decision.candidate.intervention_id,
             "why_now": "blocked",
             "why_here": decision.candidate.why_here,
-            "binding_constraint": "none",
+            "binding_constraints": (),
             "next_missing_gate": decision.next_missing_gate,
         })
     feasible = bounded_feasible_stock(
@@ -657,7 +657,7 @@ def aggregate_state_stock(
         tuple(decision.candidate.intervention_id for decision in blocked),
         unmet,
         feasible,
-        binding_constraint or "none",
+        tuple(binding_constraints),
         tuple(candidate.intervention_id for candidate in waiting),
         tuple(explanations),
     )
@@ -751,7 +751,7 @@ def run_fixture(path: str | Path) -> StateStockOutput:
         blocked,
         EvidenceValue(payload["policy_target"]["value"], payload["policy_target"]["status"], payload["policy_target"]["source_ref"]),
         EvidenceValue(payload["technically_eligible_stock"]["value"], payload["technically_eligible_stock"]["status"], payload["technically_eligible_stock"]["source_ref"]),
-        selection.binding_constraints[0] if selection.binding_constraints else "none",
+        selection.binding_constraints,
         selection.waiting,
         int(payload["plan_year"]),
         status="SCN",

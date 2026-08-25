@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import tempfile
 import unittest
 from dataclasses import replace
 from pathlib import Path
@@ -386,7 +387,7 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         record = next(record for record in records if record.household_id == eligible.household_id)
         output = b01.aggregate_state_stock(
             records, (eligible,), (), b01.EvidenceValue(3, "SCN", "target"),
-            b01.EvidenceValue(3, "SCN", "eligible"), "none", (), 2026,
+            b01.EvidenceValue(3, "SCN", "eligible"), (), (), 2026,
         )
         self.assertEqual(1, output.selected_count)
         self.assertEqual("SCN", record.truth_context)
@@ -397,22 +398,59 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         with self.assertRaises(b01.B01ContractError):
             b01.aggregate_state_stock(
                 records, (missing,), (), b01.EvidenceValue(3, "SCN", "target"),
-                b01.EvidenceValue(3, "SCN", "eligible"), "none", (), 2026,
+                b01.EvidenceValue(3, "SCN", "eligible"), (), (), 2026,
             )
         eligible = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
         wrong_context = replace(eligible, truth_context="REAL", required_gate_status="OBS", required_gate_evidence_refs=("REAL-GATE",))
         with self.assertRaises(b01.B01ContractError):
             b01.aggregate_state_stock(
                 records, (wrong_context,), (), b01.EvidenceValue(3, "SCN", "target"),
-                b01.EvidenceValue(3, "SCN", "eligible"), "none", (), 2026,
+                b01.EvidenceValue(3, "SCN", "eligible"), (), (), 2026,
             )
+
+    def test_multi_binding_constraints_are_preserved_in_state_output_and_explanations(self) -> None:
+        _, records, candidates, _, _, _ = fixture_inputs()
+        eligible = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
+        bindings = ("installer_FTE", "supplier_capacity")
+        output = b01.aggregate_state_stock(
+            records, (eligible,), (), b01.EvidenceValue(3, "SCN", "target"),
+            b01.EvidenceValue(3, "SCN", "eligible"), bindings, (), 2026,
+        )
+        self.assertEqual(bindings, output.binding_constraints)
+        self.assertEqual(bindings, output.explanations[0]["binding_constraints"])
+
+    def test_no_binding_constraints_are_explicitly_empty(self) -> None:
+        _, records, candidates, _, _, _ = fixture_inputs()
+        eligible = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
+        output = b01.aggregate_state_stock(
+            records, (eligible,), (), b01.EvidenceValue(3, "SCN", "target"),
+            b01.EvidenceValue(3, "SCN", "eligible"), (), (), 2026,
+        )
+        self.assertEqual((), output.binding_constraints)
+        self.assertEqual((), output.explanations[0]["binding_constraints"])
+
+    def test_run_fixture_preserves_multiple_binding_constraints(self) -> None:
+        payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
+        for constraint in payload["constraints"]:
+            if constraint["constraint_type"] == "MIN_REGION":
+                constraint["available"] = 0.0
+            elif constraint["name"] == "household_cashflow_floor":
+                constraint["available"] = 1.0
+            elif constraint["name"] in {"installer_FTE", "supplier_capacity"}:
+                constraint["available"] = 1.5
+        with tempfile.TemporaryDirectory() as directory:
+            fixture_path = Path(directory) / "b01_multi_binding.json"
+            fixture_path.write_text(json.dumps(payload), encoding="utf-8")
+            output = b01.run_fixture(fixture_path)
+        self.assertEqual(("installer_FTE", "supplier_capacity"), output.binding_constraints)
+        self.assertEqual(("installer_FTE", "supplier_capacity"), output.explanations[0]["binding_constraints"])
 
     def test_fixture_selection_respects_annual_constraint(self) -> None:
         output = b01.run_fixture(FIXTURE)
         self.assertEqual("SCN", output.status)
         self.assertEqual(2026, output.plan_year)
         self.assertEqual(2, len(output.selected_transitions))
-        self.assertEqual("installer_FTE", output.binding_constraint)
+        self.assertEqual(("installer_FTE",), output.binding_constraints)
         self.assertEqual(("SCN-INT-004",), output.waiting_candidates)
 
     def test_state_stock_conservation_and_regional_sum(self) -> None:
@@ -471,7 +509,7 @@ class B01StateStockPortfolioTests(unittest.TestCase):
 
     def test_explanation_fields_are_required_and_populated(self) -> None:
         output = b01.run_fixture(FIXTURE)
-        required = {"intervention_id", "why_now", "why_here", "binding_constraint", "next_missing_gate"}
+        required = {"intervention_id", "why_now", "why_here", "binding_constraints", "next_missing_gate"}
         self.assertTrue(output.explanations)
         self.assertTrue(all(required.issubset(set(item)) for item in output.explanations))
 
