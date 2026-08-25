@@ -152,6 +152,7 @@
       "REGIONAL_EQUITY"
     ],
     "usable_numeric_statuses": ["OBS", "DER", "SCN", "POL"],
+    "policy_parameter_statuses": ["POL", "SCN"],
     "missing_value_policy": "FAIL_CLOSED",
     "methods": ["MCDA", "CONSTRAINED_CAPACITY", "LEXICOGRAPHIC"],
     "tie_break_fields": ["household_id", "intervention_id"]

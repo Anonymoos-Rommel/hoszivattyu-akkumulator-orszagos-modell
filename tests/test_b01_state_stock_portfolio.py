@@ -84,7 +84,8 @@ class B01StateStockPortfolioTests(unittest.TestCase):
             all(evidence.truth_context == "SCN" and evidence.status == "SCN" for record in records for evidence in record.transition_evidence)
         )
         self.assertTrue(all(candidate.truth_context == "SCN" for candidate in candidates))
-        self.assertTrue(all(candidate.required_gate_status == "SCN" for candidate in candidates))
+        self.assertTrue(all(candidate.required_gate_status in {"SCN", "Q"} for candidate in candidates))
+        self.assertTrue(all(candidate.required_gate_status != "Q" or not candidate.required_gate_evidence_refs for candidate in candidates))
 
     def test_scn_fixture_runs_without_observed_evidence_fabrication(self) -> None:
         output = b01.run_fixture(FIXTURE)
@@ -177,6 +178,66 @@ class B01StateStockPortfolioTests(unittest.TestCase):
                 self.assertEqual(transition["target_completion_gate"], candidate.required_gate)
                 self.assertIn(candidate.required_gate, transition["required_gates"])
 
+    def test_next_transition_required_gate_is_target_completion_gate(self) -> None:
+        _, records, _, _, _, _ = fixture_inputs()
+        expected = {
+            "S0": "demand_reduction_measured_or_not_required",
+            "S1": "technical_readiness_complete",
+            "S2": "heat_pump_operational_and_qa_complete",
+            "S3": "flexibility_ready",
+            "S4": "target_state_verified",
+            "S5": "NONE",
+        }
+        for record in records:
+            with self.subTest(state=record.current_state):
+                self.assertEqual(expected[record.current_state], b01.evaluate_next_transition(record).required_gate)
+
+    def test_scn_q_candidate_gate_is_valid_but_blocked_q(self) -> None:
+        _, records, candidates, _, _, decisions = fixture_inputs()
+        missing = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-001")
+        self.assertEqual("Q", missing.required_gate_status)
+        self.assertEqual((), missing.required_gate_evidence_refs)
+        self.assertEqual("Q", next(decision for decision in decisions if decision.candidate is missing).evidence_status)
+        self.assertEqual("BLOCKED", next(decision for decision in decisions if decision.candidate is missing).status)
+        missing.validate()
+        next(record for record in records if record.household_id == missing.household_id).validate()
+
+    def test_scn_evidenced_gate_is_eligible_and_real_q_is_blocked(self) -> None:
+        _, records, candidates, _, _, decisions = fixture_inputs()
+        evidenced = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
+        self.assertEqual("ELIGIBLE", next(decision for decision in decisions if decision.candidate is evidenced).status)
+        source_record = next(record for record in records if record.household_id == "HH-SCN-002")
+        real_record = replace(
+            source_record,
+            truth_context="REAL",
+            eligibility_evidence_status="OBS",
+            transition_evidence=tuple(replace(evidence, truth_context="REAL", status="OBS") for evidence in source_record.transition_evidence),
+        )
+        real_candidate = replace(evidenced, truth_context="REAL", required_gate_status="Q", required_gate_evidence_refs=[])
+        self.assertEqual("BLOCKED", b01.assess_candidate(real_record, real_candidate).status)
+
+    def test_scn_observed_candidate_gate_is_rejected_and_real_observed_gate_is_allowed(self) -> None:
+        _, records, candidates, _, _, _ = fixture_inputs()
+        scenario_candidate = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
+        for status in ("OBS", "DER"):
+            with self.subTest(status=status):
+                with self.assertRaises(b01.B01ContractError):
+                    replace(scenario_candidate, required_gate_status=status, required_gate_evidence_refs=("FOREIGN-GATE",)).validate()
+        source_record = next(record for record in records if record.household_id == "HH-SCN-002")
+        real_record = replace(
+            source_record,
+            truth_context="REAL",
+            eligibility_evidence_status="OBS",
+            transition_evidence=tuple(replace(evidence, truth_context="REAL", status="OBS") for evidence in source_record.transition_evidence),
+        )
+        real_candidate = replace(
+            scenario_candidate,
+            truth_context="REAL",
+            required_gate_status="OBS",
+            required_gate_evidence_refs=("REAL-GATE",),
+        )
+        self.assertEqual("ELIGIBLE", b01.assess_candidate(real_record, real_candidate).status)
+
     def test_missing_transition_evidence_is_blocked_q(self) -> None:
         record = b01.HouseholdStateRecord(
             "HH-1", "ARCH-1", "R1", "S1", ("E1",), "2026-01-01", "tester",
@@ -225,6 +286,25 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         with self.assertRaises(b01.B01ContractError):
             b01.mcda_order(eligible, missing)
 
+    def test_policy_parameter_status_is_pol_or_scn_only(self) -> None:
+        _, _, _, policy, _, decisions = fixture_inputs()
+        eligible = [decision.candidate for decision in decisions if decision.status == "ELIGIBLE"]
+        pol_policy = {
+            component: replace(parameter, weight_status="POL", hard_minimum_status="POL")
+            for component, parameter in policy.items()
+        }
+        b01.validate_policy(pol_policy)
+        for status in ("OBS", "DER", "ASS", "Q"):
+            with self.subTest(status=status):
+                invalid = dict(policy)
+                invalid["SOCIAL_NEED"] = replace(policy["SOCIAL_NEED"], weight_status=status)
+                with self.assertRaises(b01.B01ContractError):
+                    b01.mcda_order(eligible, invalid)
+                invalid = dict(policy)
+                invalid["SOCIAL_NEED"] = replace(policy["SOCIAL_NEED"], hard_minimum_status=status)
+                with self.assertRaises(b01.B01ContractError):
+                    b01.mcda_order(eligible, invalid)
+
     def test_hidden_default_weight_is_prohibited(self) -> None:
         _, _, _, policy, _, decisions = fixture_inputs()
         eligible = [decision.candidate for decision in decisions if decision.status == "ELIGIBLE"]
@@ -232,6 +312,26 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         invalid["SOCIAL_NEED"] = replace(policy["SOCIAL_NEED"], weight=None, weight_status="Q")
         with self.assertRaises(b01.B01ContractError):
             b01.mcda_order(eligible, invalid)
+
+    def test_mcda_enforces_hard_minimums(self) -> None:
+        _, _, _, policy, _, decisions = fixture_inputs()
+        eligible = [decision.candidate for decision in decisions if decision.status == "ELIGIBLE"]
+        minimum_policy = dict(policy)
+        minimum_policy["SOCIAL_NEED"] = replace(policy["SOCIAL_NEED"], hard_minimum=0.95)
+        ranked = b01.mcda_order(eligible, minimum_policy)
+        self.assertEqual(("SCN-INT-002",), tuple(candidate.intervention_id for candidate in ranked))
+        below = dict(policy)
+        below["SOCIAL_NEED"] = replace(policy["SOCIAL_NEED"], hard_minimum=1.1)
+        self.assertEqual((), b01.mcda_order(eligible, below))
+
+    def test_stress_test_minimums_change_eligible_set(self) -> None:
+        _, _, _, policy, _, decisions = fixture_inputs()
+        eligible = [decision.candidate for decision in decisions if decision.status == "ELIGIBLE"]
+        alternative = dict(policy)
+        alternative["SOCIAL_NEED"] = replace(policy["SOCIAL_NEED"], hard_minimum=0.95)
+        orders = b01.stress_test_orders(eligible, (policy, alternative))
+        self.assertEqual(3, len(orders[0]))
+        self.assertEqual(("SCN-INT-002",), orders[1])
 
     def test_missing_component_is_not_treated_as_zero(self) -> None:
         _, _, _, policy, _, decisions = fixture_inputs()
@@ -252,6 +352,60 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         broken[0] = replace(broken[0], available=None, status="Q")
         with self.assertRaises(b01.B01ContractError):
             b01.select_with_capacity(ordered, broken)
+
+    def test_discrete_capacity_blocker_is_binding(self) -> None:
+        _, _, _, policy, constraints, decisions = fixture_inputs()
+        eligible = [decision.candidate for decision in decisions if decision.status == "ELIGIBLE"]
+        ordered = b01.mcda_order(eligible, policy)
+        discrete = [constraint if constraint.name != "installer_FTE" else replace(constraint, available=2.5) for constraint in constraints]
+        selection = b01.select_with_capacity(ordered, discrete)
+        self.assertEqual(2, len(selection.selected))
+        self.assertEqual(("SCN-INT-004",), tuple(candidate.intervention_id for candidate in selection.waiting))
+        self.assertEqual(("installer_FTE",), selection.binding_constraints)
+
+    def test_multiple_discrete_capacity_blockers_are_deterministic(self) -> None:
+        _, _, _, policy, constraints, decisions = fixture_inputs()
+        eligible = [decision.candidate for decision in decisions if decision.status == "ELIGIBLE"]
+        ordered = b01.mcda_order(eligible, policy)
+        discrete = []
+        for constraint in constraints:
+            if constraint.constraint_type == "MIN_REGION":
+                discrete.append(replace(constraint, available=0.0))
+            elif constraint.name == "household_cashflow_floor":
+                discrete.append(replace(constraint, available=1.0))
+            elif constraint.name in {"installer_FTE", "supplier_capacity"}:
+                discrete.append(replace(constraint, available=1.5))
+            else:
+                discrete.append(constraint)
+        selection = b01.select_with_capacity(ordered, discrete)
+        self.assertEqual(("installer_FTE", "supplier_capacity"), selection.binding_constraints)
+
+    def test_aggregation_revalidates_selected_eligibility(self) -> None:
+        _, records, candidates, _, _, _ = fixture_inputs()
+        eligible = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
+        record = next(record for record in records if record.household_id == eligible.household_id)
+        output = b01.aggregate_state_stock(
+            records, (eligible,), (), b01.EvidenceValue(3, "SCN", "target"),
+            b01.EvidenceValue(3, "SCN", "eligible"), "none", (), 2026,
+        )
+        self.assertEqual(1, output.selected_count)
+        self.assertEqual("SCN", record.truth_context)
+
+    def test_aggregation_rejects_blocked_q_and_wrong_context(self) -> None:
+        _, records, candidates, _, _, _ = fixture_inputs()
+        missing = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-001")
+        with self.assertRaises(b01.B01ContractError):
+            b01.aggregate_state_stock(
+                records, (missing,), (), b01.EvidenceValue(3, "SCN", "target"),
+                b01.EvidenceValue(3, "SCN", "eligible"), "none", (), 2026,
+            )
+        eligible = next(candidate for candidate in candidates if candidate.intervention_id == "SCN-INT-002")
+        wrong_context = replace(eligible, truth_context="REAL", required_gate_status="OBS", required_gate_evidence_refs=("REAL-GATE",))
+        with self.assertRaises(b01.B01ContractError):
+            b01.aggregate_state_stock(
+                records, (wrong_context,), (), b01.EvidenceValue(3, "SCN", "target"),
+                b01.EvidenceValue(3, "SCN", "eligible"), "none", (), 2026,
+            )
 
     def test_fixture_selection_respects_annual_constraint(self) -> None:
         output = b01.run_fixture(FIXTURE)
@@ -313,7 +467,7 @@ class B01StateStockPortfolioTests(unittest.TestCase):
         self.assertEqual("BLOCKED", blocked.status)
         self.assertIn("Eligibility", blocked.reason)
         self.assertEqual("BLOCKED", records[0].eligibility_status)
-        self.assertEqual("SCN", candidates[0].evidence_status)
+        self.assertEqual("Q", candidates[0].evidence_status)
 
     def test_explanation_fields_are_required_and_populated(self) -> None:
         output = b01.run_fixture(FIXTURE)

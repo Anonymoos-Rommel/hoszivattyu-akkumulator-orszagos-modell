@@ -22,6 +22,7 @@ MODEL = json.loads(MODEL_PATH.read_text(encoding="utf-8"))
 
 EVIDENCE_STATUSES = frozenset(MODEL["household_record_schema"]["evidence_statuses"])
 USABLE_NUMERIC_STATUSES = frozenset(MODEL["portfolio_contract"]["usable_numeric_statuses"])
+POLICY_PARAMETER_STATUSES = frozenset(MODEL["portfolio_contract"]["policy_parameter_statuses"])
 STATE_ORDER = tuple(state["state_id"] for state in MODEL["states"])
 STATE_INDEX = {state_id: index for index, state_id in enumerate(STATE_ORDER)}
 TRANSITIONS = {row["transition_id"]: row for row in MODEL["transition_contract"]}
@@ -201,7 +202,7 @@ def evaluate_next_transition(record: HouseholdStateRecord) -> TransitionDecision
         completion_status = "OBS" if record.truth_context == "REAL" else "SCN"
         return TransitionDecision("NONE", "COMPLETE", current, current, "NONE", completion_status, "S5 is already reached.")
     transition = _transition_for(current, STATE_ORDER[STATE_INDEX[current] + 1])
-    required_gate = transition["required_gates"][0]
+    required_gate = transition["target_completion_gate"]
     evidence = next(
         (item for item in record.transition_evidence if item.transition_id == transition["transition_id"]),
         None,
@@ -271,13 +272,17 @@ class CandidateIntervention:
             raise B01ContractError(f"invalid candidate truth_context: {self.truth_context!r}")
         if self.required_gate_status not in EVIDENCE_STATUSES:
             raise B01ContractError(f"invalid required_gate_status: {self.required_gate_status!r}")
-        allowed_gate_statuses = {"OBS", "DER"} if self.truth_context == "REAL" else {"SCN"}
+        allowed_gate_statuses = {"OBS", "DER", "Q"} if self.truth_context == "REAL" else {"SCN", "Q"}
         if self.required_gate_status not in allowed_gate_statuses:
             raise B01ContractError(
                 f"{self.truth_context} candidate gate requires {sorted(allowed_gate_statuses)!r} evidence"
             )
         if any(not ref.strip() for ref in self.required_gate_evidence_refs):
             raise B01ContractError("required_gate_evidence_refs cannot contain empty values")
+        if self.required_gate_status == "Q" and self.required_gate_evidence_refs:
+            raise B01ContractError("Q candidate gate cannot carry evidence_refs")
+        if self.required_gate_status in {"OBS", "DER", "SCN"} and not self.required_gate_evidence_refs:
+            raise B01ContractError("evidenced candidate gate requires evidence_refs")
         if self.evidence_status not in EVIDENCE_STATUSES:
             raise B01ContractError(f"invalid candidate evidence_status: {self.evidence_status!r}")
         if set(self.scores) != set(PORTFOLIO_COMPONENTS) or set(self.score_statuses) != set(PORTFOLIO_COMPONENTS):
@@ -315,6 +320,10 @@ class CandidateDecision:
     reason: str
     next_missing_gate: str
 
+    @property
+    def evidence_status(self) -> str:
+        return "Q" if self.status == "BLOCKED" else self.candidate.required_gate_status
+
 
 def assess_candidate(record: HouseholdStateRecord, candidate: CandidateIntervention) -> CandidateDecision:
     candidate.validate()
@@ -330,8 +339,10 @@ def assess_candidate(record: HouseholdStateRecord, candidate: CandidateIntervent
     allowed_eligibility_statuses = {"OBS", "DER"} if record.truth_context == "REAL" else {"SCN"}
     if record.eligibility_status != "ELIGIBLE" or record.eligibility_evidence_status not in allowed_eligibility_statuses:
         return CandidateDecision(candidate, "BLOCKED", "Eligibility is not explicitly evidenced; physical inputs cannot create policy eligibility.", candidate.missing_next_gate)
+    if candidate.required_gate_status == "Q":
+        return CandidateDecision(candidate, "BLOCKED", "Required gate evidence is Q/unknown; candidate remains blocked.", candidate.required_gate)
     if candidate.required_gate_status not in allowed_eligibility_statuses or not candidate.required_gate_evidence_refs:
-        return CandidateDecision(candidate, "BLOCKED", "Required gate evidence is missing or not OBS/DER.", candidate.required_gate)
+        return CandidateDecision(candidate, "BLOCKED", "Required gate evidence is missing or not usable.", candidate.required_gate)
     if not candidate.score_complete:
         return CandidateDecision(candidate, "BLOCKED", "A portfolio component is missing or not numerically evidenced.", candidate.missing_next_gate)
     return CandidateDecision(candidate, "ELIGIBLE", "Candidate gate and predecessor state are explicit.", candidate.missing_next_gate)
@@ -358,10 +369,10 @@ def validate_policy(parameters: Mapping[str, PolicyParameter]) -> None:
         parameter = parameters[component]
         if parameter.component != component:
             raise B01ContractError(f"policy component key mismatch: {component!r}")
-        if parameter.weight_status not in USABLE_NUMERIC_STATUSES or parameter.weight is None:
+        if parameter.weight_status not in POLICY_PARAMETER_STATUSES or parameter.weight is None:
             raise B01ContractError(f"missing explicit policy weight for {component}")
         _numeric(parameter.weight, f"{component}.weight")
-        if parameter.hard_minimum_status not in USABLE_NUMERIC_STATUSES or parameter.hard_minimum is None:
+        if parameter.hard_minimum_status not in POLICY_PARAMETER_STATUSES or parameter.hard_minimum is None:
             raise B01ContractError(f"missing explicit hard minimum for {component}")
         _numeric(parameter.hard_minimum, f"{component}.hard_minimum", minimum=0.0)
         if parameter.direction not in {"MAXIMIZE", "MINIMIZE"}:
@@ -375,6 +386,13 @@ def _oriented(value: float, direction: str) -> float:
     return value if direction == "MAXIMIZE" else -value
 
 
+def _meets_policy_hard_minimums(candidate: CandidateIntervention, parameters: Mapping[str, PolicyParameter]) -> bool:
+    return all(
+        float(candidate.scores[component]) >= float(parameters[component].hard_minimum)
+        for component in PORTFOLIO_COMPONENTS
+    )
+
+
 def mcda_order(candidates: Sequence[CandidateIntervention], parameters: Mapping[str, PolicyParameter]) -> tuple[CandidateIntervention, ...]:
     """Return deterministic MCDA order; missing weights or values raise, never become zero."""
     validate_policy(parameters)
@@ -383,6 +401,8 @@ def mcda_order(candidates: Sequence[CandidateIntervention], parameters: Mapping[
         candidate.validate()
         if not candidate.score_complete:
             raise B01ContractError(f"MCDA cannot score incomplete candidate: {candidate.intervention_id}")
+        if not _meets_policy_hard_minimums(candidate, parameters):
+            continue
         score = sum(
             float(parameters[component].weight) * _oriented(float(candidate.scores[component]), parameters[component].direction)
             for component in PORTFOLIO_COMPONENTS
@@ -408,18 +428,15 @@ def lexicographic_order(candidates: Sequence[CandidateIntervention], parameters:
     validate_policy(parameters)
     if tuple(order) != tuple(PORTFOLIO_COMPONENTS) and set(order) != set(PORTFOLIO_COMPONENTS):
         raise B01ContractError("lexicographic order must explicitly cover every canonical component")
+    eligible: list[CandidateIntervention] = []
     for candidate in candidates:
         candidate.validate()
         if not candidate.score_complete:
             raise B01ContractError(f"lexicographic method cannot score incomplete candidate: {candidate.intervention_id}")
-        for component in order:
-            parameter = parameters[component]
-            value = float(candidate.scores[component])
-            minimum = float(parameter.hard_minimum)
-            if value < minimum:
-                raise B01ContractError(f"hard minimum not met for {candidate.intervention_id}: {component}")
+        if _meets_policy_hard_minimums(candidate, parameters):
+            eligible.append(candidate)
     return tuple(sorted(
-        candidates,
+        eligible,
         key=lambda candidate: tuple(
             -_oriented(float(candidate.scores[component]), parameters[component].direction) for component in order
         ) + (candidate.household_id, candidate.intervention_id),
@@ -462,10 +479,14 @@ def select_with_capacity(ordered: Sequence[CandidateIntervention], constraints: 
         constraint.validate()
     if not set(CAPACITY_CONSTRAINTS).issubset({constraint.name for constraint in constraints}):
         raise B01ContractError("every canonical annual capacity constraint must be explicit")
-    maxima = [constraint for constraint in constraints if constraint.constraint_type == "MAX_RESOURCE"]
+    maxima = sorted(
+        (constraint for constraint in constraints if constraint.constraint_type == "MAX_RESOURCE"),
+        key=lambda constraint: (CAPACITY_CONSTRAINTS.index(constraint.name), constraint.region_id),
+    )
     selected: list[CandidateIntervention] = []
     waiting: list[CandidateIntervention] = []
     totals = {constraint.name: 0.0 for constraint in maxima}
+    blocked_by_capacity: set[str] = set()
     for candidate in ordered:
         candidate.validate()
         if not candidate.score_complete:
@@ -481,6 +502,12 @@ def select_with_capacity(ordered: Sequence[CandidateIntervention], constraints: 
                 totals[constraint.name] += float(candidate.resource_needs[constraint.name])
         else:
             waiting.append(candidate)
+            blocked_by_capacity.update(
+                constraint.name
+                for constraint in maxima
+                if candidate.resource_needs[constraint.name] is None
+                or totals[constraint.name] + float(candidate.resource_needs[constraint.name]) > float(constraint.available) + 1e-9
+            )
     for constraint in constraints:
         if constraint.constraint_type == "MIN_TOTAL":
             total = sum(float(candidate.resource_needs[constraint.name] or 0.0) for candidate in selected)
@@ -490,10 +517,15 @@ def select_with_capacity(ordered: Sequence[CandidateIntervention], constraints: 
             regional_count = sum(candidate.region_id == constraint.region_id for candidate in selected)
             if regional_count < int(constraint.available):
                 raise B01ContractError(f"regional minimum not met: {constraint.region_id}")
-    binding = tuple(
+    binding_names = {
         constraint.name
         for constraint in maxima
         if abs(totals[constraint.name] - float(constraint.available)) <= 1e-9
+    } | blocked_by_capacity
+    binding = tuple(
+        constraint.name
+        for constraint in maxima
+        if constraint.name in binding_names
     )
     return PortfolioSelection(tuple(selected), tuple(waiting), binding)
 
@@ -569,12 +601,20 @@ def aggregate_state_stock(
     selected_households: set[str] = set()
     explanations: list[Mapping[str, str]] = []
     for candidate in selected:
+        candidate.validate()
         if candidate.household_id in selected_households:
             raise B01ContractError(f"household selected more than once: {candidate.household_id}")
         selected_households.add(candidate.household_id)
         record = by_household.get(candidate.household_id)
         if record is None:
             raise B01ContractError(f"selected household is not in state stock: {candidate.household_id}")
+        if candidate.truth_context != record.truth_context:
+            raise B01ContractError("selected candidate and household truth contexts differ")
+        decision = assess_candidate(record, candidate)
+        if decision.status != "ELIGIBLE":
+            raise B01ContractError(
+                f"selected candidate is not B01-eligible: {candidate.intervention_id} ({decision.evidence_status})"
+            )
         current = determine_current_state(record)
         if current != candidate.from_state or STATE_INDEX[candidate.target_state] != STATE_INDEX[current] + 1:
             raise B01ContractError("selected transition is not monotone")

@@ -78,11 +78,11 @@
   "candidates": [
     {
       "household_id": "HH-SCN-001", "region_id": "R1", "intervention_id": "SCN-INT-001", "from_state": "S0", "target_state": "S1", "truth_context": "SCN",
-      "required_gate": "demand_reduction_measured_or_not_required", "required_gate_status": "SCN", "required_gate_evidence_refs": [],
+      "required_gate": "demand_reduction_measured_or_not_required", "required_gate_status": "Q", "required_gate_evidence_refs": [],
       "scores": {"SOCIAL_NEED": null, "ENERGY_WASTE": null, "HOUSEHOLD_GAIN": null, "PUBLIC_EFFICIENCY": null, "FISCAL_EFFECT": null, "SYSTEM_VALUE": null, "ENV_HEALTH": null, "READINESS": null, "REGIONAL_EQUITY": null},
       "score_statuses": {"SOCIAL_NEED": "Q", "ENERGY_WASTE": "Q", "HOUSEHOLD_GAIN": "Q", "PUBLIC_EFFICIENCY": "Q", "FISCAL_EFFECT": "Q", "SYSTEM_VALUE": "Q", "ENV_HEALTH": "Q", "READINESS": "Q", "REGIONAL_EQUITY": "Q"},
       "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
-      "evidence_status": "SCN", "missing_next_gate": "demand_reduction_measured_or_not_required", "why_now": "blocked until baseline eligibility is explicit", "why_here": "R1 fixture household", "binding_constraint": "UNASSIGNED"
+      "evidence_status": "Q", "missing_next_gate": "demand_reduction_measured_or_not_required", "why_now": "blocked until baseline eligibility is explicit", "why_here": "R1 fixture household", "binding_constraint": "UNASSIGNED"
     },
     {
       "household_id": "HH-SCN-002", "region_id": "R1", "intervention_id": "SCN-INT-002", "from_state": "S1", "target_state": "S2", "truth_context": "SCN",
@@ -110,11 +110,11 @@
     },
     {
       "household_id": "HH-SCN-005", "region_id": "R1", "intervention_id": "SCN-INT-005", "from_state": "S4", "target_state": "S5", "truth_context": "SCN",
-      "required_gate": "target_state_verified", "required_gate_status": "SCN", "required_gate_evidence_refs": [],
+      "required_gate": "target_state_verified", "required_gate_status": "Q", "required_gate_evidence_refs": [],
       "scores": {"SOCIAL_NEED": 0.6, "ENERGY_WASTE": 0.6, "HOUSEHOLD_GAIN": 0.6, "PUBLIC_EFFICIENCY": 0.6, "FISCAL_EFFECT": 0.6, "SYSTEM_VALUE": 0.6, "ENV_HEALTH": 0.6, "READINESS": 0.6, "REGIONAL_EQUITY": 0.6},
       "score_statuses": {"SOCIAL_NEED": "SCN", "ENERGY_WASTE": "SCN", "HOUSEHOLD_GAIN": "SCN", "PUBLIC_EFFICIENCY": "SCN", "FISCAL_EFFECT": "SCN", "SYSTEM_VALUE": "SCN", "ENV_HEALTH": "SCN", "READINESS": "SCN", "REGIONAL_EQUITY": "SCN"},
       "resource_needs": {"public_money": 100.0, "household_cashflow_floor": 1.0, "installer_FTE": 1.0, "supplier_capacity": 1.0, "permitting_capacity": 1.0, "grid_headroom": 1.0, "regional_minimum": 1.0, "debt_headroom": 100.0},
-      "evidence_status": "SCN", "missing_next_gate": "target_state_verified", "why_now": "blocked until ex-post target-state evidence exists", "why_here": "R1 S4 fixture household", "binding_constraint": "UNASSIGNED"
+      "evidence_status": "Q", "missing_next_gate": "target_state_verified", "why_now": "blocked until ex-post target-state evidence exists", "why_here": "R1 S4 fixture household", "binding_constraint": "UNASSIGNED"
     }
   ],
   "constraints": [

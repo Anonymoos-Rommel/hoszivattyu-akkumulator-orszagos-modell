@@ -691,6 +691,8 @@ def validate_b01_artifacts(errors: list[str]) -> None:
         errors.append("B01 portfolio component contract is incomplete")
     if portfolio.get("missing_value_policy") != "FAIL_CLOSED":
         errors.append("B01 portfolio missing-value policy is not FAIL_CLOSED")
+    if set(portfolio.get("policy_parameter_statuses", [])) != {"POL", "SCN"}:
+        errors.append("B01 policy parameter statuses must be POL or SCN")
     expected_constraints = {
         "public_money", "household_cashflow_floor", "installer_FTE", "supplier_capacity",
         "permitting_capacity", "grid_headroom", "regional_minimum", "debt_headroom",
@@ -733,8 +735,12 @@ def validate_b01_artifacts(errors: list[str]) -> None:
         transition = transition_by_states.get((candidate.get("from_state"), candidate.get("target_state")))
         if transition is None or candidate.get("required_gate") != transition.get("target_completion_gate"):
             errors.append(f"B01 candidate gate is not canonical: {candidate.get('intervention_id')!r}")
-        if candidate.get("truth_context") != "SCN" or candidate.get("required_gate_status") != "SCN":
+        gate_status = candidate.get("required_gate_status")
+        refs = candidate.get("required_gate_evidence_refs", [])
+        if candidate.get("truth_context") != "SCN" or gate_status not in {"SCN", "Q"}:
             errors.append(f"B01 SCN candidate is not SCN truth: {candidate.get('intervention_id')!r}")
+        if (gate_status == "Q" and refs) or (gate_status == "SCN" and not refs):
+            errors.append(f"B01 SCN candidate gate evidence mismatch: {candidate.get('intervention_id')!r}")
 
 
 def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
