@@ -24,14 +24,14 @@ HEADERS = (
 
 def normalized_text(*, current_free="12.5", future_free="18.0"):
     return HEADERS + (
-        "DEMASZ\tExample Station\tAB12\t50\t60\t132\t37.5\t"
+        "DEMASZ\tExample Station\tBAJA\t50\t60\t132\t37.5\t"
         f"{current_free}\t42\t{future_free}\n"
     )
 
 
 BASE_PROVENANCE = DsoHeadroomProvenance(
     source_id="SRC-B10-MVM-DEMASZ-CONSUMPTION-HEADROOM-2026",
-    publisher="MVM DEMASZ Aramhalozati Kft.",
+    publisher="MVM Démász Áramhálózati Kft.",
     dataset_name="MVM DEMASZ consumption-purpose free capacities",
     source_url="https://mvmhalozat.hu/attachments/41914",
     methodology_source_id="SRC-B10-MVM-DEMASZ-HEADROOM-METHOD-2026",
@@ -78,7 +78,19 @@ class B10DsoHeadroomContractTests(unittest.TestCase):
         text = normalized_text()
         row = parse_mvm_demasz_consumption_headroom_text(text, provenance=cleared(text)).records[0]
         self.assertEqual("DSO_SUBSTATION", row.region_scheme)
-        self.assertEqual("MVM_DEMASZ:AB12:132KV", row.region_id)
+        self.assertEqual("MVM_DEMASZ:BAJA:132KV", row.region_id)
+
+    def test_source_native_four_letter_station_code_is_preserved(self):
+        text = normalized_text().replace("BAJA", "BAJD")
+        row = parse_mvm_demasz_consumption_headroom_text(text, provenance=cleared(text)).records[0]
+        self.assertEqual("BAJD", row.station_code)
+        self.assertEqual("MVM_DEMASZ:BAJD:132KV", row.region_id)
+
+    def test_non_letter_or_empty_station_code_fails_closed(self):
+        with self.assertRaisesRegex(B10HeadroomContractError, "station_code"):
+            parse_mvm_demasz_consumption_headroom_text(normalized_text().replace("BAJA", "AB12"), provenance=BASE_PROVENANCE)
+        with self.assertRaisesRegex(B10HeadroomContractError, "station_code"):
+            parse_mvm_demasz_consumption_headroom_text(normalized_text().replace("BAJA", ""), provenance=BASE_PROVENANCE)
 
     def test_headroom_is_not_connection_authority(self):
         text = normalized_text()

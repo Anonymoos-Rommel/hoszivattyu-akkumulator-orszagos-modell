@@ -9,15 +9,16 @@ szétválasztása. A modul nem gyárthat hálózati kapacitást B08 vagy B09 ors
 
 ## B10-P1 scope
 
-A P1 első source-native authority családja az MVM DÉMÁSZ hivatalos,
+A P1 első source-native authority családja az **MVM Démász Áramhálózati Kft.** hivatalos,
 fogyasztási célú alállomási szabadkapacitás-publikációja és annak módszertani
 magyarázata.
 
 A runtime szerződés kizárólag az alábbi szemcsét fogadja:
 
-- hálózati engedélyes: `MVM DEMASZ`;
+- hivatalos publisher: `MVM Démász Áramhálózati Kft.`;
+- source-native hálózati engedélyes mező: `MVM DEMASZ`;
 - régióséma: `DSO_SUBSTATION`;
-- állomás + source-native állomáskód + feszültségszint;
+- állomás + source-native, négybetűs állomáskód + feszültségszint;
 - külön `CURRENT` és `FIVE_YEAR` horizont;
 - N-1 transzformátorkapacitás MW;
 - téli esti csúcsterhelés MW;

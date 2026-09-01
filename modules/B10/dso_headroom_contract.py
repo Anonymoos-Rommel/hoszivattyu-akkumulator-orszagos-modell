@@ -29,7 +29,7 @@ class B10HeadroomContractError(ValueError):
 
 MVM_DEMASZ_SOURCE_ID = "SRC-B10-MVM-DEMASZ-CONSUMPTION-HEADROOM-2026"
 MVM_DEMASZ_METHOD_SOURCE_ID = "SRC-B10-MVM-DEMASZ-HEADROOM-METHOD-2026"
-MVM_DEMASZ_PUBLISHER = "MVM DEMASZ Aramhalozati Kft."
+MVM_DEMASZ_PUBLISHER = "MVM Démász Áramhálózati Kft."
 MVM_DEMASZ_DATASET_NAME = "MVM DEMASZ consumption-purpose free capacities"
 MVM_DEMASZ_DATA_URL = "https://mvmhalozat.hu/attachments/41914"
 MVM_DEMASZ_METHOD_URL = "https://mvmhalozat.hu/attachments/41913"
@@ -58,7 +58,10 @@ UNVERIFIED_EXTRACTION = "UNVERIFIED_EXTRACTION"
 EXTRACTION_VERIFICATIONS = {VERIFIED_AGAINST_SOURCE, UNVERIFIED_EXTRACTION}
 SOURCE_REVISION_NOT_PROVIDED = "NOT_PROVIDED_BY_SOURCE"
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
-STATION_CODE_RE = re.compile(r"[A-Z0-9]{4}")
+# The publication labels this field as a four-letter AÁ identifier.  Keep the
+# source-native code unchanged; do not broaden it to an invented alphanumeric
+# taxonomy or normalize its identity through case conversion.
+STATION_CODE_RE = re.compile(r"[^\W\d_]{4}", re.UNICODE)
 
 NORMALIZED_HEADERS = (
     "network_operator",
@@ -161,7 +164,7 @@ class DsoHeadroomRecord:
         if not isinstance(self.station_name, str) or not self.station_name.strip():
             raise B10HeadroomContractError("station_name is required")
         if not isinstance(self.station_code, str) or not STATION_CODE_RE.fullmatch(self.station_code):
-            raise B10HeadroomContractError("station_code must be a four-character source station code")
+            raise B10HeadroomContractError("station_code must be a four-letter source station code")
         voltage = _finite_nonnegative(self.voltage_kv, "voltage_kv")
         if voltage <= 0:
             raise B10HeadroomContractError("voltage_kv must be positive")
@@ -289,7 +292,7 @@ def parse_mvm_demasz_consumption_headroom_text(
         if operator != MVM_DEMASZ_OPERATOR:
             raise B10HeadroomContractError(f"row {row_number}: unsupported network operator")
         station_name = (row.get("station_name") or "").strip()
-        station_code = (row.get("station_code") or "").strip().upper()
+        station_code = (row.get("station_code") or "").strip()
         if not station_name:
             raise B10HeadroomContractError(f"row {row_number}: station_name is required")
         if not STATION_CODE_RE.fullmatch(station_code):

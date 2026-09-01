@@ -5,7 +5,7 @@ Repository base: `f199678578493732d969cfe5074d41a32a0c172b`
 
 ## Decision
 
-The first B10 physical-network slice is bounded to **MVM DEMASZ** official
+The first B10 physical-network slice is bounded to **MVM Démász Áramhálózati Kft.** official
 consumption-purpose substation free-capacity publications. This is sufficient to
 create a fail-closed source contract without claiming national DSO coverage.
 
@@ -19,6 +19,20 @@ The selected source pair is:
 The publication exposes, by station / source-native station code / voltage level,
 current and five-year planning-horizon fields including N-1 transformer capacity,
 winter-evening consumption peak and theoretical consumption-side free capacity.
+
+The publication header identifies the station-code field as a four-letter `AÁ`
+identifier, and the source rows use four-letter codes such as `BAJA`, `BAJD` and
+`BCSA`. The runtime therefore validates exactly four Unicode letters and preserves
+the source-native code without case normalization; it does not assert a broader
+alphanumeric taxonomy.
+
+The official MVM company information page
+(`https://www.mvmhalozat.hu/aram/oldalak/430`) identifies the publisher as
+exactly `MVM Démász Áramhálózati Kft.`. The MVM site impressum
+(`https://mvmhalozat.hu/aram/oldalak/2785`) states that the site's content is
+copyrighted and republication requires prior written permission. This was not
+treated as redistribution clearance for the numeric PDF, so raw PDFs remain
+external.
 
 ## Source semantics
 
