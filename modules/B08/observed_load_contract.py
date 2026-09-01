@@ -7,10 +7,11 @@ county series, and it must not be converted into one.
 
 from __future__ import annotations
 
+import hashlib
 import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from math import isfinite
 from typing import Iterable, Mapping
 from urllib.parse import urlparse
@@ -30,6 +31,17 @@ HUNGARY_CONTROL_AREA = "HUNGARY_CONTROL_AREA"
 CONTROL_AREA_SCHEME = "ENTSOE_CONTROL_AREA"
 ALLOWED_RESOLUTIONS = {"PT15M": 0.25, "PT30M": 0.5, "PT60M": 1.0}
 SHA256_RE = re.compile(r"[0-9a-f]{64}")
+REUSE_CLEARED = "REUSE_CLEARED"
+EXTERNAL_ONLY_REUSE_UNRESOLVED = "EXTERNAL_ONLY_REUSE_UNRESOLVED"
+REUSE_RESTRICTED = "REUSE_RESTRICTED"
+REUSE_UNKNOWN = "REUSE_UNKNOWN"
+LICENSE_DECISIONS = {
+    REUSE_CLEARED,
+    EXTERNAL_ONLY_REUSE_UNRESOLVED,
+    REUSE_RESTRICTED,
+    REUSE_UNKNOWN,
+}
+SOURCE_REVISION_NOT_PROVIDED = "NOT_PROVIDED_BY_SOURCE"
 
 
 def _local_name(tag: str) -> str:
@@ -80,11 +92,11 @@ class SourceProvenance:
     publisher: str
     dataset_name: str
     request_url: str
-    retrieved_at: date
+    retrieved_at: datetime
     license_decision: str
     raw_storage_policy: str
     source_sha256: str | None = None
-    source_revision: str | None = None
+    source_revision: str = SOURCE_REVISION_NOT_PROVIDED
 
     def __post_init__(self) -> None:
         for field in ("source_id", "publisher", "dataset_name", "request_url", "license_decision", "raw_storage_policy"):
@@ -92,12 +104,17 @@ class SourceProvenance:
             if not isinstance(value, str) or not value.strip():
                 raise ObservedLoadContractError(f"provenance {field} is required")
         parsed = urlparse(self.request_url)
-        if parsed.scheme != "https" or not parsed.netloc:
-            raise ObservedLoadContractError("provenance request_url must be HTTPS")
-        if not isinstance(self.retrieved_at, date):
-            raise ObservedLoadContractError("provenance retrieved_at must be a date")
+        if parsed.scheme != "https" or not parsed.netloc or not parsed.query:
+            raise ObservedLoadContractError("provenance request_url must be HTTPS with exact query")
+        if self.license_decision not in LICENSE_DECISIONS:
+            raise ObservedLoadContractError("invalid license_decision")
+        if not isinstance(self.retrieved_at, datetime) or self.retrieved_at.tzinfo is None or self.retrieved_at.utcoffset() is None:
+            raise ObservedLoadContractError("provenance retrieved_at must be timezone-aware")
+        object.__setattr__(self, "retrieved_at", self.retrieved_at.astimezone(timezone.utc))
         if self.raw_storage_policy not in {"EXTERNAL_ONLY", "REPOSITORY_ALLOWED"}:
             raise ObservedLoadContractError("invalid raw_storage_policy")
+        if not isinstance(self.source_revision, str) or not self.source_revision.strip():
+            raise ObservedLoadContractError("provenance source_revision is required or must be NOT_PROVIDED_BY_SOURCE")
         if self.source_sha256 is not None and not SHA256_RE.fullmatch(self.source_sha256):
             raise ObservedLoadContractError("source_sha256 must be lowercase SHA-256")
 
@@ -119,6 +136,7 @@ class ObservedLoadRecord:
     evidence_status: str
     source_refs: tuple[str, ...]
     source_revision: str | None = None
+    provenance: SourceProvenance | None = None
 
     def __post_init__(self) -> None:
         if self.timestamp_utc.tzinfo is None or self.timestamp_utc.utcoffset() is None:
@@ -149,6 +167,13 @@ class ObservedLoadRecord:
         allowed = {"SCN", "Q"} if self.truth_context == "SCN" else {"OBS", "DER", "Q"}
         if self.evidence_status not in allowed:
             raise ObservedLoadContractError("evidence status is incompatible with truth context")
+        if self.provenance is not None and not isinstance(self.provenance, SourceProvenance):
+            raise ObservedLoadContractError("provenance must be SourceProvenance")
+        if self.evidence_status == "OBS":
+            if self.provenance is None:
+                raise ObservedLoadContractError("OBS records require complete source provenance")
+            if self.source_revision != self.provenance.source_revision:
+                raise ObservedLoadContractError("OBS record source_revision must match provenance")
         if isinstance(self.source_refs, str) or not self.source_refs or any(not isinstance(ref, str) or not ref.strip() for ref in self.source_refs):
             raise ObservedLoadContractError("source_refs must be a non-empty collection")
         if self.power_mw is not None:
@@ -184,6 +209,16 @@ def parse_entsoe_actual_total_load(
     """Parse an ENTSO-E A65/A16/A04 payload without resampling or relabelling."""
     if not isinstance(xml_text, str) or not xml_text.strip():
         raise ObservedLoadContractError("XML payload is required")
+    exact_payload_sha256 = hashlib.sha256(xml_text.encode("utf-8")).hexdigest()
+    if provenance.source_sha256 is not None and provenance.source_sha256 != exact_payload_sha256:
+        raise ObservedLoadContractError("source_sha256 does not match exact UTF-8 payload")
+    if truth_context not in TRUTH_CONTEXTS:
+        raise ObservedLoadContractError("truth_context must be REAL or SCN")
+    observed_eligible = (
+        truth_context == "REAL"
+        and provenance.source_sha256 is not None
+        and provenance.license_decision == REUSE_CLEARED
+    )
     try:
         root = ET.fromstring(xml_text)
     except ET.ParseError as exc:
@@ -231,7 +266,7 @@ def parse_entsoe_actual_total_load(
                     quantity = float(quantity_text)
                 except ValueError as exc:
                     raise ObservedLoadContractError("point quantity must be numeric") from exc
-            status = "OBS" if quantity is not None and provenance.source_sha256 else "Q"
+            status = "OBS" if quantity is not None and observed_eligible else "Q"
             records.append(ObservedLoadRecord(
                 source_series_id=series_id,
                 timestamp_utc=timestamp,
@@ -246,6 +281,7 @@ def parse_entsoe_actual_total_load(
                 evidence_status=status if truth_context == "REAL" else ("SCN" if quantity is not None else "Q"),
                 source_refs=(provenance.source_id,),
                 source_revision=provenance.source_revision,
+                provenance=provenance,
             ))
     if not records:
         raise ObservedLoadContractError("payload requires at least one Hungarian load series")

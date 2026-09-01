@@ -1,12 +1,16 @@
-from datetime import date
+from datetime import datetime, timezone
 from dataclasses import replace
 import hashlib
 import unittest
 
 from modules.B08.observed_load_contract import (
     CONTROL_AREA_SCHEME,
+    EXTERNAL_ONLY_REUSE_UNRESOLVED,
     HUNGARY_CONTROL_AREA,
     ObservedLoadContractError,
+    REUSE_CLEARED,
+    REUSE_RESTRICTED,
+    REUSE_UNKNOWN,
     SourceProvenance,
     derive_energy_mwh,
     parse_entsoe_actual_total_load,
@@ -18,10 +22,11 @@ PROVENANCE = SourceProvenance(
     source_id="SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
     publisher="ENTSO-E",
     dataset_name="Actual Total Load [6.1.A]",
-    request_url="https://web-api.tp.entsoe.eu/api",
-    retrieved_at=date(2026, 9, 1),
-    license_decision="EXTERNAL_ONLY_REUSE_UNRESOLVED",
+    request_url="https://web-api.tp.entsoe.eu/api?documentType=A65&processType=A16&businessType=A04&outBiddingZone_Domain=10YHU-MAVIR----U&periodStart=202601010000&periodEnd=202601010030",
+    retrieved_at=datetime(2026, 9, 1, 12, 0, tzinfo=timezone.utc),
+    license_decision=EXTERNAL_ONLY_REUSE_UNRESOLVED,
     raw_storage_policy="EXTERNAL_ONLY",
+    source_revision="NOT_PROVIDED_BY_SOURCE",
 )
 
 
@@ -49,6 +54,7 @@ class ObservedLoadContractTests(unittest.TestCase):
     def test_entsoe_actual_load_is_control_area_and_keeps_15min_power(self):
         provenance = replace(
             PROVENANCE,
+            license_decision=REUSE_CLEARED,
             source_sha256=hashlib.sha256(payload().encode("utf-8")).hexdigest(),
         )
         rows = parse_entsoe_actual_total_load(payload(), provenance=provenance)
@@ -58,6 +64,7 @@ class ObservedLoadContractTests(unittest.TestCase):
         self.assertEqual(rows[0].timestep_hours, 0.25)
         self.assertEqual(rows[0].power_mw, 100.0)
         self.assertEqual(rows[0].evidence_status, "OBS")
+        self.assertEqual(rows[0].provenance.license_decision, REUSE_CLEARED)
         self.assertEqual(derive_energy_mwh(rows), (25.0, 0.0))
 
     def test_source_native_30_and_60_minute_resolution_is_preserved(self):
@@ -88,6 +95,85 @@ class ObservedLoadContractTests(unittest.TestCase):
         rows = parse_entsoe_actual_total_load(payload(quantities=(100.0,)), provenance=PROVENANCE)
         self.assertEqual(rows[0].evidence_status, "Q")
 
+    def test_matching_checksum_does_not_clear_unresolved_reuse(self):
+        provenance = replace(
+            PROVENANCE,
+            source_sha256=hashlib.sha256(payload().encode("utf-8")).hexdigest(),
+        )
+        rows = parse_entsoe_actual_total_load(payload(), provenance=provenance)
+        self.assertTrue(all(row.evidence_status == "Q" for row in rows))
+
+    def test_restricted_and_unknown_reuse_never_become_obs(self):
+        checksum = hashlib.sha256(payload().encode("utf-8")).hexdigest()
+        for decision in (REUSE_RESTRICTED, REUSE_UNKNOWN):
+            with self.subTest(decision=decision):
+                rows = parse_entsoe_actual_total_load(
+                    payload(),
+                    provenance=replace(PROVENANCE, license_decision=decision, source_sha256=checksum),
+                )
+                self.assertTrue(all(row.evidence_status == "Q" for row in rows))
+
+    def test_raw_storage_policy_alone_does_not_clear_reuse(self):
+        checksum = hashlib.sha256(payload().encode("utf-8")).hexdigest()
+        rows = parse_entsoe_actual_total_load(
+            payload(),
+            provenance=replace(PROVENANCE, source_sha256=checksum, raw_storage_policy="REPOSITORY_ALLOWED"),
+        )
+        self.assertTrue(all(row.evidence_status == "Q" for row in rows))
+
+    def test_checksum_mismatch_is_fail_closed(self):
+        with self.assertRaisesRegex(ObservedLoadContractError, "exact UTF-8 payload"):
+            parse_entsoe_actual_total_load(
+                payload(),
+                provenance=replace(PROVENANCE, license_decision=REUSE_CLEARED, source_sha256="0" * 64),
+            )
+
+    def test_one_character_payload_change_is_rejected_against_declared_hash(self):
+        original = payload()
+        provenance = replace(
+            PROVENANCE,
+            license_decision=REUSE_CLEARED,
+            source_sha256=hashlib.sha256(original.encode("utf-8")).hexdigest(),
+        )
+        changed = original.replace("100.0", "100.1", 1)
+        with self.assertRaises(ObservedLoadContractError):
+            parse_entsoe_actual_total_load(changed, provenance=provenance)
+
+    def test_explicit_zero_is_obs_when_all_gates_pass(self):
+        xml = payload(quantities=(0.0,))
+        provenance = replace(
+            PROVENANCE,
+            license_decision=REUSE_CLEARED,
+            source_sha256=hashlib.sha256(xml.encode("utf-8")).hexdigest(),
+        )
+        row = parse_entsoe_actual_total_load(xml, provenance=provenance)[0]
+        self.assertEqual(row.power_mw, 0.0)
+        self.assertEqual(row.evidence_status, "OBS")
+
+    def test_naive_retrieval_timestamp_is_rejected(self):
+        with self.assertRaisesRegex(ObservedLoadContractError, "timezone-aware"):
+            SourceProvenance(**{**PROVENANCE.__dict__, "retrieved_at": datetime(2026, 9, 1, 12, 0)})
+
+    def test_retrieval_timestamp_is_normalized_to_utc(self):
+        provenance = replace(PROVENANCE, retrieved_at=datetime(2026, 9, 1, 14, 0, tzinfo=timezone.utc))
+        self.assertEqual(provenance.retrieved_at, datetime(2026, 9, 1, 14, 0, tzinfo=timezone.utc))
+
+    def test_missing_required_provenance_is_rejected(self):
+        with self.assertRaises(ObservedLoadContractError):
+            SourceProvenance(**{**PROVENANCE.__dict__, "publisher": ""})
+
+    def test_exact_request_query_is_required_for_runtime_provenance(self):
+        with self.assertRaises(ObservedLoadContractError):
+            SourceProvenance(**{**PROVENANCE.__dict__, "request_url": "https://web-api.tp.entsoe.eu/api"})
+
+    def test_unsupported_resolution_is_rejected(self):
+        with self.assertRaises(ObservedLoadContractError):
+            parse_entsoe_actual_total_load(payload().replace("PT15M", "PT05M"), provenance=PROVENANCE)
+
+    def test_wrong_business_type_is_rejected(self):
+        with self.assertRaises(ObservedLoadContractError):
+            parse_entsoe_actual_total_load(payload().replace("<businessType>A04</businessType>", "<businessType>A01</businessType>"), provenance=PROVENANCE)
+
 
     def test_timezone_aware_source_time_and_dst_offsets_are_deterministic(self):
         xml = payload().replace("2026-01-01T00:00Z", "2026-10-25T02:00+02:00").replace("2026-01-01T00:30Z", "2026-10-25T02:30+02:00")
@@ -114,6 +200,28 @@ class ObservedLoadContractTests(unittest.TestCase):
     def test_malformed_provenance_rejected(self):
         with self.assertRaises(ObservedLoadContractError):
             SourceProvenance(**{**PROVENANCE.__dict__, "source_sha256": "not-a-sha"})
+
+    def test_invalid_reuse_decision_is_rejected(self):
+        with self.assertRaises(ObservedLoadContractError):
+            SourceProvenance(**{**PROVENANCE.__dict__, "license_decision": "PUBLIC"})
+
+    def test_observed_record_requires_provenance(self):
+        with self.assertRaises(ObservedLoadContractError):
+            from modules.B08.observed_load_contract import ObservedLoadRecord
+            ObservedLoadRecord(
+                source_series_id="HU-TEST-SERIES",
+                timestamp_utc=datetime(2026, 1, 1, tzinfo=timezone.utc),
+                interval_end_utc=datetime(2026, 1, 1, 0, 15, tzinfo=timezone.utc),
+                timestep_hours=0.25,
+                power_mw=1.0,
+                region_id=HUNGARY_CONTROL_AREA,
+                region_scheme=CONTROL_AREA_SCHEME,
+                source_time_basis="UTC",
+                interval_convention="INTERVAL_START",
+                truth_context="REAL",
+                evidence_status="OBS",
+                source_refs=(PROVENANCE.source_id,),
+            )
 
 
     def test_non_hungarian_or_dso_relabel_rejected(self):

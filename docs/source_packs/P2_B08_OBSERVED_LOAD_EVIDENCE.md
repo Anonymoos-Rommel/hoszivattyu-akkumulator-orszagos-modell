@@ -7,7 +7,7 @@ Repository base: `a81b6dcd7122b2bd5b671eddd0f044c2d74dc199`
 
 | Candidate | Verdict | Supported grain | Why |
 |---|---|---|---|
-| ENTSO-E Transparency Platform Actual Total Load [6.1.A] | **Selected metadata contract** | Hungarian control area / bidding zone `10YHU-MAVIR----U` | A65/A16/A04 is explicitly realised actual total load; official API and MTU semantics are documented. Numeric raw data remain external because primary-owner reuse must be checked. |
+| ENTSO-E Transparency Platform Actual Total Load [6.1.A] | **Selected metadata contract** | Hungarian control area / bidding zone `10YHU-MAVIR----U` | A65/A16/A04 is explicitly realised actual total load; official API and MTU semantics are documented. Numeric raw data remain external because the inspected current free-reuse authority does not establish A65 reuse. |
 | MAVIR RTDW public publication | **Rejected for canonical numeric intake in this slice** | Not established by the inspected interface | Public UI has date, resolution, format and export controls, but no stable machine-readable schema, documented API path, or clear numeric-data reuse terms were established. |
 | ENTSO-E Power Statistics monthly/hourly load | **Context only** | Country aggregate | Official downloadable historical/hourly statistics are country aggregated and useful as a cross-check, but the page does not establish the same source-native MTU/API provenance needed for the selected real intake. |
 
@@ -57,14 +57,23 @@ timestamp_utc)` keys fail closed. No implicit one-hour assumption exists.
 
 ## Licence and provenance decision
 
-No raw ENTSO-E response is committed. The Transparency Platform terms require
-source attribution and place responsibility on the data user to check the
-current free-reuse list and, where necessary, obtain primary-owner agreement.
-The inspected list does not establish free reuse for Actual Total Load. Each
-future acquisition must record the exact request URL, retrieval timestamp,
-source revision, response SHA-256, source identifiers, and the then-current
-reuse decision. Until that record exists, the numeric series remains external
-and its repository evidence status remains Q.
+No raw ENTSO-E response is committed. The inspected official authority is the
+**ENTSO-E List of Data Available for Free Re-use, last modified 2023-10-18**:
+`https://transparency.entsoe.eu/content/static_content/download?path=%2FStatic+content%2Fterms+and+conditions%2F231018_List_of_Data_available_for_reuse.pdf`.
+It expressly lists day/week/month/year-ahead total-load forecasts and other
+specified items under CC BY 4.0, but does not list Actual Total Load/A65. The
+result is **not** an inference that omission is a legal prohibition; A65 free
+reuse is simply not established by this inspected list. The associated 2023
+Terms URL is recorded in `registry/sources.csv`.
+
+Each future acquisition must record the exact non-secret request URL/query,
+timezone-aware retrieval timestamp, source revision or
+`NOT_PROVIDED_BY_SOURCE`, source identifiers, response SHA-256 of the exact
+UTF-8 payload bytes, and one of the finite reuse decisions
+`REUSE_CLEARED`, `EXTERNAL_ONLY_REUSE_UNRESOLVED`, `REUSE_RESTRICTED`, or
+`REUSE_UNKNOWN`. Only `REUSE_CLEARED` can permit `OBS`; repository/raw storage
+policy alone cannot clear reuse. Until that record exists, the numeric series
+remains external and its repository evidence status remains Q.
 
 ## Boundary decisions
 
