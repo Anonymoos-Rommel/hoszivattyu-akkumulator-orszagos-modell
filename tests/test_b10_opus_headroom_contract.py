@@ -13,6 +13,7 @@ from modules.B10.opus_headroom_contract import (
     OPUS_TITASZ_COMPANY_URL,
     OPUS_TITASZ_PUBLISHER,
     OPUS_TITASZ_SOURCE_ID,
+    OPUS_TITASZ_SOURCE_PDF_SHA256,
     OPUS_TITASZ_SOURCE_REFS,
     OPUS_TITASZ_SOURCE_REVISION,
     OpusHeadroomContractError,
@@ -53,7 +54,7 @@ def cleared(text):
         BASE_PROVENANCE,
         license_decision=REUSE_CLEARED,
         extraction_verification=VERIFIED_AGAINST_SOURCE,
-        source_pdf_sha256="1" * 64,
+        source_pdf_sha256=OPUS_TITASZ_SOURCE_PDF_SHA256,
         normalized_text_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
     )
 
@@ -75,6 +76,11 @@ class OpusHeadroomContractTests(unittest.TestCase):
         provenance = replace(cleared(text), source_pdf_sha256=None)
         batch = parse_opus_titasz_consumption_headroom_text(text, provenance=provenance)
         self.assertEqual("Q", batch.evidence_status)
+
+    def test_wrong_pdf_hash_is_rejected(self):
+        text = normalized_text()
+        with self.assertRaisesRegex(OpusHeadroomContractError, "source_pdf_sha256"):
+            replace(cleared(text), source_pdf_sha256="0" * 64)
 
     def test_exact_normalized_hash_is_required(self):
         text = normalized_text()
