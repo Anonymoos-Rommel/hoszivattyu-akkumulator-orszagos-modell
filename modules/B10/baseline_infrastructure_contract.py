@@ -158,6 +158,12 @@ class InfrastructureRecord:
             )
         if self.evidence_status not in EVIDENCE_STATUSES:
             raise B10BaselineInfrastructureContractError("invalid evidence_status")
+        for field_name in ("without_program_required", "with_program_required"):
+            value = getattr(self, field_name)
+            if value is not None and not isinstance(value, bool):
+                raise B10BaselineInfrastructureContractError(
+                    f"{field_name} must be bool or explicit None"
+                )
         if self.program_causality_status not in CAUSALITY_STATUSES:
             if self.program_causality_status == "OBS":
                 raise B10BaselineInfrastructureContractError("program causality cannot be OBS")
@@ -259,6 +265,18 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
     """Classify one record, returning ``Q`` whenever attribution is unproven."""
 
     refs = record.effective_source_refs
+    if record.without_program_required is None or record.with_program_required is None:
+        return AttributionDecision(
+            record.project_id,
+            record.status_taxonomy,
+            UNRESOLVED,
+            "Q",
+            refs,
+            f"{WITHOUT_PROGRAM}/{WITH_PROGRAM} fields are not explicit",
+            None,
+            None,
+            "both counterfactual worlds must be explicitly represented",
+        )
     if not _base_evidence_ok(record):
         return AttributionDecision(
             record.project_id,
@@ -270,6 +288,24 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
             None,
             None,
             "missing authoritative source, effective date/revision, or source identity",
+        )
+
+    if record.status_taxonomy in {
+        OPERATING,
+        UNDER_CONSTRUCTION,
+        CONTRACTED,
+        BUDGETED_OR_ALLOCATED,
+    } and not (record.without_program_required and record.with_program_required):
+        return AttributionDecision(
+            record.project_id,
+            record.status_taxonomy,
+            UNRESOLVED,
+            "Q",
+            refs,
+            f"{WITHOUT_PROGRAM} baseline flag is inconsistent with status",
+            None,
+            None,
+            "an existing/contracted project must be present in both explicit worlds",
         )
 
     if (
@@ -333,6 +369,28 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
             record.upsizing_proven,
         )
     )
+    expected_incremental_flags = (
+        (True, True)
+        if record.status_taxonomy in {
+            OPERATING,
+            UNDER_CONSTRUCTION,
+            CONTRACTED,
+            BUDGETED_OR_ALLOCATED,
+        }
+        else (False, True)
+    )
+    if difference_proven and (record.without_program_required, record.with_program_required) != expected_incremental_flags:
+        return AttributionDecision(
+            record.project_id,
+            record.status_taxonomy,
+            UNRESOLVED,
+            "Q",
+            refs,
+            f"{WITHOUT_PROGRAM}/{WITH_PROGRAM} flags do not show an incremental difference",
+            None,
+            None,
+            "incremental attribution requires absent-without-program and present-with-program",
+        )
     if not difference_proven:
         return AttributionDecision(
             record.project_id,
