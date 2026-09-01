@@ -46,6 +46,7 @@ OPUS_TITASZ_LEGAL_URL = "https://www.opustitasz.hu/jogi-nyilatkozat"
 OPUS_TITASZ_COMPANY_URL = "https://www.opustitasz.hu/kozszolgalati-informaciok"
 OPUS_TITASZ_EFFECTIVE_DATE = "2026-07-22"
 OPUS_TITASZ_SOURCE_REVISION = "EFFECTIVE_2026-07-22"
+OPUS_TITASZ_SOURCE_PDF_SHA256 = "3550266167435880f2055497aa5da5d5a4d04240cbfaac4c1425c46b8f4e8e48"
 REGION_SCHEME = "DSO_SUBSTATION"
 SOURCE_SEMANTICS = "PUBLISHED_INDICATIVE_DSO_ESTIMATE_NOT_CONNECTION_AUTHORITY"
 CONNECTION_AUTHORITY = "MGT_REQUIRED"
@@ -143,6 +144,8 @@ class OpusHeadroomProvenance:
             value = getattr(self, field_name)
             if value is not None and not SHA256_RE.fullmatch(value):
                 raise OpusHeadroomContractError(f"{field_name} must be lowercase SHA-256")
+        if self.source_pdf_sha256 is not None and self.source_pdf_sha256 != OPUS_TITASZ_SOURCE_PDF_SHA256:
+            raise OpusHeadroomContractError("source_pdf_sha256 does not match the acquired OPUS PDF revision")
 
 
 @dataclass(frozen=True)
@@ -196,8 +199,8 @@ class OpusHeadroomRecord:
                 raise OpusHeadroomContractError("DER rows require explicit reuse clearance")
             if self.provenance.extraction_verification != VERIFIED_AGAINST_SOURCE:
                 raise OpusHeadroomContractError("DER rows require extraction verification against the official source")
-            if self.provenance.source_pdf_sha256 is None or self.provenance.normalized_text_sha256 is None:
-                raise OpusHeadroomContractError("DER rows require source-PDF and normalized-text checksums")
+            if self.provenance.source_pdf_sha256 != OPUS_TITASZ_SOURCE_PDF_SHA256 or self.provenance.normalized_text_sha256 is None:
+                raise OpusHeadroomContractError("DER rows require the exact source-PDF revision and normalized-text checksum")
             if any(value is None for value in values):
                 raise OpusHeadroomContractError("DER rows require complete source-native capacity fields")
 
@@ -246,7 +249,7 @@ def parse_opus_titasz_consumption_headroom_text(
     can_promote = (
         provenance.license_decision == REUSE_CLEARED
         and provenance.extraction_verification == VERIFIED_AGAINST_SOURCE
-        and provenance.source_pdf_sha256 is not None
+        and provenance.source_pdf_sha256 == OPUS_TITASZ_SOURCE_PDF_SHA256
         and provenance.normalized_text_sha256 == exact_hash
         and provenance.source_effective_date == OPUS_TITASZ_EFFECTIVE_DATE
         and provenance.source_revision == OPUS_TITASZ_SOURCE_REVISION
