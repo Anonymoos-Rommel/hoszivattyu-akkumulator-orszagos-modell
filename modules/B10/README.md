@@ -63,6 +63,23 @@ publikált headroommal, ha az upstream demand már **pontosan ugyanarra a
 Ezért a jelenlegi B08/B09 control-area evidence önmagában nem használható
 B10 állomási assessmentre.
 
+## B10-P2 — OPUS TITÁSZ second-DSO evidence
+
+A P2 külön, source-native OPUS TITÁSZ contractot vezet be. Az OPUS publication
+nem tartalmaz külön voltage, N-1 transformer-capacity vagy winter-evening-peak
+mezőt, ezért ezek nem kerülnek a parserbe és nem vezethetők le az állomásnévből.
+
+A source snapshot audit alapján a station code nem fix hosszúságú: 4 és 5
+karakteres kódok egyaránt szerepelnek, a `DEBR` kód pedig kétszer jelenik meg.
+Az exact source-row identity ezért a változatlan `(station_code, station_name)`
+pár. Az OPUS region ID `OPUS_TITASZ:<station_code>:<station_name>` és nem
+azonosítható az MVM Démász voltage-grain kulcsával.
+
+Az OPUS normalized record soha nem `OBS`: teljes, külön synthetic clearance
+esetén `DER`, egyébként `Q`. A parser nem ad assessment handoffot; az MVM
+`assess_incremental_demand()` explicit módon elutasítja az OPUS rekordot, így
+nem jön létre cross-DSO vagy B08/B09 control-area → alállomás mapping.
+
 ## Out of scope P1
 
 - baseline infrastruktúra státuszledger feltöltése;
