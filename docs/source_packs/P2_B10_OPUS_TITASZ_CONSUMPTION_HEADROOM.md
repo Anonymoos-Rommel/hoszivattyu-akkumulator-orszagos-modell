@@ -124,4 +124,3 @@ Q-B10-001, Q-B10-002 and Q-B01-002 remain OPEN. B10 readiness remains 15.
 
 No OPUS raw PDF, restricted payload, numeric national dataset, regional-readiness
 row, baseline infrastructure row or incremental CAPEX row is committed.
-

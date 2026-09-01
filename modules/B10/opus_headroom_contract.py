@@ -277,4 +277,3 @@ def parse_opus_titasz_consumption_headroom_text(
         raise OpusHeadroomContractError("normalized TSV contains no OPUS source rows")
     status = "Q" if any(row.evidence_status == "Q" for row in records) else "DER"
     return OpusHeadroomBatch(tuple(records), OPUS_TITASZ_SOURCE_REFS, status)
-
