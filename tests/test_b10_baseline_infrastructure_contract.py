@@ -31,6 +31,8 @@ def evidence(*, supports=(), level=3, source_id="SRC-B10-AUTH-2026", truth="OBS"
 
 def record(status=CONTRACTED, **kwargs):
     ev = kwargs.pop("evidence", (evidence(),))
+    default_without = kwargs.pop("without_program_required", status not in {ANNOUNCED_UNFUNDED, "OPEN_TENDER"})
+    default_with = kwargs.pop("with_program_required", status not in {ANNOUNCED_UNFUNDED, "OPEN_TENDER"})
     return InfrastructureRecord(
         project_id=kwargs.pop("project_id", "PROJECT-001"),
         network_operator="DSO-A",
@@ -43,6 +45,8 @@ def record(status=CONTRACTED, **kwargs):
         source_refs=tuple(item.source_id for item in ev),
         evidence=ev,
         evidence_status=kwargs.pop("evidence_status", "OBS"),
+        without_program_required=default_without,
+        with_program_required=default_with,
         **kwargs,
     )
 
@@ -89,6 +93,8 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
             ANNOUNCED_UNFUNDED,
             program_causality_status="DER",
             incremental_scope_proven=True,
+            without_program_required=False,
+            with_program_required=True,
         ))
         self.assertEqual(PROGRAM_INCREMENTAL, decision.attribution_status)
         self.assertIsNone(decision.incremental_cost_huf)
@@ -101,6 +107,8 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
             evidence=ev,
             program_causality_status="DER",
             acceleration_proven=True,
+            without_program_required=True,
+            with_program_required=True,
             baseline_cost_huf=90,
             incremental_cost_huf=10,
             total_project_cost_huf=100,
@@ -161,7 +169,7 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
             validate_attribution_ledger(projects, rows)
 
     def test_missing_is_not_zero(self):
-        decision = classify_infrastructure(record(ANNOUNCED_UNFUNDED, program_causality_status="DER", incremental_scope_proven=True))
+        decision = classify_infrastructure(record(ANNOUNCED_UNFUNDED, program_causality_status="DER", incremental_scope_proven=True, without_program_required=False, with_program_required=True))
         self.assertIsNone(decision.incremental_cost_huf)
 
 
