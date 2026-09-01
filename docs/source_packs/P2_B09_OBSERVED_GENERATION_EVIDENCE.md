@@ -23,13 +23,15 @@ The Transparency Platform UI exposes the same dataset as **Actual Generation per
 
 ## Official evidence inspected
 
-1. **ENTSO-E Detailed Data Descriptions v3r4**, dated 2023-12-15.
+1. **ENTSO-E Detailed Data Descriptions v3r4**, dated 2023-12-15:
+   `https://eepublicdownloads.entsoe.eu/clean-documents/Transparency/MoP_Ref2_DDD_v3r4.pdf`.
    - Defines Aggregated Generation per Type [16.1.B&C].
    - Actual aggregated generation is per bidding zone and market time unit.
    - Unit is MW.
    - ENTSO-E notes that when actual values are not available, estimates may be used. Therefore the repository preserves the explicit semantic caveat `ENTSOE_PUBLISHED_ACTUAL_MAY_INCLUDE_PROVIDER_ESTIMATES`; it does not claim meter-only origin.
 
-2. **ENTSO-E Generation and Load Process Implementation Guide / dependency table**.
+2. **ENTSO-E Generation and Load Process Implementation Guide version 0.3 – Draft / dependency table**:
+   `https://transparency.entsoe.eu/content/static_content/download?path=%2FStatic+content%2Fweb+api%2FIG-for-TP-data-extraction-process.pdf`.
    - `A75` Actual generation per type.
    - `A16` Realised.
    - `A01` Production; `A93` wind generation; `A94` solar generation.
@@ -37,18 +39,30 @@ The Transparency Platform UI exposes the same dataset as **Actual Generation per
    - `InBiddingZone_Domain` used; production-negative / consumption direction is separate.
    - `PT60M`, `PT30M`, `PT15M` supported.
 
-3. **ENTSO-E Transparency Platform FAQ**, current publication inspected 2026-09-01.
-   - For Aggregated Generation per Type [16.1.B&C], ENTSO-E explicitly states that wind and solar may be submitted under article 16.1.b using A75 and business type A01/A93/A94.
-   - ENTSO-E also notes that small-scale generation may require estimation. This reinforces the source-semantic caveat above.
+3. **ENTSO-E Manual of Procedures page and v3.5 package**, current publication inspected 2026-09-01:
+   page `https://www.entsoe.eu/data/transparency-platform/mop/`, package
+   `https://eepublicdownloads.blob.core.windows.net/public-cdn-container/clean-documents/mc-documents/transparency-platform/MOP/MoP_v3r5_final.zip`.
+   - The official page identifies MoP v3.5 as the current revision context and links the exact package registered in `registry/sources.csv`.
+   - This does not replace the directly verified v3r4 DDD text for the 16.1.B&C estimate semantics in this slice.
 
-4. **ENTSO-E Transparency Platform Actual Generation per Production Type UI**.
+4. **ENTSO-E Transparency Platform Actual Generation per Production Type UI**:
+   `https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show?name=`.
    - Confirms the public product identity and production-type table structure.
    - Export requires login; the public UI is corroboration, not the canonical machine intake path.
 
-5. **ENTSO-E General Terms and Conditions** and **List of Data Available for Free Re-use, last modified 2023-10-18**.
+5. **ENTSO-E General Terms and Conditions**:
+   `https://transparency.entsoe.eu/content/static_content/download?path=%2FStatic+content%2Fterms+and+conditions%2F230309_ENTSOE_Transparency_Terms_Conditions_MC_APPROVED.pdf`;
+   and **List of Data Available for Free Re-use, last modified 2023-10-18**:
+   `https://transparency.entsoe.eu/content/static_content/download?path=%2FStatic+content%2Fterms+and+conditions%2F231018_List_of_Data_available_for_reuse.pdf`.
    - The inspected authority does not establish repository redistribution clearance for the A75 raw response used by this slice.
    - Absence of clearance is not treated as a legal prohibition; it is an unresolved acquisition-specific reuse decision.
    - No ENTSO-E numeric raw payload is committed.
+
+The inspected official free-reuse list is:
+`https://transparency.entsoe.eu/content/static_content/download?path=%2FStatic+content%2Fterms+and+conditions%2F231018_List_of_Data_available_for_reuse.pdf`.
+It lists specified load forecasts and other items, but not Actual Generation
+per Production Type/A75. This is not a prohibition inference; it leaves
+acquisition-specific A75 reuse clearance unresolved.
 
 ## Runtime truth contract
 

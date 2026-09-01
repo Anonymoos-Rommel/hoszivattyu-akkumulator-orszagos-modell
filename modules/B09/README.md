@@ -30,10 +30,21 @@ never negated into generation.
 
 A source-native value can become `OBS` only after exact source identity, request
 query, period, payload SHA-256, acquisition timestamp and explicit
-`REUSE_CLEARED` gates pass. Direct object construction cannot mint OBS. ENTSO-E
-also states that published actual-generation values may contain provider
-estimates when measurements are unavailable, so the runtime preserves that
-source-semantic caveat instead of claiming meter-only evidence.
+`REUSE_CLEARED` gates pass. Direct object construction cannot mint OBS. The
+directly verified Detailed Data Descriptions v3r4 state that actual aggregated
+net generation is computed from available instantaneous values and that
+unknown output, including small-scale generation without real-time measurement
+devices, may be estimated. The runtime therefore preserves the explicit
+source-semantic caveat `ENTSOE_PUBLISHED_ACTUAL_MAY_INCLUDE_PROVIDER_ESTIMATES`
+instead of claiming meter-only evidence. ENTSO-E's current MoP page identifies
+v3.5 as the latest revision context, but this slice does not relabel the
+directly verified v3r4 16.1.B&C DDD text as v3.5.
+
+The official machine/API and product references are registered in
+`registry/sources.csv`: the Generation and Load Process Implementation Guide
+version 0.3 draft, the current v3.5 MoP package, and the platform's Actual
+Generation per Production Type view. A separate stable FAQ authority was not
+established; the estimate caveat is sourced from the DDD itself.
 
 The existing B09 adequacy engine consumes kW. Therefore the source-native MW
 record enters B09 only through explicit dimensional conversion:
@@ -45,9 +56,11 @@ requires an explicit expected production-type acquisition manifest and a
 complete component/timestamp panel. Missing production types or timestamps are
 never interpreted as zero.
 
-No ENTSO-E numeric raw payload is committed. The inspected reuse authority does
-not establish A75 raw-response redistribution clearance, so acquisition-specific
-reuse remains Q. The evidence contract does not create county or DSO generation,
+No ENTSO-E numeric raw payload is committed. The official free-reuse list last
+modified **2023-10-18** does not list Actual Generation per Production Type/A75.
+This omission is not treated as a prohibition; A75 raw-response redistribution
+clearance is simply not established, so acquisition-specific reuse remains Q.
+The evidence contract does not create county or DSO generation,
 regional allocation, national scaling, storage/dispatch authority or B10 network
 headroom/reinforcement authority. Q-B09-001 therefore remains OPEN but is
 partially bounded; Q-B09-002 is unchanged.
