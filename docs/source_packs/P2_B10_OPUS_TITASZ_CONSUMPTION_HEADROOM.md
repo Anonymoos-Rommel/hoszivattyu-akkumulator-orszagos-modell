@@ -43,7 +43,7 @@ First three rows:
 
 | station_code | station_name | current MW | five-year MW |
 |---|---|---:|---:|
-| BAKTA | Baktaláránháza | 0,0 | 0,0 |
+| BAKTA | Baktalórántháza | 0,0 | 0,0 |
 | BUJF | Berettyóújfalu | 15,2 | 14,4 |
 | BUJV | Balmazújváros | 0,0 | 0,0 |
 
@@ -74,7 +74,7 @@ present; no negative numeric value was found.
 
 The canonical OPUS row key is therefore the exact source-native tuple
 `(station_code, station_name)`. The OPUS region ID is
-`OPUS_TITÁSZ:<station_code>:<station_name>`. It is deliberately not made to
+`OPUS_TITASZ:<station_code>:<station_name>`. It is deliberately not made to
 look like the MVM Démász `MVM_DEMASZ:<code>:<voltage>KV` identity.
 
 ## Truth, provenance and legal boundary
@@ -84,7 +84,8 @@ The normalized TSV is an external transcription and is **never `OBS`**.
 `DER` is possible only with all of the following:
 
 - explicit `REUSE_CLEARED`;
-- exact source-PDF SHA-256;
+- exact source-PDF SHA-256 equal to
+  `3550266167435880f2055497aa5da5d5a4d04240cbfaac4c1425c46b8f4e8e48`;
 - exact normalized-text SHA-256;
 - `VERIFIED_AGAINST_SOURCE`;
 - exact acquired effective date `2026-07-22` and source revision
@@ -93,7 +94,8 @@ The normalized TSV is an external transcription and is **never `OBS`**.
 - all four canonical source references.
 
 Otherwise the row remains `Q`. Explicit zero remains zero; missing remains
-missing and `Q`; negative values fail closed.
+missing and `Q`; negative values fail closed. A syntactically valid but different
+PDF SHA-256 is rejected rather than treated as the acquired source revision.
 
 The OPUS [legal notice](https://www.opustitasz.hu/jogi-nyilatkozat) states that
 downloadable documents and information materials are copyright-protected and
