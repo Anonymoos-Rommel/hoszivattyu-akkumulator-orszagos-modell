@@ -1,6 +1,6 @@
 """Canonical intake contract for source-native Hungarian observed load data.
 
-This contract deliberately stops at the grain supplied by the source.  The
+This contract deliberately stops at the grain supplied by the source. The
 ENTSO-E candidate is a Hungarian control-area / national series, not a DSO or
 county series, and it must not be converted into one.
 """
@@ -10,11 +10,11 @@ from __future__ import annotations
 import hashlib
 import re
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from math import isfinite
-from typing import Iterable, Mapping
-from urllib.parse import urlparse
+from typing import Iterable
+from urllib.parse import parse_qs, urlparse
 
 
 class ObservedLoadContractError(ValueError):
@@ -42,6 +42,19 @@ LICENSE_DECISIONS = {
     REUSE_UNKNOWN,
 }
 SOURCE_REVISION_NOT_PROVIDED = "NOT_PROVIDED_BY_SOURCE"
+ENTSOE_SOURCE_ID = "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026"
+ENTSOE_PUBLISHER = "ENTSO-E"
+ENTSOE_DATASET_NAME = "Actual Total Load [6.1.A]"
+ENTSOE_API_HOST = "web-api.tp.entsoe.eu"
+ENTSOE_API_PATH = "/api"
+REQUIRED_REQUEST_VALUES = {
+    "documentType": ENTSOE_ACTUAL_TOTAL_LOAD,
+    "processType": ENTSOE_REALISED,
+    "businessType": ENTSOE_CONSUMPTION,
+    "outBiddingZone_Domain": HUNGARY_EIC,
+}
+REQUIRED_REQUEST_KEYS = frozenset((*REQUIRED_REQUEST_VALUES, "periodStart", "periodEnd"))
+_OBS_VERIFICATION_TOKEN = object()
 
 
 def _local_name(tag: str) -> str:
@@ -78,6 +91,43 @@ def _parse_timestamp(value: str, field: str) -> datetime:
     return timestamp.astimezone(timezone.utc)
 
 
+def _parse_request_timestamp(value: str, field: str) -> datetime:
+    if not isinstance(value, str) or not re.fullmatch(r"\d{12}", value):
+        raise ObservedLoadContractError(f"{field} must use yyyyMMddHHmm UTC")
+    try:
+        return datetime.strptime(value, "%Y%m%d%H%M").replace(tzinfo=timezone.utc)
+    except ValueError as exc:
+        raise ObservedLoadContractError(f"invalid {field}") from exc
+
+
+def _validated_request_window(request_url: str) -> tuple[datetime, datetime]:
+    parsed = urlparse(request_url)
+    if (
+        parsed.scheme != "https"
+        or parsed.hostname != ENTSOE_API_HOST
+        or parsed.path != ENTSOE_API_PATH
+        or parsed.params
+        or parsed.fragment
+        or not parsed.query
+    ):
+        raise ObservedLoadContractError("provenance request_url must be the canonical ENTSO-E HTTPS API URL")
+    query = parse_qs(parsed.query, keep_blank_values=True, strict_parsing=True)
+    if set(query) != REQUIRED_REQUEST_KEYS:
+        raise ObservedLoadContractError("provenance request_url must contain exactly the canonical non-secret query fields")
+    for key in REQUIRED_REQUEST_KEYS:
+        values = query.get(key, [])
+        if len(values) != 1 or not values[0]:
+            raise ObservedLoadContractError(f"provenance request query field {key} must occur exactly once")
+    for key, expected in REQUIRED_REQUEST_VALUES.items():
+        if query[key][0] != expected:
+            raise ObservedLoadContractError(f"provenance request query field {key} has the wrong canonical value")
+    start = _parse_request_timestamp(query["periodStart"][0], "periodStart")
+    end = _parse_request_timestamp(query["periodEnd"][0], "periodEnd")
+    if end <= start:
+        raise ObservedLoadContractError("periodEnd must be after periodStart")
+    return start, end
+
+
 def _finite_nonnegative(value: float | None, field: str) -> float:
     if value is None or isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ObservedLoadContractError(f"{field} must be finite and non-negative")
@@ -99,13 +149,13 @@ class SourceProvenance:
     source_revision: str = SOURCE_REVISION_NOT_PROVIDED
 
     def __post_init__(self) -> None:
-        for field in ("source_id", "publisher", "dataset_name", "request_url", "license_decision", "raw_storage_policy"):
-            value = getattr(self, field)
+        for name in ("source_id", "publisher", "dataset_name", "request_url", "license_decision", "raw_storage_policy"):
+            value = getattr(self, name)
             if not isinstance(value, str) or not value.strip():
-                raise ObservedLoadContractError(f"provenance {field} is required")
-        parsed = urlparse(self.request_url)
-        if parsed.scheme != "https" or not parsed.netloc or not parsed.query:
-            raise ObservedLoadContractError("provenance request_url must be HTTPS with exact query")
+                raise ObservedLoadContractError(f"provenance {name} is required")
+        if self.source_id != ENTSOE_SOURCE_ID or self.publisher != ENTSOE_PUBLISHER or self.dataset_name != ENTSOE_DATASET_NAME:
+            raise ObservedLoadContractError("provenance source identity must match the canonical ENTSO-E Actual Total Load contract")
+        _validated_request_window(self.request_url)
         if self.license_decision not in LICENSE_DECISIONS:
             raise ObservedLoadContractError("invalid license_decision")
         if not isinstance(self.retrieved_at, datetime) or self.retrieved_at.tzinfo is None or self.retrieved_at.utcoffset() is None:
@@ -137,6 +187,7 @@ class ObservedLoadRecord:
     source_refs: tuple[str, ...]
     source_revision: str | None = None
     provenance: SourceProvenance | None = None
+    _obs_verification_token: object | None = field(default=None, repr=False, compare=False)
 
     def __post_init__(self) -> None:
         if self.timestamp_utc.tzinfo is None or self.timestamp_utc.utcoffset() is None:
@@ -170,10 +221,16 @@ class ObservedLoadRecord:
         if self.provenance is not None and not isinstance(self.provenance, SourceProvenance):
             raise ObservedLoadContractError("provenance must be SourceProvenance")
         if self.evidence_status == "OBS":
+            if self._obs_verification_token is not _OBS_VERIFICATION_TOKEN:
+                raise ObservedLoadContractError("OBS records must be created by the canonical verified parser path")
             if self.provenance is None:
                 raise ObservedLoadContractError("OBS records require complete source provenance")
+            if self.provenance.license_decision != REUSE_CLEARED or self.provenance.source_sha256 is None:
+                raise ObservedLoadContractError("OBS records require cleared reuse and verified payload checksum")
             if self.source_revision != self.provenance.source_revision:
                 raise ObservedLoadContractError("OBS record source_revision must match provenance")
+            if self.source_refs != (self.provenance.source_id,):
+                raise ObservedLoadContractError("OBS record source_refs must match provenance")
         if isinstance(self.source_refs, str) or not self.source_refs or any(not isinstance(ref, str) or not ref.strip() for ref in self.source_refs):
             raise ObservedLoadContractError("source_refs must be a non-empty collection")
         if self.power_mw is not None:
@@ -214,6 +271,7 @@ def parse_entsoe_actual_total_load(
         raise ObservedLoadContractError("source_sha256 does not match exact UTF-8 payload")
     if truth_context not in TRUTH_CONTEXTS:
         raise ObservedLoadContractError("truth_context must be REAL or SCN")
+    request_start, request_end = _validated_request_window(provenance.request_url)
     observed_eligible = (
         truth_context == "REAL"
         and provenance.source_sha256 is not None
@@ -240,6 +298,10 @@ def parse_entsoe_actual_total_load(
             raise ObservedLoadContractError("missing load Period")
         start = _parse_timestamp(_required_text(period, "start"), "period start")
         end = _parse_timestamp(_required_text(period, "end"), "period end")
+        if end <= start:
+            raise ObservedLoadContractError("load Period end must be after start")
+        if start < request_start or end > request_end:
+            raise ObservedLoadContractError("payload period lies outside the canonical request window")
         resolution = _required_text(period, "resolution")
         if resolution not in ALLOWED_RESOLUTIONS:
             raise ObservedLoadContractError("unsupported or implicit resolution")
@@ -282,6 +344,7 @@ def parse_entsoe_actual_total_load(
                 source_refs=(provenance.source_id,),
                 source_revision=provenance.source_revision,
                 provenance=provenance,
+                _obs_verification_token=_OBS_VERIFICATION_TOKEN if status == "OBS" else None,
             ))
     if not records:
         raise ObservedLoadContractError("payload requires at least one Hungarian load series")
