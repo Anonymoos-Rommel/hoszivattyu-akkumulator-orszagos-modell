@@ -2,7 +2,7 @@
 
 OPUS publishes a weaker source-native schema than the MVM Démász P1 source:
 station code, station name, current free capacity and five-year forecast free
-capacity.  This module preserves that row identity and deliberately does not
+capacity. This module preserves that row identity and deliberately does not
 invent voltage, N-1 capacity, peak load, aggregation or a cross-DSO assessment.
 """
 
@@ -79,6 +79,13 @@ def _source_text(value: object, field_name: str) -> str:
     if len(value) > 256:
         raise OpusHeadroomContractError(f"{field_name} exceeds the bounded source field length")
     return value
+
+
+def _station_code(value: object) -> str:
+    code = _source_text(value, "station_code")
+    if len(code) not in {4, 5}:
+        raise OpusHeadroomContractError("station_code must preserve the acquired 4- or 5-character source grain")
+    return code
 
 
 def _optional_nonnegative_number(value: object, field_name: str) -> float | None:
@@ -168,7 +175,7 @@ class OpusHeadroomRecord:
         return self.station_code, self.station_name
 
     def __post_init__(self) -> None:
-        code = _source_text(self.station_code, "station_code")
+        code = _station_code(self.station_code)
         name = _source_text(self.station_name, "station_name")
         object.__setattr__(self, "station_code", code)
         object.__setattr__(self, "station_name", name)
@@ -258,7 +265,7 @@ def parse_opus_titasz_consumption_headroom_text(
     for row_number, row in enumerate(reader, start=2):
         if None in row:
             raise OpusHeadroomContractError(f"row {row_number}: unexpected normalized columns")
-        code = _source_text(row.get("station_code"), "station_code")
+        code = _station_code(row.get("station_code"))
         name = _source_text(row.get("station_name"), "station_name")
         current = _optional_nonnegative_number(row.get("free_capacity_current_mw"), "free_capacity_current_mw")
         future = _optional_nonnegative_number(row.get("free_capacity_5y_mw"), "free_capacity_5y_mw")
