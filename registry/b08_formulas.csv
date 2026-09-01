@@ -3,3 +3,4 @@ FORM-B08-NET-GRID-LOAD,B08,HOURLY_AGGREGATION,VAR-B08-NET-LOAD-KW,net_grid_load_
 FORM-B08-IMPORT-ENERGY,B08,ENERGY_INTEGRATION,VAR-B08-IMPORT-KWH,import_kwh = gross_grid_import_kw * timestep_hours,VAR-B08-GROSS-IMPORT-KW;VAR-B08-TIMESTEP-HOURS,kWh,DER,Explicit timestep only.
 FORM-B08-EXPORT-ENERGY,B08,ENERGY_INTEGRATION,VAR-B08-EXPORT-KWH,export_kwh = gross_grid_export_kw * timestep_hours,VAR-B08-GROSS-EXPORT-KW;VAR-B08-TIMESTEP-HOURS,kWh,DER,Legal export decision is out of scope.
 FORM-B08-NET-ENERGY,B08,ENERGY_INTEGRATION,VAR-B08-NET-KWH,net_kwh = net_grid_load_kw * timestep_hours,VAR-B08-NET-LOAD-KW;VAR-B08-TIMESTEP-HOURS,kWh,DER,Net energy can be negative.
+FORM-B08-OBSERVED-LOAD-ENERGY,B08,OBSERVED_TIME_CONTRACT,VAR-B08-OBSERVED-ENERGY-MWH,observed_energy_mwh = observed_load_mw * timestep_hours,VAR-B08-OBSERVED-LOAD-MW;VAR-B08-OBSERVED-TIMESTEP-HOURS,MWh,DER,Only an explicit source-native interval is multiplied; missing power remains Q and cannot produce energy.
