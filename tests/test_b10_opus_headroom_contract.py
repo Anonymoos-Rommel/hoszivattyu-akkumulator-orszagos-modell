@@ -113,9 +113,11 @@ class OpusHeadroomContractTests(unittest.TestCase):
         with self.assertRaisesRegex(OpusHeadroomContractError, "non-negative"):
             parse_opus_titasz_consumption_headroom_text(normalized_text(current="-1"), provenance=BASE_PROVENANCE)
 
-    def test_malformed_row_is_rejected(self):
+    def test_malformed_row_and_unsupported_code_length_are_rejected(self):
         with self.assertRaises(OpusHeadroomContractError):
             parse_opus_titasz_consumption_headroom_text(normalized_text(code=""), provenance=BASE_PROVENANCE)
+        with self.assertRaisesRegex(OpusHeadroomContractError, "4- or 5-character"):
+            parse_opus_titasz_consumption_headroom_text(normalized_text(code="ABC"), provenance=BASE_PROVENANCE)
         with self.assertRaises(OpusHeadroomContractError):
             parse_opus_titasz_consumption_headroom_text(HEADERS + "DBDK\tDebrecen\t1\t2\textra\n", provenance=BASE_PROVENANCE)
 
