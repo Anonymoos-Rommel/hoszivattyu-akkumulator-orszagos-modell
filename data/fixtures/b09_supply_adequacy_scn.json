@@ -1,0 +1,20 @@
+{
+  "dataset_id": "DATA-B09-SUPPLY-ADEQUACY-SCN-001",
+  "dataset_license": "CC BY-SA 4.0",
+  "scenario_id": "SCN-B09-SUPPLY-ADEQUACY-001",
+  "status": "SCN",
+  "truth_context": "SCN",
+  "scope": "BOUNDED_SCN_FIXTURE",
+  "region_scheme": "HU_COUNTY_SCN",
+  "notes": "Repository-created bounded physical ledger only; no Hungarian or national estimate.",
+  "supply_records": [
+    {"timestamp":"2026-01-01T00:00:00Z","timestep_hours":1.0,"source_component_id":"SOLAR-SCN","region_id":"R1","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":2.0,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T00:00:00Z","timestep_hours":1.0,"source_component_id":"WIND-SCN","region_id":"R1","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":0.0,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T00:00:00Z","timestep_hours":1.0,"source_component_id":"SOLAR-SCN","region_id":"R2","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":1.0,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T00:00:00Z","timestep_hours":1.0,"source_component_id":"WIND-SCN","region_id":"R2","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":0.0,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T01:00:00Z","timestep_hours":1.0,"source_component_id":"SOLAR-SCN","region_id":"R1","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":1.0,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T01:00:00Z","timestep_hours":1.0,"source_component_id":"WIND-SCN","region_id":"R1","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":0.0,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T01:00:00Z","timestep_hours":1.0,"source_component_id":"SOLAR-SCN","region_id":"R2","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":1.5,"boundary_id":"GENERATION_AC"},
+    {"timestamp":"2026-01-01T01:00:00Z","timestep_hours":1.0,"source_component_id":"WIND-SCN","region_id":"R2","region_scheme":"HU_COUNTY_SCN","truth_context":"SCN","evidence_status":"SCN","source_refs":["SRC-B09-SCN-SUPPLY-FIXTURE"],"delivered_generation_kw":0.0,"boundary_id":"GENERATION_AC"}
+  ]
+}

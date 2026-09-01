@@ -1,0 +1,7 @@
+formula_id,module_id,layer,output_variable_id,expression,input_variable_ids,output_unit,status,notes
+FORM-B09-RESIDUAL-DEMAND,B09,PHYSICAL_ADEQUACY,VAR-B09-RESIDUAL-DEMAND-KW,residual_demand_kw = b08_net_grid_load_kw - delivered_generation_kw,VAR-B09-B08-NET-LOAD-KW;VAR-B09-DELIVERED-GENERATION-KW,kW,DER,No dispatch or market interpretation.
+FORM-B09-UNSERVED-RESIDUAL,B09,PHYSICAL_ADEQUACY,VAR-B09-UNSERVED-RESIDUAL-KW,unserved_or_residual_load_kw = max(residual_demand_kw; 0),VAR-B09-RESIDUAL-DEMAND-KW,kW,DER,Positive part only.
+FORM-B09-SURPLUS-SUPPLY,B09,PHYSICAL_ADEQUACY,VAR-B09-SURPLUS-SUPPLY-KW,surplus_supply_kw = max(-residual_demand_kw; 0),VAR-B09-RESIDUAL-DEMAND-KW,kW,DER,Positive surplus only.
+FORM-B09-NET-LOAD-ENERGY,B09,ENERGY_INTEGRATION,VAR-B09-NET-LOAD-KWH,net_load_kwh = b08_net_grid_load_kw * timestep_hours,VAR-B09-B08-NET-LOAD-KW,kWh,DER,Explicit timestep required.
+FORM-B09-GENERATION-ENERGY,B09,ENERGY_INTEGRATION,VAR-B09-GENERATION-KWH,generation_kwh = delivered_generation_kw * timestep_hours,VAR-B09-DELIVERED-GENERATION-KW,kWh,DER,Explicit timestep required.
+FORM-B09-RESIDUAL-ENERGY,B09,ENERGY_INTEGRATION,VAR-B09-RESIDUAL-KWH,residual_demand_kwh = residual_demand_kw * timestep_hours,VAR-B09-RESIDUAL-DEMAND-KW,kWh,DER,Negative residual is retained.
