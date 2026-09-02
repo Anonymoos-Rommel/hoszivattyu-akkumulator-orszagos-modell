@@ -1,9 +1,9 @@
-"""B10-P12 fail-closed integration / closure assessment.
+"""Fail-closed B10 integration / closure assessment.
 
 A bounded contract is not the same as populated real evidence, a populated
-output, or a satisfied issue-closure gate.  P12 audits the current canonical B10
-state and prevents the module from being marked closed merely because the
-individual P1-P11 authority boundaries exist.
+output, or a satisfied issue-closure gate. P12 introduced the closure audit;
+P13 resolves only the source-scoped Issue #10 legacy Q-05/Q-07 identifier
+ambiguity. The underlying network evidence gates remain independent.
 """
 
 from __future__ import annotations
@@ -54,6 +54,49 @@ CURRENT_LEGACY_ACCEPTANCE_LABELS = ("Q-05", "Q-07")
 
 
 @dataclass(frozen=True)
+class LegacyAcceptanceMapping:
+    consumer_context: str
+    legacy_label: str
+    source_locator: str
+    canonical_refs: tuple[str, ...]
+    excluded_conflicts: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        for name in ("consumer_context", "legacy_label", "source_locator"):
+            value = getattr(self, name)
+            if not isinstance(value, str) or not value.strip():
+                raise B10IntegrationClosureError(f"{name} is required")
+        if not self.legacy_label.startswith("Q-"):
+            raise B10IntegrationClosureError("legacy_label must preserve the source Q-xx label")
+        if isinstance(self.canonical_refs, str) or not self.canonical_refs:
+            raise B10IntegrationClosureError("canonical_refs must be a non-empty collection")
+        if any(not isinstance(ref, str) or not ref.strip() for ref in self.canonical_refs):
+            raise B10IntegrationClosureError("canonical_refs cannot contain blanks")
+        if isinstance(self.excluded_conflicts, str):
+            raise B10IntegrationClosureError("excluded_conflicts must be a collection")
+        if any(not isinstance(ref, str) or not ref.strip() for ref in self.excluded_conflicts):
+            raise B10IntegrationClosureError("excluded_conflicts cannot contain blanks")
+
+
+CURRENT_LEGACY_ACCEPTANCE_MAPPINGS = (
+    LegacyAcceptanceMapping(
+        consumer_context="GITHUB_ISSUE_10_B10",
+        legacy_label="Q-05",
+        source_locator="V1.1_SECTION_6_B08_LOCAL_Q05",
+        canonical_refs=("B10-P10", "NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY"),
+        excluded_conflicts=(),
+    ),
+    LegacyAcceptanceMapping(
+        consumer_context="GITHUB_ISSUE_10_B10",
+        legacy_label="Q-07",
+        source_locator="V1.1_SECTION_23_FIRST_ROUND_Q07",
+        canonical_refs=("Q-B01-002", "Q-B10-001", "Q-B10-002", "B10-P11"),
+        excluded_conflicts=("V1.1_SECTION_11_B14_LOCAL_Q07_FINANCING",),
+    ),
+)
+
+
+@dataclass(frozen=True)
 class ClosureGateItem:
     gate_id: str
     status: str
@@ -87,6 +130,7 @@ class B10ClosureAssessment:
     output_gates: tuple[ClosureGateItem, ...]
     canonical_question_statuses: tuple[tuple[str, str], ...]
     legacy_acceptance_labels: tuple[str, ...]
+    legacy_acceptance_mappings: tuple[LegacyAcceptanceMapping, ...]
     blocking_refs: tuple[str, ...]
     issue_should_close: bool
     reason: str
@@ -104,6 +148,13 @@ class B10ClosureAssessment:
             raise B10IntegrationClosureError("closure assessment requires acceptance and output gates")
         if isinstance(self.legacy_acceptance_labels, str):
             raise B10IntegrationClosureError("legacy_acceptance_labels must be a collection")
+        if isinstance(self.legacy_acceptance_mappings, str):
+            raise B10IntegrationClosureError("legacy_acceptance_mappings must be a collection")
+        mapped_labels = tuple(item.legacy_label for item in self.legacy_acceptance_mappings)
+        if len(mapped_labels) != len(set(mapped_labels)):
+            raise B10IntegrationClosureError("legacy acceptance labels must map exactly once per consumer context")
+        if set(mapped_labels) != set(self.legacy_acceptance_labels):
+            raise B10IntegrationClosureError("every current legacy acceptance label requires an explicit scoped mapping")
         if self.status == B10_CLOSURE_READY:
             if self.module_status != "DONE" or not self.issue_should_close:
                 raise B10IntegrationClosureError("closure-ready assessment must be DONE and issue-closeable")
@@ -121,11 +172,11 @@ class B10ClosureAssessment:
 
 
 def current_b10_closure_assessment() -> B10ClosureAssessment:
-    """Return the exact P12 audit of the current P1-P11 canonical B10 state.
+    """Return the exact P13 audit of the current P1-P12 canonical B10 state.
 
-    This function is deliberately state-specific.  A later evidence slice must
-    change the assessment explicitly; no caller-supplied boolean can silently
-    promote B10 to DONE.
+    P13 resolves only the Issue #10 short-label identity ambiguity. A later
+    evidence slice must still change the substantive acceptance/output state
+    explicitly; no caller-supplied boolean can silently promote B10 to DONE.
     """
 
     acceptance = (
@@ -159,10 +210,10 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         ),
         ClosureGateItem(
             ACCEPTANCE_QUESTION_HANDLING,
-            LEGACY_LABEL_UNRESOLVED,
-            ("docs/methodology/question_identifiers.md", "registry/open_questions.csv"),
-            ("LEGACY:Q-05", "LEGACY:Q-07"),
-            "Issue #10 uses non-canonical short labels Q-05 and Q-07; the repository forbids guessing a mapping for ambiguous legacy question labels",
+            ACCEPTANCE_SATISFIED,
+            ("B10-P13", "docs/methodology/question_identifiers.md", "docs/source_packs/P13_B10_LEGACY_QUESTION_MAPPING.md"),
+            (),
+            "Issue #10 Q-05 and Q-07 are source-scoped to exact V1.1 question semantics; identifier handling is satisfied without treating the short labels as global IDs or resolving their substantive evidence gaps",
         ),
     )
 
@@ -212,9 +263,10 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         output_gates=outputs,
         canonical_question_statuses=CURRENT_CANONICAL_QUESTION_STATUSES,
         legacy_acceptance_labels=CURRENT_LEGACY_ACCEPTANCE_LABELS,
+        legacy_acceptance_mappings=CURRENT_LEGACY_ACCEPTANCE_MAPPINGS,
         blocking_refs=blockers,
         issue_should_close=False,
-        reason="P1-P11 establish fail-closed authority boundaries, but Issue #10 primary outputs and multiple evidence/identifier gates remain unresolved",
+        reason="P1-P12 establish fail-closed authority boundaries and P13 resolves the Issue #10 legacy-label identity only; primary outputs and substantive evidence gates remain unresolved",
     )
 
 
@@ -242,8 +294,10 @@ __all__ = [
     "CONTRACT_BOUNDED",
     "CURRENT_CANONICAL_QUESTION_STATUSES",
     "CURRENT_LEGACY_ACCEPTANCE_LABELS",
+    "CURRENT_LEGACY_ACCEPTANCE_MAPPINGS",
     "ClosureGateItem",
     "LEGACY_LABEL_UNRESOLVED",
+    "LegacyAcceptanceMapping",
     "OUTPUT_CONNECTION_DEMAND",
     "OUTPUT_LIMITING_NODES",
     "OUTPUT_POPULATED",

@@ -12,7 +12,7 @@ from modules.B10.integration_closure_contract import (
     B10_CLOSURE_BLOCKED,
     B10IntegrationClosureError,
     CONTRACT_BOUNDED,
-    LEGACY_LABEL_UNRESOLVED,
+    CURRENT_LEGACY_ACCEPTANCE_MAPPINGS,
     OUTPUT_CONNECTION_DEMAND,
     OUTPUT_LIMITING_NODES,
     OUTPUT_REGIONAL_CAPEX,
@@ -66,7 +66,8 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         self.assertEqual(CONTRACT_BOUNDED, by_id[ACCEPTANCE_NETWORK_LAYER_SEPARATION].status)
         self.assertEqual(CONTRACT_BOUNDED, by_id[ACCEPTANCE_MANAGED_PEAK_SURVIVABILITY].status)
         self.assertEqual(CONTRACT_BOUNDED, by_id[ACCEPTANCE_TIMED_INVESTMENT_PATHWAY].status)
-        self.assertNotIn(ACCEPTANCE_SATISFIED, {item.status for item in result.acceptance_gates})
+        self.assertEqual(ACCEPTANCE_SATISFIED, by_id[ACCEPTANCE_QUESTION_HANDLING].status)
+        self.assertNotEqual(ACCEPTANCE_SATISFIED, by_id[ACCEPTANCE_NETWORK_LAYER_SEPARATION].status)
 
     def test_regional_hosting_remains_q_and_keeps_spatial_blocker(self):
         result = current_b10_closure_assessment()
@@ -76,17 +77,38 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         self.assertIn("NO_NATIONAL_DSO_COVERAGE", gate.blocking_refs)
         self.assertIn("REGIONAL_READINESS_HEADER_ONLY", gate.blocking_refs)
 
-    def test_legacy_q05_q07_are_not_silently_mapped(self):
+    def test_legacy_q05_q07_are_source_scoped_not_global(self):
         result = current_b10_closure_assessment()
         gate = next(item for item in result.acceptance_gates if item.gate_id == ACCEPTANCE_QUESTION_HANDLING)
-        self.assertEqual(LEGACY_LABEL_UNRESOLVED, gate.status)
+        self.assertEqual(ACCEPTANCE_SATISFIED, gate.status)
         self.assertEqual(("Q-05", "Q-07"), result.legacy_acceptance_labels)
-        self.assertIn("LEGACY:Q-05", gate.blocking_refs)
-        self.assertIn("LEGACY:Q-07", gate.blocking_refs)
+        self.assertFalse(gate.blocking_refs)
+        self.assertEqual(CURRENT_LEGACY_ACCEPTANCE_MAPPINGS, result.legacy_acceptance_mappings)
+
+        by_label = {item.legacy_label: item for item in result.legacy_acceptance_mappings}
+        self.assertEqual(
+            ("B10-P10", "NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY"),
+            by_label["Q-05"].canonical_refs,
+        )
+        self.assertEqual(
+            ("Q-B01-002", "Q-B10-001", "Q-B10-002", "B10-P11"),
+            by_label["Q-07"].canonical_refs,
+        )
+        self.assertIn("V1.1_SECTION_11_B14_LOCAL_Q07_FINANCING", by_label["Q-07"].excluded_conflicts)
 
         mapping_doc = (ROOT / "docs/methodology/question_identifiers.md").read_text(encoding="utf-8")
-        self.assertNotIn("| Q-05 |", mapping_doc)
-        self.assertNotIn("| Q-07 |", mapping_doc)
+        self.assertNotIn("\n| Q-05 |", mapping_doc)
+        self.assertNotIn("\n| Q-07 |", mapping_doc)
+        self.assertIn("Issue #10 — B10 legacy acceptance mapping", mapping_doc)
+        self.assertIn("B14 finanszírozási fejezete szintén `Q-07`", mapping_doc)
+
+    def test_legacy_identifier_blockers_are_removed_but_substantive_blockers_remain(self):
+        blockers = set(current_b10_closure_assessment().blocking_refs)
+        self.assertNotIn("LEGACY:Q-05", blockers)
+        self.assertNotIn("LEGACY:Q-07", blockers)
+        self.assertIn("NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY", blockers)
+        self.assertIn("Q-B10-001", blockers)
+        self.assertIn("Q-B10-002", blockers)
 
     def test_canonical_b10_and_spatial_questions_are_still_open(self):
         with (ROOT / "registry/open_questions.csv").open(encoding="utf-8", newline="") as handle:
@@ -128,8 +150,6 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
                 "Q-B01-002",
                 "Q-B10-001",
                 "Q-B10-002",
-                "LEGACY:Q-05",
-                "LEGACY:Q-07",
                 "NO_NATIONAL_DSO_COVERAGE",
                 "REGIONAL_READINESS_HEADER_ONLY",
                 "INCREMENTAL_CAPEX_ATTRIBUTION_HEADER_ONLY",
