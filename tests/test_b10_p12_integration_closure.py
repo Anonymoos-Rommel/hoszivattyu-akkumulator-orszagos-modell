@@ -143,6 +143,11 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         self.assertEqual(1, len(lines))
         self.assertTrue(lines[0].startswith("ksh_settlement_code,settlement_name,operator_id,"))
 
+    def test_p16_national_node_inventory_registry_is_still_header_only(self):
+        lines = (ROOT / "registry/dso_node_inventory.csv").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(1, len(lines))
+        self.assertTrue(lines[0].startswith("operator_id,network_operator,service_area_id,node_id,"))
+
     def test_module_registry_keeps_b10_in_progress_at_15(self):
         with (ROOT / "registry/module_status.csv").open(encoding="utf-8", newline="") as handle:
             rows = {row["module_id"]: row for row in csv.DictReader(handle)}
@@ -153,14 +158,27 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         with self.assertRaisesRegex(B10IntegrationClosureError, "do not mark module DONE"):
             require_b10_closure_ready(current_b10_closure_assessment())
 
-    def test_p14_and_p15_refine_but_do_not_remove_spatial_blockers(self):
+    def test_p14_p15_p16_refine_but_do_not_remove_spatial_topology_blockers(self):
         blockers = set(current_b10_closure_assessment().blocking_refs)
         self.assertNotIn("NO_NATIONAL_DSO_COVERAGE", blockers)
         self.assertNotIn("NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", blockers)
+        self.assertNotIn("NO_NATIONAL_DSO_NODE_INVENTORY", blockers)
         self.assertIn("NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK", blockers)
         self.assertIn("PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED", blockers)
-        self.assertIn("NO_NATIONAL_DSO_NODE_INVENTORY", blockers)
+        self.assertIn("NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY", blockers)
+        self.assertIn("FOUR_DSO_NODE_SOURCE_DISCOVERY_UNRESOLVED", blockers)
+        self.assertIn("HEADROOM_NODE_SET_NOT_INVENTORY_COMPLETENESS", blockers)
         self.assertIn("Q-B01-002", blockers)
+
+    def test_limiting_node_gate_references_p16_and_remains_q(self):
+        result = current_b10_closure_assessment()
+        gate = next(item for item in result.output_gates if item.gate_id == OUTPUT_LIMITING_NODES)
+        self.assertEqual(Q_UNRESOLVED, gate.status)
+        self.assertIn("B10-P16", gate.canonical_refs)
+        self.assertIn("registry/dso_node_inventory_sources.csv", gate.canonical_refs)
+        self.assertIn("registry/dso_node_inventory.csv", gate.canonical_refs)
+        self.assertIn("NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY", gate.blocking_refs)
+        self.assertIn("NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY", gate.blocking_refs)
 
     def test_blockers_cover_all_current_non_results(self):
         blockers = set(current_b10_closure_assessment().blocking_refs)
@@ -171,7 +189,9 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
                 "Q-B10-002",
                 "NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK",
                 "PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED",
-                "NO_NATIONAL_DSO_NODE_INVENTORY",
+                "NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY",
+                "FOUR_DSO_NODE_SOURCE_DISCOVERY_UNRESOLVED",
+                "HEADROOM_NODE_SET_NOT_INVENTORY_COMPLETENESS",
                 "REGIONAL_READINESS_HEADER_ONLY",
                 "INCREMENTAL_CAPEX_ATTRIBUTION_HEADER_ONLY",
                 "NO_REAL_PROGRAMME_NODE_PANEL",
