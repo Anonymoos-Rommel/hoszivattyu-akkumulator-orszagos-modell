@@ -79,11 +79,11 @@ def demand_panel(truth: str = "SCN") -> tuple[ProgrammeDemandSnapshot, ...]:
     return tuple(rows)
 
 
-def support(entity: str, timestamp: datetime, *claims: str) -> tuple[str, ...]:
+def support(entity: str, timestamp: datetime, *claims: str, node: str = NODE) -> tuple[str, ...]:
     return (
         *claims,
         f"ENTITY_ID:{entity}",
-        f"NODE_REGION_ID:{NODE}",
+        f"NODE_REGION_ID:{node}",
         "NODE_REGION_GRAIN:DSO_SUBSTATION",
         f"TIMESTAMP:{timestamp.isoformat()}",
     )
@@ -115,16 +115,16 @@ def flex_row(
         dispatched_up_flex_kw=dispatched,
         delivered_up_flex_kw=delivered,
         source_refs=(source_id,),
-        evidence=(FlexAuthorityEvidence(source_id, 2, evidence_status, support(entity, timestamp, *claims)),),
+        evidence=(FlexAuthorityEvidence(source_id, 2, evidence_status, support(entity, timestamp, *claims, node=node)),),
     )
 
 
-def flex_panel(**overrides) -> tuple[FlexDispatchSnapshot, ...]:
+def flex_panel(overrides: dict[tuple[str, datetime], dict] | None = None) -> tuple[FlexDispatchSnapshot, ...]:
+    overrides = overrides or {}
     rows = []
     for entity in ("H1", "H2"):
         for timestamp in (T0, T1):
-            values = overrides.get((entity, timestamp), {})
-            rows.append(flex_row(entity, timestamp, **values))
+            rows.append(flex_row(entity, timestamp, **overrides.get((entity, timestamp), {})))
     return tuple(rows)
 
 
@@ -197,7 +197,7 @@ class B10P10ManagedFlexTests(unittest.TestCase):
                 "claims": (PHYSICAL_FLEX_CAPABILITY, FLEX_ACTIVATION),
             },
         }
-        result = build_managed_node_load(demand_panel(), flex_panel(**overrides))
+        result = build_managed_node_load(demand_panel(), flex_panel(overrides))
         self.assertEqual(result.status, SCN_MANAGED_NODE_LOAD)
         t1 = next(row for row in result.rows if row.timestamp == T1)
         self.assertAlmostEqual(t1.unmanaged_programme_import_mw, 0.009)
@@ -217,10 +217,8 @@ class B10P10ManagedFlexTests(unittest.TestCase):
             build_managed_node_load(demand_panel(), rows)
 
     def test_one_unresolved_flex_row_removes_all_numeric_managed_results(self) -> None:
-        overrides = {
-            ("H1", T1): {"committed": 1.0, "dispatched": 1.0},
-        }
-        result = build_managed_node_load(demand_panel(), flex_panel(**overrides))
+        overrides = {( "H1", T1): {"committed": 1.0, "dispatched": 1.0}}
+        result = build_managed_node_load(demand_panel(), flex_panel(overrides))
         self.assertEqual(result.status, Q_MANAGED_NODE_LOAD_UNRESOLVED)
         self.assertEqual(result.rows, ())
         self.assertEqual(result.peak_managed_import_mw_by_node, ())
@@ -269,7 +267,7 @@ class B10P10ManagedFlexTests(unittest.TestCase):
                     "delivered": 0.5,
                     "claims": (PHYSICAL_FLEX_CAPABILITY, FLEX_COMMITMENT, FLEX_ACTIVATION, FLEX_DELIVERY),
                 }
-        result = build_managed_node_load(demand_panel("REAL"), flex_panel(**overrides))
+        result = build_managed_node_load(demand_panel("REAL"), flex_panel(overrides))
         self.assertEqual(result.status, MANAGED_NODE_LOAD_PROVEN)
         self.assertTrue(all(row.evidence_status in {"OBS", "DER"} for row in result.rows))
 
