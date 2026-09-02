@@ -236,6 +236,21 @@ def classify_service_area_membership(record: ServiceAreaMembershipRecord) -> Ser
             reason="settlement name is not yet authoritatively normalized to the KSH settlement identifier",
         )
 
+    if "Q" in statuses:
+        return ServiceAreaMembershipDecision(
+            settlement_name=record.settlement_name,
+            ksh_settlement_code=record.ksh_settlement_code,
+            network_operator=record.network_operator,
+            service_area_id=None,
+            region_grain=DSO_SERVICE_AREA,
+            status=Q_SERVICE_AREA_MEMBERSHIP_UNRESOLVED,
+            coverage_scope=record.coverage_scope,
+            usage_location_id=record.usage_location_id,
+            evidence_status="Q",
+            source_refs=tuple(dict.fromkeys(record.source_refs)),
+            reason="referenced Q evidence prevents promotion of DSO service-area membership",
+        )
+
     if record.coverage_scope == WHOLE_SETTLEMENT:
         if whole_membership:
             return ServiceAreaMembershipDecision(
