@@ -1,14 +1,8 @@
 """Fail-closed B10-P11 timed reinforcement / investment pathway gate.
 
-The contract integrates already-authorized B10 truths without collapsing them:
-project/reinforcement authority (P5), project-delivery timing (P6), programme
-attribution/CAPEX (P3/P5), and claim-specific CAPEX cash-flow timing.
-
-A project completion target or observed completion date is never treated as the
-cash-flow date of its CAPEX. Numeric programme-incremental CAPEX can enter a
-timed investment pathway only through a separately bound, complete cash-flow
-schedule. Missing timing remains Q rather than being assigned to a completion
-year or spread by a generic profile.
+P11 keeps project/reinforcement authority, programme attribution, project-delivery
+timing, programme-incremental CAPEX amount and CAPEX cash-flow timing separate.
+A project target/completion date can never allocate CAPEX to a year or period.
 """
 
 from __future__ import annotations
@@ -86,6 +80,12 @@ def _money(value: float, field_name: str) -> float:
     return float(value)
 
 
+def _same_money(left: float | None, right: float | None) -> bool:
+    if left is None or right is None:
+        return left is right
+    return isclose(float(left), float(right), rel_tol=0.0, abs_tol=0.5)
+
+
 @dataclass(frozen=True)
 class CapexCashflowEvidence:
     """One exact programme-incremental CAPEX amount assigned to one time period."""
@@ -121,7 +121,9 @@ class CapexCashflowEvidence:
         if self.truth_status not in CASHFLOW_TRUTH_STATUSES:
             raise B10TimedInvestmentPathwayError("invalid cash-flow truth_status")
         if self.region_grain != DSO_SUBSTATION:
-            raise B10TimedInvestmentPathwayError("cash-flow evidence must remain at exact DSO_SUBSTATION project grain")
+            raise B10TimedInvestmentPathwayError(
+                "cash-flow evidence must remain at exact DSO_SUBSTATION project grain"
+            )
         start = _iso_date(self.period_start, "period_start")
         end = _iso_date(self.period_end, "period_end")
         if end < start:
@@ -196,10 +198,7 @@ def _delivery_status(decision: ProjectDeliveryTimingDecision) -> str:
 
 def _cashflow_claim_bound(item: CapexCashflowEvidence) -> bool:
     supports = set(item.supports)
-    return (
-        PROGRAMME_INCREMENTAL_CAPEX_CASHFLOW in supports
-        and set(item.required_bindings).issubset(supports)
-    )
+    return PROGRAMME_INCREMENTAL_CAPEX_CASHFLOW in supports and set(item.required_bindings).issubset(supports)
 
 
 def _schedule_complete_authority(item: CapexCashflowEvidence) -> bool:
@@ -210,12 +209,6 @@ def _schedule_complete_authority(item: CapexCashflowEvidence) -> bool:
     return item.truth_status == "SCN"
 
 
-def _same_money(left: float | None, right: float | None) -> bool:
-    if left is None or right is None:
-        return left is right
-    return isclose(float(left), float(right), rel_tol=0.0, abs_tol=0.5)
-
-
 def build_timed_investment_pathway(
     record: InfrastructureRecord,
     reinforcement: ReinforcementGateDecision,
@@ -223,13 +216,7 @@ def build_timed_investment_pathway(
     actual_timing: ProjectTimingEvidence | None = None,
     cashflow_evidence: Iterable[CapexCashflowEvidence] = (),
 ) -> TimedInvestmentPathwayDecision:
-    """Build a timed programme-investment pathway without inventing cash-flow timing.
-
-    P5 is re-evaluated from the original InfrastructureRecord so a hand-crafted
-    decision cannot bypass its reinforcement/attribution/CAPEX gates. P6 is also
-    evaluated from source timing evidence. Completion dates remain delivery
-    milestones only; they never allocate CAPEX to a year or period.
-    """
+    """Build timed programme CAPEX only from separately authorized cash-flow timing."""
 
     if not isinstance(record, InfrastructureRecord):
         raise B10TimedInvestmentPathwayError("record must be canonical InfrastructureRecord")
@@ -283,7 +270,7 @@ def build_timed_investment_pathway(
     )
 
     attribution_status = reinforcement.attribution.attribution_status
-    if attribution_status == UNRESOLVED or reinforcement.attribution.evidence_status == "Q":
+    if attribution_status == UNRESOLVED:
         return TimedInvestmentPathwayDecision(
             status=Q_PROGRAMME_ATTRIBUTION_UNRESOLVED,
             cashflow_rows=(),
@@ -314,8 +301,12 @@ def build_timed_investment_pathway(
             status=Q_PROGRAMME_CAPEX_UNRESOLVED,
             cashflow_rows=(),
             source_refs=tuple(sorted(refs)),
-            reason="programme-incremental reinforcement/attribution is proven but numeric programme CAPEX remains Q",
+            reason="programme difference is identified but numeric programme-incremental CAPEX remains Q",
             **base,
+        )
+    if reinforcement.attribution.evidence_status == "Q":
+        raise B10TimedInvestmentPathwayError(
+            "numeric P5 programme CAPEX cannot be combined with Q attribution evidence"
         )
     if record.cost_component_id is None:
         raise B10TimedInvestmentPathwayError("P5 numeric programme CAPEX requires exact cost_component_id")
@@ -357,7 +348,9 @@ def build_timed_investment_pathway(
             or item.region_grain != record.region_grain
             or item.cost_component_id != record.cost_component_id
         ):
-            raise B10TimedInvestmentPathwayError("cash-flow evidence must preserve exact project/operator/region/component identity")
+            raise B10TimedInvestmentPathwayError(
+                "cash-flow evidence must preserve exact project/operator/region/component identity"
+            )
 
     refs.update(item.source_id for item in cashflows)
     if not all(_cashflow_claim_bound(item) for item in cashflows):
@@ -376,7 +369,11 @@ def build_timed_investment_pathway(
             reason="cash-flow rows do not prove a complete programme-incremental CAPEX schedule",
             **base,
         )
-    if any(item.truth_status in {"OBS", "DER"} and item.authority_level > _REAL_CASHFLOW_AUTHORITY_MAX_LEVEL for item in cashflows):
+    if any(
+        item.truth_status in {"OBS", "DER"}
+        and item.authority_level > _REAL_CASHFLOW_AUTHORITY_MAX_LEVEL
+        for item in cashflows
+    ):
         return TimedInvestmentPathwayDecision(
             status=Q_CAPEX_TIMING_UNRESOLVED,
             cashflow_rows=(),
@@ -406,7 +403,11 @@ def build_timed_investment_pathway(
             **base,
         )
 
-    evidence_status = "SCN" if truths == {"SCN"} or reinforcement.attribution.evidence_status == "SCN" else "DER"
+    evidence_status = (
+        "SCN"
+        if truths == {"SCN"} or reinforcement.attribution.evidence_status == "SCN"
+        else "DER"
+    )
     rows = tuple(
         TimedInvestmentCashflowRow(
             project_id=item.project_id,
@@ -428,7 +429,10 @@ def build_timed_investment_pathway(
         status=status,
         cashflow_rows=rows,
         source_refs=tuple(sorted(refs)),
-        reason="P5 programme CAPEX reconciles to a separately authorized complete cash-flow schedule; P6 delivery dates remain separate milestones",
+        reason=(
+            "P5 programme CAPEX reconciles to a separately authorized complete cash-flow schedule; "
+            "P6 delivery dates remain separate milestones"
+        ),
         **base,
     )
 
