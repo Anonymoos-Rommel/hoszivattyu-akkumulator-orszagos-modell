@@ -1,8 +1,12 @@
 """B10-P4 observed baseline applications for the two bounded RRF projects.
 
 This module materialises exactly two project-level records through the
-canonical B10-P3 contract.  It does not introduce another classifier, a
+canonical B10-P3 contract. It does not introduce another classifier, a
 headroom path, a national aggregate, or programme-incremental CAPEX model.
+
+Field-specific provenance is explicit: completion publications prove OBS
+OPERATING status, while exact financial values are accepted only from the
+referenced source that actually publishes that precision.
 """
 
 from __future__ import annotations
@@ -16,7 +20,6 @@ from .baseline_infrastructure_contract import (
     InfrastructureEvidence,
     InfrastructureRecord,
     OPERATING,
-    UNRESOLVED,
     classify_infrastructure,
 )
 
@@ -48,7 +51,7 @@ class _RrfProjectSpec:
     counterfactual_cost_huf: int | None
     project_source_id: str
     completion_source_id: str
-    completion_supports_cost: bool
+    project_supports_exact_cost: bool
 
 
 _SPECS = (
@@ -65,7 +68,7 @@ _SPECS = (
         counterfactual_cost_huf=None,
         project_source_id=MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,
         completion_source_id=MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,
-        completion_supports_cost=False,
+        project_supports_exact_cost=False,
     ),
     _RrfProjectSpec(
         baseline_id=OPUS_TITASZ_RRF_BASELINE_ID,
@@ -80,37 +83,50 @@ _SPECS = (
         counterfactual_cost_huf=41_489_280_000,
         project_source_id=OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,
         completion_source_id=OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID,
-        completion_supports_cost=True,
+        project_supports_exact_cost=True,
     ),
 )
 
 
 def _record(spec: _RrfProjectSpec) -> InfrastructureRecord:
+    # The official project pages bind exact project/funding facts. For OPUS the
+    # project page explicitly publishes the exact total project cost, therefore
+    # it is represented as level-3 funding/cost evidence. It does NOT prove
+    # OPERATING status; that remains completion-source authority only.
+    project_supports = ["PROJECT_ID", "OPERATOR", "PROJECT_SCOPE"]
+    project_authority_level = 4
+    if spec.project_supports_exact_cost:
+        project_supports.extend(("FUNDED_OR_ALLOCATED", "COST"))
+        project_authority_level = 3
     project_evidence = InfrastructureEvidence(
         source_id=spec.project_source_id,
-        authority_level=4,
+        authority_level=project_authority_level,
         truth_status="OBS",
         effective_date=RRF_COMPLETION_DATE,
         revision="PROJECT_PAGE_CURRENT_2026",
-        supports=("PROJECT_ID", "OPERATOR", "PROJECT_SCOPE"),
+        supports=tuple(project_supports),
     )
-    completion_supports = (
-        "PROJECT_ID",
-        "OPERATOR",
-        "OPERATING",
-        "FUNDED_OR_ALLOCATED",
-        "REALISED_RENEWABLE_GENERATION_INTEGRATION_CAPABILITY_MW",
-    )
-    if spec.completion_supports_cost:
-        completion_supports += ("COST",)
+
     completion_evidence = InfrastructureEvidence(
         source_id=spec.completion_source_id,
         authority_level=3,
         truth_status="OBS",
         effective_date=RRF_COMPLETION_DATE,
         revision="COMPLETION_2026-06-15",
-        supports=completion_supports,
+        supports=(
+            "PROJECT_ID",
+            "OPERATOR",
+            "OPERATING",
+            "FUNDED_OR_ALLOCATED",
+            "REALISED_RENEWABLE_GENERATION_INTEGRATION_CAPABILITY_MW",
+        ),
     )
+
+    # Reference every source required by published machine claims. MVM keeps
+    # both project and completion sources for project/grant context + status;
+    # OPUS additionally requires its project source for the exact cost value.
+    source_refs = (spec.project_source_id, spec.completion_source_id)
+
     return InfrastructureRecord(
         project_id=spec.project_id,
         network_operator=spec.network_operator,
@@ -120,7 +136,7 @@ def _record(spec: _RrfProjectSpec) -> InfrastructureRecord:
         infrastructure_type=RRF_ASSET_TYPE,
         status_taxonomy=OPERATING,
         status_effective_date=RRF_COMPLETION_DATE,
-        source_refs=(spec.completion_source_id,),
+        source_refs=source_refs,
         evidence=(project_evidence, completion_evidence),
         evidence_status="OBS",
         contractual_or_funding_status="FUNDED_OR_ALLOCATED",
@@ -135,7 +151,7 @@ RRF_BASELINE_RECORDS = tuple(_record(spec) for spec in _SPECS)
 
 
 def validate_observed_baseline_record(record: InfrastructureRecord) -> None:
-    """Validate P4 identity and grain before delegating classification to P3."""
+    """Validate P4 identity, grain and field-specific provenance."""
 
     spec = next((item for item in _SPECS if item.project_id == record.project_id), None)
     if spec is None:
@@ -154,6 +170,7 @@ def validate_observed_baseline_record(record: InfrastructureRecord) -> None:
         raise B10BaselineInfrastructureContractError(
             "B10-P4 records require the official 2026-06-15 OPERATING completion date"
         )
+
     referenced = {item.source_id for item in record.referenced_evidence}
     if spec.completion_source_id not in referenced:
         raise B10BaselineInfrastructureContractError(
@@ -168,6 +185,26 @@ def validate_observed_baseline_record(record: InfrastructureRecord) -> None:
         raise B10BaselineInfrastructureContractError(
             "B10-P4 completion source must explicitly support OBS OPERATING"
         )
+
+    if record.total_project_cost_huf is not None:
+        if not spec.project_supports_exact_cost:
+            raise B10BaselineInfrastructureContractError(
+                "B10-P4 exact project cost is not source-authorised for this project"
+            )
+        if spec.project_source_id not in referenced:
+            raise B10BaselineInfrastructureContractError(
+                "B10-P4 exact project cost requires the exact project/funding source"
+            )
+        if not any(
+            item.source_id == spec.project_source_id
+            and item.authority_level <= 3
+            and "COST" in item.supports
+            and item.truth_status == "OBS"
+            for item in record.referenced_evidence
+        ):
+            raise B10BaselineInfrastructureContractError(
+                "B10-P4 project/funding source must explicitly support exact OBS COST"
+            )
 
 
 def classify_observed_baseline_projects(
