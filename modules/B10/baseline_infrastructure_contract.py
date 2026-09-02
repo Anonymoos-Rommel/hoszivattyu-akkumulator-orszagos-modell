@@ -47,6 +47,16 @@ EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
 CAUSALITY_STATUSES = {"DER", "SCN", "Q"}
 HIGH_AUTHORITY_LEVELS = {1, 2, 3, 4}
 
+# A status is a claim, not merely a source-authority tier. These are the
+# smallest canonical support claims accepted by the B10-P3 contract.
+STATUS_SUPPORT_CLAIMS = {
+    OPERATING: "OPERATING",
+    UNDER_CONSTRUCTION: "UNDER_CONSTRUCTION",
+    CONTRACTED: "CONTRACTED",
+    BUDGETED_OR_ALLOCATED: "FUNDED_OR_ALLOCATED",
+}
+CONTRACTUAL_OR_FUNDING_VALUES = {"CONTRACTED", "FUNDED_OR_ALLOCATED"}
+
 
 def _iso_date(value: str | None, field_name: str) -> str | None:
     if value is None or value == "":
@@ -158,6 +168,10 @@ class InfrastructureRecord:
             )
         if self.evidence_status not in EVIDENCE_STATUSES:
             raise B10BaselineInfrastructureContractError("invalid evidence_status")
+        if self.contractual_or_funding_status not in {None, *CONTRACTUAL_OR_FUNDING_VALUES}:
+            raise B10BaselineInfrastructureContractError(
+                "contractual_or_funding_status must be CONTRACTED, FUNDED_OR_ALLOCATED or None"
+            )
         for field_name in ("without_program_required", "with_program_required"):
             value = getattr(self, field_name)
             if value is not None and not isinstance(value, bool):
@@ -197,20 +211,25 @@ class InfrastructureRecord:
 
     @property
     def has_high_authority_evidence(self) -> bool:
-        return any(item.authority_level in HIGH_AUTHORITY_LEVELS for item in self.evidence)
+        return any(item.authority_level in HIGH_AUTHORITY_LEVELS for item in self.referenced_evidence)
 
     @property
     def has_effective_revision(self) -> bool:
         return bool(self.status_effective_date) and all(
-            item.effective_date is not None for item in self.evidence
+            item.effective_date is not None for item in self.referenced_evidence
         )
 
     @property
     def cost_is_source_supported(self) -> bool:
         return any(
             item.authority_level <= 3 and "COST" in item.supports
-            for item in self.evidence
+            for item in self.referenced_evidence
         )
+
+    @property
+    def referenced_evidence(self) -> tuple[InfrastructureEvidence, ...]:
+        refs = set(self.effective_source_refs)
+        return tuple(item for item in self.evidence if item.source_id in refs)
 
 
 @dataclass(frozen=True)
@@ -254,11 +273,45 @@ class CostAttribution:
 
 
 def _base_evidence_ok(record: InfrastructureRecord) -> bool:
-    return (
-        record.has_high_authority_evidence
+    referenced = record.referenced_evidence
+    if not (
+        referenced
+        and record.has_high_authority_evidence
         and record.has_effective_revision
         and set(record.source_refs).issubset({item.source_id for item in record.evidence})
-    )
+    ):
+        return False
+    required_claim = STATUS_SUPPORT_CLAIMS.get(record.status_taxonomy)
+    if required_claim is not None and not any(
+        item.authority_level in HIGH_AUTHORITY_LEVELS and required_claim in item.supports
+        for item in referenced
+    ):
+        return False
+    if record.status_taxonomy == CONTRACTED and record.contractual_or_funding_status != "CONTRACTED":
+        return False
+    if (
+        record.status_taxonomy == BUDGETED_OR_ALLOCATED
+        and record.contractual_or_funding_status != "FUNDED_OR_ALLOCATED"
+    ):
+        return False
+    return True
+
+
+def _reconciled_evidence_status(record: InfrastructureRecord) -> str:
+    """Return record truth only when it does not outrank referenced evidence."""
+
+    statuses = {item.truth_status for item in record.referenced_evidence}
+    if not statuses:
+        return "Q"
+    if record.evidence_status == "OBS":
+        return "OBS" if statuses == {"OBS"} else "Q"
+    if record.evidence_status in {"DER", "SCN", "ASS", "POL"}:
+        if "Q" in statuses:
+            return "Q"
+        if record.evidence_status in {"DER", "SCN"} and statuses - {"OBS", "DER", "SCN"}:
+            return "Q"
+        return record.evidence_status
+    return "Q"
 
 
 def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision:
@@ -288,6 +341,20 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
             None,
             None,
             "missing authoritative source, effective date/revision, or source identity",
+        )
+
+    effective_evidence_status = _reconciled_evidence_status(record)
+    if effective_evidence_status == "Q":
+        return AttributionDecision(
+            record.project_id,
+            record.status_taxonomy,
+            UNRESOLVED,
+            "Q",
+            refs,
+            f"{WITHOUT_PROGRAM}/{WITH_PROGRAM} evidence truth is not reconciled",
+            None,
+            None,
+            "record evidence_status cannot outrank referenced evidence truth",
         )
 
     if record.status_taxonomy in {
@@ -335,11 +402,23 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
             CONTRACTED,
             BUDGETED_OR_ALLOCATED,
         }:
+            if effective_evidence_status != "OBS":
+                return AttributionDecision(
+                    record.project_id,
+                    record.status_taxonomy,
+                    UNRESOLVED,
+                    "Q",
+                    refs,
+                    f"{WITHOUT_PROGRAM}/{WITH_PROGRAM} status evidence is not source-native OBS",
+                    None,
+                    None,
+                    "baseline requires referenced status evidence with OBS truth",
+                )
             return AttributionDecision(
                 record.project_id,
                 record.status_taxonomy,
                 BASELINE,
-                record.evidence_status,
+                effective_evidence_status,
                 refs,
                 f"{WITHOUT_PROGRAM} includes the already operating/contracted/funded scope",
                 record.total_project_cost_huf,
@@ -437,7 +516,7 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
         record.project_id,
         PROGRAM_ACCELERATED_OR_UPSIZED if status == PROGRAM_ACCELERATED else record.status_taxonomy,
         status,
-        record.evidence_status if record.evidence_status != "OBS" else "DER",
+        effective_evidence_status if effective_evidence_status != "OBS" else "DER",
         refs,
         f"explicit {WITHOUT_PROGRAM}/{WITH_PROGRAM} difference",
         record.baseline_cost_huf,
@@ -501,6 +580,7 @@ __all__ = [
     "B10BaselineInfrastructureContractError",
     "BUDGETED_OR_ALLOCATED",
     "CONTRACTED",
+    "CONTRACTUAL_OR_FUNDING_VALUES",
     "CostAttribution",
     "InfrastructureEvidence",
     "InfrastructureRecord",
@@ -509,6 +589,7 @@ __all__ = [
     "PROGRAM_ACCELERATED",
     "PROGRAM_ACCELERATED_OR_UPSIZED",
     "PROGRAM_INCREMENTAL",
+    "STATUS_SUPPORT_CLAIMS",
     "UNRESOLVED",
     "UNDER_CONSTRUCTION",
     "WITH_PROGRAM",
@@ -517,3 +598,4 @@ __all__ = [
     "classify_infrastructure",
     "validate_attribution_ledger",
 ]
+
