@@ -42,6 +42,24 @@ from .baseline_infrastructure_contract import (
     classify_infrastructure,
     validate_attribution_ledger,
 )
+from .rrf_baseline_ledger import (
+    DSO_SERVICE_AREA,
+    MVM_DEMASZ_RRF_BASELINE_ID,
+    MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,
+    MVM_DEMASZ_RRF_PROJECT_ID,
+    MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,
+    MVM_DEMASZ_SERVICE_AREA,
+    OPUS_TITASZ_RRF_BASELINE_ID,
+    OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID,
+    OPUS_TITASZ_RRF_PROJECT_ID,
+    OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,
+    OPUS_TITASZ_SERVICE_AREA,
+    RRF_ASSET_TYPE,
+    RRF_BASELINE_RECORDS,
+    RRF_COMPLETION_DATE,
+    classify_observed_baseline_projects,
+    validate_observed_baseline_record,
+)
 
 __all__ = [
     "B10HeadroomContractError",
@@ -80,5 +98,20 @@ __all__ = [
     "assert_no_full_cost_copy",
     "classify_infrastructure",
     "validate_attribution_ledger",
+    "DSO_SERVICE_AREA",
+    "MVM_DEMASZ_RRF_BASELINE_ID",
+    "MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID",
+    "MVM_DEMASZ_RRF_PROJECT_ID",
+    "MVM_DEMASZ_RRF_PROJECT_SOURCE_ID",
+    "MVM_DEMASZ_SERVICE_AREA",
+    "OPUS_TITASZ_RRF_BASELINE_ID",
+    "OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID",
+    "OPUS_TITASZ_RRF_PROJECT_ID",
+    "OPUS_TITASZ_RRF_PROJECT_SOURCE_ID",
+    "OPUS_TITASZ_SERVICE_AREA",
+    "RRF_ASSET_TYPE",
+    "RRF_BASELINE_RECORDS",
+    "RRF_COMPLETION_DATE",
+    "classify_observed_baseline_projects",
+    "validate_observed_baseline_record",
 ]
-

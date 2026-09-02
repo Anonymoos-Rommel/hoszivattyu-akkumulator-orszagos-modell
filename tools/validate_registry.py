@@ -174,11 +174,14 @@ EXPECTED_HEADERS = {
     ],
     "baseline_infrastructure.csv": [
         "baseline_id",
+        "project_id",
         "asset_type",
+        "network_operator",
         "region_id",
+        "region_grain",
         "status_taxonomy",
         "scope_description",
-        "committed_date",
+        "status_effective_date",
         "counterfactual_cost_huf",
         "program_incremental_cost_huf",
         "source_ids",
@@ -638,7 +641,7 @@ FORMULA_ID_PATTERN = re.compile(r"FORM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 
 
 def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
-    """Validate B10-P3 attribution boundaries without inventing project rows."""
+    """Validate the B10-P3 contract and the two bounded B10-P4 rows."""
     module_path = REGISTRY / "module_status.csv"
     if module_path.is_file():
         _, module_rows = read_csv(module_path)
@@ -648,18 +651,95 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
         else:
             if b10.get("readiness_percent") != "15":
                 errors.append("B10-P3 must preserve readiness at 15")
-            if "B10-P3" not in b10.get("gate_note", ""):
-                errors.append("B10 module gate note must name B10-P3")
+            if "B10-P3" not in b10.get("gate_note", "") or "B10-P4" not in b10.get("gate_note", ""):
+                errors.append("B10 module gate note must name B10-P3 and B10-P4")
 
-    # B10-P3 intentionally does not publish unsupported project-level numbers.
-    for filename in ("baseline_infrastructure.csv", "incremental_capex_attribution.csv"):
-        path = REGISTRY / filename
-        if not path.is_file():
-            errors.append(f"missing B10 registry file: {filename}")
+    baseline_path = REGISTRY / "baseline_infrastructure.csv"
+    if not baseline_path.is_file():
+        errors.append("missing B10 registry file: baseline_infrastructure.csv")
+        baseline_rows: list[dict[str, str]] = []
+    else:
+        _, baseline_rows = read_csv(baseline_path)
+
+    expected_projects = {
+        "RRF-6.1.1-21-2022-00006": {
+            "baseline_id": "B10-BASE-MVM-DEMASZ-RRF-6.1.1-21-2022-00006",
+            "region_id": "MVM_DEMASZ:SERVICE_AREA",
+            "project_source": "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+            "completion_source": "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+            "cost": "",
+        },
+        "RRF-6.1.1-21-2022-00001": {
+            "baseline_id": "B10-BASE-OPUS-TITASZ-RRF-6.1.1-21-2022-00001",
+            "region_id": "OPUS_TITASZ:SERVICE_AREA",
+            "project_source": "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+            "completion_source": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+            "cost": "41489280000",
+        },
+    }
+    seen_baselines: set[str] = set()
+    seen_projects: set[str] = set()
+    for row in baseline_rows:
+        baseline_id = row.get("baseline_id", "")
+        project_id = row.get("project_id", "")
+        if not baseline_id or baseline_id in seen_baselines:
+            errors.append(f"duplicate or missing B10 baseline_id: {baseline_id!r}")
+        seen_baselines.add(baseline_id)
+        if not project_id or project_id in seen_projects:
+            errors.append(f"duplicate or missing B10 project_id: {project_id!r}")
+        seen_projects.add(project_id)
+        expected = expected_projects.get(project_id)
+        if expected is None:
+            errors.append(f"unexpected B10-P4 project identity: {project_id!r}")
             continue
-        _, rows = read_csv(path)
-        if rows:
-            errors.append(f"B10-P3 registry must remain header-only pending project evidence: {filename}")
+        for field in ("asset_type", "network_operator", "region_id", "region_grain", "status_taxonomy", "scope_description", "status_effective_date", "source_ids", "evidence_status", "status", "notes"):
+            if not row.get(field, "").strip():
+                errors.append(f"missing {field} for B10 baseline {project_id}")
+        if baseline_id != expected["baseline_id"]:
+            errors.append(f"baseline identity mismatch for {project_id}: {baseline_id!r}")
+        if row.get("asset_type") != "MULTI_ASSET_DSO_NETWORK_DEVELOPMENT_PROGRAM":
+            errors.append(f"invalid B10-P4 asset type for {project_id}")
+        if row.get("region_grain") != "DSO_SERVICE_AREA" or row.get("region_id") != expected["region_id"]:
+            errors.append(f"B10-P4 row must remain at its canonical DSO_SERVICE_AREA grain: {project_id}")
+        if row.get("region_grain") == "DSO_SUBSTATION" or row.get("region_id") == "NATIONAL":
+            errors.append(f"B10-P4 row has forbidden headroom/national grain: {project_id}")
+        if row.get("status_taxonomy") != "OPERATING" or row.get("status_effective_date") != "2026-06-15":
+            errors.append(f"B10-P4 row must be OPERATING effective 2026-06-15: {project_id}")
+        if row.get("evidence_status") != "OBS" or row.get("status") != "BASELINE":
+            errors.append(f"B10-P4 row must be OBS BASELINE: {project_id}")
+        refs = tuple(item for item in row.get("source_ids", "").split(";") if item)
+        expected_refs = (expected["project_source"], expected["completion_source"])
+        if refs != expected_refs:
+            errors.append(f"B10-P4 row must bind project/funding and completion authorities: {project_id}")
+        if expected["completion_source"] not in refs:
+            errors.append(f"B10-P4 OPERATING requires exact completion authority: {project_id}")
+        for field in ("counterfactual_cost_huf", "program_incremental_cost_huf"):
+            value = row.get(field, "")
+            if value:
+                try:
+                    numeric = float(value)
+                except ValueError:
+                    errors.append(f"invalid numeric {field} for B10 baseline {project_id}")
+                else:
+                    if numeric < 0 or numeric != numeric or numeric in (float("inf"), float("-inf")):
+                        errors.append(f"negative/non-finite {field} for B10 baseline {project_id}")
+        if row.get("counterfactual_cost_huf", "") != expected["cost"]:
+            errors.append(f"cost verdict mismatch for B10 baseline {project_id}")
+        if row.get("counterfactual_cost_huf", "") and expected["project_source"] not in refs:
+            errors.append(f"exact B10-P4 cost requires its project/funding source: {project_id}")
+        if row.get("program_incremental_cost_huf", ""):
+            errors.append(f"B10-P4 cannot publish programme-incremental CAPEX: {project_id}")
+
+    if set(seen_projects) != set(expected_projects):
+        errors.append(f"B10-P4 must contain exactly the two bounded RRF projects: {sorted(seen_projects)!r}")
+
+    incremental_path = REGISTRY / "incremental_capex_attribution.csv"
+    if not incremental_path.is_file():
+        errors.append("missing B10 registry file: incremental_capex_attribution.csv")
+    else:
+        _, incremental_rows = read_csv(incremental_path)
+        if incremental_rows:
+            errors.append("B10-P4 incremental_capex_attribution.csv must remain header-only")
 
     for filename in ("regional_readiness.csv",):
         path = REGISTRY / filename
@@ -679,6 +759,18 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
     for source_id in b10_source_ids:
         if source_id not in source_ids:
             errors.append(f"B10 source not present in source authority set: {source_id!r}")
+    required_p4_sources = {
+        "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+        "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+        "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+        "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+    }
+    for source_id in required_p4_sources:
+        row = next((item for item in source_rows if item.get("source_id") == source_id), None)
+        if row is None:
+            errors.append(f"missing required B10-P4 source authority: {source_id}")
+        elif row.get("evidence_status") != "OBS":
+            errors.append(f"B10-P4 source authority must be OBS: {source_id}")
 
 
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:

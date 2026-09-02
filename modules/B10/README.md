@@ -134,8 +134,23 @@ project-level contract/funding ledger for this programme. Therefore
 header-only, Q-B10-001 remains `OPEN / PARTIALLY_BOUNDED`, and B10 readiness
 remains 15.
 
+## B10-P4 — observed baseline RRF projects
+
+B10-P4 applies the P3 classifier to exactly two completed, official RRF
+projects: MVM Démász `RRF-6.1.1-21-2022-00006` and OPUS TITÁSZ
+`RRF-6.1.1-21-2022-00001`. Their realised scope is `WITHOUT_PROGRAM` baseline
+with `OPERATING` evidence effective 2026-06-15. The rows use the umbrella
+`DSO_SERVICE_AREA` project grain and are deliberately excluded from the
+`DSO_SUBSTATION` consumption-headroom assessment path.
+
+The MVM grant and 50% rate do not mint an OBS total project cost; its cost field
+stays blank. OPUS's directly stated 41,489,280,000 HUF total is source-supported.
+Neither row receives a numeric programme-incremental cost. Renewable-generation
+integration figures remain separate source semantics, not consumption headroom,
+MGT permission, B08 load capacity or national headroom. Q-B10-001 remains
+`OPEN / PARTIALLY_BOUNDED`, Q-B10-002 remains `OPEN`, and readiness remains 15.
+
 Explicit exclusions: national DSO coverage, county↔DSO crosswalk,
 ENTSO-E→substation mapping, national headroom/CAPEX, power-flow, reinforcement
 optimisation, household allocation, connection approval, MGT replacement and
 Q-B10-002 closure.
-
