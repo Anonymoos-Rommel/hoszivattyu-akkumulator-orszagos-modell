@@ -47,6 +47,14 @@ plan, (3) tender/contract/funding document, (4) official project notice, then
 causality is restricted to `DER`, `SCN` or unresolved `Q`; it can never be
 promoted to `OBS` merely because dates overlap.
 
+Authority level alone is not a status proof. Baseline classification requires a
+referenced high-authority item whose `supports` claim is status-specific:
+`OPERATING`, `UNDER_CONSTRUCTION`, `CONTRACTED` or `FUNDED_OR_ALLOCATED`.
+Announcement, tender, plan, funding, construction and operation are separate
+claims; no one is inferred from another. Only evidence named in `source_refs`
+can satisfy status, contractual/funding or cost gates, and record-level truth
+cannot outrank the truth of the relevant referenced evidence.
+
 Numeric cost, capacity and timing fields are accepted only when the relevant
 authority explicitly supports them. Missing is not zero.
 
@@ -83,3 +91,4 @@ No third DSO headroom adapter, county↔DSO crosswalk, ENTSO-E→substation mapp
 national headroom, national CAPEX estimate, power-flow, reinforcement
 optimisation, household allocation, connection approval, MGT replacement,
 Q-B10-001 full closure, or Q-B10-002 closure is included.
+
