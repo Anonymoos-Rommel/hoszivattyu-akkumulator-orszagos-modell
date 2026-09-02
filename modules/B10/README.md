@@ -154,3 +154,27 @@ Explicit exclusions: national DSO coverage, county↔DSO crosswalk,
 ENTSO-E→substation mapping, national headroom/CAPEX, power-flow, reinforcement
 optimisation, household allocation, connection approval, MGT replacement and
 Q-B10-002 closure.
+
+
+## B10-P5 — programme-incremental reinforcement attribution gate
+
+B10-P5 keeps published DSO headroom screening separate from authoritative
+reinforcement determination and programme CAPEX. `WITHIN_PUBLISHED_HEADROOM_SCREENING`
+and `EXCEEDS_PUBLISHED_HEADROOM_SCREENING` are screening results only: neither
+can prove `NO_REINFORCEMENT_REQUIRED` or `REINFORCEMENT_REQUIRED`. Exact
+reinforcement scope/capacity/acceleration/upsize requires separately referenced
+DSO/MGT/network-study evidence bound to the same operator, `DSO_SUBSTATION`
+region and horizon.
+
+Numeric programme-incremental CAPEX additionally requires exact project and
+`cost_component_id`, P3-compatible `COST` authority and claim-specific
+`PROGRAM_INCREMENTAL_COST`, `ACCELERATION_COST` or `UPSIZE_COST` support. A
+customer connection charge or total reinforcement-project cost is not
+automatically programme CAPEX. The canonical P3 classifier and double-count
+guards remain unchanged.
+
+No real P5 incremental ledger row is published: programme-demand-to-node mapping,
+programme-specific DSO/MGT reinforcement studies and separable incremental-cost
+evidence remain missing. `incremental_capex_attribution.csv` therefore remains
+header-only, Q-B10-001 remains OPEN / PARTIALLY_BOUNDED, Q-B10-002 remains OPEN
+and B10 readiness remains 15.
