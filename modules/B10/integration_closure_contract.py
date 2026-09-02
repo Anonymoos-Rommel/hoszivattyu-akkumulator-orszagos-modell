@@ -2,8 +2,10 @@
 
 A bounded contract is not the same as populated real evidence, a populated
 output, or a satisfied issue-closure gate. P12 introduced the closure audit;
-P13 resolves only the source-scoped Issue #10 legacy Q-05/Q-07 identifier
-ambiguity. The underlying network evidence gates remain independent.
+P13 resolved only the source-scoped Issue #10 legacy Q-05/Q-07 identifier
+ambiguity. P14 proves the current six-operator Hungarian electricity DSO
+inventory and the DSO_SERVICE_AREA network-regional grain, while preserving
+service-area membership and exact-node topology as separate unresolved gates.
 """
 
 from __future__ import annotations
@@ -172,11 +174,12 @@ class B10ClosureAssessment:
 
 
 def current_b10_closure_assessment() -> B10ClosureAssessment:
-    """Return the exact P13 audit of the current P1-P12 canonical B10 state.
+    """Return the exact P14 audit of the current P1-P13 canonical B10 state.
 
-    P13 resolves only the Issue #10 short-label identity ambiguity. A later
-    evidence slice must still change the substantive acceptance/output state
-    explicitly; no caller-supplied boolean can silently promote B10 to DONE.
+    P14 removes only the coarse NO_NATIONAL_DSO_COVERAGE blocker by proving the
+    current six-operator inventory and canonical network-regional grain. It does
+    not fabricate a settlement/service-area crosswalk, DSO node inventory or any
+    programme-specific electrical mapping.
     """
 
     acceptance = (
@@ -190,9 +193,9 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         ClosureGateItem(
             ACCEPTANCE_REGIONAL_PENETRATION_HOSTING,
             Q_UNRESOLVED,
-            ("B10-P8", "B10-P9", "registry/regional_readiness.csv"),
-            ("Q-B01-002", "NO_NATIONAL_DSO_COVERAGE", "REGIONAL_READINESS_HEADER_ONLY"),
-            "administrative/service-area/exact-node boundaries are bounded, but no complete regional programme penetration plus hosting/readiness population exists",
+            ("B10-P8", "B10-P9", "B10-P14", "registry/dso_service_area_inventory.csv", "registry/regional_readiness.csv"),
+            ("Q-B01-002", "NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", "REGIONAL_READINESS_HEADER_ONLY"),
+            "the current six DSO operators and DSO_SERVICE_AREA network-regional grain are bounded, but no authoritative national location-to-service-area membership crosswalk or populated programme penetration/hosting ledger exists",
         ),
         ClosureGateItem(
             ACCEPTANCE_MANAGED_PEAK_SURVIVABILITY,
@@ -235,16 +238,16 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         ClosureGateItem(
             OUTPUT_CONNECTION_DEMAND,
             Q_UNRESOLVED,
-            ("B10-P8", "B10-P9"),
+            ("B10-P8", "B10-P9", "B10-P14"),
             ("Q-B01-002", "NO_REAL_PROGRAMME_NODE_PANEL"),
-            "exact-node programme-demand aggregation is executable but no complete real programme entity-by-timestamp panel is canonical",
+            "the network-regional grain and exact-node demand contract are explicit, but no complete real programme entity-by-timestamp panel is canonical",
         ),
         ClosureGateItem(
             OUTPUT_LIMITING_NODES,
             Q_UNRESOLVED,
-            ("B10-P1", "B10-P2", "B10-P10"),
-            ("NO_NATIONAL_DSO_COVERAGE", "NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY"),
-            "source-native headroom screening and survivability gates do not yet establish a complete set of binding programme nodes",
+            ("B10-P1", "B10-P2", "B10-P10", "B10-P14"),
+            ("NO_NATIONAL_DSO_NODE_INVENTORY", "NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY"),
+            "the six current DSO operators are inventoried, but operator/service-area coverage is not a national substation/node inventory and does not establish binding programme nodes",
         ),
     )
 
@@ -266,7 +269,7 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         legacy_acceptance_mappings=CURRENT_LEGACY_ACCEPTANCE_MAPPINGS,
         blocking_refs=blockers,
         issue_should_close=False,
-        reason="P1-P12 establish fail-closed authority boundaries and P13 resolves the Issue #10 legacy-label identity only; primary outputs and substantive evidence gates remain unresolved",
+        reason="P1-P13 establish fail-closed authority boundaries, P13 resolves the legacy labels, and P14 proves the six-operator DSO inventory; primary outputs, membership/topology evidence and programme-specific gates remain unresolved",
     )
 
 
