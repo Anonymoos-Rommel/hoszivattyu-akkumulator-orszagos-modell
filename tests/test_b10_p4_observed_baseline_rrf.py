@@ -16,6 +16,7 @@ from modules.B10.rrf_baseline_ledger import (
     MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,
     MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,
     OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID,
+    OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,
     RRF_BASELINE_RECORDS,
     classify_observed_baseline_projects,
     validate_observed_baseline_record,
@@ -44,10 +45,11 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
     def test_opus_planning_page_without_completion_cannot_mint_operating(self):
         record = replace(
             RRF_BASELINE_RECORDS[1],
-            source_refs=("SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",),
+            source_refs=(OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,),
         )
         with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "completion source"):
             validate_observed_baseline_record(record)
+        self.assertEqual("Q", classify_infrastructure(record).attribution_status)
 
     def test_wrong_project_id_binding_fails_closed(self):
         record = replace(RRF_BASELINE_RECORDS[0], project_id=RRF_BASELINE_RECORDS[1].project_id)
@@ -81,6 +83,8 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
     def test_mvm_grant_rate_cannot_mint_exact_observed_total_cost(self):
         record = replace(RRF_BASELINE_RECORDS[0], total_project_cost_huf=85_818_375_654)
         self.assertEqual("Q", classify_infrastructure(record).attribution_status)
+        with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "not source-authorised"):
+            validate_observed_baseline_record(record)
 
     def test_mvm_total_cost_and_program_incremental_cost_remain_blank(self):
         record = RRF_BASELINE_RECORDS[0]
@@ -94,9 +98,57 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
     def test_opus_exact_source_supported_total_cost_is_accepted(self):
         record = RRF_BASELINE_RECORDS[1]
         self.assertEqual(41_489_280_000, record.total_project_cost_huf)
+        self.assertIn(OPUS_TITASZ_RRF_PROJECT_SOURCE_ID, record.source_refs)
+        self.assertIn(OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID, record.source_refs)
         decision = classify_observed_baseline_projects((record,))[0]
         self.assertEqual(BASELINE, decision.attribution_status)
         self.assertEqual(41_489_280_000, decision.baseline_cost_huf)
+
+    def test_opus_exact_cost_completion_only_provenance_is_rejected(self):
+        record = replace(
+            RRF_BASELINE_RECORDS[1],
+            source_refs=(OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID,),
+        )
+        self.assertEqual("Q", classify_infrastructure(record).attribution_status)
+        with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "project/funding source"):
+            validate_observed_baseline_record(record)
+
+    def test_opus_exact_cost_requires_referenced_cost_support(self):
+        project = next(
+            item for item in RRF_BASELINE_RECORDS[1].evidence
+            if item.source_id == OPUS_TITASZ_RRF_PROJECT_SOURCE_ID
+        )
+        completion = next(
+            item for item in RRF_BASELINE_RECORDS[1].evidence
+            if item.source_id == OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID
+        )
+        weakened_project = InfrastructureEvidence(
+            source_id=project.source_id,
+            authority_level=project.authority_level,
+            truth_status=project.truth_status,
+            effective_date=project.effective_date,
+            revision=project.revision,
+            supports=tuple(item for item in project.supports if item != "COST"),
+        )
+        record = replace(RRF_BASELINE_RECORDS[1], evidence=(weakened_project, completion))
+        self.assertEqual("Q", classify_infrastructure(record).attribution_status)
+        with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "support exact OBS COST"):
+            validate_observed_baseline_record(record)
+
+    def test_opus_completion_source_does_not_claim_exact_cost_support(self):
+        completion = next(
+            item for item in RRF_BASELINE_RECORDS[1].evidence
+            if item.source_id == OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID
+        )
+        self.assertNotIn("COST", completion.supports)
+
+    def test_opus_completion_remains_required_for_operating(self):
+        record = replace(
+            RRF_BASELINE_RECORDS[1],
+            source_refs=(OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,),
+        )
+        with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "completion source"):
+            validate_observed_baseline_record(record)
 
     def test_dso_service_area_cannot_enter_dso_substation_assessment(self):
         row = DsoHeadroomRecord(
@@ -117,14 +169,15 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
                 demand_region_id="MVM_DEMASZ:SERVICE_AREA",
                 demand_region_scheme=DSO_SERVICE_AREA,
                 demand_evidence_status="OBS",
-                demand_source_refs=("SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",),
+                demand_source_refs=(MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,),
             )
 
-    def test_rrf_capacity_figures_are_not_consumption_headroom(self):
+    def test_rrf_capacity_figures_preserve_source_semantics(self):
         source_pack = (ROOT / "docs" / "source_packs" / "P4_B10_OBSERVED_BASELINE_RRF_PROJECTS.md").read_text(encoding="utf-8")
-        self.assertIn("782 MW", source_pack)
-        self.assertIn("378 MW", source_pack)
-        self.assertIn("261 MW", source_pack)
+        self.assertIn("782 MW realised", source_pack)
+        self.assertIn("378 MW as its", source_pack)
+        self.assertIn("261 MW realised", source_pack)
+        self.assertIn("378\nMW figure is not called realised completion capacity", source_pack)
         self.assertIn("household heat-pump consumption headroom", source_pack)
         self.assertTrue(all(item.region_grain == DSO_SERVICE_AREA for item in RRF_BASELINE_RECORDS))
 
