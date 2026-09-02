@@ -69,15 +69,18 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         self.assertEqual(ACCEPTANCE_SATISFIED, by_id[ACCEPTANCE_QUESTION_HANDLING].status)
         self.assertNotEqual(ACCEPTANCE_SATISFIED, by_id[ACCEPTANCE_NETWORK_LAYER_SEPARATION].status)
 
-    def test_regional_hosting_remains_q_with_refined_spatial_blocker(self):
+    def test_regional_hosting_remains_q_with_p15_membership_blockers(self):
         result = current_b10_closure_assessment()
         gate = next(item for item in result.acceptance_gates if item.gate_id == ACCEPTANCE_REGIONAL_PENETRATION_HOSTING)
         self.assertEqual(Q_UNRESOLVED, gate.status)
         self.assertIn("B10-P14", gate.canonical_refs)
+        self.assertIn("B10-P15", gate.canonical_refs)
         self.assertIn("Q-B01-002", gate.blocking_refs)
-        self.assertIn("NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", gate.blocking_refs)
+        self.assertIn("NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK", gate.blocking_refs)
+        self.assertIn("PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED", gate.blocking_refs)
         self.assertIn("REGIONAL_READINESS_HEADER_ONLY", gate.blocking_refs)
         self.assertNotIn("NO_NATIONAL_DSO_COVERAGE", gate.blocking_refs)
+        self.assertNotIn("NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", gate.blocking_refs)
 
     def test_legacy_q05_q07_are_source_scoped_not_global(self):
         result = current_b10_closure_assessment()
@@ -135,6 +138,11 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         self.assertEqual(1, len(lines))
         self.assertTrue(lines[0].startswith("attribution_id,baseline_id,intervention_id,"))
 
+    def test_p15_membership_crosswalk_registry_is_still_header_only(self):
+        lines = (ROOT / "registry/dso_service_area_membership_crosswalk.csv").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(1, len(lines))
+        self.assertTrue(lines[0].startswith("ksh_settlement_code,settlement_name,operator_id,"))
+
     def test_module_registry_keeps_b10_in_progress_at_15(self):
         with (ROOT / "registry/module_status.csv").open(encoding="utf-8", newline="") as handle:
             rows = {row["module_id"]: row for row in csv.DictReader(handle)}
@@ -145,10 +153,12 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         with self.assertRaisesRegex(B10IntegrationClosureError, "do not mark module DONE"):
             require_b10_closure_ready(current_b10_closure_assessment())
 
-    def test_p14_removes_only_coarse_dso_coverage_blocker(self):
+    def test_p14_and_p15_refine_but_do_not_remove_spatial_blockers(self):
         blockers = set(current_b10_closure_assessment().blocking_refs)
         self.assertNotIn("NO_NATIONAL_DSO_COVERAGE", blockers)
-        self.assertIn("NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", blockers)
+        self.assertNotIn("NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", blockers)
+        self.assertIn("NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK", blockers)
+        self.assertIn("PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED", blockers)
         self.assertIn("NO_NATIONAL_DSO_NODE_INVENTORY", blockers)
         self.assertIn("Q-B01-002", blockers)
 
@@ -159,7 +169,8 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
                 "Q-B01-002",
                 "Q-B10-001",
                 "Q-B10-002",
-                "NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK",
+                "NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK",
+                "PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED",
                 "NO_NATIONAL_DSO_NODE_INVENTORY",
                 "REGIONAL_READINESS_HEADER_ONLY",
                 "INCREMENTAL_CAPEX_ATTRIBUTION_HEADER_ONLY",
