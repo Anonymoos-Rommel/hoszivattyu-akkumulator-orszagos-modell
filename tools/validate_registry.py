@@ -637,6 +637,50 @@ SOURCE_VERSION_PATTERN = re.compile(r"(?:V\d+|Y\d{4}|\d{4}-\d{2}-\d{2})")
 FORMULA_ID_PATTERN = re.compile(r"FORM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 
 
+def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate B10-P3 attribution boundaries without inventing project rows."""
+    module_path = REGISTRY / "module_status.csv"
+    if module_path.is_file():
+        _, module_rows = read_csv(module_path)
+        b10 = next((row for row in module_rows if row.get("module_id") == "B10"), None)
+        if b10 is None:
+            errors.append("missing B10 module status row")
+        else:
+            if b10.get("readiness_percent") != "15":
+                errors.append("B10-P3 must preserve readiness at 15")
+            if "B10-P3" not in b10.get("gate_note", ""):
+                errors.append("B10 module gate note must name B10-P3")
+
+    # B10-P3 intentionally does not publish unsupported project-level numbers.
+    for filename in ("baseline_infrastructure.csv", "incremental_capex_attribution.csv"):
+        path = REGISTRY / filename
+        if not path.is_file():
+            errors.append(f"missing B10 registry file: {filename}")
+            continue
+        _, rows = read_csv(path)
+        if rows:
+            errors.append(f"B10-P3 registry must remain header-only pending project evidence: {filename}")
+
+    for filename in ("regional_readiness.csv",):
+        path = REGISTRY / filename
+        if path.is_file():
+            _, rows = read_csv(path)
+            for row in rows:
+                if row.get("region_type") == "NATIONAL":
+                    errors.append("B10-P3 cannot publish national regional_readiness")
+                if row.get("evidence_status") not in ALLOWED_EVIDENCE_STATUS:
+                    errors.append(f"invalid B10 readiness evidence status: {row.get('region_id')!r}")
+
+    # Keep the source registry as the sole source identity authority.
+    _, source_rows = read_csv(REGISTRY / "sources.csv") if (REGISTRY / "sources.csv").is_file() else ([], [])
+    b10_source_ids = {row.get("source_id") for row in source_rows if row.get("module_id") == "B10"}
+    if not b10_source_ids:
+        errors.append("B10 requires at least one source-audit entry")
+    for source_id in b10_source_ids:
+        if source_id not in source_ids:
+            errors.append(f"B10 source not present in source authority set: {source_id!r}")
+
+
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -1843,6 +1887,7 @@ def validate() -> list[str]:
     validate_b07_artifacts(errors, source_ids)
     validate_b08_artifacts(errors, source_ids)
     validate_b09_artifacts(errors, source_ids)
+    validate_b10_artifacts(errors, source_ids)
 
     return errors
 

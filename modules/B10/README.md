@@ -102,3 +102,40 @@ nem jön létre cross-DSO vagy B08/B09 control-area → alállomás mapping.
 - Q-B10-001: baseline vs program-inkrementális infrastruktúra/CAPEX OPEN;
 - Q-B10-002: baseline státuszok teljesülési valószínűsége/időzítése OPEN;
 - országos DSO coverage és géppel reprodukálható source acquisition külön későbbi kapu.
+
+## B10-P3 — baseline infrastructure authority
+
+The canonical contract is implemented in
+[`baseline_infrastructure_contract.py`](baseline_infrastructure_contract.py).
+Every project is evaluated against two explicit worlds: `WITHOUT_PROGRAM` and
+`WITH_PROGRAM`. `OPERATING`, `UNDER_CONSTRUCTION`, `CONTRACTED` and
+`BUDGETED_OR_ALLOCATED` are baseline candidates only when project identity,
+effective date and authoritative evidence are complete. `OPEN_TENDER` and
+`ANNOUNCED_UNFUNDED` are not baseline by announcement alone.
+
+Authority level alone is insufficient: every baseline candidate must have a
+referenced, high-authority evidence item explicitly supporting its status
+claim (`OPERATING`, `UNDER_CONSTRUCTION`, `CONTRACTED` or
+`FUNDED_OR_ALLOCATED`). Announcement, tender, plan, funding, construction and
+operation remain separate claims; only evidence named by `source_refs` may
+satisfy a gate, and record truth cannot outrank that referenced evidence.
+
+Only a separately evidenced incremental scope, capacity, acceleration, upsizing
+or cost component can be attributed to the programme. Temporal coincidence is
+not causality, and program causality can never be `OBS`. Numeric CAPEX is
+source-supported only; missing is not zero. `validate_attribution_ledger()`
+rejects duplicate project/component identities and baseline/incremental
+double-counting.
+
+The B10-P3 official-source audit covers MEKH, MAVIR, MVM and OPUS publication
+areas. None of those public landing pages, by themselves, supplies a complete
+project-level contract/funding ledger for this programme. Therefore
+`baseline_infrastructure.csv` and `incremental_capex_attribution.csv` remain
+header-only, Q-B10-001 remains `OPEN / PARTIALLY_BOUNDED`, and B10 readiness
+remains 15.
+
+Explicit exclusions: national DSO coverage, county↔DSO crosswalk,
+ENTSO-E→substation mapping, national headroom/CAPEX, power-flow, reinforcement
+optimisation, household allocation, connection approval, MGT replacement and
+Q-B10-002 closure.
+
