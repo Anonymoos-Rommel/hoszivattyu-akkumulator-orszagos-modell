@@ -152,15 +152,18 @@ class B10P16DsoNodeInventoryTests(unittest.TestCase):
         with self.assertRaisesRegex(B10NodeInventoryError, "duplicate"):
             assess_national_node_inventory((five[0], five[0]))
 
-    def test_source_manifest_covers_exact_six_operators_and_only_two_bounded_node_sources(self):
+    def test_source_manifest_covers_exact_six_operators_and_preserves_p17_refinements(self):
         with (ROOT / "registry/dso_node_inventory_sources.csv").open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
         self.assertEqual(6, len(rows))
         self.assertEqual(set(CURRENT_OPERATOR_IDS), {row["operator_id"] for row in rows})
+        by_operator = {row["operator_id"]: row for row in rows}
         bounded = {row["operator_id"] for row in rows if row["node_source_status"] == "NODE_BEARING_SOURCE_BOUNDED"}
         self.assertEqual({"MVM_DEMASZ", "OPUS_TITASZ"}, bounded)
-        unresolved = {row["operator_id"] for row in rows if row["node_source_status"] == "Q_NODE_SOURCE_DISCOVERY_REQUIRED"}
-        self.assertEqual({"ELMU", "EON_DDASZ", "EON_EDASZ", "MVM_EMASZ"}, unresolved)
+        unresolved_discovery = {row["operator_id"] for row in rows if row["node_source_status"] == "Q_NODE_SOURCE_DISCOVERY_REQUIRED"}
+        self.assertEqual({"EON_DDASZ", "EON_EDASZ"}, unresolved_discovery)
+        self.assertEqual("Q_CONSUMPTION_NODE_SOURCE_UNRESOLVED", by_operator["ELMU"]["node_source_status"])
+        self.assertEqual("Q_OPERATOR_NODE_TABLE_UNRESOLVED", by_operator["MVM_EMASZ"]["node_source_status"])
         self.assertTrue(all(row["inventory_completeness_status"] == Q_INVENTORY_COMPLETENESS_UNPROVEN for row in rows))
 
     def test_p1_p2_source_rows_are_not_labelled_complete_inventory(self):
