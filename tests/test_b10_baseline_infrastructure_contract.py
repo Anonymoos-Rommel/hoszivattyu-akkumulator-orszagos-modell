@@ -12,6 +12,8 @@ from modules.B10.baseline_infrastructure_contract import (
     PROGRAM_INCREMENTAL,
     UNRESOLVED,
     UNDER_CONSTRUCTION,
+    OPEN_TENDER,
+    OPERATING,
     B10BaselineInfrastructureContractError,
     classify_infrastructure,
     validate_attribution_ledger,
@@ -30,9 +32,19 @@ def evidence(*, supports=(), level=3, source_id="SRC-B10-AUTH-2026", truth="OBS"
 
 
 def record(status=CONTRACTED, **kwargs):
-    ev = kwargs.pop("evidence", (evidence(),))
-    default_without = kwargs.pop("without_program_required", status not in {ANNOUNCED_UNFUNDED, "OPEN_TENDER"})
-    default_with = kwargs.pop("with_program_required", status not in {ANNOUNCED_UNFUNDED, "OPEN_TENDER"})
+    default_support = {
+        OPERATING: ("OPERATING",),
+        UNDER_CONSTRUCTION: ("UNDER_CONSTRUCTION",),
+        CONTRACTED: ("CONTRACTED",),
+        BUDGETED_OR_ALLOCATED: ("FUNDED_OR_ALLOCATED",),
+    }.get(status, ())
+    ev = kwargs.pop("evidence", (evidence(supports=default_support),))
+    default_without = kwargs.pop("without_program_required", status not in {ANNOUNCED_UNFUNDED, OPEN_TENDER})
+    default_with = kwargs.pop("with_program_required", status not in {ANNOUNCED_UNFUNDED, OPEN_TENDER})
+    default_commitment = {
+        CONTRACTED: "CONTRACTED",
+        BUDGETED_OR_ALLOCATED: "FUNDED_OR_ALLOCATED",
+    }.get(status)
     return InfrastructureRecord(
         project_id=kwargs.pop("project_id", "PROJECT-001"),
         network_operator="DSO-A",
@@ -42,9 +54,10 @@ def record(status=CONTRACTED, **kwargs):
         infrastructure_type="SUBSTATION_REINFORCEMENT",
         status_taxonomy=status,
         status_effective_date="2026-08-01",
-        source_refs=tuple(item.source_id for item in ev),
+        source_refs=kwargs.pop("source_refs", tuple(item.source_id for item in ev)),
         evidence=ev,
         evidence_status=kwargs.pop("evidence_status", "OBS"),
+        contractual_or_funding_status=kwargs.pop("contractual_or_funding_status", default_commitment),
         without_program_required=default_without,
         with_program_required=default_with,
         **kwargs,
@@ -53,7 +66,7 @@ def record(status=CONTRACTED, **kwargs):
 
 class B10BaselineInfrastructureTests(unittest.TestCase):
     def test_operating_contracted_and_allocated_are_baseline(self):
-        for status in ("OPERATING", "UNDER_CONSTRUCTION", CONTRACTED, BUDGETED_OR_ALLOCATED):
+        for status in (OPERATING, UNDER_CONSTRUCTION, CONTRACTED, BUDGETED_OR_ALLOCATED):
             decision = classify_infrastructure(record(status))
             self.assertEqual(BASELINE, decision.attribution_status)
 
@@ -63,7 +76,7 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
         self.assertIn("announced", decision.reason)
 
     def test_open_tender_is_not_funding_evidence(self):
-        decision = classify_infrastructure(record("OPEN_TENDER"))
+        decision = classify_infrastructure(record(OPEN_TENDER))
         self.assertEqual(UNRESOLVED, decision.attribution_status)
 
     def test_missing_effective_date_is_q(self):
@@ -101,7 +114,7 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
         self.assertEqual("Q", decision.evidence_status)
 
     def test_acceleration_cost_requires_cost_authority_and_is_not_full_cost(self):
-        ev = (evidence(supports=("COST",)),)
+        ev = (evidence(supports=("CONTRACTED", "COST")),)
         decision = classify_infrastructure(record(
             CONTRACTED,
             evidence=ev,
@@ -112,6 +125,7 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
             baseline_cost_huf=90,
             incremental_cost_huf=10,
             total_project_cost_huf=100,
+            contractual_or_funding_status="CONTRACTED",
         ))
         self.assertEqual(PROGRAM_ACCELERATED, decision.attribution_status)
         self.assertEqual(10, decision.incremental_cost_huf)
@@ -172,6 +186,76 @@ class B10BaselineInfrastructureTests(unittest.TestCase):
         decision = classify_infrastructure(record(ANNOUNCED_UNFUNDED, program_causality_status="DER", incremental_scope_proven=True, without_program_required=False, with_program_required=True))
         self.assertIsNone(decision.incremental_cost_huf)
 
+    def test_contracted_without_contract_support_is_q(self):
+        decision = classify_infrastructure(record(CONTRACTED, contractual_or_funding_status=None))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_budgeted_without_funding_support_is_q(self):
+        decision = classify_infrastructure(record(BUDGETED_OR_ALLOCATED, contractual_or_funding_status=None))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_under_construction_generic_notice_is_q(self):
+        decision = classify_infrastructure(record(UNDER_CONSTRUCTION, evidence=(evidence(),)))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_operating_generic_authority_is_q(self):
+        decision = classify_infrastructure(record(OPERATING, evidence=(evidence(),)))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_open_tender_cannot_satisfy_contracted_semantics(self):
+        ev = (evidence(supports=("CONTRACTED",)),)
+        decision = classify_infrastructure(record(OPEN_TENDER, evidence=ev, contractual_or_funding_status="CONTRACTED"))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_announced_unfunded_cannot_satisfy_funding_semantics(self):
+        ev = (evidence(supports=("FUNDED_OR_ALLOCATED",)),)
+        decision = classify_infrastructure(record(ANNOUNCED_UNFUNDED, evidence=ev, contractual_or_funding_status="FUNDED_OR_ALLOCATED"))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_record_truth_obs_cannot_promote_referenced_q(self):
+        ev = (evidence(supports=("CONTRACTED",), truth="Q"),)
+        decision = classify_infrastructure(record(CONTRACTED, evidence=ev, evidence_status="OBS"))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+        self.assertEqual("Q", decision.evidence_status)
+
+    def test_referenced_ass_or_scn_cannot_become_obs_baseline(self):
+        for truth in ("ASS", "SCN"):
+            ev = (evidence(supports=("CONTRACTED",), truth=truth),)
+            decision = classify_infrastructure(record(CONTRACTED, evidence=ev, evidence_status="OBS"))
+            self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_unreferenced_authority_cannot_satisfy_status_gate(self):
+        generic = evidence(source_id="SRC-REFERENCED")
+        status = evidence(source_id="SRC-UNREFERENCED", supports=("CONTRACTED",), level=1)
+        decision = classify_infrastructure(record(
+            CONTRACTED,
+            evidence=(generic, status),
+            source_refs=(generic.source_id,),
+            contractual_or_funding_status="CONTRACTED",
+        ))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_unreferenced_cost_evidence_cannot_authorize_capex(self):
+        relevant = evidence(source_id="SRC-STATUS", supports=("CONTRACTED",))
+        cost = evidence(source_id="SRC-COST", supports=("COST",), level=1)
+        decision = classify_infrastructure(record(
+            CONTRACTED,
+            evidence=(relevant, cost),
+            source_refs=(relevant.source_id,),
+            total_project_cost_huf=100,
+            contractual_or_funding_status="CONTRACTED",
+        ))
+        self.assertEqual(UNRESOLVED, decision.attribution_status)
+
+    def test_referenced_contract_support_still_passes_baseline(self):
+        decision = classify_infrastructure(record(CONTRACTED, evidence=(evidence(supports=("CONTRACTED",)),)))
+        self.assertEqual(BASELINE, decision.attribution_status)
+
+    def test_referenced_funding_support_still_passes_baseline(self):
+        decision = classify_infrastructure(record(BUDGETED_OR_ALLOCATED, evidence=(evidence(supports=("FUNDED_OR_ALLOCATED",)),)))
+        self.assertEqual(BASELINE, decision.attribution_status)
+
 
 if __name__ == "__main__":
     unittest.main()
+
