@@ -15,19 +15,30 @@ programme-incremental CAPEX is claimed.
 
 ## Source audit and status gate
 
-The official MVM project page identifies the exact project and beneficiary; the
-official MVM completion communication dated 2026-06-15 explicitly states that
-the project was successfully completed and reports its realised network scope.
-The official OPUS project page identifies the exact project and operator; the
-official OPUS completion communication dated 2026-06-15 explicitly states the
-completed project and its realised scope.
+The official MVM project page identifies the exact project and beneficiary and
+publishes the exact grant `42,909,187,827 HUF` and 50% support rate. The official
+MVM completion communication dated 2026-06-15 explicitly states successful
+completion, reports the realised network scope and 782 MW realised renewable/PV
+integration capability. The completion communication uses rounded financial
+wording; it is not the authority for the exact grant precision.
 
-Only the completion source is referenced by each ledger row's `source_ids` and
-it explicitly supports `OPERATING` with `OBS` truth. A planning/project page,
-generic company page, headroom publication or unrelated source cannot mint the
-operating status. The runtime records are materialised by
+The official OPUS project/funding page identifies the exact project/operator and
+publishes exact total project cost `41,489,280,000 HUF`, exact support
+`20,744,640,000 HUF`, and a 378 MW project-page capability statement. The
+official OPUS completion communication dated 2026-06-15 is the OPERATING status
+authority and reports 261 MW realised additional weather-dependent integration
+capability. Its financial wording is rounded (`41.489` / `20.744` billion HUF),
+so it cannot mint the higher-precision exact ledger cost.
+
+Every ledger row references each source needed for its machine claims. The
+completion source must explicitly support `OPERATING` with `OBS` truth. For the
+OPUS exact cost, the separately referenced project/funding source must explicitly
+support `COST`; completion-only provenance is insufficient. A planning/project
+page, generic company page, headroom publication or unrelated source cannot mint
+the operating status. The runtime records are materialised by
 `rrf_baseline_ledger.py` and classified by the existing P3
-`classify_infrastructure()` function; no second classifier is introduced.
+`classify_infrastructure()` function; no second classifier is introduced and the
+P3 cost gate is not weakened.
 
 ## Grain and asset type
 
@@ -48,21 +59,25 @@ non-overlapping component-cost authority.
 
 | Project | Baseline cost | Programme-incremental cost | Evidence verdict |
 |---|---:|---:|---|
-| MVM Démász `RRF-6.1.1-21-2022-00006` | blank | blank | Grant `42,909,187,827 HUF` and 50% rate are OBS source facts; no exact total cost is directly stated, so grant ÷ 50% is not recorded. |
-| OPUS TITÁSZ `RRF-6.1.1-21-2022-00001` | `41,489,280,000 HUF` | blank | Completion source explicitly states total cost and support amount; only the total is used as baseline cost. |
+| MVM Démász `RRF-6.1.1-21-2022-00006` | blank | blank | Project page publishes exact grant `42,909,187,827 HUF` and 50% rate; no official source in this slice directly states an exact total project cost, so grant ÷ 50% is not recorded. |
+| OPUS TITÁSZ `RRF-6.1.1-21-2022-00001` | `41,489,280,000 HUF` | blank | Referenced official project/funding page explicitly states the exact total and support. Completion evidence is separately required for OPERATING and only gives rounded financial wording. |
 
 Blank is not zero. The incremental registry remains header-only because this
 slice attributes no heat-pump/battery programme cost.
 
 ## Capacity semantics
 
-The MVM completion communication reports 782 MW of additional renewable/PV
-generation integration capability. The OPUS project page reports 378 MW,
-while the OPUS completion communication reports 261 MW. This source discrepancy
-is preserved rather than collapsed into one value. These figures are not
-household heat-pump consumption headroom, DSO free capacity, MGT permission,
-B08 load capacity or national headroom. They are retained as source evidence
-semantics only and are not placed into P1/P2 consumption-headroom fields.
+The MVM completion communication reports 782 MW realised additional renewable/PV
+generation integration capability. The OPUS project page reports 378 MW as its
+project-page capability statement, while the OPUS completion communication
+reports 261 MW realised additional weather-dependent integration capability.
+These source claims are preserved rather than collapsed or relabelled. The 378
+MW figure is not called realised completion capacity.
+
+None of these figures is household heat-pump consumption headroom, DSO free
+capacity, MGT permission, B08 load capacity or national headroom. They are
+retained as source evidence semantics only and are not placed into P1/P2
+consumption-headroom fields. They are not added together.
 
 ## Registry and open questions
 
