@@ -113,6 +113,13 @@ Every project is evaluated against two explicit worlds: `WITHOUT_PROGRAM` and
 effective date and authoritative evidence are complete. `OPEN_TENDER` and
 `ANNOUNCED_UNFUNDED` are not baseline by announcement alone.
 
+Authority level alone is insufficient: every baseline candidate must have a
+referenced, high-authority evidence item explicitly supporting its status
+claim (`OPERATING`, `UNDER_CONSTRUCTION`, `CONTRACTED` or
+`FUNDED_OR_ALLOCATED`). Announcement, tender, plan, funding, construction and
+operation remain separate claims; only evidence named by `source_refs` may
+satisfy a gate, and record truth cannot outrank that referenced evidence.
+
 Only a separately evidenced incremental scope, capacity, acceleration, upsizing
 or cost component can be attributed to the programme. Temporal coincidence is
 not causality, and program causality can never be `OBS`. Numeric CAPEX is
@@ -131,3 +138,4 @@ Explicit exclusions: national DSO coverage, county↔DSO crosswalk,
 ENTSO-E→substation mapping, national headroom/CAPEX, power-flow, reinforcement
 optimisation, household allocation, connection approval, MGT replacement and
 Q-B10-002 closure.
+
