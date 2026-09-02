@@ -1,0 +1,115 @@
+name: B10-P6 registry repair
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/b10-p6-project-delivery-timing
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Restore canonical registries and apply only P6 records
+        run: |
+          git show origin/main:registry/sources.csv > registry/sources.csv
+          git show origin/main:registry/module_status.csv > registry/module_status.csv
+          git show origin/main:registry/open_questions.csv > registry/open_questions.csv
+          python - <<'PY'
+          from pathlib import Path
+          import csv
+          import io
+
+          def csv_line(values):
+              buf = io.StringIO()
+              csv.writer(buf, lineterminator='').writerow(values)
+              return buf.getvalue()
+
+          # sources.csv: preserve main byte-for-byte and append exactly one P6 row.
+          p = Path('registry/sources.csv')
+          text = p.read_text(encoding='utf-8')
+          sid = 'SRC-B10-OPUS-TITASZ-RRF-TIMING-2024'
+          if sid in text:
+              raise SystemExit('P6 source unexpectedly already exists on canonical main')
+          row = csv_line([
+              sid,
+              'B10',
+              'Hálózatfejlesztésekkel teszi lehetővé újabb napelemek telepítését az OPUS TITÁSZ Zrt.',
+              'OPUS TITÁSZ Áramhálózati Zrt.',
+              'https://www.opustitasz.hu/tarsasagunk/sajtokozlemenyek-hirek/sajtokozlemenyek/halozatfejlesztesekkel-teszi-lehetove-ujabb-napelemek-telepiteset-az-opus-titasz-zrt',
+              '2024-09-30',
+              '2026-09-02',
+              'RRF-6.1.1-21-2022-00001 ex-ante timing snapshot',
+              'P4',
+              'OBS',
+              'HIGH',
+              'Official OPUS public communication; raw content remains external',
+              '',
+              'Dated ex-ante timing authority for project RRF-6.1.1-21-2022-00001: 378 MW target by 2026-04-03 and expectation to meet/exceed it by that date. Not a generic delay model, completion probability, programme causality or CAPEX authority.',
+          ])
+          p.write_text(text.rstrip('\n') + '\n' + row + '\n', encoding='utf-8')
+
+          # module_status.csv: replace only the B10 record; every other main line is untouched.
+          p = Path('registry/module_status.csv')
+          lines = p.read_text(encoding='utf-8').splitlines()
+          hits = [i for i, line in enumerate(lines) if line.startswith('B10,')]
+          if len(hits) != 1:
+              raise SystemExit(f'expected exactly one B10 module row, got {hits}')
+          lines[hits[0]] = csv_line([
+              'B10', 'Hálózatfejlesztés', 'B01;B08;B09', 'IN_PROGRESS', '15',
+              'B10-P1/P2 retain source-native MVM DEMASZ and OPUS TITÁSZ headroom boundaries. B10-P3 adds the fail-closed baseline infrastructure authority and explicit WITHOUT_PROGRAM/WITH_PROGRAM attribution contract, evidence hierarchy and double-count guard. B10-P4 applies that contract to exactly two observed completed RRF baseline projects at DSO_SERVICE_AREA grain. B10-P5 adds the exact-node reinforcement/evidence gate and claim-specific programme-CAPEX authority; incremental CAPEX remains unclaimed. B10-P6 adds source-qualified project-delivery timing evidence and retrospective variance without manufacturing completion probability. No national DSO coverage, county/DSO mapping, observed programme reinforcement or national readiness authority.'
+          ])
+          p.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+
+          # open_questions.csv: replace only Q-B10-002; all other main records remain untouched.
+          p = Path('registry/open_questions.csv')
+          lines = p.read_text(encoding='utf-8').splitlines()
+          hits = [i for i, line in enumerate(lines) if line.startswith('Q-B10-002,')]
+          if len(hits) != 1:
+              raise SystemExit(f'expected exactly one Q-B10-002 row, got {hits}')
+          lines[hits[0]] = csv_line([
+              'Q-B10-002', 'B10', 'HIGH',
+              'Mely baseline státuszokhoz rendelhető milyen teljesülési valószínűség és időzítés?',
+              'A baseline fulfilment és az inkrementális CAPEX nem lehet rejtett forgatókönyv-paraméter.',
+              'Státuszonkénti jogi/szerződéses bizonyíték, megvalósítási idő és utólagos teljesülési adat.',
+              'OPEN', 'research',
+              'B10-P6 részlegesen körülhatárolja az időzítési evidenciát: source-native planned/expected target, OBS actual completion, verified ex-ante vs current-page-only snapshot és DER calendar variance külön truth. OPUS 2024-09-30 -> 2026-04-03 target + 2026-06-15 completion = 73 nap DER. MVM current-page 2026-04-30 targetből pre-completion snapshot nélkül nem számol forecast errort. Reprezentatív projektkohorsz, státuszátmeneti történet, kalibrált completion-probability modell és future timed investment path továbbra is Q.'
+          ])
+          p.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+          PY
+      - name: Assert narrow registry diff
+        run: |
+          python - <<'PY'
+          import subprocess
+          allowed = {'registry/sources.csv','registry/module_status.csv','registry/open_questions.csv'}
+          changed = set(subprocess.check_output(['git','diff','--name-only','origin/main','--',*sorted(allowed)], text=True).splitlines())
+          if changed != allowed:
+              raise SystemExit(f'unexpected registry repair set: {changed}')
+          PY
+      - name: Targeted and B10
+        run: |
+          python -m unittest tests.test_b10_p6_project_delivery_timing -v
+          python -m unittest discover -s tests -p 'test_b10*.py' -v
+      - name: Registry and full regression
+        run: |
+          python tools/validate_registry.py
+          python -m unittest discover -s tests -v
+          python -m compileall -q modules tests tools
+          git diff --check
+      - name: Commit repair
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add registry/sources.csv registry/module_status.csv registry/open_questions.csv
+          git diff --cached --quiet && exit 1
+          git commit -m 'B10-P6: restore canonical registry serialization'
+          git push origin HEAD:agent/b10-p6-project-delivery-timing
