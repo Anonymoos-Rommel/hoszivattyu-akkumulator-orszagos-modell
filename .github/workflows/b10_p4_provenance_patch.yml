@@ -1,0 +1,150 @@
+name: B10-P4 provenance patch
+
+on:
+  push:
+    branches:
+      - agent/b10-p4-observed-baseline-rrf-projects
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/b10-p4-observed-baseline-rrf-projects
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply exact bounded provenance patch
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import csv
+          import io
+
+          validator = Path('tools/validate_registry.py')
+          text = validator.read_text(encoding='utf-8')
+
+          old_mvm = '''        "RRF-6.1.1-21-2022-00006": {
+              "baseline_id": "B10-BASE-MVM-DEMASZ-RRF-6.1.1-21-2022-00006",
+              "region_id": "MVM_DEMASZ:SERVICE_AREA",
+              "source_id": "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+              "cost": "",
+          },'''
+          new_mvm = '''        "RRF-6.1.1-21-2022-00006": {
+              "baseline_id": "B10-BASE-MVM-DEMASZ-RRF-6.1.1-21-2022-00006",
+              "region_id": "MVM_DEMASZ:SERVICE_AREA",
+              "project_source": "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+              "completion_source": "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+              "cost": "",
+          },'''
+          old_opus = '''        "RRF-6.1.1-21-2022-00001": {
+              "baseline_id": "B10-BASE-OPUS-TITASZ-RRF-6.1.1-21-2022-00001",
+              "region_id": "OPUS_TITASZ:SERVICE_AREA",
+              "source_id": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+              "cost": "41489280000",
+          },'''
+          new_opus = '''        "RRF-6.1.1-21-2022-00001": {
+              "baseline_id": "B10-BASE-OPUS-TITASZ-RRF-6.1.1-21-2022-00001",
+              "region_id": "OPUS_TITASZ:SERVICE_AREA",
+              "project_source": "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+              "completion_source": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+              "cost": "41489280000",
+          },'''
+          old_refs = '''        refs = tuple(item for item in row.get("source_ids", "").split(";") if item)
+          if refs != (expected["source_id"],):
+              errors.append(f"B10-P4 row must bind its exact completion authority: {project_id}")'''
+          new_refs = '''        refs = tuple(item for item in row.get("source_ids", "").split(";") if item)
+          expected_refs = (expected["project_source"], expected["completion_source"])
+          if refs != expected_refs:
+              errors.append(
+                  f"B10-P4 row must bind project/funding and completion authorities: {project_id}"
+              )
+          if expected["completion_source"] not in refs:
+              errors.append(f"B10-P4 OPERATING requires exact completion authority: {project_id}")'''
+          old_cost = '''        if row.get("counterfactual_cost_huf", "") != expected["cost"]:
+              errors.append(f"cost verdict mismatch for B10 baseline {project_id}")
+          if row.get("program_incremental_cost_huf", ""):
+              errors.append(f"B10-P4 cannot publish programme-incremental CAPEX: {project_id}")'''
+          new_cost = '''        if row.get("counterfactual_cost_huf", "") != expected["cost"]:
+              errors.append(f"cost verdict mismatch for B10 baseline {project_id}")
+          if row.get("counterfactual_cost_huf", "") and expected["project_source"] not in refs:
+              errors.append(f"exact B10-P4 cost requires its project/funding source: {project_id}")
+          if row.get("program_incremental_cost_huf", ""):
+              errors.append(f"B10-P4 cannot publish programme-incremental CAPEX: {project_id}")'''
+
+          for old, new, label in (
+              (old_mvm, new_mvm, 'validator MVM source binding'),
+              (old_opus, new_opus, 'validator OPUS source binding'),
+              (old_refs, new_refs, 'validator field-specific refs'),
+              (old_cost, new_cost, 'validator cost provenance'),
+          ):
+              if text.count(old) != 1:
+                  raise SystemExit(f'exact patch anchor mismatch: {label}: count={text.count(old)}')
+              text = text.replace(old, new)
+          validator.write_text(text, encoding='utf-8')
+
+          sources = Path('registry/sources.csv')
+          raw = sources.read_text(encoding='utf-8')
+          had_final_newline = raw.endswith('\n')
+          lines = raw.splitlines()
+
+          corrections = {
+              'SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026': {
+                  'license': 'Official MVM project page; exact project/grant facts are OBS; page is not completion authority',
+                  'notes': 'Binds the exact project identifier, beneficiary and multi-asset service-area scope. This project page is the authority for exact grant 42,909,187,827 HUF and 50% support rate. OPERATING/completion and 782 MW realised renewable/PV integration capability are bound separately to the 2026-06-15 completion communication.'
+              },
+              'SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026': {
+                  'license': 'Official completion communication; source-native OPERATING status and realised 782 MW capability are OBS; financial wording is rounded',
+                  'notes': 'Explicitly states successful completion of RRF-6.1.1-21-2022-00006, the beneficiary, realised network scope and 782 MW realised renewable/PV integration capability. Its support wording is rounded (more than 42.909 billion HUF), so it is not the authority for the exact 42,909,187,827 HUF grant. No exact total project cost is recorded or derived.'
+              },
+              'SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026': {
+                  'license': 'Official OPUS project/funding page; exact project, support and total-cost facts are OBS; page is not OPERATING authority',
+                  'notes': 'Binds the exact project identifier, operator and service-area scope. This project/funding page is the authority for exact total project cost 41,489,280,000 HUF and exact support 20,744,640,000 HUF. It separately states 378 MW project-page capability; this is not relabelled as realised completion capacity. OPERATING status is bound to the completion communication.'
+              },
+              'SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026': {
+                  'license': 'Official completion communication; source-native OPERATING status and realised 261 MW capability are OBS; financial wording is rounded',
+                  'notes': 'Explicitly states completion of RRF-6.1.1-21-2022-00001 and reports 261 MW realised additional weather-dependent integration capability. Its financial wording is rounded (41.489 billion HUF total; 20.744 billion HUF support), so it does not mint the higher-precision exact ledger cost. Exact financial values are bound to the separate project/funding page.'
+              },
+          }
+
+          seen = set()
+          for i, line in enumerate(lines):
+              if not line.startswith('SRC-B10-'):
+                  continue
+              row = next(csv.reader([line]))
+              source_id = row[0]
+              if source_id not in corrections:
+                  continue
+              if len(row) != 14:
+                  raise SystemExit(f'unexpected sources.csv field count for {source_id}: {len(row)}')
+              row[11] = corrections[source_id]['license']
+              row[13] = corrections[source_id]['notes']
+              buf = io.StringIO()
+              csv.writer(buf, lineterminator='').writerow(row)
+              lines[i] = buf.getvalue()
+              seen.add(source_id)
+          if seen != set(corrections):
+              raise SystemExit(f'missing P4 source rows: {sorted(set(corrections)-seen)}')
+          sources.write_text('\n'.join(lines) + ('\n' if had_final_newline else ''), encoding='utf-8')
+          PY
+      - name: Validate patched repository
+        run: |
+          python tools/validate_registry.py
+          python -m unittest discover -s tests -v
+          python -m compileall -q modules tools tests
+          git diff --check
+      - name: Commit exact patch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tools/validate_registry.py registry/sources.csv
+          git diff --cached --exit-code && exit 0 || true
+          git commit -m 'B10-P4: finalize field-specific provenance'
+          git push origin HEAD:agent/b10-p4-observed-baseline-rrf-projects
