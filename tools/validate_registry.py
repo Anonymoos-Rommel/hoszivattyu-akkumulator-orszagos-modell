@@ -665,13 +665,15 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
         "RRF-6.1.1-21-2022-00006": {
             "baseline_id": "B10-BASE-MVM-DEMASZ-RRF-6.1.1-21-2022-00006",
             "region_id": "MVM_DEMASZ:SERVICE_AREA",
-            "source_id": "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+            "project_source": "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+            "completion_source": "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
             "cost": "",
         },
         "RRF-6.1.1-21-2022-00001": {
             "baseline_id": "B10-BASE-OPUS-TITASZ-RRF-6.1.1-21-2022-00001",
             "region_id": "OPUS_TITASZ:SERVICE_AREA",
-            "source_id": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+            "project_source": "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+            "completion_source": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
             "cost": "41489280000",
         },
     }
@@ -706,8 +708,11 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
         if row.get("evidence_status") != "OBS" or row.get("status") != "BASELINE":
             errors.append(f"B10-P4 row must be OBS BASELINE: {project_id}")
         refs = tuple(item for item in row.get("source_ids", "").split(";") if item)
-        if refs != (expected["source_id"],):
-            errors.append(f"B10-P4 row must bind its exact completion authority: {project_id}")
+        expected_refs = (expected["project_source"], expected["completion_source"])
+        if refs != expected_refs:
+            errors.append(f"B10-P4 row must bind project/funding and completion authorities: {project_id}")
+        if expected["completion_source"] not in refs:
+            errors.append(f"B10-P4 OPERATING requires exact completion authority: {project_id}")
         for field in ("counterfactual_cost_huf", "program_incremental_cost_huf"):
             value = row.get(field, "")
             if value:
@@ -720,6 +725,8 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
                         errors.append(f"negative/non-finite {field} for B10 baseline {project_id}")
         if row.get("counterfactual_cost_huf", "") != expected["cost"]:
             errors.append(f"cost verdict mismatch for B10 baseline {project_id}")
+        if row.get("counterfactual_cost_huf", "") and expected["project_source"] not in refs:
+            errors.append(f"exact B10-P4 cost requires its project/funding source: {project_id}")
         if row.get("program_incremental_cost_huf", ""):
             errors.append(f"B10-P4 cannot publish programme-incremental CAPEX: {project_id}")
 
