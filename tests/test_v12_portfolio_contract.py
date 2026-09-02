@@ -39,10 +39,22 @@ class V12PortfolioContractTests(unittest.TestCase):
             "incremental_capex_attribution.csv",
             "fiscal_headroom.csv",
         }
-        for name in template_names - {"priority_components.csv"}:
+        # B10-P4 replaces the temporary header-only baseline template with the
+        # two bounded observed RRF project applications.
+        for name in template_names - {"priority_components.csv", "baseline_infrastructure.csv"}:
             headers, rows = read_csv(REGISTRY / name)
             self.assertEqual(EXPECTED_HEADERS[name], headers)
             self.assertEqual([], rows, name)
+
+        headers, rows = read_csv(REGISTRY / "baseline_infrastructure.csv")
+        self.assertEqual(EXPECTED_HEADERS["baseline_infrastructure.csv"], headers)
+        self.assertEqual(
+            {
+                "RRF-6.1.1-21-2022-00006",
+                "RRF-6.1.1-21-2022-00001",
+            },
+            {row["project_id"] for row in rows},
+        )
 
         headers, rows = read_csv(REGISTRY / "priority_components.csv")
         self.assertEqual(EXPECTED_HEADERS["priority_components.csv"], headers)
