@@ -1,9 +1,9 @@
 name: B10-P5 finalize
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/b10-p5-incremental-reinforcement-attribution
+      - main
 
 permissions:
   contents: write
@@ -28,8 +28,6 @@ jobs:
           import io
 
           root = Path('.')
-
-          # README: append one bounded P5 section exactly once.
           readme = root / 'modules/B10/README.md'
           text = readme.read_text(encoding='utf-8')
           marker = '## B10-P5 — programme-incremental reinforcement attribution gate'
@@ -37,7 +35,6 @@ jobs:
               text += '''\n\n## B10-P5 — programme-incremental reinforcement attribution gate\n\nB10-P5 keeps published DSO headroom screening separate from authoritative\nreinforcement determination and programme CAPEX. `WITHIN_PUBLISHED_HEADROOM_SCREENING`\nand `EXCEEDS_PUBLISHED_HEADROOM_SCREENING` are screening results only: neither\ncan prove `NO_REINFORCEMENT_REQUIRED` or `REINFORCEMENT_REQUIRED`. Exact\nreinforcement scope/capacity/acceleration/upsize requires separately referenced\nDSO/MGT/network-study evidence bound to the same operator, `DSO_SUBSTATION`\nregion and horizon.\n\nNumeric programme-incremental CAPEX additionally requires exact project and\n`cost_component_id`, P3-compatible `COST` authority and claim-specific\n`PROGRAM_INCREMENTAL_COST`, `ACCELERATION_COST` or `UPSIZE_COST` support. A\ncustomer connection charge or total reinforcement-project cost is not\nautomatically programme CAPEX. The canonical P3 classifier and double-count\nguards remain unchanged.\n\nNo real P5 incremental ledger row is published: programme-demand-to-node mapping,\nprogramme-specific DSO/MGT reinforcement studies and separable incremental-cost\nevidence remain missing. `incremental_capex_attribution.csv` therefore remains\nheader-only, Q-B10-001 remains OPEN / PARTIALLY_BOUNDED, Q-B10-002 remains OPEN\nand B10 readiness remains 15.\n'''
               readme.write_text(text, encoding='utf-8')
 
-          # Source registry: append the one new official process authority.
           sources = root / 'registry/sources.csv'
           stext = sources.read_text(encoding='utf-8')
           sid = 'SRC-B10-MVM-DEMASZ-NETWORK-BUILD-MGT-2026'
@@ -45,19 +42,14 @@ jobs:
               output = io.StringIO()
               writer = csv.writer(output, lineterminator='')
               writer.writerow([
-                  sid,
-                  'B10',
+                  sid, 'B10',
                   'Új csatlakozás, teljesítménynövelés, fázisbővítés hálózatépítéssel',
                   'MVM Démász Áramhálózati Kft.',
                   'https://mvmhalozat.hu/aram/oldalak/1477',
-                  'undated',
-                  '2026-09-02',
+                  'undated', '2026-09-02',
                   'current official connection/network-build process',
-                  'P1',
-                  'OBS',
-                  'HIGH',
-                  'Official public web page; reuse terms require verification',
-                  '',
+                  'P1', 'OBS', 'HIGH',
+                  'Official public web page; reuse terms require verification', '',
                   'Official DSO process authority: insufficient existing network may require network construction; after request/site assessment the MGT states required works, expected implementation deadline and estimated payable costs, later refined after detailed design. This is not programme-causality evidence, not a nationwide reinforcement-cost dataset, and customer-payable connection cost is not automatically programme-incremental CAPEX.'
               ])
               with sources.open('a', encoding='utf-8', newline='') as handle:
@@ -65,7 +57,6 @@ jobs:
                       handle.write('\n')
                   handle.write(output.getvalue() + '\n')
 
-          # module_status: preserve readiness 15, update only B10 note.
           module_status = root / 'registry/module_status.csv'
           mtext = module_status.read_text(encoding='utf-8')
           old = 'B10,Hálózatfejlesztés,B01;B08;B09,IN_PROGRESS,15,"B10-P1/P2 retain source-native MVM DEMASZ and OPUS TITÁSZ headroom boundaries. B10-P3 adds the fail-closed baseline infrastructure authority and explicit WITHOUT_PROGRAM/WITH_PROGRAM attribution contract, evidence hierarchy and double-count guard. B10-P4 applies that contract to exactly two observed completed RRF baseline projects at DSO_SERVICE_AREA grain; incremental CAPEX remains unclaimed. No national DSO coverage, county/DSO mapping, reinforcement or national readiness authority."'
@@ -74,7 +65,6 @@ jobs:
               raise SystemExit('module_status B10 anchor missing')
           module_status.write_text(mtext.replace(old, new, 1), encoding='utf-8')
 
-          # Q-B10-001: same OPEN status, only bounded-note advancement.
           oq = root / 'registry/open_questions.csv'
           qtext = oq.read_text(encoding='utf-8')
           old_q = 'Q-B10-001,B10,CRITICAL,"Mely infrastruktúra-elemek tekintendők ténylegesen program nélküli baseline-nak, és mi a csak a programhoz rendelhető inkrementális költség?","Meghatározza a hálózati CAPEX, fiskális hatás és a program nettó többletköltségeit.","Szerződéses, költségvetési, kivitelezési és hálózati státuszok bizonyíték-alapú ledgerje régiónként és időpont szerint.",OPEN,research,"B10-P3 részlegesen körülhatárolta a canonical státuszcsaládot, evidence hierarchy-t, WITHOUT_PROGRAM/WITH_PROGRAM counterfactualt és double-count guardot; B10-P4 ezt két megfigyelt, befejezett RRF baseline projekten alkalmazza. A teljes project inventory és numerikus programme-incremental CAPEX továbbra is Q."'
@@ -83,32 +73,24 @@ jobs:
               raise SystemExit('Q-B10-001 anchor missing')
           oq.write_text(qtext.replace(old_q, new_q, 1), encoding='utf-8')
 
-          # Validator: narrow P5 additions only.
           validator = root / 'tools/validate_registry.py'
           v = validator.read_text(encoding='utf-8')
           replacements = [
-              ('"""Validate the B10-P3 contract and the two bounded B10-P4 rows."""',
-               '"""Validate B10-P3/P4 truth plus the B10-P5 fail-closed registry boundary."""'),
-              ('errors.append("B10-P3 must preserve readiness at 15")',
-               'errors.append("B10-P5 must preserve readiness at 15")'),
-              ('if "B10-P3" not in b10.get("gate_note", "") or "B10-P4" not in b10.get("gate_note", ""):\n                errors.append("B10 module gate note must name B10-P3 and B10-P4")',
-               'if any(name not in b10.get("gate_note", "") for name in ("B10-P3", "B10-P4", "B10-P5")):\n                errors.append("B10 module gate note must name B10-P3, B10-P4 and B10-P5")'),
-              ('errors.append("B10-P4 incremental_capex_attribution.csv must remain header-only")',
-               'errors.append("B10-P5 incremental_capex_attribution.csv must remain header-only")'),
-              ('errors.append("B10-P3 cannot publish national regional_readiness")',
-               'errors.append("B10-P5 cannot publish national regional_readiness")'),
+              ('"""Validate the B10-P3 contract and the two bounded B10-P4 rows."""', '"""Validate B10-P3/P4 truth plus the B10-P5 fail-closed registry boundary."""'),
+              ('errors.append("B10-P3 must preserve readiness at 15")', 'errors.append("B10-P5 must preserve readiness at 15")'),
+              ('if "B10-P3" not in b10.get("gate_note", "") or "B10-P4" not in b10.get("gate_note", ""):\n                errors.append("B10 module gate note must name B10-P3 and B10-P4")', 'if any(name not in b10.get("gate_note", "") for name in ("B10-P3", "B10-P4", "B10-P5")):\n                errors.append("B10 module gate note must name B10-P3, B10-P4 and B10-P5")'),
+              ('errors.append("B10-P4 incremental_capex_attribution.csv must remain header-only")', 'errors.append("B10-P5 incremental_capex_attribution.csv must remain header-only")'),
+              ('errors.append("B10-P3 cannot publish national regional_readiness")', 'errors.append("B10-P5 cannot publish national regional_readiness")'),
           ]
           for old_v, new_v in replacements:
               if old_v not in v:
                   raise SystemExit(f'validator anchor missing: {old_v[:60]}')
               v = v.replace(old_v, new_v, 1)
-
           anchor = '''    for source_id in required_p4_sources:\n        row = next((item for item in source_rows if item.get("source_id") == source_id), None)\n        if row is None:\n            errors.append(f"missing required B10-P4 source authority: {source_id}")\n        elif row.get("evidence_status") != "OBS":\n            errors.append(f"B10-P4 source authority must be OBS: {source_id}")\n'''
           addition = anchor + '''    required_p5_source = "SRC-B10-MVM-DEMASZ-NETWORK-BUILD-MGT-2026"\n    p5_source = next((item for item in source_rows if item.get("source_id") == required_p5_source), None)\n    if p5_source is None:\n        errors.append(f"missing required B10-P5 process authority: {required_p5_source}")\n    elif p5_source.get("evidence_status") != "OBS":\n        errors.append("B10-P5 MVM process authority must remain source-native OBS")\n\n'''
           if anchor not in v:
               raise SystemExit('validator P4 source anchor missing')
-          v = v.replace(anchor, addition, 1)
-          validator.write_text(v, encoding='utf-8')
+          validator.write_text(v.replace(anchor, addition, 1), encoding='utf-8')
           PY
       - name: Validate P5 targeted
         run: python -m unittest tests.test_b10_p5_incremental_reinforcement -v
