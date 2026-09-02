@@ -178,3 +178,10 @@ programme-specific DSO/MGT reinforcement studies and separable incremental-cost
 evidence remain missing. `incremental_capex_attribution.csv` therefore remains
 header-only, Q-B10-001 remains OPEN / PARTIALLY_BOUNDED, Q-B10-002 remains OPEN
 and B10 readiness remains 15.
+
+
+## B10-P6 — project delivery timing evidence gate
+
+B10-P6 separates source-native planned/expected completion dates, observed actual completion dates, retrospective schedule variance and future completion probability. A variance is DER only for a verified ex-ante target paired with separately evidenced actual completion for the same project/operator. A live current project page may preserve a planned date as OBS, but without a version-pinned pre-completion snapshot it cannot mint historical forecast-performance evidence.
+
+The bounded ledger covers the two P4 RRF projects. OPUS has a dated 2024-09-30 ex-ante source for target 2026-04-03 and completion 2026-06-15, so 73 days is DER. MVM's current page states target 2026-04-30 and completion is 2026-06-15, but its target snapshot is CURRENT_PAGE_ONLY, so variance remains blank/Q. No numeric completion probability is published. Q-B10-002 stays OPEN / PARTIALLY_BOUNDED and readiness stays 15.

@@ -203,6 +203,12 @@ EXPECTED_HEADERS = {
         "status",
         "notes",
     ],
+    "project_delivery_timing.csv": [
+        "timing_id", "project_id", "network_operator", "target_claim_type", "target_date",
+        "target_snapshot_status", "actual_completion_date", "schedule_variance_days",
+        "schedule_variance_status", "completion_probability", "completion_probability_status",
+        "source_ids", "evidence_status", "status", "notes",
+    ],
     "fiscal_headroom.csv": [
         "fiscal_year",
         "earmark_id",
@@ -641,7 +647,7 @@ FORMULA_ID_PATTERN = re.compile(r"FORM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 
 
 def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
-    """Validate B10-P3/P4 truth plus the B10-P5 fail-closed registry boundary."""
+    """Validate B10-P3/P4/P5 truth plus the B10-P6 timing boundary."""
     module_path = REGISTRY / "module_status.csv"
     if module_path.is_file():
         _, module_rows = read_csv(module_path)
@@ -650,9 +656,9 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append("missing B10 module status row")
         else:
             if b10.get("readiness_percent") != "15":
-                errors.append("B10-P5 must preserve readiness at 15")
-            if any(name not in b10.get("gate_note", "") for name in ("B10-P3", "B10-P4", "B10-P5")):
-                errors.append("B10 module gate note must name B10-P3, B10-P4 and B10-P5")
+                errors.append("B10-P6 must preserve readiness at 15")
+            if any(name not in b10.get("gate_note", "") for name in ("B10-P3", "B10-P4", "B10-P5", "B10-P6")):
+                errors.append("B10 module gate note must name B10-P3, B10-P4, B10-P5 and B10-P6")
 
     baseline_path = REGISTRY / "baseline_infrastructure.csv"
     if not baseline_path.is_file():
@@ -777,6 +783,38 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
         errors.append(f"missing required B10-P5 process authority: {required_p5_source}")
     elif p5_source.get("evidence_status") != "OBS":
         errors.append("B10-P5 MVM process authority must remain source-native OBS")
+
+    required_p6_source = "SRC-B10-OPUS-TITASZ-RRF-TIMING-2024"
+    p6_source = next((item for item in source_rows if item.get("source_id") == required_p6_source), None)
+    if p6_source is None:
+        errors.append(f"missing required B10-P6 timing authority: {required_p6_source}")
+    elif p6_source.get("evidence_status") != "OBS" or p6_source.get("published_at") != "2024-09-30":
+        errors.append("B10-P6 OPUS timing authority must remain dated source-native OBS")
+
+    timing_path = REGISTRY / "project_delivery_timing.csv"
+    if not timing_path.is_file():
+        errors.append("missing B10 registry file: project_delivery_timing.csv")
+    else:
+        _, timing_rows = read_csv(timing_path)
+        expected = {
+            "RRF-6.1.1-21-2022-00006": ("MVM DEMASZ", "PLANNED_COMPLETION", "2026-04-30", "CURRENT_PAGE_ONLY", "2026-06-15", "", "Q", ("SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026", "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026")),
+            "RRF-6.1.1-21-2022-00001": ("OPUS TITÁSZ", "EXPECTED_COMPLETION", "2026-04-03", "EX_ANTE_VERIFIED", "2026-06-15", "73", "DER", ("SRC-B10-OPUS-TITASZ-RRF-TIMING-2024", "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026")),
+        }
+        seen = set()
+        for row in timing_rows:
+            pid = row.get("project_id", ""); exp = expected.get(pid)
+            if exp is None or pid in seen:
+                errors.append(f"unexpected/duplicate B10-P6 timing project: {pid!r}"); continue
+            seen.add(pid)
+            operator, claim, target, snapshot, actual, variance, variance_status, refs_expected = exp
+            if (row.get("network_operator"), row.get("target_claim_type"), row.get("target_date"), row.get("target_snapshot_status"), row.get("actual_completion_date"), row.get("schedule_variance_days"), row.get("schedule_variance_status")) != (operator, claim, target, snapshot, actual, variance, variance_status):
+                errors.append(f"B10-P6 timing truth mismatch: {pid}")
+            if row.get("completion_probability") or row.get("completion_probability_status") != "Q_NO_CALIBRATED_DELIVERY_MODEL":
+                errors.append(f"B10-P6 probability gate mismatch: {pid}")
+            refs = tuple(x for x in row.get("source_ids", "").split(";") if x)
+            if refs != refs_expected: errors.append(f"B10-P6 timing provenance mismatch: {pid}")
+            if row.get("evidence_status") != "DER" or row.get("status") != "PARTIALLY_BOUNDED": errors.append(f"B10-P6 timing row status mismatch: {pid}")
+        if seen != set(expected) or len(timing_rows) != 2: errors.append("B10-P6 must contain exactly the two bounded RRF timing projects")
 
 
 
