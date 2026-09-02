@@ -215,7 +215,7 @@ class B10P15ServiceAreaMembershipTests(unittest.TestCase):
         self.assertFalse(hasattr(decision, "hosting_capacity_mw"))
 
     def test_service_area_id_must_preserve_canonical_identity(self):
-        with self.assertRaisesRegex(B10ServiceAreaMembershipError, "SERVICE_AREA"):
+        with self.assertRaisesRegex(B10ServiceAreaMembershipError, "service_area_id"):
             ServiceAreaMembershipRecord(
                 settlement_name="Kecskemét",
                 ksh_settlement_code="26684",
