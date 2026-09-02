@@ -641,7 +641,7 @@ FORMULA_ID_PATTERN = re.compile(r"FORM-(B(?:0[1-9]|1[0-9]|20))-[A-Z0-9-]+")
 
 
 def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
-    """Validate the B10-P3 contract and the two bounded B10-P4 rows."""
+    """Validate B10-P3/P4 truth plus the B10-P5 fail-closed registry boundary."""
     module_path = REGISTRY / "module_status.csv"
     if module_path.is_file():
         _, module_rows = read_csv(module_path)
@@ -650,9 +650,9 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append("missing B10 module status row")
         else:
             if b10.get("readiness_percent") != "15":
-                errors.append("B10-P3 must preserve readiness at 15")
-            if "B10-P3" not in b10.get("gate_note", "") or "B10-P4" not in b10.get("gate_note", ""):
-                errors.append("B10 module gate note must name B10-P3 and B10-P4")
+                errors.append("B10-P5 must preserve readiness at 15")
+            if any(name not in b10.get("gate_note", "") for name in ("B10-P3", "B10-P4", "B10-P5")):
+                errors.append("B10 module gate note must name B10-P3, B10-P4 and B10-P5")
 
     baseline_path = REGISTRY / "baseline_infrastructure.csv"
     if not baseline_path.is_file():
@@ -739,7 +739,7 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
     else:
         _, incremental_rows = read_csv(incremental_path)
         if incremental_rows:
-            errors.append("B10-P4 incremental_capex_attribution.csv must remain header-only")
+            errors.append("B10-P5 incremental_capex_attribution.csv must remain header-only")
 
     for filename in ("regional_readiness.csv",):
         path = REGISTRY / filename
@@ -747,7 +747,7 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
             _, rows = read_csv(path)
             for row in rows:
                 if row.get("region_type") == "NATIONAL":
-                    errors.append("B10-P3 cannot publish national regional_readiness")
+                    errors.append("B10-P5 cannot publish national regional_readiness")
                 if row.get("evidence_status") not in ALLOWED_EVIDENCE_STATUS:
                     errors.append(f"invalid B10 readiness evidence status: {row.get('region_id')!r}")
 
@@ -771,6 +771,13 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append(f"missing required B10-P4 source authority: {source_id}")
         elif row.get("evidence_status") != "OBS":
             errors.append(f"B10-P4 source authority must be OBS: {source_id}")
+    required_p5_source = "SRC-B10-MVM-DEMASZ-NETWORK-BUILD-MGT-2026"
+    p5_source = next((item for item in source_rows if item.get("source_id") == required_p5_source), None)
+    if p5_source is None:
+        errors.append(f"missing required B10-P5 process authority: {required_p5_source}")
+    elif p5_source.get("evidence_status") != "OBS":
+        errors.append("B10-P5 MVM process authority must remain source-native OBS")
+
 
 
 def read_csv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
