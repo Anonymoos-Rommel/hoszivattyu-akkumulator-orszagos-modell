@@ -5,7 +5,7 @@ Canonical base: `a5db422f65106e2df901c33998c80e706b55600e`
 
 ## Core correction
 
-P18 used an intentionally conservative repository-publication boundary. P19 narrows that boundary so that ordinary public facts are not treated as unusable merely because the source website or PDF carries copyright/republication terms.
+P18 used an intentionally conservative repository-publication boundary. P19 narrows that boundary so ordinary public facts are not treated as unusable merely because the source website or PDF carries copyright/republication terms.
 
 The current rule is:
 
@@ -15,7 +15,7 @@ and independently:
 
 `SOURCE-PUBLISHED NODE SET != COMPLETE OPERATOR NODE INVENTORY`
 
-A station name, source-native code and voltage identity publicly published by a DSO may therefore be materialized as an attributed fact when the exact fact is supported by the source. P19 still does not authorize copying the source document layout, graphics, prose or a full unrelated source database, and it does not convert a published headroom list into an exhaustive physical network inventory.
+A station name, source-native code and source-distinguished voltage identity may therefore be stored as an attributed public fact when the exact fact is supported by the DSO publication. P19 still does not authorize copying the original document layout, graphics or prose, and does not convert a published headroom list into an exhaustive physical network inventory.
 
 ## MVM Démász
 
@@ -23,15 +23,18 @@ Official source:
 
 `https://mvmhalozat.hu/attachments/41914`
 
-Fresh 2026-09-03 text and rendered-page inspection agree on the station/code/voltage rows. P19 materializes 43 source-published node-identity rows into `registry/dso_node_inventory.csv`.
+Fresh 2026-09-03 text and rendered-page inspection agree on the station/code/voltage rows. P19 stores 43 attributed source-published node-identity facts in:
 
-Only identity facts are materialized here:
+`registry/dso_published_node_facts.csv`
+
+The fact registry preserves:
 
 - operator;
 - service area;
 - station / switching-station label;
 - four-letter source code;
-- voltage grain where the source distinguishes it.
+- voltage grain where the source distinguishes it;
+- exact source lineage.
 
 The source also publishes current/five-year N-1 capacity, winter-evening demand and indicative free capacity. Those P1 headroom semantics remain separate from P19 node identity and are not used as proof of inventory completeness, connection permission, reinforcement or programme CAPEX.
 
@@ -41,23 +44,27 @@ Official source:
 
 `https://www.opustitasz.hu/storage/documents/ugyfelek/halozati-szolgaltatasok/Al%C3%A1llom%C3%A1sok_szabad_kapacit%C3%A1sai.pdf`
 
-The current served PDF still has a revision/render disagreement:
+The currently served PDF still has a revision/render disagreement:
 
 - extracted text reports `Érvényes 2026.07.22-től` and DBDK five-year capacity `12,1 MW`;
 - rendered page reports `Érvényes 2026.04.01-től` and DBDK five-year capacity `14,8 MW`.
 
-P19 therefore does **not** choose a current capacity value or revision date.
+P19 therefore does **not** choose a current capacity value or revision date from that disagreement.
 
-However, the code/name node identities are common to the inspected representations. P19 materializes 48 code/name identity rows while keeping the capacity/version layer fail-closed. The two DEBR voltage-specific rows remain distinct because the source itself distinguishes `Debrecen OVIT 11 kV` and `Debrecen OVIT 22 kV`.
+However, the inspected representations support the same code/name node identities. P19 stores 48 attributed code/name identity facts while keeping the capacity/version layer fail-closed. The two DEBR voltage-specific rows remain distinct because the source itself distinguishes `Debrecen OVIT 11 kV` and `Debrecen OVIT 22 kV`.
 
 ## Repository effect
 
-`registry/dso_node_inventory.csv` is no longer header-only. It contains 91 attributed `NODE_IDENTITY_PROVEN` rows:
+`registry/dso_published_node_facts.csv` contains 91 attributed `NODE_IDENTITY_PROVEN` fact rows:
 
-- 43 MVM Démász source-published identities;
-- 48 OPUS TITÁSZ source-published identities.
+- 43 MVM Démász facts;
+- 48 OPUS TITÁSZ facts.
 
-This is a bounded **published node subset**, not a national node inventory.
+This registry is deliberately separate from `registry/dso_node_inventory.csv`, which remains header-only. The distinction is intentional:
+
+`ATTRIBUTED PUBLISHED NODE FACT != CANONICAL COMPLETE NODE INVENTORY`
+
+Thus P19 makes the public facts usable by later exact-node logic without silently asserting national topology completeness.
 
 The following remain Q:
 
@@ -77,6 +84,6 @@ P19 does not yet populate `registry/dso_service_area_membership_crosswalk.csv`. 
 
 ## Closure effect
 
-The old blocker `PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED` is no longer valid for atomic node-identity facts and is removed from the current B10 closure assessment.
+P19 does not alter the P18 canonical full-node-inventory closure gate. The old P18 `PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED` label continues to describe full canonical node-inventory materialization, not whether individual public facts may be cited or used.
 
-B10 remains `IN_PROGRESS` and closure-blocked because materialized source-published node subsets do not prove complete national topology or programme-node mapping. The evidence gain is nevertheless material, so readiness moves from 15% to 20%.
+B10 therefore remains `IN_PROGRESS`, readiness 15%, and closure-blocked. P19 is an evidence-availability correction, not a completeness claim.
