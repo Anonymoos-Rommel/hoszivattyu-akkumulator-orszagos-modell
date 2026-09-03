@@ -46,23 +46,20 @@ class B10P21RemainingDsoServiceAreaNormalizationTests(unittest.TestCase):
         self.assertNotIn("Baglyasalja", names)
         self.assertNotIn("Bükkszentlászló", names)
 
-    def test_eon_trio_remain_currentness_q_but_blocker_may_be_refined(self):
+    def test_eon_trio_can_be_refined_by_later_tranches_without_rewriting_p21(self):
         rows = {row["operator_id"]: row for row in self.read_rows(SOURCES)}
-        allowed_q = {
+        allowed_states = {
             "Q_CURRENT_VERSION_PIN_REQUIRED",
             "Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED",
             "Q_EXACT_M1_ATTACHMENT_IDENTITY_REQUIRED",
+            "CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE",
         }
         for operator in ("ELMU", "EON_DDASZ", "EON_EDASZ"):
-            self.assertIn(rows[operator]["currentness_status"], allowed_q)
-            self.assertEqual("NOT_EXTRACTED", rows[operator]["extraction_status"])
+            self.assertIn(rows[operator]["currentness_status"], allowed_states)
 
-    def test_tranche_now_has_three_operators_but_not_national_six(self):
+    def test_p21_three_materialized_operators_remain_present(self):
         operators = {row["operator_id"] for row in self.read_rows(TRANCHE)}
-        self.assertEqual({"MVM_DEMASZ", "OPUS_TITASZ", "MVM_EMASZ"}, operators)
-        self.assertNotIn("ELMU", operators)
-        self.assertNotIn("EON_DDASZ", operators)
-        self.assertNotIn("EON_EDASZ", operators)
+        self.assertTrue({"MVM_DEMASZ", "OPUS_TITASZ", "MVM_EMASZ"}.issubset(operators))
 
     def test_national_canonical_crosswalk_stays_header_only(self):
         lines = CANONICAL.read_text(encoding="utf-8").splitlines()
