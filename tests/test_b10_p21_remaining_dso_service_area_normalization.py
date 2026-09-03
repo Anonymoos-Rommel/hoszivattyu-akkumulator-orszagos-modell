@@ -51,6 +51,7 @@ class B10P21RemainingDsoServiceAreaNormalizationTests(unittest.TestCase):
         allowed_q = {
             "Q_CURRENT_VERSION_PIN_REQUIRED",
             "Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED",
+            "Q_EXACT_M1_ATTACHMENT_IDENTITY_REQUIRED",
         }
         for operator in ("ELMU", "EON_DDASZ", "EON_EDASZ"):
             self.assertIn(rows[operator]["currentness_status"], allowed_q)
