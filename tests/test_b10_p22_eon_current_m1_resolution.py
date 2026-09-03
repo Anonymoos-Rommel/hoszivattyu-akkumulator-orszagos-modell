@@ -86,7 +86,8 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
         self.assertIn("CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE", text)
         self.assertIn("DER != OBS", text)
         self.assertIn("six operators", text)
-        self.assertIn("national canonical crosswalk remains header-only", text)
+        self.assertIn("registry/dso_service_area_membership_crosswalk.csv", text)
+        self.assertIn("remains header-only", text)
         self.assertIn("readiness remains **15**", text)
 
 
