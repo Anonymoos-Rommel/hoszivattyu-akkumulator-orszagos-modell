@@ -234,14 +234,22 @@ class B10P15ServiceAreaMembershipTests(unittest.TestCase):
             {"ELMU", "EON_DDASZ", "EON_EDASZ", "MVM_DEMASZ", "MVM_EMASZ", "OPUS_TITASZ"},
             {row["operator_id"] for row in rows},
         )
-        self.assertTrue(all(row["extraction_status"] == "NOT_EXTRACTED" for row in rows))
+        by_operator = {row["operator_id"]: row for row in rows}
+        self.assertEqual("PARTIAL_NORMALIZED_TRANCHE", by_operator["MVM_DEMASZ"]["extraction_status"])
+        self.assertEqual("PARTIAL_NORMALIZED_TRANCHE", by_operator["OPUS_TITASZ"]["extraction_status"])
         eon = [row for row in rows if row["operator_id"] in {"ELMU", "EON_DDASZ", "EON_EDASZ"}]
         self.assertTrue(all(row["currentness_status"] == "Q_CURRENT_VERSION_PIN_REQUIRED" for row in eon))
 
-    def test_crosswalk_registry_remains_header_only(self):
-        lines = (ROOT / "registry/dso_service_area_membership_crosswalk.csv").read_text(encoding="utf-8").splitlines()
-        self.assertEqual(1, len(lines))
-        self.assertTrue(lines[0].startswith("ksh_settlement_code,settlement_name,operator_id,"))
+    def test_crosswalk_registry_contains_only_proven_whole_settlement_rows(self):
+        with (ROOT / "registry/dso_service_area_membership_crosswalk.csv").open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        self.assertGreaterEqual(len(rows), 60)
+        self.assertEqual({"MVM_DEMASZ", "OPUS_TITASZ"}, {row["operator_id"] for row in rows})
+        self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
+        self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
+        self.assertTrue(all(row["status"] == WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN for row in rows))
+        self.assertTrue(all(row["evidence_status"] == "OBS" for row in rows))
+        self.assertEqual(len(rows), len({row["ksh_settlement_code"] for row in rows}))
 
 
 if __name__ == "__main__":
