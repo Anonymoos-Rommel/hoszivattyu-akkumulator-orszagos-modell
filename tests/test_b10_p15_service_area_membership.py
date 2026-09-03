@@ -234,9 +234,12 @@ class B10P15ServiceAreaMembershipTests(unittest.TestCase):
             {"ELMU", "EON_DDASZ", "EON_EDASZ", "MVM_DEMASZ", "MVM_EMASZ", "OPUS_TITASZ"},
             {row["operator_id"] for row in rows},
         )
-        self.assertTrue(all(row["extraction_status"] == "NOT_EXTRACTED" for row in rows))
-        eon = [row for row in rows if row["operator_id"] in {"ELMU", "EON_DDASZ", "EON_EDASZ"}]
-        self.assertTrue(all(row["currentness_status"] == "Q_CURRENT_VERSION_PIN_REQUIRED" for row in eon))
+        by_operator = {row["operator_id"]: row for row in rows}
+        for operator in {"ELMU", "EON_DDASZ", "EON_EDASZ"}:
+            self.assertEqual("Q_CURRENT_VERSION_PIN_REQUIRED", by_operator[operator]["currentness_status"])
+            self.assertEqual("NOT_EXTRACTED", by_operator[operator]["extraction_status"])
+        for operator in {"MVM_DEMASZ", "MVM_EMASZ", "OPUS_TITASZ"}:
+            self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", by_operator[operator]["extraction_status"])
 
     def test_crosswalk_registry_remains_header_only(self):
         lines = (ROOT / "registry/dso_service_area_membership_crosswalk.csv").read_text(encoding="utf-8").splitlines()
