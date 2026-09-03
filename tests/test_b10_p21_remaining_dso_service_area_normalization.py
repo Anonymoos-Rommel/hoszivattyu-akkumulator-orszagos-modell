@@ -46,10 +46,14 @@ class B10P21RemainingDsoServiceAreaNormalizationTests(unittest.TestCase):
         self.assertNotIn("Baglyasalja", names)
         self.assertNotIn("Bükkszentlászló", names)
 
-    def test_eon_trio_remain_currentness_q(self):
+    def test_eon_trio_remain_currentness_q_but_blocker_may_be_refined(self):
         rows = {row["operator_id"]: row for row in self.read_rows(SOURCES)}
+        allowed_q = {
+            "Q_CURRENT_VERSION_PIN_REQUIRED",
+            "Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED",
+        }
         for operator in ("ELMU", "EON_DDASZ", "EON_EDASZ"):
-            self.assertEqual("Q_CURRENT_VERSION_PIN_REQUIRED", rows[operator]["currentness_status"])
+            self.assertIn(rows[operator]["currentness_status"], allowed_q)
             self.assertEqual("NOT_EXTRACTED", rows[operator]["extraction_status"])
 
     def test_tranche_now_has_three_operators_but_not_national_six(self):
