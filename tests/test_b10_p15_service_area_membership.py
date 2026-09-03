@@ -238,6 +238,7 @@ class B10P15ServiceAreaMembershipTests(unittest.TestCase):
         allowed_eon_q = {
             "Q_CURRENT_VERSION_PIN_REQUIRED",
             "Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED",
+            "Q_EXACT_M1_ATTACHMENT_IDENTITY_REQUIRED",
         }
         for operator in {"ELMU", "EON_DDASZ", "EON_EDASZ"}:
             self.assertIn(by_operator[operator]["currentness_status"], allowed_eon_q)
