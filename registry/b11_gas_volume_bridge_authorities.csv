@@ -1,0 +1,6 @@
+authority_id,module_id,claim,source_ref,evidence_status,authority_status,notes
+AUTH-B11-P3-B02-GAS-POPULATION,B11,CENSUS_GAS_USING_DWELLING_POPULATION,SRC-B02-KSH-CENSUS-API-2022,OBS,PARTIAL,"WBL011 proves heating/fuel population counts at its own grain; multi-fuel dwellings are not decomposed into gas share without separate evidence."
+AUTH-B11-P3-B06-USEFUL-HEAT,B11,USEFUL_SPACE_HEAT_KWH_YEAR,SRC-B06-KSH-ENERGY-BASELINE-2025,DER,PARTIAL,"B06 has a modelled annual useful-space-heat input/output path; full archetype joint and real programme population remain Q."
+AUTH-B11-P3-GAS-APPLIANCE-EFFICIENCY,B11,SEASONAL_GAS_APPLIANCE_EFFICIENCY,,Q,Q_REQUIRED,"No canonical Hungarian household/archetype seasonal boiler-efficiency distribution is presently established; no default efficiency is permitted."
+AUTH-B11-P3-GAS-HEATING-VALUE,B11,GAS_LOWER_HEATING_VALUE_MJ_M3,SRC-B03-FGSZ-GAS-QUALITY-2026;SRC-B03-MVM-GAS-QUALITY-2026,OBS,PARTIAL,"Authority exists for point/period-specific gas quality, but no national constant or programme-aligned numeric snapshot is authorized."
+AUTH-B11-P3-COUNTY-UTILITY-CONTROL,B11,COUNTY_HOUSEHOLD_GAS_SALES_CONTROL,SRC-B11-KSH-TERSTAT-610-2024,OBS,CONTROL_ONLY,"Observed county utility sales are reconciliation controls only and may not be allocated pro rata to archetypes or programme participants."
