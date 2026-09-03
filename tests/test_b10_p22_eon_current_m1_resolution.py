@@ -27,8 +27,9 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
             self.assertIn(source_id, rows)
             self.assertEqual(status, rows[source_id]["currentness_status"])
             self.assertEqual("OFFICIAL_MEKH_BUSINESS_RULE_APPROVAL_DECISION", rows[source_id]["source_kind"])
+            self.assertIn("WITH_ATTACHMENTS", rows[source_id]["authorizes"])
 
-    def test_2026_compliance_reports_are_corroboration_not_current_selector(self):
+    def test_2026_compliance_reports_are_corroboration_not_exact_selector(self):
         rows = {row["source_id"]: row for row in self.rows(AUTHORITIES)}
         for source_id in (
             "SRC-B10-ELMU-COMPLIANCE-REPORT-2025-PUB-2026",
@@ -39,16 +40,25 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
             self.assertEqual("PUBLISHED_2026", rows[source_id]["currentness_status"])
             self.assertIn("ONLY", rows[source_id]["authorizes"])
 
-    def test_eon_live_landing_is_navigation_only(self):
+    def test_current_eon_landing_authority_is_proven_for_all_three(self):
         rows = {row["source_id"]: row for row in self.rows(AUTHORITIES)}
+        hmke = rows["SRC-B10-EON-HMKE-CURRENT-EUSZ-LANDING-2026"]
+        self.assertEqual("CURRENT_2026_DOCUMENT", hmke["currentness_status"])
+        self.assertEqual(
+            "CURRENT_EUSZ_LANDING_FOR_ELMU_DDASZ_EDASZ_NOT_EXACT_M1_IDENTITY",
+            hmke["authorizes"],
+        )
         landing = rows["SRC-B10-EON-RULES-LANDING-2026"]
         self.assertEqual("CURRENT_PAGE_LIVE", landing["currentness_status"])
-        self.assertEqual("RULES_NAVIGATION_ONLY_NOT_EXACT_ATTACHMENT_BINDING", landing["authorizes"])
+        self.assertEqual(
+            "CURRENT_EUSZ_REPOSITORY_LOCATION_NOT_EXACT_ATTACHMENT_IDENTITY",
+            landing["authorizes"],
+        )
 
-    def test_eon_trio_have_narrowed_q_not_current_promotion(self):
+    def test_eon_trio_are_blocked_only_on_exact_m1_attachment_identity(self):
         rows = {row["operator_id"]: row for row in self.rows(SOURCES)}
         for operator in ("ELMU", "EON_DDASZ", "EON_EDASZ"):
-            self.assertEqual("Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED", rows[operator]["currentness_status"])
+            self.assertEqual("Q_EXACT_M1_ATTACHMENT_IDENTITY_REQUIRED", rows[operator]["currentness_status"])
             self.assertEqual("NOT_EXTRACTED", rows[operator]["extraction_status"])
 
     def test_no_eon_settlement_rows_are_promoted(self):
@@ -63,8 +73,9 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
 
     def test_document_states_exact_remaining_gate(self):
         text = DOC.read_text(encoding="utf-8")
-        self.assertIn("OFFICIAL HOSTING != REGULATORY APPROVAL != CURRENT LIVE ATTACHMENT BINDING", text)
-        self.assertIn("Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED", text)
+        self.assertIn("OFFICIAL HOSTING != REGULATORY APPROVAL != CURRENT EUSZ LANDING != EXACT M1 ATTACHMENT IDENTITY", text)
+        self.assertIn("Q_EXACT_M1_ATTACHMENT_IDENTITY_REQUIRED", text)
+        self.assertIn("current 2026 E.ON EÜSZ landing", text)
         self.assertIn("readiness remains **15**", text)
 
 
