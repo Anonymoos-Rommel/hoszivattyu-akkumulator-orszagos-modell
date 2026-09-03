@@ -9,7 +9,10 @@ whole-settlement DSO membership and partial-settlement usage-location authority.
 P16 separates a node-bearing publication from complete operator node inventory.
 P17 refines the remaining operator-specific node-source discovery blockers. P18
 separates public source access and external snapshot verification from reuse
-clearance and public-repository node-set materialization. The national normalized
+clearance and public-repository node-set materialization. P19 restores attributed
+public-node-fact use without promoting those facts to a complete inventory. P23
+pins the current MVM Emasz consumption node-bearing source and narrows the E.ON
+trio to exact 2026 consumption-publication URL questions. The national normalized
 membership crosswalk and node inventory remain unpopulated.
 """
 
@@ -179,15 +182,14 @@ class B10ClosureAssessment:
 
 
 def current_b10_closure_assessment() -> B10ClosureAssessment:
-    """Return the exact P18 audit of the current P1-P18 canonical B10 state.
+    """Return the exact P23 audit of the current canonical B10 state.
 
     P16 bounds exact node identity, node-bearing source authority and inventory
-    completeness as separate claims. P17 refines the unresolved DSO source
-    families. P18 records that the two bounded consumption-side node-set
-    publications are still external-only for public-repository materialization:
-    reuse is not cleared, and the fresh OPUS current-source inspection is also Q
-    because text extraction and the rendered page disagree. The normalized node
-    inventory therefore remains header-only and limiting nodes remain unresolved.
+    completeness as separate claims. P17 refined unresolved source families; P18
+    preserved the full-inventory/reuse boundary; P19 restored attributed public
+    node-fact materialization. P23 pins the MVM Emasz consumption-side table while
+    leaving the E.ON trio fail-closed at exact current 2026 publication URL. The
+    normalized node inventory remains header-only and limiting nodes unresolved.
     """
 
     acceptance = (
@@ -275,21 +277,25 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
                 "B10-P16",
                 "B10-P17",
                 "B10-P18",
+                "B10-P19",
+                "B10-P23",
                 "registry/dso_node_inventory_sources.csv",
+                "registry/dso_consumption_publication_authorities.csv",
+                "registry/dso_published_node_facts.csv",
+                "registry/dso_published_node_facts_p23.csv",
                 "registry/dso_published_node_set_materialization.csv",
                 "registry/dso_node_inventory.csv",
             ),
             (
                 "NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY",
-                "ELMU_CONSUMPTION_NODE_SOURCE_UNRESOLVED",
-                "EON_DDASZ_NODE_SOURCE_UNRESOLVED",
-                "EON_EDASZ_NODE_SOURCE_UNRESOLVED",
-                "MVM_EMASZ_OPERATOR_NODE_TABLE_UNRESOLVED",
+                "Q-B10-P23-ELMU-2026-CONSUMPTION-PUBLICATION-URL",
+                "Q-B10-P23-EON-DDASZ-2026-CONSUMPTION-PUBLICATION-URL",
+                "Q-B10-P23-EON-EDASZ-2026-CONSUMPTION-PUBLICATION-URL",
                 "PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED",
                 "HEADROOM_NODE_SET_NOT_INVENTORY_COMPLETENESS",
                 "NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY",
             ),
-            "P16 separates node-bearing sources from exhaustive inventories; P17 refines the four unresolved operator source families; P18 confirms that the two bounded consumption-side node sets are not cleared/currently safe for public-repository row materialization. The national node registry stays header-only and no real survivability study establishes binding programme nodes",
+            "P23 proves a bounded MVM Emasz consumption node-bearing source and preserves three exact E.ON 2026 publication-URL questions. Three bounded consumption node sets still do not prove six complete operator inventories, topology or binding programme nodes",
         ),
     )
 
@@ -311,7 +317,7 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         legacy_acceptance_mappings=CURRENT_LEGACY_ACCEPTANCE_MAPPINGS,
         blocking_refs=blockers,
         issue_should_close=False,
-        reason="P1-P16 establish the prior fail-closed B10 boundaries; P17 refines DSO node-source gaps and P18 separates source access from verified/cleared repository materialization, while national membership/node registries and programme-specific output evidence remain unresolved",
+        reason="P1-P23 establish fail-closed B10 boundaries and progressively stronger source coverage; P23 clears the MVM Emasz operator-node-table blocker but leaves exact E.ON 2026 publication URLs, national membership/node completeness and programme-specific output evidence unresolved",
     )
 
 
