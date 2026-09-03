@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ROOT / "registry/dso_node_inventory_sources.csv"
 FACTS = ROOT / "registry/dso_published_node_facts_p23.csv"
+AUTHORITIES = ROOT / "registry/dso_consumption_publication_authorities.csv"
 CANONICAL = ROOT / "registry/dso_node_inventory.csv"
 DOC = ROOT / "docs/source_packs/P23_B10_CONSUMPTION_NODE_PUBLICATION_EXPANSION.md"
 
@@ -45,6 +46,24 @@ def test_exact_45_emasz_public_node_identity_facts_are_materialized():
         assert node_id in by_id
 
 
+def test_current_law_proves_2026_mv_hv_publication_duty_but_not_operator_urls():
+    by_id = {row["authority_id"]: row for row in rows(AUTHORITIES)}
+    duty = by_id["SRC-B10-HU-VHR-8-7-CAPACITY-PUBLICATION-2026"]
+    assert duty["source_kind"] == "OFFICIAL_CURRENT_LEGAL_TEXT"
+    assert duty["authorizes"] == "MV_HV_SUBSTATION_CAPACITY_PUBLICATION_DUTY"
+    effective = by_id["SRC-B10-HU-VHR-126A6-EFFECTIVE-DATE-2026"]
+    assert effective["authorizes"] == "MV_HV_PUBLICATION_DUTY_EFFECTIVE_FROM_2026-01-01"
+    for authority_id in (
+        "Q-B10-P23-ELMU-2026-CONSUMPTION-PUBLICATION-URL",
+        "Q-B10-P23-EON-DDASZ-2026-CONSUMPTION-PUBLICATION-URL",
+        "Q-B10-P23-EON-EDASZ-2026-CONSUMPTION-PUBLICATION-URL",
+    ):
+        row = by_id[authority_id]
+        assert row["publication_url_status"] == "Q_2026_MANDATORY_CONSUMPTION_PUBLICATION_URL_UNRESOLVED"
+        assert row["publication_url"] == ""
+        assert "no compliance failure is claimed" in row["notes"]
+
+
 def test_eon_trio_blocker_is_narrowed_to_exact_2026_consumption_publication_url():
     by_operator = {row["operator_id"]: row for row in rows(SOURCES)}
     for operator in ("ELMU", "EON_DDASZ", "EON_EDASZ"):
@@ -70,7 +89,8 @@ def test_p23_document_preserves_mandatory_publication_and_completeness_boundarie
     text = DOC.read_text(encoding="utf-8")
     assert "MANDATORY PUBLICATION DUTY != PINNED PUBLICATION URL != NODE-BEARING SOURCE != COMPLETE OPERATOR NODE INVENTORY" in text
     assert "ATTRIBUTED PUBLIC NODE FACT != COMPLETE NETWORK TOPOLOGY" in text
-    assert "MVM_EMASZ_OPERATOR_NODE_TABLE_UNRESOLVED" in text
+    assert "SEARCH ABSENCE != PUBLICATION ABSENCE != NON-COMPLIANCE" in text
+    assert "126/A. § (6)" in text
     assert "Q_2026_MANDATORY_CONSUMPTION_PUBLICATION_URL_UNRESOLVED" in text
     assert "45 MVM Émász" in text
     assert "readiness remains **15**" in text
