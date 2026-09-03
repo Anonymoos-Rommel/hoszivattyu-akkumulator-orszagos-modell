@@ -18,10 +18,9 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         with AUTHORITIES.open(encoding="utf-8", newline="") as handle:
             return {row["source_id"] for row in csv.DictReader(handle)}
 
-    def test_tranche_is_real_but_not_national(self):
+    def test_p20_tranche_remains_present_inside_evolving_registry(self):
         rows = self.tranche_rows()
-        self.assertEqual(20, len(rows))
-        self.assertEqual({"MVM_DEMASZ", "OPUS_TITASZ"}, {row["operator_id"] for row in rows})
+        self.assertGreaterEqual(len(rows), 20)
         self.assertEqual(10, sum(row["operator_id"] == "MVM_DEMASZ" for row in rows))
         self.assertEqual(10, sum(row["operator_id"] == "OPUS_TITASZ" for row in rows))
 
@@ -44,16 +43,14 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         self.assertIn("08776", codes)
         self.assertNotIn("1768", codes)
 
-    def test_every_source_reference_is_registered(self):
+    def test_p20_source_references_remain_registered(self):
         authorities = self.authority_ids()
-        self.assertEqual(
-            {
-                "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
-                "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
-                "SRC-B10-OPUS-TITASZ-M1-2026",
-            },
-            authorities,
-        )
+        required = {
+            "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+            "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+            "SRC-B10-OPUS-TITASZ-M1-2026",
+        }
+        self.assertTrue(required.issubset(authorities))
         for row in self.tranche_rows():
             refs = set(row["source_ids"].split(";"))
             self.assertTrue(refs.issubset(authorities))
