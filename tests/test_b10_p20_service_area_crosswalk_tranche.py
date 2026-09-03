@@ -18,19 +18,30 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         with AUTHORITIES.open(encoding="utf-8", newline="") as handle:
             return {row["source_id"] for row in csv.DictReader(handle)}
 
+    def p20_rows(self):
+        return [row for row in self.tranche_rows() if row["operator_id"] in {"MVM_DEMASZ", "OPUS_TITASZ"}]
+
     def test_p20_tranche_remains_present_inside_evolving_registry(self):
         rows = self.tranche_rows()
         self.assertGreaterEqual(len(rows), 20)
         self.assertEqual(10, sum(row["operator_id"] == "MVM_DEMASZ" for row in rows))
         self.assertEqual(10, sum(row["operator_id"] == "OPUS_TITASZ" for row in rows))
 
-    def test_every_row_is_proven_whole_settlement_membership(self):
-        rows = self.tranche_rows()
+    def test_p20_rows_remain_observed_proven_whole_settlement_memberships(self):
+        rows = self.p20_rows()
+        self.assertEqual(20, len(rows))
         self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
         self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
         self.assertTrue(all(row["evidence_status"] == "OBS" for row in rows))
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
         self.assertTrue(all(row["service_area_id"] == f"{row['operator_id']}:SERVICE_AREA" for row in rows))
+
+    def test_evolving_tranche_allows_only_obs_or_der_proven_rows(self):
+        rows = self.tranche_rows()
+        self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
+        self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
+        self.assertTrue(all(row["evidence_status"] in {"OBS", "DER"} for row in rows))
+        self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
 
     def test_ksh_identifiers_are_canonical_five_digit_values(self):
         rows = self.tranche_rows()
