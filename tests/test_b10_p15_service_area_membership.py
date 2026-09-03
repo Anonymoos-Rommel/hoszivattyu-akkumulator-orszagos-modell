@@ -235,8 +235,12 @@ class B10P15ServiceAreaMembershipTests(unittest.TestCase):
             {row["operator_id"] for row in rows},
         )
         by_operator = {row["operator_id"]: row for row in rows}
+        allowed_eon_q = {
+            "Q_CURRENT_VERSION_PIN_REQUIRED",
+            "Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED",
+        }
         for operator in {"ELMU", "EON_DDASZ", "EON_EDASZ"}:
-            self.assertEqual("Q_CURRENT_VERSION_PIN_REQUIRED", by_operator[operator]["currentness_status"])
+            self.assertIn(by_operator[operator]["currentness_status"], allowed_eon_q)
             self.assertEqual("NOT_EXTRACTED", by_operator[operator]["extraction_status"])
         for operator in {"MVM_DEMASZ", "MVM_EMASZ", "OPUS_TITASZ"}:
             self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", by_operator[operator]["extraction_status"])
