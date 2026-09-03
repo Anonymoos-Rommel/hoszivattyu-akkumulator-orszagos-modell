@@ -11,8 +11,8 @@ def test_bridge_converts_useful_heat_to_gas_volume():
     result = derive_gas_volume(
         GasVolumeBridgeInputs(
             useful_heat_kwh_year=PhysicalEvidence(9000.0, "kWh/year", EvidenceStatus.DER, "B06"),
-            seasonal_appliance_efficiency=PhysicalEvidence(0.9, "fraction", EvidenceStatus.SCN, "fixture"),
-            gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3", EvidenceStatus.SCN, "fixture"),
+            seasonal_appliance_efficiency=PhysicalEvidence(0.9, "fraction_lhv", EvidenceStatus.SCN, "fixture"),
+            gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3_LHV", EvidenceStatus.SCN, "fixture"),
         )
     )
     assert round(result.gas_input_energy_kwh_year, 6) == 10000.0
@@ -25,8 +25,8 @@ def test_q_efficiency_blocks_numeric_output():
         derive_gas_volume(
             GasVolumeBridgeInputs(
                 useful_heat_kwh_year=PhysicalEvidence(9000.0, "kWh/year", EvidenceStatus.DER),
-                seasonal_appliance_efficiency=PhysicalEvidence(None, "fraction", EvidenceStatus.Q),
-                gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3", EvidenceStatus.SCN),
+                seasonal_appliance_efficiency=PhysicalEvidence(None, "fraction_lhv", EvidenceStatus.Q),
+                gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3_LHV", EvidenceStatus.SCN),
             )
         )
     except ValueError as exc:
@@ -35,34 +35,30 @@ def test_q_efficiency_blocks_numeric_output():
         raise AssertionError("Q efficiency must block derivation")
 
 
-def test_missing_heating_value_is_not_zero():
+def test_old_unqualified_fraction_unit_is_rejected():
     try:
         derive_gas_volume(
             GasVolumeBridgeInputs(
                 useful_heat_kwh_year=PhysicalEvidence(9000.0, "kWh/year", EvidenceStatus.DER),
                 seasonal_appliance_efficiency=PhysicalEvidence(0.9, "fraction", EvidenceStatus.SCN),
-                gas_lower_heating_value_mj_m3=PhysicalEvidence(None, "MJ/m3", EvidenceStatus.SCN),
+                gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3_LHV", EvidenceStatus.SCN),
             )
         )
     except ValueError as exc:
-        assert "missing/non-finite" in str(exc)
+        assert "fraction_lhv" in str(exc)
     else:
-        raise AssertionError("missing heating value must block derivation")
+        raise AssertionError("unqualified efficiency basis must be rejected")
 
 
-def test_invalid_efficiency_is_rejected():
-    try:
-        derive_gas_volume(
-            GasVolumeBridgeInputs(
-                useful_heat_kwh_year=PhysicalEvidence(9000.0, "kWh/year", EvidenceStatus.DER),
-                seasonal_appliance_efficiency=PhysicalEvidence(0.0, "fraction", EvidenceStatus.SCN),
-                gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3", EvidenceStatus.SCN),
-            )
+def test_lhv_efficiency_above_one_is_not_rejected_by_basis_blind_cap():
+    result = derive_gas_volume(
+        GasVolumeBridgeInputs(
+            useful_heat_kwh_year=PhysicalEvidence(10000.0, "kWh/year", EvidenceStatus.SCN),
+            seasonal_appliance_efficiency=PhysicalEvidence(1.02, "fraction_lhv", EvidenceStatus.SCN, "authorized-fixture"),
+            gas_lower_heating_value_mj_m3=PhysicalEvidence(36.0, "MJ/m3_LHV", EvidenceStatus.SCN),
         )
-    except ValueError as exc:
-        assert "efficiency" in str(exc)
-    else:
-        raise AssertionError("zero efficiency must be rejected")
+    )
+    assert result.gas_volume_m3_year > 0
 
 
 def test_county_utility_volume_cannot_allocate_archetypes():
