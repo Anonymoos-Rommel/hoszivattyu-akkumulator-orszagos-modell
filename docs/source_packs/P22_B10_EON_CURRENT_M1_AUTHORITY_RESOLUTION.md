@@ -8,85 +8,98 @@ Status date: 2026-09-03
 
 and
 
-`APPROVED INDEFINITELY != PROVEN EXACT CURRENT M1 FILE`
+`DER != OBS`
 
-P21 left ELMŰ Hálózati Kft., E.ON Dél-dunántúli Áramhálózati Zrt. and E.ON Észak-dunántúli Áramhálózati Zrt. at `Q_CURRENT_VERSION_PIN_REQUIRED` because only official E.ON-hosted 2025 M1 candidates had been pinned.
+P21 left ELMŰ Hálózati Kft., E.ON Dél-dunántúli Áramhálózati Zrt. and E.ON Észak-dunántúli Áramhálózati Zrt. at `Q_CURRENT_VERSION_PIN_REQUIRED`. P22 resolves that currentness blocker through an approved-package revision-lineage proof, without pretending that the dynamic landing exposes a direct machine-readable file selector.
 
-P22 narrows that uncertainty in two stages.
-
-## Regulatory package approval proven
+## 1. Regulatory package approval
 
 ### ELMŰ Hálózati Kft.
 
-- official M1 candidate: `ELMu_elo_usz_melleklet_20250410.pdf`;
-- MEKH approval decision: H1728/2025, dated 2025-06-13;
-- the decision approves the consolidated distribution business-rule package with appendices and attachments for an indefinite duration;
-- a 2026-published ELMŰ compliance report corroborates that the business rules were modified during 2025.
+- M1 attachment revision: `ELMu_elo_usz_melleklet_20250410.pdf`;
+- MEKH application received: 2025-04-11, VFEO/697-1/2025;
+- MEKH approval: H1728/2025, 2025-06-13;
+- approval covers the consolidated EÜSZ package with appendices and attachments for an indefinite duration;
+- the ELMŰ EÜSZ main body states that operating-area administrative units are listed in M1;
+- an official E.ON H1728 content summary explicitly identifies territorial-jurisdiction modification in M1.
 
 ### E.ON Dél-dunántúli Áramhálózati Zrt.
 
-- official M1 candidate: `EDE_elo_usz_melleklet_20241209 (v1).pdf`;
-- MEKH approval decision: H442/2025, dated 2025-02-13;
-- the decision approves the consolidated distribution business-rule package with appendices and attachments for an indefinite duration and requires publication on the operator website;
-- a 2026-published compliance report corroborates the 2025 business-rule modification.
+- M1 attachment revision: `EDE_elo_usz_melleklet_20241209 (v1).pdf`;
+- EÜSZ main-body revision: `20241209`;
+- main body explicitly states that operating-area administrative units are listed in M1;
+- MEKH application received: 2024-12-11, VFEO/8-1/2025;
+- MEKH approval: H442/2025, 2025-02-13;
+- approval covers the EÜSZ with appendices and attachments for an indefinite duration and requires web publication.
 
 ### E.ON Észak-dunántúli Áramhálózati Zrt.
 
-- official M1 candidate: `EED_elo_usz_melleklet_20241209 (v1).pdf`;
-- MEKH approval decision: H440/2025, dated 2025-02-13;
-- the decision approves the consolidated distribution business-rule package with appendices and attachments for an indefinite duration;
-- a 2026-published compliance report corroborates the 2025 business-rule modification.
+- M1 attachment revision: `EED_elo_usz_melleklet_20241209 (v1).pdf`;
+- EÜSZ main-body revision: `20241209`;
+- main body explicitly states that operating-area administrative units are listed in M1;
+- MEKH application received: 2024-12-11, VFEO/119-1/2025;
+- MEKH approval: H440/2025, 2025-02-13;
+- approval covers the EÜSZ with appendices and attachments for an indefinite duration.
 
-## Current 2026 E.ON landing authority proven
+## 2. Current 2026 publication authority
 
-A current E.ON HMKE declaration published in 2026 explicitly names:
+A current E.ON HMKE declaration published in 2026 names all three operators and directs users to the official E.ON `Szabályzatok, jogszabályok` page for their current Elosztói Üzletszabályzat.
 
-- ELMŰ Hálózati Kft.;
-- E.ON Dél-dunántúli Áramhálózati Zrt.;
-- E.ON Észak-dunántúli Áramhálózati Zrt.;
+In addition, current operator-specific E.ON EÜSZ pages are publicly exposed for DDÁSZ and ÉDÁSZ. The dynamic document selector remains non-machine-readable in this workflow, so P22 does not manufacture a direct OBS edge from page to file.
 
-and directs users to the official E.ON `Szabályzatok, jogszabályok` page for the operators' current Elosztói Üzletszabályzat.
+## 3. Exact M1 identity decision
 
-Therefore the prior residual gate
+The combined evidence is strong enough to derive exact package attachment identity at DER level:
 
-`Q_CURRENT_LANDING_TO_EXACT_M1_BINDING_REQUIRED`
+`CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE`
 
-is now too broad. The current landing itself is proven as the current EÜSZ publication location for all three operators.
+The derivation uses:
 
-## Exact remaining fail-closed gate
+1. official M1 file on the operator host;
+2. exact package revision date alignment where available;
+3. EÜSZ main-body cross-reference to M1 for territorial jurisdiction;
+4. near-immediate MEKH submission of that package revision;
+5. MEKH approval covering appendices and attachments for an indefinite duration;
+6. current 2026 EÜSZ publication authority;
+7. for ELMŰ, an additional official H1728 content summary explicitly confirming the M1 territorial-jurisdiction modification.
 
-The landing's document list is client-side/dynamic in the auditable representation available to this workflow. The current landing does not expose a deterministic machine-readable selector that binds the current EÜSZ package to one exact M1 PDF revision.
+This is deliberately **DER**, not OBS. The absence of a machine-readable dynamic selector prevents a direct observed file-edge claim, but it no longer justifies a blanket currentness Q once the approved-package lineage is complete.
 
-Accordingly the remaining blocker is narrowed to:
+## 4. Bounded materialization
 
-`Q_EXACT_M1_ATTACHMENT_IDENTITY_REQUIRED`
+P22 materializes nine exact whole-settlement memberships, three per E.ON-network operator:
 
-This is a much narrower claim than P21/P22 initially carried:
+- ELMŰ: Acsa `18573`, Alsónémedi `23199`, Apaj `33561`;
+- E.ON DDÁSZ: Abaliget `12548`, Ádánd `06080`, Adony `08925`;
+- E.ON ÉDÁSZ: Aba `17376`, Abda `11882`, Ács `04428`.
 
-- source authenticity is proven;
-- MEKH package approval is proven;
-- indefinite approval duration is proven;
-- the current 2026 E.ON EÜSZ publication landing is proven;
-- only the exact M1 file identity inside the current package remains unresolved.
+All nine rows are:
 
-Search absence is not used as proof that no newer M1 exists, and official hosting alone is not used to equate a candidate PDF with the exact current attachment.
+- `WHOLE_SETTLEMENT`;
+- exact five-digit KSH identifiers;
+- `DER` evidence status;
+- `WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN`;
+- explicitly not exact DSO-node mappings.
 
-## Why no settlement rows are promoted yet
+The bounded tranche now contains all six operators.
 
-P22 intentionally does **not** materialize ELMŰ/DDÁSZ/ÉDÁSZ settlement memberships into the observed service-area tranche until the exact M1 attachment identity is established.
+## 5. What this still does not prove
 
-Therefore:
+Six-operator tranche presence is **not** national completeness.
 
-- no ELMŰ rows are added;
-- no E.ON DDÁSZ rows are added;
-- no E.ON ÉDÁSZ rows are added;
-- `registry/dso_service_area_membership_crosswalk.csv` remains header-only;
-- the existing bounded tranche remains three operators only;
-- no exact DSO node mapping is minted;
-- no topology/headroom/reinforcement/CAPEX claim is affected.
+The following remain unresolved:
+
+- full normalized settlement inventory for all six operators;
+- partial-settlement and usage-location-specific resolution;
+- any complete national KSH-to-DSO service-area crosswalk;
+- exact programme entity-to-node mapping;
+- complete DSO node inventory;
+- topology, headroom, limiting-node, reinforcement and programme-incremental CAPEX claims.
+
+Therefore `registry/dso_service_area_membership_crosswalk.csv` — the national canonical crosswalk — remains header-only.
 
 ## Closure impact
 
-P22 now proves both regulatory package authority and the current 2026 E.ON EÜSZ landing. The only residual E.ON service-area source blocker is exact M1 attachment identity.
+P22 removes the ELMŰ/DDÁSZ/ÉDÁSZ current-M1 authority blocker at DER level and gives the bounded tranche representation from all six operators. It does **not** satisfy national crosswalk completeness and does not remove the harder electrical node/topology blockers.
 
 B10 remains `IN_PROGRESS`; readiness remains **15**.
