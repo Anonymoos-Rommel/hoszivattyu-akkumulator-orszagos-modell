@@ -5,9 +5,9 @@ Core rule:
     COUNTY GAS SALES != ARCHETYPE GAS VOLUME
     USEFUL HEAT != GAS INPUT ENERGY != GAS VOLUME
 
-Gas volume may only be derived from an explicit useful-heat requirement,
-explicit seasonal gas-appliance efficiency and explicit period/location-specific
-gas heating value. No county utility volume is allocated to archetypes.
+P4 hardens the efficiency interface: the bridge accepts only an explicitly
+LHV-basis seasonal fuel-conversion efficiency. Regulatory/product metrics and
+GCV-basis values must be normalized by the P4 authority layer first.
 """
 
 from __future__ import annotations
@@ -72,15 +72,15 @@ def _combined_status(values: tuple[PhysicalEvidence, ...]) -> EvidenceStatus:
 
 def derive_gas_volume(inputs: GasVolumeBridgeInputs) -> GasVolumeBridgeResult:
     useful_heat = inputs.useful_heat_kwh_year.numeric("kWh/year")
-    efficiency = inputs.seasonal_appliance_efficiency.numeric("fraction")
-    heating_value = inputs.gas_lower_heating_value_mj_m3.numeric("MJ/m3")
+    efficiency = inputs.seasonal_appliance_efficiency.numeric("fraction_lhv")
+    heating_value = inputs.gas_lower_heating_value_mj_m3.numeric("MJ/m3_LHV")
 
     if useful_heat < 0:
         raise ValueError("useful heat cannot be negative")
-    if not 0.0 < efficiency <= 1.0:
-        raise ValueError("seasonal appliance efficiency must be within (0, 1]")
+    if efficiency <= 0.0:
+        raise ValueError("LHV-basis seasonal appliance efficiency must be positive")
     if heating_value <= 0:
-        raise ValueError("gas heating value must be positive")
+        raise ValueError("gas lower heating value must be positive")
 
     gas_input_kwh = useful_heat / efficiency
     heating_value_kwh_m3 = heating_value / 3.6
@@ -104,6 +104,4 @@ def derive_gas_volume(inputs: GasVolumeBridgeInputs) -> GasVolumeBridgeResult:
 
 
 def county_utility_volume_can_allocate_archetypes() -> bool:
-    """P3 deliberately forbids utility-volume pro-rata allocation."""
-
     return False
