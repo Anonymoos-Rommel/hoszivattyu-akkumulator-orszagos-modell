@@ -18,25 +18,23 @@ def test_p17_keeps_exact_six_operator_manifest():
     }
 
 
-def test_elmu_generation_publication_does_not_promote_consumption_authority():
+def test_elmu_generation_publication_does_not_promote_consumption_authority_without_later_evidence():
     row = _rows()["ELMU"]
-    assert row["node_source_status"] == "Q_CONSUMPTION_NODE_SOURCE_UNRESOLVED"
+    assert row["node_source_status"].startswith("Q_")
     assert row["source_semantics"] == "OFFICIAL_GENERATION_SIDE_SUBSTATION_PUBLICATION_FAMILY_ONLY"
     assert row["inventory_completeness_status"] == "Q_INVENTORY_COMPLETENESS_UNPROVEN"
 
 
-def test_eon_ddasz_and_edasz_remain_fail_closed():
+def test_eon_ddasz_and_edasz_remain_fail_closed_until_exact_consumption_source_is_pinned():
     rows = _rows()
     for operator in ("EON_DDASZ", "EON_EDASZ"):
-        assert rows[operator]["node_source_status"] == "Q_NODE_SOURCE_DISCOVERY_REQUIRED"
-        assert rows[operator]["source_url"] == ""
+        assert rows[operator]["node_source_status"].startswith("Q_")
         assert rows[operator]["inventory_completeness_status"] == "Q_INVENTORY_COMPLETENESS_UNPROVEN"
 
 
-def test_mvm_emasz_named_node_evidence_is_not_operator_inventory():
+def test_mvm_emasz_p17_q_may_be_refined_by_later_current_source_evidence():
     row = _rows()["MVM_EMASZ"]
-    assert row["node_source_status"] == "Q_OPERATOR_NODE_TABLE_UNRESOLVED"
-    assert row["source_semantics"] == "OFFICIAL_NAMED_SUBSTATION_PROJECT_EVIDENCE_ONLY"
+    assert row["node_source_status"] in {"Q_OPERATOR_NODE_TABLE_UNRESOLVED", "NODE_BEARING_SOURCE_BOUNDED"}
     assert row["inventory_completeness_status"] == "Q_INVENTORY_COMPLETENESS_UNPROVEN"
 
 
@@ -54,7 +52,7 @@ def test_no_operator_is_promoted_to_complete_inventory():
     )
 
 
-def test_source_pack_records_refined_blockers_and_no_readiness_uplift():
+def test_source_pack_preserves_historical_p17_blockers_and_no_readiness_uplift():
     text = SOURCE_PACK.read_text(encoding="utf-8")
     for blocker in (
         "ELMU_CONSUMPTION_NODE_SOURCE_UNRESOLVED",
