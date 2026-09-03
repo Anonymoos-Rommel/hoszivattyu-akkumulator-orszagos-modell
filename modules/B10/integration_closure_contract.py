@@ -6,8 +6,11 @@ P13 resolved the source-scoped Issue #10 legacy Q-05/Q-07 identifier ambiguity.
 P14 proved the current six-operator Hungarian electricity DSO inventory and the
 DSO_SERVICE_AREA network-regional grain. P15 separates KSH settlement identity,
 whole-settlement DSO membership and partial-settlement usage-location authority.
-P16 separates a node-bearing publication from complete operator node inventory;
-the national normalized membership crosswalk and node inventory remain unpopulated.
+P16 separates a node-bearing publication from complete operator node inventory.
+P17 refines the remaining operator-specific node-source discovery blockers. P18
+separates public source access and external snapshot verification from reuse
+clearance and public-repository node-set materialization. The national normalized
+membership crosswalk and node inventory remain unpopulated.
 """
 
 from __future__ import annotations
@@ -176,12 +179,15 @@ class B10ClosureAssessment:
 
 
 def current_b10_closure_assessment() -> B10ClosureAssessment:
-    """Return the exact P16 audit of the current P1-P15 canonical B10 state.
+    """Return the exact P18 audit of the current P1-P18 canonical B10 state.
 
     P16 bounds exact node identity, node-bearing source authority and inventory
-    completeness as separate claims. The national node inventory remains
-    header-only and only two of six DSO operators currently have a canonical
-    node-bearing source in the B10 chain, so limiting nodes remain unresolved.
+    completeness as separate claims. P17 refines the unresolved DSO source
+    families. P18 records that the two bounded consumption-side node-set
+    publications are still external-only for public-repository materialization:
+    reuse is not cleared, and the fresh OPUS current-source inspection is also Q
+    because text extraction and the rendered page disagree. The normalized node
+    inventory therefore remains header-only and limiting nodes remain unresolved.
     """
 
     acceptance = (
@@ -267,16 +273,23 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
                 "B10-P14",
                 "B10-P15",
                 "B10-P16",
+                "B10-P17",
+                "B10-P18",
                 "registry/dso_node_inventory_sources.csv",
+                "registry/dso_published_node_set_materialization.csv",
                 "registry/dso_node_inventory.csv",
             ),
             (
                 "NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY",
-                "FOUR_DSO_NODE_SOURCE_DISCOVERY_UNRESOLVED",
+                "ELMU_CONSUMPTION_NODE_SOURCE_UNRESOLVED",
+                "EON_DDASZ_NODE_SOURCE_UNRESOLVED",
+                "EON_EDASZ_NODE_SOURCE_UNRESOLVED",
+                "MVM_EMASZ_OPERATOR_NODE_TABLE_UNRESOLVED",
+                "PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED",
                 "HEADROOM_NODE_SET_NOT_INVENTORY_COMPLETENESS",
                 "NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY",
             ),
-            "P16 proves that P1/P2 are node-bearing source sets but not exhaustive operator inventories; four DSO node-source families remain unpinned, the national node registry is unpopulated and no real survivability study establishes binding programme nodes",
+            "P16 separates node-bearing sources from exhaustive inventories; P17 refines the four unresolved operator source families; P18 confirms that the two bounded consumption-side node sets are not cleared/currently safe for public-repository row materialization. The national node registry stays header-only and no real survivability study establishes binding programme nodes",
         ),
     )
 
@@ -298,7 +311,7 @@ def current_b10_closure_assessment() -> B10ClosureAssessment:
         legacy_acceptance_mappings=CURRENT_LEGACY_ACCEPTANCE_MAPPINGS,
         blocking_refs=blockers,
         issue_should_close=False,
-        reason="P1-P15 establish the prior fail-closed B10 boundaries; P16 now separates node-source coverage from inventory completeness, while national membership/node registries and programme-specific output evidence remain unresolved",
+        reason="P1-P16 establish the prior fail-closed B10 boundaries; P17 refines DSO node-source gaps and P18 separates source access from verified/cleared repository materialization, while national membership/node registries and programme-specific output evidence remain unresolved",
     )
 
 
