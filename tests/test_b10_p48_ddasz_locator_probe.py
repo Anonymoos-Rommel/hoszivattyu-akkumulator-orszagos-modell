@@ -5,6 +5,7 @@ import re
 import subprocess
 import sys
 import tempfile
+import unicodedata
 import urllib.request
 import unittest
 
@@ -13,6 +14,12 @@ ROOT = Path(__file__).resolve().parents[1]
 TRANCHE = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
 PDF_URL = "https://www.eon.hu/content/dam/eon/eon-hungary/documents/hatarozatok-szabalyzatok-aram/EDE/2025/EDE_elo_usz_melleklet_20241209%20%28v1%29.pdf"
 KSH_URL = "https://raw.githubusercontent.com/ferenci-tamas/IrszHnk/master/IrszHnk.csv"
+
+
+def loose_key(value):
+    value = unicodedata.normalize("NFD", value.casefold())
+    value = "".join(c for c in value if unicodedata.category(c) != "Mn")
+    return "".join(c for c in value if c.isalnum())
 
 
 class B10P48DdaszLocatorProbe(unittest.TestCase):
@@ -24,7 +31,10 @@ class B10P48DdaszLocatorProbe(unittest.TestCase):
             pdf = Path(td) / "ddasz.pdf"
             urllib.request.urlretrieve(PDF_URL, pdf)
             reader = PdfReader(str(pdf))
-            text = "\n".join((reader.pages[i].extract_text() or "") for i in range(6, 9))
+            text = "\n".join(
+                (reader.pages[i].extract_text(extraction_mode="layout") or "")
+                for i in range(6, 9)
+            )
 
         start = text.index("TERÜLETI ILLETÉKESSÉGE") + len("TERÜLETI ILLETÉKESSÉGE")
         body = text[start:]
@@ -33,7 +43,7 @@ class B10P48DdaszLocatorProbe(unittest.TestCase):
         body = re.sub(r"E\.ON Dél-dunántúli Áramhálózati Zrt\.\s*-\s*Elosztói Üzletszabályzat", " ", body)
         body = re.sub(r"M1 sz\. melléklet", " ", body)
         body = re.sub(r"EDE_elo_usz_melleklet_20241209", " ", body)
-        body = re.sub(r"\n\s*[78910]\s*\n", " ", body)
+        body = re.sub(r"\n\s*(?:7|8|9|10)\s*\n", " ", body)
         body = body.replace("\x0c", " ").replace("\u0002", "")
         body = re.sub(r"\s+", " ", body)
         tokens = [re.sub(r"\s+", " ", t).strip() for t in body.split(",")]
@@ -42,10 +52,15 @@ class B10P48DdaszLocatorProbe(unittest.TestCase):
         with urllib.request.urlopen(KSH_URL) as r:
             ksh_text = r.read().decode("utf-8-sig")
         rows = list(csv.DictReader(io.StringIO(ksh_text), delimiter=";"))
-        whole = {}
+        whole_pairs_by_name = {}
+        loose_index = {}
         for r in rows:
-            if not (r.get("Településrész") or "").strip():
-                whole.setdefault(r["Helység.megnevezése"].strip(), []).append(r)
+            if (r.get("Településrész") or "").strip():
+                continue
+            name = r["Helység.megnevezése"].strip()
+            pair = (r["Helység.KSH.kódja"].zfill(5), name)
+            whole_pairs_by_name.setdefault(name, set()).add(pair)
+            loose_index.setdefault(loose_key(name), set()).add(pair)
 
         with TRANCHE.open(encoding="utf-8", newline="") as f:
             existing = {
@@ -58,24 +73,39 @@ class B10P48DdaszLocatorProbe(unittest.TestCase):
         ambiguous = []
         unresolved = []
         for token in tokens:
-            hits = whole.get(token, [])
-            if len(hits) == 1:
-                pair = (hits[0]["Helység.KSH.kódja"].zfill(5), token)
-                matched.append(pair)
-            elif len(hits) > 1:
-                ambiguous.append((token, [(h["Helység.KSH.kódja"].zfill(5), h["Vármegye.megnevezése"]) for h in hits]))
+            pairs = whole_pairs_by_name.get(token, set())
+            if len(pairs) == 1:
+                matched.append(next(iter(pairs)))
+            elif len(pairs) > 1:
+                ambiguous.append((token, sorted(pairs)))
             else:
                 unresolved.append(token)
 
         matched_unique = sorted(set(matched))
         new_pairs = [p for p in matched_unique if p not in existing]
+        current_exact = set(matched_unique)
+        old_present = sorted(existing & current_exact)
+        old_absent = sorted(existing - current_exact)
+
+        loose_candidates = []
+        for token in unresolved:
+            candidates = sorted(loose_index.get(loose_key(token), set()))
+            if candidates:
+                loose_candidates.append((token, candidates))
+
         print("P48_PROBE_TOKEN_COUNT", len(tokens))
         print("P48_PROBE_TOKEN_UNIQUE_COUNT", len(set(tokens)))
         print("P48_PROBE_EXISTING_COUNT", len(existing))
         print("P48_PROBE_MATCHED_UNIQUE_COUNT", len(matched_unique))
         print("P48_PROBE_NEW_PAIR_COUNT", len(new_pairs))
         print("P48_PROBE_AMBIGUOUS", repr(ambiguous))
+        print("P48_PROBE_OLD_PRESENT_COUNT", len(old_present))
+        print("P48_PROBE_OLD_ABSENT", repr(old_absent))
         print("P48_PROBE_UNRESOLVED_COUNT", len(unresolved))
+        print("P48_PROBE_LOOSE_CANDIDATES_BEGIN")
+        for token, candidates in loose_candidates:
+            print(f"{token} => {candidates!r}")
+        print("P48_PROBE_LOOSE_CANDIDATES_END")
         print("P48_PROBE_UNRESOLVED_BEGIN")
         for x in unresolved:
             print(x)
@@ -84,7 +114,8 @@ class B10P48DdaszLocatorProbe(unittest.TestCase):
         for code, name in new_pairs:
             print(f"{code}|{name}")
         print("P48_PROBE_NEW_PAIRS_END")
-        self.assertGreater(len(new_pairs), 100)
+        self.assertEqual(1116, len(tokens))
+        self.assertGreater(len(new_pairs), 700)
 
 
 if __name__ == "__main__":
