@@ -22,9 +22,13 @@ class B10P21RemainingDsoServiceAreaNormalizationTests(unittest.TestCase):
         self.assertEqual("CURRENT_ON_2026_BUSINESS_RULE_PACKAGE", src["currentness_status"])
         self.assertIn("WHOLE_AND_NAMED_SUBSETTLEMENT", src["authorizes"])
 
-    def test_exact_five_emasz_whole_settlement_rows_are_materialized(self):
+    def test_exact_five_p21_emasz_whole_settlement_observations_remain_materialized(self):
         rows = [row for row in self.read_rows(TRANCHE) if row["operator_id"] == "MVM_EMASZ"]
-        self.assertEqual(5, len(rows))
+        historical = [
+            row for row in rows
+            if "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS" in row["source_ids"].split(";")
+        ]
+        self.assertEqual(5, len(historical))
         self.assertEqual(
             {
                 ("24554", "Abasár"),
@@ -33,12 +37,13 @@ class B10P21RemainingDsoServiceAreaNormalizationTests(unittest.TestCase):
                 ("06345", "Aldebrő"),
                 ("05847", "Harsány"),
             },
-            {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows},
+            {(row["ksh_settlement_code"], row["settlement_name"]) for row in historical},
         )
-        self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
-        self.assertTrue(all(row["evidence_status"] == "OBS" for row in rows))
-        self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
-        self.assertTrue(all(len(row["ksh_settlement_code"]) == 5 for row in rows))
+        self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in historical))
+        self.assertTrue(all(row["evidence_status"] == "OBS" for row in historical))
+        self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in historical))
+        self.assertTrue(all(len(row["ksh_settlement_code"]) == 5 for row in historical))
+        self.assertGreaterEqual(len(rows), len(historical))
 
     def test_emasz_named_subsettlements_are_not_promoted(self):
         names = {row["settlement_name"] for row in self.read_rows(TRANCHE) if row["operator_id"] == "MVM_EMASZ"}
