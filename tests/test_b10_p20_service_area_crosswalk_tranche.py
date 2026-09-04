@@ -12,6 +12,29 @@ KSH_2019 = "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS"
 KSH_2025 = "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS"
 KSH_2025_DERIVATION = "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026"
 
+EXPECTED_P20 = {
+    ("17686", "Ágasegyháza", "MVM_DEMASZ"),
+    ("21944", "Akasztó", "MVM_DEMASZ"),
+    ("21148", "Apostag", "MVM_DEMASZ"),
+    ("10719", "Bácsalmás", "MVM_DEMASZ"),
+    ("10180", "Bácsbokod", "MVM_DEMASZ"),
+    ("27234", "Bácsborsód", "MVM_DEMASZ"),
+    ("08697", "Bácsszentgyörgy", "MVM_DEMASZ"),
+    ("30155", "Bácsszőlős", "MVM_DEMASZ"),
+    ("13408", "Ballószög", "MVM_DEMASZ"),
+    ("25937", "Balotaszállás", "MVM_DEMASZ"),
+    ("12441", "Abádszalók", "OPUS_TITASZ"),
+    ("27872", "Abony", "OPUS_TITASZ"),
+    ("08776", "Ajak", "OPUS_TITASZ"),
+    ("25265", "Alattyán", "OPUS_TITASZ"),
+    ("29975", "Anarcs", "OPUS_TITASZ"),
+    ("20303", "Apagy", "OPUS_TITASZ"),
+    ("09353", "Aranyosapáti", "OPUS_TITASZ"),
+    ("27641", "Álmosd", "OPUS_TITASZ"),
+    ("03319", "Ártánd", "OPUS_TITASZ"),
+    ("20011", "Bagamér", "OPUS_TITASZ"),
+}
+
 
 class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
     def tranche_rows(self):
@@ -26,14 +49,18 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         return [
             row
             for row in self.tranche_rows()
-            if row["operator_id"] in {"MVM_DEMASZ", "OPUS_TITASZ"}
-            and KSH_2019 in row["source_ids"].split(";")
+            if (row["ksh_settlement_code"], row["settlement_name"], row["operator_id"]) in EXPECTED_P20
         ]
 
     def test_p20_tranche_remains_present_inside_evolving_registry(self):
         rows = self.tranche_rows()
         self.assertGreaterEqual(len(rows), 20)
         p20 = self.p20_rows()
+        self.assertEqual(20, len(p20))
+        self.assertEqual(EXPECTED_P20, {
+            (row["ksh_settlement_code"], row["settlement_name"], row["operator_id"])
+            for row in p20
+        })
         self.assertEqual(10, sum(row["operator_id"] == "MVM_DEMASZ" for row in p20))
         self.assertEqual(10, sum(row["operator_id"] == "OPUS_TITASZ" for row in p20))
 
@@ -45,6 +72,7 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         self.assertTrue(all(row["evidence_status"] == "OBS" for row in rows))
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
         self.assertTrue(all(row["service_area_id"] == f"{row['operator_id']}:SERVICE_AREA" for row in rows))
+        self.assertTrue(all(KSH_2019 in row["source_ids"].split(";") for row in rows))
 
     def test_evolving_tranche_allows_only_obs_or_der_proven_rows(self):
         rows = self.tranche_rows()
