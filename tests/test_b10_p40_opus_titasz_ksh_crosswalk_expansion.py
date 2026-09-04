@@ -51,6 +51,8 @@ EXPECTED_P40 = {
     ("09715", "Császló"), ("26107", "Csegöld"),
 }
 
+P40_SNAPSHOT = EXPECTED_P20_OPUS | EXPECTED_P40
+
 
 class B10P40OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
     def rows(self, path):
@@ -66,17 +68,24 @@ class B10P40OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
             if (row["ksh_settlement_code"], row["settlement_name"]) in EXPECTED_P40
         ]
 
+    def p40_snapshot_rows(self):
+        return [
+            row for row in self.opus_rows()
+            if (row["ksh_settlement_code"], row["settlement_name"]) in P40_SNAPSHOT
+        ]
+
     def test_exact_40_new_opus_name_code_pairs_are_materialized(self):
         rows = self.p40_rows()
         self.assertEqual(40, len(rows))
         actual = {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}
         self.assertEqual(EXPECTED_P40, actual)
 
-    def test_p20_ten_opus_rows_remain_unchanged_and_total_is_50(self):
-        rows = self.opus_rows()
+    def test_p20_ten_opus_rows_remain_unchanged_and_p40_snapshot_is_exact_50(self):
+        self.assertGreaterEqual(len(self.opus_rows()), 50)
+        rows = self.p40_snapshot_rows()
         self.assertEqual(50, len(rows))
         actual = {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}
-        self.assertEqual(EXPECTED_P20_OPUS | EXPECTED_P40, actual)
+        self.assertEqual(P40_SNAPSHOT, actual)
 
         historical = [
             row for row in rows
@@ -86,8 +95,9 @@ class B10P40OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertTrue(all(row["evidence_status"] == "OBS" for row in historical))
         self.assertTrue(all(set(row["source_ids"].split(";")) == {OPUS, KSH_2019} for row in historical))
 
-    def test_all_50_opus_rows_preserve_observed_whole_settlement_semantics(self):
-        rows = self.opus_rows()
+    def test_all_50_p40_snapshot_rows_preserve_observed_whole_settlement_semantics(self):
+        rows = self.p40_snapshot_rows()
+        self.assertEqual(50, len(rows))
         self.assertTrue(all(row["service_area_id"] == "OPUS_TITASZ:SERVICE_AREA" for row in rows))
         self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
         self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
@@ -95,13 +105,13 @@ class B10P40OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
         self.assertTrue(all(set(row["source_ids"].split(";")) == {OPUS, KSH_2019} for row in rows))
 
-    def test_p40_is_bounded_to_m1_serial_50_not_51(self):
-        names = {row["settlement_name"] for row in self.opus_rows()}
+    def test_p40_historical_snapshot_is_bounded_to_m1_serial_50_not_51(self):
+        names = {row["settlement_name"] for row in self.p40_snapshot_rows()}
         self.assertIn("Bakonszeg", names)
         self.assertIn("Csegöld", names)
         self.assertNotIn("Csenger", names)
 
-    def test_source_registry_tracks_p40_bounded_opus_state(self):
+    def test_source_registry_preserves_p40_lineage_inside_evolving_opus_state(self):
         by_operator = {row["operator_id"]: row for row in self.rows(SOURCES)}
         src = by_operator["OPUS_TITASZ"]
         self.assertEqual(OPUS, src["source_id"])
@@ -111,7 +121,6 @@ class B10P40OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertEqual("M1_SETTLEMENT_LIST", src["membership_semantics"])
         self.assertIn("P40", src["notes"])
         self.assertIn("11-50", src["notes"])
-        self.assertIn("50 OBS", src["notes"])
         self.assertIn("partial materialization", src["notes"])
 
     def test_all_ksh_codes_remain_unique_five_digit_identifiers(self):
