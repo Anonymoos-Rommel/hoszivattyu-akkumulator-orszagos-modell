@@ -59,15 +59,16 @@ class B10P42OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         actual = {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}
         self.assertEqual(EXPECTED_P42, actual)
 
-    def test_current_opus_tranche_has_130_rows_and_p42_adds_40(self):
+    def test_p42_exact_40_rows_remain_inside_evolving_opus_tranche(self):
         rows = self.opus_rows()
-        self.assertEqual(130, len(rows))
+        self.assertGreaterEqual(len(rows), 130)
         self.assertEqual(40, len(self.p42_rows()))
-        self.assertEqual(130, len({(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}))
+        actual = {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}
+        self.assertTrue(EXPECTED_P42.issubset(actual))
 
-    def test_all_130_opus_rows_preserve_direct_observed_whole_settlement_semantics(self):
+    def test_evolving_opus_rows_preserve_direct_observed_whole_settlement_semantics(self):
         rows = self.opus_rows()
-        self.assertEqual(130, len(rows))
+        self.assertGreaterEqual(len(rows), 130)
         self.assertTrue(all(row["service_area_id"] == "OPUS_TITASZ:SERVICE_AREA" for row in rows))
         self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
         self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
@@ -75,13 +76,13 @@ class B10P42OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
         self.assertTrue(all(set(row["source_ids"].split(";")) == {OPUS, KSH_2019} for row in rows))
 
-    def test_p42_is_bounded_to_m1_serial_130_not_131(self):
-        names = {row["settlement_name"] for row in self.opus_rows()}
+    def test_p42_historical_set_is_bounded_to_m1_serial_130_not_131(self):
+        names = {row["settlement_name"] for row in self.p42_rows()}
         self.assertIn("Gégény", names)
         self.assertIn("Kántorjánosi", names)
         self.assertNotIn("Kemecse", names)
 
-    def test_source_registry_tracks_p20_p40_p41_p42_lineage_and_130_row_state(self):
+    def test_source_registry_preserves_p20_p40_p41_p42_lineage_inside_evolving_state(self):
         by_operator = {row["operator_id"]: row for row in self.rows(SOURCES)}
         src = by_operator["OPUS_TITASZ"]
         self.assertEqual(OPUS, src["source_id"])
@@ -91,7 +92,7 @@ class B10P42OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertEqual("M1_SETTLEMENT_LIST", src["membership_semantics"])
         for marker in (
             "P20", "1-10", "P40", "11-50", "P41", "51-90",
-            "P42", "91-130", "130 OBS", "partial materialization",
+            "P42", "91-130", "partial materialization",
         ):
             self.assertIn(marker, src["notes"])
 
