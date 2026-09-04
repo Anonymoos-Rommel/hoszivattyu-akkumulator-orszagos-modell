@@ -6,7 +6,7 @@ Status date: 2026-09-04
 
 P39 is an **evidence/data slice**, not a new semantic gate.
 
-It expands the bounded E.ON Észak-dunántúli Áramhálózati Zrt. service-area materialization from the three historical P22 rows to **43 materialized rows** by adding **40 additional** unambiguous whole-settlement memberships.
+It expands the bounded E.ON Észak-dunántúli Áramhálózati Zrt. service-area materialization from the three historical P22 rows to **45 materialized rows** by adding **42 additional** whole-settlement memberships.
 
 The national canonical crosswalk is not promoted.
 
@@ -24,7 +24,7 @@ The national canonical crosswalk is not promoted.
 
 `PRIMARY KSH LOCATOR + DERIVED MACHINE LOCATOR != DIRECT PRIMARY ROW OBSERVATION`
 
-`SOURCE NAME TYPO OR HISTORICAL SPELLING != SILENT CURRENT-KSH NORMALIZATION`
+`EXPLICIT NAME EQUIVALENCE OVERRIDE != GENERAL FUZZY MATCHING RULE`
 
 `PUBLIC FACT USE != SOURCE-DOCUMENT REPUBLICATION != BULK DATABASE RECONSTRUCTION`
 
@@ -50,17 +50,18 @@ through the aligned EÜSZ/M1 revision, 2024-12-11 MEKH submission, H440/2025 ind
 
 P39 does **not** upgrade this edge to OBS. Therefore every P39 membership remains `DER`.
 
-## 2. Mixed-grain and exact-name boundary
+## 2. Mixed-grain and explicit-equivalence boundary
 
 The M1 territorial list cannot be treated as a clean current-KSH whole-settlement table without row-level identity checks.
 
-P39 therefore does not promote:
+P39 does not promote `Ács-Jegespuszta`, because it is not accepted as an independent whole-settlement identity.
 
-- `Ács-Jegespuszta`, because it is not accepted as an independent whole-settlement identity;
-- `Alcsutdoboz`, because the exact M1 name does not equal the current KSH locator name `Alcsútdoboz`;
-- `Alsóőrs`, because the exact M1 name does not equal the current KSH locator name `Alsóörs`.
+Two M1/current-KSH spelling differences are accepted by explicit project authority rather than silently normalized:
 
-These forms are not silently normalized. Presence in M1 alone is insufficient for a whole-settlement row when exact current settlement identity is not established at the same name grain.
+- `Alcsutdoboz` → current KSH `Alcsútdoboz` (`15176`);
+- `Alsóőrs` → current KSH `Alsóörs` (`30526`).
+
+These two equivalences are explicit, audited exceptions and do **not** establish a general fuzzy-name or accent-normalization rule. Presence of any other non-exact name in M1 remains insufficient for automatic whole-settlement promotion.
 
 ## 3. KSH settlement identity
 
@@ -72,13 +73,13 @@ Derived machine-readable locator:
 
 `SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026`
 
-The derived locator is used only to locate exact current five-digit KSH settlement codes and to require an unambiguous base row with empty `Településrész`.
+The derived locator is used only to locate current five-digit KSH settlement codes and to require an unambiguous base row with empty `Településrész`.
 
 Because the primary KSH XLSX row is not directly materialized in this workflow, the KSH identity edge is not claimed as a direct row OBS.
 
 ## 4. P39 bounded materialization
 
-P39 adds exactly these 40 ÉDÁSZ whole-settlement rows:
+P39 adds exactly these 42 ÉDÁSZ whole-settlement rows:
 
 | KSH code | Settlement |
 |---|---|
@@ -93,8 +94,10 @@ P39 adds exactly these 40 ÉDÁSZ whole-settlement rows:
 | 06673 | Ajka |
 | 06682 | Aka |
 | 02644 | Alibánfa |
+| 15176 | Alcsútdoboz |
 | 32346 | Almásfüzitő |
 | 19512 | Alsónemesapáti |
+| 30526 | Alsóörs |
 | 08767 | Alsószenterzsébet |
 | 22549 | Alsószölnök |
 | 22725 | Alsóújlak |
@@ -133,6 +136,8 @@ Every P39 row is:
 - `status = WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN`;
 - bound to the ÉDÁSZ M1 source, current KSH 2025 authority, and KSH-derived locator.
 
+For `Alcsútdoboz` and `Alsóörs`, the row note must preserve the exact M1 spelling and the explicit equivalence decision.
+
 The three historical P22 rows remain unchanged:
 
 - Aba `17376`;
@@ -141,7 +146,7 @@ The three historical P22 rows remain unchanged:
 
 Therefore the bounded ÉDÁSZ state becomes:
 
-**3 historical DER + 40 P39 DER = 43 materialized rows.**
+**3 historical DER + 42 P39 DER = 45 materialized rows.**
 
 ## 5. What P39 does not prove
 
