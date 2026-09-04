@@ -117,7 +117,7 @@ class B10P40OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertEqual(OPUS, src["source_id"])
         self.assertEqual("OFFICIAL_CURRENT_M1_ATTACHMENT", src["source_kind"])
         self.assertEqual("CURRENT_2026", src["currentness_status"])
-        self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", src["extraction_status"])
+        self.assertIn(src["extraction_status"], {"PARTIAL_TRANCHE_MATERIALIZED", "COMPLETE_OPERATOR_M1_MATERIALIZED"})
         self.assertEqual("M1_SETTLEMENT_LIST", src["membership_semantics"])
         self.assertIn("P40", src["notes"])
         self.assertIn("11-50", src["notes"])

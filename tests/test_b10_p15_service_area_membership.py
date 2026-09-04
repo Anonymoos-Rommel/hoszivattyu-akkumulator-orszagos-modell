@@ -107,8 +107,9 @@ class B10P15ServiceAreaMembershipTests(unittest.TestCase):
         for operator in {"ELMU", "EON_DDASZ", "EON_EDASZ"}:
             self.assertEqual("CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE", by_operator[operator]["currentness_status"])
             self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", by_operator[operator]["extraction_status"])
-        for operator in {"MVM_DEMASZ", "MVM_EMASZ", "OPUS_TITASZ"}:
+        for operator in {"MVM_DEMASZ", "MVM_EMASZ"}:
             self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", by_operator[operator]["extraction_status"])
+        self.assertEqual("COMPLETE_OPERATOR_M1_MATERIALIZED", by_operator["OPUS_TITASZ"]["extraction_status"])
 
     def test_crosswalk_registry_remains_header_only(self):
         lines = (ROOT / "registry/dso_service_area_membership_crosswalk.csv").read_text(encoding="utf-8").splitlines()
