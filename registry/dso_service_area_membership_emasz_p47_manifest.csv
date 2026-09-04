@@ -1,0 +1,2 @@
+operator_id,network_operator,service_area_id,coverage_scope,usage_location_requirement,evidence_status,status,normal_source_ids,pairs_file,exception_file
+MVM_EMASZ,MVM Émász Áramhálózati Kft.,MVM_EMASZ:SERVICE_AREA,WHOLE_SETTLEMENT,NONE,DER,WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN,SRC-B10-MVM-EMASZ-M1-2026;SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS;SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026,registry/dso_service_area_membership_emasz_p47_pairs.csv,registry/dso_service_area_membership_emasz_p47_exceptions.csv
