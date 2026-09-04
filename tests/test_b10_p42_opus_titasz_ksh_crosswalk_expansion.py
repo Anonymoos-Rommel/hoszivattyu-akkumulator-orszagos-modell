@@ -10,36 +10,36 @@ TRANCHE = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
 SOURCES = ROOT / "registry/dso_service_area_membership_sources.csv"
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 MODULE_STATUS = ROOT / "registry/module_status.csv"
-DOC = ROOT / "docs/source_packs/P41_B10_OPUS_TITASZ_KSH_CROSSWALK_EXPANSION.md"
+DOC = ROOT / "docs/source_packs/P42_B10_OPUS_TITASZ_KSH_CROSSWALK_EXPANSION.md"
 
 OPUS = "SRC-B10-OPUS-TITASZ-M1-2026"
 KSH_2019 = "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS"
 
-EXPECTED_P41 = {
-    ("30641", "Csenger"), ("24095", "Csengersima"),
-    ("26851", "Csengerújfalu"), ("05795", "Cserkeszőlő"),
-    ("13170", "Csépa"), ("12450", "Csökmő"),
-    ("18795", "Darnó"), ("14678", "Darvas"),
-    ("15130", "Debrecen"), ("17756", "Demecser"),
-    ("05573", "Derecske"), ("24819", "Dévaványa"),
-    ("14508", "Dombrád"), ("03647", "Döge"),
-    ("14614", "Ebes"), ("09432", "Ecsegfalva"),
-    ("15741", "Egyek"), ("32328", "Encsencs"),
-    ("18528", "Eperjeske"), ("25469", "Esztár"),
-    ("10852", "Érpatak"), ("23250", "Fábiánháza"),
-    ("16647", "Fegyvernek"), ("18971", "Fehérgyarmat"),
-    ("22415", "Fényeslitke"), ("34014", "Folyás"),
-    ("03258", "Földes"), ("16993", "Furta"),
-    ("10791", "Fülesd"), ("22150", "Fülöp"),
-    ("14377", "Fülpösdaróc"), ("12256", "Füzesgyarmat"),
-    ("13727", "Gacsály"), ("04996", "Garbolc"),
-    ("18175", "Gáborján"), ("05801", "Gávavencsellő"),
-    ("04613", "Gelénes"), ("13000", "Gemzse"),
-    ("28893", "Geszteréd"), ("03629", "Géberjén"),
+EXPECTED_P42 = {
+    ("05670", "Gégény"), ("16568", "Görbeháza"),
+    ("29443", "Gulács"), ("33455", "Gyomaendrőd"),
+    ("28945", "Győröcske"), ("10126", "Győrtelek"),
+    ("07676", "Gyulaháza"), ("19558", "Gyügye"),
+    ("33774", "Gyüre"), ("26170", "Hajdúbagos"),
+    ("03045", "Hajdúböszörmény"), ("12803", "Hajdúdorog"),
+    ("10393", "Hajdúhadház"), ("22406", "Hajdúnánás"),
+    ("31097", "Hajdúsámson"), ("05175", "Hajdúszoboszló"),
+    ("17473", "Hajdúszovát"), ("29391", "Hencida"),
+    ("12061", "Hermánszeg"), ("05616", "Hetefejércse"),
+    ("13019", "Hodász"), ("04118", "Hortobágy"),
+    ("06266", "Hosszúpályi"), ("34050", "Hunyadfalva"),
+    ("25636", "Ibrány"), ("09654", "Ilk"),
+    ("17075", "Jánd"), ("07843", "Jánkmajtis"),
+    ("22859", "Jánoshida"), ("17589", "Jármi"),
+    ("30711", "Jászalsószentgyörgy"), ("15811", "Jászboldogháza"),
+    ("11004", "Jászkarajenő"), ("21111", "Jászladány"),
+    ("13143", "Jéke"), ("02307", "Kaba"),
+    ("04923", "Karcag"), ("31404", "Kállósemjén"),
+    ("27225", "Kálmánháza"), ("02671", "Kántorjánosi"),
 }
 
 
-class B10P41OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
+class B10P42OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
     def rows(self, path):
         with path.open(encoding="utf-8", newline="") as handle:
             return list(csv.DictReader(handle))
@@ -47,28 +47,27 @@ class B10P41OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
     def opus_rows(self):
         return [row for row in self.rows(TRANCHE) if row["operator_id"] == "OPUS_TITASZ"]
 
-    def p41_rows(self):
+    def p42_rows(self):
         return [
             row for row in self.opus_rows()
-            if (row["ksh_settlement_code"], row["settlement_name"]) in EXPECTED_P41
+            if (row["ksh_settlement_code"], row["settlement_name"]) in EXPECTED_P42
         ]
 
-    def test_exact_40_p41_name_code_pairs_are_materialized(self):
-        rows = self.p41_rows()
+    def test_exact_40_p42_name_code_pairs_are_materialized(self):
+        rows = self.p42_rows()
         self.assertEqual(40, len(rows))
         actual = {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}
-        self.assertEqual(EXPECTED_P41, actual)
+        self.assertEqual(EXPECTED_P42, actual)
 
-    def test_p41_exact_40_rows_remain_inside_evolving_opus_tranche(self):
+    def test_current_opus_tranche_has_130_rows_and_p42_adds_40(self):
         rows = self.opus_rows()
-        self.assertGreaterEqual(len(rows), 90)
-        self.assertEqual(40, len(self.p41_rows()))
-        actual = {(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}
-        self.assertTrue(EXPECTED_P41.issubset(actual))
+        self.assertEqual(130, len(rows))
+        self.assertEqual(40, len(self.p42_rows()))
+        self.assertEqual(130, len({(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}))
 
-    def test_evolving_opus_rows_preserve_direct_observed_whole_settlement_semantics(self):
+    def test_all_130_opus_rows_preserve_direct_observed_whole_settlement_semantics(self):
         rows = self.opus_rows()
-        self.assertGreaterEqual(len(rows), 90)
+        self.assertEqual(130, len(rows))
         self.assertTrue(all(row["service_area_id"] == "OPUS_TITASZ:SERVICE_AREA" for row in rows))
         self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
         self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
@@ -76,13 +75,13 @@ class B10P41OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
         self.assertTrue(all(set(row["source_ids"].split(";")) == {OPUS, KSH_2019} for row in rows))
 
-    def test_p41_historical_set_is_bounded_to_m1_serial_90_not_91(self):
-        names = {row["settlement_name"] for row in self.p41_rows()}
-        self.assertIn("Csenger", names)
-        self.assertIn("Géberjén", names)
-        self.assertNotIn("Gégény", names)
+    def test_p42_is_bounded_to_m1_serial_130_not_131(self):
+        names = {row["settlement_name"] for row in self.opus_rows()}
+        self.assertIn("Gégény", names)
+        self.assertIn("Kántorjánosi", names)
+        self.assertNotIn("Kemecse", names)
 
-    def test_source_registry_preserves_p20_p40_p41_lineage_inside_evolving_state(self):
+    def test_source_registry_tracks_p20_p40_p41_p42_lineage_and_130_row_state(self):
         by_operator = {row["operator_id"]: row for row in self.rows(SOURCES)}
         src = by_operator["OPUS_TITASZ"]
         self.assertEqual(OPUS, src["source_id"])
@@ -90,7 +89,10 @@ class B10P41OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertEqual("CURRENT_2026", src["currentness_status"])
         self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", src["extraction_status"])
         self.assertEqual("M1_SETTLEMENT_LIST", src["membership_semantics"])
-        for marker in ("P20", "1-10", "P40", "11-50", "P41", "51-90", "partial materialization"):
+        for marker in (
+            "P20", "1-10", "P40", "11-50", "P41", "51-90",
+            "P42", "91-130", "130 OBS", "partial materialization",
+        ):
             self.assertIn(marker, src["notes"])
 
     def test_all_ksh_codes_remain_unique_five_digit_identifiers(self):
@@ -109,15 +111,16 @@ class B10P41OpusTitaszKshCrosswalkExpansionTests(unittest.TestCase):
         self.assertEqual("IN_PROGRESS", by_module["B10"]["status"])
         self.assertEqual("15", by_module["B10"]["readiness_percent"])
 
-    def test_source_pack_preserves_p41_evidence_only_boundaries(self):
+    def test_source_pack_preserves_p42_evidence_only_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
         for marker in (
-            "serials **51–90**",
-            "90 materialized rows",
-            "serial **90, Géberjén**",
-            "serial **91, Gégény**",
+            "serials **91–130**",
+            "130 materialized rows",
+            "serial **130, Kántorjánosi**",
+            "serial **131, Kemecse**",
             "SETTLEMENT NAME != KSH SETTLEMENT ID",
             "KSH SETTLEMENT ID != DSO SERVICE-AREA MEMBERSHIP",
+            "WHOLE SETTLEMENT != PARTIAL SETTLEMENT OR USAGE-LOCATION MEMBERSHIP",
             "DSO SERVICE-AREA MEMBERSHIP != EXACT DSO NODE",
             "BOUNDED CURRENT M1 ROWS != COMPLETE OPERATOR CROSSWALK",
             "PUBLIC FACT USE != SOURCE-DOCUMENT REPUBLICATION != BULK DATABASE RECONSTRUCTION",
