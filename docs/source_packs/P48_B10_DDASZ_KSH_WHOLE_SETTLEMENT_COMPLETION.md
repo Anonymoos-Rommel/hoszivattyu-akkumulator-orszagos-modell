@@ -26,19 +26,21 @@ The current DDÁSZ M1 contains **1116 unique source tokens**.
 
 P38/history already materialized **43** DDÁSZ whole-settlement identities. Every one of those 43 historical identities is present in the current M1 source population.
 
-P48 adds **779** new exact DER whole-settlement identities.
+The initial exact-name candidate pass produced 779 new rows, but the global cross-DSO uniqueness gate exposed two current M1 tokens that collide with already-proven MVM Démász whole-settlement memberships: `Dusnok` (`04109`) and `Mélykút` (`16018`). Because the DDÁSZ M1 source semantics are `ADMINISTRATIVE_UNITS_IN_M1`, exact name presence alone cannot override a separately proven whole-settlement operator membership.
+
+P48 therefore admits **777** new exact DER whole-settlement identities.
 
 Therefore:
 
-`43 historical + 779 P48 = 822 materialized current provable whole-settlement identities`
+`43 historical + 777 P48 = 820 materialized current provable whole-settlement identities`
 
 The remaining:
 
-`1116 - 822 = 294`
+`1116 - 820 = 296`
 
 source tokens remain fail-closed.
 
-Those 294 are not treated as zero, absent, or outside the DDÁSZ service area. They are merely not admitted to the exact whole-settlement materialization surface by P48.
+Those 296 are not treated as zero, absent, or outside the DDÁSZ service area. They are merely not admitted to the exact whole-settlement materialization surface by P48.
 
 ## Normal path
 
@@ -48,7 +50,8 @@ The normal P48 path requires:
 2. an exact whole-settlement name identity in the KSH-derived locator;
 3. a unique five-digit KSH settlement code;
 4. no named settlement-part / special-grain indication;
-5. no identity equivalence inference.
+5. no identity equivalence inference;
+6. no collision with an already-proven whole-settlement membership of another DSO.
 
 Rows admitted through this path remain `DER`, not `OBS`.
 
@@ -76,6 +79,23 @@ The reproducible derived locator does not directly materialize two source-exact 
 - `10348 Zalakomár`
 
 For both rows the DDÁSZ M1 name and the official KSH 2019 locality name are exact. No spelling equivalence is inferred.
+
+## Cross-DSO whole-settlement conflicts remain fail-closed
+
+Two DDÁSZ M1 tokens are exact KSH locality-name matches but cannot be admitted as DDÁSZ whole-settlement memberships because the same KSH identity is already separately proven as MVM Démász whole-settlement membership:
+
+| DDÁSZ M1 token | KSH code | Existing proven whole-settlement operator |
+| --- | ---: | --- |
+| `Dusnok` | `04109` | MVM Démász |
+| `Mélykút` | `16018` | MVM Démász |
+
+Dusnok is already present on the historical MVM Démász materialization surface. Mélykút is present on the P45 MVM Démász completion surface. The MVM Démász authority explicitly separates whole-settlement from partial-settlement coverage, while the DDÁSZ M1 authority is an administrative-unit list.
+
+Therefore P48 does not mint a second whole-settlement DSO membership from name equality alone.
+
+`EXACT ADMINISTRATIVE-UNIT NAME MATCH != SECOND WHOLE-SETTLEMENT DSO MEMBERSHIP`
+
+Both conflicts are recorded in `registry/dso_service_area_membership_ddasz_p48_exceptions.csv` as `CROSS_DSO_WHOLE_CONFLICT_EXCLUDED` and are absent from the P48 pair surface.
 
 ## Fourteen spelling-equivalence edges remain fail-closed
 
@@ -106,7 +126,7 @@ No generalized fuzzy-name or accent-normalization authority is minted by P48.
 
 ## Remaining special-grain population
 
-Beyond the fourteen spelling edges, the unresolved population is dominated by named settlement parts and other M1 special/mixed administrative grains.
+Beyond the fourteen spelling edges and the two cross-DSO conflicts, the unresolved population is dominated by named settlement parts and other M1 special/mixed administrative grains.
 
 P48 does not promote those records to whole-settlement membership.
 
@@ -118,19 +138,19 @@ and not a complete operator membership crosswalk claim.
 
 ## Normalized storage
 
-Because P48 adds 779 records, the repeated operator/source/status fields are stored once in a manifest and the exact identity surface is stored as a two-column pair file:
+Because P48 adds 777 records, the repeated operator/source/status fields are stored once in a manifest and the exact identity surface is stored as a two-column pair file:
 
 - `registry/dso_service_area_membership_ddasz_p48_pairs.csv`
 - `registry/dso_service_area_membership_ddasz_p48_manifest.csv`
 - `registry/dso_service_area_membership_ddasz_p48_exceptions.csv`
 
-The manifest reconstructs the same row-level semantics for every normal P48 identity.
+The manifest reconstructs the same row-level semantics for every admitted normal P48 identity. The exception file separately records parser/direct-KSH admission paths and the two excluded cross-DSO conflicts.
 
 `NORMALIZED STORAGE != WEAKER ROW-LEVEL EVIDENCE`
 
 ## Completion boundary
 
-P48 closes the complete **currently provable whole-settlement materialization** for DDÁSZ under the stated authority paths; it does not close all DDÁSZ M1 grains.
+P48 closes the complete **currently provable whole-settlement materialization** for DDÁSZ under the stated authority paths and cross-DSO conflict gate; it does not close all DDÁSZ M1 grains.
 
 `COMPLETE PROVABLE WHOLE-SETTLEMENT MATERIALIZATION != COMPLETE OPERATOR MEMBERSHIP CROSSWALK`
 
