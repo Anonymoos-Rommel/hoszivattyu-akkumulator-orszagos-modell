@@ -11,7 +11,43 @@ CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 DOC = ROOT / "docs/source_packs/P22_B10_EON_CURRENT_M1_AUTHORITY_RESOLUTION.md"
 
 KSH_2019 = "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS"
-P35_KSH_SOURCE = "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS"
+
+EXPECTED_P22_SNAPSHOT = {
+    ("17686", "Ágasegyháza", "MVM_DEMASZ"),
+    ("21944", "Akasztó", "MVM_DEMASZ"),
+    ("21148", "Apostag", "MVM_DEMASZ"),
+    ("10719", "Bácsalmás", "MVM_DEMASZ"),
+    ("10180", "Bácsbokod", "MVM_DEMASZ"),
+    ("27234", "Bácsborsód", "MVM_DEMASZ"),
+    ("08697", "Bácsszentgyörgy", "MVM_DEMASZ"),
+    ("30155", "Bácsszőlős", "MVM_DEMASZ"),
+    ("13408", "Ballószög", "MVM_DEMASZ"),
+    ("25937", "Balotaszállás", "MVM_DEMASZ"),
+    ("12441", "Abádszalók", "OPUS_TITASZ"),
+    ("27872", "Abony", "OPUS_TITASZ"),
+    ("08776", "Ajak", "OPUS_TITASZ"),
+    ("25265", "Alattyán", "OPUS_TITASZ"),
+    ("29975", "Anarcs", "OPUS_TITASZ"),
+    ("20303", "Apagy", "OPUS_TITASZ"),
+    ("09353", "Aranyosapáti", "OPUS_TITASZ"),
+    ("27641", "Álmosd", "OPUS_TITASZ"),
+    ("03319", "Ártánd", "OPUS_TITASZ"),
+    ("20011", "Bagamér", "OPUS_TITASZ"),
+    ("24554", "Abasár", "MVM_EMASZ"),
+    ("23241", "Adács", "MVM_EMASZ"),
+    ("09362", "Aggtelek", "MVM_EMASZ"),
+    ("06345", "Aldebrő", "MVM_EMASZ"),
+    ("05847", "Harsány", "MVM_EMASZ"),
+    ("18573", "Acsa", "ELMU"),
+    ("23199", "Alsónémedi", "ELMU"),
+    ("33561", "Apaj", "ELMU"),
+    ("12548", "Abaliget", "EON_DDASZ"),
+    ("06080", "Ádánd", "EON_DDASZ"),
+    ("08925", "Adony", "EON_DDASZ"),
+    ("17376", "Aba", "EON_EDASZ"),
+    ("11882", "Abda", "EON_EDASZ"),
+    ("04428", "Ács", "EON_EDASZ"),
+}
 
 
 class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
@@ -87,9 +123,13 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
 
         p22_snapshot = [
             row for row in rows
-            if P35_KSH_SOURCE not in row["source_ids"].split(";")
+            if (row["ksh_settlement_code"], row["settlement_name"], row["operator_id"]) in EXPECTED_P22_SNAPSHOT
         ]
         self.assertEqual(34, len(p22_snapshot))
+        self.assertEqual(EXPECTED_P22_SNAPSHOT, {
+            (row["ksh_settlement_code"], row["settlement_name"], row["operator_id"])
+            for row in p22_snapshot
+        })
         self.assertGreaterEqual(len(rows), len(p22_snapshot))
 
     def test_national_crosswalk_remains_header_only(self):
