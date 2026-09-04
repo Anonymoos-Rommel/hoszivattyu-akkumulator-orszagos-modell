@@ -21,10 +21,11 @@ MODULE_STATUS = ROOT / "registry/module_status.csv"
 DOC = ROOT / "docs/source_packs/P48_B10_DDASZ_KSH_WHOLE_SETTLEMENT_COMPLETION.md"
 
 DDASZ = "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025"
+DEMASZ = "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026"
 KSH_2019 = "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS"
 KSH_2025 = "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS"
 KSH_2025_DERIVATION = "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026"
-EXPECTED_PAIR_DIGEST = "6c2515bab72425333479b466ec34d1deb2f08035380a43739e9b11eb2410bc9d"
+EXPECTED_PAIR_DIGEST = "c12ddf8c6f246cb116ff8f4fa7e9aa97d3308b25c6189efcb124d1ceedba4878"
 
 EXPECTED_EXCEPTIONS = {
     ("31431", "Husztót", "PDF_EXTRACTION_ARTIFACT_CORRECTION", "E.ON Dél-dunántúli Áramhálózati Zrt. - Elosztói Üzletszabályzat Husztót"),
@@ -32,6 +33,8 @@ EXPECTED_EXCEPTIONS = {
     ("34032", "Szaporca", "PDF_EXTRACTION_ARTIFACT_CORRECTION", "S zaporca"),
     ("33233", "Gödre", "KSH2019_DIRECT", "Gödre"),
     ("10348", "Zalakomár", "KSH2019_DIRECT", "Zalakomár"),
+    ("04109", "Dusnok", "CROSS_DSO_WHOLE_CONFLICT_EXCLUDED", "Dusnok"),
+    ("16018", "Mélykút", "CROSS_DSO_WHOLE_CONFLICT_EXCLUDED", "Mélykút"),
 }
 
 SPELLING_EDGE_TARGETS = {
@@ -51,6 +54,8 @@ SPELLING_EDGE_TARGETS = {
     ("05892", "Vokány"),
 }
 
+CROSS_DSO_CONFLICTS = {("04109", "Dusnok"), ("16018", "Mélykút")}
+
 
 class B10P48DdaszKshWholeSettlementCompletionTests(unittest.TestCase):
     def rows(self, path):
@@ -60,9 +65,9 @@ class B10P48DdaszKshWholeSettlementCompletionTests(unittest.TestCase):
     def p48_pairs(self):
         return self.rows(PAIRS)
 
-    def test_exact_779_p48_pairs_are_frozen_by_digest(self):
+    def test_exact_777_p48_pairs_are_frozen_by_digest(self):
         rows = self.p48_pairs()
-        self.assertEqual(779, len(rows))
+        self.assertEqual(777, len(rows))
         canonical = "".join(
             f'{row["ksh_settlement_code"]}|{row["settlement_name"]}\n'
             for row in sorted(rows, key=lambda r: (r["ksh_settlement_code"], r["settlement_name"]))
@@ -73,12 +78,13 @@ class B10P48DdaszKshWholeSettlementCompletionTests(unittest.TestCase):
         rows = self.p48_pairs()
         codes = [row["ksh_settlement_code"] for row in rows]
         names = [row["settlement_name"] for row in rows]
-        self.assertEqual(779, len(set(codes)))
-        self.assertEqual(779, len(set(names)))
+        self.assertEqual(777, len(set(codes)))
+        self.assertEqual(777, len(set(names)))
         self.assertTrue(all(len(code) == 5 and code.isdigit() for code in codes))
         actual = {(r["ksh_settlement_code"], r["settlement_name"]) for r in rows}
         for pair in {("31431", "Husztót"), ("27553", "Pogányszentpéter"), ("34032", "Szaporca"), ("33233", "Gödre"), ("10348", "Zalakomár")}:
             self.assertIn(pair, actual)
+        self.assertTrue(CROSS_DSO_CONFLICTS.isdisjoint(actual))
 
     def test_manifest_reconstructs_exact_ddasz_der_semantics(self):
         rows = self.rows(MANIFEST)
@@ -94,9 +100,10 @@ class B10P48DdaszKshWholeSettlementCompletionTests(unittest.TestCase):
         self.assertEqual({DDASZ, KSH_2025, KSH_2025_DERIVATION}, set(row["normal_source_ids"].split(";")))
         self.assertEqual(str(PAIRS.relative_to(ROOT)), row["pairs_file"])
         self.assertEqual(str(EXCEPTIONS.relative_to(ROOT)), row["exception_file"])
-        self.assertIn("779", row["notes"])
+        self.assertIn("777", row["notes"])
+        self.assertIn("cross-DSO", row["notes"])
 
-    def test_five_exception_paths_are_exact_and_nongeneralized(self):
+    def test_seven_exception_paths_are_exact_and_nongeneralized(self):
         rows = self.rows(EXCEPTIONS)
         actual = {
             (r["ksh_settlement_code"], r["settlement_name"], r["exception_class"], r["source_token"])
@@ -105,20 +112,34 @@ class B10P48DdaszKshWholeSettlementCompletionTests(unittest.TestCase):
         self.assertEqual(EXPECTED_EXCEPTIONS, actual)
         extraction = [r for r in rows if r["exception_class"] == "PDF_EXTRACTION_ARTIFACT_CORRECTION"]
         direct = [r for r in rows if r["exception_class"] == "KSH2019_DIRECT"]
+        conflicts = [r for r in rows if r["exception_class"] == "CROSS_DSO_WHOLE_CONFLICT_EXCLUDED"]
         self.assertEqual(3, len(extraction))
         self.assertEqual(2, len(direct))
+        self.assertEqual(2, len(conflicts))
         normal_sources = {DDASZ, KSH_2025, KSH_2025_DERIVATION}
         self.assertTrue(all(set(r["source_ids"].split(";")) == normal_sources for r in extraction))
         self.assertTrue(all(set(r["source_ids"].split(";")) == {DDASZ, KSH_2019} for r in direct))
+        self.assertTrue(all(set(r["source_ids"].split(";")) == {DDASZ, DEMASZ, KSH_2025} for r in conflicts))
         self.assertTrue(all("fuzzy" in r["notes"].lower() or "spelling equivalence" in r["notes"].lower() for r in extraction))
+        self.assertTrue(all("second whole-settlement" in r["notes"] for r in conflicts))
 
-    def test_historical_43_plus_p48_779_equals_822_current_whole_identities(self):
+    def test_historical_43_plus_p48_777_equals_820_current_whole_identities(self):
         historical = [r for r in self.rows(HISTORICAL) if r["operator_id"] == "EON_DDASZ"]
         self.assertEqual(43, len(historical))
         old_pairs = {(r["ksh_settlement_code"], r["settlement_name"]) for r in historical}
         new_pairs = {(r["ksh_settlement_code"], r["settlement_name"]) for r in self.p48_pairs()}
         self.assertFalse(old_pairs & new_pairs)
-        self.assertEqual(822, len(old_pairs | new_pairs))
+        self.assertEqual(820, len(old_pairs | new_pairs))
+
+    def test_cross_dso_conflicts_are_recorded_but_not_promoted(self):
+        pairs = {(r["ksh_settlement_code"], r["settlement_name"]) for r in self.p48_pairs()}
+        self.assertTrue(CROSS_DSO_CONFLICTS.isdisjoint(pairs))
+        historical = {(r["ksh_settlement_code"], r["settlement_name"], r["operator_id"]) for r in self.rows(HISTORICAL)}
+        demasz_p45 = {(r["ksh_settlement_code"], r["settlement_name"], r["operator_id"]) for r in self.rows(DEMASZ_P45)}
+        self.assertIn(("04109", "Dusnok", "MVM_DEMASZ"), historical)
+        self.assertIn(("16018", "Mélykút", "MVM_DEMASZ"), demasz_p45)
+        text = DOC.read_text(encoding="utf-8")
+        self.assertIn("EXACT ADMINISTRATIVE-UNIT NAME MATCH != SECOND WHOLE-SETTLEMENT DSO MEMBERSHIP", text)
 
     def test_fourteen_spelling_equivalence_targets_remain_fail_closed(self):
         pairs = {(r["ksh_settlement_code"], r["settlement_name"]) for r in self.p48_pairs()}
@@ -146,16 +167,17 @@ class B10P48DdaszKshWholeSettlementCompletionTests(unittest.TestCase):
         self.assertEqual(DDASZ, row["source_id"])
         self.assertEqual("CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE", row["currentness_status"])
         self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", row["extraction_status"])
-        for marker in ("P48", "779", "822", "1116", "294", "14", "Balatonöszöd", "Szabadhidvég"):
+        for marker in ("P48", "777", "820", "1116", "296", "14", "Dusnok", "Mélykút", "Balatonöszöd", "Szabadhidvég"):
             self.assertIn(marker, row["notes"])
 
     def test_source_pack_preserves_complete_accounting_and_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
         for marker in (
             "1116 unique source tokens",
-            "43 historical + 779 P48 = 822 materialized current provable whole-settlement identities",
-            "1116 - 822 = 294",
+            "43 historical + 777 P48 = 820 materialized current provable whole-settlement identities",
+            "1116 - 820 = 296",
             "PDF EXTRACTION ARTIFACT CORRECTION != FUZZY IDENTITY MATCH",
+            "EXACT ADMINISTRATIVE-UNIT NAME MATCH != SECOND WHOLE-SETTLEMENT DSO MEMBERSHIP",
             "SOURCE SPELLING DIFFERENCE != AUTHORIZED IDENTITY EQUIVALENCE",
             "NORMALIZED STORAGE != WEAKER ROW-LEVEL EVIDENCE",
             "COMPLETE PROVABLE WHOLE-SETTLEMENT MATERIALIZATION != COMPLETE OPERATOR MEMBERSHIP CROSSWALK",
