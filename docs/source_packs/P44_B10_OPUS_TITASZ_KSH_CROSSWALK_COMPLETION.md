@@ -30,7 +30,12 @@ No fuzzy matching, accent normalization, approximate matching, or identity overr
 
 P44 adds exactly **225 whole-settlement memberships**. Together with the 170 historical OPUS rows, the current OPUS TITÁSZ M1 settlement population is therefore exactly **395 materialized rows**.
 
-All 225 new records are independently frozen in `tests/test_b10_p44_opus_titasz_ksh_crosswalk_completion.py` as exact KSH-code/name pairs. The registry remains the materialized data surface; this source pack records the evidence contract and completion boundary rather than republishing the operator or KSH source documents.
+For append-only auditability, P44 does not rewrite the historical evolving tranche. The complete OPUS operator materialization is the explicit union of the **historical tranche + P44 completion tranche**:
+
+- `registry/dso_service_area_membership_crosswalk_tranche.csv` — historical P20/P40/P41/P42/P43 OPUS rows 1–170 plus the other bounded operator tranches;
+- `registry/dso_service_area_membership_crosswalk_opus_p44.csv` — exact P44 OPUS rows 171–395 only.
+
+All 225 new records are independently frozen in `tests/test_b10_p44_opus_titasz_ksh_crosswalk_completion.py` as exact KSH-code/name pairs. The historical and completion registry surfaces together are the materialized operator data surface; this source pack records the evidence contract and completion boundary rather than republishing the operator or KSH source documents.
 
 Every new P44 row is:
 
