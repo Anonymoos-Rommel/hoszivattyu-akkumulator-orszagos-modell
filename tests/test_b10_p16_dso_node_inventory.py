@@ -157,13 +157,18 @@ class B10P16DsoNodeInventoryTests(unittest.TestCase):
             rows = list(csv.DictReader(handle))
         self.assertEqual(6, len(rows))
         self.assertEqual(set(CURRENT_OPERATOR_IDS), {row["operator_id"] for row in rows})
-        by_operator = {row["operator_id"]: row for row in rows}
-        bounded = {row["operator_id"] for row in rows if row["node_source_status"] == "NODE_BEARING_SOURCE_BOUNDED"}
-        self.assertTrue({"MVM_DEMASZ", "OPUS_TITASZ"}.issubset(bounded))
-        self.assertIn(by_operator["MVM_EMASZ"]["node_source_status"], {"Q_OPERATOR_NODE_TABLE_UNRESOLVED", "NODE_BEARING_SOURCE_BOUNDED"})
-        for operator in ("ELMU", "EON_DDASZ", "EON_EDASZ"):
-            self.assertTrue(by_operator[operator]["node_source_status"].startswith("Q_"))
-        self.assertTrue(all(row["inventory_completeness_status"] == Q_INVENTORY_COMPLETENESS_UNPROVEN for row in rows))
+        bounded = {
+            row["operator_id"]
+            for row in rows
+            if row["node_source_status"] == "NODE_BEARING_SOURCE_BOUNDED"
+        }
+        self.assertEqual(set(CURRENT_OPERATOR_IDS), bounded)
+        self.assertTrue(
+            all(
+                row["inventory_completeness_status"] == Q_INVENTORY_COMPLETENESS_UNPROVEN
+                for row in rows
+            )
+        )
 
     def test_p1_p2_source_rows_are_not_labelled_complete_inventory(self):
         with (ROOT / "registry/dso_node_inventory_sources.csv").open(encoding="utf-8", newline="") as handle:
