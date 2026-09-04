@@ -10,6 +10,8 @@ TRANCHE = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 DOC = ROOT / "docs/source_packs/P22_B10_EON_CURRENT_M1_AUTHORITY_RESOLUTION.md"
 
+P35_KSH_SOURCE = "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS"
+
 
 class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
     def rows(self, path):
@@ -73,10 +75,17 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
         self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
 
-    def test_tranche_now_has_all_six_operators_but_is_not_complete_national_crosswalk(self):
-        operators = {row["operator_id"] for row in self.rows(TRANCHE)}
+    def test_p22_snapshot_has_all_six_operators_and_survives_later_evolving_tranches(self):
+        rows = self.rows(TRANCHE)
+        operators = {row["operator_id"] for row in rows}
         self.assertEqual({"ELMU", "EON_DDASZ", "EON_EDASZ", "MVM_DEMASZ", "MVM_EMASZ", "OPUS_TITASZ"}, operators)
-        self.assertEqual(34, len(self.rows(TRANCHE)))
+
+        p22_snapshot = [
+            row for row in rows
+            if P35_KSH_SOURCE not in row["source_ids"].split(";")
+        ]
+        self.assertEqual(34, len(p22_snapshot))
+        self.assertGreaterEqual(len(rows), len(p22_snapshot))
 
     def test_national_crosswalk_remains_header_only(self):
         self.assertEqual(1, len(CANONICAL.read_text(encoding="utf-8").splitlines()))
