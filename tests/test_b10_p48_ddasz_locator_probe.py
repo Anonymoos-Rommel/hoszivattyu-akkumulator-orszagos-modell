@@ -34,7 +34,10 @@ def repair_extraction_artifact(token):
 
 class B10P48DdaszLocatorProbe(unittest.TestCase):
     def test_probe(self):
-        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pypdf==6.0.0"], check=True)
+        subprocess.run(
+            [sys.executable, "-m", "pip", "install", "-q", "pypdf==6.0.0", "cryptography>=3.1"],
+            check=True,
+        )
         from pypdf import PdfReader
 
         with tempfile.TemporaryDirectory() as td:
@@ -93,7 +96,6 @@ class B10P48DdaszLocatorProbe(unittest.TestCase):
             if not m:
                 continue
             code, name = m.group(1), re.sub(r"\s+", " ", m.group(2)).strip()
-            # Strip page-continuation heading if extraction appends it to the final row.
             name = re.sub(r"\s+1\. A helységek betűrendes névsorában.*$", "", name).strip()
             if name:
                 ksh_2019_by_name.setdefault(name, set()).add((code, name))
