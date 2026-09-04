@@ -7,6 +7,7 @@ from modules.B10.integration_closure_contract import current_b10_closure_assessm
 
 ROOT = Path(__file__).resolve().parents[1]
 TRANCHE = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
+COMPLETION = ROOT / "registry/dso_service_area_membership_crosswalk_opus_p44.csv"
 SOURCES = ROOT / "registry/dso_service_area_membership_sources.csv"
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 MODULE_STATUS = ROOT / "registry/module_status.csv"
@@ -250,14 +251,14 @@ class B10P44OpusTitaszKshCrosswalkCompletionTests(unittest.TestCase):
         with path.open(encoding="utf-8", newline="") as handle:
             return list(csv.DictReader(handle))
 
-    def opus_rows(self):
+    def historical_opus_rows(self):
         return [row for row in self.rows(TRANCHE) if row["operator_id"] == "OPUS_TITASZ"]
 
     def p44_rows(self):
-        return [
-            row for row in self.opus_rows()
-            if (row["ksh_settlement_code"], row["settlement_name"]) in EXPECTED_P44
-        ]
+        return self.rows(COMPLETION)
+
+    def opus_rows(self):
+        return self.historical_opus_rows() + self.p44_rows()
 
     def test_exact_225_p44_name_code_pairs_are_materialized(self):
         rows = self.p44_rows()
@@ -266,25 +267,22 @@ class B10P44OpusTitaszKshCrosswalkCompletionTests(unittest.TestCase):
         self.assertEqual(EXPECTED_P44, actual)
 
     def test_current_opus_population_is_exactly_395_and_p44_adds_225(self):
+        self.assertEqual(170, len(self.historical_opus_rows()))
+        self.assertEqual(225, len(self.p44_rows()))
         rows = self.opus_rows()
         self.assertEqual(395, len(rows))
-        self.assertEqual(225, len(self.p44_rows()))
-        self.assertEqual(
-            395,
-            len({(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}),
-        )
+        self.assertEqual(395, len({(row["ksh_settlement_code"], row["settlement_name"]) for row in rows}))
 
     def test_all_395_opus_rows_preserve_direct_observed_whole_settlement_semantics(self):
         rows = self.opus_rows()
         self.assertEqual(395, len(rows))
+        self.assertTrue(all(row["operator_id"] == "OPUS_TITASZ" for row in rows))
         self.assertTrue(all(row["service_area_id"] == "OPUS_TITASZ:SERVICE_AREA" for row in rows))
         self.assertTrue(all(row["coverage_scope"] == "WHOLE_SETTLEMENT" for row in rows))
         self.assertTrue(all(row["usage_location_requirement"] == "NONE" for row in rows))
         self.assertTrue(all(row["evidence_status"] == "OBS" for row in rows))
         self.assertTrue(all(row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN" for row in rows))
-        self.assertTrue(
-            all(set(row["source_ids"].split(";")) == {OPUS, KSH_2019} for row in rows)
-        )
+        self.assertTrue(all(set(row["source_ids"].split(";")) == {OPUS, KSH_2019} for row in rows))
 
     def test_p44_closes_exact_current_opus_m1_population_at_serial_395(self):
         pairs = {(row["ksh_settlement_code"], row["settlement_name"]) for row in self.opus_rows()}
@@ -308,8 +306,8 @@ class B10P44OpusTitaszKshCrosswalkCompletionTests(unittest.TestCase):
         ):
             self.assertIn(marker, src["notes"])
 
-    def test_all_ksh_codes_remain_unique_five_digit_identifiers(self):
-        rows = self.rows(TRANCHE)
+    def test_all_ksh_codes_remain_unique_across_historical_and_completion_surfaces(self):
+        rows = self.rows(TRANCHE) + self.rows(COMPLETION)
         codes = [row["ksh_settlement_code"] for row in rows]
         self.assertEqual(len(codes), len(set(codes)))
         self.assertTrue(all(len(code) == 5 and code.isdigit() for code in codes))
@@ -333,6 +331,7 @@ class B10P44OpusTitaszKshCrosswalkCompletionTests(unittest.TestCase):
             "serial **171, Lónya**",
             "serial **395, Zsurk**",
             "COMPLETE_OPERATOR_M1_MATERIALIZED",
+            "historical tranche + P44 completion tranche",
             "SETTLEMENT NAME != KSH SETTLEMENT ID",
             "KSH SETTLEMENT ID != DSO SERVICE-AREA MEMBERSHIP",
             "WHOLE SETTLEMENT != PARTIAL SETTLEMENT OR USAGE-LOCATION MEMBERSHIP",
