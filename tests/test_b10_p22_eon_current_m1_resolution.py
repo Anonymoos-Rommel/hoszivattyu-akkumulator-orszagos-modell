@@ -10,6 +10,7 @@ TRANCHE = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 DOC = ROOT / "docs/source_packs/P22_B10_EON_CURRENT_M1_AUTHORITY_RESOLUTION.md"
 
+KSH_2019 = "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS"
 P35_KSH_SOURCE = "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS"
 
 
@@ -56,8 +57,12 @@ class B10P22EonCurrentM1ResolutionTests(unittest.TestCase):
             self.assertEqual("CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE", rows[operator]["currentness_status"])
             self.assertEqual("PARTIAL_TRANCHE_MATERIALIZED", rows[operator]["extraction_status"])
 
-    def test_exact_nine_eon_rows_are_materialized_as_der(self):
-        rows = [row for row in self.rows(TRANCHE) if row["operator_id"] in {"ELMU", "EON_DDASZ", "EON_EDASZ"}]
+    def test_p22_historical_nine_eon_rows_remain_exact_der_snapshot(self):
+        rows = [
+            row for row in self.rows(TRANCHE)
+            if row["operator_id"] in {"ELMU", "EON_DDASZ", "EON_EDASZ"}
+            and KSH_2019 in row["source_ids"].split(";")
+        ]
         self.assertEqual(9, len(rows))
         expected = {
             ("18573", "Acsa", "ELMU"),
