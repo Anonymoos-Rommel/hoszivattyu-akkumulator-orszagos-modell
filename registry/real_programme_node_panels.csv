@@ -1,0 +1,1 @@
+panel_id,programme_id,cohort_id,scope_id,truth_context,expected_entity_count,actual_entity_count,expected_timestamp_count,actual_timestamp_count,status,evidence_status,source_refs,reason
