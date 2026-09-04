@@ -24,6 +24,11 @@ from modules.B10.integration_closure_contract import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+EON_P23_URL_BLOCKERS = {
+    "Q-B10-P23-ELMU-2026-CONSUMPTION-PUBLICATION-URL",
+    "Q-B10-P23-EON-DDASZ-2026-CONSUMPTION-PUBLICATION-URL",
+    "Q-B10-P23-EON-EDASZ-2026-CONSUMPTION-PUBLICATION-URL",
+}
 
 
 class B10P12IntegrationClosureTests(unittest.TestCase):
@@ -71,7 +76,11 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
 
     def test_regional_hosting_remains_q_with_p15_membership_blockers(self):
         result = current_b10_closure_assessment()
-        gate = next(item for item in result.acceptance_gates if item.gate_id == ACCEPTANCE_REGIONAL_PENETRATION_HOSTING)
+        gate = next(
+            item
+            for item in result.acceptance_gates
+            if item.gate_id == ACCEPTANCE_REGIONAL_PENETRATION_HOSTING
+        )
         self.assertEqual(Q_UNRESOLVED, gate.status)
         self.assertIn("B10-P14", gate.canonical_refs)
         self.assertIn("B10-P15", gate.canonical_refs)
@@ -84,7 +93,9 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
 
     def test_legacy_q05_q07_are_source_scoped_not_global(self):
         result = current_b10_closure_assessment()
-        gate = next(item for item in result.acceptance_gates if item.gate_id == ACCEPTANCE_QUESTION_HANDLING)
+        gate = next(
+            item for item in result.acceptance_gates if item.gate_id == ACCEPTANCE_QUESTION_HANDLING
+        )
         self.assertEqual(ACCEPTANCE_SATISFIED, gate.status)
         self.assertEqual(("Q-05", "Q-07"), result.legacy_acceptance_labels)
         self.assertFalse(gate.blocking_refs)
@@ -99,7 +110,10 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
             ("Q-B01-002", "Q-B10-001", "Q-B10-002", "B10-P11"),
             by_label["Q-07"].canonical_refs,
         )
-        self.assertIn("V1.1_SECTION_11_B14_LOCAL_Q07_FINANCING", by_label["Q-07"].excluded_conflicts)
+        self.assertIn(
+            "V1.1_SECTION_11_B14_LOCAL_Q07_FINANCING",
+            by_label["Q-07"].excluded_conflicts,
+        )
 
         mapping_doc = (ROOT / "docs/methodology/question_identifiers.md").read_text(encoding="utf-8")
         self.assertNotIn("\n| Q-05 |", mapping_doc)
@@ -158,7 +172,7 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         with self.assertRaisesRegex(B10IntegrationClosureError, "do not mark module DONE"):
             require_b10_closure_ready(current_b10_closure_assessment())
 
-    def test_p23_refines_active_node_source_blockers_without_closing_topology(self):
+    def test_p34_clears_eon_url_blockers_without_closing_topology(self):
         blockers = set(current_b10_closure_assessment().blocking_refs)
         self.assertNotIn("NO_NATIONAL_DSO_COVERAGE", blockers)
         self.assertNotIn("NO_NATIONAL_SERVICE_AREA_MEMBERSHIP_CROSSWALK", blockers)
@@ -168,28 +182,28 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
         self.assertNotIn("EON_DDASZ_NODE_SOURCE_UNRESOLVED", blockers)
         self.assertNotIn("EON_EDASZ_NODE_SOURCE_UNRESOLVED", blockers)
         self.assertNotIn("MVM_EMASZ_OPERATOR_NODE_TABLE_UNRESOLVED", blockers)
+        for ref in EON_P23_URL_BLOCKERS:
+            self.assertNotIn(ref, blockers)
         self.assertIn("NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK", blockers)
         self.assertIn("PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED", blockers)
         self.assertIn("NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY", blockers)
-        self.assertIn("Q-B10-P23-ELMU-2026-CONSUMPTION-PUBLICATION-URL", blockers)
-        self.assertIn("Q-B10-P23-EON-DDASZ-2026-CONSUMPTION-PUBLICATION-URL", blockers)
-        self.assertIn("Q-B10-P23-EON-EDASZ-2026-CONSUMPTION-PUBLICATION-URL", blockers)
         self.assertIn("PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED", blockers)
         self.assertIn("HEADROOM_NODE_SET_NOT_INVENTORY_COMPLETENESS", blockers)
         self.assertIn("Q-B01-002", blockers)
 
-    def test_limiting_node_gate_references_p23_and_remains_q(self):
+    def test_limiting_node_gate_references_p34_and_remains_q(self):
         result = current_b10_closure_assessment()
         gate = next(item for item in result.output_gates if item.gate_id == OUTPUT_LIMITING_NODES)
         self.assertEqual(Q_UNRESOLVED, gate.status)
-        for ref in ("B10-P16", "B10-P17", "B10-P18", "B10-P19", "B10-P23"):
+        for ref in ("B10-P16", "B10-P17", "B10-P18", "B10-P19", "B10-P23", "B10-P34"):
             self.assertIn(ref, gate.canonical_refs)
         self.assertIn("registry/dso_node_inventory_sources.csv", gate.canonical_refs)
         self.assertIn("registry/dso_consumption_publication_authorities.csv", gate.canonical_refs)
         self.assertIn("registry/dso_published_node_facts_p23.csv", gate.canonical_refs)
         self.assertIn("registry/dso_node_inventory.csv", gate.canonical_refs)
         self.assertIn("NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY", gate.blocking_refs)
-        self.assertIn("Q-B10-P23-ELMU-2026-CONSUMPTION-PUBLICATION-URL", gate.blocking_refs)
+        for ref in EON_P23_URL_BLOCKERS:
+            self.assertNotIn(ref, gate.blocking_refs)
         self.assertIn("PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED", gate.blocking_refs)
         self.assertIn("NO_REAL_MANAGED_PEAK_SURVIVABILITY_STUDY", gate.blocking_refs)
 
@@ -203,9 +217,6 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
                 "NO_COMPLETE_KSH_DSO_MEMBERSHIP_CROSSWALK",
                 "PARTIAL_SETTLEMENT_USAGE_LOCATION_RESOLUTION_REQUIRED",
                 "NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY",
-                "Q-B10-P23-ELMU-2026-CONSUMPTION-PUBLICATION-URL",
-                "Q-B10-P23-EON-DDASZ-2026-CONSUMPTION-PUBLICATION-URL",
-                "Q-B10-P23-EON-EDASZ-2026-CONSUMPTION-PUBLICATION-URL",
                 "PUBLISHED_NODE_SET_REPOSITORY_MATERIALIZATION_BLOCKED",
                 "HEADROOM_NODE_SET_NOT_INVENTORY_COMPLETENESS",
                 "REGIONAL_READINESS_HEADER_ONLY",
@@ -215,6 +226,7 @@ class B10P12IntegrationClosureTests(unittest.TestCase):
                 "NO_REAL_TIMED_PROGRAMME_CAPEX",
             }.issubset(blockers)
         )
+        self.assertTrue(EON_P23_URL_BLOCKERS.isdisjoint(blockers))
 
 
 if __name__ == "__main__":
