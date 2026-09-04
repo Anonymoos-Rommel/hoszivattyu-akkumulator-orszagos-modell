@@ -8,6 +8,10 @@ TRANCHE = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
 AUTHORITIES = ROOT / "registry/dso_service_area_crosswalk_authorities.csv"
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 
+KSH_2019 = "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS"
+KSH_2025 = "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS"
+KSH_2025_DERIVATION = "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026"
+
 
 class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
     def tranche_rows(self):
@@ -19,13 +23,19 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
             return {row["source_id"] for row in csv.DictReader(handle)}
 
     def p20_rows(self):
-        return [row for row in self.tranche_rows() if row["operator_id"] in {"MVM_DEMASZ", "OPUS_TITASZ"}]
+        return [
+            row
+            for row in self.tranche_rows()
+            if row["operator_id"] in {"MVM_DEMASZ", "OPUS_TITASZ"}
+            and KSH_2019 in row["source_ids"].split(";")
+        ]
 
     def test_p20_tranche_remains_present_inside_evolving_registry(self):
         rows = self.tranche_rows()
         self.assertGreaterEqual(len(rows), 20)
-        self.assertEqual(10, sum(row["operator_id"] == "MVM_DEMASZ" for row in rows))
-        self.assertEqual(10, sum(row["operator_id"] == "OPUS_TITASZ" for row in rows))
+        p20 = self.p20_rows()
+        self.assertEqual(10, sum(row["operator_id"] == "MVM_DEMASZ" for row in p20))
+        self.assertEqual(10, sum(row["operator_id"] == "OPUS_TITASZ" for row in p20))
 
     def test_p20_rows_remain_observed_proven_whole_settlement_memberships(self):
         rows = self.p20_rows()
@@ -54,10 +64,12 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         self.assertIn("08776", codes)
         self.assertNotIn("1768", codes)
 
-    def test_p20_source_references_remain_registered(self):
+    def test_source_references_remain_registered_and_ksh_authority_is_explicit(self):
         authorities = self.authority_ids()
         required = {
-            "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+            KSH_2019,
+            KSH_2025,
+            KSH_2025_DERIVATION,
             "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
             "SRC-B10-OPUS-TITASZ-M1-2026",
         }
@@ -65,7 +77,10 @@ class B10P20ServiceAreaCrosswalkTrancheTests(unittest.TestCase):
         for row in self.tranche_rows():
             refs = set(row["source_ids"].split(";"))
             self.assertTrue(refs.issubset(authorities))
-            self.assertIn("SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS", refs)
+            self.assertTrue({KSH_2019, KSH_2025} & refs)
+            if KSH_2025 in refs:
+                self.assertIn(KSH_2025_DERIVATION, refs)
+                self.assertEqual("DER", row["evidence_status"])
 
     def test_mvm_partial_settlements_are_not_promoted(self):
         names = {row["settlement_name"] for row in self.tranche_rows() if row["operator_id"] == "MVM_DEMASZ"}
