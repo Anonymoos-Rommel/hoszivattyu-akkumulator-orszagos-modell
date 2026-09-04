@@ -3,6 +3,7 @@ import io
 from pathlib import Path
 import re
 import subprocess
+import sys
 import tempfile
 import urllib.request
 import unittest
@@ -16,12 +17,14 @@ KSH_URL = "https://raw.githubusercontent.com/ferenci-tamas/IrszHnk/master/IrszHn
 
 class B10P48DdaszLocatorProbe(unittest.TestCase):
     def test_probe(self):
+        subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pypdf==6.0.0"], check=True)
+        from pypdf import PdfReader
+
         with tempfile.TemporaryDirectory() as td:
             pdf = Path(td) / "ddasz.pdf"
-            txt = Path(td) / "ddasz.txt"
             urllib.request.urlretrieve(PDF_URL, pdf)
-            subprocess.run(["pdftotext", "-layout", "-f", "7", "-l", "9", str(pdf), str(txt)], check=True)
-            text = txt.read_text(encoding="utf-8", errors="replace")
+            reader = PdfReader(str(pdf))
+            text = "\n".join((reader.pages[i].extract_text() or "") for i in range(6, 9))
 
         start = text.index("TERÜLETI ILLETÉKESSÉGE") + len("TERÜLETI ILLETÉKESSÉGE")
         body = text[start:]
