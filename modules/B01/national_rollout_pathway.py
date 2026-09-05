@@ -1,4 +1,4 @@
-"""B01-P2 national programme rollout pathway contract.
+"""B01-P2/P3 national programme rollout pathway contract.
 
 The rollout mathematics is executable without promoting the original 2,000,000
 household hypothesis to a current national baseline.
@@ -9,12 +9,13 @@ LEGACY 2M HYPOTHESIS != OCCUPIED-DWELLING UNIVERSE != NON-DISTRICT-HEATED
 DWELLING CONTEXT != TECHNICALLY ELIGIBLE STOCK != POLICY TARGET != REAL
 SELECTED HOUSEHOLDS.
 
-Canonical dwelling-side context:
+Canonical dwelling-side context after B01-P3:
 - 4,008,541 occupied dwellings in the 2022 KSH/WBL011 universe (OBS);
-- approximately 3.404 million non-district-heated occupied dwellings (DER,
-  rounded-share estimate from KSH 2022 settlement-type heating-mode shares).
+- 3,389,817 non-district-heated occupied dwellings (DER from committed OBS
+  WBL011 heating/fuel cells).
 
-The approximately 3.4M figure is a programme-relevant physical population
+The previous 3,403,746 rounded-share estimate is retained only as historical
+audit context. The exact 3,389,817 population is programme-relevant physical
 context, not yet technical heat-pump eligibility. The programme target therefore
 remains an explicit POL/SCN input rather than a hard-coded national baseline.
 """
@@ -28,7 +29,8 @@ from typing import Iterable
 
 LEGACY_ORIGINAL_HYPOTHESIS_HOUSEHOLDS = 2_000_000
 OBSERVED_OCCUPIED_DWELLINGS_2022 = 4_008_541
-APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022 = 3_403_746
+HISTORICAL_APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022 = 3_403_746
+EXACT_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022 = 3_389_817
 HORIZON_MIN_YEARS = 8
 HORIZON_MAX_YEARS = 25
 REPORT_POINTS_YEARS = (12, 15, 20)
