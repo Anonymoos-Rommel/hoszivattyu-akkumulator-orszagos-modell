@@ -15,6 +15,7 @@ MODULE_STATUS = ROOT / "registry/module_status.csv"
 DOC = ROOT / "docs/source_packs/P53_B10_DDASZ_SPELLING_AUTHORITY_AUDIT.md"
 
 EXPECTED_AUDIT_DIGEST = "e3a7e8e3b25964b3964eaaac027edc9fb52c4420f06391aed016fcc34639a2ce"
+EXPECTED_CURRENT_DDASZ_M1_URL = "https://www.eon.hu/content/dam/eon/eon-hungary/documents/hatarozatok-szabalyzatok-aram/EDE/2025/EDE_elo_usz_melleklet_20241209%20%28v1%29.pdf"
 EXPECTED_TARGETS = {
     ("11916", "Balatonőszöd"), ("20464", "Baranyahídvég"),
     ("30094", "Csikóstőttős"), ("11086", "Cún"),
@@ -78,7 +79,7 @@ class B10P53DdaszSpellingAuthorityAuditTests(unittest.TestCase):
         self.assertEqual(1, len(rows))
         row = rows[0]
         self.assertEqual("EON_DDASZ_P48_14_SPELLING_EDGES", row["audit_scope"])
-        self.assertIn("EDD_elo_usz_melleklet_20241209", row["current_source_url"])
+        self.assertEqual(EXPECTED_CURRENT_DDASZ_M1_URL, row["current_source_url"])
         self.assertIn("EON_Aramszolg_egyetemes_USZ_fugg_mell_korrekturazott_tervezet.pdf", row["historical_source_url"])
         self.assertEqual("2022", row["historical_reference_date"])
         self.assertEqual("HISTORICAL_COMPARISON_ONLY", row["historical_use"])
