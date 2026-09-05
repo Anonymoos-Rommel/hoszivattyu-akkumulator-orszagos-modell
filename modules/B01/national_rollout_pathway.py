@@ -5,14 +5,17 @@ household hypothesis to a current national baseline.
 
 Core boundary:
 
-LEGACY 2M HYPOTHESIS != OBSERVED GAS-CONSUMER UNIVERSE != TECHNICALLY
-ELIGIBLE STOCK != POLICY TARGET != REAL SELECTED HOUSEHOLDS.
+LEGACY 2M HYPOTHESIS != OCCUPIED-DWELLING UNIVERSE != NON-DISTRICT-HEATED
+DWELLING CONTEXT != TECHNICALLY ELIGIBLE STOCK != POLICY TARGET != REAL
+SELECTED HOUSEHOLDS.
 
-Current observed context already in the repository:
-- 3,241,811 Hungarian household gas consumers in 2024 (OBS);
-- 3,022,115 heating consumers in the 20 county/capital rows (OBS).
+Canonical dwelling-side context:
+- 4,008,541 occupied dwellings in the 2022 KSH/WBL011 universe (OBS);
+- approximately 3.404 million non-district-heated occupied dwellings (DER,
+  rounded-share estimate from KSH 2022 settlement-type heating-mode shares).
 
-Neither count is technical heat-pump eligibility. The programme target therefore
+The approximately 3.4M figure is a programme-relevant physical population
+context, not yet technical heat-pump eligibility. The programme target therefore
 remains an explicit POL/SCN input rather than a hard-coded national baseline.
 """
 
@@ -24,8 +27,8 @@ from typing import Iterable
 
 
 LEGACY_ORIGINAL_HYPOTHESIS_HOUSEHOLDS = 2_000_000
-OBSERVED_GAS_CONSUMER_HOUSEHOLDS_2024 = 3_241_811
-OBSERVED_GAS_HEATING_CONSUMERS_2024 = 3_022_115
+OBSERVED_OCCUPIED_DWELLINGS_2022 = 4_008_541
+APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022 = 3_403_746
 HORIZON_MIN_YEARS = 8
 HORIZON_MAX_YEARS = 25
 REPORT_POINTS_YEARS = (12, 15, 20)
