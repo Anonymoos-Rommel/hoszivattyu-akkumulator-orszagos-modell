@@ -57,6 +57,30 @@ P17 ezért két authority utat tart külön:
 
 A KSH random forest P17 után explicit P12 candidate (`KSH-RF-2022-PRIMARY-ENERGY`), de `NOT_APPROVED / Q`.
 
+### 4. Technical-readiness enrichment
+
+P18 ugyanazt az authority-szétválasztást alkalmazza a heat-emitter és design-temperature mezőkre.
+
+`RAW OBS/DER READINESS TOKEN != TECHNICAL DIRECT AUTHORITY`
+
+`DOCUMENT-LEVEL EVIDENCE != STOCK-LEVEL ASSIGNMENT`
+
+A P1K OÉNY pilot-contractban egy dokumentumon belüli explicit hőleadó vagy hőmérséklet `OBS` lehet, de ez nem jelenti automatikusan azt, hogy a 2022 occupied WBL stockra teljes, reprodukálható assignment áll rendelkezésre. P18 direct authorityhoz ugyanazon `WBL_FULL_JOINT` grain vagy reprodukálható `DWELLING_RECORD` binding, complete assignment, WBL-compatible join key és repository-reproducible binding kell.
+
+A hőleadónál külön bizonyítani kell, hogy **current state**, nem korszerűsítési javaslat:
+
+`PROPOSED EMITTER != CURRENT EMITTER`
+
+A hőmérsékletnél P18 a P9 claimet szűken értelmezi. P1K alatt `OPERATING_MEASURED` lehet valódi observed temperature evidence, de nem helyettesíti a current design-temperature authorityt:
+
+`OPERATING TEMPERATURE EVIDENCE != DESIGN TEMPERATURE AUTHORITY`
+
+A jogszabályi/calculation reference 55/45 C sem current-building observation:
+
+`REFERENCE 55/45 C != CURRENT BUILDING DESIGN TEMPERATURE`
+
+Direct design-temperature authorityhoz `DESIGN_EXPLICIT` vagy current-system `CALCULATION_INPUT`, teljes supply/return pár és evidence locator szükséges a stock-grain/binding kapuk mellett.
+
 ## Executable admission contract
 
 A current-stock archetype `QUALIFIED` csak akkor lehet, ha egyszerre:
@@ -70,7 +94,14 @@ A direct building-type authority P16 után csak akkor tekinthető valódi linkne
 
 A direct primary-energy authority P17 után ugyanezt a fail-closed logikát követi: occupied-stock WBL full joint vagy reprodukálható dwelling-record binding kell. Egy aggregate/modelled energy panel nem direct authority.
 
-P17 után a canonical current state:
+A technical-readiness archetype a QUALIFIED current-stock archetype mellett csak akkor lehet `QUALIFIED`, ha:
+
+5. `heat_emitter_status` `OBS`/`DER` és a külön `heat_emitter_direct_authority_status = QUALIFIED`;
+6. `design_temperature_status` `OBS`/`DER` és a külön `design_temperature_direct_authority_status = QUALIFIED`.
+
+Raw readiness status token nem helyettesítheti a két direct-authority döntést.
+
+P18 után a canonical current state:
 
 - schema: `CONTRACTED`;
 - WBL011 source-native full joint: `QUALIFIED`;
@@ -81,16 +112,21 @@ P17 után a canonical current state:
 - official KSH full-stock primary-energy model existence: documented;
 - public reproducible primary-energy-to-WBL direct link: `Q`;
 - KSH primary-energy model P12 candidate: `NOT_APPROVED / Q`;
-- primary energy used by current archetype: `MODELLED_UNLINKED`.
+- primary energy used by current archetype: `MODELLED_UNLINKED`;
+- public/current-stock heat-emitter direct authority: `Q`;
+- public/current-stock design-temperature direct authority: `Q`.
 
 Kimenet: `Q`.
 
-A current blockers:
+A current-stock blockers:
 
 - `NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY`;
 - `NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY`.
 
-A technical-readiness archetype ezek mellett current heat-emitter és design-temperature `OBS`/`DER` evidence-et is igényel. Mindkettő jelenleg `Q`.
+A technical-readiness archetype ezek mellett current heat-emitter és design-temperature authorityt is igényel. Mindkettő jelenleg `Q`, ezért a jelenlegi blocker-megnevezések változatlanul:
+
+- `NO_CURRENT_HEAT_EMITTER_EVIDENCE`;
+- `NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE`.
 
 ## Machine-readable state
 
@@ -98,6 +134,9 @@ A technical-readiness archetype ezek mellett current heat-emitter és design-tem
 - `registry/b02_current_building_type_authority_audit.csv` — P8/P16 current building-type authority audit;
 - `registry/b02_primary_energy_authority_audit.csv` — P17 direct/model candidate audit;
 - `registry/b02_calibrated_linkage_admission.csv` — P12/P17 calibrated-model admission state;
+- `registry/oeny_public_field_mapping.csv` — public OÉNY field availability, including emitter/temperature fields;
+- `registry/b02_s0_s2_evidence_gap_matrix.csv` — field-level readiness gap state;
+- `registry/b02_tabula_thermal_distribution_audit.csv` — alternate TABULA/EPISCOPE thermal-distribution audit;
 - `registry/b02_wbl011_source_native_full_joint.csv` — P14 retrieval evidence;
 - `registry/b02_wbl011_full_joint_materialization.csv` — P15 repository materialization evidence.
 
@@ -105,7 +144,7 @@ A technical-readiness archetype ezek mellett current heat-emitter és design-tem
 
 - `Q-B02-002` OPEN: a WBL materialization lezárt, current KSH classification/model existence bizonyított, de public occupied-WBL building-type direct link és reproducible/admitted primary-energy linkage nincs.
 - `Q-B02-001` OPEN: current technical-readiness archetype és national technical eligible count nincs.
-- `Q-B02-004` OPEN: current heat-emitter és design-temperature evidence nincs.
+- `Q-B02-004` OPEN: P18 a direct heat-emitter/design-temperature authority minimumát lezárja, de current stock evidence nem érkezett és OÉNY request nem lett elküldve.
 
 ## Tiltott következtetések
 
@@ -116,11 +155,16 @@ A technical-readiness archetype ezek mellett current heat-emitter és design-tem
 - KSH internal/current classification existence nem publikált occupied-stock assignment.
 - `MODELLED` primary-energy panel vagy full-stock prediction nem direct WBL assignment authority.
 - 279 020 linked certificate nem complete occupied-stock primary-energy joint.
-- Raw `OBS`/`DER` token nem helyettesíti a direct-link gate-et.
+- Raw `OBS`/`DER` link token nem helyettesíti a direct-link gate-et.
 - Model-status token nem helyettesíti P12 approval/admissiont.
+- Raw `OBS`/`DER` readiness token nem helyettesíti a technical direct-authority gate-et.
+- Document-level emitter/temperature evidence nem automatikusan stock-level assignment.
+- Proposed emitter nem current emitter.
+- Operating measured temperature nem design-temperature authority.
+- Reference 55/45 C nem current-building design temperature.
 - Heating mode/fuel nem imputál heat emittert vagy design temperature-t.
 - Missing/Q nem nulla.
 
 ## Readiness
 
-B02 readiness változatlanul **55%**. P17 a primary-energy authority frontot és a P9 token-admissiont hardeníti, de current-stock archetype-ot vagy technical/final eligible countot még nem engedélyez.
+B02 readiness változatlanul **55%**. P18 a heat-emitter/design-temperature direct-authority admissiont hardeníti, de current-stock archetype-ot, technical-readiness archetype-ot vagy technical/final eligible countot még nem engedélyez.
