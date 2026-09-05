@@ -1,77 +1,59 @@
 # P1-G forráscsomag: B02 archetípus-cellalefedettség és összekapcsolhatóság
 
-Állapot: **részgrainen lezárva; teljes közös archetípuseloszlás nem igazolt**
+Állapot: **WBL011 full stock joint materialized; teljes B02 archetípuseloszlás továbbra sem igazolt**
 
-Ellenőrzés napja: **2026-08-12**
+Current-state frissítés: **2026-09-05 / B02-P15**
 
 Kapcsolódó kérdések: `Q-B02-001`, `Q-B02-002`, `Q-B02-004`
 
 ## Döntési eredmény
 
-A meglévő B02 adatcsomag három eltérő, önmagában használható, de egymással nem automatikusan összekapcsolható részgrainen áll:
+A current B02 adatcsomag több, eltérő authority-grainen áll:
 
-1. a KSH energetikai publikáció 16 épülettípus × építési időszak cellát és cellánként 59 primerenergia-bint ad, összesen 944 bint;
-2. a 2015-ös lakásfelmérésből 2022-re vetített `ASS` proxy csak négy településtípus × két épülettípus, vagyis 8 cella;
-3. a WBL011 és WBL017 sémája több lakásjellemző közös megfigyelését teszi lehetővé, de a teljes levélkódos cellatábla még nincs materializálva a repóban.
+1. a KSH energetikai publikáció 16 épülettípus × építési időszak cellát és 944 primerenergia-bint ad `MODELLED` státuszban;
+2. a 2015-ös lakásfelmérésből 2022-re vetített building-type kapcsolat 8 `ASS` proxycella;
+3. a pinned `WBL011/V67` direct full-stock joint P15-ben **116 452** `OBS` sorral és **4 008 541** lakással repositoryban materializált;
+4. a WBL017 hőszivattyú-baseline továbbra is külön grain és nem teljes occupied-population joint.
 
 Hőleadó- és tervezési hőmérsékletadat továbbra sincs. Ezért nem áll rendelkezésre teljes közös eloszlás a terület × épülettípus × építési kor × falazat × alapterület × komfort × fűtés × tüzelőanyag × primerenergia × hőleadó × hőmérséklet grainen.
 
 ## Energetikai cellalefedettség
 
-A 16 KSH-modellezett épülettípus × építési időszak cella mindegyike pozitív lakásszámú. A publikált energiaigény-binek összege 4 575 790 lakás (`DER` a `MODELLED` cellákból).
-
-- legkisebb benchmarkcella: 22 145 lakás;
-- legnagyobb benchmarkcella: 902 651 lakás;
-- publikált energiaigény-binek: 944;
-- pozitív binszám: 864;
-- nulla lakásszámú binszám: 80.
-
-A 80 nulla bin nem hiányzó rekord: a teljes 2 × 8 × 59 téglalap része, amelyben a publikált modell az adott energiaintervallumhoz nulla lakást rendel. A jelentés nem nevez ki önkényes „ritka” küszöböt. Ehelyett minden cellához pontos lakásszámot, teljesállomány-részesedést, rangot, kumulatív részesedést, pozitív/nulla binszámot és pozitív energiaintervallumot közöl.
-
-Gépi kimenet: [`b02_archetype_cell_coverage_2022.csv`](../../data/processed/b02/b02_archetype_cell_coverage_2022.csv).
+A 16 KSH-modellezett building-type × construction-period cella publikált energiaigény-binjeinek összege 4 575 790 lakás. A 944 binből 864 pozitív és 80 nulla. Ez MODELLED source surface; nem WBL assignment authority.
 
 ## Összekapcsolhatósági mátrix
 
-| Részgrain | Státusz | Mit szabad összekapcsolni? | Mit tilos hozzákapcsolni új bizonyíték nélkül? |
+| Részgrain | Státusz | Megengedett | Tiltott új authority nélkül |
 | --- | --- | --- | --- |
-| WBL011 közös cella | `OBS`, szerződött, még nem materializált | terület, kor, falazat, alapterület, komfort, fűtési mód, tüzelőanyag ugyanazon API-válaszban | épülettípus, primerenergia, hőleadó, hőmérséklet |
-| WBL017 közös cella | `OBS`, szerződött, még nem materializált | terület, kor, falazat, alapterület, komfort, kombinált fűtés/tüzelőanyag, meglévő hőszivattyú | műszaki alkalmasság, hőleadó, hőmérséklet |
-| KSH energetikai eloszlás | `MODELLED`, materializált | épülettípus × építési időszak × primerenergia-bin | WBL földrajzi, falazati, alapterületi, komfort- vagy fűtési alcella |
-| Épülettípus-proxy | `ASS`, materializált | településtípus × épülettípus összesen | vármegye, kor, falazat, alapterület, komfort, fűtés vagy tüzelőanyag szerinti alcella |
-| OÉNY hőleadó/hőmérséklet | `Q`, nincs adat | semmi a P1-F kapu teljesítéséig | fűtési módból, tüzelőanyagból, javaslati mezőből vagy referencia 55/45 °C-ból való imputáció |
-| Teljes B02 archetípus | `Q`, nem azonosított | csak új közös adat vagy jóváhagyott, kalibrált statisztikai modell után | külön margók dokumentálatlan függetlenségi keresztbeszorzása |
+| WBL011 direct full stock joint | `OBS`, `MATERIALIZED` | geography, construction period, wall, area, comfort, heating mode, fuel ugyanazon source-native sorban | building type, primary energy, heat emitter, design temperature |
+| WBL011 envelope / heating-fuel margók | `OBS`, `MATERIALIZED` | önálló részgrain elemzés | egymás synthetic cross-joinja; combined elemzéshez a direct full joint kell |
+| WBL017 heat-pump baseline | `OBS`, részgrain | combined heating/fuel × HOSZIV | technical eligibility, emitter, temperature |
+| KSH energetikai eloszlás | `MODELLED`, `MATERIALIZED` | building type × period × primary energy | WBL subcell assignment authority |
+| Building-type proxy | `ASS`, `MATERIALIZED` | settlement type × building type total | county/period/wall/area/comfort/heating/fuel subcell promotion |
+| OÉNY emitter/temperature | `Q`, not acquired | semmi a gate teljesítéséig | heating/fuel alapú imputáció |
+| Teljes B02 archetype | `Q` | csak új joint authority vagy admitted calibrated model után | külön margók dokumentálatlan keresztbeszorzása |
 
-Gépi szerződés: [`b02_archetype_joinability_2022.csv`](../../data/processed/b02/b02_archetype_joinability_2022.csv).
-
-## Miért nem készül teljes archetípustábla?
-
-Ha például a településtípusos épülettípus-arányt minden építési korra, falazatra és fűtési módra változatlanul rávetítenénk, azzal azt feltételeznénk, hogy ezek a változók egymástól függetlenek. Erre nincs megfigyelt bizonyíték. Ugyanez vonatkozik a KSH-modellezett primerenergia-eloszlás WBL-alcellákra osztására.
-
-A külön margók keresztbeszorzása tilos mindaddig, amíg nincs:
-
-- ugyanazon rekordokra vagy dokumentált mintára épülő közös adat;
-- vagy Joseph által jóváhagyott statisztikai összekapcsolási modell, kalibrációval, bizonytalansággal és visszaegyeztetéssel.
+A külön margók keresztbeszorzása tilos. A P15 WBL011 full joint ezt a WBL011-en belüli combined kapcsolatot source-native módon oldja meg, nem independence assumptionnel.
 
 ## Reprodukció és lineage
 
 ```powershell
-python tools/build_b02_archetype_coverage.py --data-dir data/processed/b02 --retrieved-at 2026-08-12
+python tools/extract_b02_ksh_wbl_joint_cells.py --output-dir data/processed/b02 --retrieved-at 2026-09-05
+python tools/build_b02_archetype_coverage.py --data-dir data/processed/b02 --retrieved-at 2026-09-05
 ```
 
-A [`b02_archetype_coverage_manifest.json`](../../data/processed/b02/b02_archetype_coverage_manifest.json) rögzíti a három bemenet és két kimenet SHA-256 lenyomatát, valamint a sor-, bin-, lakásszám- és státuszkontrollokat. A futtatás csak repóban lévő feldolgozott adatot olvas; hálózatot nem használ.
+A `b02_archetype_coverage_manifest.json` a repo-bemenetek és derived outputok hashét rögzíti. A teljes B02 archetype továbbra is Q.
 
-## Következő B02 kapu
+## Következő B02 kapuk
 
-1. A WBL011/WBL017 levélkódos közös cellák determinisztikus materializálása és nulla/ritka celláinak leltára.
-2. Az `Y_GE2011` és a KSH energetikai `2011–2015` + `2016–2022` kategóriák dokumentált hídja.
-3. A településtípusos épülettípus-proxy friss vagy adminisztratív validálása.
-4. A P1-F OÉNY adatigénylés Joseph által jóváhagyott elküldése vagy a műszaki felmérési fallback aktiválása.
-5. Csak ezek után kalibrált archetípus-összekapcsolás és bizonytalansági elemzés.
+1. current WBL-compatible building-type authority vagy admitted calibrated linkage;
+2. primary-energy-to-WBL link authority vagy admitted calibrated linkage;
+3. heat-emitter és design-temperature current evidence;
+4. OÉNY request csak Joseph külön send authorityjával.
 
 ## Nem következik ebből
 
 - nincs új technikailag alkalmas lakásszám;
-- nincs országos hőleadó- vagy hőmérséklet-eloszlás;
-- nincs új hőigény, COP vagy retrofitköltség;
-- a 4 575 790 lakás nem megfigyelt tanúsítványállomány, hanem a KSH által modellezett eloszlás publikált binösszege;
-- a 4 008 541 lakásos épülettípus-proxy `ASS`, és nem kapcsolható automatikusan a 16 energetikai cellához.
+- nincs országos heat-emitter vagy design-temperature distribution;
+- nincs primary-energy OBS promotion;
+- a 4 008 541 direct WBL011 stock universe nem azonos technical/final eligible stockkal.

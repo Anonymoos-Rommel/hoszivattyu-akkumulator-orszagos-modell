@@ -168,6 +168,7 @@ def build_joinability_rows(
     expected_wbl = {
         "WBL011_ENVELOPE": (32_655, 4_008_541),
         "WBL011_HEATING_FUEL": (7_682, 4_008_541),
+        "WBL011_FULL_STOCK_JOINT": (116_452, 4_008_541),
         "WBL017_HEAT_PUMP_BASELINE": (7_623, 3_919_564),
     }
     if set(wbl) != set(expected_wbl):
@@ -188,12 +189,12 @@ def build_joinability_rows(
             "geography;construction_period;wall_material;floor_area;comfort;heating_mode;heating_fuel",
             "DATA-B02-KSH-WBL011",
             "OBS",
-            "PARTIALLY_MATERIALIZED",
-            "",
-            "",
+            "MATERIALIZED",
+            int(wbl["WBL011_FULL_STOCK_JOINT"]["returned_records"]),
+            int(wbl["WBL011_FULL_STOCK_JOINT"]["returned_numeric_dwelling_sum"]),
             "dwelling",
-            "Separate envelope and heating-fuel projections are materialized; only dimensions returned together by one query are jointly observed.",
-            "Do not attach building type, primary energy, heat emitter, or temperature as OBS/DER without new joint evidence.",
+            "The complete WBL011 stock joint is returned directly by KSH and materialized at its source-native row grain; use it instead of cross-joining the separate projections.",
+            "Do not attach building type, primary energy, heat emitter, or temperature as OBS/DER without separate authority.",
         ],
         [
             "JOIN-B02-WBL011-ENVELOPE",
@@ -381,7 +382,8 @@ def main() -> int:
             "wbl_materialized_projection_rows": sum(
                 int(row["returned_records"]) for row in wbl_rows
             ),
-            "full_joint_evidence_status": "Q",
+            "wbl011_full_joint_materialization_status": "MATERIALIZED",
+            "full_archetype_evidence_status": "Q",
         }
     )
     manifest = {
@@ -391,7 +393,7 @@ def main() -> int:
         "method": {
             "coverage": "rank and cumulative share over the 16 published KSH-modelled building-type x construction-period cells",
             "rarity": "exact positive/zero energy-bin counts and extrema; no arbitrary rare-cell threshold",
-            "joinability": "fail-closed grain inventory; separate margins are not cross-multiplied",
+            "joinability": "fail-closed grain inventory; the direct WBL011 full-stock joint is materialized, while the wider B02 archetype remains unresolved and separate margins are not cross-multiplied",
         },
         "inputs": {
             path.name: {"sha256": sha256(path), "bytes": path.stat().st_size}
@@ -410,7 +412,8 @@ def main() -> int:
         "VALID: B02 archetype coverage "
         f"cells={controls['benchmark_cells']} bins={controls['distribution_bins']} "
         f"positive_bins={controls['positive_distribution_bins']} "
-        f"zero_bins={controls['zero_distribution_bins']} full_joint=Q"
+        f"zero_bins={controls['zero_distribution_bins']} "
+        "wbl011_full_joint=MATERIALIZED full_archetype=Q"
     )
     return 0
 

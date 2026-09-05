@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
   "module_id": "B02",
-  "retrieved_at": "2026-08-12",
+  "retrieved_at": "2026-09-05",
   "method": {
     "coverage": "rank and cumulative share over the 16 published KSH-modelled building-type x construction-period cells",
     "rarity": "exact positive/zero energy-bin counts and extrema; no arbitrary rare-cell threshold",
-    "joinability": "fail-closed grain inventory; source-native joint availability is separate from repository materialization and separate margins are not cross-multiplied"
+    "joinability": "fail-closed grain inventory; the direct WBL011 full-stock joint is materialized, while the wider B02 archetype remains unresolved and separate margins are not cross-multiplied"
   },
   "inputs": {
     "ksh_energy_archetype_benchmarks_2022.csv": {
@@ -21,8 +21,8 @@
       "bytes": 5335
     },
     "ksh_wbl_joint_cell_coverage_2022.csv": {
-      "sha256": "936c43e7fa1844d7f616f124643633d73ce0a014330f7cc1fe8de122b4ee5336",
-      "bytes": 1382
+      "sha256": "0727b235eff3ff36e98f4d88d22179585c34f4115c7192d84f9059542d1a6206",
+      "bytes": 1751
     }
   },
   "controls": {
@@ -36,8 +36,9 @@
     "building_type_proxy_rows": 8,
     "building_type_proxy_dwellings": 4008541,
     "joinability_rows": 9,
-    "wbl_materialized_projection_rows": 47960,
-    "full_joint_evidence_status": "Q"
+    "wbl_materialized_projection_rows": 164412,
+    "wbl011_full_joint_materialization_status": "MATERIALIZED",
+    "full_archetype_evidence_status": "Q"
   },
   "outputs": {
     "b02_archetype_cell_coverage_2022.csv": {
@@ -45,8 +46,8 @@
       "bytes": 4921
     },
     "b02_archetype_joinability_2022.csv": {
-      "sha256": "179b7b09d753238437eb33283fc8fa112e83274c2d4abb2fa0dcc389c2234eca",
-      "bytes": 4341
+      "sha256": "163222e378b2c7eb6b245f4b30d1cc0888a799242bc374540b6259b185479bee",
+      "bytes": 4227
     }
   }
 }
