@@ -13,6 +13,12 @@ unlinked MODELLED energy information therefore remain Q.
 B02-P12 additionally requires an independently QUALIFIED calibrated-linkage
 admission before model-status tokens may satisfy the building-type or
 primary-energy link gates. A status string cannot self-authorize a model.
+
+B02-P13 records new official KSH evidence that building-type stratification and
+Census-to-energy record linkage existed inside the 2022 KSH housing microdata
+workflow. Those source-authority facts remove the corresponding authority-
+existence blockers, but they do not publish the missing WBL-grain joint values.
+Authority therefore remains distinct from public/materialized joinability.
 """
 
 from __future__ import annotations
@@ -23,6 +29,8 @@ from dataclasses import dataclass
 Q = "Q"
 QUALIFIED = "QUALIFIED"
 CONTRACTED = "CONTRACTED"
+KSH_CENSUS_BUILDING_TYPE_AUTHORITY = "KSH_CENSUS_BUILDING_TYPE_AUTHORITY"
+KSH_CENSUS_ENERGY_LINKAGE_AUTHORITY = "KSH_CENSUS_ENERGY_LINKAGE_AUTHORITY"
 
 REAL_EVIDENCE = frozenset({"OBS", "DER"})
 BUILDING_TYPE_LINK_OK = frozenset({"OBS", "DER", "APPROVED_CALIBRATED_MODEL"})
@@ -54,7 +62,9 @@ def assess_stock_archetype(inputs: StockArchetypeInputs) -> AdmissionDecision:
     if not inputs.wbl_joint_complete:
         blockers.append("NO_COMPLETE_WBL_JOINT")
 
-    if inputs.building_type_link_status not in BUILDING_TYPE_LINK_OK:
+    if inputs.building_type_link_status == KSH_CENSUS_BUILDING_TYPE_AUTHORITY:
+        blockers.append("NO_PUBLIC_WBL_BUILDING_TYPE_MATERIALIZATION")
+    elif inputs.building_type_link_status not in BUILDING_TYPE_LINK_OK:
         blockers.append("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY")
     elif (
         inputs.building_type_link_status == "APPROVED_CALIBRATED_MODEL"
@@ -62,7 +72,9 @@ def assess_stock_archetype(inputs: StockArchetypeInputs) -> AdmissionDecision:
     ):
         blockers.append("CALIBRATED_BUILDING_TYPE_MODEL_NOT_ADMITTED")
 
-    if inputs.primary_energy_link_status not in ENERGY_LINK_OK:
+    if inputs.primary_energy_link_status == KSH_CENSUS_ENERGY_LINKAGE_AUTHORITY:
+        blockers.append("NO_PUBLIC_WBL_PRIMARY_ENERGY_MATERIALIZATION")
+    elif inputs.primary_energy_link_status not in ENERGY_LINK_OK:
         blockers.append("NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY")
     elif (
         inputs.primary_energy_link_status == "MODELLED_LINKED"
