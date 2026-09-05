@@ -121,7 +121,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             ),
         )
 
-    def test_technical_enrichment_can_qualify_only_after_real_evidence(self):
+    def test_raw_real_readiness_tokens_require_separate_direct_admission(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
             wbl_joint_materialized_complete=True,
@@ -134,6 +134,31 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             candidate,
             heat_emitter_status="OBS",
             design_temperature_status="DER",
+        )
+        self.assertEqual(decision.status, Q)
+        self.assertEqual(
+            decision.blockers,
+            (
+                "HEAT_EMITTER_DIRECT_EVIDENCE_NOT_ADMITTED",
+                "DESIGN_TEMPERATURE_DIRECT_EVIDENCE_NOT_ADMITTED",
+            ),
+        )
+
+    def test_technical_enrichment_can_qualify_only_after_real_admitted_evidence(self):
+        candidate = StockArchetypeInputs(
+            schema_status=CONTRACTED,
+            wbl_joint_materialized_complete=True,
+            building_type_link_status="OBS",
+            primary_energy_link_status="DER",
+            building_type_direct_authority_status=QUALIFIED,
+            primary_energy_direct_authority_status=QUALIFIED,
+        )
+        decision = assess_technical_readiness_enrichment(
+            candidate,
+            heat_emitter_status="OBS",
+            design_temperature_status="DER",
+            heat_emitter_direct_authority_status=QUALIFIED,
+            design_temperature_direct_authority_status=QUALIFIED,
         )
         self.assertEqual(decision.status, QUALIFIED)
         self.assertEqual(decision.blockers, ())
@@ -176,6 +201,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
         )
         self.assertIn("MODELLED ENERGY PANEL != PRIMARY-ENERGY-TO-WBL LINK AUTHORITY", text)
         self.assertIn("RAW OBS/DER LINK TOKEN != DIRECT-LINK ADMISSION", text)
+        self.assertIn("RAW OBS/DER READINESS TOKEN != TECHNICAL DIRECT AUTHORITY", text)
         self.assertIn("B02 readiness változatlanul **55%**", text)
         self.assertIn("WBL011 repository full-joint materialization: `MATERIALIZED`", text)
 
