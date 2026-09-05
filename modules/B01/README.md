@@ -61,9 +61,32 @@ országos optimumot.
 
 Bounded fixture: `data/fixtures/b01_state_stock_scn.json`.
 
+## Executable B01-P2 national rollout policy pathway
+
+`modules/B01/national_rollout_pathway.py` a P1-A policy-envelope három kötelező
+felfutási profilját gépileg végrehajthatóvá teszi:
+
+- `LINEAR`;
+- `LOGISTIC` — explicit midpoint és steepness nélkül fail-closed;
+- `CAPACITY_LIMITED` — minden tervévre explicit kapacitásérték szükséges.
+
+A canonical envelope változatlan:
+
+- baseline target: 2 000 000 háztartás;
+- sensitivity: 0–2 500 000;
+- horizon: 8–25 év;
+- report points: 12 / 15 / 20 év.
+
+Minden generált pathway `SCN`; a policy target nem válik technikailag alkalmas
+állománnyá vagy valós household-selectionné. A `NationalSelectionGate` csak
+akkor nyithat real national selectiont, ha a B02 eligible stock, a valós éves
+capacity path és a célháztartás definíciója is OBS/DER authorityval rendelkezik.
+
+Registry: `registry/b01_national_rollout_policy_contract.csv`.
+
 ## Állapot
 
-`IN_PROGRESS` – a state-record, transition-gate, candidate, policy és éves
-capacity skeleton gépileg ellenőrizhető bounded SCN fixture-en; a Q-B01-006
-objective/hard-minimum döntés, a B02 national eligible stock, valamint a
-valós országos capacity path továbbra sincs lezárva.
+`IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 országos
+policy-rollout matematika gépileg végrehajtható. A Q-B01-001 célháztartás-
+definíció, a B02 national eligible stock, a valós éves capacity path, valamint
+a tényleges regionális/settlement household allocation továbbra sincs lezárva.
