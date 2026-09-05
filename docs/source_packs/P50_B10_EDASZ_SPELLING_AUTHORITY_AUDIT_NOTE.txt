@@ -1,1 +1,0 @@
-P50 authority audit uses the current ÉDÁSZ M1 revision 20241209 as the governing source and the official 2017-03-02 ÉDÁSZ M1 only as historical comparison. Historical repetition of the same spelling variant is not independent identity-equivalence authority.
