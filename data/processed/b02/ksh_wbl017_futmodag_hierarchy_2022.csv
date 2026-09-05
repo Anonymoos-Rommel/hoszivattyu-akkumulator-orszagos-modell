@@ -1,0 +1,20 @@
+code_id,parent_code,label_hu,national_hosziv_1,national_hosziv_0,national_hosziv_9,national_presence_sum,evidence_status
+TOTAL,,Összesen,67853,,,,OBS
+01-12,TOTAL,"Helyiségenként konvektorral, kályhával vagy más eszközzel",7561,1153652,790,1162003,OBS
+01-05,01-12,"Egyféle fűtőanyaggal, helyiségenként",4593,923029,736,928358,OBS
+01,01-05,"Hálózati (vezetékes) gázzal, helyiségenként",745,514119,505,515369,OBS
+02,01-05,"Elektromos árammal, helyiségenként",3586,66868,28,70482,OBS
+03,01-05,"Fával, helyiségenként",262,342042,203,342507,OBS
+04-05,01-05,"Egyéb fűtőanyaggal, helyiségenként",,,,,NO_RETURNED_ROW
+06-12,01-12,"Többféle fűtőanyaggal, helyiségenként",2968,230623,54,233645,OBS
+13-24,TOTAL,"Egy vagy több lakást fűtő központi, cirkó kazánnal vagy más eszközzel",51615,2086245,977,2138837,OBS
+13-17,13-24,"Egyféle fűtőanyaggal, központilag",36803,1570802,926,1608531,OBS
+13,13-17,"Hálózati (vezetékes) gázzal, központilag",11871,1259972,810,1272653,OBS
+14,13-17,"Elektromos árammal, központilag",22974,35816,22,58812,OBS
+15,13-17,"Fával, központilag",1958,275014,94,277066,OBS
+16-17,13-17,"Egyéb fűtőanyaggal, központilag",,,,,NO_RETURNED_ROW
+18-24,13-24,"Többféle fűtőanyaggal, központilag",14812,515443,51,530306,OBS
+18,18-24,"Hálózati (vezetékes) gázzal és elektromos árammal, központilag",10723,108494,10,119227,OBS
+19,18-24,"Hálózati (vezetékes) gázzal és fával, központilag",4089,406949,41,411079,OBS
+20-24,18-24,"Egyéb fűtőanyagokkal, központilag",,,,,NO_RETURNED_ROW
+25,TOTAL,"Távfűtéssel (távvezetékkel hőközpontból)",2383,615952,389,618724,OBS
