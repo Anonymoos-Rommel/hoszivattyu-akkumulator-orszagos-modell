@@ -49,7 +49,13 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
         )
         decision = assess_stock_archetype(candidate)
         self.assertEqual(decision.status, Q)
-        self.assertEqual(decision.blockers, ("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY",))
+        self.assertEqual(
+            decision.blockers,
+            (
+                "NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY",
+                "CALIBRATED_PRIMARY_ENERGY_MODEL_NOT_ADMITTED",
+            ),
+        )
 
     def test_modelled_energy_requires_explicit_link_authority(self):
         candidate = StockArchetypeInputs(
@@ -68,6 +74,8 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             wbl_joint_complete=True,
             building_type_link_status="APPROVED_CALIBRATED_MODEL",
             primary_energy_link_status="MODELLED_LINKED",
+            building_type_model_admission_status=QUALIFIED,
+            primary_energy_model_admission_status=QUALIFIED,
         )
         decision = assess_stock_archetype(candidate)
         self.assertEqual(decision.status, QUALIFIED)
@@ -78,7 +86,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             schema_status=CONTRACTED,
             wbl_joint_complete=True,
             building_type_link_status="DER",
-            primary_energy_link_status="MODELLED_LINKED",
+            primary_energy_link_status="DER",
         )
         decision = assess_technical_readiness_enrichment(
             candidate,
