@@ -185,7 +185,7 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
             gate.blocking_gap_ids,
         )
 
-    def test_registry_and_variable_stay_fail_closed(self):
+    def test_registry_and_legacy_global_variable_stay_fail_closed(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
         self.assertEqual(1, len(rows))
@@ -194,14 +194,13 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
         self.assertEqual("", row["technical_eligible_dwellings"])
         self.assertEqual("Q", row["technical_eligibility_status"])
         self.assertEqual("S2_Q", row["s2_transition_status"])
+        self.assertIn("legal/economic programme eligibility", row["notes"])
 
         with VARIABLES.open(encoding="utf-8", newline="") as handle:
             variables = {item["variable_id"]: item for item in csv.DictReader(handle)}
-        eligible = variables["VAR-B02-ELIGIBLE-DWELLINGS"]
-        self.assertEqual("", eligible["default_value"])
-        self.assertEqual("Q", eligible["status"])
-        self.assertIn("műszaki", eligible["definition"].lower())
-        self.assertIn("jogi/gazdasági", eligible["notes"].lower())
+        legacy = variables["VAR-B02-ELIGIBLE-DWELLINGS"]
+        self.assertEqual("", legacy["default_value"])
+        self.assertEqual("Q", legacy["status"])
 
     def test_document_freezes_core_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
