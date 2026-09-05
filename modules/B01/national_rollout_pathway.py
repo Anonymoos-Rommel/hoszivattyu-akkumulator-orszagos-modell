@@ -1,17 +1,19 @@
-"""B01-P2 national programme rollout policy-pathway contract.
+"""B01-P2 national programme rollout pathway contract.
 
-This module makes the policy/scenario rollout envelope executable without
-promoting policy targets or scenario paths to observed eligible-stock or real
-household-selection claims.
+The rollout mathematics is executable without promoting the original 2,000,000
+household hypothesis to a current national baseline.
 
 Core boundary:
 
-POLICY TARGET != TECHNICALLY ELIGIBLE STOCK != REAL ANNUAL CAPACITY !=
-REAL SELECTED HOUSEHOLDS.
+LEGACY 2M HYPOTHESIS != OBSERVED GAS-CONSUMER UNIVERSE != TECHNICALLY
+ELIGIBLE STOCK != POLICY TARGET != REAL SELECTED HOUSEHOLDS.
 
-The P1-A policy envelope is canonical here: 2,000,000 baseline households,
-0..2,500,000 sensitivity range, 8..25 year horizon, report points at 12/15/20
-years, and explicit LINEAR / LOGISTIC / CAPACITY_LIMITED profiles.
+Current observed context already in the repository:
+- 3,241,811 Hungarian household gas consumers in 2024 (OBS);
+- 3,022,115 heating consumers in the 20 county/capital rows (OBS).
+
+Neither count is technical heat-pump eligibility. The programme target therefore
+remains an explicit POL/SCN input rather than a hard-coded national baseline.
 """
 
 from __future__ import annotations
@@ -21,9 +23,9 @@ from math import exp, isfinite
 from typing import Iterable
 
 
-POLICY_TARGET_BASELINE_HOUSEHOLDS = 2_000_000
-POLICY_TARGET_MIN_HOUSEHOLDS = 0
-POLICY_TARGET_MAX_HOUSEHOLDS = 2_500_000
+LEGACY_ORIGINAL_HYPOTHESIS_HOUSEHOLDS = 2_000_000
+OBSERVED_GAS_CONSUMER_HOUSEHOLDS_2024 = 3_241_811
+OBSERVED_GAS_HEATING_CONSUMERS_2024 = 3_022_115
 HORIZON_MIN_YEARS = 8
 HORIZON_MAX_YEARS = 25
 REPORT_POINTS_YEARS = (12, 15, 20)
@@ -35,6 +37,7 @@ SUPPORTED_PROFILES = (LINEAR, LOGISTIC, CAPACITY_LIMITED)
 
 POLICY_STATUSES = {"POL", "SCN"}
 REAL_GATE_STATUSES = {"OBS", "DER"}
+REFERENCE_STATUSES = {"OBS", "DER", "Q"}
 
 NATIONAL_SELECTION_READY = "NATIONAL_SELECTION_READY"
 Q_UPSTREAM_EVIDENCE = "Q_UPSTREAM_EVIDENCE"
@@ -75,6 +78,9 @@ class RolloutScenario:
     profile: str
     target_status: str
     source_refs: tuple[str, ...]
+    population_reference_households: int | None = None
+    population_reference_status: str = "Q"
+    population_reference_semantics: str = "UNSPECIFIED"
     logistic_midpoint_fraction: float | None = None
     logistic_steepness: float | None = None
     annual_capacity_households: tuple[int, ...] = ()
@@ -83,18 +89,25 @@ class RolloutScenario:
         _nonempty(self.scenario_id, "scenario_id")
         _int(self.start_year, "start_year", minimum=1900, maximum=2200)
         _int(self.horizon_years, "horizon_years", minimum=HORIZON_MIN_YEARS, maximum=HORIZON_MAX_YEARS)
-        _int(
-            self.policy_target_households,
-            "policy_target_households",
-            minimum=POLICY_TARGET_MIN_HOUSEHOLDS,
-            maximum=POLICY_TARGET_MAX_HOUSEHOLDS,
-        )
+        _int(self.policy_target_households, "policy_target_households", minimum=0)
         if self.profile not in SUPPORTED_PROFILES:
             raise B01RolloutError(f"unsupported profile: {self.profile!r}")
         if self.target_status not in POLICY_STATUSES:
             raise B01RolloutError("policy target must remain POL or SCN")
         if not self.source_refs or any(not isinstance(ref, str) or not ref.strip() for ref in self.source_refs):
             raise B01RolloutError("source_refs must contain non-empty provenance references")
+        if self.population_reference_status not in REFERENCE_STATUSES:
+            raise B01RolloutError("population_reference_status must be OBS, DER or Q")
+        _nonempty(self.population_reference_semantics, "population_reference_semantics")
+        if self.population_reference_households is None:
+            if self.population_reference_status != "Q":
+                raise B01RolloutError("missing population reference must remain Q")
+        else:
+            _int(self.population_reference_households, "population_reference_households", minimum=0)
+            if self.population_reference_status not in REAL_GATE_STATUSES:
+                raise B01RolloutError("numeric population reference requires OBS or DER status")
+            if self.policy_target_households > self.population_reference_households:
+                raise B01RolloutError("policy target cannot exceed its explicit population reference")
 
         if self.profile == LOGISTIC:
             if self.logistic_midpoint_fraction is None or self.logistic_steepness is None:
@@ -170,7 +183,6 @@ def assess_national_selection_gate(gate: NationalSelectionGate) -> str:
 
 
 def _linear_cumulative(target: int, step: int, horizon: int) -> int:
-    # Integer floor allocation is deterministic and closes exactly on target at step=horizon.
     return target * step // horizon
 
 
@@ -191,9 +203,8 @@ def _logistic_cumulative(target: int, step: int, horizon: int, midpoint: float, 
 def build_rollout_pathway(scenario: RolloutScenario) -> tuple[RolloutYear, ...]:
     """Build one explicit national policy/scenario path.
 
-    Output is always SCN because this function is an envelope generator. It does
-    not select real households, prove B02 eligibility, or create observed annual
-    installation capacity.
+    Output is always SCN. This function does not select real households, prove
+    B02 eligibility, or create observed annual installation capacity.
     """
     scenario.validate()
     target = scenario.policy_target_households
