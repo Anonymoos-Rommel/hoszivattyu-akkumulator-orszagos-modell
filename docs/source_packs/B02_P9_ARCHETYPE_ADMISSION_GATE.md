@@ -18,7 +18,7 @@ A schema repository-architektúra. Nem evidence-status, nem lakásszám, és nem
 
 A jelenlegi B02 evidence surface három külön problémát tart nyitva.
 
-### 1. WBL joint incompleteness
+### 1. WBL source-native joint bizonyított, repository materialization hiányzik
 
 P1-H három külön source-native KSH projekciót materializált:
 
@@ -26,11 +26,15 @@ P1-H három külön source-native KSH projekciót materializált:
 - `WBL011_HEATING_FUEL`;
 - `WBL017_HEAT_PUMP_BASELINE`.
 
-A két WBL011 projekció ugyanazon 4 008 541 lakott lakásos univerzumra egyezik vissza, de külön API-projekciók. Ezért:
+B02-P14 később közvetlenül lekérte a pinned `WBL011/V67` teljes stock-joint surface-t. Ugyanazon response grainen egyszerre szerepelt non-`TOTAL` értéken a terület, településtípus, építési időszak, falazat, alapterület, komfort, fűtési mód és tüzelőanyag. A 20 vármegye/Budapest válasz **116 452** rekordja exact **4 008 541** lakott lakásra egyezik vissza, és mind a 20 független county `TOTAL` kontrollhoz `delta = 0`.
 
-`MATCHING MARGINAL TOTALS != CELL-LEVEL JOINT AUTHORITY`
+Ezért a korábbi source-availability kérdés lezárt. Az új kanonikus határ:
 
-A külön envelope és heating/fuel cellák összekapcsolása továbbra is tiltott.
+`SOURCE-NATIVE COMPLETE WBL011 JOINT != REPOSITORY-MATERIALIZED COMPLETE WBL011 JOINT != CURRENT-STOCK ARCHETYPE`
+
+A 116 452 full-joint observation sor azonban P14-ben nincs repository-artifactként materializálva. A P1-H külön envelope és heating/fuel projekcióinak cellaszintű összekapcsolása ezért továbbra is tiltott:
+
+`SEPARATE MATERIALIZED PROJECTIONS != MATERIALIZED FULL JOINT`
 
 ### 2. Building-type assignment
 
@@ -59,18 +63,23 @@ Ezért:
 `QUALIFIED` csak akkor lehet, ha egyszerre:
 
 1. a schema `CONTRACTED`;
-2. létezik complete WBL joint a szükséges stock dimenziókra;
+2. a szükséges WBL joint repositoryban determinisztikusan materializált és complete;
 3. a building-type kapcsolat `OBS`, `DER` vagy külön jóváhagyott kalibrált modell;
 4. a primary-energy kapcsolat explicit WBL-link authorityt hordoz.
 
 A jelenlegi canonical state:
 
 - schema: `CONTRACTED`;
-- WBL joint: incomplete;
+- WBL011 source-native full joint: `QUALIFIED` P14 evidence alapján;
+- WBL011 full-joint repository materialization: **incomplete / not materialized**;
 - building type: `ASS`;
 - primary energy: `MODELLED_UNLINKED`.
 
 Kimenet: `Q`.
+
+A runtime input ezért `wbl_joint_materialized_complete`, nem pusztán source-availability flag. A current blocker:
+
+`NO_MATERIALIZED_COMPLETE_WBL_JOINT`
 
 ### Technical readiness archetype
 
@@ -90,16 +99,21 @@ Három claimet tart külön:
 2. `CURRENT_STOCK_ARCHETYPE_ASSIGNMENT = Q`;
 3. `TECHNICAL_READINESS_ARCHETYPE = Q`.
 
+A P14 source-native full-joint evidence külön gépi auditja:
+
+`registry/b02_wbl011_source_native_full_joint.csv`
+
 ## Q-impact
 
-- `Q-B02-002` **nem zárható** pusztán azért, mert a dimenzió- és kategóriaséma szerződött. A nyitott rész a current stock assignment authority és a WBL-kompatibilis building-type kapcsolat.
+- `Q-B02-002` **nem zárható** pusztán azért, mert a WBL011 source-native joint bizonyított. A nyitott rész a repository-materializált current stock assignment authority, a WBL-kompatibilis building-type kapcsolat és a primary-energy linkage.
 - `Q-B02-001` nyitott, mert nincs current technical-readiness archetype és nincs országos technical eligible count.
 - `Q-B02-004` nyitott, mert current heat-emitter és design-temperature evidence továbbra sincs.
 
 ## Tiltott következtetések
 
 - `CONTRACTED` schema nem evidence promotion.
-- Külön WBL projekciók nem cross-joinolhatók azért, mert az aggregált összegük egyezik.
+- Source-native full-joint availability nem azonos a repositoryban materializált full-joint artifacttal.
+- A külön P1-H WBL projekciók nem cross-joinolhatók azért, mert az aggregált összegük egyezik.
 - `ASS` building-type proxy nem current stock authority.
 - `MODELLED` primary-energy panel nem WBL assignment authority.
 - Heating mode vagy heating fuel nem imputálhat heat emittert vagy design temperature-t.
@@ -107,4 +121,4 @@ Három claimet tart külön:
 
 ## Readiness
 
-B02 readiness változatlanul **55%**. P9 sem eligible-stock számot, sem új megfigyelt jointot nem hoz létre; kizárólag a claim-admission határt teszi végrehajthatóvá.
+B02 readiness változatlanul **55%**. P14 valódi source-evidence blocker reductiont hoz, de sem current-stock archetype-ot, sem eligible-stock számot nem materializál. A current-stock és technical-readiness claim ezért továbbra is `Q`.

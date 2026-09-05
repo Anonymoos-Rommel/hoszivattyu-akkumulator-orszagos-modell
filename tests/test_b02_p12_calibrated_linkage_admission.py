@@ -85,7 +85,7 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
     def test_model_status_tokens_do_not_self_authorize_p9(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="APPROVED_CALIBRATED_MODEL",
             primary_energy_link_status="MODELLED_LINKED",
         )
@@ -102,7 +102,7 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
     def test_p9_accepts_model_tokens_only_after_separate_qualification(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="APPROVED_CALIBRATED_MODEL",
             primary_energy_link_status="MODELLED_LINKED",
             building_type_model_admission_status=QUALIFIED,

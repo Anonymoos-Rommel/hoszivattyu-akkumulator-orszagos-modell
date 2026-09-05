@@ -7,8 +7,10 @@ B02-P9 separates three things that must not be conflated:
 3. technical-readiness enrichment of that stock assignment.
 
 A contracted schema is repository architecture, not evidence that the required
-joint population exists. Missing joins, ASS-only building-type linkage, or
-unlinked MODELLED energy information therefore remain Q.
+joint population exists. B02-P14 additionally proves that source-native WBL011
+full-joint availability is not the same as repository materialization of that
+joint. Missing materialization, ASS-only building-type linkage, or unlinked
+MODELLED energy information therefore remain Q.
 
 B02-P12 additionally requires an independently QUALIFIED calibrated-linkage
 admission before model-status tokens may satisfy the building-type or
@@ -38,7 +40,7 @@ class AdmissionDecision:
 @dataclass(frozen=True)
 class StockArchetypeInputs:
     schema_status: str
-    wbl_joint_complete: bool
+    wbl_joint_materialized_complete: bool
     building_type_link_status: str
     primary_energy_link_status: str
     building_type_model_admission_status: str = Q
@@ -51,8 +53,8 @@ def assess_stock_archetype(inputs: StockArchetypeInputs) -> AdmissionDecision:
     blockers: list[str] = []
     if inputs.schema_status != CONTRACTED:
         blockers.append("SCHEMA_NOT_CONTRACTED")
-    if not inputs.wbl_joint_complete:
-        blockers.append("NO_COMPLETE_WBL_JOINT")
+    if not inputs.wbl_joint_materialized_complete:
+        blockers.append("NO_MATERIALIZED_COMPLETE_WBL_JOINT")
 
     if inputs.building_type_link_status not in BUILDING_TYPE_LINK_OK:
         blockers.append("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY")
