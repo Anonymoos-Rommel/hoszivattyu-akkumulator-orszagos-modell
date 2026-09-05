@@ -104,11 +104,27 @@ A 3 389 817-es állomány programme-releváns fizikai kiinduló univerzum, de
 **nem B02 technikai alkalmasság**, nem programme target és nem kiválasztott
 háztartás. Utility customer count továbbra sem használható ház-/lakásszámként.
 
+## B01-P4 canonical target variable harmonization
+
+A globális `registry/variables.csv` most már ugyanazt a target-szemantikát
+követi, mint P2/P3. A `VAR-B01-TARGET-HOUSEHOLDS` numerikus `default_value` és
+`max_value` nélkül, `Q` státuszban áll.
+
+A korábbi 2 000 000 default és 2 500 000 ceiling csak legacy auditkontextus;
+egyik sem használható automatikus targetként vagy population ceilingként. A
+3 389 817 exact nem-távfűtött fizikai állomány szintén nem programme target és
+nem B02 eligibility.
+
+Minden rollout futásnak explicit `POL`/`SCN` targetet kell megadnia, és ha a
+futtatás population reference-et használ, annak értéke, státusza és szemantikája
+külön explicit input.
+
 ## Állapot
 
 `IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 rollout matematika
 gépileg végrehajtható; B01-P3 az országos és vármegyei nem-távfűtött lakott
-lakásbázist exact WBL011 cellákból rögzíti. A canonical programme target
-jelenleg `Q`; a Q-B01-001 célháztartás-definíció, a B02 national eligible stock,
-a valós éves capacity path, valamint a tényleges regional/settlement household
-allocation továbbra sincs lezárva.
+lakásbázist exact WBL011 cellákból rögzíti; B01-P4 eltávolítja a legacy 2M/2.5M
+aktív target/default szemantikát a globális variable registryből. A canonical
+programme target továbbra is `Q`; a Q-B01-001 célháztartás-definíció, a B02
+national eligible stock, a valós éves capacity path, valamint a tényleges
+regional/settlement household allocation továbbra sincs lezárva.
