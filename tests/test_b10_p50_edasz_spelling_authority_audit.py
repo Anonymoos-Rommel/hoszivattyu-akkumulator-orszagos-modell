@@ -7,6 +7,7 @@ from modules.B10.integration_closure_contract import current_b10_closure_assessm
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "registry/dso_service_area_membership_edasz_p50_spelling_authority_audit.csv"
+MANIFEST = ROOT / "registry/dso_service_area_membership_edasz_p50_authority_manifest.csv"
 P49_PAIRS = ROOT / "registry/dso_service_area_membership_edasz_p49_pairs.csv"
 HISTORICAL = ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv"
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
@@ -56,6 +57,18 @@ class B10P50EdaszSpellingAuthorityAuditTests(unittest.TestCase):
             self.assertEqual("HISTORICAL_REPEATS_CURRENT_VARIANT", row["historical_comparison_status"])
             self.assertEqual("UNRESOLVED_NO_EQUIVALENCE_AUTHORITY", row["admission_status"])
             self.assertNotEqual(row["source_token"], row["diagnostic_ksh_name"])
+
+    def test_authority_manifest_is_comparison_only_and_non_promoting(self):
+        rows = self.rows(MANIFEST)
+        self.assertEqual(1, len(rows))
+        row = rows[0]
+        self.assertEqual("EON_EDASZ_P49_30_SPELLING_EDGES", row["audit_scope"])
+        self.assertIn("EED_elo_usz_melleklet_20241209", row["current_source_url"])
+        self.assertIn("EED_elo_usz_mell__3196_2017.pdf", row["historical_source_url"])
+        self.assertEqual("2017-03-02", row["historical_reference_date"])
+        self.assertEqual("HISTORICAL_COMPARISON_ONLY", row["historical_use"])
+        self.assertEqual("NONE", row["currentness_claim"])
+        self.assertEqual("NO_INDEPENDENT_EQUIVALENCE_AUTHORITY", row["equivalence_authority_result"])
 
     def test_p50_adds_no_membership_rows(self):
         p49 = {(r["ksh_settlement_code"], r["settlement_name"]) for r in self.rows(P49_PAIRS)}
