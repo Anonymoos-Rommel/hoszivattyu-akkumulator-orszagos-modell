@@ -116,12 +116,22 @@ not promote the OÉNY public UI into a national readiness source.
 
 ## Variable-boundary clarification
 
-`VAR-B02-ELIGIBLE-DWELLINGS` is interpreted by this slice as the **technical
-eligibility stock** produced by B02. Legal programme eligibility, economic
-eligibility, cash-flow and support eligibility belong to B01/B12 and later
-portfolio layers. Technical evidence alone must not decide them.
+The existing global `VAR-B02-ELIGIBLE-DWELLINGS` remains **blank / `Q`** and
+retains its older broad wording covering legal, technical and economic
+conditions. B02-P2 does not silently redefine that legacy variable.
 
-The current numeric value remains blank and status remains `Q`.
+For this slice, the canonical machine output for **technical eligibility only**
+is:
+
+`registry/b02_technical_eligibility_gate.csv:technical_eligible_dwellings`
+
+That field is also blank / `Q` in the current repository state. A later explicit
+registry harmonization may split the legacy broad variable into technical,
+legal/programme and economic eligibility surfaces. Until then, B02-P2 must not
+populate the broad legacy variable from technical evidence alone.
+
+Legal programme eligibility, economic eligibility, cash-flow and support
+eligibility belong to B01/B12 and later portfolio layers.
 
 ## Non-results
 
