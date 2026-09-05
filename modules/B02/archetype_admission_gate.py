@@ -7,8 +7,12 @@ B02-P9 separates three things that must not be conflated:
 3. technical-readiness enrichment of that stock assignment.
 
 A contracted schema is repository architecture, not evidence that the required
-joint population exists.  Missing joins, ASS-only building-type linkage, or
+joint population exists. Missing joins, ASS-only building-type linkage, or
 unlinked MODELLED energy information therefore remain Q.
+
+B02-P12 additionally requires an independently QUALIFIED calibrated-linkage
+admission before model-status tokens may satisfy the building-type or
+primary-energy link gates. A status string cannot self-authorize a model.
 """
 
 from __future__ import annotations
@@ -37,6 +41,8 @@ class StockArchetypeInputs:
     wbl_joint_complete: bool
     building_type_link_status: str
     primary_energy_link_status: str
+    building_type_model_admission_status: str = Q
+    primary_energy_model_admission_status: str = Q
 
 
 def assess_stock_archetype(inputs: StockArchetypeInputs) -> AdmissionDecision:
@@ -47,10 +53,22 @@ def assess_stock_archetype(inputs: StockArchetypeInputs) -> AdmissionDecision:
         blockers.append("SCHEMA_NOT_CONTRACTED")
     if not inputs.wbl_joint_complete:
         blockers.append("NO_COMPLETE_WBL_JOINT")
+
     if inputs.building_type_link_status not in BUILDING_TYPE_LINK_OK:
         blockers.append("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY")
+    elif (
+        inputs.building_type_link_status == "APPROVED_CALIBRATED_MODEL"
+        and inputs.building_type_model_admission_status != QUALIFIED
+    ):
+        blockers.append("CALIBRATED_BUILDING_TYPE_MODEL_NOT_ADMITTED")
+
     if inputs.primary_energy_link_status not in ENERGY_LINK_OK:
         blockers.append("NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY")
+    elif (
+        inputs.primary_energy_link_status == "MODELLED_LINKED"
+        and inputs.primary_energy_model_admission_status != QUALIFIED
+    ):
+        blockers.append("CALIBRATED_PRIMARY_ENERGY_MODEL_NOT_ADMITTED")
 
     if blockers:
         return AdmissionDecision(Q, tuple(blockers))
