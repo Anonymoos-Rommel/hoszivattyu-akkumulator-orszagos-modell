@@ -71,6 +71,41 @@ A P12 gate ezért kifejezetten elutasítja az `OBS` output státuszt.
 
 Ha később egy determinisztikus repo-transzformáció MODELLED outputból új aggregátumot képez, annak lineage-ében a MODELLED eredet továbbra is megőrzendő; a DER címke nem törölheti a modell eredetét.
 
+## P17 — KSH random-forest primary-energy candidate audit
+
+P17 azonosítja a jelenleg legerősebb konkrét primary-energy linkage jelöltet:
+
+`KSH-RF-2022-PRIMARY-ENERGY`
+
+Forrásai:
+
+- `SRC-B02-KSH-ENERGY-METHOD-2025`;
+- `SRC-B02-KSH-ENERGY-2025`.
+
+A KSH módszertan szerint a random-forest modell a 2022-es népszámlálási lakásállomány jellemzőiből becsüli a fajlagos primerenergia-igényt, és a végleges modellt a teljes census housing stockra alkalmazták. A publikáció reprezentativitási kontrollokat, keresztvalidációs/validation információt és aggregált megfigyelt-vs-becsült összevetéseket is közöl.
+
+Ezért a machine-readable P12 registry P17 után már nem azt állítja, hogy primary-energy oldalon nincs azonosítható model candidate. A jelölt explicit módon regisztrált, de továbbra is **NOT_APPROVED / Q**.
+
+A jelenlegi pozitív candidate-evidence:
+
+- model ID: van;
+- calibration sources: vannak;
+- reference period: definiált;
+- representativeness diagnostics: van;
+- validation metrics: van;
+- output evidence: `MODELLED`.
+
+A jelenlegi blockers:
+
+- `NO_JOSEPH_APPROVAL`;
+- `TARGET_GRAIN_NOT_WBL_COMPATIBLE` — a nyilvános anyag nem ad repo-szinten reprodukálható record-level WBL bindingot;
+- `NO_MARGINAL_RECONCILIATION` — nincs teljes WBL cellaszintű reconciliation contract;
+- `NO_UNCERTAINTY_METHOD`;
+- `NO_UNCERTAINTY_PROPAGATION`;
+- `UNCONTROLLED_INDEPENDENCE_ASSUMPTION` — a repository linkage use-ra nincs külön explicit kontrollszerződés.
+
+P17 tehát candidate discovery és governance-pontosítás, **nem Joseph approval** és nem model admission.
+
 ## Jelenlegi állapot
 
 Jelenleg nincs Joseph által jóváhagyott calibrated linkage model sem:
@@ -78,9 +113,9 @@ Jelenleg nincs Joseph által jóváhagyott calibrated linkage model sem:
 - current building-type WBL linkage-re;
 - current primary-energy-to-WBL linkage-re.
 
-A `registry/b02_calibrated_linkage_admission.csv` ezért mindkét claimet `Q` státuszon tartja.
+A building-type P12 claim továbbra is model candidate nélkül `Q`. A primary-energy P12 claim P17 után az azonosított `KSH-RF-2022-PRIMARY-ENERGY` jelöltet tartja nyilván, de `NOT_APPROVED / Q` státuszban.
 
-Ez nem azt jelenti, hogy később modellezés tilos. Azt jelenti, hogy modellezés csak külön, explicit Joseph approval után léphet authority státuszba.
+Ez nem azt jelenti, hogy később modellezés tilos. Azt jelenti, hogy modellezés csak külön, explicit Joseph approval után léphet authority státuszba, és az approval önmagában sem helyettesíti a többi P12 gate-et.
 
 ## Tiltott következtetések
 
@@ -89,6 +124,7 @@ Ez nem azt jelenti, hogy később modellezés tilos. Azt jelenti, hogy modellez�
 - A 2015/2022 building-type `ASS` proxy önmagában nem calibration authority.
 - A KSH 944 MODELLED primerenergia-bin önmagában nem WBL-subcell link.
 - A 279 020 kapcsolt energiatanúsítvány OBS darabszáma nem teszi a teljes 4,58 milliós modellkimenetet OBS-szá.
+- A KSH random-forest belső dwelling-level alkalmazása nem azonos public repository-reproducible dwelling-level outputtal.
 - Egy model-fit vagy backtest önmagában nem helyettesíti az uncertainty propagationt.
 - P12 qualification önmagában nem zárja `Q-B02-001`, `Q-B02-002` vagy `Q-B02-004` kérdést.
 
@@ -101,6 +137,6 @@ Ez nem azt jelenti, hogy később modellezés tilos. Azt jelenti, hogy modellez�
 - technical-readiness archetype: **Q**;
 - national technical/final eligible count: **blank/Q**;
 - B02 readiness: változatlanul **55%**;
-- OÉNY adatkérés: **nem került elküldésre és P12 nem ad küldési jóváhagyást**.
+- OÉNY adatkérés: **nem került elküldésre és P12/P17 nem ad küldési jóváhagyást**.
 
-P12 tehát governance- és admission-hardening, nem modellbevezetés és nem readiness-uplift.
+P12/P17 tehát governance- és admission-hardening, nem modellbevezetés és nem readiness-uplift.

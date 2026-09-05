@@ -125,7 +125,16 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         for row in rows.values():
             self.assertEqual(row["current_status"], "Q")
             self.assertEqual(row["approval_status"], "NOT_APPROVED")
-            self.assertEqual(row["current_model_id"], "")
+        self.assertEqual(rows["CALIBRATED_BUILDING_TYPE_LINKAGE"]["current_model_id"], "")
+        primary = rows["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
+        self.assertEqual(primary["current_model_id"], "KSH-RF-2022-PRIMARY-ENERGY")
+        self.assertEqual(primary["output_evidence_status"], "MODELLED")
+        self.assertEqual(primary["representativeness_diagnostics"], "yes")
+        self.assertEqual(primary["validation_metrics"], "yes")
+        self.assertEqual(
+            primary["blockers"],
+            "NO_JOSEPH_APPROVAL;TARGET_GRAIN_NOT_WBL_COMPATIBLE;NO_MARGINAL_RECONCILIATION;NO_UNCERTAINTY_METHOD;NO_UNCERTAINTY_PROPAGATION;UNCONTROLLED_INDEPENDENCE_ASSUMPTION",
+        )
 
     def test_open_questions_and_readiness_remain_fail_closed(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
@@ -143,6 +152,7 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         self.assertIn("MODEL STATUS TOKEN != MODEL APPROVAL", text)
         self.assertIn("CALIBRATION CONTROL != EVIDENCE PROMOTION", text)
         self.assertIn("MODEL OUTPUT != OBS", text)
+        self.assertIn("KSH-RF-2022-PRIMARY-ENERGY", text)
         self.assertIn("B02 readiness: változatlanul **55%**", text)
 
 
