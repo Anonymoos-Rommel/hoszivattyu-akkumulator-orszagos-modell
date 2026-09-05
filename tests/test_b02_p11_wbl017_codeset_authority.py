@@ -37,7 +37,7 @@ CURRENT_CAUSE = GapCauseInputs(
 
 
 class B02P11WBL017CodeSetAuthorityTests(unittest.TestCase):
-    def test_current_codeset_fails_closed(self):
+    def test_unproven_codeset_fails_closed(self):
         decision = assess_codeset_authority(CURRENT_CODESET)
         self.assertEqual(decision.status, Q)
         self.assertEqual(
@@ -46,7 +46,6 @@ class B02P11WBL017CodeSetAuthorityTests(unittest.TestCase):
                 "SOURCE_LEAF_PARTITION_NOT_PROVEN",
                 "SELECTED_CODESET_NOT_EXHAUSTIVE",
                 "SELECTED_CODESET_NOT_DISJOINT",
-                "LEAF_PROJECTION_NOT_RECONCILED_TO_TOTAL",
             },
         )
 
@@ -65,7 +64,7 @@ class B02P11WBL017CodeSetAuthorityTests(unittest.TestCase):
         self.assertIn("SOURCE_LEAF_PARTITION_NOT_PROVEN", decision.blockers)
         self.assertIn("SELECTED_CODESET_NOT_EXHAUSTIVE", decision.blockers)
 
-    def test_fully_proven_codeset_can_qualify(self):
+    def test_proven_non_total_codeset_can_qualify_with_population_residual(self):
         decision = assess_codeset_authority(
             CodeSetAuthorityInputs(
                 structure_pinned=True,
@@ -73,7 +72,7 @@ class B02P11WBL017CodeSetAuthorityTests(unittest.TestCase):
                 source_leaf_partition_explicitly_proven=True,
                 selected_codes_exhaustive=True,
                 selected_codes_disjoint=True,
-                leaf_projection_reconciled_to_total=True,
+                leaf_projection_reconciled_to_total=False,
             )
         )
         self.assertEqual(decision.status, QUALIFIED)
@@ -102,7 +101,7 @@ class B02P11WBL017CodeSetAuthorityTests(unittest.TestCase):
         self.assertEqual(decision.status, QUALIFIED)
         self.assertEqual(decision.blockers, ())
 
-    def test_registry_keeps_codeset_and_gap_causes_q(self):
+    def test_p13_registry_supersedes_current_p11_q_state(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(
@@ -114,18 +113,11 @@ class B02P11WBL017CodeSetAuthorityTests(unittest.TestCase):
             },
         )
         for row in rows.values():
-            self.assertEqual(row["authority_status"], "Q")
+            self.assertEqual(row["authority_status"], "QUALIFIED")
+            self.assertEqual(row["cause_evidence_status"], "DER")
         self.assertEqual(
             rows["WBL017_POPULATION_GAP_CAUSE"]["count_or_existence_evidence_status"],
             "DER",
-        )
-        self.assertEqual(
-            rows["WBL017_POPULATION_GAP_CAUSE"]["cause_evidence_status"],
-            "Q",
-        )
-        self.assertEqual(
-            rows["WBL017_HOSZIV1_GAP_CAUSE"]["cause_evidence_status"],
-            "Q",
         )
 
     def test_extractor_contains_bounded_13_code_selection(self):
