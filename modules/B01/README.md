@@ -69,21 +69,7 @@ gépileg végrehajthatóvá, de **nem tart fenn fix országos programme targetet
 A korábbi `2 000 000` érték csak a kezdeti, 2026. augusztusi munkahipotézis;
 nem current baseline és nem programme ceiling.
 
-A dwelling-side országos kontextus:
-
-- 2022 lakott lakások: **4 008 541 OBS**;
-- ebből a KSH publikált, településtípusonként kerekített fűtésimód-megoszlásából
-  levezetett nem-távfűtött lakott lakásállomány: **kb. 3 403 746 DER**.
-
-A ~3,4 millió a programme-releváns fizikai kiinduló univerzum, nem a végleges
-technikai hőszivattyú-alkalmasság. Utility customer count nem használható
-ház-/lakásszámként.
-
-A programme target ezért explicit `POL`/`SCN` input marad; ha egy target
-population reference-re támaszkodik, annak értéke, státusza és szemantikája is
-explicit kell legyen.
-
-A profil-contract:
+A programme target explicit `POL`/`SCN` input marad. A profil-contract:
 
 - `LINEAR`;
 - `LOGISTIC` — explicit midpoint és steepness nélkül fail-closed;
@@ -97,10 +83,32 @@ célháztartás jogi/műszaki definíciója is OBS/DER authorityval rendelkezik.
 
 Registry: `registry/b01_national_rollout_policy_contract.csv`.
 
+## B01-P3 exact non-district-heated population base
+
+`modules/B01/non_district_population.py` kizárólag a commitolt
+`WBL011_HEATING_FUEL` OBS projekció 7 682 celláját aggregálja. A KSH diszjunkt
+fűtési mód-partíciójában `HEAT12` a távfűtés.
+
+A kanonikus 2022-es fizikai bázis:
+
+- lakott lakások: **4 008 541**;
+- távfűtött lakott lakások: **618 724**;
+- **nem távfűtött lakott lakások: 3 389 817**.
+
+A P2-ben ideiglenesen használt **3 403 746** kerekített-share becslést P3
+felülírja; az csak történeti auditérték marad. A P3-registry húsz
+vármegye/Budapest DER sort és egy országos kontrollsort materializál:
+`registry/b01_non_district_heated_population_2022.csv`.
+
+A 3 389 817-es állomány programme-releváns fizikai kiinduló univerzum, de
+**nem B02 technikai alkalmasság**, nem programme target és nem kiválasztott
+háztartás. Utility customer count továbbra sem használható ház-/lakásszámként.
+
 ## Állapot
 
-`IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 országos rollout
-matematika gépileg végrehajtható. A canonical programme target jelenleg `Q`;
-a Q-B01-001 célháztartás-definíció, a B02 national eligible stock, a valós éves
-capacity path, valamint a tényleges regionális/settlement household allocation
-továbbra sincs lezárva.
+`IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 rollout matematika
+gépileg végrehajtható; B01-P3 az országos és vármegyei nem-távfűtött lakott
+lakásbázist exact WBL011 cellákból rögzíti. A canonical programme target
+jelenleg `Q`; a Q-B01-001 célháztartás-definíció, a B02 national eligible stock,
+a valós éves capacity path, valamint a tényleges regional/settlement household
+allocation továbbra sincs lezárva.
