@@ -69,12 +69,16 @@ gépileg végrehajthatóvá, de **nem tart fenn fix országos programme targetet
 A korábbi `2 000 000` érték csak a kezdeti, 2026. augusztusi munkahipotézis;
 nem current baseline és nem programme ceiling.
 
-A jelenlegi országos OBS kontextus:
+A dwelling-side országos kontextus:
 
-- 2024 household gas consumers: **3 241 811**;
-- 2024 heating consumers: **3 022 115**.
+- 2022 lakott lakások: **4 008 541 OBS**;
+- ebből a KSH publikált, településtípusonként kerekített fűtésimód-megoszlásából
+  levezetett nem-távfűtött lakott lakásállomány: **kb. 3 403 746 DER**.
 
-Ezek population-context értékek, nem technikai hőszivattyú-alkalmasság.
+A ~3,4 millió a programme-releváns fizikai kiinduló univerzum, nem a végleges
+technikai hőszivattyú-alkalmasság. Utility customer count nem használható
+ház-/lakásszámként.
+
 A programme target ezért explicit `POL`/`SCN` input marad; ha egy target
 population reference-re támaszkodik, annak értéke, státusza és szemantikája is
 explicit kell legyen.
