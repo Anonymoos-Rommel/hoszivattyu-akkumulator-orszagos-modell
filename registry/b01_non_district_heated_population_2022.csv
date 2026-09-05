@@ -1,0 +1,22 @@
+region_code,region_name,grain,occupied_dwellings,district_heated_dwellings,non_district_heated_dwellings,evidence_status,source_projection,source_id,notes
+HU110,Budapest,COUNTY_CAPITAL,800338,233233,567105,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU120,Pest vármegye,COUNTY,491227,20194,471033,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU211,Fejér vármegye,COUNTY,169752,38769,130983,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU212,Komárom-Esztergom vármegye,COUNTY,123133,35431,87702,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU213,Veszprém vármegye,COUNTY,137450,20427,117023,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU221,Győr-Moson-Sopron vármegye,COUNTY,187968,32990,154978,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU222,Vas vármegye,COUNTY,100985,15101,85884,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU223,Zala vármegye,COUNTY,109891,1083,108808,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU231,Baranya vármegye,COUNTY,152683,36361,116322,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU232,Somogy vármegye,COUNTY,121932,7681,114251,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU233,Tolna vármegye,COUNTY,87986,10016,77970,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU311,Borsod-Abaúj-Zemplén vármegye,COUNTY,249031,49149,199882,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU312,Heves vármegye,COUNTY,118784,8481,110303,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU313,Nógrád vármegye,COUNTY,75519,4748,70771,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU321,Hajdú-Bihar vármegye,COUNTY,210805,31755,179050,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU322,Jász-Nagykun-Szolnok vármegye,COUNTY,150641,9257,141384,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU323,Szabolcs-Szatmár-Bereg vármegye,COUNTY,200121,18665,181456,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU331,Bács-Kiskun vármegye,COUNTY,210884,15837,195047,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU332,Békés vármegye,COUNTY,139639,213,139426,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU333,Csongrád-Csanád vármegye,COUNTY,169772,29333,140439,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact sum of committed OBS WBL011 heating-mode/fuel cells; not technical eligibility.
+HU,Magyarország,NATIONAL,4008541,618724,3389817,DER,WBL011_HEATING_FUEL,SRC-B02-KSH-CENSUS-API-2022,Exact national aggregation of the twenty county/capital rows; district-heating control also matches P1B exact OBS national query.
