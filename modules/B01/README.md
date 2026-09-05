@@ -61,32 +61,42 @@ országos optimumot.
 
 Bounded fixture: `data/fixtures/b01_state_stock_scn.json`.
 
-## Executable B01-P2 national rollout policy pathway
+## Executable B01-P2 national rollout pathway
 
-`modules/B01/national_rollout_pathway.py` a P1-A policy-envelope három kötelező
-felfutási profilját gépileg végrehajthatóvá teszi:
+`modules/B01/national_rollout_pathway.py` a nemzeti rollout matematikát teszi
+gépileg végrehajthatóvá, de **nem tart fenn fix országos programme targetet**.
+
+A korábbi `2 000 000` érték csak a kezdeti, 2026. augusztusi munkahipotézis;
+nem current baseline és nem programme ceiling.
+
+A jelenlegi országos OBS kontextus:
+
+- 2024 household gas consumers: **3 241 811**;
+- 2024 heating consumers: **3 022 115**.
+
+Ezek population-context értékek, nem technikai hőszivattyú-alkalmasság.
+A programme target ezért explicit `POL`/`SCN` input marad; ha egy target
+population reference-re támaszkodik, annak értéke, státusza és szemantikája is
+explicit kell legyen.
+
+A profil-contract:
 
 - `LINEAR`;
 - `LOGISTIC` — explicit midpoint és steepness nélkül fail-closed;
-- `CAPACITY_LIMITED` — minden tervévre explicit kapacitásérték szükséges.
-
-A canonical envelope változatlan:
-
-- baseline target: 2 000 000 háztartás;
-- sensitivity: 0–2 500 000;
+- `CAPACITY_LIMITED` — minden tervévre explicit kapacitásérték szükséges;
 - horizon: 8–25 év;
 - report points: 12 / 15 / 20 év.
 
-Minden generált pathway `SCN`; a policy target nem válik technikailag alkalmas
-állománnyá vagy valós household-selectionné. A `NationalSelectionGate` csak
-akkor nyithat real national selectiont, ha a B02 eligible stock, a valós éves
-capacity path és a célháztartás definíciója is OBS/DER authorityval rendelkezik.
+Minden generált pathway `SCN`. A `NationalSelectionGate` csak akkor nyithat real
+national selectiont, ha a B02 eligible stock, a valós éves capacity path és a
+célháztartás jogi/műszaki definíciója is OBS/DER authorityval rendelkezik.
 
 Registry: `registry/b01_national_rollout_policy_contract.csv`.
 
 ## Állapot
 
-`IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 országos
-policy-rollout matematika gépileg végrehajtható. A Q-B01-001 célháztartás-
-definíció, a B02 national eligible stock, a valós éves capacity path, valamint
-a tényleges regionális/settlement household allocation továbbra sincs lezárva.
+`IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 országos rollout
+matematika gépileg végrehajtható. A canonical programme target jelenleg `Q`;
+a Q-B01-001 célháztartás-definíció, a B02 national eligible stock, a valós éves
+capacity path, valamint a tényleges regionális/settlement household allocation
+továbbra sincs lezárva.
