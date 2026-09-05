@@ -7,42 +7,51 @@ B01-P2 makes national rollout mathematics executable while removing the original
 
 Core boundary:
 
-`LEGACY 2M HYPOTHESIS != OBSERVED GAS-CONSUMER UNIVERSE != TECHNICALLY ELIGIBLE STOCK != POLICY TARGET != REAL SELECTED HOUSEHOLDS`
+`LEGACY 2M HYPOTHESIS != OCCUPIED-DWELLING UNIVERSE != NON-DISTRICT-HEATED DWELLING CONTEXT != TECHNICALLY ELIGIBLE STOCK != POLICY TARGET != REAL SELECTED HOUSEHOLDS`
 
 ## Correction of the original 2M assumption
 
 The original August programme concept and P1-A carried **2,000,000 households**
-as an early policy/work hypothesis. It was never an observed national stock and
-must not be used as the current programme baseline or national ceiling.
+as an early working hypothesis. It was not an observed national stock, and it is
+not the current programme baseline or ceiling.
 
-Current repository evidence contains stronger national population context:
+The stronger dwelling-side national context is:
 
-- **3,241,811** household gas consumers in 2024 (`OBS`), from KSH national gas
-  supply statistics (`SRC-B11-KSH-KOR0043-2024`);
-- **3,022,115** heating consumers in 2024 (`OBS`), obtained by exact summation of
-  the 20 KSH county/capital rows materialized under
-  `SRC-B11-KSH-TERSTAT-610-2024`;
-- **4,008,541** occupied dwellings in the 2022 WBL011 population universe
-  (`OBS`) used by B02.
+- **4,008,541 occupied dwellings** in the 2022 KSH/WBL011 population universe
+  (`OBS`);
+- approximately **3,403,746 non-district-heated occupied dwellings** (`DER`),
+  calculated from that occupied-dwelling universe and the KSH-published 2022
+  settlement-type heating-mode shares.
 
-These three numbers have different semantics. In particular:
+The second value is deliberately marked approximate. The published heating-mode
+shares are rounded percentages, so **3,403,746 is a reproducible rounded-share
+estimate, not an exact census cell total**.
 
-`3,241,811 GAS CONSUMERS != 3,022,115 HEATING CONSUMERS != TECHNICALLY ELIGIBLE HEAT-PUMP STOCK`
+This approximately **3.4 million** population is the useful programme-relevant
+physical starting universe because district-heated dwellings are separated from
+household/building-level heating-system conversion. It still does not prove that
+every remaining dwelling is technically suitable for a heat pump.
 
-B02 technical eligibility remains unresolved, so B01-P2 does not rename any of
-these population counts as eligible stock.
+Therefore:
+
+`~3.4M NON-DISTRICT-HEATED DWELLINGS != B02 TECHNICALLY ELIGIBLE STOCK`
+
+Utility customer counts are not used as house counts. Gas-consumer and
+electricity-consumer statistics describe service/customer relationships and may
+not equal the occupied-dwelling universe.
 
 The **canonical programme target is currently UNSET/Q**. Future scenarios must
-supply an explicit `POL`/`SCN` target and, when they rely on a population
-ceiling, must name the exact OBS/DER population reference and semantics.
+supply an explicit `POL`/`SCN` target. If a scenario relies on a population
+ceiling, it must identify the exact OBS/DER population reference and its
+semantics.
 
 The legacy 2M value is retained only for audit/history so old calculations can be
 identified; it has no current baseline or ceiling authority.
 
 ## Time/profile envelope retained from P1-A
 
-The numerical target assumptions are corrected above, but the generic pathway
-shape contract remains useful:
+The numerical target assumption is removed, while the generic pathway shape
+contract remains useful:
 
 - free horizon: **8–25 years**;
 - canonical report points: **12 / 15 / 20 years**;
@@ -122,7 +131,9 @@ B01-P2 provides:
 - an executable national rollout-path generator for an explicit target;
 - canonical 12/15/20-year report-point extraction;
 - explicit unmet-target accounting;
-- exact national observed population context without semantic promotion;
+- the 4,008,541 occupied-dwelling OBS universe;
+- the approximately 3.404M non-district-heated programme-relevant physical
+  population context with explicit approximation status;
 - a machine gate separating scenario paths from real national selection.
 
 B01-P2 does **not** provide:
@@ -130,6 +141,7 @@ B01-P2 does **not** provide:
 - a fixed 2M baseline;
 - a 2.5M programme ceiling;
 - final programme target;
+- exact national non-district-heated census cell total;
 - national technically eligible household stock;
 - real annual installation capacity;
 - real selected households;
