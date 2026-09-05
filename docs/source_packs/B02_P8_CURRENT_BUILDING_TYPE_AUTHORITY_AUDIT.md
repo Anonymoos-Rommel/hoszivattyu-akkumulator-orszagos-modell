@@ -97,23 +97,25 @@ The gate is implemented in:
 
 `modules/B02/building_type_authority_gate.py`
 
-A candidate can qualify as current building-type authority for the Q-B02-002 closure path only if all required conditions hold:
+At P8, a candidate could qualify as current building-type authority only if all required conditions held:
 
 1. reference year is 2022 or later;
 2. source universe is the occupied dwelling stock;
-3. source grain is WBL-compatible settlement type, county × settlement type, or a finer reproducibly joinable dwelling-record grain;
+3. source grain is WBL-compatible;
 4. taxonomy is compatible with the canonical `FAMILY_HOUSE` / `MULTI_DWELLING` split;
 5. evidence is `OBS` or `DER`;
 6. the source publishes a stock distribution;
 7. a reproducible WBL-compatible join key exists.
 
-Missing any one condition returns `Q` with an explicit reason. No candidate is promoted by source prestige, recency, or semantic similarity alone.
+**P16 supersedes the P8 grain interpretation.** After the complete WBL011 stock joint was materialized in P15, `SETTLEMENT_TYPE` or `COUNTY_X_SETTLEMENT_TYPE` building-type margins are no longer accepted as direct links. A direct `OBS`/`DER` authority must now be either `WBL_FULL_JOINT` or reproducibly joinable `DWELLING_RECORD`; coarse margins require the separate P12 calibrated-linkage route.
+
+Missing any required condition returns `Q` with an explicit reason. No candidate is promoted by source prestige, recency, semantic similarity or matching margins alone.
 
 Machine-readable audit:
 
 `registry/b02_current_building_type_authority_audit.csv`
 
-All three audited source families remain `Q` for the Q-B02-002 authority gate.
+The original three P8 source families remain `Q`; P16 extends the current audit with the KSH energy-methodology surface without rewriting the P8 historical findings.
 
 ## Q-B02-002 effect
 
@@ -127,7 +129,7 @@ P8 closes an ambiguity, not the question itself:
 
 The valid next closure paths are therefore narrowed to:
 
-1. a KSH/admin current source that directly exposes occupied-stock building type at WBL-compatible grain; or
+1. a KSH/admin current source that directly exposes occupied-stock building type at a WBL-compatible direct-link grain; or
 2. an explicitly approved calibrated statistical linkage model with representativeness diagnostics and uncertainty propagation.
 
 The current 2015-based settlement-type projection remains `ASS`.
