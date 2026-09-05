@@ -1,0 +1,8 @@
+operator_id,effective_whole_count,effective_usage_location_count,effective_record_count,surface_status,notes
+ELMU,127,1,128,RESOLVED_ONLY_EFFECTIVE_PROJECTION,"P62 supersedes 3 prior ELMU whole-settlement claims; P61 contributes one exact Tass usage-location membership."
+EON_DDASZ,819,0,819,RESOLVED_ONLY_EFFECTIVE_PROJECTION,"P62 supersedes 1 prior DDASZ whole-settlement claim; unresolved DDASZ residual source forms remain excluded."
+EON_EDASZ,814,0,814,RESOLVED_ONLY_EFFECTIVE_PROJECTION,"No P62 supersession applies to the 814 currently admitted EDASZ whole-settlement claims."
+MVM_DEMASZ,256,0,256,RESOLVED_ONLY_EFFECTIVE_PROJECTION,"The 20 MVM Demasz partial settlements are not promoted to whole-settlement membership."
+MVM_EMASZ,650,0,650,RESOLVED_ONLY_EFFECTIVE_PROJECTION,"The 99 parent-context residuals and 2 spelling edges remain excluded from effective membership."
+OPUS_TITASZ,386,0,386,RESOLVED_ONLY_EFFECTIVE_PROJECTION,"P62 supersedes 9 prior OPUS TITASZ whole-settlement claims where current MVM Demasz partial authority creates unresolved internal boundaries."
+NATIONAL_RESOLVED_ONLY,3052,1,3053,PARTIAL_NATIONAL_EFFECTIVE_SURFACE,"Machine-usable resolved-only surface. This is not a complete national KSH-to-DSO crosswalk and does not resolve missing internal usage-location boundaries."
