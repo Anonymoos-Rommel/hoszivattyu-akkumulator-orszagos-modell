@@ -85,8 +85,22 @@ Kanonikus producer-határ:
 
 B02 ezért nem önigazolhat villamos vagy permit readiness-t. `Q` komponenshez producer-authority sem állítható. A mapping repository-architektúra, nem OBS/DER evidence, ezért a jelenlegi national eligible count változatlanul blank/Q.
 
+## B02-P5 TABULA / EPISCOPE thermal-distribution boundary
+
+A `registry/b02_tabula_thermal_distribution_audit.csv` az alternatív magyar TABULA/EPISCOPE országos tipológiai forrást fail-closed módon auditálja.
+
+Kanonikus határ:
+
+`HEAT GENERATION DATA != HEAT DISTRIBUTION DATA != CURRENT EMITTER EVIDENCE != DESIGN TEMPERATURE EVIDENCE != HYDRAULIC READINESS`
+
+A magyar EPISCOPE country-page szerint az `S-2.1` heat-supply centralisation és az `S-2.3` heat generation elérhető, de az `S-2.2 Heat distribution and storage of space heating systems` nincs elérhetőként jelölve. A BME tipológiabrosúra típusra jellemző modell-gépészeti megoldásokat használ; ez nem household-level emitter OBS. A brosúrában látható radiátorszerű sematikus ábra sem emelhető current-emitter evidence-dzsé, és kazántípusból nem inferálható hőfoklépcső.
+
+Ezért a TABULA-vonal context-only: `GAP-B02-S2-HEAT-EMITTER`, `GAP-B02-S2-DESIGN-TEMPERATURE` és `GAP-B02-S2-HYDRAULIC` továbbra is `Q`. A fő evidence-út változatlanul az OÉNY pilot/adatkérés, sikertelensége esetén külön reprezentatív műszaki felmérés.
+
+A brosúra public-repository reuse-ja attribution mellett tisztázott; a history manifest az `evidence/history/SRC-B02-TABULA-HU-TYPOLOGY-BROCHURE-2014/manifest.csv`. A PDF byte-snapshotja jelenleg `PENDING_BINARY_ACQUISITION`, mert hash és exact byte copy nélkül nem archiválunk.
+
 ## Állapot
 
-`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, B02-P4 pedig a négy technikai komponens producer-authority handoffját fail-closed rögzíti, de **egyik sem ad országos eligible-stock számot**. A projekciók és a proxy nem kapcsolhatók cellaszinten; `Q-B02-001` és `Q-B02-004` nyitott.
+`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, B02-P4 a négy technikai komponens producer-authority handoffját fail-closed rögzíti, B02-P5 pedig lezárja a TABULA/EPISCOPE alternatív forráság félreértelmezési kockázatát, de **egyik sem ad országos eligible-stock számot**. `Q-B02-001` és `Q-B02-004` nyitott.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
