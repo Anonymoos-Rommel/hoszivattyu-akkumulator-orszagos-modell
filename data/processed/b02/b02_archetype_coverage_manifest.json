@@ -5,7 +5,7 @@
   "method": {
     "coverage": "rank and cumulative share over the 16 published KSH-modelled building-type x construction-period cells",
     "rarity": "exact positive/zero energy-bin counts and extrema; no arbitrary rare-cell threshold",
-    "joinability": "fail-closed grain inventory; separate margins are not cross-multiplied"
+    "joinability": "fail-closed grain inventory; source-native joint availability is separate from repository materialization and separate margins are not cross-multiplied"
   },
   "inputs": {
     "ksh_energy_archetype_benchmarks_2022.csv": {
@@ -45,8 +45,8 @@
       "bytes": 4921
     },
     "b02_archetype_joinability_2022.csv": {
-      "sha256": "7b5171a57cce62bf28ffd42ae34cde21ed15f6657ffa2470e7814aeeb19ba2f7",
-      "bytes": 4191
+      "sha256": "179b7b09d753238437eb33283fc8fa112e83274c2d4abb2fa0dcc389c2234eca",
+      "bytes": 4341
     }
   }
 }
