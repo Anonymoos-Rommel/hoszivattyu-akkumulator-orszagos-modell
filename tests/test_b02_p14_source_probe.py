@@ -1,3 +1,4 @@
+import hashlib
 import json
 import unittest
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -25,7 +26,7 @@ def fetch_json(url: str):
     req = Request(url, headers={"User-Agent": "B02-P14-source-probe/1.0"})
     with urlopen(req, timeout=120) as response:  # noqa: S310
         raw = response.read()
-    return json.loads(raw), len(raw)
+    return json.loads(raw), raw
 
 
 def joint_url(county: str) -> str:
@@ -47,8 +48,8 @@ def total_url(county: str) -> str:
 
 
 def probe_county(county: str) -> dict[str, object]:
-    joint, joint_bytes = fetch_json(joint_url(county))
-    total, total_bytes = fetch_json(total_url(county))
+    joint, joint_raw = fetch_json(joint_url(county))
+    total, total_raw = fetch_json(total_url(county))
     if not isinstance(joint, list) or not isinstance(total, list) or len(total) != 1:
         raise AssertionError(f"unexpected response shape for {county}")
     joint_sum = sum(int(row["OBS_VALUE"]) for row in joint if row.get("OBS_VALUE") not in (None, ""))
@@ -59,8 +60,10 @@ def probe_county(county: str) -> dict[str, object]:
         "joint_sum": joint_sum,
         "total": total_value,
         "delta": total_value - joint_sum,
-        "joint_bytes": joint_bytes,
-        "total_bytes": total_bytes,
+        "joint_bytes": len(joint_raw),
+        "joint_sha256": hashlib.sha256(joint_raw).hexdigest(),
+        "total_bytes": len(total_raw),
+        "total_sha256": hashlib.sha256(total_raw).hexdigest(),
     }
 
 
