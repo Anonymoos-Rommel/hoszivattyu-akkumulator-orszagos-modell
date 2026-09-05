@@ -1,8 +1,10 @@
 """Fail-closed WBL017 code-set and gap-cause authority gates.
 
 B02-P11 separates source-code existence from proof that a selected code set is
-an exhaustive, disjoint source-native partition. It also separates count-gap
-observation from proof of the mechanism causing that gap.
+an exhaustive, disjoint source-native partition. B02-P13 adds source-native V67
+hierarchy evidence proving that code-set completeness and population coverage
+are separate claims: a complete non-TOTAL partition may coexist with records
+present only in TOTAL.
 """
 
 from __future__ import annotations
@@ -32,7 +34,12 @@ class CodeSetAuthorityInputs:
 
 
 def assess_codeset_authority(inputs: CodeSetAuthorityInputs) -> AuthorityDecision:
-    """Assess whether a selected WBL017 code set is authoritative as a partition."""
+    """Assess source-native non-TOTAL partition authority.
+
+    ``leaf_projection_reconciled_to_total`` is retained as a population-coverage
+    diagnostic, but it is not a code-set-authority requirement after P13 proved
+    that V67 TOTAL contains records outside every non-TOTAL FUTMODAG_V3 branch.
+    """
 
     blockers: list[str] = []
     if not inputs.structure_pinned:
@@ -45,8 +52,6 @@ def assess_codeset_authority(inputs: CodeSetAuthorityInputs) -> AuthorityDecisio
         blockers.append("SELECTED_CODESET_NOT_EXHAUSTIVE")
     if not inputs.selected_codes_disjoint:
         blockers.append("SELECTED_CODESET_NOT_DISJOINT")
-    if not inputs.leaf_projection_reconciled_to_total:
-        blockers.append("LEAF_PROJECTION_NOT_RECONCILED_TO_TOTAL")
 
     if blockers:
         return AuthorityDecision(Q, tuple(blockers))
