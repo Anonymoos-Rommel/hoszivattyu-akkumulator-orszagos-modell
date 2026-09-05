@@ -71,24 +71,24 @@ class B02P14WBL011SourceNativeFullJointTests(unittest.TestCase):
         self.assertEqual(self.national["evidence_status"], "QUALIFIED")
         self.assertEqual(self.national["materialization_status"], "SOURCE_VERIFIED_NOT_MATERIALIZED")
 
-    def test_p9_uses_materialization_blocker_not_source_availability_blocker(self):
+    def test_p15_supersedes_only_the_materialization_blocker(self):
         with P9_REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         for claim_id in ("CURRENT_STOCK_ARCHETYPE_ASSIGNMENT", "TECHNICAL_READINESS_ARCHETYPE"):
             row = rows[claim_id]
             self.assertEqual(row["current_status"], "Q")
-            self.assertIn("NO_MATERIALIZED_COMPLETE_WBL_JOINT", row["current_blockers"])
-            self.assertNotIn("NO_COMPLETE_WBL_JOINT", row["current_blockers"])
+            self.assertNotIn("NO_MATERIALIZED_COMPLETE_WBL_JOINT", row["current_blockers"])
+            self.assertIn("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY", row["current_blockers"])
+            self.assertIn("NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY", row["current_blockers"])
 
-    def test_joinability_preserves_partial_materialization(self):
+    def test_p15_supersedes_partial_joinability_with_direct_materialization(self):
         with JOINABILITY.open(encoding="utf-8", newline="") as handle:
             rows = {row["join_id"]: row for row in csv.DictReader(handle)}
         core = rows["JOIN-B02-WBL011-CORE"]
         self.assertEqual(core["evidence_status"], "OBS")
-        self.assertEqual(core["materialization_status"], "PARTIALLY_MATERIALIZED")
-        self.assertIn("116452", core["permitted_link"])
-        self.assertIn("4008541", core["permitted_link"])
-        self.assertIn("source availability", core["prohibited_inference"])
+        self.assertEqual(core["materialization_status"], "MATERIALIZED")
+        self.assertEqual(core["record_count"], "116452")
+        self.assertEqual(core["population_count"], "4008541")
 
     def test_document_freezes_source_materialization_boundary(self):
         text = DOC.read_text(encoding="utf-8")
@@ -113,7 +113,8 @@ class B02P14WBL011SourceNativeFullJointTests(unittest.TestCase):
         self.assertEqual(b02["readiness_percent"], "55")
         self.assertIn("B02-P14", b02["gate_note"])
         self.assertIn("116 452", b02["gate_note"])
-        self.assertIn("NO_MATERIALIZED_COMPLETE_WBL_JOINT", b02["gate_note"])
+        self.assertIn("B02-P15", b02["gate_note"])
+        self.assertNotIn("NO_MATERIALIZED_COMPLETE_WBL_JOINT", b02["gate_note"])
 
 
 if __name__ == "__main__":

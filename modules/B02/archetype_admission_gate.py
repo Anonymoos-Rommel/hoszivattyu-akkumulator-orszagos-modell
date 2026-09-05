@@ -7,10 +7,10 @@ B02-P9 separates three things that must not be conflated:
 3. technical-readiness enrichment of that stock assignment.
 
 A contracted schema is repository architecture, not evidence that the required
-joint population exists. B02-P14 additionally proves that source-native WBL011
-full-joint availability is not the same as repository materialization of that
-joint. Missing materialization, ASS-only building-type linkage, or unlinked
-MODELLED energy information therefore remain Q.
+joint population exists. B02-P14 proves that source-native WBL011 full-joint availability is not the
+same as repository materialization. B02-P15 now materializes that complete
+WBL011 stock joint, so the current stock claim remains Q only because
+building-type linkage and primary-energy linkage are still not authoritative.
 
 B02-P12 additionally requires an independently QUALIFIED calibrated-linkage
 admission before model-status tokens may satisfy the building-type or

@@ -8,6 +8,8 @@ Kapcsolódó kérdések: `Q-B02-001`, `Q-B02-002`, `Q-B02-004`
 
 Ellenőrzés napja: **2026-08-12**
 
+> **Current-state supersession — B02-P15 / 2026-09-05:** P1-H eredetileg három részprojekciót materializált. P15 ugyanebben a canonical extractorban hozzáadta a direct `WBL011_FULL_STOCK_JOINT` projekciót: 116 452 OBS sor / 4 008 541 lakás. A lentebbi, három projekcióra és 60 kérésre vonatkozó számok a történeti P1-H snapshotot írják le; a current state-et a P15 source pack és a current manifest adja. A separate envelope/heating margók synthetic cellajoinja továbbra is tiltott; combined WBL011 elemzéshez a direct full joint használandó.
+
 ## Eredmény
 
 A KSH 2022. évi népszámlálási adatbázisának rögzített `V67` verziójából három, egymástól elkülönített közös megfigyelési projekció készült. Egy sor minden esetben egyetlen KSH API-válasz `OBS_VALUE` rekordja; külön margók keresztbeszorzása vagy projekciók közötti cellajoin nem történt.

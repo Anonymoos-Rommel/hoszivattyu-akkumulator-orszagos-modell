@@ -95,7 +95,9 @@ class B02ArchetypeCoverageTests(unittest.TestCase):
         self.assertEqual(80, controls["zero_distribution_bins"])
         self.assertEqual(22_145, controls["smallest_benchmark_cell_dwellings"])
         self.assertEqual(902_651, controls["largest_benchmark_cell_dwellings"])
-        self.assertEqual("Q", controls["full_joint_evidence_status"])
+        self.assertEqual("MATERIALIZED", controls["wbl011_full_joint_materialization_status"])
+        self.assertEqual("Q", controls["full_archetype_evidence_status"])
+        self.assertEqual(164_412, controls["wbl_materialized_projection_rows"])
         for name, metadata in self.manifest["inputs"].items():
             self.assertEqual(
                 metadata["sha256"], hashlib.sha256((DATA / name).read_bytes()).hexdigest()

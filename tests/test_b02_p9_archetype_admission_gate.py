@@ -21,7 +21,7 @@ DOC = ROOT / "docs" / "source_packs" / "B02_P9_ARCHETYPE_ADMISSION_GATE.md"
 
 CURRENT = StockArchetypeInputs(
     schema_status=CONTRACTED,
-    wbl_joint_materialized_complete=False,
+    wbl_joint_materialized_complete=True,
     building_type_link_status="ASS",
     primary_energy_link_status="MODELLED_UNLINKED",
 )
@@ -34,7 +34,6 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
         self.assertEqual(
             set(decision.blockers),
             {
-                "NO_MATERIALIZED_COMPLETE_WBL_JOINT",
                 "NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY",
                 "NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY",
             },
@@ -155,6 +154,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
         )
         self.assertIn("MODELLED ENERGY PANEL != PRIMARY-ENERGY-TO-WBL LINK AUTHORITY", text)
         self.assertIn("B02 readiness változatlanul **55%**", text)
+        self.assertIn("WBL011 repository full-joint materialization: `MATERIALIZED`", text)
 
 
 if __name__ == "__main__":
