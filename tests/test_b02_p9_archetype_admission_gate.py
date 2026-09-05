@@ -62,10 +62,28 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             wbl_joint_materialized_complete=True,
             building_type_link_status="DER",
             primary_energy_link_status="MODELLED_UNLINKED",
+            building_type_direct_authority_status=QUALIFIED,
         )
         decision = assess_stock_archetype(candidate)
         self.assertEqual(decision.status, Q)
         self.assertEqual(decision.blockers, ("NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY",))
+
+    def test_raw_real_link_tokens_require_separate_direct_admission(self):
+        candidate = StockArchetypeInputs(
+            schema_status=CONTRACTED,
+            wbl_joint_materialized_complete=True,
+            building_type_link_status="OBS",
+            primary_energy_link_status="DER",
+        )
+        decision = assess_stock_archetype(candidate)
+        self.assertEqual(decision.status, Q)
+        self.assertEqual(
+            decision.blockers,
+            (
+                "BUILDING_TYPE_DIRECT_LINK_NOT_ADMITTED",
+                "PRIMARY_ENERGY_DIRECT_LINK_NOT_ADMITTED",
+            ),
+        )
 
     def test_complete_explicit_stock_authority_can_qualify(self):
         candidate = StockArchetypeInputs(
@@ -86,6 +104,8 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             wbl_joint_materialized_complete=True,
             building_type_link_status="DER",
             primary_energy_link_status="DER",
+            building_type_direct_authority_status=QUALIFIED,
+            primary_energy_direct_authority_status=QUALIFIED,
         )
         decision = assess_technical_readiness_enrichment(
             candidate,
@@ -107,6 +127,8 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             wbl_joint_materialized_complete=True,
             building_type_link_status="OBS",
             primary_energy_link_status="DER",
+            building_type_direct_authority_status=QUALIFIED,
+            primary_energy_direct_authority_status=QUALIFIED,
         )
         decision = assess_technical_readiness_enrichment(
             candidate,
@@ -153,6 +175,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             text,
         )
         self.assertIn("MODELLED ENERGY PANEL != PRIMARY-ENERGY-TO-WBL LINK AUTHORITY", text)
+        self.assertIn("RAW OBS/DER LINK TOKEN != DIRECT-LINK ADMISSION", text)
         self.assertIn("B02 readiness változatlanul **55%**", text)
         self.assertIn("WBL011 repository full-joint materialization: `MATERIALIZED`", text)
 
