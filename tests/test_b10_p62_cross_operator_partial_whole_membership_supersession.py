@@ -22,15 +22,18 @@ P61_USAGE = ROOT / "registry/dso_service_area_membership_elmu_p61_usage_location
 CANONICAL = ROOT / "registry/dso_service_area_membership_crosswalk.csv"
 MODULE_STATUS = ROOT / "registry/module_status.csv"
 DOC = ROOT / "docs/source_packs/P62_B10_CROSS_OPERATOR_PARTIAL_WHOLE_MEMBERSHIP_SUPERSESSION.md"
-EMASZ_P47_PAIRS = ROOT / "registry/dso_service_area_membership_emasz_p47_pairs.csv"
 
 RAW_MEMBERSHIP_FILES = (
     ROOT / "registry/dso_service_area_membership_crosswalk_tranche.csv",
     ROOT / "registry/dso_service_area_membership_crosswalk_opus_p44.csv",
     ROOT / "registry/dso_service_area_membership_crosswalk_demasz_p45.csv",
     ROOT / "registry/dso_service_area_membership_crosswalk_elmu_p46.csv",
-    ROOT / "registry/dso_service_area_membership_crosswalk_ddasz_p48.csv",
-    ROOT / "registry/dso_service_area_membership_crosswalk_edasz_p49.csv",
+)
+
+COMPACT_COMPLETION_PAIR_SURFACES = (
+    (ROOT / "registry/dso_service_area_membership_emasz_p47_pairs.csv", "MVM_EMASZ"),
+    (ROOT / "registry/dso_service_area_membership_ddasz_p48_pairs.csv", "EON_DDASZ"),
+    (ROOT / "registry/dso_service_area_membership_edasz_p49_pairs.csv", "EON_EDASZ"),
 )
 
 EXPECTED_SUPERSESSIONS = {
@@ -82,17 +85,18 @@ class B10P62CrossOperatorPartialWholeSupersessionTests(unittest.TestCase):
                 if row["status"] == "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN"
             )
 
-        # P47 intentionally stores its 605 completion identities as a compact
-        # pair surface plus one manifest, rather than a duplicate full crosswalk.
-        # Reconstruct only the fields needed by this effective-admission test.
-        rows.extend(
-            {
-                "settlement_name": row["settlement_name"],
-                "operator_id": "MVM_EMASZ",
-                "status": "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN",
-            }
-            for row in self.rows(EMASZ_P47_PAIRS)
-        )
+        # P47-P49 intentionally store their completion populations as compact
+        # KSH-code/name pair surfaces plus manifests rather than duplicating the
+        # full crosswalk schema. Reconstruct only fields needed by P62.
+        for path, operator_id in COMPACT_COMPLETION_PAIR_SURFACES:
+            rows.extend(
+                {
+                    "settlement_name": row["settlement_name"],
+                    "operator_id": operator_id,
+                    "status": "WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN",
+                }
+                for row in self.rows(path)
+            )
         return rows
 
     def supersession_objects(self):
