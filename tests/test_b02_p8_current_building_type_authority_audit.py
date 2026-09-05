@@ -27,7 +27,7 @@ class B02P8CurrentBuildingTypeAuthorityAuditTests(unittest.TestCase):
     def test_all_audited_current_sources_fail_closed(self):
         with AUDIT.open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
-        self.assertEqual(len(rows), 3)
+        self.assertEqual(len(rows), 4)
         self.assertEqual({row["gate_status"] for row in rows}, {"Q"})
         self.assertEqual({row["q_b02_002_effect"] for row in rows}, {"OPEN"})
         self.assertEqual({row["publishes_occupied_stock_distribution"] for row in rows}, {"no"})
@@ -55,7 +55,7 @@ class B02P8CurrentBuildingTypeAuthorityAuditTests(unittest.TestCase):
             source_id="FIXTURE-CURRENT-STOCK-AUTHORITY",
             reference_year=2022,
             source_universe="OCCUPIED_DWELLING_STOCK",
-            source_grain="COUNTY_X_SETTLEMENT_TYPE",
+            source_grain="WBL_FULL_JOINT",
             building_type_taxonomy="FAMILY_HOUSE_VS_MULTI_DWELLING_COMPATIBLE",
             evidence_status="OBS",
             publishes_stock_distribution=True,

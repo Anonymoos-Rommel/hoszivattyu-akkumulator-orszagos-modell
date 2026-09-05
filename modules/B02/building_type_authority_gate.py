@@ -6,9 +6,11 @@ from dataclasses import dataclass
 Q = "Q"
 QUALIFIED = "QUALIFIED"
 ALLOWED_EVIDENCE = {"OBS", "DER"}
+# P16 hardening: a coarse building-type margin is not a direct WBL link.
+# Direct authority requires either the building type to be jointly published
+# with the WBL stock dimensions or a reproducible dwelling-record linkage.
 ALLOWED_GRAINS = {
-    "SETTLEMENT_TYPE",
-    "COUNTY_X_SETTLEMENT_TYPE",
+    "WBL_FULL_JOINT",
     "DWELLING_RECORD",
 }
 REQUIRED_UNIVERSE = "OCCUPIED_DWELLING_STOCK"
@@ -36,12 +38,14 @@ class BuildingTypeAuthorityDecision:
 def assess_building_type_authority(
     candidate: BuildingTypeAuthorityCandidate,
 ) -> BuildingTypeAuthorityDecision:
-    """Fail-closed gate for a current B02 building-type authority.
+    """Fail-closed gate for a direct current B02 building-type authority.
 
-    A candidate may close the WBL building-type authority gap only when it is
-    current (2022+), refers to occupied dwelling stock rather than a selected
-    transaction universe, uses an accepted B02 taxonomy, exposes a WBL-compatible
-    grain/key, and carries OBS/DER evidence.
+    A direct OBS/DER candidate may close the WBL building-type authority gap
+    only when it is current (2022+), refers to occupied dwelling stock, uses an
+    accepted B02 taxonomy, and is available either as the direct WBL full joint
+    or as reproducibly joinable dwelling records. Coarser building-type margins
+    are calibration controls, not direct links; they require the separate P12
+    calibrated-linkage admission path.
     """
 
     reasons: list[str] = []
@@ -51,7 +55,7 @@ def assess_building_type_authority(
     if candidate.source_universe != REQUIRED_UNIVERSE:
         reasons.append("NOT_OCCUPIED_DWELLING_STOCK")
     if candidate.source_grain not in ALLOWED_GRAINS:
-        reasons.append("GRAIN_NOT_WBL_COMPATIBLE")
+        reasons.append("GRAIN_NOT_DIRECT_WBL_LINK")
     if candidate.building_type_taxonomy != REQUIRED_TAXONOMY:
         reasons.append("BUILDING_TYPE_TAXONOMY_NOT_COMPATIBLE")
     if candidate.evidence_status not in ALLOWED_EVIDENCE:
