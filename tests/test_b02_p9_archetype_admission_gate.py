@@ -21,7 +21,7 @@ DOC = ROOT / "docs" / "source_packs" / "B02_P9_ARCHETYPE_ADMISSION_GATE.md"
 
 CURRENT = StockArchetypeInputs(
     schema_status=CONTRACTED,
-    wbl_joint_complete=False,
+    wbl_joint_materialized_complete=False,
     building_type_link_status="ASS",
     primary_energy_link_status="MODELLED_UNLINKED",
 )
@@ -34,7 +34,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
         self.assertEqual(
             set(decision.blockers),
             {
-                "NO_COMPLETE_WBL_JOINT",
+                "NO_MATERIALIZED_COMPLETE_WBL_JOINT",
                 "NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY",
                 "NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY",
             },
@@ -43,7 +43,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
     def test_ass_building_type_link_fails_closed_even_with_other_links(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="ASS",
             primary_energy_link_status="MODELLED_LINKED",
         )
@@ -60,7 +60,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
     def test_modelled_energy_requires_explicit_link_authority(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="DER",
             primary_energy_link_status="MODELLED_UNLINKED",
         )
@@ -71,7 +71,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
     def test_complete_explicit_stock_authority_can_qualify(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="APPROVED_CALIBRATED_MODEL",
             primary_energy_link_status="MODELLED_LINKED",
             building_type_model_admission_status=QUALIFIED,
@@ -84,7 +84,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
     def test_technical_enrichment_requires_emitter_and_temperature(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="DER",
             primary_energy_link_status="DER",
         )
@@ -105,7 +105,7 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
     def test_technical_enrichment_can_qualify_only_after_real_evidence(self):
         candidate = StockArchetypeInputs(
             schema_status=CONTRACTED,
-            wbl_joint_complete=True,
+            wbl_joint_materialized_complete=True,
             building_type_link_status="OBS",
             primary_energy_link_status="DER",
         )
@@ -149,7 +149,10 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             "CONTRACTED DIMENSION SCHEMA != POPULATED CURRENT-STOCK ARCHETYPE != TECHNICAL READINESS ARCHETYPE",
             text,
         )
-        self.assertIn("MATCHING MARGINAL TOTALS != CELL-LEVEL JOINT AUTHORITY", text)
+        self.assertIn(
+            "SOURCE-NATIVE COMPLETE WBL011 JOINT != REPOSITORY-MATERIALIZED COMPLETE WBL011 JOINT != CURRENT-STOCK ARCHETYPE",
+            text,
+        )
         self.assertIn("MODELLED ENERGY PANEL != PRIMARY-ENERGY-TO-WBL LINK AUTHORITY", text)
         self.assertIn("B02 readiness változatlanul **55%**", text)
 
