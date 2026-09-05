@@ -1,0 +1,2 @@
+This registry is validated by tests/test_b02_p3_eligibility_layer_harmonization.py.
+The legacy VAR-B02-ELIGIBLE-DWELLINGS remains unchanged in registry/variables.csv by design.
