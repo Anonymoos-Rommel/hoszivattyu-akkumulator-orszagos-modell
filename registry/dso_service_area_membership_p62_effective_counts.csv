@@ -1,0 +1,7 @@
+operator_id,raw_materialized_whole_count,p62_superseded_whole_claims,p62_effective_whole_count,count_semantics,notes
+ELMU,130,3,127,EFFECTIVE_AFTER_P62_EXACT_SUPERSESSIONS,"Dabas, Péteri and Újhartyán raw whole claims are not effective whole-settlement admissions after the current MVM Démász partial-settlement conflict is applied. Tass üdülőterület is a separate P61 partial usage-location record and is not counted here."
+EON_DDASZ,820,1,819,EFFECTIVE_AFTER_P62_EXACT_SUPERSESSIONS,"Mohács raw whole claim is superseded at effective-admission layer by the current MVM Démász partial-settlement conflict."
+EON_EDASZ,814,0,814,EFFECTIVE_AFTER_P62_EXACT_SUPERSESSIONS,"No P61 MVM Démász partial-settlement conflict applies to an ÉDÁSZ raw whole claim."
+MVM_DEMASZ,256,0,256,EFFECTIVE_AFTER_P62_EXACT_SUPERSESSIONS,"The 256 separately proven MVM Démász whole-settlement rows are unchanged. The 20 current partial settlements remain outside whole-settlement admission."
+MVM_EMASZ,650,0,650,EFFECTIVE_AFTER_P62_EXACT_SUPERSESSIONS,"No P61 MVM Démász partial-settlement conflict applies to an MVM Émász raw whole claim."
+OPUS_TITASZ,395,9,386,EFFECTIVE_AFTER_P62_EXACT_SUPERSESSIONS,"Csabacsűd, Dévaványa, Gyomaendrőd, Kunszentmárton, Szeghalom, Tiszakécske, Tiszasas, Tiszaug and Zsadány raw whole claims are superseded at effective-admission layer."
