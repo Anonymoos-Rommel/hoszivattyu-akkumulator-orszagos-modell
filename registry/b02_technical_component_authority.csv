@@ -1,0 +1,5 @@
+component_id,consumer_module,permitted_producer_modules,current_authority_status,required_evidence_statuses,blocking_gap_ids,notes
+THERMAL_DISTRIBUTION,B02,B02,Q,OBS;DER,GAP-B02-S2-HEAT-EMITTER;GAP-B02-S2-DESIGN-TEMPERATURE,"B02 owns current building-side emitter/temperature evidence; B06 calculations do not replace missing current-state evidence."
+HYDRAULIC,B02,B02;B06,Q,OBS;DER,GAP-B02-S2-HYDRAULIC,"B02 may consume direct building survey evidence; B06 may derive hydraulic compatibility only from explicit building/system evidence."
+ELECTRICAL,B02,B08;B10,Q,OBS;DER,GAP-B02-S2-ELECTRICAL,"B02 consumes electrical readiness authority from electrical-load/network layers; heating fuel, heat-pump presence or B02 archetype data cannot self-authorize this component."
+PERMIT,B02,B10;B18,Q,OBS;DER,GAP-B02-S2-PERMIT,"B02 consumes implementation/connection or delivery-readiness authority; B02/OENY presence alone cannot prove permit readiness."
