@@ -22,7 +22,7 @@ and:
 
 The canonical KSH energy dataset is already materialized in:
 
-- `data/processed/b02/ksh_energy_distribution_2022.csv` — 944 published MODELLED building-type × construction-period × primary-energy-bin rows;
+- `data/processed/b02/ksh_energy_distribution_2022.csv` — 944 published `MODELLED` building-type × construction-period × primary-energy-bin rows;
 - `data/processed/b02/ksh_energy_archetype_benchmarks_2022.csv` — 16 building-type × construction-period benchmark rows.
 
 The relevant source-native periods are:
@@ -68,13 +68,11 @@ The executable test derives the same totals from the full 59-bin distributions, 
 
 ## Evidence status
 
-The KSH energy distribution is `MODELLED`. Summing published MODELLED bin counts across adjacent source periods is a deterministic arithmetic transformation, therefore the bridge output is:
-
-`DER_FROM_MODELLED`
+The KSH energy distribution is `MODELLED`. Summing published MODELLED bin counts across adjacent source periods is a deterministic arithmetic transformation, therefore the bridge output is canonical `DER` with explicit `MODELLED` source lineage.
 
 It is not `OBS`.
 
-The bridge does not change the evidence status of WBL construction-period observations. `Y_GE2011` remains an `OBS` source-native WBL category within WBL, while the harmonized KSH energy distribution remains a separately derived MODELLED lineage.
+The bridge does not change the evidence status of WBL construction-period observations. `Y_GE2011` remains an `OBS` source-native WBL category within WBL, while the harmonized KSH energy distribution remains a separately derived lineage from MODELLED source rows.
 
 ## Fail-closed rules
 
