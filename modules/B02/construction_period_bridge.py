@@ -9,7 +9,7 @@ TARGET_PERIOD = "Y_GE2011"
 SUPPORTED_BUILDING_TYPES = ("FAMILY_HOUSE", "MULTI_DWELLING")
 EXPECTED_ENERGY_BINS = tuple(range(10, 600, 10))
 SOURCE_EVIDENCE_STATUS = "MODELLED"
-OUTPUT_EVIDENCE_STATUS = "DER_FROM_MODELLED"
+OUTPUT_EVIDENCE_STATUS = "DER"
 
 
 @dataclass(frozen=True)
@@ -29,6 +29,7 @@ class BridgedEnergyBin:
     dwelling_count: int
     evidence_status: str
     source_periods: tuple[str, str]
+    source_evidence_status: str
 
 
 def _validate_record(record: EnergyDistributionRecord) -> None:
@@ -97,6 +98,7 @@ def bridge_y_ge2011(
                     dwelling_count=count,
                     evidence_status=OUTPUT_EVIDENCE_STATUS,
                     source_periods=SOURCE_PERIODS,
+                    source_evidence_status=SOURCE_EVIDENCE_STATUS,
                 )
             )
     return tuple(output)
@@ -113,5 +115,9 @@ def dwelling_totals_by_building_type(
             raise ValueError(f"unexpected bridged period: {row.construction_period}")
         if row.evidence_status != OUTPUT_EVIDENCE_STATUS:
             raise ValueError(f"unexpected bridged evidence: {row.evidence_status}")
+        if row.source_evidence_status != SOURCE_EVIDENCE_STATUS:
+            raise ValueError(
+                f"unexpected source lineage evidence: {row.source_evidence_status}"
+            )
         totals[row.building_type] += row.dwelling_count
     return totals
