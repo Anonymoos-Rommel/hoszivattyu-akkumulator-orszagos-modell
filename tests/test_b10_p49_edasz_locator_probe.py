@@ -36,12 +36,15 @@ class B10P49EdaszLocatorProbe(unittest.TestCase):
                 for i in range(6, 9)
             )
 
-        start = text.index("TERÜLETI ILLETÉKESSÉGE") + len("TERÜLETI ILLETÉKESSÉGE")
-        body = text[start:]
-        if "M2 SZ. MELLÉKLET" in body:
-            body = body.split("M2 SZ. MELLÉKLET", 1)[0]
+        start_match = re.search(r"\bAba\s*,", text)
+        if not start_match:
+            raise AssertionError("immutable EED 20241209 M1 start token 'Aba,' not found")
+        body = text[start_match.start():]
+        end_match = re.search(r"M2\s+(?:SZ\.|sz\.)\s+MELL[ÉE]KLET", body)
+        if end_match:
+            body = body[:end_match.start()]
         body = re.sub(r"E\.ON Észak-dunántúli Áramhálózati Zrt\.\s*-\s*Elosztói Üzletszabályzat", " ", body)
-        body = re.sub(r"M1 sz\. melléklet", " ", body)
+        body = re.sub(r"M1\s+(?:SZ\.|sz\.)\s+melléklet", " ", body, flags=re.IGNORECASE)
         body = re.sub(r"EED_elo_usz_melleklet_20241209", " ", body)
         body = re.sub(r"\n\s*(?:7|8|9|10)\s*\n", " ", body)
         body = body.replace("\x0c", " ").replace("\u0002", "")
