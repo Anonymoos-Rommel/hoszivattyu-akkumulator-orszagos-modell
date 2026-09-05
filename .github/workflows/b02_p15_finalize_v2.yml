@@ -1,0 +1,87 @@
+name: B02 P15 finalize materialization v2
+
+on:
+  push:
+    branches:
+      - agent/b02-p15-wbl011-full-joint-materialization
+    paths:
+      - .github/workflows/b02_p15_finalize_v2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/b02-p15-wbl011-full-joint-materialization
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Execute corrected P15 canonical update script
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          workflow = Path('.github/workflows/b02_p15_finalize.yml').read_text(encoding='utf-8')
+          marker = "          python - <<'PY'\n"
+          start = workflow.index(marker) + len(marker)
+          end = workflow.index("\n          PY", start)
+          block = workflow[start:end]
+          lines = []
+          for line in block.splitlines():
+              if line.startswith('          '):
+                  line = line[10:]
+              lines.append(line)
+          script = '\n'.join(lines) + '\n'
+
+          script = script.replace(
+              "              rows = list(csv.DictReader(handle))\n              fields = list(rows[0])",
+              "              rows = list(csv.DictReader(handle))\n          fields = ['claim_id','claim_scope','current_status','authority_type','required_inputs','current_blockers','q_b02_001_effect','q_b02_002_effect','q_b02_004_effect','notes']\n          rows = [{field: row.get(field, '') for field in fields} for row in rows]"
+          )
+          script = script.replace(
+              "              modules = list(csv.DictReader(handle)); module_fields = list(modules[0])",
+              "              modules = list(csv.DictReader(handle))\n          module_fields = ['module_id','module_name','depends_on','status','readiness_percent','gate_note']\n          modules = [{field: row.get(field, '') for field in module_fields} for row in modules]"
+          )
+          if "module_fields = ['module_id'" not in script or "fields = ['claim_id'" not in script:
+              raise SystemExit('failed to patch explicit registry schemas')
+          exec(compile(script, 'b02_p15_finalize_embedded.py', 'exec'), {'__name__': '__main__'})
+          PY
+
+      - name: Rebuild canonical joinability outputs
+        run: python tools/build_b02_archetype_coverage.py --data-dir data/processed/b02 --retrieved-at 2026-09-05
+
+      - name: Validate registry contracts
+        run: python tools/validate_registry.py
+
+      - name: Run full unit test suite
+        run: python -m unittest discover -s tests -v
+
+      - name: Commit P15 canonical closure state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tools/build_b02_archetype_coverage.py \
+            modules/B02/archetype_admission_gate.py \
+            data/processed/b02/README.md \
+            data/processed/b02/b02_archetype_joinability_2022.csv \
+            data/processed/b02/b02_archetype_coverage_manifest.json \
+            docs/source_packs/B02_P9_ARCHETYPE_ADMISSION_GATE.md \
+            docs/source_packs/B02_P15_WBL011_FULL_JOINT_MATERIALIZATION.md \
+            docs/source_packs/P1G_B02_ARCHETYPE_COVERAGE_AND_JOINABILITY.md \
+            docs/source_packs/P1H_B02_KSH_WBL_JOINT_CELLS.md \
+            registry/b02_archetype_admission_gate.csv \
+            registry/b02_wbl011_full_joint_materialization.csv \
+            registry/module_status.csv \
+            tests/test_b02_archetype_coverage.py \
+            tests/test_b02_ksh_wbl_joint_cells.py \
+            tests/test_b02_p9_archetype_admission_gate.py \
+            tests/test_b02_p14_wbl011_source_native_full_joint.py \
+            tests/test_b02_p15_wbl011_full_joint_materialization.py
+          git commit -m 'B02-P15 close WBL011 repository materialization blocker'
+          git push origin HEAD:agent/b02-p15-wbl011-full-joint-materialization
