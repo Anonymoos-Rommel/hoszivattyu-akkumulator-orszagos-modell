@@ -3,11 +3,11 @@
   "module_id": "B02",
   "source_id": "SRC-B02-KSH-CENSUS-API-2022",
   "source_version": "V67",
-  "retrieved_at": "2026-08-12",
+  "retrieved_at": "2026-09-05",
   "source_attribution": "Forrás: Központi Statisztikai Hivatal (KSH)",
   "method": {
     "universe": "2022 occupied conventional dwellings (LAKAS_OCS=DW_OC)",
-    "materialization": "Three separate observed projections; no cross-projection join or independence multiplication.",
+    "materialization": "Four source-native observed projections; WBL011_FULL_STOCK_JOINT is returned directly by KSH; no synthetic cross-projection join or independence multiplication.",
     "leaf_rule": "Explicit leaf codes are selected for varied dimensions; TOTAL is used only to hold non-varied dimensions fixed. FUTES_TOH uses the disjoint analytical partition HEAT111+HEAT112+HEAT12+NHEAT because the published NHEAT21 parent pointer is inconsistent and its API cells duplicate NHEAT exactly.",
     "missing_rule": "An unreturned candidate combination is not encoded as zero; it may be structurally invalid, zero, suppressed, or otherwise unavailable.",
     "frequency_bands": "Descriptive exact-count bands only; they are not KSH suppression thresholds and do not define statistical reliability.",
@@ -233,6 +233,186 @@
       "response_sha256": "5e656382c06f608f5783270ea442c94440ff5af3fb7b8891cb802e0e6a575650",
       "response_bytes": 428015,
       "returned_records": 1833
+    },
+    {
+      "query_id": "KSH-FULL-HU110",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU110",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU110,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "0e2fbe6673db4668f5d5f7bfa3b16295cfcb5bbedb39f4562b3b2523dd069894",
+      "response_bytes": 808998,
+      "returned_records": 3437
+    },
+    {
+      "query_id": "KSH-FULL-HU120",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU120",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU120,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "3ffb588322978d08ea1e1f95e26c31556b6c838961f544d15ff14179a8991988",
+      "response_bytes": 2027262,
+      "returned_records": 8628
+    },
+    {
+      "query_id": "KSH-FULL-HU211",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU211",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU211,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "0cf1997ef5fad1e72d62d657f1c3e1427f1d4496f88c803b8cc04446985885c5",
+      "response_bytes": 1560296,
+      "returned_records": 6640
+    },
+    {
+      "query_id": "KSH-FULL-HU212",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU212",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU212,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "289dd36621ec834fdc69b1ee0ff22a1fcf8adceb000f32a389247ab9ad5b2626",
+      "response_bytes": 1357872,
+      "returned_records": 5776
+    },
+    {
+      "query_id": "KSH-FULL-HU213",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU213",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU213,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "aeb4cc1bba2e809b390450e6707646d19670e227dfad7e9aa9da10bc3f92f8a9",
+      "response_bytes": 1148686,
+      "returned_records": 4888
+    },
+    {
+      "query_id": "KSH-FULL-HU221",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU221",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU221,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "20eae7110f054d7d6f1ed6640ad86fa250ff903d7dba6519c0c37fc75bb77cec",
+      "response_bytes": 1287561,
+      "returned_records": 5474
+    },
+    {
+      "query_id": "KSH-FULL-HU222",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU222",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU222,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "5b88c75fc0f0e53fa54dc67e1c30efbbb332906ec2a1cf89b65ba2f63574e964",
+      "response_bytes": 976094,
+      "returned_records": 4153
+    },
+    {
+      "query_id": "KSH-FULL-HU223",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU223",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU223,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "5169354f1d708a0dffe539f40197147102063905b934ef42c477a0570d6fda62",
+      "response_bytes": 1047314,
+      "returned_records": 4455
+    },
+    {
+      "query_id": "KSH-FULL-HU231",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU231",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU231,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "26ac87dd3735e2807ba5f60191407fab69661696d8b96c35e39531a1ff072cec",
+      "response_bytes": 1393320,
+      "returned_records": 5925
+    },
+    {
+      "query_id": "KSH-FULL-HU232",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU232",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU232,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "1073c5c87e28cdb5b82b2d38eb3cda085a28e3dc3754607aa159e94978e0f0df",
+      "response_bytes": 1194247,
+      "returned_records": 5083
+    },
+    {
+      "query_id": "KSH-FULL-HU233",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU233",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU233,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "a5b653401e91f7ea0b22bb4e71111d9b8eecf867b2a96e75054885147801c4e0",
+      "response_bytes": 1151945,
+      "returned_records": 4901
+    },
+    {
+      "query_id": "KSH-FULL-HU311",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU311",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU311,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "d36aa2a5ce203115898718a021cd79f25fe6db7a0dededaef8318be1ca93dcb9",
+      "response_bytes": 1767644,
+      "returned_records": 7521
+    },
+    {
+      "query_id": "KSH-FULL-HU312",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU312",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU312,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "e6ace506315e92d296b4bb9cfe1e7f7bd112abd3b2cadcb2a7a6d79933ba5cfe",
+      "response_bytes": 1292126,
+      "returned_records": 5500
+    },
+    {
+      "query_id": "KSH-FULL-HU313",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU313",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU313,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "990e8a34d174ab58021e509fe086c96462a7d79e121cfa266cb09f218b2f5a45",
+      "response_bytes": 1068115,
+      "returned_records": 4545
+    },
+    {
+      "query_id": "KSH-FULL-HU321",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU321",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU321,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "f77d910c239025e6608a24a3788e1206ff21b1426f85b6aeb420f0c92df287c8",
+      "response_bytes": 1589026,
+      "returned_records": 6757
+    },
+    {
+      "query_id": "KSH-FULL-HU322",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU322",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU322,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "5e15bdd1b5dac50deb03e6f9471d21f2e69fbbb47d6a610be18d21940bba23c2",
+      "response_bytes": 1449837,
+      "returned_records": 6169
+    },
+    {
+      "query_id": "KSH-FULL-HU323",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU323",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU323,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "aa1cec37f841c2b02ea077f7c04c425e0925c8b1a0bf7cf8dc9a693f1a4ebdf8",
+      "response_bytes": 1492627,
+      "returned_records": 6348
+    },
+    {
+      "query_id": "KSH-FULL-HU331",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU331",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU331,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "ddd2159af7c1bd93860a5fdce7dde1519652c8145690fcea918b89b70b4cac62",
+      "response_bytes": 1775444,
+      "returned_records": 7550
+    },
+    {
+      "query_id": "KSH-FULL-HU332",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU332",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU332,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "0b0b6e1d9e90c61a956b76730b470ff1f02fbb28f28f8d6d76b577506290fe63",
+      "response_bytes": 1402047,
+      "returned_records": 5961
+    },
+    {
+      "query_id": "KSH-FULL-HU333",
+      "projection_id": "WBL011_FULL_STOCK_JOINT",
+      "county_code": "HU333",
+      "url": "https://nepszamlalas2022.ksh.hu/api/dataflows/WBL011/V67/d/TIME_PERIOD:2022,TERUL_GEO3:HU333,TERUL_TELTIP2:FV+MJV+EV+K,LAKAS_OCS:DW_OC,EPEV_POC1:Y_LT1919+Y1919-1945+Y1946-1960+Y1961-1980+Y1981-2000+Y2001-2010+Y_GE2011,FALA_V:WALL1+WALL2+WALL3+WALL5+WALL6,LAT_V:SQM_LT30+SQM30-39+SQM40-49+SQM50-59+SQM60-79+SQM80-99+SQM100-119+SQM_GE120,KOMF:COMF1+COMF2+COMF3+COMF4+COMF5,FUTES_TOH:HEAT111+HEAT112+HEAT12+NHEAT,FUTAGOK:FUEL11+FUEL12+FUEL13+FUEL14+FUEL21+FUEL22+FUEL23+FUEL3",
+      "response_sha256": "a2dc1f14bc43be213531fa875cfe78624e6b75b9df425671962e73b8414cd0db",
+      "response_bytes": 1585290,
+      "returned_records": 6741
     },
     {
       "query_id": "KSH-HEAT-HU110",
@@ -596,9 +776,10 @@
     }
   ],
   "controls": {
-    "query_count": 60,
+    "query_count": 80,
     "county_count": 20,
-    "projection_count": 3,
+    "projection_count": 4,
+    "wbl011_full_stock_joint_materialization_status": "MATERIALIZED",
     "projections": {
       "WBL011_ENVELOPE": {
         "projection_id": "WBL011_ENVELOPE",
@@ -642,6 +823,27 @@
         "evidence_status": "DER",
         "unreturned_interpretation": "Not returned by the API within the Cartesian candidate grid; not proven zero and may be structurally invalid or unavailable."
       },
+      "WBL011_FULL_STOCK_JOINT": {
+        "projection_id": "WBL011_FULL_STOCK_JOINT",
+        "dataflow_id": "WBL011",
+        "grain": "county_x_settlement_type_x_construction_period_x_wall_material_x_floor_area_x_comfort_x_heating_mode_x_heating_fuel",
+        "cartesian_candidate_combinations": 3584000,
+        "returned_records": 116452,
+        "unreturned_candidate_combinations": 3467548,
+        "returned_record_share": "0.032492187500000",
+        "returned_numeric_dwelling_sum": 4008541,
+        "returned_zero_records": 0,
+        "count_1_records": 36257,
+        "count_2_4_records": 31325,
+        "count_5_9_records": 15806,
+        "count_10_49_records": 21662,
+        "count_50_99_records": 4779,
+        "count_100_plus_records": 6623,
+        "minimum_returned_dwelling_count": 1,
+        "maximum_returned_dwelling_count": 41624,
+        "evidence_status": "DER",
+        "unreturned_interpretation": "Not returned by the API within the Cartesian candidate grid; not proven zero and may be structurally invalid or unavailable."
+      },
       "WBL017_HEAT_PUMP_BASELINE": {
         "projection_id": "WBL017_HEAT_PUMP_BASELINE",
         "dataflow_id": "WBL017",
@@ -669,14 +871,14 @@
   },
   "outputs": {
     "ksh_wbl_joint_cells_2022.csv": {
-      "sha256": "3c9e525a8494212a7015962629d510204832ce9d7ce183f877f201224951c05f",
-      "bytes": 18390023,
-      "records": 47960
+      "sha256": "f4df16e4f53947e33a2d4477d9806faee903b999d26143b3bdc92d747d3c800f",
+      "bytes": 68712352,
+      "records": 164412
     },
     "ksh_wbl_joint_cell_coverage_2022.csv": {
-      "sha256": "936c43e7fa1844d7f616f124643633d73ce0a014330f7cc1fe8de122b4ee5336",
-      "bytes": 1382,
-      "records": 3
+      "sha256": "0727b235eff3ff36e98f4d88d22179585c34f4115c7192d84f9059542d1a6206",
+      "bytes": 1751,
+      "records": 4
     }
   }
 }

@@ -1,6 +1,6 @@
 """Materialize bounded, observed B02 projections from KSH Census WBL flows.
 
-The extractor deliberately keeps the three projections separate.  It never
+The extractor materializes source-native observed projections only. It never
 cross-multiplies margins and never interprets an API combination that was not
 returned as a zero observation.
 """
@@ -130,6 +130,31 @@ PROJECTIONS = (
         varied_dimensions=(
             "TERUL_GEO3", "TERUL_TELTIP2", "EPEV_POC1", "FUTES_TOH",
             "FUTAGOK",
+        ),
+    ),
+    Projection(
+        projection_id="WBL011_FULL_STOCK_JOINT",
+        prefix="FULL",
+        dataflow_id="WBL011",
+        grain=(
+            "county_x_settlement_type_x_construction_period_x_wall_material_"
+            "x_floor_area_x_comfort_x_heating_mode_x_heating_fuel"
+        ),
+        selections={
+            "TIME_PERIOD": ("2022",),
+            "TERUL_GEO3": (),
+            "TERUL_TELTIP2": SETTLEMENT_TYPES,
+            "LAKAS_OCS": ("DW_OC",),
+            "EPEV_POC1": PERIODS,
+            "FALA_V": WALLS,
+            "LAT_V": FLOOR_AREAS,
+            "KOMF": COMFORTS,
+            "FUTES_TOH": HEATING_MODES,
+            "FUTAGOK": HEATING_FUELS,
+        },
+        varied_dimensions=(
+            "TERUL_GEO3", "TERUL_TELTIP2", "EPEV_POC1", "FALA_V",
+            "LAT_V", "KOMF", "FUTES_TOH", "FUTAGOK",
         ),
     ),
     Projection(
@@ -509,8 +534,9 @@ def main() -> int:
         "method": {
             "universe": "2022 occupied conventional dwellings (LAKAS_OCS=DW_OC)",
             "materialization": (
-                "Three separate observed projections; no cross-projection join or "
-                "independence multiplication."
+                "Four source-native observed projections; WBL011_FULL_STOCK_JOINT is "
+                "returned directly by KSH; no synthetic cross-projection join "
+                "or independence multiplication."
             ),
             "leaf_rule": (
                 "Explicit leaf codes are selected for varied dimensions; TOTAL is "
@@ -546,6 +572,7 @@ def main() -> int:
             "query_count": len(details["queries"]),
             "county_count": len(COUNTIES),
             "projection_count": len(PROJECTIONS),
+            "wbl011_full_stock_joint_materialization_status": "MATERIALIZED",
             "projections": details["projections"],
             "full_cross_projection_joint_status": "Q",
             "technical_eligibility_status": "Q",
@@ -572,7 +599,8 @@ def main() -> int:
     )
     print(
         f"VALID: B02 KSH WBL joint projections queries={len(jobs)} "
-        f"cells={len(rows)} {summaries} full_joint=Q eligibility=Q"
+        f"cells={len(rows)} {summaries} full_wbl011_joint=MATERIALIZED "
+        f"full_archetype=Q eligibility=Q"
     )
     return 0
 
