@@ -61,9 +61,46 @@ országos optimumot.
 
 Bounded fixture: `data/fixtures/b01_state_stock_scn.json`.
 
+## Executable B01-P2 national rollout pathway
+
+`modules/B01/national_rollout_pathway.py` a nemzeti rollout matematikát teszi
+gépileg végrehajthatóvá, de **nem tart fenn fix országos programme targetet**.
+
+A korábbi `2 000 000` érték csak a kezdeti, 2026. augusztusi munkahipotézis;
+nem current baseline és nem programme ceiling.
+
+A dwelling-side országos kontextus:
+
+- 2022 lakott lakások: **4 008 541 OBS**;
+- ebből a KSH publikált, településtípusonként kerekített fűtésimód-megoszlásából
+  levezetett nem-távfűtött lakott lakásállomány: **kb. 3 403 746 DER**.
+
+A ~3,4 millió a programme-releváns fizikai kiinduló univerzum, nem a végleges
+technikai hőszivattyú-alkalmasság. Utility customer count nem használható
+ház-/lakásszámként.
+
+A programme target ezért explicit `POL`/`SCN` input marad; ha egy target
+population reference-re támaszkodik, annak értéke, státusza és szemantikája is
+explicit kell legyen.
+
+A profil-contract:
+
+- `LINEAR`;
+- `LOGISTIC` — explicit midpoint és steepness nélkül fail-closed;
+- `CAPACITY_LIMITED` — minden tervévre explicit kapacitásérték szükséges;
+- horizon: 8–25 év;
+- report points: 12 / 15 / 20 év.
+
+Minden generált pathway `SCN`. A `NationalSelectionGate` csak akkor nyithat real
+national selectiont, ha a B02 eligible stock, a valós éves capacity path és a
+célháztartás jogi/műszaki definíciója is OBS/DER authorityval rendelkezik.
+
+Registry: `registry/b01_national_rollout_policy_contract.csv`.
+
 ## Állapot
 
-`IN_PROGRESS` – a state-record, transition-gate, candidate, policy és éves
-capacity skeleton gépileg ellenőrizhető bounded SCN fixture-en; a Q-B01-006
-objective/hard-minimum döntés, a B02 national eligible stock, valamint a
-valós országos capacity path továbbra sincs lezárva.
+`IN_PROGRESS` – a B01-P1 state/portfolio contract és a B01-P2 országos rollout
+matematika gépileg végrehajtható. A canonical programme target jelenleg `Q`;
+a Q-B01-001 célháztartás-definíció, a B02 national eligible stock, a valós éves
+capacity path, valamint a tényleges regionális/settlement household allocation
+továbbra sincs lezárva.
