@@ -99,8 +99,22 @@ Ezért a TABULA-vonal context-only: `GAP-B02-S2-HEAT-EMITTER`, `GAP-B02-S2-DESIG
 
 A brosúra public-repository reuse-ja attribution mellett tisztázott; a history manifest az `evidence/history/SRC-B02-TABULA-HU-TYPOLOGY-BROCHURE-2014/manifest.csv`. A PDF byte-snapshotja jelenleg `PENDING_BINARY_ACQUISITION`, mert hash és exact byte copy nélkül nem archiválunk.
 
+## B02-P6 KSH 2016 building-type proxy control boundary
+
+A `registry/b02_building_type_proxy_control.csv` a 2015-ös településtípusos `ASS` proxyhoz egy későbbi hivatalos KSH kontrollt ad anélkül, hogy a proxy evidence-státuszát megemelné.
+
+Kanonikus határ:
+
+`2016 NATIONAL OBS CONTROL != 2022 SETTLEMENT-TYPE OBS != WBL SUBCELL JOINABILITY`
+
+A 2016-os Mikrocenzus kérdőíve explicit külön kezeli az 1–3 lakásos és a 4+ lakásos lakóépületeket. A KSH 2.7.1 idősoros mutatója a lakott lakásokra 2016-ban **62.0% / 38.0%** országos megoszlást közöl. A jelenlegi 2022 WBL proxy **60.4493255776% / 39.5506744224%**, ezért a diagnosztikai eltérés -1.5506744224 / +1.5506744224 százalékpont. A kontroll oldala `OBS`, de az összehasonlítás státusza `ASS`, mert a 2022-es összehasonlítási alap maga is `ASS` proxy.
+
+Nincs kitalált tolerancia, nincs PASS/FAIL, és nincs `OBS`/`DER` promotion. `Q-B02-002` ezért továbbra is **OPEN**: lezárásához 2022/current, WBL-kompatibilis grainen elérhető épülettípus-authority vagy külön jóváhagyott bizonytalansági modell szükséges.
+
+A KSH webtartalom CC BY 4.0, attribution required; a két source-history manifest reuse-státusza ennek megfelelő. Az exact PDF/HTML snapshot és SHA jelenleg pending, mert a connector nem biztosít byte-preserving archiválást.
+
 ## Állapot
 
-`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, B02-P4 a négy technikai komponens producer-authority handoffját fail-closed rögzíti, B02-P5 pedig lezárja a TABULA/EPISCOPE alternatív forráság félreértelmezési kockázatát, de **egyik sem ad országos eligible-stock számot**. `Q-B02-001` és `Q-B02-004` nyitott.
+`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, B02-P4 a négy technikai komponens producer-authority handoffját fail-closed rögzíti, B02-P5 lezárja a TABULA/EPISCOPE alternatív forráság félreértelmezési kockázatát, B02-P6 pedig hozzáadja a 2016-os KSH országos épülettípus-kontrollt anélkül, hogy a 2022-es `ASS` proxyt megfigyelt adattá minősítené. **Egyik sem ad országos eligible-stock számot.** `Q-B02-001`, `Q-B02-002` és `Q-B02-004` nyitott. B02 readiness változatlanul 55%.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
