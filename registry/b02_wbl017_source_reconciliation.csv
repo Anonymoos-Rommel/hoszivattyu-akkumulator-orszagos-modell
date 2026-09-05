@@ -1,0 +1,3 @@
+claim_id,reference_value,classified_value,residual,evidence_status,mechanism_status,mechanism,source_id
+WBL017_OCCUPIED_TOTAL_CLASSIFICATION,4008541,3919564,88977,DER,QUALIFIED,"V67 FUTMODAG_V3 structure contains no additional non-TOTAL branch; exact top-level non-TOTAL sum 01-12 + 13-24 + 25 = 3919564, so 88977 occupied dwellings are present in TOTAL but outside every non-TOTAL FUTMODAG_V3 branch.",SRC-B02-KSH-CENSUS-API-2022
+WBL017_HOSZIV1_TOTAL_CLASSIFICATION,67853,61559,6294,DER,QUALIFIED,"V67 FUTMODAG_V3 structure contains no additional non-TOTAL branch; exact top-level HOSZIV=1 sum 01-12 + 13-24 + 25 = 61559, so 6294 HOSZIV=1 dwellings are present in TOTAL but outside every non-TOTAL FUTMODAG_V3 branch.",SRC-B02-KSH-CENSUS-API-2022
