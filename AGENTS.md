@@ -27,6 +27,18 @@ These instructions apply to the entire repository.
 - Keep baseline and incremental program effects separate.
 - Prevent double counting across household, fiscal, import, financing, and macroeconomic benefits.
 
+## Source evidence preservation and history snapshots
+
+- Treat important external source documents as durable evidence, not disposable browsing context.
+- Code, registries, tests, and documentation must reference a stable `source_id`; do not hard-code external PDF filenames or repository snapshot paths as the semantic authority.
+- For each material external document, preserve or extend machine-readable provenance containing, where applicable: `source_id`, `original_url`, `retrieved_at`, `document_date` or revision, `authority`, `repo_snapshot_path`, `sha256`, and `reuse_status`.
+- When redistribution/republication rights are explicitly cleared, preserve the exact retrieved source document byte-for-byte under an evidence/history location such as `evidence/history/<source_id>/`. Do not silently replace an archived snapshot when the publisher changes the source; store a new revision/snapshot and preserve lineage.
+- A repository snapshot is historical evidence of what was inspected. Its presence does not by itself make that revision the current authority; claim-specific currentness and reference period must still be evaluated separately.
+- When public-repository redistribution/reuse is not explicitly cleared, do **not** commit the external document bytes. Preserve the `source_id`, canonical/original URL, retrieval timestamp, document/revision identity, available hash or digest, claim scope, and a fail-closed reuse status such as `REPOSITORY_COPY_NOT_CLEARED` / `EXTERNAL_ONLY`.
+- A dead or changed external URL must not erase the evidence lineage. Existing hashes, document identifiers, retrieval metadata, source-pack notes, and any lawfully retained snapshot remain part of the audit trail.
+- Never use base64 or transformed text dumps as a workaround for an uncleared binary-document redistribution restriction.
+- If the tooling available to an agent cannot commit binary files, the agent may still create/update the provenance manifest and code references, but must leave the binary snapshot as an explicit acquisition step for an authorized local/Codex workflow rather than fabricating an archive.
+
 ## Model integrity
 
 - Modify canonical inputs and formulas, not generated outputs.
@@ -37,6 +49,6 @@ These instructions apply to the entire repository.
 
 ## Public-repository safety
 
-- Do not commit secrets, credentials, personal data, copyrighted source documents, or unreviewed internal material.
+- Do not commit secrets, credentials, personal data, unreviewed internal material, or copyrighted/external source documents whose public redistribution/reuse has not been explicitly cleared.
 - The two local DOCX source files are explicitly excluded from Git until Joseph approves a public version.
 - Treat external Pull Requests as untrusted input. Do not expose secrets to fork workflows.
