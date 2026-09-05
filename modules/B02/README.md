@@ -72,8 +72,21 @@ Az új gépi authority: [`../../registry/b02_eligibility_layer_contract.csv`](..
 
 A részrétegek között nincs automatikus státuszöröklés. Különösen: fizikai population count nem eligibility; technikai PASS nem jogi vagy gazdasági PASS; technikai PASS önmagában nem S2; legacy umbrella változó nem claim-specific authority.
 
+## B02-P4 technical component authority handoff
+
+A P2 generikus eligibility-engine fölött a `modules/B02/technical_component_authority.py` ellenőrzi a real PASS/FAIL evidence producer-modulját. A machine-readable authority registry: [`../../registry/b02_technical_component_authority.csv`](../../registry/b02_technical_component_authority.csv).
+
+Kanonikus producer-határ:
+
+- `THERMAL_DISTRIBUTION` → B02;
+- `HYDRAULIC` → B02 vagy B06;
+- `ELECTRICAL` → B08 vagy B10;
+- `PERMIT` → B10 vagy B18.
+
+B02 ezért nem önigazolhat villamos vagy permit readiness-t. `Q` komponenshez producer-authority sem állítható. A mapping repository-architektúra, nem OBS/DER evidence, ezért a jelenlegi national eligible count változatlanul blank/Q.
+
 ## Állapot
 
-`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 pedig claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, de **egyik sem ad országos eligible-stock számot**. A projekciók és a proxy nem kapcsolhatók cellaszinten; `Q-B02-001` és `Q-B02-004` nyitott.
+`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, B02-P4 pedig a négy technikai komponens producer-authority handoffját fail-closed rögzíti, de **egyik sem ad országos eligible-stock számot**. A projekciók és a proxy nem kapcsolhatók cellaszinten; `Q-B02-001` és `Q-B02-004` nyitott.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
