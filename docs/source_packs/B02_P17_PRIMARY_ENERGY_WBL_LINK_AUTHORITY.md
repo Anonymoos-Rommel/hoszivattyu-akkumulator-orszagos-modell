@@ -106,6 +106,10 @@ Canonical:
 
 P17 does not discard the KSH random forest. It records it as the strongest current candidate for the existing P12 calibrated primary-energy linkage route.
 
+Canonical candidate ID:
+
+`KSH-RF-2022-PRIMARY-ENERGY`
+
 The candidate has positive evidence for:
 
 - explicit model identity;
