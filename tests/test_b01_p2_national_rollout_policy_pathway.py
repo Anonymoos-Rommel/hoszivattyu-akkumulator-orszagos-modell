@@ -3,9 +3,10 @@ import csv
 import unittest
 
 from modules.B01.national_rollout_pathway import (
-    APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022,
     B01RolloutError,
     CAPACITY_LIMITED,
+    EXACT_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022,
+    HISTORICAL_APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022,
     HORIZON_MAX_YEARS,
     HORIZON_MIN_YEARS,
     LEGACY_ORIGINAL_HYPOTHESIS_HOUSEHOLDS,
@@ -38,9 +39,9 @@ class B01P2NationalRolloutPolicyPathwayTests(unittest.TestCase):
             "profile": LINEAR,
             "target_status": "POL",
             "source_refs": ("SRC-B02-KSH-CENSUS-API-2022",),
-            "population_reference_households": APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022,
+            "population_reference_households": EXACT_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022,
             "population_reference_status": "DER",
-            "population_reference_semantics": "APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022",
+            "population_reference_semantics": "EXACT_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022",
         }
         values.update(changes)
         return RolloutScenario(**values)
@@ -48,7 +49,8 @@ class B01P2NationalRolloutPolicyPathwayTests(unittest.TestCase):
     def test_national_context_separates_legacy_hypothesis_from_dwelling_universe(self):
         self.assertEqual(2_000_000, LEGACY_ORIGINAL_HYPOTHESIS_HOUSEHOLDS)
         self.assertEqual(4_008_541, OBSERVED_OCCUPIED_DWELLINGS_2022)
-        self.assertEqual(3_403_746, APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022)
+        self.assertEqual(3_403_746, HISTORICAL_APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022)
+        self.assertEqual(3_389_817, EXACT_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022)
         self.assertEqual(8, HORIZON_MIN_YEARS)
         self.assertEqual(25, HORIZON_MAX_YEARS)
         self.assertEqual((12, 15, 20), REPORT_POINTS_YEARS)
@@ -67,7 +69,7 @@ class B01P2NationalRolloutPolicyPathwayTests(unittest.TestCase):
         with self.assertRaises(B01RolloutError):
             build_rollout_pathway(
                 self.scenario(
-                    policy_target_households=APPROX_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022 + 1
+                    policy_target_households=EXACT_NON_DISTRICT_HEATED_OCCUPIED_DWELLINGS_2022 + 1
                 )
             )
 
@@ -160,8 +162,10 @@ class B01P2NationalRolloutPolicyPathwayTests(unittest.TestCase):
         row = rows[0]
         self.assertEqual("2000000", row["legacy_original_hypothesis_households"])
         self.assertEqual("4008541", row["observed_occupied_dwellings_2022"])
-        self.assertEqual("3403746", row["approx_non_district_heated_occupied_dwellings_2022"])
-        self.assertEqual("DER_FROM_ROUNDED_KSH_SHARES", row["approximation_status"])
+        self.assertEqual("3403746", row["historical_approx_non_district_heated_occupied_dwellings_2022"])
+        self.assertEqual("SUPERSEDED_DER_FROM_ROUNDED_KSH_SHARES", row["historical_approximation_status"])
+        self.assertEqual("3389817", row["exact_non_district_heated_occupied_dwellings_2022"])
+        self.assertEqual("DER_FROM_OBS_WBL011_CELLS", row["exact_population_status"])
         self.assertEqual("", row["canonical_programme_target_households"])
         self.assertEqual("Q", row["canonical_programme_target_status"])
         self.assertEqual("SCN", row["pathway_output_status"])
