@@ -248,7 +248,8 @@ class B02P18TechnicalReadinessDirectAuthorityTests(unittest.TestCase):
         self.assertEqual(modules["B02"]["readiness_percent"], "55")
 
         request = REQUEST_DRAFT.read_text(encoding="utf-8")
-        self.assertIn("nem küldhető ki", request.lower())
+        self.assertIn("KÜLDÉSRE NEM JÓVÁHAGYOTT TERVEZET", request)
+        self.assertIn("Joseph külön tartalmi jóváhagyása szükséges", request)
 
     def test_document_freezes_direct_authority_boundaries(self):
         text = P18_DOC.read_text(encoding="utf-8")
