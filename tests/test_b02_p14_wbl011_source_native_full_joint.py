@@ -71,15 +71,20 @@ class B02P14WBL011SourceNativeFullJointTests(unittest.TestCase):
         self.assertEqual(self.national["evidence_status"], "QUALIFIED")
         self.assertEqual(self.national["materialization_status"], "SOURCE_VERIFIED_NOT_MATERIALIZED")
 
-    def test_p15_supersedes_only_the_materialization_blocker(self):
+    def test_p15_materialization_blocker_remains_closed_after_p21_approval(self):
         with P9_REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
-        for claim_id in ("CURRENT_STOCK_ARCHETYPE_ASSIGNMENT", "TECHNICAL_READINESS_ARCHETYPE"):
-            row = rows[claim_id]
-            self.assertEqual(row["current_status"], "Q")
+        current = rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]
+        technical = rows["TECHNICAL_READINESS_ARCHETYPE"]
+        for row in (current, technical):
             self.assertNotIn("NO_MATERIALIZED_COMPLETE_WBL_JOINT", row["current_blockers"])
-            self.assertIn("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY", row["current_blockers"])
-            self.assertIn("NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY", row["current_blockers"])
+        self.assertEqual(current["current_status"], "QUALIFIED")
+        self.assertEqual(current["current_blockers"], "")
+        self.assertEqual(technical["current_status"], "Q")
+        self.assertEqual(
+            technical["current_blockers"],
+            "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
+        )
 
     def test_p15_supersedes_partial_joinability_with_direct_materialization(self):
         with JOINABILITY.open(encoding="utf-8", newline="") as handle:

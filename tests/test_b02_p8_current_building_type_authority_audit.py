@@ -75,7 +75,8 @@ class B02P8CurrentBuildingTypeAuthorityAuditTests(unittest.TestCase):
             rows = {row["module_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(rows["B02"]["readiness_percent"], "55")
         self.assertIn("B02-P8", rows["B02"]["gate_note"])
-        self.assertIn("no readiness uplift", rows["B02"]["gate_note"].lower())
+        self.assertIn("Readiness 55%", rows["B02"]["gate_note"])
+        self.assertIn("önkényes százalékos uplift nem kerül levezetésre", rows["B02"]["gate_note"])
 
     def test_source_manifests_are_reuse_cleared_but_snapshot_pending(self):
         for path in MANIFESTS:
