@@ -107,20 +107,26 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
         self.assertEqual(model["p12_candidate_status"], "Q")
         self.assertEqual(model["q_b02_002_effect"], "OPEN")
 
-    def test_ksh_rf_is_registered_as_unapproved_p12_candidate(self):
+    def test_p17_rf_candidate_is_superseded_by_reproducible_p21_public_linkage(self):
         with P12.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         row = rows["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
-        self.assertEqual(row["current_model_id"], "KSH-RF-2022-PRIMARY-ENERGY")
+        self.assertEqual(
+            row["current_model_id"],
+            "B02-P21-PUBLIC-KSH-PRIMARY-ENERGY-LINKAGE",
+        )
         self.assertEqual(row["approval_status"], "NOT_APPROVED")
         self.assertEqual(row["reference_period_defined"], "yes")
+        self.assertEqual(row["target_grain_wbl_compatible"], "yes")
         self.assertEqual(row["representativeness_diagnostics"], "yes")
         self.assertEqual(row["validation_metrics"], "yes")
+        self.assertEqual(row["marginal_reconciliation"], "yes")
+        self.assertEqual(row["uncertainty_method"], "yes")
+        self.assertEqual(row["uncertainty_propagation"], "yes")
+        self.assertEqual(row["independence_assumption_controlled"], "yes")
         self.assertEqual(row["output_evidence_status"], "MODELLED")
         self.assertEqual(row["current_status"], "Q")
-        self.assertIn("NO_JOSEPH_APPROVAL", row["blockers"])
-        self.assertIn("TARGET_GRAIN_NOT_WBL_COMPATIBLE", row["blockers"])
-        self.assertIn("NO_UNCERTAINTY_PROPAGATION", row["blockers"])
+        self.assertEqual(row["blockers"], "NO_JOSEPH_APPROVAL")
 
     def test_current_archetype_blockers_remain_exact(self):
         with P9.open(encoding="utf-8", newline="") as handle:
