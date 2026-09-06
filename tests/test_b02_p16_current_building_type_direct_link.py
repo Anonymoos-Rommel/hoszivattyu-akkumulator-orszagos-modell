@@ -99,19 +99,18 @@ class B02P16CurrentBuildingTypeDirectLinkTests(unittest.TestCase):
         self.assertEqual(rows["family_house_records_in_published_bins"]["evidence_status"], "MODELLED")
         self.assertEqual(rows["multi_dwelling_records_in_published_bins"]["evidence_status"], "MODELLED")
 
-    def test_current_archetype_blockers_are_unchanged(self):
+    def test_direct_authority_remains_q_while_approved_calibrated_path_qualifies_stock(self):
         with P9_GATE.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         current = rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]
         technical = rows["TECHNICAL_READINESS_ARCHETYPE"]
-        self.assertEqual(current["current_status"], "Q")
-        self.assertEqual(
-            current["current_blockers"],
-            "NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY;NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY",
-        )
+        self.assertEqual(current["current_status"], "QUALIFIED")
+        self.assertEqual(current["current_blockers"], "")
         self.assertEqual(technical["current_status"], "Q")
-        self.assertIn("NO_CURRENT_HEAT_EMITTER_EVIDENCE", technical["current_blockers"])
-        self.assertIn("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE", technical["current_blockers"])
+        self.assertEqual(
+            technical["current_blockers"],
+            "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
+        )
 
     def test_questions_readiness_and_current_dispatch_state_remain_fail_closed(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
@@ -123,7 +122,7 @@ class B02P16CurrentBuildingTypeDirectLinkTests(unittest.TestCase):
             modules = {row["module_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(modules["B02"]["readiness_percent"], "55")
         self.assertIn("B02-P16", modules["B02"]["gate_note"])
-        self.assertIn("no readiness uplift", modules["B02"]["gate_note"].lower())
+        self.assertIn("B02-P21", modules["B02"]["gate_note"])
         self.assertIn("OÉNY pilot kérés 2026-08-22-én elküldésre került", modules["B02"]["gate_note"])
         self.assertIn("AWAITING_RESPONSE", modules["B02"]["gate_note"])
         self.assertNotIn("OÉNY nem lett elküldve", modules["B02"]["gate_note"])
