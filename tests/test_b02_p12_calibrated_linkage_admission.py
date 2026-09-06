@@ -112,7 +112,7 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         self.assertEqual(decision.status, QUALIFIED)
         self.assertEqual(decision.blockers, ())
 
-    def test_current_registry_contains_no_approved_model(self):
+    def test_current_registry_contains_implemented_unapproved_p21_models(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(
@@ -122,19 +122,29 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
                 "CALIBRATED_PRIMARY_ENERGY_LINKAGE",
             },
         )
-        for row in rows.values():
+        building = rows["CALIBRATED_BUILDING_TYPE_LINKAGE"]
+        primary = rows["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
+        self.assertEqual(
+            building["current_model_id"],
+            "B02-P21-PUBLIC-KSH-BUILDING-TYPE-LINKAGE",
+        )
+        self.assertEqual(
+            primary["current_model_id"],
+            "B02-P21-PUBLIC-KSH-PRIMARY-ENERGY-LINKAGE",
+        )
+        self.assertEqual(building["output_evidence_status"], "ASS")
+        self.assertEqual(primary["output_evidence_status"], "MODELLED")
+        for row in (building, primary):
             self.assertEqual(row["current_status"], "Q")
             self.assertEqual(row["approval_status"], "NOT_APPROVED")
-        self.assertEqual(rows["CALIBRATED_BUILDING_TYPE_LINKAGE"]["current_model_id"], "")
-        primary = rows["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
-        self.assertEqual(primary["current_model_id"], "KSH-RF-2022-PRIMARY-ENERGY")
-        self.assertEqual(primary["output_evidence_status"], "MODELLED")
-        self.assertEqual(primary["representativeness_diagnostics"], "yes")
-        self.assertEqual(primary["validation_metrics"], "yes")
-        self.assertEqual(
-            primary["blockers"],
-            "NO_JOSEPH_APPROVAL;TARGET_GRAIN_NOT_WBL_COMPATIBLE;NO_MARGINAL_RECONCILIATION;NO_UNCERTAINTY_METHOD;NO_UNCERTAINTY_PROPAGATION;UNCONTROLLED_INDEPENDENCE_ASSUMPTION",
-        )
+            self.assertEqual(row["blockers"], "NO_JOSEPH_APPROVAL")
+            self.assertEqual(row["target_grain_wbl_compatible"], "yes")
+            self.assertEqual(row["representativeness_diagnostics"], "yes")
+            self.assertEqual(row["validation_metrics"], "yes")
+            self.assertEqual(row["marginal_reconciliation"], "yes")
+            self.assertEqual(row["uncertainty_method"], "yes")
+            self.assertEqual(row["uncertainty_propagation"], "yes")
+            self.assertEqual(row["independence_assumption_controlled"], "yes")
 
     def test_open_questions_and_readiness_remain_fail_closed(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
