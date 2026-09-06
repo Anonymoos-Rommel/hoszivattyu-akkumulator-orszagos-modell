@@ -115,8 +115,15 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
     def test_current_registry_contains_approved_p21_models(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
+        approved_qualified = {
+            claim_id
+            for claim_id, row in rows.items()
+            if row["current_status"] == "QUALIFIED"
+            and row["approval_status"] == "APPROVED"
+            and row["approval_authority"] == "JOSEPH"
+        }
         self.assertEqual(
-            set(rows),
+            approved_qualified,
             {
                 "CALIBRATED_BUILDING_TYPE_LINKAGE",
                 "CALIBRATED_PRIMARY_ENERGY_LINKAGE",
