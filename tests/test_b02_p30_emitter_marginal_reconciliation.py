@@ -17,7 +17,8 @@ from modules.B02.emitter_marginal_reconciliation import (
 ROOT = Path(__file__).resolve().parents[1]
 WBL = ROOT / "data" / "processed" / "b02" / "ksh_wbl_joint_cells_2022.csv"
 ADMISSION = ROOT / "registry" / "b02_calibrated_linkage_admission.csv"
-CONTROLS = ROOT / "registry" / "b02_current_heating_device_controls.csv"
+P25_CONTROLS = ROOT / "registry" / "b02_current_heating_device_controls.csv"
+P30_CONTROLS = ROOT / "registry" / "b02_p30_primary_heating_controls.csv"
 PRIORS = ROOT / "registry" / "b02_emitter_structural_prior_controls.csv"
 ARCHETYPE_GATE = ROOT / "registry" / "b02_archetype_admission_gate.csv"
 DOC = ROOT / "docs" / "source_packs" / "B02_P30_EMITTER_MARGINAL_RECONCILIATION.md"
@@ -117,15 +118,22 @@ class B02P30EmitterMarginalReconciliationTests(unittest.TestCase):
         self.assertEqual(decision.status, "Q")
         self.assertEqual(decision.blockers, EXPECTED_BLOCKERS)
 
-    def test_primary_control_is_distinct_from_conditional_4061_control(self):
-        with CONTROLS.open(encoding="utf-8", newline="") as handle:
-            rows = {row["control_id"]: row for row in csv.DictReader(handle)}
-        conditional = rows["B02-P25-C03"]
-        primary = rows["B02-P30-C01"]
+    def test_primary_control_is_distinct_from_frozen_conditional_4061_control(self):
+        with P25_CONTROLS.open(encoding="utf-8", newline="") as handle:
+            p25_rows = {row["control_id"]: row for row in csv.DictReader(handle)}
+        with P30_CONTROLS.open(encoding="utf-8", newline="") as handle:
+            p30_rows = {row["control_id"]: row for row in csv.DictReader(handle)}
+
+        self.assertEqual(len(p25_rows), 3)
+        self.assertEqual(len(p30_rows), 1)
+        conditional = p25_rows["B02-P25-C03"]
+        primary = p30_rows["B02-P30-C01"]
         self.assertEqual(conditional["value_percent"], "40.61")
         self.assertEqual(conditional["survey_universe"], "GAS_HEATING_HOUSEHOLDS")
+        self.assertEqual(conditional["category_role"], "EMITTER_DEVICE_CONTROL")
         self.assertEqual(primary["value_percent"], "23.3")
         self.assertEqual(primary["survey_universe"], "FULL_SAMPLE_PRIMARY_HEATING_SYSTEM")
+        self.assertEqual(primary["category_role"], "PRIMARY_HEATING_DEVICE_CONTROL")
         self.assertEqual(primary["admission_effect"], "CALIBRATION_MARGIN_ONLY")
 
     def test_historical_priors_are_never_current_stock_authority(self):
