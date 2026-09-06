@@ -112,7 +112,7 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         self.assertEqual(decision.status, QUALIFIED)
         self.assertEqual(decision.blockers, ())
 
-    def test_current_registry_contains_implemented_unapproved_p21_models(self):
+    def test_current_registry_contains_approved_p21_models(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(
@@ -135,9 +135,10 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         self.assertEqual(building["output_evidence_status"], "ASS")
         self.assertEqual(primary["output_evidence_status"], "MODELLED")
         for row in (building, primary):
-            self.assertEqual(row["current_status"], "Q")
-            self.assertEqual(row["approval_status"], "NOT_APPROVED")
-            self.assertEqual(row["blockers"], "NO_JOSEPH_APPROVAL")
+            self.assertEqual(row["current_status"], "QUALIFIED")
+            self.assertEqual(row["approval_status"], "APPROVED")
+            self.assertEqual(row["approval_authority"], "JOSEPH")
+            self.assertEqual(row["blockers"], "")
             self.assertEqual(row["target_grain_wbl_compatible"], "yes")
             self.assertEqual(row["representativeness_diagnostics"], "yes")
             self.assertEqual(row["validation_metrics"], "yes")
@@ -155,6 +156,8 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         with MODULE_STATUS.open(encoding="utf-8", newline="") as handle:
             modules = {row["module_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(modules["B02"]["readiness_percent"], "55")
+        self.assertIn("B02-P21", modules["B02"]["gate_note"])
+        self.assertIn("current-stock archetype pedig QUALIFIED", modules["B02"]["gate_note"])
 
     def test_document_freezes_model_non_equivalence_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
