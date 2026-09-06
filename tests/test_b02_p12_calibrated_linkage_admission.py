@@ -112,7 +112,7 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
         self.assertEqual(decision.status, QUALIFIED)
         self.assertEqual(decision.blockers, ())
 
-    def test_current_registry_contains_approved_p21_models(self):
+    def test_current_registry_contains_all_explicitly_approved_models(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         approved_qualified = {
@@ -127,10 +127,12 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
             {
                 "CALIBRATED_BUILDING_TYPE_LINKAGE",
                 "CALIBRATED_PRIMARY_ENERGY_LINKAGE",
+                "CALIBRATED_GAS_CONVECTOR_EMITTER_LINKAGE_P39",
             },
         )
         building = rows["CALIBRATED_BUILDING_TYPE_LINKAGE"]
         primary = rows["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
+        emitter = rows["CALIBRATED_GAS_CONVECTOR_EMITTER_LINKAGE_P39"]
         self.assertEqual(
             building["current_model_id"],
             "B02-P21-PUBLIC-KSH-BUILDING-TYPE-LINKAGE",
@@ -139,9 +141,14 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
             primary["current_model_id"],
             "B02-P21-PUBLIC-KSH-PRIMARY-ENERGY-LINKAGE",
         )
+        self.assertEqual(
+            emitter["current_model_id"],
+            "B02-P38-EXTERNALLY-BOUNDED-CONVECTOR-LINKAGE-CANDIDATE",
+        )
         self.assertEqual(building["output_evidence_status"], "ASS")
         self.assertEqual(primary["output_evidence_status"], "MODELLED")
-        for row in (building, primary):
+        self.assertEqual(emitter["output_evidence_status"], "ASS")
+        for row in (building, primary, emitter):
             self.assertEqual(row["current_status"], "QUALIFIED")
             self.assertEqual(row["approval_status"], "APPROVED")
             self.assertEqual(row["approval_authority"], "JOSEPH")
