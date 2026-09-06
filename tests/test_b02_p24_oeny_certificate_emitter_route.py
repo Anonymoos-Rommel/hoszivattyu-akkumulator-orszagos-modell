@@ -67,7 +67,8 @@ class B02P24OenyCertificateEmitterRouteTests(unittest.TestCase):
             "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
         )
         self.assertIn("P24", row["notes"])
-        self.assertIn("bounded individual-certificate emitter evidence", row["notes"])
+        self.assertIn("individual-certificate", row["notes"])
+        self.assertIn("current-emitter evidence route", row["notes"])
         self.assertIn("COMPLETE CURRENT-STOCK EMITTER AUTHORITY = Q", self.pack)
         self.assertIn("COMPLETE CURRENT DESIGN-TEMPERATURE AUTHORITY = Q", self.pack)
 
