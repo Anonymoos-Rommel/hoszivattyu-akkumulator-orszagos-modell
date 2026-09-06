@@ -1,7 +1,7 @@
 """B02-P30 bounded gas-convector marginal reconciliation.
 
 This module does not promote a heat emitter to OBS/DER and does not materialize
-an emitter WBL surface.  It tests whether the current TARKI-REKK gas-convector
+an emitter WBL surface. It tests whether the current TARKI-REKK gas-convector
 control can be reconciled to the exact KSH WBL gas-heating universe under a
 strict room-heating structural domain.
 
@@ -24,6 +24,7 @@ SURVEY_SECONDARY_GAS_SHARE = 0.0698
 SURVEY_GAS_AT_LEAST_PARTLY_SHARE = SURVEY_PRIMARY_GAS_SHARE + SURVEY_SECONDARY_GAS_SHARE
 SURVEY_CONVECTOR_WITHIN_GAS_SHARE = 0.4061
 
+WBL_FULL_JOINT_PROJECTION = "WBL011_FULL_STOCK_JOINT"
 # WBL011 source-native heating-fuel categories containing network gas.
 GAS_FUEL_CODES = frozenset({"FUEL11", "FUEL21", "FUEL22"})
 ROOM_HEATING_CODE = "NHEAT"
@@ -48,15 +49,24 @@ def reconcile_gas_convector_margin(path: Path) -> MarginalReconciliationResult:
     occupied = 0
     gas = 0
     room_gas = 0
+    full_joint_rows = 0
 
-    with path.open(newline="", encoding="utf-8-sig") as handle:
+    with path.open(newline="", encoding="utf-8") as handle:
         reader = csv.DictReader(handle)
-        required = {"heating_mode_code", "heating_fuel_code", "dwellings"}
+        required = {
+            "projection_id",
+            "heating_mode_code",
+            "heating_fuel_code",
+            "dwelling_count",
+        }
         if reader.fieldnames is None or not required.issubset(set(reader.fieldnames)):
             raise ValueError("WBL joint is missing required heating fields")
 
         for row in reader:
-            dwellings = int(row["dwellings"])
+            if row["projection_id"] != WBL_FULL_JOINT_PROJECTION:
+                continue
+            full_joint_rows += 1
+            dwellings = int(row["dwelling_count"])
             if dwellings < 0:
                 raise ValueError("negative dwelling count")
             occupied += dwellings
@@ -65,6 +75,9 @@ def reconcile_gas_convector_margin(path: Path) -> MarginalReconciliationResult:
                 gas += dwellings
                 if row["heating_mode_code"] == ROOM_HEATING_CODE:
                     room_gas += dwellings
+
+    if full_joint_rows != 116_452:
+        raise ValueError(f"unexpected WBL full-joint row count: {full_joint_rows}")
 
     if occupied <= 0 or gas <= 0 or room_gas <= 0:
         return MarginalReconciliationResult(
