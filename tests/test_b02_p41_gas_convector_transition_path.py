@@ -118,7 +118,7 @@ class B02P41GasConvectorTransitionPathTests(unittest.TestCase):
             ("NO_CURRENT_HEAT_EMITTER_EVIDENCE", "NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE"),
         )
 
-    def test_registry_qualifies_only_gas_convector_subclaim_and_keeps_aggregate_open(self):
+    def test_registry_preserves_three_claims_and_records_p41_under_readiness(self):
         with ADMISSION.open(encoding="utf-8", newline="") as handle:
             admission = {row["claim_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(
@@ -128,12 +128,28 @@ class B02P41GasConvectorTransitionPathTests(unittest.TestCase):
 
         with ARCHETYPE_GATE.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
-        self.assertEqual(rows["GAS_CONVECTOR_THERMAL_TRANSITION_PATH"]["current_status"], "QUALIFIED")
-        self.assertEqual(rows["TECHNICAL_READINESS_ARCHETYPE"]["current_status"], "Q")
         self.assertEqual(
-            rows["TECHNICAL_READINESS_ARCHETYPE"]["current_blockers"],
+            set(rows),
+            {
+                "ARCHETYPE_DIMENSION_SCHEMA",
+                "CURRENT_STOCK_ARCHETYPE_ASSIGNMENT",
+                "TECHNICAL_READINESS_ARCHETYPE",
+            },
+        )
+        readiness = rows["TECHNICAL_READINESS_ARCHETYPE"]
+        self.assertEqual(readiness["current_status"], "Q")
+        self.assertEqual(
+            readiness["current_blockers"],
             "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
         )
+        for marker in (
+            "P41",
+            "NON_HYDRONIC_ROOM_HEATING",
+            "NOT_APPLICABLE",
+            "REPLACE_EXISTING_DISTRIBUTION",
+            "gas-convector branch semantics only",
+        ):
+            self.assertIn(marker, readiness["notes"])
 
     def test_source_pack_freezes_transition_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
