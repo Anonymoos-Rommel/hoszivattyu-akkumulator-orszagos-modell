@@ -107,7 +107,7 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
         self.assertEqual(model["p12_candidate_status"], "Q")
         self.assertEqual(model["q_b02_002_effect"], "OPEN")
 
-    def test_p17_rf_candidate_is_superseded_by_reproducible_p21_public_linkage(self):
+    def test_p17_rf_candidate_is_superseded_by_approved_reproducible_p21_public_linkage(self):
         with P12.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         row = rows["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
@@ -115,7 +115,8 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
             row["current_model_id"],
             "B02-P21-PUBLIC-KSH-PRIMARY-ENERGY-LINKAGE",
         )
-        self.assertEqual(row["approval_status"], "NOT_APPROVED")
+        self.assertEqual(row["approval_status"], "APPROVED")
+        self.assertEqual(row["approval_authority"], "JOSEPH")
         self.assertEqual(row["reference_period_defined"], "yes")
         self.assertEqual(row["target_grain_wbl_compatible"], "yes")
         self.assertEqual(row["representativeness_diagnostics"], "yes")
@@ -125,21 +126,21 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
         self.assertEqual(row["uncertainty_propagation"], "yes")
         self.assertEqual(row["independence_assumption_controlled"], "yes")
         self.assertEqual(row["output_evidence_status"], "MODELLED")
-        self.assertEqual(row["current_status"], "Q")
-        self.assertEqual(row["blockers"], "NO_JOSEPH_APPROVAL")
+        self.assertEqual(row["current_status"], "QUALIFIED")
+        self.assertEqual(row["blockers"], "")
 
-    def test_current_archetype_blockers_remain_exact(self):
+    def test_current_stock_is_qualified_but_technical_readiness_remains_exactly_bounded(self):
         with P9.open(encoding="utf-8", newline="") as handle:
             rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
         current = rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]
         technical = rows["TECHNICAL_READINESS_ARCHETYPE"]
+        self.assertEqual(current["current_blockers"], "")
+        self.assertEqual(current["current_status"], "QUALIFIED")
+        self.assertEqual(technical["current_status"], "Q")
         self.assertEqual(
-            current["current_blockers"],
-            "NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY;NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY",
+            technical["current_blockers"],
+            "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
         )
-        self.assertEqual(current["current_status"], "Q")
-        self.assertIn("NO_CURRENT_HEAT_EMITTER_EVIDENCE", technical["current_blockers"])
-        self.assertIn("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE", technical["current_blockers"])
 
     def test_repository_energy_controls_are_preserved(self):
         import json
@@ -161,7 +162,7 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
             modules = {row["module_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(modules["B02"]["readiness_percent"], "55")
         self.assertIn("B02-P17", modules["B02"]["gate_note"])
-        self.assertIn("no readiness uplift", modules["B02"]["gate_note"].lower())
+        self.assertIn("B02-P21", modules["B02"]["gate_note"])
         self.assertIn("OÉNY pilot kérés 2026-08-22-én elküldésre került", modules["B02"]["gate_note"])
         self.assertIn("AWAITING_RESPONSE", modules["B02"]["gate_note"])
         self.assertNotIn("OÉNY nem lett elküldve", modules["B02"]["gate_note"])
