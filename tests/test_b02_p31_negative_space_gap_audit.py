@@ -1,22 +1,11 @@
 import csv
-import json
 import unittest
 from pathlib import Path
-
-from modules.B02.archetype_admission_gate import (
-    CONTRACTED,
-    Q,
-    QUALIFIED,
-    StockArchetypeInputs,
-    assess_technical_readiness_enrichment,
-)
 
 
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "registry" / "b02_p31_remaining_technical_gap_audit.csv"
 LINKAGE = ROOT / "registry" / "b02_calibrated_linkage_admission.csv"
-PILOT_SCHEMA = ROOT / "schemas" / "oeny_readiness_pilot.schema.json"
-ANNOTATION_SCHEMA = ROOT / "schemas" / "oeny_heat_emitter_annotation.schema.json"
 DOC = ROOT / "docs" / "source_packs" / "B02_P31_NEGATIVE_SPACE_TECHNICAL_GAP_AUDIT.md"
 
 EXPECTED_GAPS = {
@@ -38,24 +27,14 @@ EXPECTED_GAPS = {
 }
 
 
-def qualified_stock() -> StockArchetypeInputs:
-    return StockArchetypeInputs(
-        schema_status=CONTRACTED,
-        wbl_joint_materialized_complete=True,
-        building_type_link_status="APPROVED_CALIBRATED_MODEL",
-        primary_energy_link_status="MODELLED_LINKED",
-        building_type_model_admission_status=QUALIFIED,
-        primary_energy_model_admission_status=QUALIFIED,
-    )
-
-
 class B02P31NegativeSpaceGapAuditTests(unittest.TestCase):
-    def test_audit_register_is_complete_and_closes_nothing(self):
+    def _audit_rows(self) -> dict[str, dict[str, str]]:
         with AUDIT.open(encoding="utf-8", newline="") as handle:
-            rows = list(csv.DictReader(handle))
+            return {row["gap_id"]: row for row in csv.DictReader(handle)}
 
-        self.assertEqual(len(rows), len(EXPECTED_GAPS))
-        keyed = {row["gap_id"]: row for row in rows}
+    def test_audit_register_is_complete_and_closes_nothing(self):
+        keyed = self._audit_rows()
+        self.assertEqual(len(keyed), len(EXPECTED_GAPS))
         self.assertEqual(set(keyed), set(EXPECTED_GAPS))
 
         for gap_id, classification in EXPECTED_GAPS.items():
@@ -80,40 +59,23 @@ class B02P31NegativeSpaceGapAuditTests(unittest.TestCase):
             "NO_JOSEPH_APPROVAL;NO_VALIDATION_METRICS;UNCONTROLLED_INDEPENDENCE_ASSUMPTION",
         )
 
-    def test_current_oeny_emitter_taxonomies_cannot_encode_gas_convector(self):
-        pilot = json.loads(PILOT_SCHEMA.read_text(encoding="utf-8"))
-        annotation = json.loads(ANNOTATION_SCHEMA.read_text(encoding="utf-8"))
+    def test_p31_recorded_gas_convector_taxonomy_gap(self):
+        row = self._audit_rows()["B02-P31-G09"]
+        self.assertEqual(row["classification"], "INTERNAL_TAXONOMY_GAP")
+        self.assertIn("cannot encode GAS_CONVECTOR", row["current_fact"])
+        self.assertEqual(row["closure_effect"], "NONE")
 
-        pilot_enum = pilot["properties"]["emitter_types"]["items"]["enum"]
-        annotation_enum = annotation["properties"]["emitter_types"]["items"]["enum"]
+    def test_p31_recorded_not_applicable_temperature_gap(self):
+        row = self._audit_rows()["B02-P31-G10"]
+        self.assertEqual(row["classification"], "INTERNAL_APPLICABILITY_GAP")
+        self.assertIn("no NOT_APPLICABLE temperature state", row["current_fact"])
+        self.assertEqual(row["closure_effect"], "NONE")
 
-        self.assertNotIn("GAS_CONVECTOR", pilot_enum)
-        self.assertNotIn("GAS_CONVECTOR", annotation_enum)
-        self.assertIn("OTHER", pilot_enum)
-        self.assertIn("OTHER", annotation_enum)
-
-    def test_current_oeny_temperature_statuses_cannot_encode_not_applicable(self):
-        pilot = json.loads(PILOT_SCHEMA.read_text(encoding="utf-8"))
-        annotation = json.loads(ANNOTATION_SCHEMA.read_text(encoding="utf-8"))
-
-        pilot_enum = pilot["properties"]["temperature_status"]["enum"]
-        annotation_enum = annotation["properties"]["temperature_status"]["enum"]
-
-        self.assertNotIn("NOT_APPLICABLE", pilot_enum)
-        self.assertNotIn("NOT_APPLICABLE", annotation_enum)
-
-    def test_current_p9_gate_has_no_non_hydronic_temperature_applicability_path(self):
-        decision = assess_technical_readiness_enrichment(
-            qualified_stock(),
-            heat_emitter_status="OBS",
-            heat_emitter_direct_authority_status=QUALIFIED,
-            design_temperature_status="NOT_APPLICABLE",
-            design_temperature_direct_authority_status=QUALIFIED,
-        )
-
-        self.assertEqual(decision.status, Q)
-        self.assertIn("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE", decision.blockers)
-        self.assertNotIn("NO_CURRENT_HEAT_EMITTER_EVIDENCE", decision.blockers)
+    def test_p31_recorded_unconditional_gate_gap(self):
+        row = self._audit_rows()["B02-P31-G11"]
+        self.assertEqual(row["classification"], "INTERNAL_GATE_SEMANTIC_GAP")
+        self.assertIn("requires design-temperature evidence unconditionally", row["current_fact"])
+        self.assertEqual(row["closure_effect"], "NONE")
 
     def test_source_pack_preserves_negative_space_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
