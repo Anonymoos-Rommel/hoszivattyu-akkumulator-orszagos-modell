@@ -1,10 +1,12 @@
 # B02-P21 — Public KSH calibrated archetype linkage
 
-**Status:** `IMPLEMENTED / REPRODUCIBLE PUBLIC-DATA CANDIDATE / NOT_APPROVED / Q`
+**Status:** `IMPLEMENTED / REPRODUCIBLE PUBLIC-DATA MODEL / APPROVED / QUALIFIED`
 
 **Base:** `e89209507f5dbbe57c4f9e37d8b62c0363bee77b`
 
 **Audit / implementation date:** 2026-09-06
+
+**Joseph approval:** 2026-09-06 09:23 Europe/Budapest
 
 ## Purpose
 
@@ -165,14 +167,14 @@ The module can deterministically materialize:
 
 The generated cell CSV is not required to be committed for P21 admission because the exact committed `cell_id` binding, source inputs and deterministic model are repository-reproducible. P21's regression test executes the full **116 452-row / 4 008 541-dwelling** binding from the committed inputs.
 
-## 7. P12 candidate state
+## 7. P12 model admission
 
-P21 registers two current candidates:
+P21 registers two current models:
 
 - `B02-P21-PUBLIC-KSH-BUILDING-TYPE-LINKAGE`;
 - `B02-P21-PUBLIC-KSH-PRIMARY-ENERGY-LINKAGE`.
 
-For both candidates the repository now provides:
+For both models the repository provides:
 
 - calibration sources;
 - explicit 2022 target/reference period;
@@ -185,26 +187,30 @@ For both candidates the repository now provides:
 - explicit control of the age-association versus flat-independence assumption;
 - correct `ASS` / `MODELLED` output semantics.
 
-The candidates remain:
+Joseph explicitly approved both calibrated models on **2026-09-06 09:23 Europe/Budapest**.
 
-`NOT_APPROVED / Q`
+The P12 state is therefore:
 
-with the sole P12 blocker:
+`APPROVED / JOSEPH / QUALIFIED`
 
-`NO_JOSEPH_APPROVAL`
+The former `NO_JOSEPH_APPROVAL` blocker is closed. Approval changes model-admission authority only; it does not change the evidence class of the generated values.
 
-Implementation authorization is not silently converted into model-admission authority. A separate explicit Joseph approval is required before P9 may consume the model tokens as current-stock authority.
+## 8. Current B02 effect after approval
 
-## 8. Current B02 effect before approval
+After explicit approval:
 
-Until that explicit approval:
-
-- `NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY`: **OPEN**;
-- `NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY`: **OPEN**;
-- current-stock archetype: `Q`;
-- technical-readiness archetype: `Q`;
-- B02 readiness: **55%**;
+- calibrated building-type linkage: **QUALIFIED**;
+- calibrated primary-energy linkage: **QUALIFIED**;
+- `CURRENT_STOCK_ARCHETYPE_ASSIGNMENT`: **QUALIFIED**;
+- `NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY`: **CLOSED by approved calibrated-model path**;
+- `NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY`: **CLOSED by approved calibrated-model path**;
+- technical-readiness archetype: `Q` only because current heat-emitter and current design-temperature evidence are still missing;
+- `Q-B02-001`: OPEN;
+- `Q-B02-002`: OPEN;
+- `Q-B02-004`: OPEN;
+- national technical/final eligible count: blank / `Q`;
+- B02 readiness: **55%**; no arbitrary percentage uplift is minted from model approval alone;
 - KSH direct building-type request: `REQUEST_SENT / AWAITING_RESPONSE`;
 - OÉNY readiness request: `REQUEST_SENT / AWAITING_RESPONSE`.
 
-The public-data model therefore removes the technical/reproducibility blockers from the P12 candidates without pretending that governance approval has already occurred.
+The approved model therefore makes the current-stock archetype executable and admissible while preserving the remaining technical-readiness evidence gap exactly where it belongs.
