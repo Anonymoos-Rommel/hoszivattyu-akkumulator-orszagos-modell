@@ -14,11 +14,13 @@ own reporting precision rather than inventing a post-hoc tolerance.
 
 from __future__ import annotations
 
+import csv
 from dataclasses import dataclass
 from pathlib import Path
 
 from modules.B02.emitter_marginal_reconciliation import (
     HISTORICAL_MULTI_PRIOR_SCENARIOS,
+    WBL_FULL_JOINT_PROJECTION,
     build_calibrated_emitter_linkage,
 )
 
@@ -88,23 +90,59 @@ def _classify_reported_upper_bound(model_share: float) -> tuple[float, float, st
     return lower, upper, decision
 
 
+def _load_full_joint_source_rows(wbl_path: Path) -> dict[str, dict[str, str]]:
+    """Load the exact source WBL rows that carry county identity.
+
+    P30 model rows intentionally carry only the fields needed for calibrated
+    emitter probabilities.  Geographic selection therefore binds back to the
+    committed WBL source row through ``cell_id`` rather than fabricating or
+    copying a county field onto model output.
+    """
+
+    with wbl_path.open(encoding="utf-8", newline="") as handle:
+        rows = {
+            row["cell_id"]: row
+            for row in csv.DictReader(handle)
+            if row.get("projection_id") == WBL_FULL_JOINT_PROJECTION
+        }
+    if not rows:
+        raise ValueError("EMPTY_WBL_FULL_JOINT")
+    return rows
+
+
 def build_independent_emitter_validation(wbl_path: Path) -> EmitterValidationSummary:
     """Evaluate P30 scenarios against independent current external holdouts."""
 
+    source_rows = _load_full_joint_source_rows(wbl_path)
     model_rows, _ = build_calibrated_emitter_linkage(wbl_path)
     if not model_rows:
         raise ValueError("EMPTY_MODEL_ROWS")
 
-    national_occupied = sum(int(row["dwelling_count"]) for row in model_rows)
-    budapest_rows = [row for row in model_rows if row["county_code"] == BUDAPEST_COUNTY_CODE]
-    if not budapest_rows:
+    model_cell_ids = {row["cell_id"] for row in model_rows}
+    if model_cell_ids != set(source_rows):
+        raise ValueError("MODEL_WBL_CELL_LINEAGE_MISMATCH")
+
+    national_occupied = sum(int(row["dwelling_count"]) for row in source_rows.values())
+    budapest_cell_ids = {
+        cell_id
+        for cell_id, row in source_rows.items()
+        if row["county_code"] == BUDAPEST_COUNTY_CODE
+    }
+    if not budapest_cell_ids:
         raise ValueError("NO_BUDAPEST_ROWS")
-    budapest_occupied = sum(int(row["dwelling_count"]) for row in budapest_rows)
+    budapest_occupied = sum(
+        int(source_rows[cell_id]["dwelling_count"])
+        for cell_id in budapest_cell_ids
+    )
 
     metrics: list[ScenarioHoldoutMetric] = []
     for scenario_id in HISTORICAL_MULTI_PRIOR_SCENARIOS:
         key = f"probability__{scenario_id}"
-        expected = sum(float(row["dwelling_count"]) * float(row[key]) for row in budapest_rows)
+        expected = sum(
+            float(row["dwelling_count"]) * float(row[key])
+            for row in model_rows
+            if row["cell_id"] in budapest_cell_ids
+        )
         share = expected / budapest_occupied
         lower, upper, decision = _classify_reported_upper_bound(share)
         metrics.append(
