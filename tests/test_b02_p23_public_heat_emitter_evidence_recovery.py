@@ -20,10 +20,11 @@ class B02P23PublicHeatEmitterEvidenceRecoveryTests(unittest.TestCase):
             cls.gate = {row["claim_id"]: row for row in csv.DictReader(handle)}
         cls.pack = PACK.read_text(encoding="utf-8")
 
-    def test_audit_has_exact_five_bounded_public_surfaces(self) -> None:
-        self.assertEqual(len(self.rows), 5)
+    def test_p23_audit_snapshot_remains_exact_five_bounded_public_surfaces(self) -> None:
+        p23_rows = [row for row in self.rows if row["audit_id"].startswith("B02-P23-")]
+        self.assertEqual(len(p23_rows), 5)
         self.assertEqual(
-            {row["audit_id"] for row in self.rows},
+            {row["audit_id"] for row in p23_rows},
             {f"B02-P23-A0{i}" for i in range(1, 6)},
         )
 
@@ -81,7 +82,7 @@ class B02P23PublicHeatEmitterEvidenceRecoveryTests(unittest.TestCase):
             "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
         )
         self.assertIn("P23", row["notes"])
-        self.assertIn("no complete current-emitter WBL binding is promoted", row["notes"])
+        self.assertIn("no complete current-emitter or design-temperature WBL assignment is promoted", row["notes"])
         self.assertIn("CURRENT_HEAT_EMITTER_EVIDENCE = Q", self.pack)
         self.assertIn("NO_CURRENT_HEAT_EMITTER_EVIDENCE = OPEN", self.pack)
 
