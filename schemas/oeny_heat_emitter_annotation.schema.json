@@ -35,7 +35,7 @@
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": {"enum": ["RADIATOR", "FLOOR_HEATING", "WALL_HEATING", "CEILING_HEATING", "FAN_COIL", "AIR_HEATING", "DIRECT_ELECTRIC", "OTHER", "NOT_STATED", "UNREADABLE"]}
+      "items": {"enum": ["RADIATOR", "FLOOR_HEATING", "WALL_HEATING", "CEILING_HEATING", "FAN_COIL", "AIR_HEATING", "DIRECT_ELECTRIC", "GAS_CONVECTOR", "OTHER", "NOT_STATED", "UNREADABLE"]}
     },
     "emitter_evidence": {
       "type": "array",
@@ -43,10 +43,10 @@
       "uniqueItems": true,
       "items": {"enum": ["TEXT_EXPLICIT", "TABLE_EXPLICIT", "SCHEMATIC_EXPLICIT", "PHOTO_EXPLICIT", "NONE"]}
     },
-    "temperature_status": {"enum": ["OBS", "Q"]},
+    "temperature_status": {"enum": ["OBS", "Q", "NOT_APPLICABLE"]},
     "supply_temperature_c": {"type": ["number", "null"], "minimum": -50, "maximum": 150},
     "return_temperature_c": {"type": ["number", "null"], "minimum": -50, "maximum": 150},
-    "temperature_basis": {"enum": ["DESIGN_EXPLICIT", "CALCULATION_INPUT", "OPERATING_MEASURED", "REFERENCE_ASSUMPTION", "NOT_STATED"]},
+    "temperature_basis": {"enum": ["DESIGN_EXPLICIT", "CALCULATION_INPUT", "OPERATING_MEASURED", "REFERENCE_ASSUMPTION", "NOT_STATED", "NOT_APPLICABLE"]},
     "page_references": {
       "type": "array",
       "items": {
@@ -70,5 +70,37 @@
       "uniqueItems": true,
       "items": {"type": "string", "pattern": "^ANN-[A-F0-9]{16}$"}
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"temperature_status": {"const": "OBS"}}},
+      "then": {
+        "properties": {
+          "supply_temperature_c": {"type": "number"},
+          "return_temperature_c": {"type": "number"},
+          "temperature_basis": {"enum": ["DESIGN_EXPLICIT", "CALCULATION_INPUT", "OPERATING_MEASURED"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"temperature_status": {"const": "Q"}}},
+      "then": {
+        "properties": {
+          "supply_temperature_c": {"const": null},
+          "return_temperature_c": {"const": null},
+          "temperature_basis": {"enum": ["REFERENCE_ASSUMPTION", "NOT_STATED"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"temperature_status": {"const": "NOT_APPLICABLE"}}},
+      "then": {
+        "properties": {
+          "supply_temperature_c": {"const": null},
+          "return_temperature_c": {"const": null},
+          "temperature_basis": {"const": "NOT_APPLICABLE"}
+        }
+      }
+    }
+  ]
 }

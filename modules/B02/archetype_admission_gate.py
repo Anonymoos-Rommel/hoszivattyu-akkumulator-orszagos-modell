@@ -28,6 +28,12 @@ authority. Current-state emitter evidence and current-system design-temperature
 evidence require separate direct admission at the same WBL stock grain or a
 reproducible dwelling-record binding. Reference or operating temperatures do
 not self-authorize the design-temperature gate.
+
+B02-P32 repairs the applicability semantics identified by P31. Hydronic current
+systems continue to require separately admitted design/calculation temperature
+evidence. A non-hydronic system may use NOT_APPLICABLE only when the
+non-hydronic applicability claim itself is separately QUALIFIED. Unknown,
+missing and not-applicable remain distinct states.
 """
 
 from __future__ import annotations
@@ -39,10 +45,12 @@ from math import isfinite
 Q = "Q"
 QUALIFIED = "QUALIFIED"
 CONTRACTED = "CONTRACTED"
+NOT_APPLICABLE = "NOT_APPLICABLE"
 
 REAL_EVIDENCE = frozenset({"OBS", "DER"})
 BUILDING_TYPE_LINK_OK = frozenset({"OBS", "DER", "APPROVED_CALIBRATED_MODEL"})
 ENERGY_LINK_OK = frozenset({"OBS", "DER", "MODELLED_LINKED"})
+DESIGN_TEMPERATURE_APPLICABILITY = frozenset({"APPLICABLE", NOT_APPLICABLE})
 
 DIRECT_WBL_GRAINS = frozenset({"WBL_FULL_JOINT", "DWELLING_RECORD"})
 PRIMARY_ENERGY_METRICS = frozenset(
@@ -303,8 +311,16 @@ def assess_technical_readiness_enrichment(
     design_temperature_status: str,
     heat_emitter_direct_authority_status: str = Q,
     design_temperature_direct_authority_status: str = Q,
+    design_temperature_applicability: str = "APPLICABLE",
+    design_temperature_applicability_authority_status: str = Q,
 ) -> AdmissionDecision:
-    """Require separately admitted current evidence for readiness enrichment."""
+    """Require admitted current evidence with explicit temperature applicability.
+
+    Hydronic/applicable current systems retain the P18 design-temperature gate.
+    A NOT_APPLICABLE temperature state is accepted only for a separately
+    QUALIFIED non-hydronic applicability claim; the status string cannot
+    self-authorize that exception.
+    """
 
     stock = assess_stock_archetype(stock_inputs)
     blockers = list(stock.blockers)
@@ -313,10 +329,18 @@ def assess_technical_readiness_enrichment(
     elif heat_emitter_direct_authority_status != QUALIFIED:
         blockers.append("HEAT_EMITTER_DIRECT_EVIDENCE_NOT_ADMITTED")
 
-    if design_temperature_status not in REAL_EVIDENCE:
-        blockers.append("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE")
-    elif design_temperature_direct_authority_status != QUALIFIED:
-        blockers.append("DESIGN_TEMPERATURE_DIRECT_EVIDENCE_NOT_ADMITTED")
+    if design_temperature_applicability not in DESIGN_TEMPERATURE_APPLICABILITY:
+        blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_UNKNOWN")
+    elif design_temperature_applicability == NOT_APPLICABLE:
+        if design_temperature_applicability_authority_status != QUALIFIED:
+            blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_NOT_ADMITTED")
+        elif design_temperature_status != NOT_APPLICABLE:
+            blockers.append("NON_HYDRONIC_TEMPERATURE_STATUS_NOT_NOT_APPLICABLE")
+    else:
+        if design_temperature_status not in REAL_EVIDENCE:
+            blockers.append("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE")
+        elif design_temperature_direct_authority_status != QUALIFIED:
+            blockers.append("DESIGN_TEMPERATURE_DIRECT_EVIDENCE_NOT_ADMITTED")
 
     if blockers:
         return AdmissionDecision(Q, tuple(blockers))

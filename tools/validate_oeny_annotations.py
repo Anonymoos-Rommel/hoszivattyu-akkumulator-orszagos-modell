@@ -42,6 +42,7 @@ EMITTER_TYPES = {
     "FAN_COIL",
     "AIR_HEATING",
     "DIRECT_ELECTRIC",
+    "GAS_CONVECTOR",
     "OTHER",
     "NOT_STATED",
     "UNREADABLE",
@@ -59,6 +60,7 @@ TEMPERATURE_BASIS = {
     "OPERATING_MEASURED",
     "REFERENCE_ASSUMPTION",
     "NOT_STATED",
+    "NOT_APPLICABLE",
 }
 REVIEW_FLAGS = {
     "OTHER_NEEDS_CODEBOOK",
@@ -69,9 +71,10 @@ REVIEW_FLAGS = {
 EVIDENCE_KINDS = {"EMITTER", "TEMPERATURE", "EMITTER_AND_TEMPERATURE"}
 ROLES = {"ANNOTATOR_A", "ANNOTATOR_B", "ADJUDICATOR"}
 DIRECT_EMITTER_EVIDENCE = EMITTER_EVIDENCE - {"NONE"}
-DIRECT_TEMPERATURE_BASIS = TEMPERATURE_BASIS - {
-    "REFERENCE_ASSUMPTION",
-    "NOT_STATED",
+DIRECT_TEMPERATURE_BASIS = {
+    "DESIGN_EXPLICIT",
+    "CALCULATION_INPUT",
+    "OPERATING_MEASURED",
 }
 
 ANNOTATION_ID = re.compile(r"ANN-[A-F0-9]{16}")
@@ -79,7 +82,7 @@ DOCUMENT_ID = re.compile(r"DOC-[A-F0-9]{32}")
 RATER_ID = re.compile(r"RATER-[A-Z0-9]{4,16}")
 SHA256 = re.compile(r"[a-f0-9]{64}")
 
-# These keys have no legitimate place in the public annotation contract.  Checking
+# These keys have no legitimate place in the public annotation contract. Checking
 # recursively also rejects attempted additions inside page-reference objects.
 PROHIBITED_KEYS = {
     "address",
@@ -164,8 +167,10 @@ def validate_record(record: Any, index: int = 1) -> list[str]:
         errors.append(f"{prefix}.pii_check: must be PASS")
     if record["emitter_status"] not in {"OBS", "Q"}:
         errors.append(f"{prefix}.emitter_status: must be OBS or Q")
-    if record["temperature_status"] not in {"OBS", "Q"}:
-        errors.append(f"{prefix}.temperature_status: must be OBS or Q")
+    if record["temperature_status"] not in {"OBS", "Q", "NOT_APPLICABLE"}:
+        errors.append(
+            f"{prefix}.temperature_status: must be OBS, Q or NOT_APPLICABLE"
+        )
 
     errors.extend(_validate_enum_list(record, "emitter_types", EMITTER_TYPES, prefix))
     errors.extend(
@@ -213,15 +218,22 @@ def validate_record(record: Any, index: int = 1) -> list[str]:
     basis = record["temperature_basis"]
     if basis not in TEMPERATURE_BASIS:
         errors.append(f"{prefix}.temperature_basis: unsupported value")
-    if record["temperature_status"] == "OBS":
+
+    temperature_status = record["temperature_status"]
+    if temperature_status == "OBS":
         if supply is None or basis not in DIRECT_TEMPERATURE_BASIS:
             errors.append(
                 f"{prefix}: OBS temperature requires an explicit numeric pair and direct basis"
             )
-    else:
+    elif temperature_status == "Q":
         if supply is not None or basis not in {"REFERENCE_ASSUMPTION", "NOT_STATED"}:
             errors.append(
                 f"{prefix}: Q temperature requires no numeric pair and a non-observed basis"
+            )
+    elif temperature_status == "NOT_APPLICABLE":
+        if supply is not None or ret is not None or basis != "NOT_APPLICABLE":
+            errors.append(
+                f"{prefix}: NOT_APPLICABLE temperature requires a null pair and NOT_APPLICABLE basis"
             )
 
     page_refs = record["page_references"]
@@ -242,8 +254,11 @@ def validate_record(record: Any, index: int = 1) -> list[str]:
                 errors.append(f"{ref_prefix}.page: must be a positive integer")
             if reference["evidence_kind"] not in EVIDENCE_KINDS:
                 errors.append(f"{ref_prefix}.evidence_kind: unsupported value")
-    if (record["emitter_status"] == "OBS" or record["temperature_status"] == "OBS") and not page_refs:
-        errors.append(f"{prefix}.page_references: OBS evidence requires a page")
+    if (
+        record["emitter_status"] == "OBS"
+        or record["temperature_status"] in {"OBS", "NOT_APPLICABLE"}
+    ) and not page_refs:
+        errors.append(f"{prefix}.page_references: observed/applicability evidence requires a page")
 
     flags = record["review_flags"]
     if not isinstance(flags, list):
