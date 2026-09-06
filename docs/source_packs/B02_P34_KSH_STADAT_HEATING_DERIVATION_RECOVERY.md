@@ -10,6 +10,8 @@
 
 P33 identified KSH STADAT table 14.8.2.2 as a potentially independent spatial validation surface because it publishes the row `Egyedi helyiségfűtés gázzal`, including `11.7%` nationally in the `2020` block.
 
+Exact source: `https://www.ksh.hu/stadat_files/jov/hu/jov0048.html` -> table `14.8.2.2` -> `2020` block -> `A lakások megoszlása a fűtés módja szerint, %` -> row `Egyedi helyiségfűtés gázzal` -> `Ország összesen`.
+
 P33 deliberately left the questionnaire-to-publication derivation unproven and proposed recovering the exact KSH mapping before treating the row as gas-convector evidence.
 
 P34 performs that recovery attempt using the exact KSH questionnaire vintages and KSH methodological metadata.
@@ -36,6 +38,8 @@ No KSH PDF, CSV, XLSX, screenshot or other source binary is copied into the repo
 
 The old KSH STADAT methodology explicitly states that the published year labels use the **reference year rather than the survey year** for this HKÉF publication family.
 
+Exact methodology source: `https://www.ksh.hu/docs/hun/modsz/modsz22.html` -> section `Háztartási költségvetési és életkörülmények c. adatfelvétel` -> paragraph beginning `Az előző évek gyakorlatától eltérően...`, which states that the year labels contain the reference-year data rather than the survey year.
+
 Therefore the STADAT `2020` block must be checked against the HKÉF instrument with:
 
 - survey year: `2021`;
@@ -54,6 +58,8 @@ This supersedes the tempting but incorrect use of the 2022 questionnaire for the
 `STADAT REFERENCE YEAR 2020 != HKÉF SURVEY YEAR 2022`
 
 ## 4. Source-native 2021 heating variables
+
+Exact source: `https://www.ksh.hu/docs/hun/info/02osap/onk/2154/k212154.pdf`, printed pages 9–10 / PDF indices 8–9.
 
 The 2021 questionnaire defines:
 
@@ -121,10 +127,11 @@ Canonical boundary:
 
 ## 6. Why P33's proposed `FUTMOD=4 AND EGYEDI=1` bridge is falsified
 
-The explicit gas-convector subtype exists in the **2022** HKÉF instrument:
+The explicit gas-convector subtype exists in the **2022** HKÉF instrument.
+
+Exact source: `https://www.ksh.hu/docs/hun/info/02osap/onk/2154/k222154.pdf` -> `II. Lakásjellemzők` -> `FUTMOD=4` -> `EGYEDI` -> response `1 - Gázkonvektorral`.
 
 - source ID: `SRC-B02-KSH-HKEF-QUESTIONNAIRE-2022`;
-- URL: `https://www.ksh.hu/docs/hun/info/02osap/onk/2154/k222154.pdf`;
 - survey year: `2022`;
 - reference year: `2021`;
 - `FUTMOD=4` triggers `EGYEDI`;
@@ -132,7 +139,7 @@ The explicit gas-convector subtype exists in the **2022** HKÉF instrument:
 
 This is a stronger emitter taxonomy than the 2021 instrument.
 
-But the archived STADAT table ends with reference year `2020` and therefore does not overlap the 2022 questionnaire's explicit `EGYEDI` subtype variable.
+But the archived STADAT table `https://www.ksh.hu/stadat_files/jov/hu/jov0048.html` ends with reference year `2020` and therefore does not overlap the 2022 questionnaire's explicit `EGYEDI` subtype variable.
 
 Consequently the proposed bridge:
 
@@ -146,11 +153,15 @@ P33 remains a historical candidate snapshot. P34 supersedes only that derivation
 
 KSH methodological documentation for `Fogyasztás színvonala, szerkezete` identifies HKÉF / OSAP 2154 as the relevant direct household survey source and lists STADAT among the electronic publication forms.
 
+Exact source: `https://www.ksh.hu/apps/meta.objektum?p_lang=HU&p_menu_id=110&p_obj_id=AEAA&p_ot_id=100` -> `Adatforrások` -> OSAP numbers including `2154`; and `Közzétételi formák` / electronic publication forms -> `STADAT`.
+
 This establishes the correct source family and publication lineage at the statistical-domain level.
 
 It does **not** publish the exact internal table-generation expression for the row.
 
 KSH's methodological FAQ explicitly states that if the published methodological documentation does not provide enough information about an individual datum or its calculation, users should contact KSH for further information.
+
+Exact source: `https://www.ksh.hu/gyik_modszertan` -> methodological-information FAQ -> paragraph beginning `Amennyiben a módszertani dokumentációból az adott adatra, számítási módjára nem talál elégséges információt...`.
 
 Therefore the remaining narrow provenance question is:
 
