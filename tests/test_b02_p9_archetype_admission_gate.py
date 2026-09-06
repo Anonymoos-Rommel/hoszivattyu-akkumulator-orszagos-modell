@@ -175,8 +175,13 @@ class B02P9ArchetypeAdmissionGateTests(unittest.TestCase):
             },
         )
         self.assertEqual(rows["ARCHETYPE_DIMENSION_SCHEMA"]["current_status"], "CONTRACTED")
-        self.assertEqual(rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]["current_status"], "Q")
+        self.assertEqual(rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]["current_status"], "QUALIFIED")
+        self.assertEqual(rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]["current_blockers"], "")
         self.assertEqual(rows["TECHNICAL_READINESS_ARCHETYPE"]["current_status"], "Q")
+        self.assertEqual(
+            rows["TECHNICAL_READINESS_ARCHETYPE"]["current_blockers"],
+            "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
+        )
 
     def test_open_questions_remain_fail_closed(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
