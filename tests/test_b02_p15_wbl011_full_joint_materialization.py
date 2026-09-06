@@ -23,13 +23,13 @@ class B02P15FullJointMaterializationTests(unittest.TestCase):
         self.assertGreater(int(row["p14_raw_hash_differ_count"]), 0)
         self.assertEqual(row["combined_output_sha256"], hashlib.sha256((DATA / "ksh_wbl_joint_cells_2022.csv").read_bytes()).hexdigest())
 
-    def test_current_admission_blockers_are_only_the_remaining_authorities(self):
+    def test_materialization_remains_valid_after_p21_model_admission(self):
         with (ROOT / "registry" / "b02_archetype_admission_gate.csv").open(encoding="utf-8", newline="") as handle:
             rows = {r["claim_id"]: r for r in csv.DictReader(handle)}
         stock = rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]
         self.assertNotIn("NO_MATERIALIZED_COMPLETE_WBL_JOINT", stock["current_blockers"])
-        self.assertEqual("NO_CURRENT_BUILDING_TYPE_LINK_AUTHORITY;NO_PRIMARY_ENERGY_TO_WBL_LINK_AUTHORITY", stock["current_blockers"])
-        self.assertEqual("Q", stock["current_status"])
+        self.assertEqual("", stock["current_blockers"])
+        self.assertEqual("QUALIFIED", stock["current_status"])
 
     def test_source_pack_freezes_materialization_boundary(self):
         text = DOC.read_text(encoding="utf-8")
