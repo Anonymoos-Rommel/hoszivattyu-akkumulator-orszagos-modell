@@ -52,6 +52,19 @@ category authority and explicit non-hydronic semantics. P41 initially admits
 only the already-qualified P39 gas-convector category. It does not generalize
 that treatment to other emitter classes and does not close the remaining
 full-stock emitter or hydronic design-temperature blockers.
+
+B02-P42 adds the corresponding radiator route required by the original P2
+contract. For an explicitly admitted current radiator, heat-pump compatibility
+is determined against the *proposed heat-pump emitter temperature* and a
+room-by-room design-load/output check, not by assuming that the legacy boiler
+70/55 C (or any other current pair) must remain the future operating point.
+The route is fail-closed: every heated room must be represented, heat loss and
+emitter output must be OBS/DER, the target pair must be valid, B05 must admit
+the target supply-temperature domain, and each room's emitter output at that
+target must meet its design heat loss. A dwelling-level total cannot mask a
+room-level shortfall. The route may represent either reuse of an adequate
+existing radiator or an explicitly sized radiator upgrade; neither action is
+self-authorizing.
 """
 
 from __future__ import annotations
@@ -67,8 +80,12 @@ NOT_APPLICABLE = "NOT_APPLICABLE"
 APPROVED_CALIBRATED_MODEL = "APPROVED_CALIBRATED_MODEL"
 REUSE_EXISTING_DISTRIBUTION = "REUSE_EXISTING_DISTRIBUTION"
 REPLACE_EXISTING_DISTRIBUTION = "REPLACE_EXISTING_DISTRIBUTION"
+RADIATOR_PROPOSED_TEMPERATURE_ARRANGEMENT = "RADIATOR_PROPOSED_TEMPERATURE_ARRANGEMENT"
 NON_HYDRONIC_ROOM_HEATING = "NON_HYDRONIC_ROOM_HEATING"
 GAS_CONVECTOR = "GAS_CONVECTOR"
+RADIATOR = "RADIATOR"
+REUSE_EXISTING_RADIATOR = "REUSE_EXISTING_RADIATOR"
+UPGRADE_RADIATOR = "UPGRADE_RADIATOR"
 
 REAL_EVIDENCE = frozenset({"OBS", "DER"})
 BUILDING_TYPE_LINK_OK = frozenset({"OBS", "DER", APPROVED_CALIBRATED_MODEL})
@@ -77,8 +94,13 @@ HEAT_EMITTER_LINK_OK = frozenset({"OBS", "DER", APPROVED_CALIBRATED_MODEL})
 DESIGN_TEMPERATURE_APPLICABILITY = frozenset({"APPLICABLE", NOT_APPLICABLE})
 MODEL_OUTPUT_EVIDENCE = frozenset({"ASS", "MODELLED"})
 THERMAL_TRANSITION_PATHS = frozenset(
-    {REUSE_EXISTING_DISTRIBUTION, REPLACE_EXISTING_DISTRIBUTION}
+    {
+        REUSE_EXISTING_DISTRIBUTION,
+        REPLACE_EXISTING_DISTRIBUTION,
+        RADIATOR_PROPOSED_TEMPERATURE_ARRANGEMENT,
+    }
 )
+RADIATOR_ARRANGEMENT_ACTIONS = frozenset({REUSE_EXISTING_RADIATOR, UPGRADE_RADIATOR})
 
 DIRECT_WBL_GRAINS = frozenset({"WBL_FULL_JOINT", "DWELLING_RECORD"})
 PRIMARY_ENERGY_METRICS = frozenset(
@@ -314,6 +336,126 @@ def assess_thermal_transition_path(
 
 
 @dataclass(frozen=True)
+class RadiatorRoomAssessment:
+    room_id: str
+    design_heat_loss_w: float | None
+    design_heat_loss_evidence_status: str
+    emitter_output_at_target_w: float | None
+    emitter_output_evidence_status: str
+    target_supply_temperature_c: float | None
+    target_return_temperature_c: float | None
+    heat_pump_target_domain_status: str
+    arrangement_action: str
+    arrangement_action_evidence_status: str
+    evidence_refs_present: bool
+
+
+@dataclass(frozen=True)
+class RadiatorThermalArrangementCandidate:
+    """Room-complete radiator assessment at the proposed heat-pump temperature.
+
+    The current radiator category must already be admitted. Each heated room is
+    then checked independently against its design heat loss. The emitter output
+    may refer either to the existing radiator (reuse) or to an explicitly sized
+    upgraded radiator. The comparison is made at the proposed heat-pump target
+    temperature, not by treating the legacy boiler operating point as a future
+    design requirement.
+    """
+
+    current_emitter_type: str
+    emitter_category_authority_status: str
+    current_state_explicit: bool
+    room_assessments: tuple[RadiatorRoomAssessment, ...]
+    complete_heated_room_coverage: bool
+    reproducible_repository_binding: bool
+
+
+@dataclass(frozen=True)
+class RadiatorThermalArrangementDecision:
+    status: str
+    reasons: tuple[str, ...]
+
+
+def assess_radiator_thermal_arrangement(
+    candidate: RadiatorThermalArrangementCandidate,
+) -> RadiatorThermalArrangementDecision:
+    """Admit a radiator route only after room-level target-temperature sizing."""
+
+    reasons: list[str] = []
+    if candidate.current_emitter_type != RADIATOR:
+        reasons.append("P42_EMITTER_CLASS_NOT_RADIATOR")
+    if candidate.emitter_category_authority_status != QUALIFIED:
+        reasons.append("CURRENT_RADIATOR_CATEGORY_NOT_ADMITTED")
+    if not candidate.current_state_explicit:
+        reasons.append("CURRENT_RADIATOR_STATE_NOT_EXPLICIT")
+    if not candidate.complete_heated_room_coverage:
+        reasons.append("HEATED_ROOM_COVERAGE_INCOMPLETE")
+    if not candidate.reproducible_repository_binding:
+        reasons.append("NO_REPRODUCIBLE_RADIATOR_ASSESSMENT_BINDING")
+    if not candidate.room_assessments:
+        reasons.append("NO_RADIATOR_ROOM_ASSESSMENTS")
+
+    seen_room_ids: set[str] = set()
+    for room in candidate.room_assessments:
+        room_id = room.room_id.strip()
+        if not room_id:
+            reasons.append("ROOM_ID_MISSING")
+            room_id = "<missing>"
+        elif room_id in seen_room_ids:
+            reasons.append(f"DUPLICATE_ROOM_ID:{room_id}")
+        seen_room_ids.add(room_id)
+
+        if room.design_heat_loss_evidence_status not in REAL_EVIDENCE:
+            reasons.append(f"ROOM_DESIGN_HEAT_LOSS_NOT_OBS_OR_DER:{room_id}")
+        if room.emitter_output_evidence_status not in REAL_EVIDENCE:
+            reasons.append(f"ROOM_EMITTER_OUTPUT_NOT_OBS_OR_DER:{room_id}")
+        if room.arrangement_action_evidence_status not in REAL_EVIDENCE:
+            reasons.append(f"ROOM_ARRANGEMENT_ACTION_NOT_OBS_OR_DER:{room_id}")
+        if room.arrangement_action not in RADIATOR_ARRANGEMENT_ACTIONS:
+            reasons.append(f"ROOM_RADIATOR_ACTION_INVALID:{room_id}")
+        if room.heat_pump_target_domain_status != QUALIFIED:
+            reasons.append(f"ROOM_HEAT_PUMP_TARGET_DOMAIN_NOT_ADMITTED:{room_id}")
+        if not room.evidence_refs_present:
+            reasons.append(f"ROOM_EVIDENCE_REFS_MISSING:{room_id}")
+
+        heat_loss = room.design_heat_loss_w
+        output = room.emitter_output_at_target_w
+        if heat_loss is None or not isfinite(heat_loss) or heat_loss <= 0:
+            reasons.append(f"ROOM_DESIGN_HEAT_LOSS_INVALID:{room_id}")
+        if output is None or not isfinite(output) or output <= 0:
+            reasons.append(f"ROOM_EMITTER_OUTPUT_INVALID:{room_id}")
+        if (
+            heat_loss is not None
+            and output is not None
+            and isfinite(heat_loss)
+            and isfinite(output)
+            and heat_loss > 0
+            and output > 0
+            and output < heat_loss
+        ):
+            reasons.append(f"ROOM_EMITTER_CAPACITY_SHORTFALL:{room_id}")
+
+        supply = room.target_supply_temperature_c
+        ret = room.target_return_temperature_c
+        if supply is None or ret is None:
+            reasons.append(f"ROOM_TARGET_TEMPERATURE_PAIR_INCOMPLETE:{room_id}")
+        elif (
+            not isfinite(supply)
+            or not isfinite(ret)
+            or supply < -50
+            or supply > 150
+            or ret < -50
+            or ret > 150
+            or supply <= ret
+        ):
+            reasons.append(f"ROOM_TARGET_TEMPERATURE_PAIR_INVALID:{room_id}")
+
+    if reasons:
+        return RadiatorThermalArrangementDecision(Q, tuple(reasons))
+    return RadiatorThermalArrangementDecision(QUALIFIED, ())
+
+
+@dataclass(frozen=True)
 class DesignTemperatureAuthorityCandidate:
     source_id: str
     reference_year: int
@@ -466,6 +608,13 @@ def assess_technical_readiness_enrichment(
     hydronic temperature pair, but only when a separate transition-path
     authority is QUALIFIED. The path authority itself is produced by
     assess_thermal_transition_path(); a route token cannot self-authorize.
+
+    P42 adds RADIATOR_PROPOSED_TEMPERATURE_ARRANGEMENT. A separately QUALIFIED
+    radiator arrangement already contains admitted current-radiator identity,
+    complete room-level design heat loss, emitter output at the proposed
+    heat-pump target pair, and B05 target-domain admission. Therefore the legacy
+    current-system design pair is not re-required on this path. A path token
+    alone remains insufficient.
     """
 
     stock = assess_stock_archetype(stock_inputs)
@@ -476,6 +625,9 @@ def assess_technical_readiness_enrichment(
     elif thermal_transition_path == REPLACE_EXISTING_DISTRIBUTION:
         if thermal_transition_path_authority_status != QUALIFIED:
             blockers.append("THERMAL_REPLACEMENT_PATH_NOT_ADMITTED")
+    elif thermal_transition_path == RADIATOR_PROPOSED_TEMPERATURE_ARRANGEMENT:
+        if thermal_transition_path_authority_status != QUALIFIED:
+            blockers.append("RADIATOR_TARGET_TEMPERATURE_ARRANGEMENT_NOT_ADMITTED")
     else:
         if heat_emitter_status not in HEAT_EMITTER_LINK_OK:
             blockers.append("NO_CURRENT_HEAT_EMITTER_EVIDENCE")
