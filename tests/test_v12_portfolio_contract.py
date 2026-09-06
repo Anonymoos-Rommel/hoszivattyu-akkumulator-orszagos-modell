@@ -204,18 +204,23 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertIn("Nem kérünk új kategorizálást", attachment)
         self.assertIn("BAD/POOR/... saját enumot", attachment)
 
-    def test_p1l_final_package_has_human_review_state_and_minimal_approval_sheet(self) -> None:
+    def test_p1l_final_package_has_recorded_dispatch_state(self) -> None:
         letter = (ROOT / "docs" / "data_requests" / "P1L_FINAL_OENY_REQUEST_LETTER.md").read_text(encoding="utf-8")
         email = (ROOT / "docs" / "data_requests" / "P1L_FINAL_EMAIL_COVER.md").read_text(encoding="utf-8")
         approval = (ROOT / "docs" / "data_requests" / "P1L_FINAL_JOSEPH_APPROVAL_SHEET.md").read_text(encoding="utf-8")
+        dispatch = (ROOT / "docs" / "source_packs" / "B02_P19_OENY_DISPATCH_EVIDENCE.md").read_text(encoding="utf-8")
         self.assertIn("P1L_FINAL_R1 = READY_FOR_HUMAN_REVIEW", letter)
         self.assertIn("NEM KÜLDÖTT", letter)
         self.assertIn("READY_FOR_HUMAN_REVIEW", email)
-        for expected in ("Címzett", "Csatorna", "Tárgy", "Kért rekordszám", "P1K célmezők száma", "Lechnertől kért source-native kutatási fogalmak száma", "Személyes adat", "AWAITING_JOSEPH_SEND_APPROVAL"):
+        for expected in ("Címzett", "Csatorna", "Tárgy", "Kért rekordszám", "P1K célmezők száma", "Lechnertől kért source-native kutatási fogalmak száma", "Személyes adat", "SENT_2026-08-22 / AWAITING_RESPONSE"):
             self.assertIn(expected, approval)
         self.assertIn("22 (canonical contract; változatlan)", approval)
         self.assertIn("| Lechnertől kért source-native kutatási fogalmak száma | 9 |", approval)
         self.assertIn("NEM", approval)
+        self.assertIn("REQUEST_SENT / AWAITING_RESPONSE", dispatch)
+        self.assertIn("f8ae92f94ae37b7760a1770377eec08c2ec6bb2f14376cec8484a9d9454a3742", dispatch)
+        self.assertIn("PRIVATE_EXTERNAL_EVIDENCE", dispatch)
+        self.assertIn("public-repository storage: `NO`", dispatch)
 
 
 if __name__ == "__main__":
