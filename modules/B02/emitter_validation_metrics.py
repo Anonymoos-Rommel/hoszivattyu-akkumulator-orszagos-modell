@@ -121,9 +121,10 @@ def build_independent_emitter_validation(wbl_path: Path) -> EmitterValidationSum
     retained = tuple(metric.scenario_id for metric in metrics if not metric.rejected)
     rejected = tuple(metric.scenario_id for metric in metrics if metric.rejected)
 
+    national_scenario_id = next(iter(HISTORICAL_MULTI_PRIOR_SCENARIOS))
     national_model_expected = sum(
         float(row["dwelling_count"])
-        * float(row[f"probability__{HISTORICAL_MULTI_PRIOR_SCENARIOS[0]}"])
+        * float(row[f"probability__{national_scenario_id}"])
         for row in model_rows
     )
     absolute_difference = national_model_expected - DAIKIN_NATIONAL_APPROX_AFFECTED_PROPERTIES
