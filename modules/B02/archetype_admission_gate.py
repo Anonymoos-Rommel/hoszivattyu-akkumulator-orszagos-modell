@@ -43,6 +43,15 @@ model output must also cover the complete occupied-dwelling stock emitter
 assignment at WBL-compatible grain with a reproducible repository binding.
 A one-category marginal such as the approved P39 gas-convector linkage cannot
 self-authorize the complete heat-emitter readiness claim.
+
+B02-P41 adds a transition-path-specific thermal route. A current non-hydronic
+emitter that is not reused by the programme does not need a fictional current
+hydronic design-temperature pair. This is not a free bypass: the replacement
+route must itself be separately QUALIFIED from an admitted current-emitter
+category authority and explicit non-hydronic semantics. P41 initially admits
+only the already-qualified P39 gas-convector category. It does not generalize
+that treatment to other emitter classes and does not close the remaining
+full-stock emitter or hydronic design-temperature blockers.
 """
 
 from __future__ import annotations
@@ -56,6 +65,10 @@ QUALIFIED = "QUALIFIED"
 CONTRACTED = "CONTRACTED"
 NOT_APPLICABLE = "NOT_APPLICABLE"
 APPROVED_CALIBRATED_MODEL = "APPROVED_CALIBRATED_MODEL"
+REUSE_EXISTING_DISTRIBUTION = "REUSE_EXISTING_DISTRIBUTION"
+REPLACE_EXISTING_DISTRIBUTION = "REPLACE_EXISTING_DISTRIBUTION"
+NON_HYDRONIC_ROOM_HEATING = "NON_HYDRONIC_ROOM_HEATING"
+GAS_CONVECTOR = "GAS_CONVECTOR"
 
 REAL_EVIDENCE = frozenset({"OBS", "DER"})
 BUILDING_TYPE_LINK_OK = frozenset({"OBS", "DER", APPROVED_CALIBRATED_MODEL})
@@ -63,6 +76,9 @@ ENERGY_LINK_OK = frozenset({"OBS", "DER", "MODELLED_LINKED"})
 HEAT_EMITTER_LINK_OK = frozenset({"OBS", "DER", APPROVED_CALIBRATED_MODEL})
 DESIGN_TEMPERATURE_APPLICABILITY = frozenset({"APPLICABLE", NOT_APPLICABLE})
 MODEL_OUTPUT_EVIDENCE = frozenset({"ASS", "MODELLED"})
+THERMAL_TRANSITION_PATHS = frozenset(
+    {REUSE_EXISTING_DISTRIBUTION, REPLACE_EXISTING_DISTRIBUTION}
+)
 
 DIRECT_WBL_GRAINS = frozenset({"WBL_FULL_JOINT", "DWELLING_RECORD"})
 PRIMARY_ENERGY_METRICS = frozenset(
@@ -245,6 +261,59 @@ def assess_calibrated_heat_emitter_authority(
 
 
 @dataclass(frozen=True)
+class ThermalTransitionPathCandidate:
+    """Category-scoped current-to-programme thermal transition authority.
+
+    P41 intentionally starts with one proven class only: GAS_CONVECTOR. The
+    category may use this route only after its current-stock calibrated linkage
+    is already QUALIFIED. The route says that the current non-hydronic thermal
+    distribution is not reused and therefore has no current hydronic design
+    temperature to prove. It does not prove the design or readiness of the new
+    replacement system.
+    """
+
+    current_emitter_type: str
+    emitter_category_authority_status: str
+    current_state_explicit: bool
+    current_distribution_topology: str
+    design_temperature_applicability: str
+    transition_path: str
+    replacement_required: bool
+
+
+@dataclass(frozen=True)
+class ThermalTransitionPathDecision:
+    status: str
+    reasons: tuple[str, ...]
+
+
+def assess_thermal_transition_path(
+    candidate: ThermalTransitionPathCandidate,
+) -> ThermalTransitionPathDecision:
+    """Admit the P41 gas-convector replacement path without inventing hydronic data."""
+
+    reasons: list[str] = []
+    if candidate.current_emitter_type != GAS_CONVECTOR:
+        reasons.append("P41_EMITTER_CLASS_NOT_ADMITTED")
+    if candidate.emitter_category_authority_status != QUALIFIED:
+        reasons.append("CURRENT_EMITTER_CATEGORY_NOT_ADMITTED")
+    if not candidate.current_state_explicit:
+        reasons.append("CURRENT_EMITTER_STATE_NOT_EXPLICIT")
+    if candidate.current_distribution_topology != NON_HYDRONIC_ROOM_HEATING:
+        reasons.append("CURRENT_DISTRIBUTION_NOT_NON_HYDRONIC_ROOM_HEATING")
+    if candidate.design_temperature_applicability != NOT_APPLICABLE:
+        reasons.append("CURRENT_HYDRONIC_TEMPERATURE_NOT_NOT_APPLICABLE")
+    if candidate.transition_path != REPLACE_EXISTING_DISTRIBUTION:
+        reasons.append("GAS_CONVECTOR_MUST_USE_REPLACEMENT_PATH")
+    if not candidate.replacement_required:
+        reasons.append("REPLACEMENT_REQUIREMENT_NOT_EXPLICIT")
+
+    if reasons:
+        return ThermalTransitionPathDecision(Q, tuple(reasons))
+    return ThermalTransitionPathDecision(QUALIFIED, ())
+
+
+@dataclass(frozen=True)
 class DesignTemperatureAuthorityCandidate:
     source_id: str
     reference_year: int
@@ -383,39 +452,51 @@ def assess_technical_readiness_enrichment(
     design_temperature_direct_authority_status: str = Q,
     design_temperature_applicability: str = "APPLICABLE",
     design_temperature_applicability_authority_status: str = Q,
+    thermal_transition_path: str = REUSE_EXISTING_DISTRIBUTION,
+    thermal_transition_path_authority_status: str = Q,
 ) -> AdmissionDecision:
-    """Require admitted current emitter authority and explicit temperature applicability.
+    """Assess thermal readiness according to the actual transition path.
 
-    Heat-emitter authority may be direct OBS/DER under P18 or an approved,
-    separately QUALIFIED complete-stock calibrated assignment under P40.
-    Hydronic/applicable current systems retain the P18 design-temperature gate.
-    A NOT_APPLICABLE temperature state is accepted only for a separately
-    QUALIFIED non-hydronic applicability claim; the status string cannot
-    self-authorize that exception.
+    The default REUSE_EXISTING_DISTRIBUTION route preserves P18/P32/P40 exactly:
+    current emitter authority and, where hydronic, current design-temperature
+    authority are required.
+
+    P41 adds REPLACE_EXISTING_DISTRIBUTION for an already-admitted current
+    non-hydronic category. That route does not require a fictional current
+    hydronic temperature pair, but only when a separate transition-path
+    authority is QUALIFIED. The path authority itself is produced by
+    assess_thermal_transition_path(); a route token cannot self-authorize.
     """
 
     stock = assess_stock_archetype(stock_inputs)
     blockers = list(stock.blockers)
-    if heat_emitter_status not in HEAT_EMITTER_LINK_OK:
-        blockers.append("NO_CURRENT_HEAT_EMITTER_EVIDENCE")
-    elif heat_emitter_status in REAL_EVIDENCE:
-        if heat_emitter_direct_authority_status != QUALIFIED:
-            blockers.append("HEAT_EMITTER_DIRECT_EVIDENCE_NOT_ADMITTED")
-    elif heat_emitter_calibrated_authority_status != QUALIFIED:
-        blockers.append("CALIBRATED_HEAT_EMITTER_MODEL_NOT_ADMITTED")
 
-    if design_temperature_applicability not in DESIGN_TEMPERATURE_APPLICABILITY:
-        blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_UNKNOWN")
-    elif design_temperature_applicability == NOT_APPLICABLE:
-        if design_temperature_applicability_authority_status != QUALIFIED:
-            blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_NOT_ADMITTED")
-        elif design_temperature_status != NOT_APPLICABLE:
-            blockers.append("NON_HYDRONIC_TEMPERATURE_STATUS_NOT_NOT_APPLICABLE")
+    if thermal_transition_path not in THERMAL_TRANSITION_PATHS:
+        blockers.append("THERMAL_TRANSITION_PATH_UNKNOWN")
+    elif thermal_transition_path == REPLACE_EXISTING_DISTRIBUTION:
+        if thermal_transition_path_authority_status != QUALIFIED:
+            blockers.append("THERMAL_REPLACEMENT_PATH_NOT_ADMITTED")
     else:
-        if design_temperature_status not in REAL_EVIDENCE:
-            blockers.append("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE")
-        elif design_temperature_direct_authority_status != QUALIFIED:
-            blockers.append("DESIGN_TEMPERATURE_DIRECT_EVIDENCE_NOT_ADMITTED")
+        if heat_emitter_status not in HEAT_EMITTER_LINK_OK:
+            blockers.append("NO_CURRENT_HEAT_EMITTER_EVIDENCE")
+        elif heat_emitter_status in REAL_EVIDENCE:
+            if heat_emitter_direct_authority_status != QUALIFIED:
+                blockers.append("HEAT_EMITTER_DIRECT_EVIDENCE_NOT_ADMITTED")
+        elif heat_emitter_calibrated_authority_status != QUALIFIED:
+            blockers.append("CALIBRATED_HEAT_EMITTER_MODEL_NOT_ADMITTED")
+
+        if design_temperature_applicability not in DESIGN_TEMPERATURE_APPLICABILITY:
+            blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_UNKNOWN")
+        elif design_temperature_applicability == NOT_APPLICABLE:
+            if design_temperature_applicability_authority_status != QUALIFIED:
+                blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_NOT_ADMITTED")
+            elif design_temperature_status != NOT_APPLICABLE:
+                blockers.append("NON_HYDRONIC_TEMPERATURE_STATUS_NOT_NOT_APPLICABLE")
+        else:
+            if design_temperature_status not in REAL_EVIDENCE:
+                blockers.append("NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE")
+            elif design_temperature_direct_authority_status != QUALIFIED:
+                blockers.append("DESIGN_TEMPERATURE_DIRECT_EVIDENCE_NOT_ADMITTED")
 
     if blockers:
         return AdmissionDecision(Q, tuple(blockers))
