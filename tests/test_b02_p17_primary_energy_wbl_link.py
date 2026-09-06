@@ -145,7 +145,7 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
         self.assertEqual(controls["all_records_in_published_bins"], 4575790)
         self.assertEqual(controls["published_bin_residual"], 4748)
 
-    def test_questions_readiness_and_no_send_remain_fail_closed(self):
+    def test_questions_readiness_and_current_dispatch_state_remain_fail_closed(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
             questions = {row["question_id"]: row for row in csv.DictReader(handle)}
         for question_id in ("Q-B02-001", "Q-B02-002", "Q-B02-004"):
@@ -156,7 +156,9 @@ class B02P17PrimaryEnergyWblLinkTests(unittest.TestCase):
         self.assertEqual(modules["B02"]["readiness_percent"], "55")
         self.assertIn("B02-P17", modules["B02"]["gate_note"])
         self.assertIn("no readiness uplift", modules["B02"]["gate_note"].lower())
-        self.assertIn("OÉNY nem lett elküldve", modules["B02"]["gate_note"])
+        self.assertIn("OÉNY pilot kérés 2026-08-22-én elküldésre került", modules["B02"]["gate_note"])
+        self.assertIn("AWAITING_RESPONSE", modules["B02"]["gate_note"])
+        self.assertNotIn("OÉNY nem lett elküldve", modules["B02"]["gate_note"])
 
     def test_document_freezes_primary_energy_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
