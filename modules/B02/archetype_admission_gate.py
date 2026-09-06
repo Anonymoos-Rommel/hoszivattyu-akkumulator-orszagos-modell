@@ -34,6 +34,15 @@ systems continue to require separately admitted design/calculation temperature
 evidence. A non-hydronic system may use NOT_APPLICABLE only when the
 non-hydronic applicability claim itself is separately QUALIFIED. Unknown,
 missing and not-applicable remain distinct states.
+
+B02-P40 repairs one remaining admission asymmetry. Heat-emitter readiness may
+now be supported either by the existing P18 direct OBS/DER authority path or by
+a separately QUALIFIED calibrated-emitter authority. The calibrated path is
+fail-closed: generic P12 model approval is necessary but not sufficient. The
+model output must also cover the complete occupied-dwelling stock emitter
+assignment at WBL-compatible grain with a reproducible repository binding.
+A one-category marginal such as the approved P39 gas-convector linkage cannot
+self-authorize the complete heat-emitter readiness claim.
 """
 
 from __future__ import annotations
@@ -46,11 +55,14 @@ Q = "Q"
 QUALIFIED = "QUALIFIED"
 CONTRACTED = "CONTRACTED"
 NOT_APPLICABLE = "NOT_APPLICABLE"
+APPROVED_CALIBRATED_MODEL = "APPROVED_CALIBRATED_MODEL"
 
 REAL_EVIDENCE = frozenset({"OBS", "DER"})
-BUILDING_TYPE_LINK_OK = frozenset({"OBS", "DER", "APPROVED_CALIBRATED_MODEL"})
+BUILDING_TYPE_LINK_OK = frozenset({"OBS", "DER", APPROVED_CALIBRATED_MODEL})
 ENERGY_LINK_OK = frozenset({"OBS", "DER", "MODELLED_LINKED"})
+HEAT_EMITTER_LINK_OK = frozenset({"OBS", "DER", APPROVED_CALIBRATED_MODEL})
 DESIGN_TEMPERATURE_APPLICABILITY = frozenset({"APPLICABLE", NOT_APPLICABLE})
+MODEL_OUTPUT_EVIDENCE = frozenset({"ASS", "MODELLED"})
 
 DIRECT_WBL_GRAINS = frozenset({"WBL_FULL_JOINT", "DWELLING_RECORD"})
 PRIMARY_ENERGY_METRICS = frozenset(
@@ -176,6 +188,63 @@ def assess_direct_heat_emitter_authority(
 
 
 @dataclass(frozen=True)
+class CalibratedHeatEmitterAuthorityCandidate:
+    """Complete-stock authority wrapper around an already-admitted model.
+
+    P12 calibrated-model admission proves model quality/governance. This P40
+    wrapper proves that the admitted model output is sufficient for the
+    *complete current heat-emitter assignment* consumed by technical readiness.
+    A model of one emitter category or one stock subset is therefore not enough.
+    """
+
+    model_id: str
+    model_admission_status: str
+    output_evidence_status: str
+    source_universe: str
+    source_grain: str
+    current_state_explicit: bool
+    publishes_complete_assignment: bool
+    wbl_compatible_join_key: bool
+    reproducible_repository_binding: bool
+
+
+@dataclass(frozen=True)
+class CalibratedHeatEmitterAuthorityDecision:
+    status: str
+    reasons: tuple[str, ...]
+
+
+def assess_calibrated_heat_emitter_authority(
+    candidate: CalibratedHeatEmitterAuthorityCandidate,
+) -> CalibratedHeatEmitterAuthorityDecision:
+    """Admit a calibrated emitter assignment only when it covers the full stock."""
+
+    reasons: list[str] = []
+    if not candidate.model_id.strip():
+        reasons.append("NO_MODEL_ID")
+    if candidate.model_admission_status != QUALIFIED:
+        reasons.append("CALIBRATED_HEAT_EMITTER_MODEL_NOT_ADMITTED")
+    if candidate.output_evidence_status not in MODEL_OUTPUT_EVIDENCE:
+        reasons.append("CALIBRATED_HEAT_EMITTER_OUTPUT_EVIDENCE_INVALID")
+    if candidate.source_universe != REQUIRED_STOCK_UNIVERSE:
+        reasons.append("NOT_OCCUPIED_DWELLING_STOCK")
+    if candidate.source_grain not in DIRECT_WBL_GRAINS:
+        reasons.append("GRAIN_NOT_DIRECT_WBL_LINK")
+    if not candidate.current_state_explicit:
+        reasons.append("CURRENT_EMITTER_STATE_NOT_EXPLICIT")
+    if not candidate.publishes_complete_assignment:
+        reasons.append("NO_COMPLETE_HEAT_EMITTER_ASSIGNMENT")
+    if not candidate.wbl_compatible_join_key:
+        reasons.append("NO_WBL_COMPATIBLE_JOIN_KEY")
+    if not candidate.reproducible_repository_binding:
+        reasons.append("NO_REPRODUCIBLE_REPOSITORY_BINDING")
+
+    if reasons:
+        return CalibratedHeatEmitterAuthorityDecision(Q, tuple(reasons))
+    return CalibratedHeatEmitterAuthorityDecision(QUALIFIED, ())
+
+
+@dataclass(frozen=True)
 class DesignTemperatureAuthorityCandidate:
     source_id: str
     reference_year: int
@@ -281,7 +350,7 @@ def assess_stock_archetype(inputs: StockArchetypeInputs) -> AdmissionDecision:
     ):
         blockers.append("BUILDING_TYPE_DIRECT_LINK_NOT_ADMITTED")
     elif (
-        inputs.building_type_link_status == "APPROVED_CALIBRATED_MODEL"
+        inputs.building_type_link_status == APPROVED_CALIBRATED_MODEL
         and inputs.building_type_model_admission_status != QUALIFIED
     ):
         blockers.append("CALIBRATED_BUILDING_TYPE_MODEL_NOT_ADMITTED")
@@ -310,12 +379,15 @@ def assess_technical_readiness_enrichment(
     heat_emitter_status: str,
     design_temperature_status: str,
     heat_emitter_direct_authority_status: str = Q,
+    heat_emitter_calibrated_authority_status: str = Q,
     design_temperature_direct_authority_status: str = Q,
     design_temperature_applicability: str = "APPLICABLE",
     design_temperature_applicability_authority_status: str = Q,
 ) -> AdmissionDecision:
-    """Require admitted current evidence with explicit temperature applicability.
+    """Require admitted current emitter authority and explicit temperature applicability.
 
+    Heat-emitter authority may be direct OBS/DER under P18 or an approved,
+    separately QUALIFIED complete-stock calibrated assignment under P40.
     Hydronic/applicable current systems retain the P18 design-temperature gate.
     A NOT_APPLICABLE temperature state is accepted only for a separately
     QUALIFIED non-hydronic applicability claim; the status string cannot
@@ -324,10 +396,13 @@ def assess_technical_readiness_enrichment(
 
     stock = assess_stock_archetype(stock_inputs)
     blockers = list(stock.blockers)
-    if heat_emitter_status not in REAL_EVIDENCE:
+    if heat_emitter_status not in HEAT_EMITTER_LINK_OK:
         blockers.append("NO_CURRENT_HEAT_EMITTER_EVIDENCE")
-    elif heat_emitter_direct_authority_status != QUALIFIED:
-        blockers.append("HEAT_EMITTER_DIRECT_EVIDENCE_NOT_ADMITTED")
+    elif heat_emitter_status in REAL_EVIDENCE:
+        if heat_emitter_direct_authority_status != QUALIFIED:
+            blockers.append("HEAT_EMITTER_DIRECT_EVIDENCE_NOT_ADMITTED")
+    elif heat_emitter_calibrated_authority_status != QUALIFIED:
+        blockers.append("CALIBRATED_HEAT_EMITTER_MODEL_NOT_ADMITTED")
 
     if design_temperature_applicability not in DESIGN_TEMPERATURE_APPLICABILITY:
         blockers.append("DESIGN_TEMPERATURE_APPLICABILITY_UNKNOWN")
