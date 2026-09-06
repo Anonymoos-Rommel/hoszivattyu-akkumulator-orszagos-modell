@@ -148,8 +148,9 @@ class B02P42RadiatorStockRequirementTests(unittest.TestCase):
 
     def test_b06_contract_requires_real_inventory_detail(self):
         text = B06_CONTRACT.read_text(encoding="utf-8")
+        normalized = text.replace("\n", "")
         self.assertIn("gyártót, modellt/típust, méreteket", text)
-        self.assertIn("inventory-darabszám", text)
+        self.assertIn("inventory-darabszám", normalized)
         self.assertIn("Más modell vagy méret outputja nem skálázható feltételezéssel", text)
 
     def test_source_pack_freezes_programme_intent_boundaries(self):
