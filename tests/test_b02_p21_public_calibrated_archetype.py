@@ -15,6 +15,7 @@ from modules.B02.calibrated_archetype_linkage import (
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "registry" / "b02_calibrated_linkage_admission.csv"
+P9 = ROOT / "registry" / "b02_archetype_admission_gate.csv"
 DOC = ROOT / "docs" / "source_packs" / "B02_P21_PUBLIC_KSH_CALIBRATED_ARCHETYPE.md"
 
 
@@ -79,20 +80,18 @@ class B02P21PublicCalibratedArchetypeTests(unittest.TestCase):
         )
         self.assertGreater(self.summary.dwelling_weighted_structural_energy_delta, 0.0)
 
-    def test_existing_p12_gate_sees_only_joseph_approval_as_remaining_blocker(self):
+    def test_p12_registry_records_explicit_joseph_approval(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
             registry = {row["claim_id"]: row for row in csv.DictReader(handle)}
         building = registry["CALIBRATED_BUILDING_TYPE_LINKAGE"]
         primary = registry["CALIBRATED_PRIMARY_ENERGY_LINKAGE"]
         self.assertEqual(building["current_model_id"], BUILDING_MODEL_ID)
         self.assertEqual(primary["current_model_id"], ENERGY_MODEL_ID)
-        self.assertEqual(building["current_status"], "Q")
-        self.assertEqual(primary["current_status"], "Q")
-        self.assertEqual(building["approval_status"], "NOT_APPROVED")
-        self.assertEqual(primary["approval_status"], "NOT_APPROVED")
-        self.assertEqual(building["blockers"], "NO_JOSEPH_APPROVAL")
-        self.assertEqual(primary["blockers"], "NO_JOSEPH_APPROVAL")
         for row in (building, primary):
+            self.assertEqual(row["current_status"], "QUALIFIED")
+            self.assertEqual(row["approval_status"], "APPROVED")
+            self.assertEqual(row["approval_authority"], "JOSEPH")
+            self.assertEqual(row["blockers"], "")
             self.assertEqual(row["target_grain_wbl_compatible"], "yes")
             self.assertEqual(row["representativeness_diagnostics"], "yes")
             self.assertEqual(row["validation_metrics"], "yes")
@@ -101,11 +100,26 @@ class B02P21PublicCalibratedArchetypeTests(unittest.TestCase):
             self.assertEqual(row["uncertainty_propagation"], "yes")
             self.assertEqual(row["independence_assumption_controlled"], "yes")
 
-    def test_source_pack_freezes_public_model_boundaries(self):
+    def test_approved_models_qualify_current_stock_but_not_technical_readiness(self):
+        with P9.open(encoding="utf-8", newline="") as handle:
+            rows = {row["claim_id"]: row for row in csv.DictReader(handle)}
+        current = rows["CURRENT_STOCK_ARCHETYPE_ASSIGNMENT"]
+        technical = rows["TECHNICAL_READINESS_ARCHETYPE"]
+        self.assertEqual(current["current_status"], "QUALIFIED")
+        self.assertEqual(current["current_blockers"], "")
+        self.assertEqual(technical["current_status"], "Q")
+        self.assertEqual(
+            technical["current_blockers"],
+            "NO_CURRENT_HEAT_EMITTER_EVIDENCE;NO_CURRENT_DESIGN_TEMPERATURE_EVIDENCE",
+        )
+
+    def test_source_pack_freezes_public_model_boundaries_and_approval(self):
         text = DOC.read_text(encoding="utf-8")
         self.assertIn("PUBLIC KSH CALIBRATION != DIRECT OBSERVATION", text)
         self.assertIn("AGE-SHAPED CENTRAL != FLAT STRUCTURAL SENSITIVITY", text)
-        self.assertIn("NO_JOSEPH_APPROVAL", text)
+        self.assertIn("APPROVED / JOSEPH / QUALIFIED", text)
+        self.assertIn("former `NO_JOSEPH_APPROVAL` blocker is closed", text)
+        self.assertIn("2026-09-06 09:23 Europe/Budapest", text)
         self.assertIn("116 452", text)
         self.assertIn("4 008 541", text)
         self.assertIn("2 423 136", text)
