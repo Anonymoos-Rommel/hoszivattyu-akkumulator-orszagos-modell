@@ -105,6 +105,14 @@ class B02P49ImplementedRadiatorPortfolioAnchorTests(unittest.TestCase):
         self.assertEqual(decision.ratio_status, "QUALIFIED_CURRENT_DWELLING_RATIO")
         self.assertFalse(decision.p42_national_authority)
 
+    def test_known_radiator_and_allocator_counts_must_match(self):
+        decision = assess_radiator_quantity_calibration(
+            dunakeszi_candidate(cost_allocator_count=5)
+        )
+        self.assertEqual(decision.status, "Q")
+        self.assertIsNone(decision.emitter_position_count)
+        self.assertIn("RADIATOR_ALLOCATOR_COUNT_MISMATCH", decision.reasons)
+
     def test_cost_allocator_without_per_emitter_binding_fails_closed(self):
         decision = assess_radiator_quantity_calibration(
             lehel_candidate(per_emitter_binding=False)
@@ -145,8 +153,14 @@ class B02P49ImplementedRadiatorPortfolioAnchorTests(unittest.TestCase):
         with P44.open(encoding="utf-8", newline="") as fh:
             rows = list(csv.DictReader(fh))
         by_id = {row["anchor_id"]: row for row in rows}
-        self.assertEqual(by_id["ARPADHIDFO_ALL_DWELLINGS_2015"]["radiator_unit_count"], "1680")
-        self.assertEqual(by_id["LEHEL_2021_PANEL_RETROFIT"]["replacement_radiator_count"], "3307")
+        self.assertEqual(
+            by_id["ARPADHIDFO_ALL_DWELLINGS_2015"]["radiator_unit_count"],
+            "1680",
+        )
+        self.assertEqual(
+            by_id["LEHEL_2021_PANEL_RETROFIT"]["replacement_radiator_count"],
+            "3307",
+        )
         text = DOC.read_text(encoding="utf-8")
         self.assertIn(
             "P44 LEHEL PROJECT + P49 LEHEL PORTFOLIO != ADDITIVE WITHOUT DISJOINTNESS PROOF",
@@ -164,6 +178,7 @@ class B02P49ImplementedRadiatorPortfolioAnchorTests(unittest.TestCase):
         text = DOC.read_text(encoding="utf-8")
         for boundary in (
             "IMPLEMENTED PORTFOLIO != CURRENT NATIONAL STOCK",
+            "APARTMENT HEAT METER != PER-RADIATOR COST ALLOCATOR",
             "EXACT COST-ALLOCATOR COUNT != EXACT REPLACEMENT-RADIATOR COUNT",
             "NEARLY 6000 != EXACT 6000",
             "BUILDING-COUNT SOURCE CONFLICT != SILENTLY RESOLVED METADATA",
@@ -179,6 +194,7 @@ class B02P49ImplementedRadiatorPortfolioAnchorTests(unittest.TestCase):
     def test_invalid_numeric_and_precision_inputs_fail_closed(self):
         cases = (
             dict(dwelling_count=0),
+            dict(dwelling_count=True),
             dict(cost_allocator_count=-1),
             dict(reported_replacement_radiator_count=-1),
             dict(replacement_count_precision="BAD"),
