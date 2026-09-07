@@ -1,7 +1,7 @@
 """B02-P49 bounded radiator/emitter quantity calibration.
 
 P49 admits exact public quantity observations only inside their source-native
-cohorts.  It separates current dwelling stock from implemented retrofit
+cohorts. It separates current dwelling stock from implemented retrofit
 portfolios, exact counts from approximate counts, and cohort quantities from
 national P42 authority.
 """
@@ -65,7 +65,13 @@ class RadiatorQuantityCalibrationDecision:
 
 
 def _valid_optional_nonnegative(value: Optional[int]) -> bool:
-    return value is None or (isinstance(value, int) and not isinstance(value, bool) and value >= 0)
+    return value is None or (
+        isinstance(value, int) and not isinstance(value, bool) and value >= 0
+    )
+
+
+def _valid_positive_int(value: int) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value > 0
 
 
 def assess_radiator_quantity_calibration(
@@ -80,7 +86,7 @@ def assess_radiator_quantity_calibration(
         reasons.append("NOT_HUNGARY")
     if candidate.role not in ALLOWED_ROLES:
         reasons.append("INVALID_ROLE")
-    if candidate.dwelling_count <= 0:
+    if not _valid_positive_int(candidate.dwelling_count):
         reasons.append("INVALID_DWELLING_COUNT")
     if candidate.replacement_count_precision not in ALLOWED_PRECISION:
         reasons.append("INVALID_REPLACEMENT_PRECISION")
@@ -96,7 +102,10 @@ def assess_radiator_quantity_calibration(
         (candidate.building_count_crosscheck, "INVALID_CROSSCHECK_BUILDING_COUNT"),
         (candidate.radiator_unit_count, "INVALID_RADIATOR_UNIT_COUNT"),
         (candidate.cost_allocator_count, "INVALID_COST_ALLOCATOR_COUNT"),
-        (candidate.reported_replacement_radiator_count, "INVALID_REPLACEMENT_RADIATOR_COUNT"),
+        (
+            candidate.reported_replacement_radiator_count,
+            "INVALID_REPLACEMENT_RADIATOR_COUNT",
+        ),
     ):
         if not _valid_optional_nonnegative(value):
             reasons.append(reason)
@@ -105,9 +114,22 @@ def assess_radiator_quantity_calibration(
         reasons.append("NO_EMITTER_QUANTITY")
     if candidate.cost_allocator_count is not None and not candidate.per_emitter_binding:
         reasons.append("COST_ALLOCATOR_NOT_BOUND_PER_EMITTER")
-    if candidate.replacement_count_precision == "NONE" and candidate.reported_replacement_radiator_count is not None:
+    if (
+        candidate.radiator_unit_count is not None
+        and candidate.cost_allocator_count is not None
+        and candidate.per_emitter_binding
+        and candidate.radiator_unit_count != candidate.cost_allocator_count
+    ):
+        reasons.append("RADIATOR_ALLOCATOR_COUNT_MISMATCH")
+    if (
+        candidate.replacement_count_precision == "NONE"
+        and candidate.reported_replacement_radiator_count is not None
+    ):
         reasons.append("REPLACEMENT_COUNT_WITHOUT_PRECISION")
-    if candidate.replacement_count_precision in {"EXACT", "APPROXIMATE"} and candidate.reported_replacement_radiator_count is None:
+    if (
+        candidate.replacement_count_precision in {"EXACT", "APPROXIMATE"}
+        and candidate.reported_replacement_radiator_count is None
+    ):
         reasons.append("REPLACEMENT_PRECISION_WITHOUT_COUNT")
     if candidate.role == "CURRENT_DWELLING_STOCK" and not candidate.current_stock_observation:
         reasons.append("CURRENT_ROLE_WITHOUT_CURRENT_STOCK_EVIDENCE")
@@ -125,15 +147,20 @@ def assess_radiator_quantity_calibration(
     ratio_status = "Q"
     radiators_per_dwelling: Optional[float] = None
     if qualified and candidate.role == "CURRENT_DWELLING_STOCK":
-        if candidate.radiator_unit_count is not None and candidate.residential_only_numerator_proven:
-            radiators_per_dwelling = candidate.radiator_unit_count / candidate.dwelling_count
+        if (
+            candidate.radiator_unit_count is not None
+            and candidate.residential_only_numerator_proven
+        ):
+            radiators_per_dwelling = (
+                candidate.radiator_unit_count / candidate.dwelling_count
+            )
             ratio_status = "QUALIFIED_CURRENT_DWELLING_RATIO"
         else:
             ratio_status = "Q_NO_RESIDENTIAL_ONLY_RADIATOR_NUMERATOR"
     elif qualified and candidate.role == "IMPLEMENTED_RETROFIT_PORTFOLIO":
         # A retrofit-portfolio device count may include non-dwelling or common
         # positions unless the source explicitly proves a residential-only
-        # numerator.  Do not manufacture a per-dwelling radiator ratio.
+        # numerator. Do not manufacture a current residential stock ratio.
         ratio_status = "Q_PORTFOLIO_NOT_CURRENT_RESIDENTIAL_STOCK_RATIO"
 
     exact_replacement_radiator_count: Optional[int] = None
