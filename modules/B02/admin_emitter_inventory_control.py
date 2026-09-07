@@ -151,8 +151,9 @@ def assess_market_flow_unit(candidate: MarketFlowUnitCandidate) -> MarketFlowUni
     if not candidate.reproducible_binding:
         reasons.append("NO_REPRODUCIBLE_BINDING")
 
+    metadata_valid = not reasons
     piece_authority = bool(
-        not reasons
+        metadata_valid
         and candidate.authoritative_quantity_unit == "PIECE"
         and candidate.physical_piece_mapping_proven
     )
@@ -161,7 +162,10 @@ def assess_market_flow_unit(candidate: MarketFlowUnitCandidate) -> MarketFlowUni
     if candidate.authoritative_quantity_unit == "KG":
         reasons.append("AUTHORITATIVE_TRADE_UNIT_IS_KG")
 
-    status = "QUALIFIED_FLOW_UNIT_CONTROL" if candidate.reproducible_binding else "Q"
+    # Semantic non-equivalence reasons above explain why the flow cannot become
+    # a physical piece count. They do not invalidate an otherwise qualified
+    # unit-control record. Metadata/provenance failures do.
+    status = "QUALIFIED_FLOW_UNIT_CONTROL" if metadata_valid else "Q"
     return MarketFlowUnitDecision(
         status=status,
         reasons=tuple(reasons),
