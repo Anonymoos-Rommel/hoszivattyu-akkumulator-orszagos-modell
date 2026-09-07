@@ -57,33 +57,38 @@ The source names the installed radiator family as **Lehel Viking**. That is a bo
 
 and P49 does not promote this evidence to `RADIATOR_TYPE_SIZE_DISTRIBUTION`.
 
-## 2. Building-count publication conflict
-
-Primary catalogue: 36 district-heated apartment buildings.
+## 2. 2025 manufacturer cross-check and publication drift
 
 Later manufacturer presentation:
 
 - `Radiátorcserétől a digitalizációig`, 2025-04-02 presentation
 - URL: `https://letesz.hu/msites/letesz/UserFiles/Sajtofigyeles/Hirlevel%202025/Korlevel/tavaszi%20akademia/eloadok%20anyagai/L%C3%89T%C3%89SZ_LEHEL_Sales_20250402.pdf`
 
-The later presentation repeats:
+The detailed, explicitly programme-labelled ZFR slide (PDF page 4/10) reports:
 
-- 3,621 dwellings;
-- nearly 6,000 new Lehel Viking radiators;
-- 12,500 cost allocators;
-- HUF 1.9 billion investment;
+- **38** district-heated apartment buildings;
+- **3,621** dwellings;
+- `közel 6000` new Lehel Viking radiators;
+- **12,500** cost allocators installed and read;
+- HUF **1.9 billion** investment.
 
-but states **38 buildings**, not 36.
+Thus the detailed 2025 ZFR slide independently repeats the primary catalogue's dwelling, radiator-magnitude, cost-allocator and investment quantities, but conflicts on building count: **38 vs 36**.
 
 P49 does not choose one building count by preference. It records:
 
 `building_count_status = Q_SOURCE_VERSION_CONFLICT`
 
-The conflict does not erase the repeated dwelling/device quantities, but the building denominator is not used for any derived intensity.
+The presentation also contains a preceding high-level results slide (PDF page 3/10) with approximately **4,000 dwellings**, **6,000 radiators**, **13,500 cost allocators** and **2+ billion HUF**. These are not silently substituted for the explicitly programme-labelled detailed ZFR line. The summary may represent a different/cumulative reporting scope or later aggregation; the public deck does not provide enough lineage to equate it with the detailed programme cohort.
+
+Canonical boundary:
+
+`HIGH-LEVEL COMPANY SUMMARY != DETAILED PROGRAMME-SPECIFIC COHORT`
+
+The conflict and summary drift do not erase the repeated detailed 3,621 / 12,500 programme quantities, but neither the building denominator nor the high-level 13,500 figure is used for derived stock intensity.
 
 ## 3. Per-dwelling ratio is withheld for the portfolio
 
-The portfolio publication does not explicitly prove that all 12,500 installed device positions are exclusively inside the 3,621 dwellings, with no common or other premises included. Consequently P49 does not compute `12,500 / 3,621` as a residential radiator-per-dwelling ratio.
+The programme-specific publication does not explicitly prove that all 12,500 installed device positions are exclusively inside the 3,621 dwellings, with no common or other premises included. Consequently P49 does not compute `12,500 / 3,621` as a residential radiator-per-dwelling ratio.
 
 Canonical boundary:
 
@@ -147,6 +152,8 @@ P49 contributes calibration evidence only.
 `NEARLY 6000 != EXACT 6000`
 
 `BUILDING-COUNT SOURCE CONFLICT != SILENTLY RESOLVED METADATA`
+
+`HIGH-LEVEL COMPANY SUMMARY != DETAILED PROGRAMME-SPECIFIC COHORT`
 
 `PORTFOLIO DEVICE TOTAL != RESIDENTIAL-ONLY PER-DWELLING RATIO`
 
