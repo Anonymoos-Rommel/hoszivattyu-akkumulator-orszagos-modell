@@ -102,6 +102,12 @@ class B02P47TkmAdminEmitterInventoryControlTests(unittest.TestCase):
         self.assertIn("GENERIC_UNIT_LABEL_NOT_PIECE_AUTHORITY", decision.reasons)
         self.assertIn("AUTHORITATIVE_TRADE_UNIT_IS_KG", decision.reasons)
 
+    def test_market_flow_metadata_failure_is_q_even_with_reproducible_flag(self):
+        decision = assess_market_flow_unit(kg_flow_candidate(hs_code=""))
+        self.assertEqual(decision.status, "Q")
+        self.assertFalse(decision.physical_radiator_piece_count_authority)
+        self.assertIn("NO_HS_CODE", decision.reasons)
+
     def test_piece_authority_requires_both_piece_unit_and_explicit_mapping(self):
         no_mapping = assess_market_flow_unit(
             kg_flow_candidate(authoritative_quantity_unit="PIECE")
