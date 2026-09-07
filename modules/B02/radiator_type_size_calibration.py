@@ -86,6 +86,19 @@ class RadiatorTypeSizeDecision:
     unresolved_p42_claims: tuple[str, ...]
 
 
+@dataclass(frozen=True)
+class BoundedCohortSummary:
+    cohort_id: str
+    role: str
+    total_units: int
+    dwelling_count: Optional[int]
+    units_per_dwelling: Optional[float]
+    units_per_100m2: Optional[float]
+    type_share: dict[str, float]
+    variant_share: dict[str, float]
+    national_p42_authority: bool = False
+
+
 def _valid_positive_int(value: object) -> bool:
     return isinstance(value, int) and not isinstance(value, bool) and value > 0
 
@@ -222,20 +235,33 @@ def assess_radiator_type_size(candidate: RadiatorTypeSizeCandidate) -> RadiatorT
     )
 
 
-def bounded_type_share(
-    candidates: Sequence[RadiatorTypeSizeCandidate],
-) -> dict[str, float]:
-    """Return source-native type shares for one exact bounded cohort only.
+def _variant_key(candidate: RadiatorTypeSizeCandidate) -> str:
+    parts = [candidate.radiator_type_source_native]
+    if candidate.height_mm is not None:
+        parts.append(f"H{candidate.height_mm:g}")
+    if candidate.length_mm is not None:
+        parts.append(f"L{candidate.length_mm:g}")
+    if candidate.source_native_size_token:
+        parts.append(candidate.source_native_size_token)
+    return "|".join(parts)
 
-    The helper deliberately refuses cross-cohort pooling. It is a calibration
-    surface, not a weighting or national-stock estimator.
-    """
+
+def summarize_bounded_cohort(
+    candidates: Sequence[RadiatorTypeSizeCandidate],
+) -> BoundedCohortSummary:
+    """Aggregate exactly one source-bounded cohort and refuse cross-cohort pooling."""
 
     if not candidates:
         raise ValueError("EMPTY_COHORT")
     cohort_ids = {candidate.cohort_id for candidate in candidates}
     if len(cohort_ids) != 1:
         raise ValueError("CROSS_COHORT_POOLING_FORBIDDEN")
+    roles = {candidate.role for candidate in candidates}
+    if len(roles) != 1:
+        raise ValueError("MIXED_ROLE_COHORT_FORBIDDEN")
+    anchor_ids = [candidate.anchor_id for candidate in candidates]
+    if len(set(anchor_ids)) != len(anchor_ids):
+        raise ValueError("DUPLICATE_ANCHOR_IN_COHORT")
 
     decisions = [assess_radiator_type_size(candidate) for candidate in candidates]
     if any(decision.status == "Q" for decision in decisions):
@@ -243,8 +269,46 @@ def bounded_type_share(
 
     total = sum(candidate.unit_count for candidate in candidates)
     by_type: dict[str, int] = {}
+    by_variant: dict[str, int] = {}
     for candidate in candidates:
         by_type[candidate.radiator_type_source_native] = (
             by_type.get(candidate.radiator_type_source_native, 0) + candidate.unit_count
         )
-    return {key: value / total for key, value in sorted(by_type.items())}
+        variant = _variant_key(candidate)
+        by_variant[variant] = by_variant.get(variant, 0) + candidate.unit_count
+
+    role = candidates[0].role
+    dwelling_count: Optional[int] = None
+    units_per_dwelling: Optional[float] = None
+    units_per_100m2: Optional[float] = None
+    if role == "CURRENT_RESIDENTIAL_WHOLE_DWELLING":
+        dwelling_counts = {candidate.dwelling_count for candidate in candidates}
+        floor_areas = {candidate.floor_area_m2 for candidate in candidates}
+        if len(dwelling_counts) != 1 or None in dwelling_counts:
+            raise ValueError("INCONSISTENT_DWELLING_DENOMINATOR")
+        if len(floor_areas) != 1:
+            raise ValueError("INCONSISTENT_FLOOR_AREA_DENOMINATOR")
+        dwelling_count = candidates[0].dwelling_count
+        units_per_dwelling = total / dwelling_count if dwelling_count else None
+        floor_area = candidates[0].floor_area_m2
+        units_per_100m2 = total / floor_area * 100 if floor_area else None
+
+    return BoundedCohortSummary(
+        cohort_id=candidates[0].cohort_id,
+        role=role,
+        total_units=total,
+        dwelling_count=dwelling_count,
+        units_per_dwelling=units_per_dwelling,
+        units_per_100m2=units_per_100m2,
+        type_share={key: value / total for key, value in sorted(by_type.items())},
+        variant_share={key: value / total for key, value in sorted(by_variant.items())},
+        national_p42_authority=False,
+    )
+
+
+def bounded_type_share(
+    candidates: Sequence[RadiatorTypeSizeCandidate],
+) -> dict[str, float]:
+    """Compatibility helper returning source-native type shares for one cohort."""
+
+    return summarize_bounded_cohort(candidates).type_share
