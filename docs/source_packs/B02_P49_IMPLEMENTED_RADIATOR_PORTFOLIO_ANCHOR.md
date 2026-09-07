@@ -25,9 +25,21 @@ The manufacturer reports for the completed ZFR-TÁV/2019 and ZFR-ÉMI-TÁV/2020 
 
 The same catalogue states that the winning-project workflow includes every dwelling being surveyed, mechanical works being performed, technical handover and final accounting. It also states that MOM-LEHEL was formed to read and evaluate the cost allocators installed by Aluradiátor Projekt Kft. in the ZFR programmes.
 
+Per-emitter semantic support is independently explicit on the current MOM-LEHEL technical service page:
+
+- URL: `https://mom-lehel.hu/koltsegmegosztas`
+- exact locator: `Technikai háttér -> Egyedi méréstechnika – hőmennyiségmérők és költségosztók`
+- source statement: the heat meter measures an apartment, while the cost allocator is installed on the **individual radiators** (`az egyes radiátorokra szerelve`).
+
+This preserves the distinction:
+
+`APARTMENT HEAT METER != PER-RADIATOR COST ALLOCATOR`
+
 ### Canonical quantity treatment
 
-`12,500` is source-native and exact. With the already-canonical P47 per-emitter cost-allocation semantics it is admitted as an **exact bounded emitter-position count for this implemented portfolio**.
+`12,500` is source-native and exact. The ZFR portfolio source proves installation of 12,500 cost allocators and the MOM-LEHEL technical source proves that this device class is installed on individual radiators. P49 therefore admits **12,500 exact bounded radiator/emitter positions for this implemented portfolio**.
+
+This does not prove that every device position belongs to a residential dwelling rather than a common or other premises, so it is not converted to a residential per-dwelling ratio.
 
 `közel 6000` is not exact. P49 stores `6000` only as the source's approximate reference magnitude and sets:
 
@@ -127,6 +139,8 @@ P49 contributes calibration evidence only.
 ## 7. Hard boundaries
 
 `IMPLEMENTED PORTFOLIO != CURRENT NATIONAL STOCK`
+
+`APARTMENT HEAT METER != PER-RADIATOR COST ALLOCATOR`
 
 `EXACT COST-ALLOCATOR COUNT != EXACT REPLACEMENT-RADIATOR COUNT`
 
