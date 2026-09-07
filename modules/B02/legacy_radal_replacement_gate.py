@@ -191,7 +191,7 @@ def assess_legacy_radiator(reference: LegacyRadiatorReference) -> LegacyRadiator
         status="QUALIFIED_LEGACY_TECHNICAL_REFERENCE" if qualified else "Q",
         reasons=tuple(reasons),
         technical_reference_qualified=qualified,
-        residential_stock_weight_allowed=qualified and reference.residential_scope,
+        residential_stock_weight_allowed=False,
         p42_national_authority=False,
     )
 
@@ -305,6 +305,7 @@ def compare_legacy_to_replacement(
         output_delta_w=delta,
         manufacturer_family_interchangeability_only=(
             replacement.manufacturer_family_interchangeable_with_radal
+            and replacement_decision.catalog_reference_qualified
         ),
         exact_replacement_selection_authorized=False,
     )
