@@ -27,6 +27,8 @@ def bekas_candidate(**overrides):
         cost_allocator_is_per_emitter=True,
         bathroom_places_are_additional=True,
         same_cohort_binding=True,
+        device_population_includes_non_dwelling_premises=True,
+        residential_only_device_denominator_proven=False,
         current_tkm_all_buildings_awarded=True,
         tkm_award_amount_huf=47_098_673,
         tkm_execution_started=False,
@@ -40,13 +42,26 @@ def bekas_candidate(**overrides):
 
 
 class B02P48BekasCurrentEmitterStockAnchorTests(unittest.TestCase):
-    def test_exact_bounded_stock_computes_6024_positions(self):
+    def test_exact_bounded_stock_computes_6024_positions_but_withholds_dwelling_ratio(self):
         decision = assess_current_emitter_stock_anchor(bekas_candidate())
         self.assertEqual(decision.status, "QUALIFIED_BOUNDED_CURRENT_STOCK_ANCHOR")
         self.assertEqual(decision.emitter_position_count, 6024)
-        self.assertAlmostEqual(decision.cost_allocators_per_dwelling, 4809 / 1215)
-        self.assertAlmostEqual(decision.emitter_positions_per_dwelling, 6024 / 1215)
+        self.assertIsNone(decision.cost_allocators_per_dwelling)
+        self.assertIsNone(decision.emitter_positions_per_dwelling)
+        self.assertEqual(decision.ratio_status, "Q_NON_DWELLING_NUMERATOR_CONTAMINATION")
         self.assertFalse(decision.p42_national_authority)
+
+    def test_residential_ratio_requires_clean_numerator_or_separate_binding(self):
+        clean = assess_current_emitter_stock_anchor(
+            bekas_candidate(device_population_includes_non_dwelling_premises=False)
+        )
+        rebound = assess_current_emitter_stock_anchor(
+            bekas_candidate(residential_only_device_denominator_proven=True)
+        )
+        for decision in (clean, rebound):
+            self.assertEqual(decision.ratio_status, "QUALIFIED_RESIDENTIAL_RATIO")
+            self.assertAlmostEqual(decision.cost_allocators_per_dwelling, 4809 / 1215)
+            self.assertAlmostEqual(decision.emitter_positions_per_dwelling, 6024 / 1215)
 
     def test_bathroom_places_must_be_explicitly_additional(self):
         decision = assess_current_emitter_stock_anchor(
@@ -84,7 +99,7 @@ class B02P48BekasCurrentEmitterStockAnchorTests(unittest.TestCase):
         self.assertEqual(started.tkm_execution_status, "STARTED_NOT_COMPLETED")
         self.assertEqual(completed.tkm_execution_status, "COMPLETED")
 
-    def test_registry_freezes_exact_bounded_counts_and_non_promotion(self):
+    def test_registry_freezes_exact_counts_and_withheld_ratios(self):
         with REGISTRY.open(encoding="utf-8", newline="") as fh:
             rows = list(csv.DictReader(fh))
         self.assertEqual(len(rows), 1)
@@ -94,6 +109,11 @@ class B02P48BekasCurrentEmitterStockAnchorTests(unittest.TestCase):
         self.assertEqual(row["installed_cost_allocator_count"], "4809")
         self.assertEqual(row["bathroom_radiator_place_count"], "1215")
         self.assertEqual(row["emitter_position_count"], "6024")
+        self.assertEqual(row["device_population_includes_non_dwelling_premises"], "YES")
+        self.assertEqual(row["residential_only_device_denominator_proven"], "NO")
+        self.assertEqual(row["cost_allocators_per_dwelling"], "")
+        self.assertEqual(row["emitter_positions_per_dwelling"], "")
+        self.assertEqual(row["ratio_status"], "Q_NON_DWELLING_NUMERATOR_CONTAMINATION")
         self.assertEqual(row["tkm_award_amount_huf"], "47098673")
         self.assertEqual(row["tkm_execution_status"], "AWARDED_NOT_COMPLETED")
         self.assertEqual(row["p42_national_authority"], "NO")
@@ -105,7 +125,7 @@ class B02P48BekasCurrentEmitterStockAnchorTests(unittest.TestCase):
         self.assertTrue(all(row["current_status"] == "Q" for row in rows))
         self.assertTrue(all(row["programme_use_allowed"] == "NO" for row in rows))
 
-    def test_document_freezes_quantity_and_execution_boundaries(self):
+    def test_document_freezes_quantity_denominator_and_execution_boundaries(self):
         text = DOC.read_text(encoding="utf-8")
         for boundary in (
             "EXACT BOUNDED STOCK != NATIONAL STOCK",
@@ -114,6 +134,7 @@ class B02P48BekasCurrentEmitterStockAnchorTests(unittest.TestCase):
             "AWARDED TKM PROJECT != COMPLETED REPLACEMENT",
             "TKM AWARD AMOUNT != DEVICE COUNT",
             "6024 EMITTER POSITIONS != 6024 PROVEN RADIATOR PRODUCT UNITS OF KNOWN TYPE/SIZE",
+            "DEVICE NUMERATOR INCLUDES RENTAL PREMISES != RESIDENTIAL-ONLY PER-DWELLING RATIO",
             "OLDER AWARD SNAPSHOT ABSENCE != NO LATER AWARD",
         ):
             self.assertIn(boundary, text)
