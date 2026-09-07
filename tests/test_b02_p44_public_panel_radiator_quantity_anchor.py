@@ -1,7 +1,7 @@
 import csv
 import importlib.util
-import math
 from pathlib import Path
+import sys
 import unittest
 
 
@@ -13,6 +13,7 @@ MODULE = ROOT / "modules" / "B02" / "panel_radiator_quantity_anchor.py"
 
 spec = importlib.util.spec_from_file_location("panel_radiator_quantity_anchor", MODULE)
 mod = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = mod
 spec.loader.exec_module(mod)
 
 
