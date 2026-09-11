@@ -1,0 +1,2 @@
+operator_id,network_operator,service_area_id,coverage_scope,usage_location_requirement,evidence_status,status,source_ids,pairs_file,identity_bridge_file
+MVM_EMASZ,MVM Émász Áramhálózati Kft.,MVM_EMASZ:SERVICE_AREA,WHOLE_SETTLEMENT,NONE,DER,WHOLE_SETTLEMENT_MEMBERSHIP_PROVEN,SRC-B10-MVM-EMASZ-M1-2026;SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS,registry/dso_service_area_membership_emasz_p50_pairs.csv,registry/dso_service_area_membership_emasz_p50_identity_bridges.csv
