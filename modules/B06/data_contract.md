@@ -165,3 +165,32 @@ source-native `207172 kWh/a DER` + source-native `132.35 kW DER`.
 A rounded specific value × area visszaszámítás nem írhatja felül a source-native
 éves totalt.
 
+## P62 real intervention-effect contract
+
+`RetrofitIntervention.evidence_status in {OBS, DER}` esetén az annual és peak
+redukciós fraction nem lehet kézzel beadott, önálló szám. Kötelező a
+`PeakEffectEvidence`:
+
+- ugyanaz a record és intervention;
+- külön before/after fázis;
+- azonos calculation method;
+- azonos design indoor/outdoor hőmérséklet;
+- külön annual before/after és peak before/after;
+- intervention-scope authority;
+- DHW és space-heating boundary;
+- before/after source refs és reprodukálható binding.
+
+Az engine a fractionöket az evidence-párból újraszámolja és exact módon
+összeveti a beadott intervention-faktorokkal. Mismatch vagy hiányzó evidence
+`Q`.
+
+A bounded P62 magyar kalibráció:
+
+- annual: `207172 -> 36687 kWh/a`,
+  fraction `0.8229152588187593`;
+- peak: `132.35 -> 46.47 kW`,
+  fraction `0.6488855307895731`.
+
+A post state tervezett, ezért `DER`, nem realized completion `OBS`.
+P60 S1-completion evidence ettől külön kapu.
+
