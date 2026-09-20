@@ -219,3 +219,32 @@ Nem jóváhagyott scope-eltérés `BLOCKED`; hiányos linkage vagy dokumentáci�
 A `completion_status` P64-től a realized-completion dokumentumok OBS
 státuszát jelöli. Ettől függetlenül a P60 outcome lehet `OBS` vagy `DER`.
 
+## P65 emitter-temperature authority
+
+P65 lezárja a post-retrofit supply-temperature authority kérdését. A P4
+emitter-fizika önmagában nem jogosít fel egy épület hőfoklépcsőjének
+megváltoztatására.
+
+Numerikus post-retrofit supply csak három record-level út egyikéből jöhet:
+
+1. `ROOM_BY_ROOM_EMITTER_DESIGN` — minden fűtött helyiség explicit design
+   heat load + exact emitter inventory + source-native emitter curve; az egész
+   rendszer supply-ját a legnagyobb helyiségi igény adja.
+2. `SIGNED_POST_RETROFIT_MEP_DESIGN` — explicit supply/return + design
+   outdoor/indoor + teljes room heat-loss + emitter schedule + hydraulic basis.
+3. `MEASURED_POST_RETROFIT_DESIGN_POINT` — realized post state, megfigyelt
+   supply/return, teljes fűtötthelyiség-lefedettség és design-külső
+   hőmérsékletnél nem enyhébb mérési pont.
+
+A runtime a kézzel megadott `supply_temperature_after_c` értéket P65
+authority nélkül elutasítja. W35/W45/W55 label, referencia 55/45 C, kazán
+setpoint vagy HET önmagában nem authority.
+
+A MCS 021 room-by-room módszertani authorityként szolgál. Egy 2024-es,
+12-lakásos budapesti gépészeti terv magyar residential validation: explicit
+`-13 C` design külső hőmérséklet, `47.3 kW` épülethőveszteség,
+`45/40 C` heat-pump point és `40/35 C` padlófűtési hőfoklépcső szerepel
+benne. Ez new-build design, ezért nem retrofit effect és nem országos default.
+
+`Q-B06-008` authority szinten RESOLVED; a hiányos egyedi épület továbbra is
+`Q`, országos emitter-inventory lefedettséget P65 nem állít.
