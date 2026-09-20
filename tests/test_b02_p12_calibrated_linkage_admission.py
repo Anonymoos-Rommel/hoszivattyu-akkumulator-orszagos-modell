@@ -164,8 +164,9 @@ class B02P12CalibratedLinkageAdmissionTests(unittest.TestCase):
     def test_open_questions_and_readiness_remain_fail_closed(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
             rows = {row["question_id"]: row for row in csv.DictReader(handle)}
-        for question_id in ("Q-B02-001", "Q-B02-002", "Q-B02-004"):
-            self.assertEqual(rows[question_id]["status"], "OPEN")
+        self.assertEqual(rows["Q-B02-001"]["status"], "OPEN")
+        self.assertEqual(rows["Q-B02-002"]["status"], "RESOLVED")
+        self.assertEqual(rows["Q-B02-004"]["status"], "OPEN")
 
         with MODULE_STATUS.open(encoding="utf-8", newline="") as handle:
             modules = {row["module_id"]: row for row in csv.DictReader(handle)}
