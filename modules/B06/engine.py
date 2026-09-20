@@ -15,6 +15,11 @@ from modules.B06.s1_demand_outcome_gate import (
     S1DemandOutcomeEvidence,
     assess_s1_demand_outcome,
 )
+from modules.B06.baseline_demand_gate import (
+    QUALIFIED as BASELINE_PAIR_QUALIFIED,
+    BaselineDemandEvidence,
+    assess_baseline_demand,
+)
 
 
 EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
@@ -55,6 +60,7 @@ class RetrofitBaseline:
     required_supply_temperature_before_c: EvidenceValue[float] = EvidenceValue(None, "Q")
     dhw_annual_kwh: EvidenceValue[float] = EvidenceValue(None, "Q")
     dhw_peak_heat_load_kw: EvidenceValue[float] = EvidenceValue(None, "Q")
+    baseline_demand_evidence: BaselineDemandEvidence | None = None
 
 
 @dataclass(frozen=True)
@@ -177,6 +183,39 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
         return _empty_result("Q", ("baseline annual and peak space-heating demand are required",), baseline)
     if baseline_annual < 0 or baseline_peak < 0:
         raise RetrofitInputError("baseline demand cannot be negative")
+
+    real_baseline_statuses = {"OBS", "DER"}
+    uses_real_baseline = (
+        baseline.baseline_annual_space_heat_kwh.status in real_baseline_statuses
+        or baseline.baseline_peak_heat_load_kw.status in real_baseline_statuses
+    )
+    if uses_real_baseline:
+        if baseline.baseline_demand_evidence is None:
+            return _empty_result(
+                "Q",
+                ("P61 same-record/same-phase baseline demand evidence is required for OBS/DER annual or peak inputs",),
+                baseline,
+            )
+        pair_decision = assess_baseline_demand(baseline.baseline_demand_evidence)
+        if pair_decision.status != BASELINE_PAIR_QUALIFIED:
+            return _empty_result(
+                "Q",
+                tuple(f"P61 baseline pair: {reason}" for reason in pair_decision.reasons),
+                baseline,
+            )
+        pair = baseline.baseline_demand_evidence
+        if abs(pair.annual_space_heat_kwh - baseline_annual) > 0.05:
+            return _empty_result(
+                "Q",
+                ("P61 annual baseline value does not match admitted pair",),
+                baseline,
+            )
+        if abs(pair.peak_heat_load_kw - baseline_peak) > 0.001:
+            return _empty_result(
+                "Q",
+                ("P61 peak baseline value does not match admitted pair",),
+                baseline,
+            )
 
     rows = tuple(interventions)
     for intervention in rows:
