@@ -178,3 +178,44 @@ a széles fizikai change-keyek (`TRANSMISSION`, `VENTILATION`, stb.) nem
 számolhatók el kétszer; overlap esetén a beavatkozásokat közös fizikai
 state-transitionként kell újraszámolni.
 
+## P64 realized completion / S1 handoff
+
+P64 különválasztja a tényleges kivitelezési completiont és az energetikai
+outcome-ot.
+
+```text
+final invoice + performance confirmation
+        -> realized completion OBS
+
+final HET + supporting calculation
+        -> realized post-state calculation
+
+P60 before/after outcome
+        -> OBS or DER outcome
+
+S1 READY
+        -> P64 QUALIFIED AND P60 READY
+```
+
+A kanonikus completion gate:
+[`realized_completion_gate.py`](realized_completion_gate.py).
+
+Kötelező ugyanahhoz a record/intervention/site lánchoz:
+
+- physical-completion date;
+- contract scope és realized scope;
+- final invoice;
+- performance confirmation / teljesítésigazolás;
+- physical completion után készült final HET;
+- final-HET supporting calculation;
+- verifier identity;
+- reprodukálható repository binding.
+
+A final HET önmagában nem bizonyítja a ténylegesen leszállított scope-ot, a
+számla/teljesítésigazolás pedig önmagában nem bizonyít energetikai eredményt.
+Nem jóváhagyott scope-eltérés `BLOCKED`; hiányos linkage vagy dokumentáció
+`Q`.
+
+A `completion_status` P64-től a realized-completion dokumentumok OBS
+státuszát jelöli. Ettől függetlenül a P60 outcome lehet `OBS` vagy `DER`.
+

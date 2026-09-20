@@ -246,3 +246,49 @@ A Hungarian TABULA validációs pontok `usable_for_engine=NO`. A typológia
 épülettípus/kor/refurbishment state tengelyt és eltérő modellezett response-ot
 igazol, de nem household observation és nem national prevalence.
 
+## P64 realized-completion contract
+
+A `RealizedCompletionEvidence` a P60 outcome-tól külön evidence-object.
+
+Kötelező:
+
+- `record_id`, `intervention_id`, `project_id`, `site_link_id`;
+- `completion_evidence_status = OBS`;
+- ISO physical-completion date;
+- ISO final-HET date, amely nem lehet korábbi a physical completionnél;
+- contract scope IDs;
+- realized scope IDs;
+- itemized final-invoice refs;
+- performance-confirmation refs;
+- final-HET refs;
+- final-energy-calculation refs;
+- verifier ID;
+- a final HET ugyanahhoz a recordhoz és site-hoz kötve;
+- explicit physical-completion declaration;
+- reprodukálható repository binding.
+
+Scope-eltérés esetén explicit jóváhagyott amendment és source refs szükséges.
+Jóváhagyás nélküli scope-eltérés `BLOCKED`.
+
+Az S1 állapotkapu:
+
+```text
+P64 realized completion == QUALIFIED
+AND
+P60 linked outcome == READY
+AND
+same record_id
+AND
+same intervention_id
+=> S1_DEMAND_REDUCED
+```
+
+A P64 completion státusz és a P60 outcome evidence státusza szándékosan nem
+azonos mező: a kivitelezési completion tipikusan `OBS`, míg a záró
+energetikai eredmény lehet hiteles számításból `DER`.
+
+A magyar authority a jelenlegi Otthonfelújítási Program zárási lánca:
+műszaki/fizikai befejezés után final invoice + teljesítésigazolás, majd
+post-completion záró HET + energetikai számítás + záró dokumentáció. Ez
+program-rule authority, nem országos completed-project microdata.
+

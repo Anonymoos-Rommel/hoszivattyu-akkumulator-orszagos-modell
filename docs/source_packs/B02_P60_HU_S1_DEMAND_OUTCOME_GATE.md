@@ -182,3 +182,23 @@ It does not create:
 
 Each real S0->S1 transition remains `Q` until its own linked outcome or
 explicit `NOT_REQUIRED` authority is present.
+
+## P64 supersession note
+
+P60 originally used a generic completion-status/source check beside the linked
+outcome. P64 supersedes that completion-side contract.
+
+Canonical S1 semantics from P64 onward:
+
+`REALIZED COMPLETION OBS != OUTCOME OBS/DER`
+
+and:
+
+`P64 QUALIFIED + P60 READY -> S1`.
+
+Therefore the historical P60 wording
+`linked outcome gate READY + matching OBS/DER completion status + source refs`
+must not be read as the current completion authority. The outcome gate remains
+canonical; the completion-side authority is now
+`modules/B06/realized_completion_gate.py`.
+

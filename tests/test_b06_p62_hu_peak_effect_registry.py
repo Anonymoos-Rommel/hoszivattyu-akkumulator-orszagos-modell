@@ -138,7 +138,7 @@ def test_engine_accepts_exact_linked_zalavar_der_effect_but_does_not_complete_s1
     assert abs(result.post_retrofit_peak_heat_load_kw - 46.47) < 1e-12
     assert result.s1_gate == "BLOCKED"
     assert result.post_state_candidate == "S1_CANDIDATE"
-    assert any("linked S1 demand outcome is missing" in gap for gap in result.remaining_readiness_gaps)
+    assert any("P64 realized completion evidence is missing" in gap for gap in result.remaining_readiness_gaps)
 
 
 def test_engine_rejects_arbitrary_der_peak_fraction_even_with_valid_pair():
