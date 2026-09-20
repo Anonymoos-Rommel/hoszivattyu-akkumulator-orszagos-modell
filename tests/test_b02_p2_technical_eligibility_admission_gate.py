@@ -8,7 +8,6 @@ from modules.B02.technical_eligibility_contract import (
     ELIGIBLE,
     HYDRAULIC,
     OUT_OF_SCOPE,
-    PERMIT,
     Q,
     S2_BLOCKED,
     S2_Q,
@@ -60,7 +59,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
                 self.component(THERMAL_DISTRIBUTION),
                 self.component(HYDRAULIC),
                 self.component(ELECTRICAL),
-                self.component(PERMIT),
             ),
         }
         values.update(changes)
@@ -78,7 +76,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
             self.component(THERMAL_DISTRIBUTION),
             self.component(HYDRAULIC, decision=Q, evidence_status=Q),
             self.component(ELECTRICAL),
-            self.component(PERMIT),
         )
         decision = assess_technical_eligibility(self.record(components=components))
         self.assertEqual(Q, decision.status)
@@ -91,7 +88,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
             self.component(THERMAL_DISTRIBUTION),
             self.component(HYDRAULIC, decision="FAIL", evidence_status="DER"),
             self.component(ELECTRICAL, decision=Q, evidence_status=Q),
-            self.component(PERMIT, decision=Q, evidence_status=Q),
         )
         decision = assess_technical_eligibility(self.record(components=components))
         self.assertEqual(BLOCKED, decision.status)
@@ -109,7 +105,7 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
     def test_out_of_scope_is_not_relabelled_as_technical_fail(self):
         components = tuple(
             self.component(component_id, decision=Q, evidence_status=Q)
-            for component_id in (THERMAL_DISTRIBUTION, HYDRAULIC, ELECTRICAL, PERMIT)
+            for component_id in (THERMAL_DISTRIBUTION, HYDRAULIC, ELECTRICAL)
         )
         decision = assess_technical_eligibility(
             self.record(physical_scope=self.scope(decision=OUT_OF_SCOPE), components=components)
@@ -125,7 +121,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
                     components=(
                         self.component(THERMAL_DISTRIBUTION),
                         self.component(HYDRAULIC),
-                        self.component(ELECTRICAL),
                     )
                 )
             )
@@ -154,7 +149,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
                     self.component(THERMAL_DISTRIBUTION),
                     self.component(HYDRAULIC, decision="FAIL", evidence_status="OBS"),
                     self.component(ELECTRICAL),
-                    self.component(PERMIT),
                 )
             )
         )
@@ -178,7 +172,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
             (
                 "GAP-B02-S2-HEAT-EMITTER",
                 "GAP-B02-S2-DESIGN-TEMPERATURE",
-                "GAP-B02-S2-PERMIT",
             ),
             gate.blocking_gap_ids,
         )

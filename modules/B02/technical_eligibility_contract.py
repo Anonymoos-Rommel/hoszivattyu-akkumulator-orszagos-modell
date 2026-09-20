@@ -39,7 +39,6 @@ REQUIRED_TECHNICAL_COMPONENTS = (
     THERMAL_DISTRIBUTION,
     HYDRAULIC,
     ELECTRICAL,
-    PERMIT,
 )
 
 ELIGIBLE = "ELIGIBLE"
@@ -54,7 +53,6 @@ S2_Q = "S2_Q"
 CURRENT_REQUIRED_GAP_IDS = (
     "GAP-B02-S2-HEAT-EMITTER",
     "GAP-B02-S2-DESIGN-TEMPERATURE",
-    "GAP-B02-S2-PERMIT",
 )
 
 # P57: hydraulic engineering remains a required record/project component, but
@@ -64,6 +62,10 @@ CURRENT_REQUIRED_GAP_IDS = (
 # P58: electrical connection readiness is likewise assessed as a DSO-bound
 # record/project transition path. Current service capacity is not an aggregate
 # national precondition; DSO_PENDING stays Q and DSO_REFUSED is explicit BLOCKED.
+#
+# P59: permit/townscape/property clearance is not a technical component. It is
+# a site-specific legal/delivery gate assessed separately by
+# site_legal_delivery_gate.py and consumed by programme orchestration.
 
 
 class B02EligibilityError(ValueError):
