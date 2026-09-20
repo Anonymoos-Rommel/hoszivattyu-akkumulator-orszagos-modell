@@ -6,6 +6,10 @@ from modules.B06.s1_demand_outcome_gate import (
     S1DemandOutcomeEvidence,
 )
 from modules.B06.realized_completion_gate import RealizedCompletionEvidence
+from modules.B06.emitter_temperature_gate import (
+    EmitterTemperatureEvidence,
+    SIGNED_MEP_DESIGN,
+)
 
 
 def ev(value, status="SCN", *sources):
@@ -86,6 +90,23 @@ def intervention(
             "TEST-PERFORMANCE-CONFIRMATION",
             "TEST-HET-AFTER",
         )
+    emitter_temperature_evidence = None
+    if supply is not None:
+        emitter_temperature_evidence = EmitterTemperatureEvidence(
+            record_id="TEST-REC-001",
+            intervention_id=intervention_id,
+            phase_id="POST_RETROFIT_PLANNED",
+            route=SIGNED_MEP_DESIGN,
+            evidence_status="DER",
+            source_refs=("TEST-SIGNED-MEP",),
+            explicit_supply_temperature_c=ev(supply, "DER", "TEST-SIGNED-MEP"),
+            explicit_return_temperature_c=ev(supply - 5.0, "DER", "TEST-SIGNED-MEP"),
+            design_outdoor_temperature_c=ev(-13.0, "DER", "TEST-SIGNED-MEP"),
+            design_indoor_temperature_c=ev(20.0, "DER", "TEST-SIGNED-MEP"),
+            room_heat_loss_complete=True,
+            emitter_schedule_complete=True,
+            hydraulic_design_documented=True,
+        )
     return RetrofitIntervention(
         intervention_id,
         family,
@@ -95,6 +116,7 @@ def intervention(
         applicability_status=applicability,
         completion_status=completion,
         supply_temperature_after_c=supply,
+        emitter_temperature_evidence=emitter_temperature_evidence,
         completion_source_ids=completion_sources,
         completion_outcome=outcome,
         realized_completion=realized_completion,
