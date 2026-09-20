@@ -108,7 +108,8 @@ def _numeric(value: EvidenceValue[float], name: str, *, admissible=ADMISSIBLE_EV
     except ValueError as exc:
         return None, str(exc)
     if value.status not in admissible or value.value is None:
-        return None, f"{name} requires OBS/DER evidence"
+        allowed = "/".join(sorted(admissible))
+        return None, f"{name} requires {allowed} evidence"
     try:
         number = float(value.value)
     except (TypeError, ValueError):
@@ -187,6 +188,33 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
                     break
             if selected_return is None or selected_room_temperature is None:
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: selected return/room temperature is Q"])
+            selected_points = [
+                point
+                for point in room.operating_points
+                if (
+                    point.supply_temperature_c.value is not None
+                    and float(point.supply_temperature_c.value) == float(result.required_supply_temperature_c)
+                    and point.return_temperature_c.value is not None
+                    and point.room_temperature_c.value is not None
+                )
+            ]
+            selected_point = selected_points[0]
+            if not all(
+                value.source_ids
+                for value in (
+                    selected_point.supply_temperature_c,
+                    selected_point.return_temperature_c,
+                    selected_point.room_temperature_c,
+                )
+            ):
+                return _q(
+                    evidence.route,
+                    evidence.source_refs,
+                    [f"{room.room_id}: selected operating point lacks source lineage"],
+                )
+            all_sources.update(selected_point.supply_temperature_c.source_ids)
+            all_sources.update(selected_point.return_temperature_c.source_ids)
+            all_sources.update(selected_point.room_temperature_c.source_ids)
             if abs(selected_room_temperature - room_indoor) > 1e-9:
                 return _q(
                     evidence.route,
@@ -196,6 +224,7 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
 
             room_design_load_total_kw += float(room.design_heat_load_kw.value)
             all_sources.update(room.source_refs)
+            all_sources.update(room.design_indoor_temperature_c.source_ids)
             all_sources.update(room.emitter.source_ids)
             all_sources.update(room.design_heat_load_kw.source_ids)
             room_results.append(
@@ -241,6 +270,8 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
     gaps.extend(
         gap for gap in (supply_gap, return_gap, outdoor_gap, indoor_gap, building_load_gap) if gap
     )
+    if building_load is not None and building_load <= 0:
+        gaps.append("building_design_heat_load_kw must be positive")
     if not gaps and not (supply > return_temp > design_indoor):
         gaps.append("hydronic temperatures must satisfy supply > return > design indoor temperature")
 
