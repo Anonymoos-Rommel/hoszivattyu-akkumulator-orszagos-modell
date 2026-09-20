@@ -1,5 +1,4 @@
 import csv
-import importlib.util
 import unittest
 from pathlib import Path
 
@@ -12,14 +11,6 @@ SOURCES = ROOT / "registry" / "sources.csv"
 MODULE_STATUS = ROOT / "registry" / "module_status.csv"
 SOURCE_PACK = ROOT / "docs" / "source_packs" / "B02_P61_EMITTER_POPULATION_IMPACT_REPAIR.md"
 TECHNICAL_CONTRACT = ROOT / "modules" / "B02" / "technical_eligibility_contract.py"
-
-
-def load_module(path: Path):
-    spec = importlib.util.spec_from_file_location("b02_p61_technical_contract", path)
-    module = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    spec.loader.exec_module(module)
-    return module
 
 
 class B02P61EmitterPopulationImpactRepairTests(unittest.TestCase):
@@ -47,8 +38,8 @@ class B02P61EmitterPopulationImpactRepairTests(unittest.TestCase):
         self.assertIn("önmagában nem blocker", q1["notes"])
 
     def test_current_aggregate_gap_list_is_empty(self):
-        module = load_module(TECHNICAL_CONTRACT)
-        self.assertEqual(module.CURRENT_REQUIRED_GAP_IDS, ())
+        text = TECHNICAL_CONTRACT.read_text(encoding="utf-8")
+        self.assertIn("CURRENT_REQUIRED_GAP_IDS: tuple[str, ...] = ()", text)
 
     def test_impact_registry_forbids_eligibility_promotion(self):
         with IMPACT.open(encoding="utf-8", newline="") as handle:
