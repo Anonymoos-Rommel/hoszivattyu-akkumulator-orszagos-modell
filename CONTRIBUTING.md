@@ -17,6 +17,7 @@ Köszönjük a szakmai javaslatokat. A projektben közvetlen írási jogosultsá
 - mértékegységek és konverziók;
 - képlet- és downstream hatás;
 - reprodukciós lépések és tesztek;
+- országos mintából származó állításnál a célpopuláció, mintavételi keret, súlyozás/kalibráció, reprezentativitási diagnosztika, bizonytalanság és érzékenység dokumentálása;
 - szerzői jogi vagy adatlicenc-korlátok jelzése.
 
 ## Hozzájárulások licencelése
@@ -32,6 +33,8 @@ A közreműködőnek minden harmadik féltől származó tartalmat és annak lic
 ## Nem fogadható el
 
 - forrás nélküli „józan becslés” tényként;
+- reprezentatív minta automatikus elutasítása csak azért, mert nem fedi le a teljes populációt;
+- országos mintastatisztika OBS-ként történő félrecímkézése, ha az valójában súlyozott/kalibrált DER vagy MODELLED kimenet;
 - sajtó- vagy aggregátorforrás egyetlen bizonyítékként kritikus számhoz;
 - eredmény kézi átírása a kanonikus bemenet vagy képlet módosítása nélkül;
 - kettős elszámolás;
