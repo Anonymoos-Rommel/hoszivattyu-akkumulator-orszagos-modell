@@ -15,7 +15,7 @@ A current B02 adatcsomag több, eltérő authority-grainen áll:
 3. a pinned `WBL011/V67` direct full-stock joint P15-ben **116 452** `OBS` sorral és **4 008 541** lakással repositoryban materializált;
 4. a WBL017 hőszivattyú-baseline továbbra is külön grain és nem teljes occupied-population joint.
 
-Hőleadó- és tervezési hőmérsékletre továbbra sincs teljes közös országos mikroadat. Ezért nem áll rendelkezésre source-native teljes joint a terület × épülettípus × építési kor × falazat × alapterület × komfort × fűtés × tüzelőanyag × primerenergia × hőleadó × hőmérséklet grainen. A 2026-09-20-i project-wide population inference policy szerint azonban **ennek hiánya önmagában nem blocker**: országos eloszlás reprezentatív mintából vagy validált, kalibrált többforrású inferenciából is becsülhető, explicit bizonytalansággal.
+Hőleadó- és tervezési hőmérsékletre továbbra sincs teljes közös országos mikroadat. Ezért **nem áll rendelkezésre teljes közös eloszlás** source-native jointként a terület × épülettípus × építési kor × falazat × alapterület × komfort × fűtés × tüzelőanyag × primerenergia × hőleadó × hőmérséklet grainen. A 2026-09-20-i project-wide population inference policy szerint azonban **ennek hiánya önmagában nem blocker**: országos eloszlás reprezentatív mintából vagy validált, kalibrált többforrású inferenciából is becsülhető, explicit bizonytalansággal.
 
 ## Energetikai cellalefedettség
 
