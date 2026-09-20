@@ -4,7 +4,7 @@
 
 Current-state frissítés: **2026-09-20 / project-wide population inference policy**
 
-Kapcsolódó kérdések: `Q-B02-001`, `Q-B02-002`, `Q-B02-004`
+Kapcsolódó kérdések: `Q-B02-001`, `Q-B02-002` (P50 RESOLVED), `Q-B02-004`
 
 ## Döntési eredmény
 
@@ -46,10 +46,11 @@ A `b02_archetype_coverage_manifest.json` a repo-bemenetek és derived outputok h
 
 ## Következő B02 kapuk
 
-1. current WBL-compatible building-type authority vagy admitted calibrated linkage;
-2. primary-energy-to-WBL link authority vagy admitted calibrated linkage;
-3. heat-emitter és design-temperature országos inferencia reprezentatív vagy kalibrált mintából, explicit uncertaintyvel;
-4. OÉNY válasz beérkezése esetén annak reprezentativitási/missingness auditja; az OÉNY-út hiánya nem zárja ki más reprezentatív műszaki minta használatát.
+1. heat-emitter és design-temperature országos inferencia reprezentatív vagy kalibrált mintából, explicit uncertaintyvel;
+2. OÉNY válasz beérkezése esetén annak reprezentativitási/missingness auditja; az OÉNY-út hiánya nem zárja ki más reprezentatív műszaki minta használatát;
+3. a Q-B02-001 national technical-eligibility becslés csak a fenti műszaki inferencia és az explicit kizárási szabályok után képezhető.
+
+A building-type és primary-energy WBL linkage kapukat B02-P21 már APPROVED / JOSEPH / QUALIFIED állapotban lezárta; B02-P50 ennek current-question hatását auditálta és Q-B02-002-t RESOLVED-ra állította.
 
 ## Nem következik ebből
 
