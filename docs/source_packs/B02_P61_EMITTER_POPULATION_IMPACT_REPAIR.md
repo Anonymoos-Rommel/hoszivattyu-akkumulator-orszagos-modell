@@ -194,20 +194,25 @@ The official current KSH construction-work taxonomy separately identifies:
 - `1-22-03 Radiátoros fűtés`;
 - `1-22-04 Fan-coil szerelése`.
 
-This proves that current Hungarian construction statistics have an explicit taxonomy capable of distinguishing these work types.
+This proves that the official current KSH price-statistics instrument has an explicit taxonomy capable of distinguishing these work types.
 
-It does **not** prove:
+The KSH construction-price methodology states that OSAP 1831 is a **quarterly construction-price survey**. Selected construction firms report prices for representative construction items with fixed technical parameters. It is not a national installation-volume census.
+
+It therefore does **not** prove:
 
 - installed residential stock shares;
 - current household emitter prevalence;
 - a residential denominator;
-- completed national work volumes for these categories.
+- national completed-work quantities for these categories;
+- national radiator/floor-heating/fan-coil installation flow.
 
-Boundary:
+Boundaries:
 
-`CURRENT OFFICIAL TAXONOMY != INSTALLED STOCK DISTRIBUTION`.
+`CURRENT OFFICIAL TAXONOMY != INSTALLED STOCK DISTRIBUTION`
 
-The practical value is a targeted next research route: determine whether numeric OSAP outputs or unpublished/public aggregates exist at these exact work codes.
+`CONSTRUCTION PRICE OBSERVATION != INSTALLATION QUANTITY FLOW`.
+
+The practical value is taxonomy and future price/CAPEX interpretation only, not prevalence calibration.
 
 ## 7. Existing routes that remain useful
 
@@ -267,21 +272,17 @@ No readiness percentage is increased.
 
 The search can now be narrower and more valuable.
 
-### Route A — KSH construction-flow numeric recovery
+### Route A — current EPC/RBSM emitter field recovery
 
-Determine whether OSAP 1831 or related KSH outputs publish/permit aggregation of actual completed work quantities for:
-
-- 1-22-02 floor heating;
-- 1-22-03 radiator heating;
-- 1-22-04 fan-coil.
-
-Such data would be **flow evidence**, not stock evidence, but could calibrate the evolution from historical NÉER2 structure toward current stock.
-
-### Route B — current EPC/RBSM emitter field recovery
+The OSAP 1831 route is now closed as a quantity route: it is price statistics, not installation-volume evidence.
 
 Determine whether the underlying BME/EPC research data model contains an emitter-class field that is simply not used in the 2026 published archetype paper.
 
-### Route C — direct population evidence
+### Route B — direct population evidence
+
+Determine whether the underlying BME/EPC research data model contains an emitter-class field that is simply not used in the 2026 published archetype paper.
+
+### Route B — direct population evidence
 
 Continue searching for a representative or calibratable Hungarian sample with direct current:
 
