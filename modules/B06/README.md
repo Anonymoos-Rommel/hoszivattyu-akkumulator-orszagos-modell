@@ -236,6 +236,10 @@ Numerikus post-retrofit supply csak három record-level út egyikéből jöhet:
    supply/return, teljes fűtötthelyiség-lefedettség és design-külső
    hőmérsékletnél nem enyhébb mérési pont.
 
+A P65-supported épület design heat loadnak egyeznie kell a B06 aktuális
+szekvenciális post-state peak értékével; room-by-room úton ez a helyiségi
+design heat loadok összege. Más peakhez tartozó hőfok evidence `Q`.
+
 A runtime a kézzel megadott `supply_temperature_after_c` értéket P65
 authority nélkül elutasítja. W35/W45/W55 label, referencia 55/45 C, kazán
 setpoint vagy HET önmagában nem authority.
