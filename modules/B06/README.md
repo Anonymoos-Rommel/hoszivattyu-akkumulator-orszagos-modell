@@ -118,8 +118,9 @@ Tiltott útvonalak:
 - full-load-hours proxy.
 
 P61 bounded magyar kalibrációja egy 19 lakásos társasház 2015-ös, explicit
-`Felújítás előtti állapot` számítása: `qF=145.9 kWh/m2a`,
-`AN=1419.6 m2` -> `207119.64 kWh/a DER`, miközben a forrás közvetlenül
-`132.35 kW` design hőszükségletet ad. Ez nem országos arány és nem 2026-os
+`Felújítás előtti állapot` számítása. P62 source-precedence javítása után a
+kanonikus éves nettó fűtési igény a dokumentum source-native
+`QF,1=207172 kWh/a DER`; `qF=145.9 kWh/m2a` és `AN=1419.63 m2` context.
+A forrás ettől függetlenül közvetlenül `132.35 kW` design hőszükségletet ad. Ez nem országos arány és nem 2026-os
 állománybecslés.
 
