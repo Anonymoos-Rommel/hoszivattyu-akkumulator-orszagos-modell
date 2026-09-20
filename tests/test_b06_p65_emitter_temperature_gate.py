@@ -125,6 +125,19 @@ def test_signed_mep_design_requires_heat_loss_emitter_and_hydraulic_basis():
     assert "emitter schedule" in " ".join(result.gaps)
 
 
+def test_p65_rejects_real_status_without_source_lineage():
+    evidence = signed_design()
+    evidence = EmitterTemperatureEvidence(
+        **{
+            **evidence.__dict__,
+            "explicit_supply_temperature_c": EvidenceValue(45.0, "DER"),
+        }
+    )
+    result = assess_emitter_temperature(evidence)
+    assert result.status == Q
+    assert "source lineage" in " ".join(result.gaps)
+
+
 def test_signed_mep_design_requires_identified_signed_authority():
     evidence = signed_design()
     unsigned = EmitterTemperatureEvidence(
