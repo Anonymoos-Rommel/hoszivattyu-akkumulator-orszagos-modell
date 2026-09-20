@@ -49,6 +49,7 @@ def room(room_id, load):
     return RoomEmitterDesignEvidence(
         room_id=room_id,
         design_heat_load_kw=ev(load, source=f"TEST-LOAD-{room_id}"),
+        design_indoor_temperature_c=ev(20.0, source=f"TEST-LOAD-{room_id}"),
         emitter=radiator(f"RAD-{room_id}"),
         operating_points=points(),
         source_refs=(f"TEST-ROOM-{room_id}",),
@@ -71,6 +72,8 @@ def signed_design(intervention_id="EMITTER", supply=45.0):
         room_heat_loss_complete=True,
         emitter_schedule_complete=True,
         hydraulic_design_documented=True,
+        designer_or_engineer_id="TEST-ENGINEER",
+        design_document_signed_or_sealed=True,
     )
 
 
@@ -120,6 +123,22 @@ def test_signed_mep_design_requires_heat_loss_emitter_and_hydraulic_basis():
     result = assess_emitter_temperature(incomplete)
     assert result.status == Q
     assert "emitter schedule" in " ".join(result.gaps)
+
+
+def test_signed_mep_design_requires_identified_signed_authority():
+    evidence = signed_design()
+    unsigned = EmitterTemperatureEvidence(
+        **{
+            **evidence.__dict__,
+            "designer_or_engineer_id": "",
+            "design_document_signed_or_sealed": False,
+        }
+    )
+    result = assess_emitter_temperature(unsigned)
+    assert result.status == Q
+    joined = " ".join(result.gaps)
+    assert "designer/engineer identity" in joined
+    assert "signed or sealed" in joined
 
 
 def test_measured_route_cannot_extrapolate_from_warmer_weather():
