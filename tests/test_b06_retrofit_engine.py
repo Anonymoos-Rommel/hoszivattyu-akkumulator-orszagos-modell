@@ -1,4 +1,10 @@
 from modules.B06.engine import EvidenceValue, RetrofitBaseline, RetrofitIntervention, evaluate_retrofit
+from modules.B06.s1_demand_outcome_gate import (
+    CERTIFIED_CALCULATION,
+    DER,
+    OBS,
+    S1DemandOutcomeEvidence,
+)
 
 
 def ev(value, status="SCN", *sources):
@@ -20,7 +26,40 @@ def baseline(*, supply=55.0, supply_status="SCN", annual=10000.0, peak=10.0):
     )
 
 
-def intervention(intervention_id, annual, peak, *, family="envelope", supply=None, applicability="SCN", completion="Q"):
+def intervention(
+    intervention_id,
+    annual,
+    peak,
+    *,
+    family="envelope",
+    supply=None,
+    applicability="SCN",
+    completion="Q",
+    with_linked_outcome=False,
+):
+    outcome = None
+    completion_sources = ()
+    if completion in {OBS, DER} and with_linked_outcome:
+        outcome = S1DemandOutcomeEvidence(
+            record_id="TEST-REC-001",
+            intervention_id=intervention_id,
+            evidence_kind=CERTIFIED_CALCULATION,
+            evidence_status=DER,
+            phase_link_id=f"S0_TO_S1:TEST-REC-001:{intervention_id}",
+            before_value=100.0,
+            after_value=80.0,
+            before_metric_id="ANNUAL_PRIMARY_ENERGY",
+            after_metric_id="ANNUAL_PRIMARY_ENERGY",
+            before_unit="kWh_m2a",
+            after_unit="kWh_m2a",
+            before_method_id="TEST-SAME-METHOD",
+            after_method_id="TEST-SAME-METHOD",
+            before_source_refs=("TEST-HET-BEFORE",),
+            after_source_refs=("TEST-HET-AFTER",),
+            end_use_scope_documented=True,
+        )
+        completion = DER
+        completion_sources = ("TEST-HET-BEFORE", "TEST-HET-AFTER")
     return RetrofitIntervention(
         intervention_id,
         family,
@@ -30,7 +69,8 @@ def intervention(intervention_id, annual, peak, *, family="envelope", supply=Non
         applicability_status=applicability,
         completion_status=completion,
         supply_temperature_after_c=supply,
-        completion_source_ids=("SRC-B06-ENGINE-CONTRACT-2026",) if completion == "OBS" else (),
+        completion_source_ids=completion_sources,
+        completion_outcome=outcome,
     )
 
 
@@ -97,10 +137,21 @@ def test_dhw_is_unchanged_by_envelope_intervention():
     assert result.b05_handoff.dhw_required_kw == 2.0
 
 
-def test_completion_evidence_is_required_for_s1_gate():
-    result = evaluate_retrofit(baseline(), [intervention("verified-roof", 0.2, 0.1, completion="OBS")])
-    assert result.post_state_candidate == "S1_DEMAND_REDUCED"
-    assert result.s1_gate == "READY"
+def test_linked_completion_outcome_is_required_for_s1_gate():
+    bare = evaluate_retrofit(
+        baseline(),
+        [intervention("verified-roof", 0.2, 0.1, completion="OBS")],
+    )
+    assert bare.post_state_candidate == "S1_CANDIDATE"
+    assert bare.s1_gate == "BLOCKED"
+    assert any("linked S1 demand outcome is missing" in item for item in bare.remaining_readiness_gaps)
+
+    linked = evaluate_retrofit(
+        baseline(),
+        [intervention("verified-roof", 0.2, 0.1, completion="DER", with_linked_outcome=True)],
+    )
+    assert linked.post_state_candidate == "S1_DEMAND_REDUCED"
+    assert linked.s1_gate == "READY"
 
 
 def test_supply_temperature_missing_keeps_b05_handoff_q():
