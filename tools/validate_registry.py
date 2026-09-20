@@ -405,6 +405,15 @@ EXPECTED_HEADERS = {
         "annual_reference_existing_kwh_m2a", "annual_reference_after_kwh_m2a",
         "engine_default_factor", "national_prevalence_claim", "status", "notes",
     ],
+    "b06_p64_realized_completion_authority.csv": [
+        "claim_id", "claim_scope", "current_status", "authority_type",
+        "required_completion_artifacts", "required_outcome_artifacts",
+        "s1_rule", "source_ids", "national_completed_stock_claim", "notes",
+    ],
+    "b06_p64_completion_requirements.csv": [
+        "artifact_id", "artifact_role", "evidence_status", "required",
+        "record_link_required", "site_link_required", "scope_link_required", "notes",
+    ],
     "battery_sources.csv": [
         "source_id", "module_id", "layer", "title", "institution", "url",
         "published_at", "retrieved_at", "source_tier", "evidence_status",
