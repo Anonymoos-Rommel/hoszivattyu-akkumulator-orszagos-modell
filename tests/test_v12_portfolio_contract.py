@@ -104,9 +104,20 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertEqual({"S0", "S1", "S2"}, {row["state_id"] for row in rows})
         for row in rows:
             self.assertEqual("no", row["allow_inference"])
-        blocked = [row for row in rows if row["state_id"] in {"S1", "S2"}]
-        self.assertTrue(blocked)
-        self.assertTrue(all(row["evidence_status"] == "Q" for row in blocked))
+
+        s1 = next(row for row in rows if row["bridge_id"] == "BR-B02-S1-DEMAND-OUTCOME")
+        self.assertEqual("CONTRACTED", s1["status"])
+        self.assertEqual("OBS/DER_PER_RECORD", s1["evidence_status"])
+        self.assertEqual("yes", s1["required_for_gate"])
+        self.assertIn("record evidence remains Q", s1["notes"])
+
+        unresolved = [
+            row for row in rows
+            if row["state_id"] in {"S1", "S2"}
+            and row["bridge_id"] != "BR-B02-S1-DEMAND-OUTCOME"
+        ]
+        self.assertTrue(unresolved)
+        self.assertTrue(all(row["evidence_status"] == "Q" for row in unresolved))
 
     def test_b02_evidence_gap_matrix_is_field_level_and_no_new_eligibility(self) -> None:
         headers, rows = read_csv(REGISTRY / "b02_s0_s2_evidence_gap_matrix.csv")
