@@ -29,6 +29,7 @@ from modules.B06.effect_surface import (
     QUALIFIED as EFFECT_SURFACE_QUALIFIED,
     EffectSurfaceEvidence,
     assess_effect_surface,
+    calculate_state_demand,
 )
 
 
@@ -363,6 +364,25 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
                 ):
                     gaps.append(
                         f"{intervention.intervention_id}: P63 record does not match admitted baseline"
+                    )
+                    continue
+                surface_before = calculate_state_demand(surface.before)
+                if (
+                    surface_before.annual_space_heat_kwh is None
+                    or surface_before.design_peak_heat_kw is None
+                ):
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 before-state demand is not reproducible"
+                    )
+                    continue
+                if abs(surface_before.annual_space_heat_kwh - baseline_annual) > 0.05:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 before annual demand does not match admitted baseline"
+                    )
+                    continue
+                if abs(surface_before.design_peak_heat_kw - baseline_peak) > 0.001:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 before peak demand does not match admitted baseline"
                     )
                     continue
                 if surface_decision.annual_reduction_fraction is None or surface_decision.peak_reduction_fraction is None:
