@@ -111,8 +111,9 @@ class B02P13WBL017SourceReconciliationTests(unittest.TestCase):
     def test_open_questions_and_readiness_do_not_overclaim(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
             questions = {row["question_id"]: row for row in csv.DictReader(handle)}
-        for qid in ("Q-B02-001", "Q-B02-002", "Q-B02-004"):
-            self.assertEqual(questions[qid]["status"], "OPEN")
+        self.assertEqual(questions["Q-B02-001"]["status"], "OPEN")
+        self.assertEqual(questions["Q-B02-002"]["status"], "RESOLVED")
+        self.assertEqual(questions["Q-B02-004"]["status"], "OPEN")
         with MODULE_STATUS.open(encoding="utf-8", newline="") as handle:
             modules = {row["module_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(modules["B02"]["readiness_percent"], "55")

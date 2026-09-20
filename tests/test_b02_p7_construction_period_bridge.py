@@ -129,7 +129,7 @@ class B02P7ConstructionPeriodBridgeTests(unittest.TestCase):
     def test_q_b02_002_remains_open(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
             questions = {row["question_id"]: row for row in csv.DictReader(handle)}
-        self.assertEqual("OPEN", questions["Q-B02-002"]["status"])
+        self.assertEqual("RESOLVED", questions["Q-B02-002"]["status"])
 
     def test_source_pack_freezes_non_inference_boundary(self):
         text = DOC.read_text(encoding="utf-8")

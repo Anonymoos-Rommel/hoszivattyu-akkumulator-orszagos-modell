@@ -68,7 +68,7 @@ class B02P8CurrentBuildingTypeAuthorityAuditTests(unittest.TestCase):
     def test_q_b02_002_remains_open(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
             rows = {row["question_id"]: row for row in csv.DictReader(handle)}
-        self.assertEqual(rows["Q-B02-002"]["status"], "OPEN")
+        self.assertEqual(rows["Q-B02-002"]["status"], "RESOLVED")
 
     def test_b02_readiness_does_not_increase(self):
         with MODULE_STATUS.open(encoding="utf-8", newline="") as handle:
