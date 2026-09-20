@@ -25,6 +25,11 @@ from modules.B06.peak_effect_gate import (
     PeakEffectEvidence,
     assess_peak_effect,
 )
+from modules.B06.effect_surface import (
+    QUALIFIED as EFFECT_SURFACE_QUALIFIED,
+    EffectSurfaceEvidence,
+    assess_effect_surface,
+)
 
 
 EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
@@ -82,6 +87,7 @@ class RetrofitIntervention:
     completion_source_ids: tuple[str, ...] = ()
     completion_outcome: S1DemandOutcomeEvidence | None = None
     peak_effect_evidence: PeakEffectEvidence | None = None
+    effect_surface_evidence: EffectSurfaceEvidence | None = None
 
     def validate(self) -> None:
         for name, status in (
@@ -262,6 +268,7 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
     current_supply = baseline.required_supply_temperature_before_c.value
     evidence_statuses = [baseline.baseline_annual_space_heat_kwh.status, baseline.baseline_peak_heat_load_kw.status]
     gaps: list[str] = []
+    claimed_surface_keys: set[str] = set()
     for intervention in rows:
         evidence_statuses.extend((intervention.evidence_status, intervention.applicability_status))
         if intervention.evidence_status == "Q":
@@ -273,52 +280,115 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
             continue
 
         if intervention.evidence_status in {"OBS", "DER"}:
-            if intervention.peak_effect_evidence is None:
+            authorities = (
+                intervention.peak_effect_evidence is not None,
+                intervention.effect_surface_evidence is not None,
+            )
+            if sum(authorities) == 0:
                 gaps.append(
-                    f"{intervention.intervention_id}: P62 linked annual/peak effect evidence is required for OBS/DER intervention effects"
+                    f"{intervention.intervention_id}: P62 linked pair or P63 physical surface evidence is required for OBS/DER intervention effects"
                 )
                 continue
-            effect_decision = assess_peak_effect(intervention.peak_effect_evidence)
-            if effect_decision.status != PEAK_EFFECT_QUALIFIED:
-                gaps.extend(
-                    f"{intervention.intervention_id}: P62 peak effect {reason}"
-                    for reason in effect_decision.reasons
-                )
-                continue
-            effect = intervention.peak_effect_evidence
-            if effect.intervention_id != intervention.intervention_id:
+            if sum(authorities) > 1:
                 gaps.append(
-                    f"{intervention.intervention_id}: P62 intervention link mismatched"
+                    f"{intervention.intervention_id}: MULTIPLE_EFFECT_AUTHORITIES"
                 )
                 continue
-            if effect.evidence_status != intervention.evidence_status:
-                gaps.append(
-                    f"{intervention.intervention_id}: P62 evidence status mismatched"
-                )
-                continue
-            if (
-                baseline.baseline_demand_evidence is not None
-                and effect.record_id != baseline.baseline_demand_evidence.record_id
-            ):
-                gaps.append(
-                    f"{intervention.intervention_id}: P62 record does not match admitted baseline"
-                )
-                continue
-            if effect_decision.annual_reduction_fraction is None or effect_decision.peak_reduction_fraction is None:
-                gaps.append(
-                    f"{intervention.intervention_id}: P62 reduction fractions missing"
-                )
-                continue
-            if abs(effect_decision.annual_reduction_fraction - intervention.annual_reduction_fraction) > 1e-9:
-                gaps.append(
-                    f"{intervention.intervention_id}: annual reduction fraction does not match P62 evidence"
-                )
-                continue
-            if abs(effect_decision.peak_reduction_fraction - intervention.peak_reduction_fraction) > 1e-9:
-                gaps.append(
-                    f"{intervention.intervention_id}: peak reduction fraction does not match P62 evidence"
-                )
-                continue
+
+            if intervention.peak_effect_evidence is not None:
+                effect_decision = assess_peak_effect(intervention.peak_effect_evidence)
+                if effect_decision.status != PEAK_EFFECT_QUALIFIED:
+                    gaps.extend(
+                        f"{intervention.intervention_id}: P62 peak effect {reason}"
+                        for reason in effect_decision.reasons
+                    )
+                    continue
+                effect = intervention.peak_effect_evidence
+                if effect.intervention_id != intervention.intervention_id:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P62 intervention link mismatched"
+                    )
+                    continue
+                if effect.evidence_status != intervention.evidence_status:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P62 evidence status mismatched"
+                    )
+                    continue
+                if (
+                    baseline.baseline_demand_evidence is not None
+                    and effect.record_id != baseline.baseline_demand_evidence.record_id
+                ):
+                    gaps.append(
+                        f"{intervention.intervention_id}: P62 record does not match admitted baseline"
+                    )
+                    continue
+                if effect_decision.annual_reduction_fraction is None or effect_decision.peak_reduction_fraction is None:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P62 reduction fractions missing"
+                    )
+                    continue
+                if abs(effect_decision.annual_reduction_fraction - intervention.annual_reduction_fraction) > 1e-9:
+                    gaps.append(
+                        f"{intervention.intervention_id}: annual reduction fraction does not match P62 evidence"
+                    )
+                    continue
+                if abs(effect_decision.peak_reduction_fraction - intervention.peak_reduction_fraction) > 1e-9:
+                    gaps.append(
+                        f"{intervention.intervention_id}: peak reduction fraction does not match P62 evidence"
+                    )
+                    continue
+
+            if intervention.effect_surface_evidence is not None:
+                if intervention.evidence_status != "DER":
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 physical surface authority is DER"
+                    )
+                    continue
+                surface = intervention.effect_surface_evidence
+                surface_decision = assess_effect_surface(surface)
+                if surface_decision.status != EFFECT_SURFACE_QUALIFIED:
+                    gaps.extend(
+                        f"{intervention.intervention_id}: P63 effect surface {reason}"
+                        for reason in surface_decision.reasons
+                    )
+                    continue
+                if surface.intervention_id != intervention.intervention_id:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 intervention link mismatched"
+                    )
+                    continue
+                if (
+                    baseline.baseline_demand_evidence is not None
+                    and surface.before.record_id != baseline.baseline_demand_evidence.record_id
+                ):
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 record does not match admitted baseline"
+                    )
+                    continue
+                if surface_decision.annual_reduction_fraction is None or surface_decision.peak_reduction_fraction is None:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 reduction fractions missing"
+                    )
+                    continue
+                if abs(surface_decision.annual_reduction_fraction - intervention.annual_reduction_fraction) > 1e-9:
+                    gaps.append(
+                        f"{intervention.intervention_id}: annual reduction fraction does not match P63 surface"
+                    )
+                    continue
+                if abs(surface_decision.peak_reduction_fraction - intervention.peak_reduction_fraction) > 1e-9:
+                    gaps.append(
+                        f"{intervention.intervention_id}: peak reduction fraction does not match P63 surface"
+                    )
+                    continue
+                surface_keys = set(surface_decision.claimed_parameter_keys)
+                overlap = claimed_surface_keys & surface_keys
+                if overlap:
+                    gaps.append(
+                        f"{intervention.intervention_id}: P63 overlapping physical effect keys: "
+                        + ",".join(sorted(overlap))
+                    )
+                    continue
+                claimed_surface_keys.update(surface_keys)
 
         current_annual *= 1 - intervention.annual_reduction_fraction
         current_peak *= 1 - intervention.peak_reduction_fraction
