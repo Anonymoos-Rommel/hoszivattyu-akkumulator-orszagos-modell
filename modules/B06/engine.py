@@ -375,14 +375,14 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
                         f"{intervention.intervention_id}: P63 before-state demand is not reproducible"
                     )
                     continue
-                if abs(surface_before.annual_space_heat_kwh - baseline_annual) > 0.05:
+                if abs(surface_before.annual_space_heat_kwh - current_annual) > 0.05:
                     gaps.append(
-                        f"{intervention.intervention_id}: P63 before annual demand does not match admitted baseline"
+                        f"{intervention.intervention_id}: P63 before annual demand does not match current sequential state"
                     )
                     continue
-                if abs(surface_before.design_peak_heat_kw - baseline_peak) > 0.001:
+                if abs(surface_before.design_peak_heat_kw - current_peak) > 0.001:
                     gaps.append(
-                        f"{intervention.intervention_id}: P63 before peak demand does not match admitted baseline"
+                        f"{intervention.intervention_id}: P63 before peak demand does not match current sequential state"
                     )
                     continue
                 if surface_decision.annual_reduction_fraction is None or surface_decision.peak_reduction_fraction is None:
