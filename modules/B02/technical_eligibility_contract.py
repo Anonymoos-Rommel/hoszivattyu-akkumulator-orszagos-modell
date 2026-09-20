@@ -54,13 +54,16 @@ S2_Q = "S2_Q"
 CURRENT_REQUIRED_GAP_IDS = (
     "GAP-B02-S2-HEAT-EMITTER",
     "GAP-B02-S2-DESIGN-TEMPERATURE",
-    "GAP-B02-S2-ELECTRICAL",
     "GAP-B02-S2-PERMIT",
 )
 
 # P57: hydraulic engineering remains a required record/project component, but
 # current-stock hydraulic readiness is no longer an aggregate national
 # precondition. It is assessed through hydraulic_transition_gate.py.
+#
+# P58: electrical connection readiness is likewise assessed as a DSO-bound
+# record/project transition path. Current service capacity is not an aggregate
+# national precondition; DSO_PENDING stays Q and DSO_REFUSED is explicit BLOCKED.
 
 
 class B02EligibilityError(ValueError):
