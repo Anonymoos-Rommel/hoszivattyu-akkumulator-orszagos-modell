@@ -20,6 +20,7 @@ from modules.B02.technical_eligibility_contract import (
 
 ROOT = Path(__file__).resolve().parents[2]
 AUTHORITY_PATH = ROOT / "registry" / "b02_technical_component_authority.csv"
+NON_TECHNICAL_AUTHORITY_ROWS = frozenset({"PERMIT"})
 
 
 class B02ComponentAuthorityError(ValueError):
@@ -31,30 +32,57 @@ def load_component_authority() -> dict[str, frozenset[str]]:
         rows = list(csv.DictReader(handle))
 
     by_component: dict[str, frozenset[str]] = {}
+    seen_rows: set[str] = set()
+    expected = set(REQUIRED_TECHNICAL_COMPONENTS)
+
     for row in rows:
         component_id = row["component_id"].strip()
-        if component_id in by_component:
+        if component_id in seen_rows:
             raise B02ComponentAuthorityError(f"duplicate authority row: {component_id}")
+        seen_rows.add(component_id)
+
         producers = frozenset(
             item.strip()
             for item in row["permitted_producer_modules"].split(";")
             if item.strip()
         )
-        if row["consumer_module"].strip() != "B02":
-            raise B02ComponentAuthorityError(f"{component_id} consumer must remain B02")
         if not producers:
             raise B02ComponentAuthorityError(f"{component_id} has no permitted producer")
         if row["required_evidence_statuses"].strip() != "OBS;DER":
             raise B02ComponentAuthorityError(
                 f"{component_id} evidence-status contract drifted"
             )
-        by_component[component_id] = producers
 
-    expected = set(REQUIRED_TECHNICAL_COMPONENTS)
+        if component_id in expected:
+            if row["consumer_module"].strip() != "B02":
+                raise B02ComponentAuthorityError(
+                    f"{component_id} technical consumer must remain B02"
+                )
+            by_component[component_id] = producers
+            continue
+
+        if component_id not in NON_TECHNICAL_AUTHORITY_ROWS:
+            raise B02ComponentAuthorityError(
+                f"unexpected non-technical authority row: {component_id}"
+            )
+        if component_id == "PERMIT":
+            if row["consumer_module"].strip() != "B01;B18":
+                raise B02ComponentAuthorityError(
+                    "PERMIT consumer must be B01;B18 after P59 handoff"
+                )
+            if producers != frozenset({"B18", "B10"}):
+                raise B02ComponentAuthorityError(
+                    "PERMIT producers must remain B18;B10 after P59 handoff"
+                )
+
     actual = set(by_component)
     if actual != expected:
         raise B02ComponentAuthorityError(
-            f"authority component set must be exact; missing={sorted(expected-actual)} extra={sorted(actual-expected)}"
+            f"technical authority component set must be exact; missing={sorted(expected-actual)} extra={sorted(actual-expected)}"
+        )
+    if not NON_TECHNICAL_AUTHORITY_ROWS.issubset(seen_rows):
+        raise B02ComponentAuthorityError(
+            f"required non-technical authority rows missing: {sorted(NON_TECHNICAL_AUTHORITY_ROWS-seen_rows)}"
         )
     return by_component
 
