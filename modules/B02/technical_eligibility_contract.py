@@ -363,6 +363,8 @@ def assess_current_repository_gate() -> CurrentRepositoryEligibilityGate:
         source_refs=(
             "registry/b02_s0_s2_evidence_gap_matrix.csv",
             "registry/b01_national_rollout_policy_contract.csv",
+            "modules/B06/emitter_temperature_gate.py",
+            "docs/source_packs/B06_P65_EMITTER_TEMPERATURE_AUTHORITY.md",
             "Q-B02-001",
             "Q-B02-004",
         ),
