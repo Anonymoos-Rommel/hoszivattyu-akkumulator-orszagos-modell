@@ -228,10 +228,12 @@ megváltoztatására.
 Numerikus post-retrofit supply csak három record-level út egyikéből jöhet:
 
 1. `ROOM_BY_ROOM_EMITTER_DESIGN` — minden fűtött helyiség explicit design
-   heat load + exact emitter inventory + source-native emitter curve; az egész
-   rendszer supply-ját a legnagyobb helyiségi igény adja.
+   heat load + azonos design indoor temperature + exact emitter inventory +
+   source-native emitter curve; az egész rendszer supply-ját a legnagyobb
+   helyiségi igény adja.
 2. `SIGNED_POST_RETROFIT_MEP_DESIGN` — explicit supply/return + design
-   outdoor/indoor + teljes room heat-loss + emitter schedule + hydraulic basis.
+   outdoor/indoor + teljes room heat-loss + emitter schedule + hydraulic basis +
+   azonosítható tervező és aláírt/lezárt terv.
 3. `MEASURED_POST_RETROFIT_DESIGN_POINT` — realized post state, megfigyelt
    supply/return, teljes fűtötthelyiség-lefedettség és design-külső
    hőmérsékletnél nem enyhébb mérési pont.
