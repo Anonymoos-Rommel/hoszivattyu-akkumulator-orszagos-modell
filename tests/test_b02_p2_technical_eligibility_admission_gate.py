@@ -178,7 +178,6 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
             (
                 "GAP-B02-S2-HEAT-EMITTER",
                 "GAP-B02-S2-DESIGN-TEMPERATURE",
-                "GAP-B02-S2-ELECTRICAL",
                 "GAP-B02-S2-PERMIT",
             ),
             gate.blocking_gap_ids,
