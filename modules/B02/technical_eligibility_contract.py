@@ -50,10 +50,12 @@ S2_READY = "S2_READY"
 S2_BLOCKED = "S2_BLOCKED"
 S2_Q = "S2_Q"
 
-CURRENT_REQUIRED_GAP_IDS = (
-    "GAP-B02-S2-HEAT-EMITTER",
-    "GAP-B02-S2-DESIGN-TEMPERATURE",
-)
+# P65: thermal-distribution readiness is now a mandatory record/project
+# transition-design component, like P57 hydraulic and P58 electrical readiness.
+# The national current-stock emitter/temperature fields remain legitimate data
+# gaps, but they are no longer aggregate prerequisites for opening the
+# executable per-record technical gate.
+CURRENT_REQUIRED_GAP_IDS: tuple[str, ...] = ()
 
 # P57: hydraulic engineering remains a required record/project component, but
 # current-stock hydraulic readiness is no longer an aggregate national
