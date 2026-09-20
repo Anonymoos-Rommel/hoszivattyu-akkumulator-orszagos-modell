@@ -40,9 +40,13 @@ képezhető; B06-P1 nem inventál ilyen profilt.
 
 ## S1 szemantika
 
-Az intervention megléte vagy katalógusba vétele nem teljesíti az S1 kaput. Az
-engine csak `S1_CANDIDATE` állapotot ad, amíg nincs OBS completion evidence és
-source. A hiányzó adat nem jelent „retrofit nem szükséges” állapotot.
+Az intervention megléte vagy katalógusba vétele nem teljesíti az S1 kaput.
+P60 előtt az engine egy OBS completion-státusz + source jelenlétét vizsgálta;
+ez túl gyenge volt és eltért a household state model OBS/DER szerződésétől.
+P60-tól csak linked outcome gate nyithat S1-et: normalizált mért `OBS`,
+azonos módszerű hiteles számítási `DER`, vagy explicit source-backed
+`NOT_REQUIRED`. A hiányzó adat nem jelent „retrofit nem szükséges”
+állapotot.
 
 ## B06-P2 – retrofit-hatás evidence calibration (2026-08-22)
 
@@ -69,6 +73,10 @@ komponensekre.
   tartományként őrizzük; középérték nincs materializálva, a sor `Q`.
 - Az Uddevalla-eset 16%-os mért csökkenést említ, de a 2017-es referenciaév
   és a 2020-as utóállapot klímája eltér; ez is csak nem kalibrált `Q` evidence.
+- P60 két magyar bounded kalibrációs útvonalat ad hozzá. A keszthelyi
+  tanúsítvány-jellegű 220 -> 126-129 kWh/m2a pár `DER` kontextus marad és
+  nem lesz engine-faktor; a 41-42,5%-os hőközponti és a 3600 -> 1600 m3
+  családi házas mért eset normalizálási/end-use hiány miatt `Q` marad.
 
 Az időjárási és end-use szeparációs korlátokat a JRC renovációs mérési
 útmutatója alapján kezeljük: HDD/occupancy/üzemviteli normalizálás és DHW-
