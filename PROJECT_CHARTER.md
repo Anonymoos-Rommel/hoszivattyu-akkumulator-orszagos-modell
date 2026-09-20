@@ -40,6 +40,20 @@ A kanonikus egység nem az egyszeri háztartási telepítés, hanem az `S0`–`S
 - `POL` — szakpolitikai döntési változó;
 - `Q` — nyitott kérdés vagy hiányzó bizonyíték.
 
+## Országos inferencia és egyedi döntés
+
+A projekt országos döntéstámogató modell, nem négymillió lakásból álló teljes műszaki nyilvántartás. A teljes populációs mikroadat hiánya önmagában nem bizonyítékhiány, ha az adott állítás megfelelő pontossággal és dokumentált bizonytalansággal levezethető reprezentatív megfigyelt mintából vagy validált, többforrású kalibrált becslésből.
+
+Kanonikus szabály:
+
+`NO FULL-POPULATION DATA != BLOCKER`
+
+`NO DEFENSIBLE POPULATION INFERENCE == BLOCKER`
+
+Az országos prevalencia, megoszlás vagy aggregált hatás becsléséhez elfogadható a dokumentált mintavétel, súlyozás/kalibráció, reprezentativitási diagnosztika, bizonytalansági intervallum és érzékenységvizsgálat. Egy konkrét háztartás `PASS/FAIL`, állapotátmeneti vagy kivitelezési döntését azonban populációs valószínűség nem helyettesítheti; ahhoz az adott rekordhoz tartozó bizonyíték szükséges.
+
+Részletes szerződés: [`docs/methodology/population_inference_policy.md`](docs/methodology/population_inference_policy.md).
+
 ## Minőségi kapuk
 
 - Minden kritikus bemenethez lehetőség szerint két független ellenőrzés tartozik.
