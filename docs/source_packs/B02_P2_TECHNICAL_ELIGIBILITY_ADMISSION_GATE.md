@@ -34,7 +34,7 @@ physical screening scope and all three technical components pass:
 
 1. `THERMAL_DISTRIBUTION` — record/project evidence that the post-retrofit
    emitter/temperature arrangement satisfies the approved technical criterion.
-   P65 supplies the fail-closed transition-design authority; reuse of existing
+   P65 supplies the fail-closed post-retrofit emitter/temperature evidence gate consumed by B02; reuse of existing
    emitters requires exact room-level evidence, while replacement can be
    established by a complete signed MEP design or qualified design-condition
    measurement;
