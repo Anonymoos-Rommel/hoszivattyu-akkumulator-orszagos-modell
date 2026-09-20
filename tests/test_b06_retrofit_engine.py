@@ -5,6 +5,7 @@ from modules.B06.s1_demand_outcome_gate import (
     OBS,
     S1DemandOutcomeEvidence,
 )
+from modules.B06.realized_completion_gate import RealizedCompletionEvidence
 
 
 def ev(value, status="SCN", *sources):
@@ -38,6 +39,7 @@ def intervention(
     with_linked_outcome=False,
 ):
     outcome = None
+    realized_completion = None
     completion_sources = ()
     if completion in {OBS, DER} and with_linked_outcome:
         outcome = S1DemandOutcomeEvidence(
@@ -58,8 +60,32 @@ def intervention(
             after_source_refs=("TEST-HET-AFTER",),
             end_use_scope_documented=True,
         )
-        completion = DER
-        completion_sources = ("TEST-HET-BEFORE", "TEST-HET-AFTER")
+        realized_completion = RealizedCompletionEvidence(
+            record_id="TEST-REC-001",
+            intervention_id=intervention_id,
+            project_id="TEST-PROJECT-001",
+            site_link_id="TEST-SITE-001",
+            completion_evidence_status=OBS,
+            physical_completion_date="2026-06-30",
+            final_het_date="2026-07-05",
+            contract_scope_ids=(intervention_id,),
+            realized_scope_ids=(intervention_id,),
+            final_invoice_refs=("TEST-FINAL-INVOICE",),
+            performance_confirmation_refs=("TEST-PERFORMANCE-CONFIRMATION",),
+            final_het_refs=("TEST-HET-AFTER",),
+            final_energy_calculation_refs=("TEST-HET-AFTER-CALC",),
+            verifier_id="TEST-TE",
+            final_het_record_link="TEST-REC-001",
+            final_het_site_link="TEST-SITE-001",
+            physical_completion_declared=True,
+            reproducible_repository_binding=True,
+        )
+        completion = OBS
+        completion_sources = (
+            "TEST-FINAL-INVOICE",
+            "TEST-PERFORMANCE-CONFIRMATION",
+            "TEST-HET-AFTER",
+        )
     return RetrofitIntervention(
         intervention_id,
         family,
@@ -71,6 +97,7 @@ def intervention(
         supply_temperature_after_c=supply,
         completion_source_ids=completion_sources,
         completion_outcome=outcome,
+        realized_completion=realized_completion,
     )
 
 
@@ -137,18 +164,18 @@ def test_dhw_is_unchanged_by_envelope_intervention():
     assert result.b05_handoff.dhw_required_kw == 2.0
 
 
-def test_linked_completion_outcome_is_required_for_s1_gate():
+def test_realized_completion_and_linked_outcome_are_both_required_for_s1_gate():
     bare = evaluate_retrofit(
         baseline(),
         [intervention("verified-roof", 0.2, 0.1, completion="OBS")],
     )
     assert bare.post_state_candidate == "S1_CANDIDATE"
     assert bare.s1_gate == "BLOCKED"
-    assert any("linked S1 demand outcome is missing" in item for item in bare.remaining_readiness_gaps)
+    assert any("P64 realized completion evidence is missing" in item for item in bare.remaining_readiness_gaps)
 
     linked = evaluate_retrofit(
         baseline(),
-        [intervention("verified-roof", 0.2, 0.1, completion="DER", with_linked_outcome=True)],
+        [intervention("verified-roof", 0.2, 0.1, completion="OBS", with_linked_outcome=True)],
     )
     assert linked.post_state_candidate == "S1_DEMAND_REDUCED"
     assert linked.s1_gate == "READY"
