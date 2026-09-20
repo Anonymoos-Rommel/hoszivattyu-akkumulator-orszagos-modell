@@ -60,10 +60,11 @@ Az intervention-specifikus audit a `data/processed/retrofit_effect_evidence.csv`
 fájlban él. A sorok külön éves és peak mezőket, bizonyítékosztályt,
 weather-normalization, DHW-szeparációs és applicability mezőket tartalmaznak.
 Mért vagy modellezett éves before/after adat csak a saját kontextusában
-érvényes; a P2-ben rögzített sorok jelenleg `Q` és `usable_for_engine=NO`, mert
-nem áll rendelkezésre egyidejűleg reprodukálható időjárás-/üzemviteli
-normalizálás, komponens-attribúció és intervention-linked design-peak evidence.
-Tartomány esetén a minimum és maximum külön mező; középérték nem tölthető be.
+érvényes. P60-tól a táblában lehet bounded `DER` kalibrációs sor is, de
+`usable_for_engine=NO` marad, ha az applicability, komponens-attribúció vagy
+design-peak evidence nem teljes. Mért adat időjárás-/üzemviteli normalizálás
+nélkül nem emelhető `OBS` outcome authority-vá. Tartomány esetén a minimum és
+maximum külön mező; középérték nem tölthető be.
 
 ## P3 design-load contract
 
@@ -116,3 +117,28 @@ A B05 bridge a P3 post design loadot, a számított supply-t, a design Toutot,
 a külön DHW értéket és a meglévő B05 performance-map operating pointját adja
 át. A B05 map kívüli pont `Q`, a mapon belüli, de elégtelen kapacitás pedig
 explicit `CAPACITY_SHORTFALL`; egyik sem indít automatikus termékválasztást.
+
+## P60 linked S1 demand-outcome contract
+
+Az S0 -> S1 állapotátmenet nem országos stock-mezőt vár, hanem rekord- és
+intervention-szintű completion outcome-ot.
+
+A kanonikus gate: `modules/B06/s1_demand_outcome_gate.py`.
+
+Elfogadott utak:
+
+- `MEASURED_USAGE / OBS`: azonos metrika, egység és módszer szerinti
+  before/after, dokumentált normalizálással és end-use scope-pal;
+- `CERTIFIED_CALCULATION / DER`: azonos számítási módszerű, fázishoz kötött
+  before/after számítás;
+- `NOT_REQUIRED / OBS|DER`: kizárólag explicit szabály- és authority-ref
+  mellett.
+
+Hiányzó vagy inkompatibilis pár `Q`; pozitív megtakarítás hiánya vagy explicit
+minimumküszöb el nem érése `BLOCKED`. A `RetrofitIntervention` puszta
+completion-státusza és source ID-ja nem nyitja az S1 kaput.
+
+A magyar MFB Otthonfelújítási Program pre/post HET logikája a
+`CERTIFIED_CALCULATION / DER` út authority-ja. A program 30%-os minimuma
+programfeltétel, nem univerzális fizikai retrofit-faktor.
+
