@@ -105,19 +105,45 @@ class V12PortfolioContractTests(unittest.TestCase):
         for row in rows:
             self.assertEqual("no", row["allow_inference"])
 
-        s1 = next(row for row in rows if row["bridge_id"] == "BR-B02-S1-DEMAND-OUTCOME")
-        self.assertEqual("CONTRACTED", s1["status"])
-        self.assertEqual("OBS/DER_PER_RECORD", s1["evidence_status"])
-        self.assertEqual("yes", s1["required_for_gate"])
-        self.assertIn("record evidence remains Q", s1["notes"])
+        by_id = {row["bridge_id"]: row for row in rows}
+
+        completion = by_id["BR-B02-S1-REALIZED-COMPLETION"]
+        self.assertEqual("CONTRACTED", completion["status"])
+        self.assertEqual("OBS_PER_RECORD", completion["evidence_status"])
+        self.assertEqual("yes", completion["required_for_gate"])
+        self.assertIn("same record/intervention", completion["notes"])
+
+        outcome = by_id["BR-B02-S1-DEMAND-OUTCOME"]
+        self.assertEqual("CONTRACTED", outcome["status"])
+        self.assertEqual("OBS/DER_PER_RECORD", outcome["evidence_status"])
+        self.assertEqual("yes", outcome["required_for_gate"])
+        self.assertIn("record evidence remains Q", outcome["notes"])
+
+        hydraulic = by_id["BR-B02-S2-HYDRAULIC"]
+        self.assertEqual("CONTRACTED", hydraulic["status"])
+        self.assertEqual("OBS/DER_PER_RECORD", hydraulic["evidence_status"])
+        self.assertEqual("yes", hydraulic["required_for_gate"])
+        self.assertIn("missing record evidence remains Q", hydraulic["notes"])
+
+        electrical = by_id["BR-B02-S2-ELECTRICAL"]
+        self.assertEqual("CONTRACTED", electrical["status"])
+        self.assertEqual("OBS/DER_PER_RECORD", electrical["evidence_status"])
+        self.assertEqual("yes", electrical["required_for_gate"])
+        self.assertIn("DSO_PENDING=Q", electrical["notes"])
+
+        permit = by_id["BR-B02-S2-PERMIT"]
+        self.assertEqual("CONTRACTED", permit["status"])
+        self.assertEqual("OBS/DER_PER_SITE", permit["evidence_status"])
+        self.assertEqual("no", permit["required_for_gate"])
+        self.assertIn("not part of B02 technical S2 eligibility", permit["notes"])
 
         unresolved = [
-            row for row in rows
-            if row["state_id"] in {"S1", "S2"}
-            and row["bridge_id"] != "BR-B02-S1-DEMAND-OUTCOME"
+            by_id["BR-B02-S2-HEAT-EMITTER"],
+            by_id["BR-B02-S2-WATER-TEMPERATURE"],
         ]
-        self.assertTrue(unresolved)
+        self.assertTrue(all(row["status"] == "GAP" for row in unresolved))
         self.assertTrue(all(row["evidence_status"] == "Q" for row in unresolved))
+        self.assertTrue(all(row["required_for_gate"] == "yes" for row in unresolved))
 
     def test_b02_evidence_gap_matrix_is_field_level_and_no_new_eligibility(self) -> None:
         headers, rows = read_csv(REGISTRY / "b02_s0_s2_evidence_gap_matrix.csv")
