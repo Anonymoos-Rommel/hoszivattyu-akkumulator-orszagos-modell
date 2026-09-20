@@ -40,6 +40,24 @@ Invariánsok:
 - minden átmenethez bizonyíték, dátum, felelős és következő kapu tartozik;
 - egy fázis kihagyása csak az adott kapu bizonyított teljesülése esetén engedélyezett.
 
+## Országos becslés és háztartási átmenet szétválasztása
+
+A portfóliómodell két eltérő bizonyítási szintet kezel.
+
+**Országos/állományi szint:** a lakásállomány összetétele, műszaki megoszlása és aggregált programhatása becsülhető reprezentatív megfigyelt mintából vagy validált, többforrású kalibrált inferenciából, ha a célpopuláció, súlyozás, reprezentativitás, bizonytalanság és érzékenység explicit. A teljes négymilliós mikroadat hiánya önmagában nem `Q`.
+
+**Háztartási/projekt szint:** az `S0 -> S5` átmenet konkrét rekordra vonatkozik. Ezt nem lehet populációs valószínűséggel automatikusan teljesítettnek tekinteni. Az adott állapotkapuhoz szükséges record-level/site-level bizonyíték továbbra is kötelező.
+
+Kanonikus különbség:
+
+`POPULATION ESTIMATE != RECORD PASS/FAIL`
+
+`NO FULL-POPULATION DATA != BLOCKER`
+
+`NO DEFENSIBLE POPULATION INFERENCE == BLOCKER`
+
+A projekt-szintű részletes szabályt a [population inference policy](population_inference_policy.md) rögzíti.
+
 ## Éves portfólió-kiválasztás
 
 Az `intervention_catalog.csv` egy beavatkozás jelöltjét, a `portfolio_schedule.csv` pedig egy évben kiválasztott jelöltet rögzít. A választásnak legalább az alábbi komponenseket kell láthatóan kezelnie:
