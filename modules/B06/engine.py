@@ -89,13 +89,13 @@ class RetrofitIntervention:
     applicability_status: str = "Q"
     completion_status: str = "Q"
     supply_temperature_after_c: float | None = None
-    emitter_temperature_evidence: object | None = None
     source_ids: tuple[str, ...] = ()
     completion_source_ids: tuple[str, ...] = ()
     completion_outcome: S1DemandOutcomeEvidence | None = None
     realized_completion: RealizedCompletionEvidence | None = None
     peak_effect_evidence: PeakEffectEvidence | None = None
     effect_surface_evidence: EffectSurfaceEvidence | None = None
+    emitter_temperature_evidence: object | None = None
 
     def validate(self) -> None:
         for name, status in (
