@@ -63,6 +63,7 @@ class EmitterTemperatureEvidence:
     route: str
     evidence_status: str
     source_refs: tuple[str, ...]
+    building_design_heat_load_kw: EvidenceValue[float] = EvidenceValue(None, "Q")
 
     # ROOM_BY_ROOM_DESIGN route.
     heated_room_count: int | None = None
@@ -91,6 +92,7 @@ class EmitterTemperatureDecision:
     status: str
     required_supply_temperature_c: float | None
     required_return_temperature_c: float | None
+    supported_design_heat_load_kw: float | None
     critical_room_id: str | None
     route: str | None
     source_refs: tuple[str, ...]
@@ -112,7 +114,7 @@ def _numeric(value: EvidenceValue[float], name: str, *, admissible=ADMISSIBLE_EV
 
 
 def _q(route: str | None, source_refs: tuple[str, ...], gaps: list[str] | tuple[str, ...]) -> EmitterTemperatureDecision:
-    return EmitterTemperatureDecision(Q, None, None, None, route, source_refs, tuple(gaps))
+    return EmitterTemperatureDecision(Q, None, None, None, None, route, source_refs, tuple(gaps))
 
 
 def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterTemperatureDecision:
@@ -144,6 +146,7 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
             return _q(evidence.route, evidence.source_refs, ["room_id coverage must be non-empty and unique"])
 
         room_results: list[tuple[str, float, float, tuple[str, ...]]] = []
+        room_design_load_total_kw = 0.0
         all_sources = set(evidence.source_refs)
         for room in evidence.rooms:
             if not room.source_refs:
@@ -173,6 +176,7 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
             if selected_return is None:
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: selected return temperature is Q"])
 
+            room_design_load_total_kw += float(room.design_heat_load_kw.value)
             all_sources.update(room.source_refs)
             all_sources.update(room.emitter.source_ids)
             all_sources.update(room.design_heat_load_kw.source_ids)
@@ -192,6 +196,7 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
             QUALIFIED,
             critical[1],
             critical[2],
+            room_design_load_total_kw,
             critical[0],
             evidence.route,
             tuple(sorted(all_sources)),
@@ -211,7 +216,13 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
     )
     design_outdoor, outdoor_gap = _numeric(evidence.design_outdoor_temperature_c, "design_outdoor_temperature_c")
     design_indoor, indoor_gap = _numeric(evidence.design_indoor_temperature_c, "design_indoor_temperature_c")
-    gaps.extend(gap for gap in (supply_gap, return_gap, outdoor_gap, indoor_gap) if gap)
+    building_load, building_load_gap = _numeric(
+        evidence.building_design_heat_load_kw,
+        "building_design_heat_load_kw",
+    )
+    gaps.extend(
+        gap for gap in (supply_gap, return_gap, outdoor_gap, indoor_gap, building_load_gap) if gap
+    )
     if not gaps and not (supply > return_temp > design_indoor):
         gaps.append("hydronic temperatures must satisfy supply > return > design indoor temperature")
 
@@ -228,6 +239,7 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
             QUALIFIED,
             supply,
             return_temp,
+            building_load,
             None,
             evidence.route,
             tuple(sorted(set(evidence.source_refs))),
@@ -260,6 +272,7 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
         QUALIFIED,
         supply,
         return_temp,
+        building_load,
         None,
         evidence.route,
         tuple(sorted(set(evidence.source_refs))),
