@@ -52,7 +52,7 @@ def test_q_b06_006_is_resolved_without_national_claim():
 def test_readiness_percentage_is_not_uplifted_from_one_case():
     row = next(r for r in rows(READINESS) if r["component_id"] == "BASELINE_DEMAND_INPUT")
     assert row["readiness_percent"] == "45"
-    assert "intentionally not uplifted" in row["notes"]
+    assert "intentionally unchanged" in row["notes"]
     assert (
         "SRC-B06-HU-ZALAVAR-ZBR-PRE-2015" in row["source_ids"]
         or "SRC-B06-HU-ZALAVAR-HET-ZBR-2015" in row["source_ids"]
