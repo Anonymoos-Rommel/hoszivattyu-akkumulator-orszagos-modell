@@ -161,5 +161,7 @@ evidence; éves energiából nem származtatható.
 
 A P61 magyar bounded rekord:
 `B06-P61-HU-ZALAVAR-2015`, `PRE_RETROFIT`,
-`207119.64 kWh/a DER` + `132.35 kW DER`.
+source-native `207172 kWh/a DER` + source-native `132.35 kW DER`.
+A rounded specific value × area visszaszámítás nem írhatja felül a source-native
+éves totalt.
 
