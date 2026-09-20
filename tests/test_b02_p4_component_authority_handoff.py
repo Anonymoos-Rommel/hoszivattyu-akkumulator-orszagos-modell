@@ -60,7 +60,7 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
 
     def test_registry_exact_authority_partition(self):
         authority = load_component_authority()
-        self.assertEqual({"B02", "B06"}, set(authority[THERMAL_DISTRIBUTION]))
+        self.assertEqual({"B02"}, set(authority[THERMAL_DISTRIBUTION]))
         self.assertEqual({"B02", "B06"}, set(authority[HYDRAULIC]))
         self.assertEqual({"B08", "B10"}, set(authority[ELECTRICAL]))
         self.assertNotIn("PERMIT", authority)
@@ -79,13 +79,11 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
         self.assertEqual("B01;B18", rows["PERMIT"]["consumer_module"])
         self.assertEqual("B18;B10", rows["PERMIT"]["permitted_producer_modules"])
 
-    def test_b06_can_author_post_retrofit_thermal_distribution(self):
+    def test_b06_cannot_bypass_b02_thermal_component_authority(self):
         producers = self.valid_producers()
         producers[THERMAL_DISTRIBUTION] = "B06"
-        decision = assess_authoritative_technical_eligibility(
-            self.record(), producers
-        )
-        self.assertEqual(ELIGIBLE, decision.status)
+        with self.assertRaises(B02ComponentAuthorityError):
+            validate_component_authority(self.record(), producers)
 
     def test_b02_cannot_self_authorize_electrical(self):
         producers = self.valid_producers()
