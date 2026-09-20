@@ -65,6 +65,17 @@ target must meet its design heat loss. A dwelling-level total cannot mask a
 room-level shortfall. The route may represent either reuse of an adequate
 existing radiator or an explicitly sized radiator upgrade; neither action is
 self-authorizing.
+
+B02-P56 resolves the remaining *aggregate legacy-temperature dependency*.
+Current heat-pump design authority confirms that hydronic heat-pump design
+selects the proposed flow temperature from the finished-system emitter
+arrangement and room-by-room heat loss; it does not require the historical
+boiler design pair as an independent stock input. The P18/P26 current-pair
+route remains valid context and may still be audited, but it is no longer a
+canonical national technical-readiness blocker. Final radiator decisions must
+use the P42 target-temperature arrangement path; generic legacy reuse remains
+fail-closed for backwards-compatible diagnostics and cannot substitute for
+that path.
 """
 
 from __future__ import annotations
