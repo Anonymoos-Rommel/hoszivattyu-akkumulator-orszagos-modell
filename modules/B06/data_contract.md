@@ -194,3 +194,55 @@ A bounded P62 magyar kalibráció:
 A post state tervezett, ezért `DER`, nem realized completion `OBS`.
 P60 S1-completion evidence ettől külön kapu.
 
+## P63 transferable effect-surface contract
+
+A P63 nem intervention-family default százalékot vezet be. Az authority
+`EffectSurfaceEvidence`, amelyben a before és after `PhysicalState` külön
+fizikai állapot.
+
+Annual:
+
+- 12 havi climate input;
+- direct/unconditioned és ground transmission H;
+- ventilation H;
+- solar/internal gains;
+- gain-utilization;
+- intermittent-operation factor;
+- havi óraszám;
+- a tizenkét havi nettó hőigény összege.
+
+Peak:
+
+- explicit `design_total_h_w_per_k`;
+- explicit indoor és design-outdoor temperature;
+- `Q_peak = H_design,total × ΔT`.
+
+Before és after összevetéshez kötelező az azonos climate/service, valamint az
+explicit applicability domain. A domain engedélyezheti a módszer használatát,
+de nem tölthet ki hiányzó fizikai mezőket.
+
+A P63 change-keyek:
+
+- `TRANSMISSION`;
+- `GROUND_TRANSMISSION`;
+- `VENTILATION`;
+- `SOLAR_GAIN`;
+- `THERMAL_DYNAMICS`.
+
+A gate a before/after állapotból újrainferálja a változó keyeket. A deklarált
+és tényleges halmaz eltérése `Q`. Szekvenciális P63 interventionök között
+ugyanaz a key nem számolható el kétszer; overlap esetén közös state transition
+szükséges.
+
+Valós `OBS/DER` interventionhez pontosan egy numerikus effect authority
+engedett:
+
+- P62 linked pair, vagy
+- P63 physical surface.
+
+Kettő együtt `MULTIPLE_EFFECT_AUTHORITIES` és `Q`.
+
+A Hungarian TABULA validációs pontok `usable_for_engine=NO`. A typológia
+épülettípus/kor/refurbishment state tengelyt és eltérő modellezett response-ot
+igazol, de nem household observation és nem national prevalence.
+

@@ -399,6 +399,12 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "b06_p63_effect_surface_domains.csv": [
+        "domain_id", "building_type", "construction_period", "before_state",
+        "after_state", "validation_source_id",
+        "annual_reference_existing_kwh_m2a", "annual_reference_after_kwh_m2a",
+        "engine_default_factor", "national_prevalence_claim", "status", "notes",
+    ],
     "battery_sources.csv": [
         "source_id", "module_id", "layer", "title", "institution", "url",
         "published_at", "retrieved_at", "source_tier", "evidence_status",
@@ -596,6 +602,11 @@ PROCESSED_EXPECTED_HEADERS = {
         "before_transmission_specific_loss_w_m3k", "after_specific_heat_loss_w_m3k",
         "method_id", "before_source_id", "after_source_id", "scope_source_id",
         "evidence_status", "status", "notes",
+    ],
+    "retrofit_effect_surface_validation.csv": [
+        "validation_id", "archetype_id", "building_type", "construction_period",
+        "state_variant", "annual_net_heat_kwh_m2a", "source_id",
+        "evidence_class", "usable_for_engine", "notes",
     ],
     "emitter_performance_evidence.csv": [
         "emitter_id", "manufacturer", "model_type", "emitter_type", "height_mm", "length_mm",

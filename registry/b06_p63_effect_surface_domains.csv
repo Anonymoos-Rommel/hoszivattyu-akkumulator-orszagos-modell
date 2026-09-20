@@ -1,0 +1,7 @@
+domain_id,building_type,construction_period,before_state,after_state,validation_source_id,annual_reference_existing_kwh_m2a,annual_reference_after_kwh_m2a,engine_default_factor,national_prevalence_claim,status,notes
+HU-TABULA-SFH01-BEL80-STANDARD,SINGLE_FAMILY_HOUSE,BEFORE_1944,EXISTING,STANDARD_REFURBISHMENT,SRC-B06-HU-TABULA-TYPOLOGY-2014,320.5,145.8,,NO,VALIDATION_ONLY,"TABULA example validates that this type/state axis exists and produces a distinct modelled annual response. P63 runtime still requires explicit physical-state inputs."
+HU-TABULA-SFH01-BEL80-AMBITIOUS,SINGLE_FAMILY_HOUSE,BEFORE_1944,EXISTING,AMBITIOUS_REFURBISHMENT,SRC-B06-HU-TABULA-TYPOLOGY-2014,320.5,102.6,,NO,VALIDATION_ONLY,"No generic 68% factor is minted."
+HU-TABULA-MFH02-STANDARD,MULTI_FAMILY_HOUSE,1945-1979,EXISTING,STANDARD_REFURBISHMENT,SRC-B06-HU-TABULA-TYPOLOGY-2014,136.4,60.0,,NO,VALIDATION_ONLY,"Illustrative/modelled archetype; not statistical prevalence."
+HU-TABULA-MFH02-AMBITIOUS,MULTI_FAMILY_HOUSE,1945-1979,EXISTING,AMBITIOUS_REFURBISHMENT,SRC-B06-HU-TABULA-TYPOLOGY-2014,136.4,38.9,,NO,VALIDATION_ONLY,"No generic factor is minted."
+HU-TABULA-AB03-IND-STANDARD,APARTMENT_BLOCK,1980-1989,EXISTING,STANDARD_REFURBISHMENT,SRC-B06-HU-TABULA-TYPOLOGY-2014,89.9,56.3,,NO,VALIDATION_ONLY,"Industrialized apartment-block example; runtime requires record/archetype physical inputs."
+HU-TABULA-AB03-IND-AMBITIOUS,APARTMENT_BLOCK,1980-1989,EXISTING,AMBITIOUS_REFURBISHMENT,SRC-B06-HU-TABULA-TYPOLOGY-2014,89.9,37.0,,NO,VALIDATION_ONLY,"No national prevalence or direct engine factor."

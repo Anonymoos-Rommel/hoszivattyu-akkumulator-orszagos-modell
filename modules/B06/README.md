@@ -149,3 +149,32 @@ A POST dokumentum `Felújítás utáni állapot (tervezett)`, ezért
 Az engine valós `OBS/DER` intervention esetén a megadott annual/peak
 fractionöket visszaellenőrzi a P62 evidence-ből számított külön értékekkel.
 
+## P63 transferable physical effect surface
+
+A B06-P63 a retrofit-hatást nem fix százalékként, hanem explicit fizikai
+before/after állapotokból számítja újra.
+
+Az annual dimenzió a hatályos magyar havi nettó térfűtési hőmérleg, a peak
+dimenzió pedig ettől független design `H × ΔT` számítás. A két output külön
+marad.
+
+A P63 surface csak explicit applicability domainben használható:
+
+- building type;
+- construction period;
+- before/after state;
+- azonos climate és service condition;
+- explicit fizikai heat-loss/gain inputok;
+- source refs;
+- reprodukálható binding.
+
+A Hungarian TABULA type/state példák a domain alakját validálják, de
+`usable_for_engine=NO`: nem household OBS, nem reprezentatív országos
+eloszlás, és nem szolgáltat fix megtakarítási százalékot.
+
+Runtime-ban valós `OBS/DER` intervention numerikus hatásához pontosan egy
+authority engedett: P62 linked pair **vagy** P63 physical surface. P63 esetén
+a széles fizikai change-keyek (`TRANSMISSION`, `VENTILATION`, stb.) nem
+számolhatók el kétszer; overlap esetén a beavatkozásokat közös fizikai
+state-transitionként kell újraszámolni.
+
