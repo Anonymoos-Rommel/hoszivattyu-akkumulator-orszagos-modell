@@ -63,6 +63,7 @@ def signed_design(intervention_id="EMITTER", supply=45.0):
         route=SIGNED_MEP_DESIGN,
         evidence_status="DER",
         source_refs=("TEST-SIGNED-MEP",),
+        building_design_heat_load_kw=ev(10.0, source="TEST-SIGNED-MEP"),
         explicit_supply_temperature_c=ev(supply, source="TEST-SIGNED-MEP"),
         explicit_return_temperature_c=ev(supply - 5.0, source="TEST-SIGNED-MEP"),
         design_outdoor_temperature_c=ev(-13.0, source="TEST-SIGNED-MEP"),
@@ -129,6 +130,7 @@ def test_measured_route_cannot_extrapolate_from_warmer_weather():
         route=MEASURED_DESIGN_POINT,
         evidence_status="OBS",
         source_refs=("TEST-MEASUREMENT",),
+        building_design_heat_load_kw=ev(10.0, "DER", "TEST-DESIGN-LOAD"),
         explicit_supply_temperature_c=ev(45.0, "OBS", "TEST-MEASUREMENT"),
         explicit_return_temperature_c=ev(40.0, "OBS", "TEST-MEASUREMENT"),
         design_outdoor_temperature_c=ev(-13.0),
@@ -198,3 +200,23 @@ def test_runtime_accepts_only_the_temperature_minted_by_p65():
     blocked = evaluate_retrofit(baseline(), (mismatch,))
     assert blocked.status == "Q"
     assert any("does not match P65 evidence" in gap for gap in blocked.remaining_readiness_gaps)
+
+def test_runtime_rejects_temperature_evidence_for_a_different_post_peak():
+    evidence = signed_design(supply=45.0)
+    evidence = EmitterTemperatureEvidence(
+        **{**evidence.__dict__, "building_design_heat_load_kw": ev(8.0, source="TEST-SIGNED-MEP")}
+    )
+    intervention = RetrofitIntervention(
+        "EMITTER",
+        "emitter",
+        0.0,
+        0.0,
+        evidence_status="SCN",
+        applicability_status="SCN",
+        supply_temperature_after_c=45.0,
+        emitter_temperature_evidence=evidence,
+    )
+    result = evaluate_retrofit(baseline(), (intervention,))
+    assert result.status == "Q"
+    assert any("does not match current sequential peak" in gap for gap in result.remaining_readiness_gaps)
+
