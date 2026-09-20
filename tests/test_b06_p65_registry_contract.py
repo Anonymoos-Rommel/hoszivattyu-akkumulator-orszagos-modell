@@ -60,3 +60,29 @@ def test_source_pack_preserves_non_equivalence_and_fail_closed_boundary():
     assert "Q-B06-008 -> RESOLVED" in text
     assert "national household emitter coverage -> NOT CLAIMED" in text
     assert "individual record with missing evidence -> Q" in text
+
+def test_b02_s2_bridge_uses_p65_as_record_transition_gate_not_national_precondition():
+    bridge = {row["bridge_id"]: row for row in rows("b02_readiness_bridge.csv")}
+    emitter = bridge["BR-B02-S2-HEAT-EMITTER"]
+    temperature = bridge["BR-B02-S2-WATER-TEMPERATURE"]
+    for row in (emitter, temperature):
+        assert row["status"] == "CONTRACTED"
+        assert row["evidence_status"] == "OBS/DER_PER_RECORD"
+        assert row["required_for_gate"] == "yes"
+        assert row["allow_inference"] == "no"
+        assert "P65" in row["notes"]
+        assert "missing" in row["notes"].lower()
+        assert "q" in row["notes"].lower()
+
+
+def test_national_stock_gaps_remain_visible_but_no_longer_block_gate_execution():
+    gap_matrix = {row["gap_id"]: row for row in rows("b02_s0_s2_evidence_gap_matrix.csv")}
+    assert gap_matrix["GAP-B02-S2-HEAT-EMITTER"]["evidence_status"] == "Q"
+    assert gap_matrix["GAP-B02-S2-DESIGN-TEMPERATURE"]["evidence_status"] == "Q"
+
+    technical = by(rows("b02_technical_eligibility_gate.csv"), "contract_id", "B02-P2-TECHNICAL-ELIGIBILITY")
+    assert technical["blocking_gap_ids"] == ""
+    assert technical["technical_eligible_dwellings"] == ""
+    assert technical["technical_eligibility_status"] == "Q"
+    assert "P65 retires current-stock emitter and design-temperature coverage as aggregate prerequisites" in technical["notes"]
+
