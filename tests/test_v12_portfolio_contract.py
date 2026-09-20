@@ -135,7 +135,8 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertEqual("CONTRACTED", permit["status"])
         self.assertEqual("OBS/DER_PER_SITE", permit["evidence_status"])
         self.assertEqual("no", permit["required_for_gate"])
-        self.assertIn("not part of B02 technical S2 eligibility", permit["notes"])
+        self.assertIn("B02 technical S2 eligibility", permit["notes"])
+        self.assertIn("no longer part", permit["notes"])
 
         unresolved = [
             by_id["BR-B02-S2-HEAT-EMITTER"],
