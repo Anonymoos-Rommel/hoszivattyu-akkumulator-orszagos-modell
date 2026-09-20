@@ -53,7 +53,9 @@ class B02P3EligibilityLayerHarmonizationTests(unittest.TestCase):
         self.assertIn("THERMAL_DISTRIBUTION", technical["required_gates"])
         self.assertIn("HYDRAULIC", technical["required_gates"])
         self.assertIn("ELECTRICAL", technical["required_gates"])
-        self.assertIn("PERMIT", technical["required_gates"])
+        self.assertNotIn("PERMIT", technical["required_gates"])
+        legal = self.layers["LEGAL_PROGRAMME_ELIGIBILITY"]
+        self.assertIn("SITE_LEGAL_DELIVERY_AUTHORITY", legal["required_gates"])
 
     def test_s2_remains_separate_from_technical_eligibility(self):
         row = self.layers["S2_TRANSITION_READINESS"]
