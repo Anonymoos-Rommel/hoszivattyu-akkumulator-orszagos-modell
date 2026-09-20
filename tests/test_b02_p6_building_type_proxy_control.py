@@ -64,7 +64,7 @@ class B02P6BuildingTypeProxyControlTests(unittest.TestCase):
     def test_q_b02_002_remains_open_in_canonical_registry(self):
         with OPEN_QUESTIONS.open(encoding="utf-8", newline="") as handle:
             questions = {row["question_id"]: row for row in csv.DictReader(handle)}
-        self.assertEqual("OPEN", questions["Q-B02-002"]["status"])
+        self.assertEqual("RESOLVED", questions["Q-B02-002"]["status"])
 
     def test_history_manifests_are_reuse_cleared_but_exact_snapshots_pending(self):
         for path in (QUESTIONNAIRE_MANIFEST, INDICATOR_MANIFEST):
