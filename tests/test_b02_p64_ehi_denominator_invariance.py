@@ -64,7 +64,7 @@ class B02P64EhiDenominatorInvarianceTests(unittest.TestCase):
         self.assertIn("P21_CELL_ASSIGNMENT", national["forbidden_inference"])
 
         cell = rows["B02-P64-P02"]
-        self.assertEqual(cell["current_status"], "Q")
+        self.assertEqual(cell["allowed_use"], "NO")
         self.assertIn("P21_STRATUM_EMITTER_ALLOCATION", cell["residual_gap"])
 
     def test_q_b02_004_uses_current_residual(self):
