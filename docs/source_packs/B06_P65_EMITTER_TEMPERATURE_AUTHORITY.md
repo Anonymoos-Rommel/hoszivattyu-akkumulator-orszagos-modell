@@ -36,7 +36,7 @@ through one of the P65 routes below.
 
 Required for every heated room:
 
-- explicit post-state design heat load;
+- explicit post-state design heat load and design indoor temperature;
 - exact emitter identity / dimensions / quantity;
 - source-native emitter nominal output and correction method;
 - explicit flow / return / room-temperature operating points;
@@ -60,6 +60,7 @@ contains or binds:
 - complete room heat-loss basis;
 - complete emitter schedule;
 - hydraulic design / balancing basis;
+- identified designer/engineer and signed/sealed design document;
 - exact record and intervention linkage.
 
 The route admits source-native design output; it does not reconstruct missing
