@@ -31,6 +31,11 @@ from modules.B06.effect_surface import (
     assess_effect_surface,
     calculate_state_demand,
 )
+from modules.B06.realized_completion_gate import (
+    QUALIFIED as REALIZED_COMPLETION_QUALIFIED,
+    RealizedCompletionEvidence,
+    assess_realized_completion,
+)
 
 
 EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
@@ -87,6 +92,7 @@ class RetrofitIntervention:
     source_ids: tuple[str, ...] = ()
     completion_source_ids: tuple[str, ...] = ()
     completion_outcome: S1DemandOutcomeEvidence | None = None
+    realized_completion: RealizedCompletionEvidence | None = None
     peak_effect_evidence: PeakEffectEvidence | None = None
     effect_surface_evidence: EffectSurfaceEvidence | None = None
 
@@ -423,34 +429,58 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
     completion_decisions = []
     completion_gaps: list[str] = []
     for intervention in rows:
-        if intervention.completion_outcome is None:
+        if intervention.realized_completion is None:
             completion_decisions.append(None)
+            completion_gaps.append(
+                f"{intervention.intervention_id}: P64 realized completion evidence is missing"
+            )
+            continue
+        realized = assess_realized_completion(intervention.realized_completion)
+        completion_decisions.append(realized)
+        if realized.status != REALIZED_COMPLETION_QUALIFIED:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: realized completion {realized.status} "
+                + ",".join(realized.reasons)
+            )
+            continue
+        if intervention.realized_completion.intervention_id != intervention.intervention_id:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: realized completion intervention link mismatched"
+            )
+            continue
+        if intervention.completion_status != realized.evidence_status:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: completion status does not match realized completion evidence"
+            )
+            continue
+        if not intervention.completion_source_ids:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: completion source IDs are missing"
+            )
+            continue
+
+        if intervention.completion_outcome is None:
             completion_gaps.append(
                 f"{intervention.intervention_id}: linked S1 demand outcome is missing"
             )
             continue
         if intervention.completion_outcome.intervention_id != intervention.intervention_id:
-            completion_decisions.append(None)
             completion_gaps.append(
                 f"{intervention.intervention_id}: completion outcome intervention link mismatched"
             )
             continue
-        decision = assess_s1_demand_outcome(intervention.completion_outcome)
-        completion_decisions.append(decision)
-        if decision.status != S1_OUTCOME_READY:
+        if intervention.completion_outcome.record_id != intervention.realized_completion.record_id:
             completion_gaps.append(
-                f"{intervention.intervention_id}: S1 outcome {decision.status} "
-                + ",".join(decision.reasons)
+                f"{intervention.intervention_id}: completion outcome record does not match realized completion"
             )
             continue
-        if intervention.completion_status != decision.evidence_status:
+        outcome = assess_s1_demand_outcome(intervention.completion_outcome)
+        if outcome.status != S1_OUTCOME_READY:
             completion_gaps.append(
-                f"{intervention.intervention_id}: completion status does not match outcome evidence"
+                f"{intervention.intervention_id}: S1 outcome {outcome.status} "
+                + ",".join(outcome.reasons)
             )
-        if not intervention.completion_source_ids:
-            completion_gaps.append(
-                f"{intervention.intervention_id}: completion source IDs are missing"
-            )
+            continue
 
     completion_ready = not completion_gaps and len(completion_decisions) == len(rows)
     applicability_status = _status_for(intervention.applicability_status for intervention in rows)
