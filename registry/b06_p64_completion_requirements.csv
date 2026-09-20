@@ -1,0 +1,6 @@
+artifact_id,artifact_role,evidence_status,required,record_link_required,site_link_required,scope_link_required,notes
+P64-FINAL-INVOICE,Itemized delivered materials/services at final draw,OBS,yes,yes,yes,yes,"Final invoice is delivery evidence; not energy-outcome evidence."
+P64-PERFORMANCE-CONFIRMATION,Performance/completion confirmation linked to final delivery,OBS,yes,yes,yes,yes,"Required to establish that invoiced scope was actually performed."
+P64-FINAL-HET,Post-physical-completion Hiteles Energetikai Tanúsítvány,DER,yes,yes,yes,no,"Must post-date physical completion and represent the same site/record; calculation result is DER."
+P64-FINAL-ENERGY-CALC,Calculation supporting final HET,DER,yes,yes,yes,no,"Provides reproducible final-energy result basis."
+P64-P60-OUTCOME,Linked before/after demand outcome,OBS_OR_DER,yes,yes,yes,yes,"Separate P60 gate; final HET alone is not enough to establish delivered scope."
