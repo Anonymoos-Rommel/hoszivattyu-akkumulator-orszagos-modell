@@ -280,10 +280,6 @@ Determine whether the underlying BME/EPC research data model contains an emitter
 
 ### Route B — direct population evidence
 
-Determine whether the underlying BME/EPC research data model contains an emitter-class field that is simply not used in the 2026 published archetype paper.
-
-### Route B — direct population evidence
-
 Continue searching for a representative or calibratable Hungarian sample with direct current:
 
 `RADIATOR / SURFACE_HEATING / MIXED / OTHER`
