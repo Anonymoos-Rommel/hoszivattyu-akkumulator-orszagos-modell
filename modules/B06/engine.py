@@ -450,6 +450,16 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
                     f"{intervention.intervention_id}: P65 qualified decision has no supply temperature"
                 )
                 continue
+            if temperature_decision.supported_design_heat_load_kw is None:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 qualified decision has no design heat-load binding"
+                )
+                continue
+            if abs(temperature_decision.supported_design_heat_load_kw - current_peak) > 0.001:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 design heat load does not match current sequential peak"
+                )
+                continue
             if (
                 intervention.supply_temperature_after_c is not None
                 and abs(
