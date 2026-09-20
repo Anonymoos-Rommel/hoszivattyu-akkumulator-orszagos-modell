@@ -22,7 +22,7 @@ In particular:
 
 | Component | Consumer | Permitted producer modules | Current state |
 |---|---|---|---|
-| `THERMAL_DISTRIBUTION` | B02 | B02 | Q |
+| `THERMAL_DISTRIBUTION` | B02 | B02; B06 | Q |
 | `HYDRAULIC` | B02 | B02; B06 | Q |
 | `ELECTRICAL` | B02 | B08; B10 | Q |
 | `PERMIT` | B02 | B10; B18 | Q |
@@ -37,29 +37,38 @@ The mapping is a repository architecture contract. It does not itself create OBS
 2. B02-P4 additionally requires an explicit producer module for every real `PASS` or `FAIL`.
 3. The producer must be listed for that exact component in the authority registry.
 4. A `Q` component carries no producer-module claim. Missing evidence cannot acquire authority merely by naming a module.
-5. `THERMAL_DISTRIBUTION` remains a B02 current-building evidence responsibility. B06 calculations cannot replace missing current emitter/temperature evidence.
+5. `THERMAL_DISTRIBUTION` has two bounded producer routes. B02 may author direct current-building evidence. B06 may author a **post-retrofit transition-design** decision only through the P65 fail-closed emitter-temperature gate. A B06 decision does not reconstruct missing current-stock evidence and does not create a national emitter/temperature distribution.
 6. `HYDRAULIC` may be direct B02 building evidence or a B06 derivation only when source building/system evidence exists.
 7. `ELECTRICAL` must arrive from B08/B10 electrical-load/network authority. B02 archetype, heating fuel or existing heat-pump presence cannot prove electrical readiness.
 8. `PERMIT` must arrive from B10/B18 implementation/connection/delivery authority. OÉNY record presence cannot prove permit readiness.
 
 ## Current repository implication
 
-The current B02 technical eligibility gate remains `Q`.
+P57-P59 and P65 separate **national stock coverage** from **record/project gate execution**.
 
-Open blockers remain:
+The executable per-record technical gate has contracted decision routes for the
+required transition components, but this does **not** produce a national
+technically eligible dwelling count. A concrete record remains `Q` whenever
+its required OBS/DER component evidence is missing.
 
-- `GAP-B02-S2-HEAT-EMITTER`
-- `GAP-B02-S2-DESIGN-TEMPERATURE`
-- `GAP-B02-S2-HYDRAULIC`
-- `GAP-B02-S2-ELECTRICAL`
-- `GAP-B02-S2-PERMIT`
+The historical stock gaps for emitter type, design water temperature, hydraulic
+state and electrical state remain visible in the gap matrix as national-data
+coverage questions. They are not treated as aggregate prerequisites that must
+be solved before a real building can be assessed through its own project
+evidence.
 
 Therefore:
 
 - national technical eligible dwellings remain blank/Q;
-- `Q-B02-001` remains OPEN;
-- `Q-B02-004` remains OPEN;
-- B02 readiness remains 55%.
+- `Q-B02-001` remains OPEN because the size/composition of the nationally
+  technically suitable stock is still unknown;
+- `Q-B02-004` remains OPEN because the national emitter/design-temperature
+  distribution is still unknown;
+- those open national questions do not authorize inference for an individual
+  record and do not prevent P65 from resolving a properly evidenced individual
+  post-retrofit thermal-distribution design;
+- `THERMAL_DISTRIBUTION.current_authority_status` remains `Q` because the
+  authority route is not itself real-building evidence.
 
 ## Runtime
 
@@ -74,3 +83,8 @@ It rejects:
 - unknown or wrong producer-module mappings.
 
 This slice allocates claim authority only. It does not infer an eligible population and does not convert cross-module availability into evidence completeness.
+
+**P65 amendment — 2026-09-20:** B06 is now a permitted
+`THERMAL_DISTRIBUTION` producer only for a P65-qualified post-retrofit
+transition-design decision. The B02 consumer boundary and fail-closed evidence
+rules are unchanged.
