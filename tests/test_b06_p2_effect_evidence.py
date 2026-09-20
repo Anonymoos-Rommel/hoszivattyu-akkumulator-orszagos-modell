@@ -8,6 +8,10 @@ from modules.B06.baseline_demand_gate import (
     DIRECT_PEAK,
     BaselineDemandEvidence,
 )
+from modules.B06.peak_effect_gate import (
+    PLANNED_DESIGN,
+    PeakEffectEvidence,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +50,34 @@ def der_baseline(record_id="CASE", annual=10000.0, peak=10.0, *, supply=None):
     )
 
 
+
+
+def der_effect(record_id, intervention_id, annual_before, peak_before, annual_fraction, peak_fraction):
+    return PeakEffectEvidence(
+        record_id=record_id,
+        intervention_id=intervention_id,
+        evidence_status=DER,
+        post_state_kind=PLANNED_DESIGN,
+        before_annual_space_heat_kwh=annual_before,
+        after_annual_space_heat_kwh=annual_before * (1 - annual_fraction),
+        before_peak_heat_load_kw=peak_before,
+        after_peak_heat_load_kw=peak_before * (1 - peak_fraction),
+        before_method_id="TEST-SAME-METHOD",
+        after_method_id="TEST-SAME-METHOD",
+        before_source_refs=("TEST-PRE",),
+        after_source_refs=("TEST-POST",),
+        before_phase_id="PRE_RETROFIT",
+        after_phase_id="POST_RETROFIT_PLANNED",
+        before_design_indoor_temperature_c=20.0,
+        after_design_indoor_temperature_c=20.0,
+        before_design_outdoor_temperature_c=-13.0,
+        after_design_outdoor_temperature_c=-13.0,
+        intervention_scope_documented=True,
+        dhw_separate_from_space_heat=True,
+        reproducible_repository_binding=True,
+    )
+
+
 def test_annual_and_peak_effects_are_independent_fields():
     evidence = rows()
     assert any(row["annual_before_kwh_m2a"] for row in evidence)
@@ -55,6 +87,9 @@ def test_annual_and_peak_effects_are_independent_fields():
     intervention = RetrofitIntervention(
         "B06-COMBINED-PACKAGE", "package", 0.20, 0.10,
         evidence_status="DER", applicability_status="DER", completion_status="Q",
+        peak_effect_evidence=der_effect(
+            "HVAR_CASE", "B06-COMBINED-PACKAGE", 10000.0, 10.0, 0.20, 0.10
+        ),
     )
     result = evaluate_retrofit(baseline, [intervention])
     assert result.post_retrofit_annual_space_heat_kwh == 8000.0
@@ -95,6 +130,9 @@ def test_completion_gate_remains_separate_from_effect_evidence():
     intervention = RetrofitIntervention(
         "B06-ENVELOPE-PACKAGE", "package", 0.25, 0.10,
         evidence_status="DER", applicability_status="DER", completion_status="Q",
+        peak_effect_evidence=der_effect(
+            "CASE", "B06-ENVELOPE-PACKAGE", 10000.0, 10.0, 0.25, 0.10
+        ),
     )
     result = evaluate_retrofit(baseline, [intervention])
     assert result.status == "DER"
@@ -107,6 +145,9 @@ def test_missing_supply_temperature_keeps_b05_handoff_q():
     intervention = RetrofitIntervention(
         "B06-ENVELOPE-PACKAGE", "package", 0.25, 0.10,
         evidence_status="DER", applicability_status="SCN", completion_status="Q",
+        peak_effect_evidence=der_effect(
+            "CASE", "B06-ENVELOPE-PACKAGE", 10000.0, 10.0, 0.25, 0.10
+        ),
     )
     result = evaluate_retrofit(baseline, [intervention])
     assert result.b05_handoff.status == "Q"
