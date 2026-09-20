@@ -63,7 +63,7 @@ any component.
   components do not erase a proven blocker;
 - if no blocker is proven but one or more required components remain unknown,
   the result is `Q`;
-- `ELIGIBLE` requires all four components to pass.
+- `ELIGIBLE` requires all three technical components to pass.
 
 `OUT_OF_SCOPE` is kept separate from a technical `FAIL`. A record can be outside
 the physical programme scope without being technically unsuitable.
