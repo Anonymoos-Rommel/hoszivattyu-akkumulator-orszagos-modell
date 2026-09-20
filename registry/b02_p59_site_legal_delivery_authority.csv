@@ -1,0 +1,2 @@
+claim_id,claim_scope,current_status,authority_type,required_inputs,current_blockers,notes
+SITE_LEGAL_DELIVERY_AUTHORITY,Site + proposed-installation legal/delivery clearance,CONTRACTED,LEGAL_DELIVERY_GATE,"national rule check; local townscape check; local clearance status; heritage/protected status; property/condominium consent; siting; noise; water disposal; evidence refs; reproducible binding",,"P59 moves permit readiness out of B02 building-physics eligibility. NOT_REQUIRED/APPROVED may qualify; PENDING=Q; final refusal without admitted alternative=BLOCKED."
