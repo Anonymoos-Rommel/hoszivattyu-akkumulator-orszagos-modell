@@ -2,6 +2,12 @@ import csv
 from pathlib import Path
 
 from modules.B06.engine import EvidenceValue, RetrofitBaseline, RetrofitIntervention, evaluate_retrofit
+from modules.B06.baseline_demand_gate import (
+    DER,
+    DIRECT_ANNUAL,
+    DIRECT_PEAK,
+    BaselineDemandEvidence,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,16 +19,39 @@ def rows():
         return list(csv.DictReader(handle))
 
 
+def der_baseline(record_id="CASE", annual=10000.0, peak=10.0, *, supply=None):
+    pair = BaselineDemandEvidence(
+        record_id=record_id,
+        phase_id="PRE_RETROFIT",
+        annual_space_heat_kwh=annual,
+        annual_evidence_status=DER,
+        annual_method=DIRECT_ANNUAL,
+        annual_source_refs=("TEST-ANNUAL",),
+        peak_heat_load_kw=peak,
+        peak_evidence_status=DER,
+        peak_method=DIRECT_PEAK,
+        peak_source_refs=("TEST-PEAK",),
+        annual_record_link=record_id,
+        peak_record_link=record_id,
+        annual_phase_link="PRE_RETROFIT",
+        peak_phase_link="PRE_RETROFIT",
+        reproducible_repository_binding=True,
+    )
+    return RetrofitBaseline(
+        archetype_id=EvidenceValue(record_id, "DER"),
+        baseline_annual_space_heat_kwh=EvidenceValue(annual, "DER"),
+        baseline_peak_heat_load_kw=EvidenceValue(peak, "DER"),
+        required_supply_temperature_before_c=EvidenceValue(supply, "DER" if supply is not None else "Q"),
+        baseline_demand_evidence=pair,
+    )
+
+
 def test_annual_and_peak_effects_are_independent_fields():
     evidence = rows()
     assert any(row["annual_before_kwh_m2a"] for row in evidence)
     assert all(not row["peak_before_kw"] and not row["peak_after_kw"] for row in evidence)
 
-    baseline = RetrofitBaseline(
-        archetype_id=EvidenceValue("HVAR_CASE", "DER"),
-        baseline_annual_space_heat_kwh=EvidenceValue(10000.0, "DER"),
-        baseline_peak_heat_load_kw=EvidenceValue(10.0, "DER"),
-    )
+    baseline = der_baseline("HVAR_CASE")
     intervention = RetrofitIntervention(
         "B06-COMBINED-PACKAGE", "package", 0.20, 0.10,
         evidence_status="DER", applicability_status="DER", completion_status="Q",
@@ -62,11 +91,7 @@ def test_applicability_mismatch_keeps_real_evidence_non_usable():
 
 
 def test_completion_gate_remains_separate_from_effect_evidence():
-    baseline = RetrofitBaseline(
-        archetype_id=EvidenceValue("CASE", "DER"),
-        baseline_annual_space_heat_kwh=EvidenceValue(10000.0, "DER"),
-        baseline_peak_heat_load_kw=EvidenceValue(10.0, "DER"),
-    )
+    baseline = der_baseline("CASE")
     intervention = RetrofitIntervention(
         "B06-ENVELOPE-PACKAGE", "package", 0.25, 0.10,
         evidence_status="DER", applicability_status="DER", completion_status="Q",
@@ -78,12 +103,7 @@ def test_completion_gate_remains_separate_from_effect_evidence():
 
 
 def test_missing_supply_temperature_keeps_b05_handoff_q():
-    baseline = RetrofitBaseline(
-        archetype_id=EvidenceValue("CASE", "DER"),
-        baseline_annual_space_heat_kwh=EvidenceValue(10000.0, "DER"),
-        baseline_peak_heat_load_kw=EvidenceValue(10.0, "DER"),
-        required_supply_temperature_before_c=EvidenceValue(None, "Q"),
-    )
+    baseline = der_baseline("CASE", supply=None)
     intervention = RetrofitIntervention(
         "B06-ENVELOPE-PACKAGE", "package", 0.25, 0.10,
         evidence_status="DER", applicability_status="SCN", completion_status="Q",

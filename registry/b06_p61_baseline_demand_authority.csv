@@ -1,0 +1,2 @@
+claim_id,claim_scope,current_status,authority_type,required_linkage,prohibited_inference,national_claim,notes
+PHASE_LINKED_BASELINE_DEMAND,Household/archetype pre-intervention annual space heat plus design peak,CONTRACTED,SAME_RECORD_SAME_PHASE_GATE,"record_id;phase_id;annual source/status/method;peak source/status/method;reproducible binding","annual-to-peak;installed-capacity-as-peak;full-load-hours-as-peak",NO,"P61 has one bounded Hungarian multi-family DER calibration record. It proves the record-level route, not national prevalence or a universal annual/peak ratio."

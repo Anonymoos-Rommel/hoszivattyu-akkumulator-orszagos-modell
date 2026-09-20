@@ -142,3 +142,24 @@ A magyar MFB Otthonfelújítási Program pre/post HET logikája a
 `CERTIFIED_CALCULATION / DER` út authority-ja. A program 30%-os minimuma
 programfeltétel, nem univerzális fizikai retrofit-faktor.
 
+## P61 baseline demand evidence
+
+`baseline_annual_space_heat_kwh` és `baseline_peak_heat_load_kw` valós
+`OBS/DER` státuszban csak `BaselineDemandEvidence` mellett használható.
+
+Kötelező:
+
+- ugyanaz a `record_id`;
+- ugyanaz a `phase_id`;
+- explicit annual és peak source refs;
+- annual és peak módszer külön;
+- reprodukálható repository binding.
+
+Az annual érték lehet source-native total vagy explicit
+`specific_annual × heated_floor_area` DER. A peak külön direct/design
+evidence; éves energiából nem származtatható.
+
+A P61 magyar bounded rekord:
+`B06-P61-HU-ZALAVAR-2015`, `PRE_RETROFIT`,
+`207119.64 kWh/a DER` + `132.35 kW DER`.
+

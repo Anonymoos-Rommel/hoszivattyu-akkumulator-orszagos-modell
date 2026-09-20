@@ -102,3 +102,24 @@ bandára. A fixture B05 oldalon `Tout=-10 °C`, `Tsupply=43.0 °C`,
 `space_heating_required_kw=4.665` és `DHW=0` mellett explicit
 `SCN / CAPACITY_SHORTFALL` eredményt ad; a capacity shortfall külön mező,
 nem rejtett termékválasztás.
+
+## P61 phase-linked baseline annual + peak gate
+
+Valós `OBS/DER` B06 baseline esetén az éves térfűtési igény és a design-peak
+többé nem adható be két független számpárként. A
+[`baseline_demand_gate.py`](baseline_demand_gate.py) megköveteli ugyanazt a
+rekordot és ugyanazt a pre-intervention fázist, külön annual és peak
+evidence-dzsel.
+
+Tiltott útvonalak:
+
+- annual kWh -> peak kW visszaszámítás;
+- telepített kazán/hőszivattyú teljesítménye -> design peak;
+- full-load-hours proxy.
+
+P61 bounded magyar kalibrációja egy 19 lakásos társasház 2015-ös, explicit
+`Felújítás előtti állapot` számítása: `qF=145.9 kWh/m2a`,
+`AN=1419.6 m2` -> `207119.64 kWh/a DER`, miközben a forrás közvetlenül
+`132.35 kW` design hőszükségletet ad. Ez nem országos arány és nem 2026-os
+állománybecslés.
+
