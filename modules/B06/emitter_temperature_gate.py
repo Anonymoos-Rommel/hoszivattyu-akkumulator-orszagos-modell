@@ -198,8 +198,17 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
             (),
         )
 
-    supply, supply_gap = _numeric(evidence.explicit_supply_temperature_c, "explicit_supply_temperature_c")
-    return_temp, return_gap = _numeric(evidence.explicit_return_temperature_c, "explicit_return_temperature_c")
+    temperature_admissible = {"OBS"} if evidence.route == MEASURED_DESIGN_POINT else ADMISSIBLE_EVIDENCE
+    supply, supply_gap = _numeric(
+        evidence.explicit_supply_temperature_c,
+        "explicit_supply_temperature_c",
+        admissible=temperature_admissible,
+    )
+    return_temp, return_gap = _numeric(
+        evidence.explicit_return_temperature_c,
+        "explicit_return_temperature_c",
+        admissible=temperature_admissible,
+    )
     design_outdoor, outdoor_gap = _numeric(evidence.design_outdoor_temperature_c, "design_outdoor_temperature_c")
     design_indoor, indoor_gap = _numeric(evidence.design_indoor_temperature_c, "design_indoor_temperature_c")
     gaps.extend(gap for gap in (supply_gap, return_gap, outdoor_gap, indoor_gap) if gap)
