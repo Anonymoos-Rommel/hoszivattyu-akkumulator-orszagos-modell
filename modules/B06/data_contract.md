@@ -305,7 +305,9 @@ Admissible route-ok:
 
 Room-by-room route esetén minden heated room kötelező, egyedi `room_id`-val,
 OBS/DER design heat loaddal, exact emitter inventoryval és source-native
-emitter curve authorityval. A közös hidronikus supply:
+emitter curve authorityval. A helyiségi design loadok összege a P65-supported
+building peak, amelynek egyeznie kell a B06 aktuális szekvenciális post-state
+peakjével. A közös hidronikus supply:
 
 ```text
 required_building_supply_C = max(required_room_supply_C)
@@ -314,8 +316,9 @@ required_building_supply_C = max(required_room_supply_C)
 Helyiségi átlagolás tiltott.
 
 Signed-design route esetén ugyanazon record/intervention packethez explicit
-supply/return, design indoor/outdoor, teljes room heat-loss basis, teljes
-emitter schedule és hydraulic design/balancing basis szükséges.
+building design heat load, supply/return, design indoor/outdoor, teljes room
+heat-loss basis, teljes emitter schedule és hydraulic design/balancing basis
+szükséges. A building design heat load a B06 post-state peakkel egyezik.
 
 Measured route csak `POST_RETROFIT_REALIZED` állapotban használható. Supply
 és return OBS; minden fűtött helyiség fedett; a minimum room temperature eléri
