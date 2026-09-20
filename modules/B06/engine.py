@@ -10,6 +10,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Generic, Iterable, TypeVar
 
+from modules.B06.s1_demand_outcome_gate import (
+    READY as S1_OUTCOME_READY,
+    S1DemandOutcomeEvidence,
+    assess_s1_demand_outcome,
+)
+
 
 EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
 T = TypeVar("T")
@@ -63,6 +69,7 @@ class RetrofitIntervention:
     supply_temperature_after_c: float | None = None
     source_ids: tuple[str, ...] = ()
     completion_source_ids: tuple[str, ...] = ()
+    completion_outcome: S1DemandOutcomeEvidence | None = None
 
     def validate(self) -> None:
         for name, status in (
@@ -229,10 +236,39 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
 
     annual_reduction = baseline_annual - current_annual
     peak_reduction = baseline_peak - current_peak
-    completion_ready = all(
-        intervention.completion_status == "OBS" and intervention.completion_source_ids
-        for intervention in rows
-    )
+    completion_decisions = []
+    completion_gaps: list[str] = []
+    for intervention in rows:
+        if intervention.completion_outcome is None:
+            completion_decisions.append(None)
+            completion_gaps.append(
+                f"{intervention.intervention_id}: linked S1 demand outcome is missing"
+            )
+            continue
+        if intervention.completion_outcome.intervention_id != intervention.intervention_id:
+            completion_decisions.append(None)
+            completion_gaps.append(
+                f"{intervention.intervention_id}: completion outcome intervention link mismatched"
+            )
+            continue
+        decision = assess_s1_demand_outcome(intervention.completion_outcome)
+        completion_decisions.append(decision)
+        if decision.status != S1_OUTCOME_READY:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: S1 outcome {decision.status} "
+                + ",".join(decision.reasons)
+            )
+            continue
+        if intervention.completion_status != decision.evidence_status:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: completion status does not match outcome evidence"
+            )
+        if not intervention.completion_source_ids:
+            completion_gaps.append(
+                f"{intervention.intervention_id}: completion source IDs are missing"
+            )
+
+    completion_ready = not completion_gaps and len(completion_decisions) == len(rows)
     applicability_status = _status_for(intervention.applicability_status for intervention in rows)
     result_status = _status_for(evidence_statuses)
     s1_gate = "READY" if completion_ready else "BLOCKED"
@@ -260,7 +296,7 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
         baseline.dhw_annual_kwh.value,
         baseline.dhw_peak_heat_load_kw.value,
         applicability_status,
-        tuple(gaps),
+        tuple(gaps + completion_gaps),
         post_state,
         s1_gate,
         handoff,
