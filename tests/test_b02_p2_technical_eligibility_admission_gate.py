@@ -162,19 +162,13 @@ class B02P2TechnicalEligibilityAdmissionGateTests(unittest.TestCase):
             ).status,
         )
 
-    def test_current_repository_gate_is_q_with_exact_physical_reference(self):
+    def test_current_repository_gate_has_per_record_authority_without_national_count(self):
         gate = assess_current_repository_gate()
-        self.assertEqual(Q, gate.status)
+        self.assertEqual("GATE_EVIDENCE_AVAILABLE", gate.status)
         self.assertIsNone(gate.eligible_dwellings)
         self.assertEqual(3_389_817, gate.physical_screening_reference_households)
         self.assertEqual("DER_FROM_OBS_WBL011_CELLS", gate.physical_screening_reference_status)
-        self.assertEqual(
-            (
-                "GAP-B02-S2-HEAT-EMITTER",
-                "GAP-B02-S2-DESIGN-TEMPERATURE",
-            ),
-            gate.blocking_gap_ids,
-        )
+        self.assertEqual((), gate.blocking_gap_ids)
 
     def test_registry_and_legacy_global_variable_stay_fail_closed(self):
         with REGISTRY.open(encoding="utf-8", newline="") as handle:

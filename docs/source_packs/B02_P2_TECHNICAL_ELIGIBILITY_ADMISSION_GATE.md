@@ -30,16 +30,21 @@ selected-household count.
 ## Technical gate
 
 A real record may become `ELIGIBLE` only if it is explicitly admitted to the
-physical screening scope and all four technical components pass:
+physical screening scope and all three technical components pass:
 
-1. `THERMAL_DISTRIBUTION` — claim-specific evidence that the existing or
-   explicitly required emitter/temperature arrangement satisfies the approved
-   technical criterion;
-2. `HYDRAULIC` — topology, controllability and capacity readiness;
-3. `ELECTRICAL` — connection, metering and required electrical readiness at the
-   relevant building/region grain;
-4. `PERMIT` — the required technical/legal implementation prerequisite at the
-   building/phase grain.
+1. `THERMAL_DISTRIBUTION` — record/project evidence that the post-retrofit
+   emitter/temperature arrangement satisfies the approved technical criterion.
+   P65 supplies the fail-closed post-retrofit emitter/temperature evidence gate consumed by B02; reuse of existing
+   emitters requires exact room-level evidence, while replacement can be
+   established by a complete signed MEP design or qualified design-condition
+   measurement;
+2. `HYDRAULIC` — topology, controllability and capacity readiness through the
+   record/project transition gate;
+3. `ELECTRICAL` — connection, metering and required electrical readiness through
+   the DSO-bound transition gate.
+
+`PERMIT` is not a B02 technical component after P59. It remains a mandatory
+separate site legal/delivery gate.
 
 The gate intentionally consumes **component decisions**, not inferred raw
 proxies. A heating fuel, WBL heating mode, building-type proxy, coarse OÉNY
@@ -58,7 +63,7 @@ any component.
   components do not erase a proven blocker;
 - if no blocker is proven but one or more required components remain unknown,
   the result is `Q`;
-- `ELIGIBLE` requires all four components to pass.
+- `ELIGIBLE` requires all three technical components to pass.
 
 `OUT_OF_SCOPE` is kept separate from a technical `FAIL`. A record can be outside
 the physical programme scope without being technically unsuitable.
@@ -82,23 +87,27 @@ A technically eligible dwelling with unresolved S1 evidence remains `S2_Q`.
 `assess_current_repository_gate()` reads the canonical B02 S0–S2 evidence gap
 matrix and B01 physical-population registry.
 
-Current blockers are:
+There are now **no aggregate national-stock evidence gaps that must be
+pre-resolved before the per-record technical gate can operate**.
 
-- `GAP-B02-S2-HEAT-EMITTER`;
-- `GAP-B02-S2-DESIGN-TEMPERATURE`;
-- `GAP-B02-S2-HYDRAULIC`;
-- `GAP-B02-S2-ELECTRICAL`;
-- `GAP-B02-S2-PERMIT`.
+This does not mean the national housing stock is technically eligible. The
+historical S0/S2 matrix deliberately retains the missing national emitter and
+design-temperature fields as data-coverage gaps. P65 changes their role: they
+are no longer aggregate prerequisites because `THERMAL_DISTRIBUTION` is
+decided for each record/project through the P65 transition-design gate. P57 and
+P58 already apply the same pattern to hydraulic and electrical readiness.
 
 Consequently:
 
 - physical screening reference = **3,389,817**;
+- executable per-record technical gate authority = **available**;
 - national technically eligible dwellings = **blank**;
-- technical eligibility status = **`Q`**;
-- S2 transition status = **`S2_Q`**.
+- technical eligibility status = **`Q`** at national-count level;
+- S2 transition status = **`S2_Q`** until individual records satisfy all
+  required gates and the S1 predecessor.
 
-This is a useful result: the model can now distinguish a proven technical
-blocker from missing evidence without inflating or shrinking the national stock.
+No national emitter prevalence, supply-temperature distribution, or eligible
+household count is inferred.
 
 ## Relationship to existing B02 evidence
 

@@ -292,3 +292,42 @@ műszaki/fizikai befejezés után final invoice + teljesítésigazolás, majd
 post-completion záró HET + energetikai számítás + záró dokumentáció. Ez
 program-rule authority, nem országos completed-project microdata.
 
+## P65 post-retrofit emitter-temperature contract
+
+Post-retrofit supply-temperature change csak `EmitterTemperatureEvidence`
+`QUALIFIED` döntésből kerülhet a B05 handoffba.
+
+Admissible route-ok:
+
+- `ROOM_BY_ROOM_EMITTER_DESIGN`;
+- `SIGNED_POST_RETROFIT_MEP_DESIGN`;
+- `MEASURED_POST_RETROFIT_DESIGN_POINT`.
+
+Room-by-room route esetén minden heated room kötelező, egyedi `room_id`-val,
+OBS/DER design heat loaddal és azonos design indoor temperature-rel, exact
+emitter inventoryval és source-native emitter curve authorityval. A helyiségi design loadok összege a P65-supported
+building peak, amelynek egyeznie kell a B06 aktuális szekvenciális post-state
+peakjével. A közös hidronikus supply:
+
+```text
+required_building_supply_C = max(required_room_supply_C)
+```
+
+Helyiségi átlagolás tiltott.
+
+Signed-design route esetén ugyanazon record/intervention packethez explicit
+building design heat load, supply/return, design indoor/outdoor, teljes room
+heat-loss basis, teljes emitter schedule, hydraulic design/balancing basis,
+azonosítható tervező és signed/sealed design document szükséges. A building design heat load a B06 post-state peakkel egyezik.
+
+Measured route csak `POST_RETROFIT_REALIZED` állapotban használható. Supply
+és return OBS; minden fűtött helyiség fedett; a minimum room temperature eléri
+a design indoor értéket; a mérési outdoor temperature legfeljebb a design
+outdoor temperature. Enyhébb időből design-pontra extrapolálni tilos.
+
+`supply_temperature_after_c` önmagában nem authority. Ha kézzel megadott
+érték és P65 döntés egyszerre szerepel, numerikusan egyezniük kell. Eltérés,
+hiányos linkage vagy hiányzó source evidence => `Q`.
+
+A P65 nem hoz létre országos hőleadó-megoszlást és nem tesz egyetlen
+W35/W45/W55 sávot sem defaulttá.

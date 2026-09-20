@@ -95,6 +95,7 @@ class RetrofitIntervention:
     realized_completion: RealizedCompletionEvidence | None = None
     peak_effect_evidence: PeakEffectEvidence | None = None
     effect_surface_evidence: EffectSurfaceEvidence | None = None
+    emitter_temperature_evidence: object | None = None
 
     def validate(self) -> None:
         for name, status in (
@@ -418,8 +419,59 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
 
         current_annual *= 1 - intervention.annual_reduction_fraction
         current_peak *= 1 - intervention.peak_reduction_fraction
-        if intervention.supply_temperature_after_c is not None:
-            current_supply = intervention.supply_temperature_after_c
+
+        if intervention.supply_temperature_after_c is not None or intervention.emitter_temperature_evidence is not None:
+            if intervention.emitter_temperature_evidence is None:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 emitter-temperature evidence is required for a post-retrofit supply change"
+                )
+                continue
+            # Lazy import avoids a module cycle: P4 design_load imports the
+            # EvidenceValue contract from this module.
+            from modules.B06.emitter_temperature_gate import (
+                QUALIFIED as EMITTER_TEMPERATURE_QUALIFIED,
+                assess_emitter_temperature,
+            )
+
+            temperature_decision = assess_emitter_temperature(intervention.emitter_temperature_evidence)
+            if temperature_decision.status != EMITTER_TEMPERATURE_QUALIFIED:
+                gaps.extend(
+                    f"{intervention.intervention_id}: P65 emitter temperature {reason}"
+                    for reason in temperature_decision.gaps
+                )
+                continue
+            if intervention.emitter_temperature_evidence.intervention_id != intervention.intervention_id:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 intervention link mismatched"
+                )
+                continue
+            if temperature_decision.required_supply_temperature_c is None:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 qualified decision has no supply temperature"
+                )
+                continue
+            if temperature_decision.supported_design_heat_load_kw is None:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 qualified decision has no design heat-load binding"
+                )
+                continue
+            if abs(temperature_decision.supported_design_heat_load_kw - current_peak) > 0.001:
+                gaps.append(
+                    f"{intervention.intervention_id}: P65 design heat load does not match current sequential peak"
+                )
+                continue
+            if (
+                intervention.supply_temperature_after_c is not None
+                and abs(
+                    intervention.supply_temperature_after_c
+                    - temperature_decision.required_supply_temperature_c
+                ) > 1e-9
+            ):
+                gaps.append(
+                    f"{intervention.intervention_id}: claimed supply temperature does not match P65 evidence"
+                )
+                continue
+            current_supply = temperature_decision.required_supply_temperature_c
 
     if gaps:
         return _empty_result("Q", tuple(gaps), baseline)

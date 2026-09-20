@@ -138,13 +138,15 @@ class V12PortfolioContractTests(unittest.TestCase):
         self.assertIn("B02 technical S2 eligibility", permit["notes"])
         self.assertIn("no longer part", permit["notes"])
 
-        unresolved = [
+        thermal_distribution = [
             by_id["BR-B02-S2-HEAT-EMITTER"],
             by_id["BR-B02-S2-WATER-TEMPERATURE"],
         ]
-        self.assertTrue(all(row["status"] == "GAP" for row in unresolved))
-        self.assertTrue(all(row["evidence_status"] == "Q" for row in unresolved))
-        self.assertTrue(all(row["required_for_gate"] == "yes" for row in unresolved))
+        self.assertTrue(all(row["status"] == "CONTRACTED" for row in thermal_distribution))
+        self.assertTrue(all(row["evidence_status"] == "OBS/DER_PER_RECORD" for row in thermal_distribution))
+        self.assertTrue(all(row["required_for_gate"] == "yes" for row in thermal_distribution))
+        self.assertTrue(all("P65" in row["notes"] for row in thermal_distribution))
+        self.assertTrue(all("missing" in row["notes"].lower() and "q" in row["notes"].lower() for row in thermal_distribution))
 
     def test_b02_evidence_gap_matrix_is_field_level_and_no_new_eligibility(self) -> None:
         headers, rows = read_csv(REGISTRY / "b02_s0_s2_evidence_gap_matrix.csv")

@@ -79,6 +79,12 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
         self.assertEqual("B01;B18", rows["PERMIT"]["consumer_module"])
         self.assertEqual("B18;B10", rows["PERMIT"]["permitted_producer_modules"])
 
+    def test_b06_cannot_bypass_b02_thermal_component_authority(self):
+        producers = self.valid_producers()
+        producers[THERMAL_DISTRIBUTION] = "B06"
+        with self.assertRaises(B02ComponentAuthorityError):
+            validate_component_authority(self.record(), producers)
+
     def test_b02_cannot_self_authorize_electrical(self):
         producers = self.valid_producers()
         producers[ELECTRICAL] = "B02"
