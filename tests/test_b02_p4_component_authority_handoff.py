@@ -12,7 +12,6 @@ from modules.B02.technical_eligibility_contract import (
     ELECTRICAL,
     ELIGIBLE,
     HYDRAULIC,
-    PERMIT,
     Q,
     THERMAL_DISTRIBUTION,
     PhysicalScopeEvidence,
@@ -49,7 +48,6 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
                 self.component(THERMAL_DISTRIBUTION),
                 self.component(HYDRAULIC),
                 self.component(ELECTRICAL),
-                self.component(PERMIT),
             ),
         )
 
@@ -58,7 +56,6 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
             THERMAL_DISTRIBUTION: "B02",
             HYDRAULIC: "B06",
             ELECTRICAL: "B10",
-            PERMIT: "B18",
         }
 
     def test_registry_exact_authority_partition(self):
@@ -66,19 +63,33 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
         self.assertEqual({"B02"}, set(authority[THERMAL_DISTRIBUTION]))
         self.assertEqual({"B02", "B06"}, set(authority[HYDRAULIC]))
         self.assertEqual({"B08", "B10"}, set(authority[ELECTRICAL]))
-        self.assertEqual({"B10", "B18"}, set(authority[PERMIT]))
+        self.assertNotIn("PERMIT", authority)
 
         with REGISTRY.open(encoding="utf-8", newline="") as handle:
-            rows = list(csv.DictReader(handle))
+            rows = {row["component_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(4, len(rows))
-        self.assertTrue(all(row["current_authority_status"] == "Q" for row in rows))
+        self.assertEqual(
+            {"THERMAL_DISTRIBUTION", "HYDRAULIC", "ELECTRICAL", "PERMIT"},
+            set(rows),
+        )
+        for component_id in ("THERMAL_DISTRIBUTION", "HYDRAULIC", "ELECTRICAL"):
+            self.assertEqual("Q", rows[component_id]["current_authority_status"])
+            self.assertEqual("B02", rows[component_id]["consumer_module"])
+        self.assertEqual("CONTRACTED", rows["PERMIT"]["current_authority_status"])
+        self.assertEqual("B01;B18", rows["PERMIT"]["consumer_module"])
+        self.assertEqual("B18;B10", rows["PERMIT"]["permitted_producer_modules"])
 
-    def test_b02_cannot_self_authorize_electrical_or_permit(self):
-        for component_id in (ELECTRICAL, PERMIT):
-            producers = self.valid_producers()
-            producers[component_id] = "B02"
-            with self.assertRaises(B02ComponentAuthorityError):
-                validate_component_authority(self.record(), producers)
+    def test_b02_cannot_self_authorize_electrical(self):
+        producers = self.valid_producers()
+        producers[ELECTRICAL] = "B02"
+        with self.assertRaises(B02ComponentAuthorityError):
+            validate_component_authority(self.record(), producers)
+
+    def test_permit_is_not_a_technical_producer_key_after_p59(self):
+        producers = self.valid_producers()
+        producers["PERMIT"] = "B18"
+        with self.assertRaises(B02ComponentAuthorityError):
+            validate_component_authority(self.record(), producers)
 
     def test_permitted_cross_module_producers_are_accepted(self):
         decision = assess_authoritative_technical_eligibility(
@@ -92,7 +103,6 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
                 self.component(THERMAL_DISTRIBUTION),
                 self.component(HYDRAULIC),
                 self.component(ELECTRICAL, decision=Q),
-                self.component(PERMIT),
             )
         )
         producers = self.valid_producers()
@@ -103,7 +113,7 @@ class B02P4ComponentAuthorityHandoffTests(unittest.TestCase):
 
     def test_real_pass_or_fail_requires_explicit_producer(self):
         producers = self.valid_producers()
-        producers.pop(PERMIT)
+        producers.pop(ELECTRICAL)
         with self.assertRaises(B02ComponentAuthorityError):
             validate_component_authority(self.record(), producers)
 
