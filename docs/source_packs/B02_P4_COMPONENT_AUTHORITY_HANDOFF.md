@@ -22,7 +22,7 @@ In particular:
 
 | Component | Consumer | Permitted producer modules | Current state |
 |---|---|---|---|
-| `THERMAL_DISTRIBUTION` | B02 | B02; B06 | Q |
+| `THERMAL_DISTRIBUTION` | B02 | B02 | Q |
 | `HYDRAULIC` | B02 | B02; B06 | Q |
 | `ELECTRICAL` | B02 | B08; B10 | Q |
 | `PERMIT` | B01; B18 | B18; B10 | CONTRACTED |
@@ -37,7 +37,7 @@ The mapping is a repository architecture contract. It does not itself create OBS
 2. B02-P4 additionally requires an explicit producer module for every real `PASS` or `FAIL`.
 3. The producer must be listed for that exact component in the authority registry.
 4. A `Q` component carries no producer-module claim. Missing evidence cannot acquire authority merely by naming a module.
-5. `THERMAL_DISTRIBUTION` has two bounded producer routes. B02 may author direct current-building evidence. B06 may author a **post-retrofit transition-design** decision only through the P65 fail-closed emitter-temperature gate. A B06 decision does not reconstruct missing current-stock evidence and does not create a national emitter/temperature distribution.
+5. `THERMAL_DISTRIBUTION` remains a B02 component-decision responsibility. B02 may consume a P65-qualified B06 post-retrofit emitter/temperature decision as evidence, but B06 is **not** itself a permitted P4 component producer. This prevents a producer-module label from bypassing P65. Missing current-stock evidence is not reconstructed and no national emitter/temperature distribution is created.
 6. `HYDRAULIC` may be direct B02 building evidence or a B06 derivation only when source building/system evidence exists.
 7. `ELECTRICAL` must arrive from B08/B10 electrical-load/network authority. B02 archetype, heating fuel or existing heat-pump presence cannot prove electrical readiness.
 8. `PERMIT` is not a B02 technical component after P59. Its separate B01/B18 site legal/delivery authority may consume B18/B10 evidence; OÉNY record presence cannot prove permit readiness.
@@ -84,7 +84,8 @@ It rejects:
 
 This slice allocates claim authority only. It does not infer an eligible population and does not convert cross-module availability into evidence completeness.
 
-**P65 amendment — 2026-09-20:** B06 is now a permitted
-`THERMAL_DISTRIBUTION` producer only for a P65-qualified post-retrofit
-transition-design decision. The B02 consumer boundary and fail-closed evidence
-rules are unchanged.
+**P65 amendment — 2026-09-20:** B06 now supplies a bounded,
+P65-qualified post-retrofit emitter/temperature **evidence decision** that B02
+may consume. The P4 component producer remains B02. This preserves the
+authority boundary because `technical_component_authority.py` validates
+producer modules but does not independently re-run P65.
