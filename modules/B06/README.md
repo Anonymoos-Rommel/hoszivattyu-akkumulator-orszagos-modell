@@ -28,11 +28,14 @@ naivan ugyanarra a baseline-ra. A két faktor nem keverhető össze.
 
 ## Állapot- és downstream-kapu
 
-Az eredmény `S1_CANDIDATE`, amíg a beavatkozás completion-evidence-e nem
-`OBS` és nincs completion source. Az engine soha nem emel automatikusan
-`S1_DEMAND_REDUCED` állapotra. A B05 handoff csak design-point hőigényt,
-DHW-t és supply-temperature jelöltet ad; órás `HourlyDemand` profil külön,
-explicit upstream contract marad.
+Az eredmény `S1_CANDIDATE`, amíg nincs P60 szerint ellenőrzött,
+fázishoz és interventionhöz kötött S1 outcome. A gate `OBS` normalizált
+mért before/after vagy `DER` azonos módszerű hiteles számítási before/after
+párt fogad el; `NOT_REQUIRED` csak explicit authority-val lehetséges.
+Puszta completion-státusz és source ID nem emel `S1_DEMAND_REDUCED`
+állapotra. A B05 handoff csak design-point hőigényt, DHW-t és
+supply-temperature jelöltet ad; órás `HourlyDemand` profil külön, explicit
+upstream contract marad.
 
 Envelope-intervention nem változtatja meg automatikusan a supply temperature-t.
 Emitter-intervention csak explicit `supply_temperature_after_c` értékkel
