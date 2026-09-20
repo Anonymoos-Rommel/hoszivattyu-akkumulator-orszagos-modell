@@ -109,12 +109,12 @@ Kanonikus határ:
 
 A 2016-os Mikrocenzus kérdőíve explicit külön kezeli az 1–3 lakásos és a 4+ lakásos lakóépületeket. A KSH 2.7.1 idősoros mutatója a lakott lakásokra 2016-ban **62.0% / 38.0%** országos megoszlást közöl. A jelenlegi 2022 WBL proxy **60.4493255776% / 39.5506744224%**, ezért a diagnosztikai eltérés -1.5506744224 / +1.5506744224 százalékpont. A kontroll oldala `OBS`, de az összehasonlítás státusza `ASS`, mert a 2022-es összehasonlítási alap maga is `ASS` proxy.
 
-Nincs kitalált tolerancia, nincs PASS/FAIL, és nincs `OBS`/`DER` promotion. `Q-B02-002` ezért továbbra is **OPEN**: lezárásához 2022/current, WBL-kompatibilis grainen elérhető épülettípus-authority vagy külön jóváhagyott bizonytalansági modell szükséges.
+Nincs kitalált tolerancia, nincs PASS/FAIL, és nincs `OBS`/`DER` promotion. Ez a P6 történeti állapot volt. B02-P21 később létrehozta és Joseph jóváhagyta a WBL-kompatibilis calibrated building-type modellt; B02-P50 a 2026-09-20-i population-inference policy alapján ezért `Q-B02-002` kérdést **RESOLVED** állapotba viszi, miközben a building-type output `ASS` marad.
 
 A KSH webtartalom CC BY 4.0, attribution required; a két source-history manifest reuse-státusza ennek megfelelő. Az exact PDF/HTML snapshot és SHA jelenleg pending, mert a connector nem biztosít byte-preserving archiválást.
 
 ## Állapot
 
-`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok három elkülönített, közösen megfigyelt projekcióban materializáltak; a FAMILY_HOUSE/MULTI_DWELLING épülettípusok, a modellezett primerenergia-eloszlás és a településtípusos `ASS` épülettípus-proxy reprodukálható. B02-P2 a technikai eligibility/S2 admission szabályt gépileg lezárja, B02-P3 claim-specifikus eligibility-rétegekre bontja a korábbi umbrella fogalmat, B02-P4 a négy technikai komponens producer-authority handoffját fail-closed rögzíti, B02-P5 lezárja a TABULA/EPISCOPE alternatív forráság félreértelmezési kockázatát, B02-P6 pedig hozzáadja a 2016-os KSH országos épülettípus-kontrollt anélkül, hogy a 2022-es `ASS` proxyt megfigyelt adattá minősítené. **Egyik sem ad országos eligible-stock számot.** `Q-B02-001`, `Q-B02-002` és `Q-B02-004` nyitott. B02 readiness változatlanul 55%.
+`IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok materializáltak, a kanonikus archetípus-dimenziók szerződöttek, és B02-P21 a building-type valamint primary-energy WBL linkage-et APPROVED / JOSEPH / QUALIFIED állapotban biztosítja. B02-P50 ezért `Q-B02-002` kérdést RESOLVED-ra állítja a project-wide population-inference policy szerint. **Ez nem ad országos eligible-stock számot és nem emeli az ASS/MODELLED outputot OBS/DER-re.** `Q-B02-001` és `Q-B02-004` továbbra is nyitott. B02 readiness változatlanul 55%.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
