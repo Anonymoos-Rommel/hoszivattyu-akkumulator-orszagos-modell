@@ -31,7 +31,7 @@ Public source:
 
 - **Hiteles Energetikai Tanúsítvány HET-00259140**
 - Zalavár u. 4 társasház, Budapest XVI.
-- source PDF: https://www.osszefog.hu/doc/6_melleklet_zalavar_u_4_hiteles_energetikai_tanusitvany.pdf
+- source PDF: https://www.osszefog.hu/doc/3_melleklet_zalavar_4__energetikai_felmeres_meglevo_allapot.pdf
 - certificate calculation date: 2015-04-21
 - ZBR calculation explicitly states: **Felújítás előtti állapot**
 
@@ -39,7 +39,7 @@ The public document reports for the same pre-retrofit state:
 
 - residential multi-family building;
 - 19 dwellings;
-- heated floor area: **1419.6 m2**;
+- heated floor area: **1419.63 m2**;
 - heated volume: **4174.5 m3**;
 - design indoor temperature: **20.0 C**;
 - design outdoor temperature: **-13.0 C**;
@@ -48,12 +48,13 @@ The public document reports for the same pre-retrofit state:
 - net annual heating demand: **qF = 145.9 kWh/m2a**;
 - estimated heating design demand: **132.35 kW**.
 
-The annual total stored by P61 is a transparent exact derivation:
+P62 subsequently located the source-native annual total in the same ZBR
+calculation: **QF,1 = 207172 kWh/a**. This source-native value supersedes the
+earlier P61 multiplication of rounded `qF` and rounded area. The specific
+`145.9 kWh/m2a` remains source context, not the canonical total.
 
-`145.9 kWh/m2a × 1419.6 m2 = 207119.64 kWh/a`
-
-The design peak is not derived from that annual value. It is copied as the
-source-native **132.35 kW** result.
+The design peak is independently source-native **132.35 kW**; it is not derived
+from annual energy.
 
 ## 3. Evidence classification
 

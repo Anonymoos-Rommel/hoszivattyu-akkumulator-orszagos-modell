@@ -118,8 +118,34 @@ Tiltott útvonalak:
 - full-load-hours proxy.
 
 P61 bounded magyar kalibrációja egy 19 lakásos társasház 2015-ös, explicit
-`Felújítás előtti állapot` számítása: `qF=145.9 kWh/m2a`,
-`AN=1419.6 m2` -> `207119.64 kWh/a DER`, miközben a forrás közvetlenül
-`132.35 kW` design hőszükségletet ad. Ez nem országos arány és nem 2026-os
+`Felújítás előtti állapot` számítása. P62 source-precedence javítása után a
+kanonikus éves nettó fűtési igény a dokumentum source-native
+`QF,1=207172 kWh/a DER`; `qF=145.9 kWh/m2a` és `AN=1419.63 m2` context.
+A forrás ettől függetlenül közvetlenül `132.35 kW` design hőszükségletet ad. Ez nem országos arány és nem 2026-os
 állománybecslés.
+
+## P62 intervention-linked annual + design-peak calibration
+
+Valós `OBS/DER` intervention numerikus annual és peak redukciós faktorai csak
+[`peak_effect_gate.py`](peak_effect_gate.py) által elfogadott linked
+before/after evidence mellett használhatók. A két faktor külön evidence-ből
+származik; egyik sem helyettesítheti a másikat.
+
+A bounded magyar Zalavár u. 4. projekt ugyanazon 19 lakásos épületre, azonos
+`KESZ ZBR EH 09-3` módszerrel és azonos `20 / -13 C` design feltételekkel:
+
+```text
+annual net heat: 207172 -> 36687 kWh/a
+annual reduction: 82.2915%
+
+design peak:     132.35 -> 46.47 kW
+peak reduction:  64.8886%
+```
+
+A POST dokumentum `Felújítás utáni állapot (tervezett)`, ezért
+`PLANNED_DESIGN / DER`: fizikai kalibrációra használható, de nem completion
+`OBS`, és önmagában nem nyitja az S1 kaput.
+
+Az engine valós `OBS/DER` intervention esetén a megadott annual/peak
+fractionöket visszaellenőrzi a P62 evidence-ből számított külön értékekkel.
 

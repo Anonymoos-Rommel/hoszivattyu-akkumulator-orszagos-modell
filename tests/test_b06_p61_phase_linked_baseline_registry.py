@@ -33,8 +33,9 @@ def test_zalavar_record_is_exact_same_phase_annual_peak_pair():
     assert record["annual_evidence_status"] == "DER"
     assert record["peak_evidence_status"] == "DER"
     assert float(record["specific_annual_net_space_heat_kwh_m2a"]) == 145.9
-    assert float(record["heated_floor_area_m2"]) == 1419.6
-    assert abs(float(record["annual_net_space_heat_kwh"]) - 145.9 * 1419.6) < 1e-9
+    assert float(record["heated_floor_area_m2"]) == 1419.63
+    assert float(record["annual_net_space_heat_kwh"]) == 207172.0
+    assert record["annual_method"] == "DIRECT_ANNUAL"
     assert float(record["design_peak_heat_load_kw"]) == 132.35
     assert float(record["design_indoor_temperature_c"]) == 20.0
     assert float(record["design_outdoor_temperature_c"]) == -13.0
@@ -51,8 +52,11 @@ def test_q_b06_006_is_resolved_without_national_claim():
 def test_readiness_percentage_is_not_uplifted_from_one_case():
     row = next(r for r in rows(READINESS) if r["component_id"] == "BASELINE_DEMAND_INPUT")
     assert row["readiness_percent"] == "45"
-    assert "intentionally not uplifted" in row["notes"]
-    assert "SRC-B06-HU-ZALAVAR-HET-ZBR-2015" in row["source_ids"]
+    assert "intentionally unchanged" in row["notes"]
+    assert (
+        "SRC-B06-HU-ZALAVAR-ZBR-PRE-2015" in row["source_ids"]
+        or "SRC-B06-HU-ZALAVAR-HET-ZBR-2015" in row["source_ids"]
+    )
 
 
 def test_real_der_engine_baseline_without_p61_pair_fails_closed():
@@ -74,7 +78,7 @@ def test_real_der_engine_baseline_without_p61_pair_fails_closed():
     assert any("P61 same-record/same-phase" in gap for gap in result.remaining_readiness_gaps)
 
 
-def test_real_der_engine_baseline_with_p61_pair_is_admitted():
+def test_p61_pair_does_not_authorize_unlinked_real_intervention_effect():
     pair = BaselineDemandEvidence(
         record_id="REAL-CASE",
         phase_id="PRE_RETROFIT",
@@ -107,5 +111,5 @@ def test_real_der_engine_baseline_with_p61_pair_is_admitted():
         applicability_status="DER",
     )
     result = evaluate_retrofit(baseline, [intervention])
-    assert result.post_retrofit_annual_space_heat_kwh == 8000.0
-    assert result.post_retrofit_peak_heat_load_kw == 9.0
+    assert result.status == "Q"
+    assert any("P62 linked annual/peak effect evidence" in gap for gap in result.remaining_readiness_gaps)
