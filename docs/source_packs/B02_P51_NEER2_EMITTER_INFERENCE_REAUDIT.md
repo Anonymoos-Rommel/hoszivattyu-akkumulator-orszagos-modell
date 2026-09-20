@@ -133,6 +133,42 @@ Therefore:
 
 No such mapping is fabricated in P51.
 
+## 4.1 Independent public re-checks
+
+### TÁRKI-REKK 2022 full questionnaire
+
+The complete public questionnaire appendix was re-read rather than relying only on Figure 11.
+
+Exact relevant questions:
+
+- Q18: heating topology — building-central, dwelling-central, room-local or mobile heating;
+- Q19/Q20: primary/secondary heat generator;
+- Q32: programmable thermostat, explicitly distinguishing it from a radiator-mounted thermostatic valve;
+- Q50/Q50A: billing may use devices mounted on heat emitters;
+- Q67-Q69: planned modernisation includes heating network/control/heat emitters.
+
+This provides useful topology and gas-convector evidence, but there is **no current hydronic emitter-class question** separating radiator, floor/surface heating and mixed systems, and no design flow/return temperature question.
+
+Therefore:
+
+`TARKI-REKK BOILER SHARE != RADIATOR SHARE`
+
+and:
+
+`COST-ALLOCATOR WORDING != COMPLETE HYDRONIC EMITTER MIX`
+
+### HÉTFA / Habitat 2021 derivative study
+
+Public source:
+
+`https://hetfa.hu/wp-content/uploads/2022/09/HE%CC%81TFA_Tanulma%CC%81ny_Habitat.pdf`
+
+The study reuses the KEOP-7.9.0/NÉER2 typology for renovation, energy-demand, carrier and heat-producer scenario analysis.
+
+The public text contains no national current radiator/radiator-heating, floor-heating or generic heat-emitter distribution. The scenario tables assigning condensing/low-temperature boilers or district-heating plants are **renovation heat-producer assumptions**, not observations of current heat emitters.
+
+Therefore this derivative publication does not close R1 or R2.
+
 ## 5. Q-B02-004 residual blocker after re-audit
 
 The old broad blocker:
