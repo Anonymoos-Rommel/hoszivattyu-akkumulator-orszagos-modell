@@ -78,7 +78,7 @@ def test_real_der_engine_baseline_without_p61_pair_fails_closed():
     assert any("P61 same-record/same-phase" in gap for gap in result.remaining_readiness_gaps)
 
 
-def test_real_der_engine_baseline_with_p61_pair_is_admitted():
+def test_p61_pair_does_not_authorize_unlinked_real_intervention_effect():
     pair = BaselineDemandEvidence(
         record_id="REAL-CASE",
         phase_id="PRE_RETROFIT",
@@ -111,5 +111,5 @@ def test_real_der_engine_baseline_with_p61_pair_is_admitted():
         applicability_status="DER",
     )
     result = evaluate_retrofit(baseline, [intervention])
-    assert result.post_retrofit_annual_space_heat_kwh == 8000.0
-    assert result.post_retrofit_peak_heat_load_kw == 9.0
+    assert result.status == "Q"
+    assert any("P62 linked annual/peak effect evidence" in gap for gap in result.remaining_readiness_gaps)
