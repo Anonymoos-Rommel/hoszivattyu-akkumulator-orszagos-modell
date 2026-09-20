@@ -44,7 +44,9 @@ Required for every heated room:
 
 The existing P4 emitter equation is then evaluated for every room.  The common
 building supply temperature is the **maximum room requirement**.  Averaging room
-requirements is forbidden because that can under-serve the critical room.
+requirements is forbidden because that can under-serve the critical room.  The
+sum of all heated-room design heat loads is also carried as the P65-supported
+building design peak and must reconcile to the sequential B06 post-state peak.
 
 Missing one heated room keeps the building result Q.
 
@@ -118,9 +120,11 @@ If an intervention attempts to change post-retrofit supply temperature:
 1. P65 evidence is mandatory;
 2. the evidence decision must be `QUALIFIED`;
 3. the evidence intervention ID must match the runtime intervention;
-4. if a numeric supply claim is also supplied, it must exactly match the P65
+4. the P65-supported post-state design heat load must exactly reconcile (within
+   the engine tolerance) to the current sequential B06 peak;
+5. if a numeric supply claim is also supplied, it must exactly match the P65
    decision;
-5. otherwise B06 returns Q and emits no B05 sizing input.
+6. otherwise B06 returns Q and emits no B05 sizing input.
 
 P65 evidence may also provide the temperature directly, avoiding a duplicated
 manual number.
