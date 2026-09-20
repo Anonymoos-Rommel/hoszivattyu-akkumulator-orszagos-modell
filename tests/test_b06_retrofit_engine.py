@@ -99,6 +99,7 @@ def intervention(
             route=SIGNED_MEP_DESIGN,
             evidence_status="DER",
             source_refs=("TEST-SIGNED-MEP",),
+            building_design_heat_load_kw=ev(peak is not None and 10.0 * (1 - peak) or 10.0, "DER", "TEST-SIGNED-MEP"),
             explicit_supply_temperature_c=ev(supply, "DER", "TEST-SIGNED-MEP"),
             explicit_return_temperature_c=ev(supply - 5.0, "DER", "TEST-SIGNED-MEP"),
             design_outdoor_temperature_c=ev(-13.0, "DER", "TEST-SIGNED-MEP"),
