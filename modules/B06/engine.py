@@ -20,6 +20,11 @@ from modules.B06.baseline_demand_gate import (
     BaselineDemandEvidence,
     assess_baseline_demand,
 )
+from modules.B06.peak_effect_gate import (
+    QUALIFIED as PEAK_EFFECT_QUALIFIED,
+    PeakEffectEvidence,
+    assess_peak_effect,
+)
 
 
 EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
@@ -76,6 +81,7 @@ class RetrofitIntervention:
     source_ids: tuple[str, ...] = ()
     completion_source_ids: tuple[str, ...] = ()
     completion_outcome: S1DemandOutcomeEvidence | None = None
+    peak_effect_evidence: PeakEffectEvidence | None = None
 
     def validate(self) -> None:
         for name, status in (
@@ -265,6 +271,55 @@ def evaluate_retrofit(baseline: RetrofitBaseline, interventions: Iterable[Retrof
         if intervention.annual_reduction_fraction is None or intervention.peak_reduction_fraction is None:
             gaps.append(f"{intervention.intervention_id}: annual and peak effects must both be explicit")
             continue
+
+        if intervention.evidence_status in {"OBS", "DER"}:
+            if intervention.peak_effect_evidence is None:
+                gaps.append(
+                    f"{intervention.intervention_id}: P62 linked annual/peak effect evidence is required for OBS/DER intervention effects"
+                )
+                continue
+            effect_decision = assess_peak_effect(intervention.peak_effect_evidence)
+            if effect_decision.status != PEAK_EFFECT_QUALIFIED:
+                gaps.extend(
+                    f"{intervention.intervention_id}: P62 peak effect {reason}"
+                    for reason in effect_decision.reasons
+                )
+                continue
+            effect = intervention.peak_effect_evidence
+            if effect.intervention_id != intervention.intervention_id:
+                gaps.append(
+                    f"{intervention.intervention_id}: P62 intervention link mismatched"
+                )
+                continue
+            if effect.evidence_status != intervention.evidence_status:
+                gaps.append(
+                    f"{intervention.intervention_id}: P62 evidence status mismatched"
+                )
+                continue
+            if (
+                baseline.baseline_demand_evidence is not None
+                and effect.record_id != baseline.baseline_demand_evidence.record_id
+            ):
+                gaps.append(
+                    f"{intervention.intervention_id}: P62 record does not match admitted baseline"
+                )
+                continue
+            if effect_decision.annual_reduction_fraction is None or effect_decision.peak_reduction_fraction is None:
+                gaps.append(
+                    f"{intervention.intervention_id}: P62 reduction fractions missing"
+                )
+                continue
+            if abs(effect_decision.annual_reduction_fraction - intervention.annual_reduction_fraction) > 1e-9:
+                gaps.append(
+                    f"{intervention.intervention_id}: annual reduction fraction does not match P62 evidence"
+                )
+                continue
+            if abs(effect_decision.peak_reduction_fraction - intervention.peak_reduction_fraction) > 1e-9:
+                gaps.append(
+                    f"{intervention.intervention_id}: peak reduction fraction does not match P62 evidence"
+                )
+                continue
+
         current_annual *= 1 - intervention.annual_reduction_fraction
         current_peak *= 1 - intervention.peak_reduction_fraction
         if intervention.supply_temperature_after_c is not None:
