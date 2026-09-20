@@ -6,7 +6,7 @@
 
 ## Decision
 
-B02-P2 defines the four technical eligibility components, and B02-P3 separates technical eligibility from physical, legal, economic and final programme eligibility. B02-P4 now freezes which repository modules may author real PASS/FAIL evidence for each technical component.
+B02-P2 defines the three current technical eligibility components, and B02-P3 separates technical eligibility from physical, legal, economic and final programme eligibility. P59 moved PERMIT out of the B02 technical component set into the separate site legal/delivery authority. B02-P4 now freezes which repository modules may author real PASS/FAIL evidence for each technical component.
 
 The core boundary is:
 
@@ -25,7 +25,7 @@ In particular:
 | `THERMAL_DISTRIBUTION` | B02 | B02; B06 | Q |
 | `HYDRAULIC` | B02 | B02; B06 | Q |
 | `ELECTRICAL` | B02 | B08; B10 | Q |
-| `PERMIT` | B02 | B10; B18 | Q |
+| `PERMIT` | B01; B18 | B18; B10 | CONTRACTED |
 
 Machine-readable authority: `registry/b02_technical_component_authority.csv`.
 
@@ -40,7 +40,7 @@ The mapping is a repository architecture contract. It does not itself create OBS
 5. `THERMAL_DISTRIBUTION` has two bounded producer routes. B02 may author direct current-building evidence. B06 may author a **post-retrofit transition-design** decision only through the P65 fail-closed emitter-temperature gate. A B06 decision does not reconstruct missing current-stock evidence and does not create a national emitter/temperature distribution.
 6. `HYDRAULIC` may be direct B02 building evidence or a B06 derivation only when source building/system evidence exists.
 7. `ELECTRICAL` must arrive from B08/B10 electrical-load/network authority. B02 archetype, heating fuel or existing heat-pump presence cannot prove electrical readiness.
-8. `PERMIT` must arrive from B10/B18 implementation/connection/delivery authority. OÉNY record presence cannot prove permit readiness.
+8. `PERMIT` is not a B02 technical component after P59. Its separate B01/B18 site legal/delivery authority may consume B18/B10 evidence; OÉNY record presence cannot prove permit readiness.
 
 ## Current repository implication
 
