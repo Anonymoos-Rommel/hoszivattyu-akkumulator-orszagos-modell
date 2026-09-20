@@ -107,6 +107,8 @@ def intervention(
             room_heat_loss_complete=True,
             emitter_schedule_complete=True,
             hydraulic_design_documented=True,
+            designer_or_engineer_id="TEST-ENGINEER",
+            design_document_signed_or_sealed=True,
         )
     return RetrofitIntervention(
         intervention_id,
