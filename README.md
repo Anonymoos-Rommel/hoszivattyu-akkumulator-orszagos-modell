@@ -12,6 +12,8 @@ Előbb a fizika és az adatok, utána a pénzügy. Előbb a kanonikus modell, ut
 
 A jelenlegi program-egység egy fázisokon átvezetett háztartási beavatkozás az éves portfólióban, nem egyszeri telepítés. Az állapotgép és a portfólió-kapuk szerződése: [`docs/methodology/v12_portfolio_transition_contract.md`](docs/methodology/v12_portfolio_transition_contract.md).
 
+Az országos modellhez nem követelmény minden magyar lakás teljes egyedi műszaki dokumentációja. Ahol teljes adminisztratív/populációs adat nincs, reprezentatív megfigyelt minta vagy validált, kalibrált többforrású inferencia használható, kötelező bizonytalanság- és érzékenységkezeléssel. Ez nem helyettesíti a konkrét háztartás állapotátmenetéhez szükséges record-level bizonyítást. Részletek: [`docs/methodology/population_inference_policy.md`](docs/methodology/population_inference_policy.md).
+
 Minden érdemi számnak visszavezethetőnek kell lennie:
 
 1. forrásra vagy explicit feltételezésre;

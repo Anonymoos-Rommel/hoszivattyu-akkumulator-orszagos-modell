@@ -23,6 +23,12 @@ These instructions apply to the entire repository.
 - Record retrieval date and reference period for web data.
 - Label every material number as `OBS`, `DER`, `ASS`, `SCN`, `POL`, or `Q`.
 - Never invent a missing value. Create a `Q` record with an acquisition or measurement plan.
+- Do not require exhaustive household-level coverage for a national stock claim when a defensible population inference is available. For national prevalence/distribution/aggregate claims, a representative observed sample or calibrated multi-source inference may qualify when target population, weighting/calibration, representativeness diagnostics, uncertainty and sensitivity are explicit.
+- Treat `NO FULL-POPULATION DATA` and `NO DEFENSIBLE POPULATION INFERENCE` as different conditions. Only the latter is a methodological blocker for an aggregate national estimate.
+- Never use a population estimate to pass/fail a specific household, building, connection point, legal condition or project transition. Record-level decisions still require record-level evidence.
+- Preserve inference provenance: sample frame/design, sample size, reference period, missingness/non-response treatment, weighting controls, estimator/model, uncertainty interval or quantiles, and structural sensitivity where applicable.
+- Do not manufacture a joint distribution by multiplying unrelated marginals unless an explicitly approved statistical model controls the independence assumption and propagates uncertainty.
+- Follow `docs/methodology/population_inference_policy.md` for project-wide national-inference claims.
 - Keep wholesale/import valuation separate from household retail prices.
 - Keep baseline and incremental program effects separate.
 - Prevent double counting across household, fiscal, import, financing, and macroeconomic benefits.
