@@ -43,6 +43,7 @@ class RoomEmitterDesignEvidence:
 
     room_id: str
     design_heat_load_kw: EvidenceValue[float]
+    design_indoor_temperature_c: EvidenceValue[float]
     emitter: EmitterRating
     operating_points: tuple[EmitterOperatingPoint, ...]
     source_refs: tuple[str, ...] = ()
@@ -79,6 +80,8 @@ class EmitterTemperatureEvidence:
     room_heat_loss_complete: bool = False
     emitter_schedule_complete: bool = False
     hydraulic_design_documented: bool = False
+    designer_or_engineer_id: str = ""
+    design_document_signed_or_sealed: bool = False
 
     # Measured route: only a design-condition-or-colder observation can mint a
     # design-point temperature without an additional extrapolation authority.
@@ -155,6 +158,12 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: emitter source_ids are required"])
             if room.design_heat_load_kw.status not in ADMISSIBLE_EVIDENCE:
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: design heat load requires OBS/DER"])
+            room_indoor, room_indoor_gap = _numeric(
+                room.design_indoor_temperature_c,
+                f"{room.room_id}.design_indoor_temperature_c",
+            )
+            if room_indoor_gap:
+                return _q(evidence.route, evidence.source_refs, [room_indoor_gap])
             result = derive_required_supply_temperature(
                 room.design_heat_load_kw,
                 room.emitter,
@@ -165,16 +174,25 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: {reason}"])
 
             selected_return = None
+            selected_room_temperature = None
             for point in room.operating_points:
                 if (
                     point.supply_temperature_c.value is not None
                     and float(point.supply_temperature_c.value) == float(result.required_supply_temperature_c)
                     and point.return_temperature_c.value is not None
+                    and point.room_temperature_c.value is not None
                 ):
                     selected_return = float(point.return_temperature_c.value)
+                    selected_room_temperature = float(point.room_temperature_c.value)
                     break
-            if selected_return is None:
-                return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: selected return temperature is Q"])
+            if selected_return is None or selected_room_temperature is None:
+                return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: selected return/room temperature is Q"])
+            if abs(selected_room_temperature - room_indoor) > 1e-9:
+                return _q(
+                    evidence.route,
+                    evidence.source_refs,
+                    [f"{room.room_id}: emitter room temperature does not match design heat-load indoor temperature"],
+                )
 
             room_design_load_total_kw += float(room.design_heat_load_kw.value)
             all_sources.update(room.source_refs)
@@ -233,6 +251,10 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
             gaps.append("signed design lacks complete emitter schedule")
         if not evidence.hydraulic_design_documented:
             gaps.append("signed design lacks hydraulic design/balancing basis")
+        if not evidence.designer_or_engineer_id.strip():
+            gaps.append("signed design lacks designer/engineer identity")
+        if not evidence.design_document_signed_or_sealed:
+            gaps.append("design document is not signed or sealed")
         if gaps:
             return _q(evidence.route, evidence.source_refs, gaps)
         return EmitterTemperatureDecision(
