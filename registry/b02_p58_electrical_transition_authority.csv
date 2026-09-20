@@ -1,0 +1,2 @@
+claim_id,claim_scope,current_status,authority_type,required_inputs,current_blockers,notes
+ELECTRICAL_TRANSITION_AUTHORITY,Record/project-grain electrical connection transition,CONTRACTED,DSO_BOUND_TRANSITION_GATE,"current service evidence; HP electrical demand; starting-current/inverter basis; required phase/current; upgrade scope; dedicated circuit; DSO status/evidence; reproducible binding",,"P58 retires current-stock electrical readiness as a national precondition. DSO_PENDING remains Q; DSO_REFUSED is explicit BLOCKED."
