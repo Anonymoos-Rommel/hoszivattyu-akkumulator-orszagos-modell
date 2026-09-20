@@ -110,6 +110,8 @@ def _numeric(value: EvidenceValue[float], name: str, *, admissible=ADMISSIBLE_EV
     if value.status not in admissible or value.value is None:
         allowed = "/".join(sorted(admissible))
         return None, f"{name} requires {allowed} evidence"
+    if not value.source_ids:
+        return None, f"{name} requires source lineage"
     try:
         number = float(value.value)
     except (TypeError, ValueError):
@@ -157,6 +159,24 @@ def assess_emitter_temperature(evidence: EmitterTemperatureEvidence) -> EmitterT
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: source_refs are required"])
             if not room.emitter.source_ids:
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: emitter source_ids are required"])
+            emitter_fields = (
+                ("nominal_output_kw", room.emitter.nominal_output_kw),
+                ("nominal_flow_temperature_c", room.emitter.nominal_flow_temperature_c),
+                ("nominal_return_temperature_c", room.emitter.nominal_return_temperature_c),
+                ("room_temperature_c", room.emitter.room_temperature_c),
+                ("temperature_exponent", room.emitter.temperature_exponent),
+                ("quantity", room.emitter.quantity),
+                ("correction_method", room.emitter.correction_method),
+            )
+            missing_emitter_lineage = [
+                name for name, value in emitter_fields if not value.source_ids
+            ]
+            if missing_emitter_lineage:
+                return _q(
+                    evidence.route,
+                    evidence.source_refs,
+                    [f"{room.room_id}: emitter fields lack source lineage: " + ",".join(missing_emitter_lineage)],
+                )
             if room.design_heat_load_kw.status not in ADMISSIBLE_EVIDENCE:
                 return _q(evidence.route, evidence.source_refs, [f"{room.room_id}: design heat load requires OBS/DER"])
             room_indoor, room_indoor_gap = _numeric(
