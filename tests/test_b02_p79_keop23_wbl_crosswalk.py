@@ -125,6 +125,20 @@ class B02P79Keop23CrosswalkTests(unittest.TestCase):
             state["B02-P79-S07"]["status"],
             "PARTIAL_RESOLVED_SET_VALUED_CALIBRATION",
         )
+        self.assertEqual(
+            state["B02-P79-S11"]["lower_bound"],
+            "4008541",
+        )
+        self.assertAlmostEqual(
+            float(state["B02-P79-S13"]["lower_bound"]),
+            build_crosswalk_summary().central_geometry_calibration_mean_lower_m2_per_dwelling,
+            places=9,
+        )
+        self.assertAlmostEqual(
+            float(state["B02-P79-S13"]["upper_bound"]),
+            build_crosswalk_summary().central_geometry_calibration_mean_upper_m2_per_dwelling,
+            places=9,
+        )
         q = rows(OPEN_Q, "question_id")["Q-B02-004"]
         self.assertEqual(q["status"], "OPEN")
         self.assertIn("B02-P79", q["notes"])
