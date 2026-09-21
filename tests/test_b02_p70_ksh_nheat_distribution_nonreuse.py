@@ -1,4 +1,6 @@
+import csv
 import unittest
+from pathlib import Path
 
 from modules.B02.distribution_nonreuse_assignment import (
     CENTRAL_HYDRONIC_AWHP,
@@ -6,6 +8,18 @@ from modules.B02.distribution_nonreuse_assignment import (
     assess_programme_route,
     build_distribution_nonreuse_assignment,
 )
+
+ROOT = Path(__file__).resolve().parents[1]
+REG = ROOT / "registry" / "b02_p70_ksh_nheat_distribution_nonreuse.csv"
+SOURCES = ROOT / "registry" / "sources.csv"
+OPEN_Q = ROOT / "registry" / "open_questions.csv"
+MODULE_STATUS = ROOT / "registry" / "module_status.csv"
+DOC = ROOT / "docs" / "source_packs" / "B02_P70_KSH_NHEAT_DISTRIBUTION_NONREUSE.md"
+
+
+def rows(path, key):
+    with path.open(encoding="utf-8", newline="") as handle:
+        return {row[key]: row for row in csv.DictReader(handle)}
 
 
 class B02P70KshNheatDistributionNonreuseTests(unittest.TestCase):
@@ -55,6 +69,50 @@ class B02P70KshNheatDistributionNonreuseTests(unittest.TestCase):
         a = build_distribution_nonreuse_assignment()
         self.assertEqual(a.route_status, "QUALIFIED")
         self.assertEqual(a.evidence_status, "DER_ROUTE_CONDITIONAL_LOWER_BOUND")
+
+    def test_registry_freezes_exact_nheat_and_residual(self):
+        reg = rows(REG, "item_id")
+        self.assertEqual(reg["B02-P70-D02"]["lower_bound"], "1173639")
+        self.assertEqual(reg["B02-P70-D03"]["lower_bound"], "0.292784582")
+        self.assertEqual(reg["B02-P70-D05"]["status"], "LOWER_BOUNDED")
+        self.assertEqual(reg["B02-P70-D06"]["lower_bound"], "1173639")
+        self.assertIn(
+            "CENTRAL_AND_DISTRICT_DISTRIBUTION_REUSE_VS_NEW_OR_REPLACE_ASSIGNMENT",
+            reg["B02-P70-D09"]["residual_gap"],
+        )
+
+    def test_ksh_definition_source_is_registered(self):
+        src = rows(SOURCES, "source_id")["SRC-B02-KSH-CENSUS-DEFINITIONS-2022"]
+        self.assertEqual(src["institution"], "Központi Statisztikai Hivatal")
+        self.assertEqual(src["reliability"], "HIGH")
+        self.assertIn("room heating", src["notes"])
+        self.assertIn("CENTRAL_HYDRONIC_AWHP", src["notes"])
+
+    def test_q_b02_004_is_narrowed_not_closed(self):
+        q = rows(OPEN_Q, "question_id")["Q-B02-004"]
+        self.assertEqual(q["status"], "OPEN")
+        self.assertIn("B02-P70", q["notes"])
+        self.assertIn("1 173 639", q["notes"])
+        self.assertIn(
+            "CENTRAL_AND_DISTRICT_DISTRIBUTION_REUSE_VS_NEW_OR_REPLACE_ASSIGNMENT",
+            q["notes"],
+        )
+
+    def test_readiness_remains_fixed(self):
+        b02 = rows(MODULE_STATUS, "module_id")["B02"]
+        self.assertEqual(b02["readiness_percent"], "55")
+        self.assertIn("B02-P70", b02["gate_note"])
+        self.assertIn("29.278458%", b02["gate_note"])
+
+    def test_source_pack_freezes_non_equivalence_boundaries(self):
+        text = DOC.read_text(encoding="utf-8")
+        for boundary in (
+            "NHEAT -> NEW_OR_REPLACE_DISTRIBUTION_REQUIRED",
+            "max(NHEAT_SHARE, GAS_CONVECTOR_SHARE)",
+            "1,173,639",
+            "CENTRAL_AND_DISTRICT_DISTRIBUTION_REUSE_VS_NEW_OR_REPLACE_ASSIGNMENT",
+        ):
+            self.assertIn(boundary, text)
 
 
 if __name__ == "__main__":
