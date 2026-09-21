@@ -72,10 +72,11 @@ class B02P64EhiDenominatorInvarianceTests(unittest.TestCase):
             rows = {row["question_id"]: row for row in csv.DictReader(handle)}
         q4 = rows["Q-B02-004"]
         self.assertEqual(q4["status"], "OPEN")
-        self.assertIn("numerikus súly", q4["evidence_needed"])
+        self.assertIn("set-identified", q4["evidence_needed"])
         self.assertIn("KSH_DENOMINATOR_BRIDGE", q4["notes"])
         self.assertIn("RETIRED", q4["notes"])
         self.assertIn("EHI_TO_P21_SEMANTIC_COVERAGE", q4["notes"])
+        self.assertIn("RETIRED", q4["notes"])
         self.assertIn("P21_STRATUM_EMITTER_ALLOCATION", q4["notes"])
         self.assertIn("MIXED_SYSTEM_OVERLAP", q4["notes"])
         self.assertIn("OTHER_EMITTER_SHARE", q4["notes"])
@@ -88,7 +89,7 @@ class B02P64EhiDenominatorInvarianceTests(unittest.TestCase):
         self.assertEqual(b02["readiness_percent"], "55")
         self.assertIn("P64", b02["gate_note"])
         self.assertIn("RETIRED", b02["gate_note"])
-        self.assertIn("P21 stratum emitter allocation", b02["gate_note"])
+        self.assertIn("P21 stratum allocation latent simplex", b02["gate_note"])
 
     def test_source_pack_freezes_non_equivalences(self):
         text = SOURCE_PACK.read_text(encoding="utf-8")
