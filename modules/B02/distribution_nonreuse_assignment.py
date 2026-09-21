@@ -99,5 +99,9 @@ def build_distribution_nonreuse_assignment(
         proven_nonreuse_lower_dwellings=lower_share * occupied,
         reuse_upper_share=1.0 - lower_share,
         route_status=QUALIFIED,
-        evidence_status="DER+ASS_SET_BOUND",
+        evidence_status=(
+            "DER_ROUTE_CONDITIONAL_LOWER_BOUND"
+            if nheat_share >= PRIMARY_HEATING_GAS_CONVECTOR_SHARE
+            else "DER+ASS_SET_BOUND"
+        ),
     )
