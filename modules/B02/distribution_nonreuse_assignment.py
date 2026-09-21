@@ -24,6 +24,7 @@ their overlap is not identified. The valid national lower bound is their max.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 
 from modules.B02.emitter_marginal_reconciliation import (
     PRIMARY_HEATING_GAS_CONVECTOR_SHARE,
@@ -64,6 +65,7 @@ def assess_programme_route(target_route: str) -> DistributionRouteDecision:
     return DistributionRouteDecision(QUALIFIED, ())
 
 
+@lru_cache(maxsize=4)
 def build_distribution_nonreuse_assignment(
     *,
     target_route: str = CENTRAL_HYDRONIC_AWHP,
