@@ -178,9 +178,10 @@ class B02P76ReuseCapexSupersetEnvelopeTests(unittest.TestCase):
             "REUSE_OUTSIDE_KEHOP_STRUCTURAL_SCOPE_CAPEX_BOUND_REQUIRED",
             q["notes"],
         )
+        reg = rows(REG, "item_id")
         self.assertNotIn(
-            "Current residual: REUSE_PATH_CAPEX_BOUND_REQUIRED",
-            q["notes"],
+            "REUSE_PATH_CAPEX_BOUND_REQUIRED",
+            reg["B02-P76-C13"]["residual_gap"],
         )
         b02 = rows(MODULE_STATUS, "module_id")["B02"]
         self.assertEqual(b02["readiness_percent"], "55")
