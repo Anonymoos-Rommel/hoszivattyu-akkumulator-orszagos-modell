@@ -15,9 +15,9 @@ Therefore:
 
 DISTRIBUTION PATH IS EXCLUSIVE AT DWELLING GRAIN.
 EMITTER ACTIONS ARE NON-EXCLUSIVE AT ROOM / EMITTER GRAIN.
-GAS-CONVECTOR FLOOR -> NEW_OR_REPLACE_DISTRIBUTION_REQUIRED LOWER BOUND.
-P41 REPLACE_EXISTING_DISTRIBUTION IS A QUALIFIED SUBTYPE OF THAT BRANCH.
-GAS-CONVECTOR FLOOR != ADD/REPLACE EMITTER-ACTION SIMPLEX.
+P70 KSH NHEAT CONTROL -> NEW_OR_REPLACE_DISTRIBUTION_REQUIRED LOWER BOUND.
+P41 GAS_CONVECTOR -> REPLACE_EXISTING_DISTRIBUTION remains a qualified subtype.
+NHEAT NONREUSE FLOOR != ROOM/EMITTER ACTION DISTRIBUTION.
 """
 
 from __future__ import annotations
@@ -25,8 +25,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from math import isclose, isfinite
 
-from modules.B02.emitter_marginal_reconciliation import (
-    PRIMARY_HEATING_GAS_CONVECTOR_SHARE,
+from modules.B02.distribution_nonreuse_assignment import (
+    NHEAT_NONREUSE_SHARE,
 )
 from modules.B02.emitter_set_identification import build_emitter_population_envelope
 
@@ -132,22 +132,21 @@ def assess_distribution_path_candidate(
     blockers: list[str] = []
     if not isclose(candidate.reuse_share + candidate.new_or_replace_share, 1.0, abs_tol=tolerance):
         blockers.append("DISTRIBUTION_PATH_SHARES_MUST_SUM_TO_ONE")
-    # P39/P41 gas convectors prove at least this much of the top-level
-    # non-reuse branch. P22 no-heating cases may later strengthen the floor,
-    # but are not numerically allocated by P69.
-    if candidate.new_or_replace_share < PRIMARY_HEATING_GAS_CONVECTOR_SHARE - tolerance:
-        blockers.append("NEW_OR_REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR")
+    # P70 promotes the exact P22/KSH NHEAT topology control to the top-level
+    # non-reuse lower bound for the central hydronic air-to-water route.
+    if candidate.new_or_replace_share < NHEAT_NONREUSE_SHARE - tolerance:
+        blockers.append("NEW_OR_REPLACE_DISTRIBUTION_BELOW_KSH_NHEAT_FLOOR")
     return LayerAssessment(not blockers, tuple(blockers))
 
 
 def build_distribution_path_envelope() -> DistributionPathEnvelope:
     population = build_emitter_population_envelope()
-    floor = PRIMARY_HEATING_GAS_CONVECTOR_SHARE
+    floor = NHEAT_NONREUSE_SHARE
     return DistributionPathEnvelope(
         occupied_dwellings=population.occupied_dwellings,
         reuse_existing_distribution=ShareBounds(0.0, 1.0 - floor),
         new_or_replace_distribution_required=ShareBounds(floor, 1.0),
-        evidence_status="SET_IDENTIFIED_WITH_CALIBRATED_NONREUSE_FLOOR",
+        evidence_status="SET_IDENTIFIED_WITH_KSH_DER_NONREUSE_FLOOR",
     )
 
 
@@ -214,7 +213,7 @@ def propagate_distribution_metric_bounds(
     if blockers:
         return MetricEnvelope("Q", metric, None, None, blockers)
 
-    floor = PRIMARY_HEATING_GAS_CONVECTOR_SHARE
+    floor = NHEAT_NONREUSE_SHARE
     reuse = by_path[REUSE_EXISTING_DISTRIBUTION]
     replace = by_path[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED]
 
