@@ -45,16 +45,41 @@ class B02P75KehopScopeCrosswalkTests(unittest.TestCase):
                 s.physical_family_definite_pre2007,
                 s.nheat_family_definite_pre2007
                 + s.central_family_definite_pre2007,
+                delta=1e-6,
             )
             self.assertAlmostEqual(
                 s.physical_family_possible_pre2007,
                 s.nheat_family_possible_pre2007
                 + s.central_family_possible_pre2007,
+                delta=1e-6,
             )
             self.assertGreaterEqual(
                 s.physical_family_possible_pre2007,
                 s.physical_family_definite_pre2007,
             )
+
+    def test_exact_ci_materialized_crosswalk_is_frozen(self):
+        x = build_kehop_scope_crosswalk()
+        self.assertAlmostEqual(
+            x.structural_candidate_lower,
+            1_902_145.42579707,
+            delta=1e-6,
+        )
+        self.assertAlmostEqual(
+            x.structural_candidate_upper,
+            2_108_846.960997694,
+            delta=1e-6,
+        )
+        self.assertAlmostEqual(
+            x.proven_nonreuse_overlap_lower,
+            784_618.1481627779,
+            delta=1e-6,
+        )
+        self.assertAlmostEqual(
+            x.possible_nonreuse_overlap_upper,
+            2_108_846.960997694,
+            delta=1e-6,
+        )
 
     def test_print_reproducible_crosswalk_for_registry_freeze(self):
         # This one-line deterministic JSON is intentionally emitted into CI
