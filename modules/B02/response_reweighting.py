@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import csv
 from dataclasses import dataclass
+from functools import lru_cache
 from math import isfinite
 from pathlib import Path
 
@@ -76,6 +77,7 @@ def _check_interval(interval: ResponseInterval, name: str) -> None:
         raise ValueError(f"{name} interval is inverted")
 
 
+@lru_cache(maxsize=1)
 def p21_building_type_weights() -> P21BuildingTypeWeights:
     _rows, summary = build_calibrated_linkage()
     if summary.occupied_dwellings != EXPECTED_OCCUPIED:
