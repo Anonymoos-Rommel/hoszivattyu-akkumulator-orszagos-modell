@@ -160,7 +160,7 @@ class B02P74HungarianPathOutcomeAuthorityTests(unittest.TestCase):
         )
         self.assertEqual(
             reg["B02-P74-A08"]["status"],
-            "PARTIAL_RESOLVED_SCOPE_LIMITED",
+            "SUPERSEDED_BY_P75_STRUCTURAL_BOUNDS",
         )
         self.assertIn(
             "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
