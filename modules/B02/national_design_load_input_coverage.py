@@ -40,6 +40,7 @@ MATERIALIZED_OBS_SET_BOUNDED = "MATERIALIZED_OBS_SET_BOUNDED"
 MATERIALIZED_ASS_CALIBRATED = "MATERIALIZED_ASS_CALIBRATED"
 CALIBRATION_ONLY = "CALIBRATION_ONLY"
 PARTIAL_ARCHETYPE_CALIBRATION = "PARTIAL_ARCHETYPE_CALIBRATION"
+PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
 
 
@@ -145,6 +146,7 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
             "Q",
             (
                 "SRC-B02-KSH-CENSUS-API-2022",
+                "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
                 "SRC-B02-BME-RBSM-2026",
             ),
             True,
@@ -156,6 +158,7 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
             Q,
             "Q",
             (
+                "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
                 "SRC-B02-BME-RBSM-2026",
                 "SRC-B02-HU-EPISCOPE-AVERAGE-BUILDING-METHOD",
                 "SRC-B02-HU-EPISCOPE-BUDAORS-AVERAGE-2015",
@@ -166,12 +169,15 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "BASELINE_COMPONENT_U_VALUE_CALIBRATION",
-            PARTIAL_ARCHETYPE_CALIBRATION,
+            PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY,
             "DER",
-            ("SRC-B02-BME-RBSM-2026",),
+            (
+                "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
+                "SRC-B02-BME-RBSM-2026",
+            ),
             False,
             None,
-            "The 2026 BME RBSM confirms EPC-derived archetype envelope distributions and publishes Type-5 distributions; this is calibration, not complete all-type post-state authority.",
+            "The 2022 dissertation publishes 23-type survey-derived baseline component U-value tables and the 2026 RBSM confirms the synthetic-average lineage. This is baseline/calibration authority, not an action-conditioned post-retrofit surface.",
         ),
         InputCoverage(
             "POST_RETROFIT_COMPONENT_U_VALUES",
@@ -198,10 +204,13 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
             "POST_RETROFIT_THERMAL_BRIDGE_H",
             Q,
             "Q",
-            ("SRC-B02-BME-RBSM-2026",),
+            (
+                "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
+                "SRC-B02-BME-RBSM-2026",
+            ),
             True,
             "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
-            "The 2026 BME study explicitly reports no reliable survey distribution for thermal-bridge inputs.",
+            "The 2022 survey schema includes thermal-bridge-aware resultant U semantics, but the 2026 BME study explicitly reports no reliable separate thermal-bridge distribution. B06 requires an explicit separate H_thermal_bridge term, so it remains Q.",
         ),
         InputCoverage(
             "DESIGN_OUTDOOR_TEMPERATURE",
@@ -270,7 +279,7 @@ def archetype_calibration_boundary() -> dict[str, object]:
         "single_family_types": 12,
         "multi_family_types": 11,
         "type5_heated_floor_area_m2": 103.4,
-        "allowed_use": "CALIBRATION_AND_PARAMETER_PRIOR_ONLY_UNLESS_FULL_TYPE_DATA_ADMITTED",
+        "allowed_use": "PUBLIC_23_TYPE_BASELINE_CALIBRATION_AND_CROSSWALK_INPUT",
         "forbidden_promotions": (
             "TYPE5_TO_ALL_HUNGARY",
             "2015_SYNTHETIC_AVERAGE_TO_2026_POST_RETROFIT_OBSERVATION",
