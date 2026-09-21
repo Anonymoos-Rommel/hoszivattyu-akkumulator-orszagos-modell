@@ -79,7 +79,10 @@ class B02P70KshNheatNonreuseFloorTests(unittest.TestCase):
             e.reuse_existing_distribution.upper,
             2_216_178 / 3_389_817,
         )
-        self.assertEqual(e.evidence_status, "SET_IDENTIFIED_WITH_KSH_DER_NONREUSE_FLOOR")
+        self.assertEqual(
+            e.evidence_status,
+            "SET_IDENTIFIED_WITH_B01_PHYSICAL_SCOPE_AND_KSH_DER_NHEAT_FLOOR",
+        )
 
         counts = distribution_count_bounds()
         self.assertAlmostEqual(counts[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][0], 1_173_639)
