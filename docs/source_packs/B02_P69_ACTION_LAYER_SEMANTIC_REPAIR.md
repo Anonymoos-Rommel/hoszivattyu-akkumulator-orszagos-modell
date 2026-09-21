@@ -19,7 +19,7 @@ That is inconsistent with canonical earlier repository evidence.
 P41 defines a dwelling-level thermal-distribution transition:
 
 - `REUSE_EXISTING_DISTRIBUTION`;
-- `REPLACE_EXISTING_DISTRIBUTION`.
+- `REPLACE_EXISTING_DISTRIBUTION` as the proven P41 gas-convector subtype.
 
 P55 defines room/emitter-level ASHP design actions:
 
@@ -45,13 +45,19 @@ and:
 
 Exclusive:
 
-`REUSE_EXISTING_DISTRIBUTION + REPLACE_EXISTING_DISTRIBUTION = 1`.
+`REUSE_EXISTING_DISTRIBUTION + NEW_OR_REPLACE_DISTRIBUTION_REQUIRED = 1`.
 
-P39/P41 already qualify the primary gas-convector margin at 0.233 and require replacement of the existing non-hydronic distribution path.
+P39/P41 already qualify the primary gas-convector margin at 0.233 and require replacement of the existing non-hydronic distribution path. That proves one subtype of the broader non-reuse branch.
 
-Therefore:
+P22/KSH, however, defines the NHEAT domain to include both room-by-room heating and dwellings where no heating equipment/conditions existed at enumeration. A dwelling with no existing heating distribution cannot be described as "replacement".
 
-`REPLACE_EXISTING_DISTRIBUTION >= 0.233`.
+Therefore the correct top-level axis is:
+
+`NEW_OR_REPLACE_DISTRIBUTION_REQUIRED >= 0.233`.
+
+The proven gas-convector subtype remains:
+
+`GAS_CONVECTOR -> REPLACE_EXISTING_DISTRIBUTION`.
 
 For 4,008,541 occupied dwellings:
 
@@ -76,7 +82,7 @@ No sum-to-one rule applies at dwelling grain.
 
 `modules/B02/transition_set_propagation.py` now exposes:
 
-- `DistributionPathCandidate`;
+- `DistributionPathCandidate` with `REUSE_EXISTING_DISTRIBUTION` versus `NEW_OR_REPLACE_DISTRIBUTION_REQUIRED`;
 - `assess_distribution_path_candidate()`;
 - `build_distribution_path_envelope()`;
 - `distribution_count_bounds()`;
@@ -134,7 +140,7 @@ Reason: there is no defensible five-way dwelling subtype split.
 
 Current residual becomes:
 
-1. `HUNGARIAN_DISTRIBUTION_REPLACEMENT_ASSIGNMENT`;
+1. `HUNGARIAN_DISTRIBUTION_NONREUSE_ASSIGNMENT`;
 2. `HUNGARIAN_EMITTER_INTERVENTION_ASSIGNMENT`;
 3. `ROOM_GRAIN_ACTION_DISTRIBUTION`.
 
@@ -142,7 +148,23 @@ Optional monetary residual:
 
 - `MARKET_REALIZED_COST_DISTRIBUTION` only if a central/expected cost estimate is required.
 
-## 6. Non-claims
+## 6. P22 boundary
+
+The KSH 2022 census definition of room heating states that rooms are heated individually by convector, stove or another device, and that dwellings with no heating equipment or heating conditions at enumeration are accounted for in the same category.
+
+Therefore P69 does not collapse the whole NHEAT branch into `REPLACE_EXISTING_DISTRIBUTION`.
+
+Hard boundary:
+
+`NHEAT != PROVEN REPLACE_EXISTING_DISTRIBUTION`
+
+but, for a central hydronic air-to-water heat-pump route:
+
+`NHEAT -> NO PROVEN REUSABLE CENTRAL DISTRIBUTION`.
+
+The exact numeric NHEAT programme allocation is left to the next evidence slice.
+
+## 7. Non-claims
 
 P69 does not claim:
 
