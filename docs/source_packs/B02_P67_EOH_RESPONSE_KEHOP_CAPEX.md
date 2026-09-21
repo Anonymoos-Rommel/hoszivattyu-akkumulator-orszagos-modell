@@ -44,6 +44,8 @@ For reproducible derivation, P67 inspected a public research mirror of the sourc
 
 The mirror is **transport only**, not authority. Authority remains the DESNZ/ESC datasets.
 
+The current uSmart discovery surface lists a larger total Property/Design/Installation record count than the analysed transport snapshot. P67 therefore does **not** claim that the transport mirror is a current complete recruitment/survey export. Only the installed subset is admitted for quantitative response derivation because it independently reconciles to the official final installed cohort.
+
 The analysed snapshot contains exactly **742 installed systems**, reconciling to the official project total. Of those, **689** have at least one positive source-native emitter-measure count:
 
 `689 / 742 = 0.928571...`
