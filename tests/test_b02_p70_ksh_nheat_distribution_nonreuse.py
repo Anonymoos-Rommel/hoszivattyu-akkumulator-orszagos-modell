@@ -21,18 +21,24 @@ class B02P70KshNheatDistributionNonreuseTests(unittest.TestCase):
             blocked.blockers,
         )
 
-    def test_p22_nheat_is_exact_runtime_population_control(self):
+    def test_p22_nheat_exact_population_control(self):
         a = build_distribution_nonreuse_assignment()
         self.assertEqual(a.occupied_dwellings, 4_008_541)
-        self.assertGreater(a.room_by_room_or_no_heat_dwellings, 0)
-        self.assertLess(a.room_by_room_or_no_heat_dwellings, a.occupied_dwellings)
-        self.assertAlmostEqual(
+        self.assertEqual(a.room_by_room_or_no_heat_dwellings, 1_173_639)
+        self.assertAlmostEqual(a.room_by_room_or_no_heat_share, 0.292784581722, places=12)
+
+    def test_nheat_strengthens_gas_convector_floor(self):
+        a = build_distribution_nonreuse_assignment()
+        self.assertGreater(
             a.room_by_room_or_no_heat_share,
-            a.room_by_room_or_no_heat_dwellings / a.occupied_dwellings,
+            a.gas_convector_calibrated_share,
         )
-        print(f"P70_NHEAT_DWELLINGS={a.room_by_room_or_no_heat_dwellings}")
-        print(f"P70_NHEAT_SHARE={a.room_by_room_or_no_heat_share:.12f}")
-        print(f"P70_NONREUSE_LOWER_SHARE={a.proven_nonreuse_lower_share:.12f}")
+        self.assertAlmostEqual(
+            a.proven_nonreuse_lower_share,
+            a.room_by_room_or_no_heat_share,
+        )
+        self.assertEqual(a.proven_nonreuse_lower_dwellings, 1_173_639)
+        self.assertAlmostEqual(a.reuse_upper_share, 0.707215418278, places=12)
 
     def test_nonreuse_floor_uses_max_not_sum(self):
         a = build_distribution_nonreuse_assignment()
@@ -40,16 +46,15 @@ class B02P70KshNheatDistributionNonreuseTests(unittest.TestCase):
             a.proven_nonreuse_lower_share,
             max(a.room_by_room_or_no_heat_share, a.gas_convector_calibrated_share),
         )
-        self.assertLessEqual(a.proven_nonreuse_lower_share, 1.0)
-        self.assertAlmostEqual(
-            a.reuse_upper_share,
-            1.0 - a.proven_nonreuse_lower_share,
+        self.assertLess(
+            a.proven_nonreuse_lower_share,
+            a.room_by_room_or_no_heat_share + a.gas_convector_calibrated_share,
         )
 
-    def test_assignment_remains_mixed_der_ass_bound(self):
+    def test_assignment_is_der_route_conditional_lower_bound(self):
         a = build_distribution_nonreuse_assignment()
         self.assertEqual(a.route_status, "QUALIFIED")
-        self.assertEqual(a.evidence_status, "DER+ASS_SET_BOUND")
+        self.assertEqual(a.evidence_status, "DER_ROUTE_CONDITIONAL_LOWER_BOUND")
 
 
 if __name__ == "__main__":
