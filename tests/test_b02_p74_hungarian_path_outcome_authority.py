@@ -8,6 +8,8 @@ from modules.B02.hungarian_path_outcome_authority import (
     EKR_MIN_SUPPLY_TEMP_REDUCTION_C,
     KEHOP_EMITTER_PACKAGE_TOTAL_MAX_HUF,
     QUALIFIED_SCOPE_LIMITED_TECHNICAL_AUTHORITY,
+    QUALIFIED_TRANSITION_DERIVED_RESPONSE_METHOD,
+    assess_awhp_physical_response_authority,
     assess_ekr_use,
     assess_kehop_path_cost_use,
     assess_p74_path_outcome_completeness,
@@ -102,15 +104,52 @@ class B02P74HungarianPathOutcomeAuthorityTests(unittest.TestCase):
         self.assertEqual(market.status, "Q")
         self.assertIn("OFFICIAL_MAXIMUM_IS_NOT_MARKET_DISTRIBUTION", market.blockers)
 
+    def test_existing_b06_b05_chain_is_the_physical_response_method_authority(self):
+        method = assess_awhp_physical_response_authority(
+            requested_use="RECORD_OR_PROJECT_PHYSICAL_RESPONSE_METHOD"
+        )
+        self.assertEqual(method.status, QUALIFIED_TRANSITION_DERIVED_RESPONSE_METHOD)
+        self.assertEqual(method.blockers, ())
+
+        national = assess_awhp_physical_response_authority(
+            requested_use="NATIONAL_PROGRAMME_RESPONSE"
+        )
+        self.assertEqual(national.status, "Q")
+        self.assertIn(
+            "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
+            national.blockers,
+        )
+        self.assertIn("B05_PRODUCT_OPERATING_POINT_COVERAGE_REQUIRED", national.blockers)
+
+        percent = assess_awhp_physical_response_authority(
+            requested_use="NATIONAL_PERCENT_SAVING_DEFAULT"
+        )
+        self.assertEqual(percent.status, "Q")
+        self.assertEqual(
+            percent.blockers,
+            ("GENERIC_AWHP_PERCENT_RESPONSE_IS_NOT_CANONICAL_ESTIMAND",),
+        )
+
     def test_p74_residual_is_claim_specific(self):
         capex = assess_p74_path_outcome_completeness("CAPEX_HUF_PER_SET")
         self.assertEqual(capex.status, "Q")
         self.assertIn("REUSE_PATH_CAPEX_BOUND_REQUIRED", capex.blockers)
         self.assertIn("NONREUSE_KEHOP_SCOPE_CROSSWALK_REQUIRED", capex.blockers)
 
-        response = assess_p74_path_outcome_completeness("AWHP_ENERGY_SAVING_SHARE")
+        percent = assess_p74_path_outcome_completeness("AWHP_ENERGY_SAVING_SHARE")
+        self.assertEqual(percent.status, "Q")
+        self.assertEqual(
+            percent.blockers,
+            ("GENERIC_AWHP_PERCENT_RESPONSE_IS_NOT_CANONICAL_ESTIMAND",),
+        )
+
+        response = assess_p74_path_outcome_completeness("AWHP_PHYSICAL_RESPONSE")
         self.assertEqual(response.status, "Q")
-        self.assertEqual(response.blockers, ("AWHP_PATH_RESPONSE_AUTHORITY_REQUIRED",))
+        self.assertIn(
+            "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
+            response.blockers,
+        )
+        self.assertIn("B05_PRODUCT_OPERATING_POINT_COVERAGE_REQUIRED", response.blockers)
 
     def test_registry_encodes_no_false_transfer(self):
         reg = rows(REG, "item_id")
@@ -124,7 +163,7 @@ class B02P74HungarianPathOutcomeAuthorityTests(unittest.TestCase):
             "PARTIAL_RESOLVED_SCOPE_LIMITED",
         )
         self.assertIn(
-            "AWHP_PATH_RESPONSE_AUTHORITY_REQUIRED",
+            "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
             reg["B02-P74-A10"]["residual_gap"],
         )
 
@@ -141,7 +180,10 @@ class B02P74HungarianPathOutcomeAuthorityTests(unittest.TestCase):
         q = rows(OPEN_Q, "question_id")["Q-B02-004"]
         self.assertEqual(q["status"], "OPEN")
         self.assertIn("B02-P74", q["notes"])
-        self.assertIn("AWHP_PATH_RESPONSE_AUTHORITY_REQUIRED", q["notes"])
+        self.assertIn(
+            "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
+            q["notes"],
+        )
         self.assertIn("NONREUSE_KEHOP_SCOPE_CROSSWALK_REQUIRED", q["notes"])
 
     def test_readiness_stays_fixed(self):
