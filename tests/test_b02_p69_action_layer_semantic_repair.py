@@ -31,10 +31,10 @@ class B02P69ActionLayerSemanticRepairTests(unittest.TestCase):
 
     def test_distribution_floor_is_on_correct_layer(self):
         p69 = rows(P69, "item_id")
-        replacement = p69["B02-P69-L02"]
-        self.assertEqual(replacement["status"], "LOWER_BOUNDED")
-        self.assertEqual(replacement["lower_bound"], "0.233")
-        self.assertEqual(replacement["claim"], "REPLACE_EXISTING_DISTRIBUTION_SHARE")
+        nonreuse = p69["B02-P69-L02"]
+        self.assertEqual(nonreuse["status"], "LOWER_BOUNDED")
+        self.assertEqual(nonreuse["lower_bound"], "0.233")
+        self.assertEqual(nonreuse["claim"], "NEW_OR_REPLACE_DISTRIBUTION_REQUIRED_SHARE")
         self.assertEqual(
             p69["B02-P69-L04"]["lower_bound"],
             "933990.053",
@@ -69,7 +69,7 @@ class B02P69ActionLayerSemanticRepairTests(unittest.TestCase):
         q = rows(OPEN_Q, "question_id")["Q-B02-004"]
         self.assertEqual(q["status"], "OPEN")
         self.assertIn("ACTION_LAYER_SEMANTIC_REPAIR", q["notes"])
-        self.assertIn("HUNGARIAN_DISTRIBUTION_REPLACEMENT_ASSIGNMENT", q["notes"])
+        self.assertIn("HUNGARIAN_DISTRIBUTION_NONREUSE_ASSIGNMENT", q["notes"])
         self.assertIn("ROOM_GRAIN_ACTION_DISTRIBUTION", q["notes"])
 
     def test_readiness_does_not_increase(self):
@@ -83,8 +83,9 @@ class B02P69ActionLayerSemanticRepairTests(unittest.TestCase):
         for boundary in (
             "DWELLING DISTRIBUTION PATH != ROOM/EMITTER ACTION",
             "ROOM/EMITTER ACTIONS ARE NOT A DWELLING SIMPLEX",
-            "REPLACE_EXISTING_DISTRIBUTION >= 0.233",
+            "NEW_OR_REPLACE_DISTRIBUTION_REQUIRED >= 0.233",
             "NO_NEW_EMITTER_INSTALLATION",
+            "NHEAT != PROVEN REPLACE_EXISTING_DISTRIBUTION",
             "HUNGARIAN_EMITTER_INTERVENTION_ASSIGNMENT",
         ):
             self.assertIn(boundary, text)
