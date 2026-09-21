@@ -20,12 +20,19 @@ from modules.B02.transition_set_propagation import (
 )
 
 
-class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
-    def test_distribution_envelope_uses_gas_convector_nonreuse_floor(self):
+P70_FLOOR = 1_173_639 / 4_008_541
+
+
+class B02P70LayeredTransitionSetPropagationTests(unittest.TestCase):
+    def test_distribution_envelope_uses_p22_nheat_nonreuse_floor(self):
         e = build_distribution_path_envelope()
         self.assertEqual(e.occupied_dwellings, 4_008_541)
-        self.assertAlmostEqual(e.new_or_replace_distribution_required.lower, 0.233)
-        self.assertAlmostEqual(e.reuse_existing_distribution.upper, 0.767)
+        self.assertAlmostEqual(e.new_or_replace_distribution_required.lower, P70_FLOOR)
+        self.assertAlmostEqual(e.reuse_existing_distribution.upper, 1.0 - P70_FLOOR)
+        self.assertEqual(
+            e.evidence_status,
+            "SET_IDENTIFIED_WITH_P22_DER_NONREUSE_FLOOR",
+        )
 
     def test_reuse_only_distribution_candidate_is_rejected(self):
         result = assess_distribution_path_candidate(
@@ -33,13 +40,16 @@ class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
         )
         self.assertFalse(result.admissible)
         self.assertIn(
-            "NEW_OR_REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR",
+            "NEW_OR_REPLACE_DISTRIBUTION_BELOW_P70_NONREUSE_FLOOR",
             result.blockers,
         )
 
-    def test_floor_distribution_candidate_is_admissible(self):
+    def test_exact_p70_floor_candidate_is_admissible(self):
         result = assess_distribution_path_candidate(
-            DistributionPathCandidate(reuse_share=0.767, new_or_replace_share=0.233)
+            DistributionPathCandidate(
+                reuse_share=1.0 - P70_FLOOR,
+                new_or_replace_share=P70_FLOOR,
+            )
         )
         self.assertTrue(result.admissible)
 
@@ -62,11 +72,11 @@ class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
         self.assertGreater(sum(incidence.as_dict().values()), 1.0)
         self.assertEqual(tuple(incidence.as_dict()), (KEEP, UPSIZE, CHANGE, ADD))
 
-    def test_distribution_new_or_replace_count_lower_bound_is_preserved(self):
+    def test_distribution_nonreuse_count_lower_bound_is_exact_p22_nheat(self):
         bounds = distribution_count_bounds()
         self.assertAlmostEqual(
             bounds[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][0],
-            4_008_541 * 0.233,
+            1_173_639,
         )
         self.assertEqual(
             bounds[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][1],
