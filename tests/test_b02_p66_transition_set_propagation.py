@@ -21,11 +21,17 @@ from modules.B02.transition_set_propagation import (
 
 
 class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
-    def test_distribution_envelope_uses_gas_convector_nonreuse_floor(self):
+    def test_distribution_envelope_uses_ksh_nheat_nonreuse_floor(self):
         e = build_distribution_path_envelope()
         self.assertEqual(e.occupied_dwellings, 4_008_541)
-        self.assertAlmostEqual(e.new_or_replace_distribution_required.lower, 0.233)
-        self.assertAlmostEqual(e.reuse_existing_distribution.upper, 0.767)
+        self.assertAlmostEqual(
+            e.new_or_replace_distribution_required.lower,
+            1_173_639 / 4_008_541,
+        )
+        self.assertAlmostEqual(
+            e.reuse_existing_distribution.upper,
+            2_834_902 / 4_008_541,
+        )
 
     def test_reuse_only_distribution_candidate_is_rejected(self):
         result = assess_distribution_path_candidate(
@@ -33,13 +39,17 @@ class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
         )
         self.assertFalse(result.admissible)
         self.assertIn(
-            "NEW_OR_REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR",
+            "NEW_OR_REPLACE_DISTRIBUTION_BELOW_KSH_NHEAT_FLOOR",
             result.blockers,
         )
 
-    def test_floor_distribution_candidate_is_admissible(self):
+    def test_ksh_nheat_floor_distribution_candidate_is_admissible(self):
+        floor = 1_173_639 / 4_008_541
         result = assess_distribution_path_candidate(
-            DistributionPathCandidate(reuse_share=0.767, new_or_replace_share=0.233)
+            DistributionPathCandidate(
+                reuse_share=1.0 - floor,
+                new_or_replace_share=floor,
+            )
         )
         self.assertTrue(result.admissible)
 
@@ -66,7 +76,7 @@ class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
         bounds = distribution_count_bounds()
         self.assertAlmostEqual(
             bounds[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][0],
-            4_008_541 * 0.233,
+            1_173_639,
         )
         self.assertEqual(
             bounds[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][1],
