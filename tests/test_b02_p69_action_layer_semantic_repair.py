@@ -32,7 +32,7 @@ class B02P69ActionLayerSemanticRepairTests(unittest.TestCase):
     def test_distribution_floor_is_on_correct_layer(self):
         p69 = rows(P69, "item_id")
         nonreuse = p69["B02-P69-L02"]
-        self.assertEqual(nonreuse["status"], "LOWER_BOUNDED")
+        self.assertEqual(nonreuse["status"], "SUPERSEDED_BY_P70")
         self.assertEqual(nonreuse["lower_bound"], "0.233")
         self.assertEqual(nonreuse["claim"], "NEW_OR_REPLACE_DISTRIBUTION_REQUIRED_SHARE")
         self.assertEqual(
