@@ -73,17 +73,17 @@ class B02P70KshNheatNonreuseFloorTests(unittest.TestCase):
         e = build_distribution_path_envelope()
         self.assertAlmostEqual(
             e.new_or_replace_distribution_required.lower,
-            1_173_639 / 4_008_541,
+            1_173_639 / 3_389_817,
         )
         self.assertAlmostEqual(
             e.reuse_existing_distribution.upper,
-            2_834_902 / 4_008_541,
+            2_216_178 / 3_389_817,
         )
         self.assertEqual(e.evidence_status, "SET_IDENTIFIED_WITH_KSH_DER_NONREUSE_FLOOR")
 
         counts = distribution_count_bounds()
         self.assertAlmostEqual(counts[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][0], 1_173_639)
-        self.assertAlmostEqual(counts[REUSE_EXISTING_DISTRIBUTION][1], 2_834_902)
+        self.assertAlmostEqual(counts[REUSE_EXISTING_DISTRIBUTION][1], 2_216_178)
 
     def test_old_233_candidate_now_fails_stronger_floor(self):
         result = assess_distribution_path_candidate(
