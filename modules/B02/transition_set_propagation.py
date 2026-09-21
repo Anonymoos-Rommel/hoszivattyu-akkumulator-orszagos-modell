@@ -1,25 +1,26 @@
-"""B02-P66 transition-action set propagation.
+"""B02-P69 layered transition-set propagation.
 
-This module carries the B02-P65 set-identified emitter population forward
-without inventing a point emitter mix or programme-average action split.
+P69 supersedes the P66 five-way dwelling-level action simplex after the
+repository's own earlier evidence showed that it conflated two different
+grains:
 
-Canonical boundaries:
+* P41: dwelling-level thermal-distribution path
+  REUSE_EXISTING_DISTRIBUTION / REPLACE_EXISTING_DISTRIBUTION.
+* P55: room/emitter-level actions KEEP / UPSIZE / CHANGE / ADD, where multiple
+  action types can occur in the same dwelling.
 
-SET-IDENTIFIED COMPOSITION -> SET-IDENTIFIED ACTION ENVELOPE
-CALIBRATED GAS-CONVECTOR MARGIN -> DISTRIBUTION TRANSITION LOWER BOUND
-STRUCTURAL ACTION BOUNDS != NUMERIC DESIGN-TEMPERATURE/COP/CAPEX RESULT
-NO PRICE AUTHORITY -> NO MONETARY CAPEX OUTPUT
+Therefore:
 
-The P39/P41 authority implies that the calibrated primary gas-convector share
-cannot remain on a KEEP-existing-distribution path. At population level this
-creates a hard lower bound on ADD + REPLACE distribution-transition actions.
-It does not identify how that combined share splits between ADD and REPLACE.
+DISTRIBUTION PATH IS EXCLUSIVE AT DWELLING GRAIN.
+EMITTER ACTIONS ARE NON-EXCLUSIVE AT ROOM / EMITTER GRAIN.
+GAS-CONVECTOR FLOOR -> REPLACE_EXISTING_DISTRIBUTION LOWER BOUND.
+GAS-CONVECTOR FLOOR != ADD/REPLACE EMITTER-ACTION SIMPLEX.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import isclose
+from math import isclose, isfinite
 
 from modules.B02.emitter_marginal_reconciliation import (
     PRIMARY_HEATING_GAS_CONVECTOR_SHARE,
@@ -27,54 +28,73 @@ from modules.B02.emitter_marginal_reconciliation import (
 from modules.B02.emitter_set_identification import build_emitter_population_envelope
 
 
-ACTIONS = ("KEEP", "UPSIZE", "CHANGE", "ADD", "REPLACE")
+REUSE_EXISTING_DISTRIBUTION = "REUSE_EXISTING_DISTRIBUTION"
+REPLACE_EXISTING_DISTRIBUTION = "REPLACE_EXISTING_DISTRIBUTION"
+DISTRIBUTION_PATHS = (
+    REUSE_EXISTING_DISTRIBUTION,
+    REPLACE_EXISTING_DISTRIBUTION,
+)
+
+KEEP = "KEEP"
+UPSIZE = "UPSIZE"
+CHANGE = "CHANGE"
+ADD = "ADD"
+EMITTER_ACTIONS = (KEEP, UPSIZE, CHANGE, ADD)
+
 REAL_OR_MODEL_EVIDENCE = frozenset({"OBS", "DER", "ASS", "MODELLED", "SCN"})
 
 
 @dataclass(frozen=True)
-class ActionCandidate:
-    keep_share: float
-    upsize_share: float
-    change_share: float
-    add_share: float
+class DistributionPathCandidate:
+    reuse_share: float
     replace_share: float
-
-    def as_dict(self) -> dict[str, float]:
-        return {
-            "KEEP": self.keep_share,
-            "UPSIZE": self.upsize_share,
-            "CHANGE": self.change_share,
-            "ADD": self.add_share,
-            "REPLACE": self.replace_share,
-        }
 
 
 @dataclass(frozen=True)
-class ActionAssessment:
+class LayerAssessment:
     admissible: bool
     blockers: tuple[str, ...]
 
 
 @dataclass(frozen=True)
-class ActionShareBounds:
+class ShareBounds:
     lower: float
     upper: float
 
 
 @dataclass(frozen=True)
-class TransitionActionEnvelope:
+class DistributionPathEnvelope:
     occupied_dwellings: int
-    add_or_replace_lower: float
-    add_or_replace_upper: float
-    non_keep_lower: float
-    non_keep_upper: float
-    action_bounds: dict[str, ActionShareBounds]
+    reuse_existing_distribution: ShareBounds
+    replace_existing_distribution: ShareBounds
     evidence_status: str
 
 
 @dataclass(frozen=True)
-class OutcomeCoefficientBound:
-    action: str
+class EmitterActionIncidence:
+    """Independent room/emitter action incidences.
+
+    These are not a simplex. A dwelling can contain several rooms and may
+    simultaneously contain KEEP, UPSIZE, CHANGE and ADD events.
+    """
+
+    keep: float
+    upsize: float
+    change: float
+    add: float
+
+    def as_dict(self) -> dict[str, float]:
+        return {
+            KEEP: self.keep,
+            UPSIZE: self.upsize,
+            CHANGE: self.change,
+            ADD: self.add,
+        }
+
+
+@dataclass(frozen=True)
+class DistributionOutcomeBound:
+    path: str
     metric: str
     lower: float | None
     upper: float | None
@@ -93,149 +113,130 @@ class MetricEnvelope:
 
 
 def _unit_share(value: float, name: str) -> None:
-    if not 0.0 <= float(value) <= 1.0:
-        raise ValueError(f"{name} must be within [0,1]")
+    if not isfinite(float(value)) or not 0.0 <= float(value) <= 1.0:
+        raise ValueError(f"{name} must be finite within [0,1]")
 
 
-def assess_action_candidate(
-    candidate: ActionCandidate,
+def assess_distribution_path_candidate(
+    candidate: DistributionPathCandidate,
     *,
     tolerance: float = 1e-12,
-) -> ActionAssessment:
-    shares = candidate.as_dict()
-    for name, value in shares.items():
-        _unit_share(value, name)
+) -> LayerAssessment:
+    _unit_share(candidate.reuse_share, "reuse_share")
+    _unit_share(candidate.replace_share, "replace_share")
 
     blockers: list[str] = []
-    total = sum(shares.values())
-    if not isclose(total, 1.0, abs_tol=tolerance):
-        blockers.append("ACTION_SHARES_MUST_SUM_TO_ONE")
-
-    add_or_replace = candidate.add_share + candidate.replace_share
-    if add_or_replace < PRIMARY_HEATING_GAS_CONVECTOR_SHARE - tolerance:
-        blockers.append("ADD_OR_REPLACE_BELOW_GAS_CONVECTOR_TRANSITION_FLOOR")
-
-    return ActionAssessment(not blockers, tuple(blockers))
+    if not isclose(candidate.reuse_share + candidate.replace_share, 1.0, abs_tol=tolerance):
+        blockers.append("DISTRIBUTION_PATH_SHARES_MUST_SUM_TO_ONE")
+    if candidate.replace_share < PRIMARY_HEATING_GAS_CONVECTOR_SHARE - tolerance:
+        blockers.append("REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR")
+    return LayerAssessment(not blockers, tuple(blockers))
 
 
-def build_transition_action_envelope() -> TransitionActionEnvelope:
+def build_distribution_path_envelope() -> DistributionPathEnvelope:
     population = build_emitter_population_envelope()
     floor = PRIMARY_HEATING_GAS_CONVECTOR_SHARE
-    residual = 1.0 - floor
-
-    return TransitionActionEnvelope(
+    return DistributionPathEnvelope(
         occupied_dwellings=population.occupied_dwellings,
-        add_or_replace_lower=floor,
-        add_or_replace_upper=1.0,
-        non_keep_lower=floor,
-        non_keep_upper=1.0,
-        action_bounds={
-            "KEEP": ActionShareBounds(0.0, residual),
-            "UPSIZE": ActionShareBounds(0.0, residual),
-            "CHANGE": ActionShareBounds(0.0, residual),
-            "ADD": ActionShareBounds(0.0, 1.0),
-            "REPLACE": ActionShareBounds(0.0, 1.0),
-        },
-        evidence_status="SET_IDENTIFIED_WITH_CALIBRATED_FLOOR",
+        reuse_existing_distribution=ShareBounds(0.0, 1.0 - floor),
+        replace_existing_distribution=ShareBounds(floor, 1.0),
+        evidence_status="SET_IDENTIFIED_WITH_CALIBRATED_REPLACEMENT_FLOOR",
     )
 
 
-def action_count_bounds() -> dict[str, tuple[float, float]]:
-    envelope = build_transition_action_envelope()
-    n = float(envelope.occupied_dwellings)
-    result = {
-        action: (bounds.lower * n, bounds.upper * n)
-        for action, bounds in envelope.action_bounds.items()
+def distribution_count_bounds() -> dict[str, tuple[float, float]]:
+    e = build_distribution_path_envelope()
+    n = float(e.occupied_dwellings)
+    return {
+        REUSE_EXISTING_DISTRIBUTION: (
+            e.reuse_existing_distribution.lower * n,
+            e.reuse_existing_distribution.upper * n,
+        ),
+        REPLACE_EXISTING_DISTRIBUTION: (
+            e.replace_existing_distribution.lower * n,
+            e.replace_existing_distribution.upper * n,
+        ),
     }
-    result["ADD_OR_REPLACE"] = (
-        envelope.add_or_replace_lower * n,
-        envelope.add_or_replace_upper * n,
-    )
-    result["NON_KEEP"] = (
-        envelope.non_keep_lower * n,
-        envelope.non_keep_upper * n,
-    )
-    return result
 
 
-def _validate_outcome_bounds(
-    bounds: tuple[OutcomeCoefficientBound, ...],
+def assess_emitter_action_incidence(
+    incidence: EmitterActionIncidence,
+) -> LayerAssessment:
+    """Validate independent incidences without imposing a false simplex."""
+
+    for name, value in incidence.as_dict().items():
+        _unit_share(value, name)
+    return LayerAssessment(True, ())
+
+
+def _validate_distribution_outcome_bounds(
+    bounds: tuple[DistributionOutcomeBound, ...],
     metric: str,
-) -> tuple[dict[str, OutcomeCoefficientBound], tuple[str, ...]]:
+) -> tuple[dict[str, DistributionOutcomeBound], tuple[str, ...]]:
     blockers: list[str] = []
     rows = [row for row in bounds if row.metric == metric]
-    by_action = {row.action: row for row in rows}
+    by_path = {row.path: row for row in rows}
 
-    if set(by_action) != set(ACTIONS):
-        blockers.append("COMPLETE_ACTION_OUTCOME_BOUNDS_REQUIRED")
-        return by_action, tuple(blockers)
+    if set(by_path) != set(DISTRIBUTION_PATHS):
+        blockers.append("COMPLETE_DISTRIBUTION_PATH_OUTCOME_BOUNDS_REQUIRED")
+        return by_path, tuple(blockers)
 
-    for action in ACTIONS:
-        row = by_action[action]
+    for path in DISTRIBUTION_PATHS:
+        row = by_path[path]
         if row.evidence_status == "Q":
-            blockers.append(f"Q_OUTCOME_BOUND:{action}")
+            blockers.append(f"Q_OUTCOME_BOUND:{path}")
         elif row.evidence_status not in REAL_OR_MODEL_EVIDENCE:
-            blockers.append(f"INVALID_OUTCOME_EVIDENCE_STATUS:{action}")
+            blockers.append(f"INVALID_OUTCOME_EVIDENCE_STATUS:{path}")
         if row.lower is None or row.upper is None:
-            blockers.append(f"MISSING_OUTCOME_BOUND:{action}")
+            blockers.append(f"MISSING_OUTCOME_BOUND:{path}")
         elif row.lower > row.upper:
-            blockers.append(f"INVERTED_OUTCOME_BOUND:{action}")
+            blockers.append(f"INVERTED_OUTCOME_BOUND:{path}")
         if row.monetary and row.price_authority_status != "QUALIFIED":
-            blockers.append(f"NO_PRICE_AUTHORITY:{action}")
+            blockers.append(f"NO_PRICE_AUTHORITY:{path}")
 
-    return by_action, tuple(blockers)
-
-
-def _linear_extreme(coefficients: dict[str, float], *, maximize: bool) -> float:
-    """Solve the P66 action simplex with ADD+REPLACE >= calibrated floor.
-
-    There are no action-specific lower bounds besides zero. KEEP/UPSIZE/CHANGE
-    inherit the combined gas-convector restriction through the coupled
-    ADD+REPLACE floor. The sharp optimum therefore has at most two active
-    actions.
-    """
-
-    floor = PRIMARY_HEATING_GAS_CONVECTOR_SHARE
-    ar_actions = ("ADD", "REPLACE")
-    other_actions = ("KEEP", "UPSIZE", "CHANGE")
-
-    key = max if maximize else min
-    best_ar = key(coefficients[a] for a in ar_actions)
-    best_other = key(coefficients[a] for a in other_actions)
-    best_overall = key(coefficients.values())
-
-    if best_overall == best_ar:
-        return best_ar
-
-    return floor * best_ar + (1.0 - floor) * best_other
+    return by_path, tuple(blockers)
 
 
-def propagate_metric_bounds(
-    bounds: tuple[OutcomeCoefficientBound, ...],
+def propagate_distribution_metric_bounds(
+    bounds: tuple[DistributionOutcomeBound, ...],
     metric: str,
 ) -> MetricEnvelope:
-    """Propagate complete per-action coefficient bounds over the action set.
+    """Sharp propagation over the two-path dwelling-level distribution set."""
 
-    The function is fail-closed. It does not invent missing physical outcome
-    coefficients and it rejects monetary propagation without separately
-    qualified price authority.
-    """
-
-    by_action, blockers = _validate_outcome_bounds(bounds, metric)
+    by_path, blockers = _validate_distribution_outcome_bounds(bounds, metric)
     if blockers:
         return MetricEnvelope("Q", metric, None, None, blockers)
 
-    lower_coefficients = {
-        action: float(by_action[action].lower) for action in ACTIONS
-    }
-    upper_coefficients = {
-        action: float(by_action[action].upper) for action in ACTIONS
-    }
+    floor = PRIMARY_HEATING_GAS_CONVECTOR_SHARE
+    reuse = by_path[REUSE_EXISTING_DISTRIBUTION]
+    replace = by_path[REPLACE_EXISTING_DISTRIBUTION]
+
+    low_reuse = float(reuse.lower)
+    high_reuse = float(reuse.upper)
+    low_replace = float(replace.lower)
+    high_replace = float(replace.upper)
+
+    # x = replacement share in [floor, 1]. Objective is affine in x, so each
+    # extremum is attained at one interval endpoint.
+    lower_candidates = (
+        (1.0 - floor) * low_reuse + floor * low_replace,
+        low_replace,
+    )
+    upper_candidates = (
+        (1.0 - floor) * high_reuse + floor * high_replace,
+        high_replace,
+    )
 
     return MetricEnvelope(
         status="SET_BOUNDED",
         metric=metric,
-        lower=_linear_extreme(lower_coefficients, maximize=False),
-        upper=_linear_extreme(upper_coefficients, maximize=True),
+        lower=min(lower_candidates),
+        upper=max(upper_candidates),
         blockers=(),
     )
+
+
+def legacy_five_way_action_simplex_status() -> str:
+    """Machine-readable supersession marker for downstream callers."""
+
+    return "SUPERSEDED_BY_B02_P69_LAYERED_ACTION_MODEL"
