@@ -4,8 +4,10 @@ P69 supersedes the P66 five-way dwelling-level action simplex after the
 repository's own earlier evidence showed that it conflated two different
 grains:
 
-* P41: dwelling-level thermal-distribution path
-  REUSE_EXISTING_DISTRIBUTION / REPLACE_EXISTING_DISTRIBUTION.
+* P41 proves one subtype of the dwelling-level non-reuse path:
+  GAS_CONVECTOR -> REPLACE_EXISTING_DISTRIBUTION.
+* P22/KSH also contains dwellings with no heating equipment inside NHEAT, so
+  the top-level dwelling axis must allow either NEW or REPLACE distribution.
 * P55: room/emitter-level actions KEEP / UPSIZE / CHANGE / ADD, where multiple
   action types can occur in the same dwelling.
 
@@ -13,7 +15,8 @@ Therefore:
 
 DISTRIBUTION PATH IS EXCLUSIVE AT DWELLING GRAIN.
 EMITTER ACTIONS ARE NON-EXCLUSIVE AT ROOM / EMITTER GRAIN.
-GAS-CONVECTOR FLOOR -> REPLACE_EXISTING_DISTRIBUTION LOWER BOUND.
+GAS-CONVECTOR FLOOR -> NEW_OR_REPLACE_DISTRIBUTION_REQUIRED LOWER BOUND.
+P41 REPLACE_EXISTING_DISTRIBUTION IS A QUALIFIED SUBTYPE OF THAT BRANCH.
 GAS-CONVECTOR FLOOR != ADD/REPLACE EMITTER-ACTION SIMPLEX.
 """
 
@@ -29,10 +32,11 @@ from modules.B02.emitter_set_identification import build_emitter_population_enve
 
 
 REUSE_EXISTING_DISTRIBUTION = "REUSE_EXISTING_DISTRIBUTION"
+NEW_OR_REPLACE_DISTRIBUTION_REQUIRED = "NEW_OR_REPLACE_DISTRIBUTION_REQUIRED"
 REPLACE_EXISTING_DISTRIBUTION = "REPLACE_EXISTING_DISTRIBUTION"
 DISTRIBUTION_PATHS = (
     REUSE_EXISTING_DISTRIBUTION,
-    REPLACE_EXISTING_DISTRIBUTION,
+    NEW_OR_REPLACE_DISTRIBUTION_REQUIRED,
 )
 
 KEEP = "KEEP"
@@ -47,7 +51,7 @@ REAL_OR_MODEL_EVIDENCE = frozenset({"OBS", "DER", "ASS", "MODELLED", "SCN"})
 @dataclass(frozen=True)
 class DistributionPathCandidate:
     reuse_share: float
-    replace_share: float
+    new_or_replace_share: float
 
 
 @dataclass(frozen=True)
@@ -66,7 +70,7 @@ class ShareBounds:
 class DistributionPathEnvelope:
     occupied_dwellings: int
     reuse_existing_distribution: ShareBounds
-    replace_existing_distribution: ShareBounds
+    new_or_replace_distribution_required: ShareBounds
     evidence_status: str
 
 
@@ -123,13 +127,16 @@ def assess_distribution_path_candidate(
     tolerance: float = 1e-12,
 ) -> LayerAssessment:
     _unit_share(candidate.reuse_share, "reuse_share")
-    _unit_share(candidate.replace_share, "replace_share")
+    _unit_share(candidate.new_or_replace_share, "new_or_replace_share")
 
     blockers: list[str] = []
-    if not isclose(candidate.reuse_share + candidate.replace_share, 1.0, abs_tol=tolerance):
+    if not isclose(candidate.reuse_share + candidate.new_or_replace_share, 1.0, abs_tol=tolerance):
         blockers.append("DISTRIBUTION_PATH_SHARES_MUST_SUM_TO_ONE")
-    if candidate.replace_share < PRIMARY_HEATING_GAS_CONVECTOR_SHARE - tolerance:
-        blockers.append("REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR")
+    # P39/P41 gas convectors prove at least this much of the top-level
+    # non-reuse branch. P22 no-heating cases may later strengthen the floor,
+    # but are not numerically allocated by P69.
+    if candidate.new_or_replace_share < PRIMARY_HEATING_GAS_CONVECTOR_SHARE - tolerance:
+        blockers.append("NEW_OR_REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR")
     return LayerAssessment(not blockers, tuple(blockers))
 
 
@@ -139,8 +146,8 @@ def build_distribution_path_envelope() -> DistributionPathEnvelope:
     return DistributionPathEnvelope(
         occupied_dwellings=population.occupied_dwellings,
         reuse_existing_distribution=ShareBounds(0.0, 1.0 - floor),
-        replace_existing_distribution=ShareBounds(floor, 1.0),
-        evidence_status="SET_IDENTIFIED_WITH_CALIBRATED_REPLACEMENT_FLOOR",
+        new_or_replace_distribution_required=ShareBounds(floor, 1.0),
+        evidence_status="SET_IDENTIFIED_WITH_CALIBRATED_NONREUSE_FLOOR",
     )
 
 
@@ -152,9 +159,9 @@ def distribution_count_bounds() -> dict[str, tuple[float, float]]:
             e.reuse_existing_distribution.lower * n,
             e.reuse_existing_distribution.upper * n,
         ),
-        REPLACE_EXISTING_DISTRIBUTION: (
-            e.replace_existing_distribution.lower * n,
-            e.replace_existing_distribution.upper * n,
+        NEW_OR_REPLACE_DISTRIBUTION_REQUIRED: (
+            e.new_or_replace_distribution_required.lower * n,
+            e.new_or_replace_distribution_required.upper * n,
         ),
     }
 
@@ -209,7 +216,7 @@ def propagate_distribution_metric_bounds(
 
     floor = PRIMARY_HEATING_GAS_CONVECTOR_SHARE
     reuse = by_path[REUSE_EXISTING_DISTRIBUTION]
-    replace = by_path[REPLACE_EXISTING_DISTRIBUTION]
+    replace = by_path[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED]
 
     low_reuse = float(reuse.lower)
     high_reuse = float(reuse.upper)
