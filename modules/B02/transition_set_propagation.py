@@ -16,6 +16,7 @@ Therefore:
 DISTRIBUTION PATH IS EXCLUSIVE AT DWELLING GRAIN.
 EMITTER ACTIONS ARE NON-EXCLUSIVE AT ROOM / EMITTER GRAIN.
 P70 KSH NHEAT CONTROL -> NEW_OR_REPLACE_DISTRIBUTION_REQUIRED LOWER BOUND.
+P72 B01-P3 NON-DISTRICT PHYSICAL SCOPE -> TRANSITION-SET DENOMINATOR.
 P41 GAS_CONVECTOR -> REPLACE_EXISTING_DISTRIBUTION remains a qualified subtype.
 NHEAT NONREUSE FLOOR != ROOM/EMITTER ACTION DISTRIBUTION.
 """
@@ -25,10 +26,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from math import isclose, isfinite
 
-from modules.B02.distribution_nonreuse_assignment import (
-    NHEAT_NONREUSE_SHARE,
+from modules.B02.programme_scope_transition import (
+    EXPECTED_OCCUPIED_DWELLINGS,
+    EXPECTED_PHYSICAL_SCOPE_DWELLINGS,
+    NHEAT_PROGRAMME_SCOPE_SHARE,
 )
-from modules.B02.emitter_set_identification import build_emitter_population_envelope
 
 
 REUSE_EXISTING_DISTRIBUTION = "REUSE_EXISTING_DISTRIBUTION"
@@ -68,7 +70,8 @@ class ShareBounds:
 
 @dataclass(frozen=True)
 class DistributionPathEnvelope:
-    occupied_dwellings: int
+    programme_scope_dwellings: int
+    source_occupied_universe_dwellings: int
     reuse_existing_distribution: ShareBounds
     new_or_replace_distribution_required: ShareBounds
     evidence_status: str
@@ -134,25 +137,25 @@ def assess_distribution_path_candidate(
         blockers.append("DISTRIBUTION_PATH_SHARES_MUST_SUM_TO_ONE")
     # P70 promotes the exact P22/KSH NHEAT topology control to the top-level
     # non-reuse lower bound for the central hydronic air-to-water route.
-    if candidate.new_or_replace_share < NHEAT_NONREUSE_SHARE - tolerance:
+    if candidate.new_or_replace_share < NHEAT_PROGRAMME_SCOPE_SHARE - tolerance:
         blockers.append("NEW_OR_REPLACE_DISTRIBUTION_BELOW_KSH_NHEAT_FLOOR")
     return LayerAssessment(not blockers, tuple(blockers))
 
 
 def build_distribution_path_envelope() -> DistributionPathEnvelope:
-    population = build_emitter_population_envelope()
-    floor = NHEAT_NONREUSE_SHARE
+    floor = NHEAT_PROGRAMME_SCOPE_SHARE
     return DistributionPathEnvelope(
-        occupied_dwellings=population.occupied_dwellings,
+        programme_scope_dwellings=EXPECTED_PHYSICAL_SCOPE_DWELLINGS,
+        source_occupied_universe_dwellings=EXPECTED_OCCUPIED_DWELLINGS,
         reuse_existing_distribution=ShareBounds(0.0, 1.0 - floor),
         new_or_replace_distribution_required=ShareBounds(floor, 1.0),
-        evidence_status="SET_IDENTIFIED_WITH_KSH_DER_NONREUSE_FLOOR",
+        evidence_status="SET_IDENTIFIED_WITH_B01_PHYSICAL_SCOPE_AND_KSH_DER_NHEAT_FLOOR",
     )
 
 
 def distribution_count_bounds() -> dict[str, tuple[float, float]]:
     e = build_distribution_path_envelope()
-    n = float(e.occupied_dwellings)
+    n = float(e.programme_scope_dwellings)
     return {
         REUSE_EXISTING_DISTRIBUTION: (
             e.reuse_existing_distribution.lower * n,
@@ -213,7 +216,7 @@ def propagate_distribution_metric_bounds(
     if blockers:
         return MetricEnvelope("Q", metric, None, None, blockers)
 
-    floor = NHEAT_NONREUSE_SHARE
+    floor = NHEAT_PROGRAMME_SCOPE_SHARE
     reuse = by_path[REUSE_EXISTING_DISTRIBUTION]
     replace = by_path[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED]
 
