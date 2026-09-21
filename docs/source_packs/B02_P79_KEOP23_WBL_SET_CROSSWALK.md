@@ -162,7 +162,45 @@ But:
 
 They cannot be presented as observed household bounds.
 
-## 9. P78 blocker effect
+## 9. Exact national CI materialization
+
+The full canonical P21/WBL run produces:
+
+- WBL rows: **116,452**;
+- occupied dwellings: **4,008,541**;
+- KEOP23 types: **23**;
+- crosswalk rules: **14**;
+- candidate count per period/group state: **2 to 5**;
+- point-identified period/group states: **0**.
+
+P21 expected building-group controls reconcile to:
+
+- FAMILY_HOUSE: **2,423,136**;
+- MULTI_DWELLING: **1,585,405**.
+
+Candidate-set population coverage is complete under both P21 structural
+scenarios:
+
+- CENTRAL: **4,008,541 / 4,008,541**;
+- FLAT: **4,008,541 / 4,008,541**.
+
+The population-weighted candidate synthetic-type mean heated-area sensitivity
+is:
+
+- CENTRAL: **75.5198943961–138.4494421084 m2/dwelling**;
+- FLAT: **75.4073577378–138.7518104318 m2/dwelling**.
+
+These intervals are deliberately labelled **synthetic-geometry calibration
+envelopes**.
+
+They are not:
+
+- household observed ranges;
+- confidence intervals;
+- within-type min/max values;
+- a national heated-floor-area point estimate.
+
+## 10. P78 blocker effect
 
 Previous:
 
@@ -186,7 +224,7 @@ The broader post-state geometry blocker narrows to:
 - `ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED`;
 - `GEOMETRY_INVARIANCE_BY_ACTION_REQUIRED`.
 
-## 10. What P79 does not change
+## 11. What P79 does not change
 
 Still open:
 
@@ -200,7 +238,7 @@ Still open:
 - B05 product-map coverage;
 - P76 cost/action residuals.
 
-## 11. Non-claims
+## 12. Non-claims
 
 P79 does not claim:
 
