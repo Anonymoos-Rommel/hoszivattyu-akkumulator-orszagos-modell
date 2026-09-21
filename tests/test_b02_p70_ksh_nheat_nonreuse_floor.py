@@ -109,7 +109,7 @@ class B02P70KshNheatNonreuseFloorTests(unittest.TestCase):
         q = rows(OPEN_Q, "question_id")["Q-B02-004"]
         self.assertEqual(q["status"], "OPEN")
         self.assertIn("B02-P70", q["notes"])
-        self.assertIn("1173639", q["notes"])
+        self.assertIn("1 173 639", q["notes"])
         self.assertIn("CENTRAL_DISTRICT_REUSE_VS_NONREUSE_ASSIGNMENT", q["notes"])
         self.assertNotIn("Current residual: HUNGARIAN_DISTRIBUTION_NONREUSE_ASSIGNMENT +", q["notes"][-700:])
 
