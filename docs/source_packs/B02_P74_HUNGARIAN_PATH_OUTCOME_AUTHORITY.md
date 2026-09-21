@@ -114,7 +114,26 @@ The EKR source remains useful for:
 - lower-temperature retrofit validation;
 - record/archetype evidence design.
 
-It is not the missing AWHP response envelope.
+It is **not** a substitute AWHP response envelope.
+
+More importantly, P74 re-audits the repository's existing physical chain and
+does not create a new external-response blocker.  The record/project method
+already exists:
+
+`B06 transition state -> B06-P65 post-retrofit supply temperature -> B05 design-point capacity/COP`.
+
+Q-B06-007 already resolves the transferable annual/design-peak effect
+methodology, and Q-B06-008 resolves the post-retrofit emitter-temperature
+authority route.  P66 also explicitly records that this engineering chain
+exists.
+
+Therefore:
+
+`EXTERNAL GENERIC AWHP SAVING PERCENTAGE != REQUIRED RESPONSE AUTHORITY`.
+
+The remaining national problem is to materialize those transition-derived
+responses over the admissible archetype/action population and to have
+sufficient B05 source-native product operating-point coverage.
 
 ## 6. KEHOP nonreuse package authority
 
@@ -152,7 +171,9 @@ Resolved/narrowed:
 
 - generic search for a Hungarian nonreuse package price authority;
 - generic search for recognized Hungarian secondary-side intervention actions;
-- EKR-saving-percentage transfer ambiguity.
+- EKR-saving-percentage transfer ambiguity;
+- the generic external `AWHP_PATH_RESPONSE_AUTHORITY_REQUIRED` framing, which
+  is retired because B06 -> B05 already supplies the physical method authority.
 
 Machine-readable status:
 
@@ -171,7 +192,8 @@ They are:
 - `REUSE_PATH_CAPEX_BOUND_REQUIRED`;
 - `REUSE_FAMILY_HOUSE_OR_FULL_NATIONAL_SCOPE_ACTION_AUTHORITY_REQUIRED`;
 - `NONREUSE_KEHOP_SCOPE_CROSSWALK_REQUIRED`;
-- `AWHP_PATH_RESPONSE_AUTHORITY_REQUIRED`.
+- `NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED`;
+- `B05_PRODUCT_OPERATING_POINT_COVERAGE_REQUIRED`.
 
 Other Q-B02-004 residuals remain:
 
@@ -190,6 +212,9 @@ P74 does not claim:
 - all family houses are EKR 2.11-covered;
 - every nonreuse dwelling consumes one KEHOP package;
 - 3,556,000 HUF is a market average;
+- a generic external AWHP saving percentage is required;
+- national transition responses have already been materialized;
+- B05 product operating-point coverage is complete;
 - Q-B02-004 is resolved.
 
 B02 readiness remains **55%**.
