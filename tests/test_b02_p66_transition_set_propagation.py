@@ -5,7 +5,7 @@ from modules.B02.transition_set_propagation import (
     CHANGE,
     DISTRIBUTION_PATHS,
     KEEP,
-    REPLACE_EXISTING_DISTRIBUTION,
+    NEW_OR_REPLACE_DISTRIBUTION_REQUIRED,
     REUSE_EXISTING_DISTRIBUTION,
     UPSIZE,
     DistributionOutcomeBound,
@@ -21,31 +21,31 @@ from modules.B02.transition_set_propagation import (
 
 
 class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
-    def test_distribution_envelope_uses_gas_convector_replacement_floor(self):
+    def test_distribution_envelope_uses_gas_convector_nonreuse_floor(self):
         e = build_distribution_path_envelope()
         self.assertEqual(e.occupied_dwellings, 4_008_541)
-        self.assertAlmostEqual(e.replace_existing_distribution.lower, 0.233)
+        self.assertAlmostEqual(e.new_or_replace_distribution_required.lower, 0.233)
         self.assertAlmostEqual(e.reuse_existing_distribution.upper, 0.767)
 
     def test_reuse_only_distribution_candidate_is_rejected(self):
         result = assess_distribution_path_candidate(
-            DistributionPathCandidate(reuse_share=1.0, replace_share=0.0)
+            DistributionPathCandidate(reuse_share=1.0, new_or_replace_share=0.0)
         )
         self.assertFalse(result.admissible)
         self.assertIn(
-            "REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR",
+            "NEW_OR_REPLACE_DISTRIBUTION_BELOW_GAS_CONVECTOR_FLOOR",
             result.blockers,
         )
 
     def test_floor_distribution_candidate_is_admissible(self):
         result = assess_distribution_path_candidate(
-            DistributionPathCandidate(reuse_share=0.767, replace_share=0.233)
+            DistributionPathCandidate(reuse_share=0.767, new_or_replace_share=0.233)
         )
         self.assertTrue(result.admissible)
 
     def test_distribution_paths_are_exclusive(self):
         result = assess_distribution_path_candidate(
-            DistributionPathCandidate(reuse_share=0.8, replace_share=0.3)
+            DistributionPathCandidate(reuse_share=0.8, new_or_replace_share=0.3)
         )
         self.assertFalse(result.admissible)
         self.assertIn("DISTRIBUTION_PATH_SHARES_MUST_SUM_TO_ONE", result.blockers)
@@ -62,14 +62,14 @@ class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
         self.assertGreater(sum(incidence.as_dict().values()), 1.0)
         self.assertEqual(tuple(incidence.as_dict()), (KEEP, UPSIZE, CHANGE, ADD))
 
-    def test_distribution_replacement_count_lower_bound_is_preserved(self):
+    def test_distribution_new_or_replace_count_lower_bound_is_preserved(self):
         bounds = distribution_count_bounds()
         self.assertAlmostEqual(
-            bounds[REPLACE_EXISTING_DISTRIBUTION][0],
+            bounds[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][0],
             4_008_541 * 0.233,
         )
         self.assertEqual(
-            bounds[REPLACE_EXISTING_DISTRIBUTION][1],
+            bounds[NEW_OR_REPLACE_DISTRIBUTION_REQUIRED][1],
             4_008_541,
         )
 
@@ -83,7 +83,7 @@ class B02P69LayeredTransitionSetPropagationTests(unittest.TestCase):
                 evidence_status="DER",
             ),
             DistributionOutcomeBound(
-                path=REPLACE_EXISTING_DISTRIBUTION,
+                path=NEW_OR_REPLACE_DISTRIBUTION_REQUIRED,
                 metric="X",
                 lower=3.0,
                 upper=4.0,
