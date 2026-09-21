@@ -120,8 +120,16 @@ class B02P72ProgrammeScopeTransitionTests(unittest.TestCase):
             reg["B02-P72-S05"]["lower_bound"],
             "2216178",
         )
+        self.assertEqual(
+            reg["B02-P72-S10"]["status"],
+            "SUPERSEDED_BY_P73_SET_LATENT",
+        )
         self.assertIn(
-            "CENTRAL_HEATING_REUSE_VS_NONREUSE_ASSIGNMENT",
+            "REUSE_PATH_OUTCOME_BOUNDS",
+            reg["B02-P72-S10"]["residual_gap"],
+        )
+        self.assertIn(
+            "NONREUSE_PATH_OUTCOME_BOUNDS",
             reg["B02-P72-S10"]["residual_gap"],
         )
 
