@@ -62,7 +62,7 @@ class B02P69ActionLayerSemanticRepairTests(unittest.TestCase):
         src = sources["SRC-B02-DESNZ-EOH-INSTALL-REPORT-2022"]
         self.assertEqual(src["module_id"], "B02")
         self.assertEqual(src["reliability"], "HIGH")
-        self.assertIn("Section 6.3.2", src["version_or_period"])
+        self.assertIn("Section 6.3.2", src["reference_period"])
         self.assertIn("anecdotal", src["notes"])
 
     def test_q_b02_004_uses_layered_residuals(self):
