@@ -49,7 +49,7 @@ class B02P62EhiSurfaceBandCalibrationTests(unittest.TestCase):
         q4 = rows["Q-B02-004"]
         self.assertEqual(q4["status"], "OPEN")
         self.assertIn("33–66%", q4["evidence_needed"])
-        self.assertIn("KSH/P21", q4["evidence_needed"])
+        self.assertIn("P21/WBL", q4["evidence_needed"])
         self.assertIn("MIXED_SYSTEM_OVERLAP", q4["notes"])
         self.assertIn("OTHER_EMITTER_SHARE", q4["notes"])
         self.assertIn("DESIGN_TEMP_POPULATION_WEIGHTS", q4["notes"])
