@@ -225,8 +225,8 @@ def propagate_distribution_metric_bounds(
     low_replace = float(replace.lower)
     high_replace = float(replace.upper)
 
-    # x = replacement share in [floor, 1]. Objective is affine in x, so each
-    # extremum is attained at one interval endpoint.
+    # x = new-or-replace distribution share in [floor, 1]. The objective is
+    # affine in x, so each extremum is attained at one interval endpoint.
     lower_candidates = (
         (1.0 - floor) * low_reuse + floor * low_replace,
         low_replace,
