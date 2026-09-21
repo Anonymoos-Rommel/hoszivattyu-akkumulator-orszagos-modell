@@ -104,7 +104,37 @@ It does not admit:
 
 `23-TYPE HISTORICAL SYNTHETIC AVERAGE = 2026 POST-RETROFIT STOCK OBSERVATION`.
 
-## 5. EPISCOPE average-building semantics
+## 5. Public 23-type numerical layer — Csoknyai 2022
+
+The public MTA doctoral dissertation **A magyarországi lakóépület-állomány
+energetikai modellezése, a korszerűsítés lehetőségei** documents the KEOP
+survey and its model in substantially more detail.
+
+It states that:
+
+- the completed sample contains **2,029 buildings** across the 23 types;
+- surveys concern whole buildings as energy units;
+- the database contained **398 fields per building**;
+- additional field data include construction year/technology, storeys, dwelling
+  count, building condition, built form, already completed insulation by
+  structure, and further geometry-related fields;
+- type-level numerical input statistics include facade area, U-values and other
+  building-physics quantities;
+- **Table 8.3 publishes component U-value statistics across all 23 types**,
+  separating renovated and unrenovated cases and reporting occurrence;
+- the developed 23 synthetic model buildings were validated against the 2,029
+  surveyed buildings.
+
+This upgrades the baseline U-value/archetype statement from a Type-5-only
+calibration hint to:
+
+`PUBLIC 23-TYPE BASELINE NUMERIC AUTHORITY`.
+
+It still does **not** create an action-conditioned 2026 post-retrofit physical
+state. The required next operation is deterministic extraction and crosswalk,
+not inference from one example house.
+
+## 6. EPISCOPE average-building semantics
 
 EPISCOPE defines a synthetic average building as a theoretical building whose
 geometrical and thermophysical characteristics equal the average of the stock
@@ -130,7 +160,7 @@ Forbidden use:
 - direct 2026 post-retrofit point values;
 - automatic transfer to all WBL cells.
 
-## 6. What the 2026 BME paper resolves and exposes
+## 7. What the 2026 BME paper resolves and exposes
 
 For the examined Type-5 family-house archetype the paper publishes:
 
@@ -151,7 +181,7 @@ reliable distribution information for:
 This is useful negative evidence. Those fields remain Q rather than receiving
 hidden defaults.
 
-## 7. Current B06 peak-load input audit
+## 8. Current B06 peak-load input audit
 
 B06 requires:
 
@@ -175,7 +205,7 @@ The current national state is:
 | design indoor service condition | Q |
 | action -> explicit post-state physics | Q |
 
-## 8. Blocker repair
+## 9. Blocker repair
 
 Old:
 
@@ -199,7 +229,7 @@ Concrete residual:
 This is a materially smaller research problem than “find national design
 loads”.
 
-## 9. Why P78 does not calculate national peak kW yet
+## 10. Why P78 does not calculate national peak kW yet
 
 The physical contract forbids:
 
@@ -216,7 +246,7 @@ P78 also forbids:
   programme/location contract;
 - turning the Type-5 archetype into all Hungary.
 
-## 10. Next blocker attack
+## 11. Next blocker attack
 
 The highest-value next work is to reduce the eight residual fields using the
 23-type Hungarian synthetic-average lineage and current Hungarian retrofit
@@ -224,15 +254,15 @@ requirements.
 
 The preferred sequence is:
 
-1. acquire/materialize the **23-type geometry/physical parameter table** if a
-   lawful public representation can be found;
+1. **materialize and crosswalk the now-located public 23-type survey/model
+   tables** to the P21/WBL semantics;
 2. bind current retrofit actions to **post-state U-value / geometry /
    ventilation** outcomes;
 3. materialize the national design-outdoor-temperature map;
 4. make the design-indoor service condition an explicit programme contract;
 5. then run B06 design load on the admissible set rather than a midpoint house.
 
-## 11. Non-claims
+## 12. Non-claims
 
 P78 does not claim:
 
