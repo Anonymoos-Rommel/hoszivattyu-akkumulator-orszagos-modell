@@ -51,7 +51,7 @@ Therefore:
 
 `P21 FAMILY_HOUSE != LEGAL PROPERTY-REGISTER FAMILY-HOUSE CLASSIFICATION`.
 
-The output is a modelled structural crosswalk, not a legal eligibility list.
+The output is a modelled structural crosswalk, not a legal eligibility list.\n\n`STRUCTURAL_SCOPE_COMPATIBILITY != LEGAL_PROGRAMME_ELIGIBILITY`.
 
 ## 4. 2007 cutoff without invented precision
 
