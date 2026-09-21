@@ -11,9 +11,9 @@ Canonical boundaries:
 
 P21 CALIBRATED BUILDING-TYPE WEIGHTS -> HUNGARIAN REWEIGHTING AUTHORITY
 FOREIGN RESPONSE INTERVAL -> TRANSFER SENSITIVITY, NOT HUNGARIAN OBSERVATION
-POSITIVE EMITTER-MEASURE COUNT -> NON-KEEP EMITTER INTERVENTION
-POSITIVE EMITTER-MEASURE COUNT != UPSIZE/CHANGE/ADD/REPLACE SUBTYPE
-ZERO EMITTER-MEASURE COUNT != PROVEN KEEP
+POSITIVE EMITTER-MEASURE COUNT -> NEW EMITTER INSTALLATION PRESENT
+ZERO EMITTER-MEASURE COUNT -> NO NEW EMITTER INSTALLATION
+INSTALLATION EVENT != ROOM-GRAIN KEEP/UPSIZE/CHANGE/ADD SUBTYPE
 """
 
 from __future__ import annotations
@@ -30,8 +30,7 @@ from modules.B02.calibrated_archetype_linkage import build_calibrated_linkage
 ROOT = Path(__file__).resolve().parents[2]
 P67_RESPONSE = ROOT / "registry" / "b02_p67_eoh_response_envelope.csv"
 
-ACTIONS = ("KEEP", "UPSIZE", "CHANGE", "ADD", "REPLACE")
-NON_KEEP_ACTIONS = ("UPSIZE", "CHANGE", "ADD", "REPLACE")
+EMITTER_ACTIONS = ("KEEP", "UPSIZE", "CHANGE", "ADD")
 EXPECTED_OCCUPIED = 4_008_541
 EXPECTED_FAMILY = 2_423_136
 EXPECTED_MULTI = 1_585_405
@@ -63,9 +62,9 @@ class WeightedResponseEnvelope:
 
 
 @dataclass(frozen=True)
-class ActionCrosswalk:
+class EohEmitterMeasureInterpretation:
     status: str
-    allowed_actions: tuple[str, ...]
+    new_emitter_installation_present: bool | None
     blockers: tuple[str, ...]
     source_semantics: str
 
@@ -124,31 +123,56 @@ def reweight_building_type_intervals(
     )
 
 
-def crosswalk_eoh_emitter_measure_count(count: float) -> ActionCrosswalk:
-    """Map only what the source-native emitter-measure count actually proves."""
+def interpret_eoh_emitter_measure_count(
+    count: float,
+    *,
+    official_install_report_authority_status: str = "QUALIFIED",
+) -> EohEmitterMeasureInterpretation:
+    """Interpret only the source-native installation event.
+
+    P69 intentionally does not map this dwelling-level installation event to
+    room-grain KEEP/UPSIZE/CHANGE/ADD labels. The official EoH installation
+    report establishes that the 93% cohort received new heat emitters and that
+    replacing emitters was not always necessary. The dataset reconciliation
+    therefore supports both the positive and zero-event states, but not a
+    room-by-room action subtype split.
+    """
 
     if not isfinite(float(count)) or count < 0:
-        return ActionCrosswalk(
+        return EohEmitterMeasureInterpretation(
             status="Q",
-            allowed_actions=(),
+            new_emitter_installation_present=None,
             blockers=("EMITTER_MEASURE_COUNT_INVALID",),
             source_semantics="INVALID",
         )
-
-    if count > 0:
-        return ActionCrosswalk(
-            status="SET_IDENTIFIED_NON_KEEP",
-            allowed_actions=NON_KEEP_ACTIONS,
-            blockers=("P66_ACTION_SUBTYPE_NOT_IDENTIFIED",),
-            source_semantics="POSITIVE_EMITTER_MEASURE_RECORDED",
+    if official_install_report_authority_status != "QUALIFIED":
+        return EohEmitterMeasureInterpretation(
+            status="Q",
+            new_emitter_installation_present=None,
+            blockers=("NO_OFFICIAL_INSTALL_REPORT_SEMANTIC_AUTHORITY",),
+            source_semantics="UNVERIFIED_MEASURE_COUNT",
         )
-
-    return ActionCrosswalk(
-        status="UNINFORMATIVE_SET",
-        allowed_actions=ACTIONS,
-        blockers=("ZERO_MEASURE_DOES_NOT_PROVE_KEEP",),
-        source_semantics="NO_EMITTER_MEASURE_RECORDED",
+    if count > 0:
+        return EohEmitterMeasureInterpretation(
+            status="QUALIFIED_NEW_EMITTER_INSTALLATION_PRESENT",
+            new_emitter_installation_present=True,
+            blockers=("ROOM_GRAIN_ACTION_SUBTYPE_NOT_IDENTIFIED",),
+            source_semantics="NEW_HEAT_EMITTERS_INSTALLED",
+        )
+    return EohEmitterMeasureInterpretation(
+        status="QUALIFIED_NO_NEW_EMITTER_INSTALLATION",
+        new_emitter_installation_present=False,
+        blockers=(),
+        source_semantics="NO_NEW_HEAT_EMITTERS_INSTALLED",
     )
+
+
+def crosswalk_eoh_emitter_measure_count(
+    count: float,
+) -> EohEmitterMeasureInterpretation:
+    """Compatibility alias retained for P68 callers; semantics are P69-corrected."""
+
+    return interpret_eoh_emitter_measure_count(count)
 
 
 def _read_p67_rows() -> list[dict[str, str]]:
