@@ -67,6 +67,24 @@ class B02P80Keop23UValuePostStateTests(unittest.TestCase):
             "QUALIFIED_SET_VALUED_BASELINE_CALIBRATION",
         )
 
+    def test_external_wall_baseline_envelope_covers_all_p79_period_group_rules(self):
+        periods = (
+            "Y_LT1919", "Y1919-1945", "Y1946-1960", "Y1961-1980",
+            "Y1981-2000", "Y2001-2010", "Y_GE2011",
+        )
+        groups = ("FAMILY_HOUSE", "MULTI_DWELLING")
+        for period in periods:
+            for group in groups:
+                env = candidate_baseline_uvalue_envelope(
+                    period,
+                    group,
+                    "EXTERNAL_WALL",
+                )
+                self.assertIsNotNone(env.lower_u_w_m2k)
+                self.assertIsNotNone(env.upper_u_w_m2k)
+                self.assertGreater(env.lower_u_w_m2k, 0.0)
+                self.assertGreaterEqual(env.upper_u_w_m2k, env.lower_u_w_m2k)
+
     def test_table_9_1_reference_retrofit_targets(self):
         expected = {
             "EXTERNAL_WALL": 0.24,
