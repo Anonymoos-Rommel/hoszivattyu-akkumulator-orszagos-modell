@@ -8,6 +8,12 @@ from modules.B02.central_distribution_split import (
     p72_floor_reproduced,
     project_central_distribution_split,
 )
+from modules.B02.transition_set_propagation import (
+    NEW_OR_REPLACE_DISTRIBUTION_REQUIRED,
+    REUSE_EXISTING_DISTRIBUTION,
+    DistributionOutcomeBound,
+    propagate_distribution_metric_bounds,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 REG = ROOT / "registry" / "b02_p73_central_latent_distribution_split.csv"
@@ -82,6 +88,31 @@ class B02P73CentralLatentDistributionSplitTests(unittest.TestCase):
         self.assertEqual(out.status, "Q_PATH_OUTCOME_BOUNDS_REQUIRED")
         self.assertFalse(out.point_assignment_required)
         self.assertIn("NONREUSE_PATH_OUTCOME_BOUNDS_INCOMPLETE", out.blockers)
+
+    def test_existing_propagator_spans_latent_assignment_endpoints(self):
+        bounds = (
+            DistributionOutcomeBound(
+                path=REUSE_EXISTING_DISTRIBUTION,
+                metric="DETERMINISTIC",
+                lower=1.0,
+                upper=1.0,
+                evidence_status="DER",
+            ),
+            DistributionOutcomeBound(
+                path=NEW_OR_REPLACE_DISTRIBUTION_REQUIRED,
+                metric="DETERMINISTIC",
+                lower=3.0,
+                upper=3.0,
+                evidence_status="DER",
+            ),
+        )
+        result = propagate_distribution_metric_bounds(bounds, "DETERMINISTIC")
+        low, high = central_split_endpoint_envelope()
+        expected_low = low.total_reuse_share * 1.0 + low.total_nonreuse_share * 3.0
+        expected_high = high.total_reuse_share * 1.0 + high.total_nonreuse_share * 3.0
+        self.assertEqual(result.status, "SET_BOUNDED")
+        self.assertAlmostEqual(result.lower, expected_low)
+        self.assertAlmostEqual(result.upper, expected_high)
 
     def test_registry_retires_central_point_assignment_blocker(self):
         reg = rows(REG, "item_id")
