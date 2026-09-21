@@ -21,7 +21,7 @@ class B02P63DesignTemperatureSemanticRepairTests(unittest.TestCase):
         q4 = rows["Q-B02-004"]
         self.assertEqual(q4["status"], "OPEN")
         self.assertIn("33–66%", q4["evidence_needed"])
-        self.assertIn("KSH/P21", q4["evidence_needed"])
+        self.assertIn("P21/WBL", q4["evidence_needed"])
         self.assertIn("P65-kompatibilis", q4["evidence_needed"])
         self.assertIn("DESIGN_TEMPERATURE_DISTRIBUTION", q4["notes"])
         self.assertIn("RETIRED", q4["notes"])
@@ -86,7 +86,7 @@ class B02P63DesignTemperatureSemanticRepairTests(unittest.TestCase):
         self.assertEqual(b02["readiness_percent"], "55")
         self.assertIn("33–66%", b02["gate_note"])
         self.assertIn("P63", b02["gate_note"])
-        self.assertIn("transition-model population weighting", b02["gate_note"])
+        self.assertIn("TRANSITION_MODEL_SET_PROPAGATION", b02["gate_note"])
 
     def test_source_pack_freezes_causal_direction(self):
         text = SOURCE_PACK.read_text(encoding="utf-8")
