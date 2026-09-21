@@ -45,6 +45,9 @@ QUALIFIED_SCOPE_LIMITED_TECHNICAL_AUTHORITY = (
     "QUALIFIED_SCOPE_LIMITED_TECHNICAL_AUTHORITY"
 )
 QUALIFIED_SOURCE_NATIVE_EKR_ONLY = "QUALIFIED_SOURCE_NATIVE_EKR_ONLY"
+QUALIFIED_TRANSITION_DERIVED_RESPONSE_METHOD = (
+    "QUALIFIED_TRANSITION_DERIVED_RESPONSE_METHOD"
+)
 
 EKR_COVERED_BUILDING_SCOPES = frozenset(
     {
@@ -194,6 +197,34 @@ def assess_kehop_path_cost_use(*, requested_use: str) -> AuthorityDecision:
     return AuthorityDecision(Q, ("UNSUPPORTED_KEHOP_PATH_COST_USE",))
 
 
+def assess_awhp_physical_response_authority(*, requested_use: str) -> AuthorityDecision:
+    """Bind P74 to the existing B06 -> B05 transition-derived response chain.
+
+    B06-P65 supplies record/project post-retrofit design-temperature authority;
+    B06 Q-B06-007/008 are resolved method authorities; B05 consumes the
+    resulting design point for product capacity/COP.  What remains open at
+    national scale is materialization/coverage, not a missing generic external
+    percentage response authority.
+    """
+
+    if requested_use == "RECORD_OR_PROJECT_PHYSICAL_RESPONSE_METHOD":
+        return AuthorityDecision(QUALIFIED_TRANSITION_DERIVED_RESPONSE_METHOD, ())
+    if requested_use == "NATIONAL_PERCENT_SAVING_DEFAULT":
+        return AuthorityDecision(
+            Q,
+            ("GENERIC_AWHP_PERCENT_RESPONSE_IS_NOT_CANONICAL_ESTIMAND",),
+        )
+    if requested_use == "NATIONAL_PROGRAMME_RESPONSE":
+        return AuthorityDecision(
+            Q,
+            (
+                "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
+                "B05_PRODUCT_OPERATING_POINT_COVERAGE_REQUIRED",
+            ),
+        )
+    return AuthorityDecision(Q, ("UNSUPPORTED_AWHP_RESPONSE_USE",))
+
+
 def assess_p74_path_outcome_completeness(metric: str) -> AuthorityDecision:
     """Expose the remaining claim-specific blockers after P74."""
 
@@ -216,11 +247,19 @@ def assess_p74_path_outcome_completeness(metric: str) -> AuthorityDecision:
     if metric == "AWHP_ENERGY_SAVING_SHARE":
         return AuthorityDecision(
             Q,
-            ("AWHP_PATH_RESPONSE_AUTHORITY_REQUIRED",),
+            ("GENERIC_AWHP_PERCENT_RESPONSE_IS_NOT_CANONICAL_ESTIMAND",),
+        )
+    if metric == "AWHP_PHYSICAL_RESPONSE":
+        return AuthorityDecision(
+            Q,
+            (
+                "NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",
+                "B05_PRODUCT_OPERATING_POINT_COVERAGE_REQUIRED",
+            ),
         )
     if metric == "AWHP_DESIGN_TEMPERATURE":
         return AuthorityDecision(
             Q,
-            ("RECORD_OR_ARCHETYPE_TRANSITION_DESIGN_AUTHORITY_REQUIRED",),
+            ("NATIONAL_TRANSITION_RESPONSE_MATERIALIZATION_BY_ARCHETYPE_REQUIRED",),
         )
     return AuthorityDecision(Q, ("UNSUPPORTED_PATH_OUTCOME_METRIC",))
