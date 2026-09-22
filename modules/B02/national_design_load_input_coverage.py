@@ -44,6 +44,7 @@ PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
 PARTIAL_CURRENT_METHOD_HVENT_SURFACE = "PARTIAL_CURRENT_METHOD_HVENT_SURFACE"
 PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE = "PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE"
 QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE"
+QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE = "QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE"
 CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
 PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
@@ -223,15 +224,19 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "POST_RETROFIT_THERMAL_BRIDGE_H",
-            Q,
-            "Q",
+            QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE,
+            "POL/DER/SCN",
             (
+                "SRC-B06-HU-ENERGY-METHOD-2023",
                 "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
                 "SRC-B02-BME-RBSM-2026",
+                "B02-P80",
+                "B02-P85",
+                "B02-P91",
             ),
             True,
-            "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
-            "The 2022 survey schema includes thermal-bridge-aware resultant U semantics, but the 2026 BME study explicitly reports no reliable separate thermal-bridge distribution. B06 requires an explicit separate H_thermal_bridge term, so it remains Q.",
+            None,
+            "B02-P91 uses the current Hungarian simplified thermal-bridge route U_R=U*(1+zeta) and expresses the equivalent separate B06 bridge term as A*U*zeta. This closes the independent reference-programme correction-factor input without inventing psi-length prevalence. Component area geometry and pitched-roof U remain separately tracked blockers; internal insulation and realized detailed project claims require the detailed route.",
         ),
         InputCoverage(
             "DESIGN_OUTDOOR_TEMPERATURE",
