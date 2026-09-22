@@ -1,9 +1,9 @@
 name: B05 P9 HungaroMet materialization probe
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/b05-p9-hungaromet-winter-blocks
+      - main
 
 permissions:
   contents: read
