@@ -10,6 +10,7 @@ from modules.B02.national_design_load_input_coverage import (
     MATERIALIZED_OBS_SET_BOUNDED,
     PARTIAL_ARCHETYPE_CALIBRATION,
     PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
+    PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY,
     QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
     QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE,
     CURRENT_METHOD_SERVICE_REFERENCE,
@@ -55,7 +56,10 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             MATERIALIZED_OBS_SET_BOUNDED,
         )
         self.assertEqual(by["BUILDING_TYPE"].status, MATERIALIZED_ASS_CALIBRATED)
-        self.assertEqual(by["POST_RETROFIT_ENVELOPE_GEOMETRY"].status, Q)
+        self.assertEqual(
+            by["POST_RETROFIT_ENVELOPE_GEOMETRY"].status,
+            PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY,
+        )
         self.assertEqual(by["POST_RETROFIT_COMPONENT_U_VALUES"].status, Q)
         self.assertEqual(
             by["DESIGN_OUTDOOR_TEMPERATURE"].status,
