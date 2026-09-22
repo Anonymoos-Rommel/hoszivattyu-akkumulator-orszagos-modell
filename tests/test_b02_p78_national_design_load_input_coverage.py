@@ -10,7 +10,7 @@ from modules.B02.national_design_load_input_coverage import (
     MATERIALIZED_OBS_SET_BOUNDED,
     PARTIAL_ARCHETYPE_CALIBRATION,
     PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
-    PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+    PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
     CURRENT_METHOD_SERVICE_REFERENCE,
     Q,
     archetype_calibration_boundary,
@@ -81,7 +81,7 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         self.assertEqual(
             by["POST_RETROFIT_VENTILATION"].status,
-            PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+            PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
         )
         self.assertEqual(
             by["DESIGN_INDOOR_TEMPERATURE"].status,
@@ -99,7 +99,7 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             "HEATED_AREA_OR_DIRECT_GEOMETRY_SURFACE_REQUIRED",
             "POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED",
             "POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED",
-            "ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED",
+            "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
             "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
             "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
             "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",

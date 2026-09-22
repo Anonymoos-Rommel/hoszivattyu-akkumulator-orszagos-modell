@@ -42,6 +42,7 @@ CALIBRATION_ONLY = "CALIBRATION_ONLY"
 PARTIAL_ARCHETYPE_CALIBRATION = "PARTIAL_ARCHETYPE_CALIBRATION"
 PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
 PARTIAL_CURRENT_METHOD_HVENT_SURFACE = "PARTIAL_CURRENT_METHOD_HVENT_SURFACE"
+PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE = "PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE"
 CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
 PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
@@ -196,12 +197,25 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "POST_RETROFIT_VENTILATION",
-            PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
-            "POL/DER/SCN",
-            ("SRC-B06-HU-ENERGY-METHOD-2023", "SRC-B02-BME-RBSM-2026", "SRC-B06-HU-EKR-18-2025", "SRC-B02-EU-ECODESIGN-VENTILATION-1253-2014", "B02-P85", "B02-P87", "B02-P88"),
+            PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
+            "POL/OBS/DER/SCN",
+            (
+                "SRC-B06-HU-ENERGY-METHOD-2023",
+                "SRC-B02-BME-RBSM-2026",
+                "SRC-B06-HU-EKR-18-2025",
+                "SRC-B02-EU-ECODESIGN-VENTILATION-1253-2014",
+                "SRC-B02-HU-PTE-AIRTIGHTNESS-2014",
+                "SRC-B02-UK-RFTF-AIRTIGHTNESS-2013",
+                "SRC-B02-US-WINDOW-AIRTIGHTNESS-2026",
+                "SRC-B02-UK-AIRTIGHTNESS-DURABILITY-2025",
+                "B02-P85",
+                "B02-P87",
+                "B02-P88",
+                "B02-P89",
+            ),
             True,
-            "ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED",
-            "B02-P87 materializes 14-stratum H_vent bounds. B02-P88 decomposes required-air versus infiltration response and makes natural-window, regulated exhaust and explicit-eta HRV paths executable. Post-retrofit system prevalence and eta distribution are scenario/project inputs, not population-evidence prerequisites; action-conditioned infiltration remains Q.",
+            "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
+            "B02-P89 adds measured action-response evidence and an explicit Hungarian n50-to-4Pa pressure-transfer calibration while preserving q50/n50/n4 distinctions. Relative response is now executable, but an absolute Hungarian post-retrofit airtightness state or explicit programme target is still required before national infiltration can be materialized.",
         ),
         InputCoverage(
             "POST_RETROFIT_THERMAL_BRIDGE_H",
