@@ -214,7 +214,7 @@ class B02P89ActionConditionedAirtightnessTests(unittest.TestCase):
             sources["SRC-B02-US-WINDOW-AIRTIGHTNESS-2026"]["notes"],
         )
         self.assertIn(
-            "7/10",
+            "seven became less airtight",
             sources["SRC-B02-UK-AIRTIGHTNESS-DURABILITY-2025"]["notes"],
         )
 
