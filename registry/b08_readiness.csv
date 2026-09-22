@@ -6,8 +6,8 @@ STATE_TRACE,B08,STATE_TRACE,VALIDATED,80,SRC-B08-SCN-GRID-FIXTURE,B01 state is c
 PHYSICAL_FLEX_AGGREGATION,B08,PHYSICAL_FLEX_AGGREGATION,VALIDATED,85,SRC-B08-SCN-GRID-FIXTURE,Physical capability only; no dispatch.
 ENERGY_INTEGRATION,B08,ENERGY_INTEGRATION,VALIDATED,85,SRC-B08-SCN-GRID-FIXTURE,kWh follows explicit kW times timestep.
 PEAK_EXTRACTION,B08,PEAK_EXTRACTION,VALIDATED,80,SRC-B08-SCN-GRID-FIXTURE,Deterministic gross and net peaks with tied timestamps.
-SEASONAL_PEAK,B08,SEASONAL_PEAK,Q,0,SRC-B08-SCN-GRID-FIXTURE,No explicit season contract; no seasonal claim.
-NATIONAL_SCALING,B08,NATIONAL_SCALING,Q,0,SRC-B08-SCN-GRID-FIXTURE,Fixture total is not a Hungarian national result.
+SEASONAL_PEAK,B08,SEASONAL_PEAK,VALIDATED,80,SRC-B08-SCN-GRID-FIXTURE,"B08-P3 defines executable Europe/Budapest calendar-year and Dec-Feb winter reporting windows, half-open boundaries, UTC alignment, complete-window/no-gap requirement and tied-peak retention. Real national peak still requires admitted numeric load evidence."
+NATIONAL_SCALING,B08,NATIONAL_SCALING,PARTIAL,40,SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026;SRC-B08-ENTSOE-MARKET-AREAS-2024,"B08-P3 retires regional scaling as a prerequisite for a source-native Hungarian control-area baseline. The source grain is already national/control-area; real numeric acquisition, model-use authority and provenance remain Q. Regional DSO/county claims remain separate."
 B09_HANDOFF,B08,B09_HANDOFF,PARTIAL,20,SRC-B08-SCN-GRID-FIXTURE,Physical series only; no generation or dispatch.
 B10_HANDOFF,B08,B10_HANDOFF,PARTIAL,20,SRC-B08-SCN-GRID-FIXTURE,Peak/region series only; headroom and reinforcement remain Q.
 OBSERVED_LOAD_EVIDENCE_CONTRACT,B08,OBSERVED_LOAD_EVIDENCE,PARTIAL,60,SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026;SRC-B08-ENTSOE-DDD-2023;SRC-B08-ENTSOE-REST-API-IG-2024;SRC-B08-ENTSOE-TERMS-2023;SRC-B08-ENTSOE-REUSE-LIST-2023,Source-native A65/A16/A04 intake with exact payload checksum and explicit reuse gate; 2023-10-18 list does not establish A65 reuse; no repository numeric snapshot.
