@@ -182,14 +182,12 @@ class B02P88VentilationPathResponseTests(unittest.TestCase):
     def test_current_design_load_blocker_is_only_infiltration_for_ventilation(self):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         vent = by["POST_RETROFIT_VENTILATION"]
-        self.assertEqual(
-            vent.blocker,
-            "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
-        )
+        self.assertIsNone(vent.blocker)
         self.assertIn("B02-P88", vent.source_refs)
         self.assertIn("B02-P89", vent.source_refs)
+        self.assertIn("B02-P90", vent.source_refs)
         blockers = set(current_design_load_blockers())
-        self.assertIn(
+        self.assertNotIn(
             "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
             blockers,
         )

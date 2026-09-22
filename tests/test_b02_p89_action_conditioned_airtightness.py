@@ -20,7 +20,7 @@ from modules.B02.action_conditioned_airtightness_response import (
     semantic_boundaries,
 )
 from modules.B02.national_design_load_input_coverage import (
-    PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
+    QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
     current_design_load_blockers,
     national_design_load_input_coverage,
 )
@@ -134,15 +134,13 @@ class B02P89ActionConditionedAirtightnessTests(unittest.TestCase):
         vent = by["POST_RETROFIT_VENTILATION"]
         self.assertEqual(
             vent.status,
-            PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
+            QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
         )
-        self.assertEqual(
-            vent.blocker,
-            "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
-        )
+        self.assertIsNone(vent.blocker)
         self.assertIn("B02-P89", vent.source_refs)
+        self.assertIn("B02-P90", vent.source_refs)
         blockers = set(current_design_load_blockers())
-        self.assertIn(
+        self.assertNotIn(
             "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
             blockers,
         )
