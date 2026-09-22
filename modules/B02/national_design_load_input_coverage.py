@@ -44,6 +44,7 @@ PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
 PARTIAL_CURRENT_METHOD_HVENT_SURFACE = "PARTIAL_CURRENT_METHOD_HVENT_SURFACE"
 PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE = "PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE"
 PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY = "PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY"
+PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY = "PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY"
 QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE"
 QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE = "QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE"
 CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
@@ -162,7 +163,7 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "POST_RETROFIT_ENVELOPE_GEOMETRY",
-            PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY,
+            PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY,
             "DER/SCN_PROXY",
             (
                 "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
@@ -172,10 +173,11 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
                 "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
                 "B02-P85",
                 "B02-P92",
+                "B02-P93",
             ),
             True,
             "POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED",
-            "B02-P85 materializes gross synthetic geometry proxies and B02-P92 adds a Hungarian class-average wall-versus-aggregate-opening split across all 14 reference-programme strata. The split is now executable, but the facade magnitude remains conditional on BBOX_RECTANGULARIZATION_VALIDATION_REQUIRED and the actual top/bottom heat-loss planes remain unresolved. Therefore the overall post-retrofit envelope-geometry surface is still partial and fail-closed.",
+            "B02-P85 materializes gross synthetic geometry proxies, B02-P92 adds a Hungarian wall-versus-aggregate-opening split, and B02-P93 adds a Hungarian class-average top-envelope-area calibration across all 14 reference-programme strata. The facade magnitude remains conditional on BBOX_RECTANGULARIZATION_VALIDATION_REQUIRED and the bottom heat-loss plane remains unresolved. Therefore the overall post-retrofit envelope-geometry surface is still partial and fail-closed.",
         ),
         InputCoverage(
             "BASELINE_COMPONENT_U_VALUE_CALIBRATION",
