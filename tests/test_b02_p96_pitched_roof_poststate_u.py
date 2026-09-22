@@ -82,9 +82,11 @@ class B02P96PitchedRoofPostStateUTests(unittest.TestCase):
             {row.base_u_upper_w_m2k for row in surface},
             {0.17},
         )
-        self.assertEqual(
-            {row.corrected_u_upper_w_m2k for row in surface},
-            {0.204},
+        self.assertTrue(
+            all(
+                abs(row.corrected_u_upper_w_m2k - 0.204) < 1e-12
+                for row in surface
+            )
         )
         self.assertAlmostEqual(
             max(row.top_envelope_h_upper_w_per_k_per_dwelling for row in surface),
