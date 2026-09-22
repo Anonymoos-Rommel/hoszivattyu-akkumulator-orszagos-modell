@@ -16,7 +16,7 @@ from modules.B02.hungarian_top_envelope_area import (
     top_envelope_area_bound,
 )
 from modules.B02.national_design_load_input_coverage import (
-    PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY,
+    QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
     national_design_load_input_coverage,
 )
 
@@ -129,19 +129,17 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
             196.392,
         )
 
-    def test_current_geometry_coverage_includes_p93_but_stays_partial(self):
+    def test_current_geometry_coverage_includes_p93_and_p95(self):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         geometry = by["POST_RETROFIT_ENVELOPE_GEOMETRY"]
         self.assertEqual(
             geometry.status,
-            PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY,
+            QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
         )
-        self.assertEqual(
-            geometry.blocker,
-            "POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED",
-        )
+        self.assertIsNone(geometry.blocker)
         self.assertIn("B02-P92", geometry.source_refs)
         self.assertIn("B02-P93", geometry.source_refs)
+        self.assertIn("B02-P95", geometry.source_refs)
 
     def test_state_retires_only_top_area_blocker(self):
         state = p93_state()
