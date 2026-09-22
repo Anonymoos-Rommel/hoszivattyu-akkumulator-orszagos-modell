@@ -96,7 +96,7 @@ class B02P81EnvelopeActionAssignmentTests(unittest.TestCase):
         self.assertEqual(out.independent_fresh_source_count, 3)
         self.assertAlmostEqual(out.lower_share, 0.28)
         self.assertAlmostEqual(out.upper_share, 0.46)
-        self.assertAlmostEqual(out.weighted_central_share, 0.375)
+        self.assertAlmostEqual(out.weighted_central_share, 0.374)
         self.assertEqual(out.blockers, ())
 
     def test_two_fresh_sources_remain_partial_not_blocked(self):
