@@ -43,6 +43,7 @@ PARTIAL_ARCHETYPE_CALIBRATION = "PARTIAL_ARCHETYPE_CALIBRATION"
 PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
 PARTIAL_CURRENT_METHOD_HVENT_SURFACE = "PARTIAL_CURRENT_METHOD_HVENT_SURFACE"
 PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE = "PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE"
+QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE"
 CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
 PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
@@ -197,9 +198,10 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "POST_RETROFIT_VENTILATION",
-            PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
+            QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
             "POL/OBS/DER/SCN",
             (
+                "SRC-B06-HU-ENERGY-RULES-2023",
                 "SRC-B06-HU-ENERGY-METHOD-2023",
                 "SRC-B02-BME-RBSM-2026",
                 "SRC-B06-HU-EKR-18-2025",
@@ -208,14 +210,16 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
                 "SRC-B02-UK-RFTF-AIRTIGHTNESS-2013",
                 "SRC-B02-US-WINDOW-AIRTIGHTNESS-2026",
                 "SRC-B02-UK-AIRTIGHTNESS-DURABILITY-2025",
+                "SRC-B06-HU-OFP-KEHOP-2026",
                 "B02-P85",
                 "B02-P87",
                 "B02-P88",
                 "B02-P89",
+                "B02-P90",
             ),
             True,
-            "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
-            "B02-P89 adds measured action-response evidence and an explicit Hungarian n50-to-4Pa pressure-transfer calibration while preserving q50/n50/n4 distinctions. Relative response is now executable, but an absolute Hungarian post-retrofit airtightness state or explicit programme target is still required before national infiltration can be materialized.",
+            None,
+            "B02-P90 explicitly adopts the current-method good-airtightness 0.03..0.06 1/h cases as a prospective reference-programme target surface. This closes the national reference-scenario ventilation input without claiming observed or guaranteed future performance. Realized/ex-post claims remain record-level gated by REALIZED_AIRTIGHTNESS_VERIFICATION_REQUIRED.",
         ),
         InputCoverage(
             "POST_RETROFIT_THERMAL_BRIDGE_H",
