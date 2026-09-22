@@ -24,7 +24,7 @@ from modules.B02.hungarian_facade_opening_split import (
     split_gross_facade_proxy,
 )
 from modules.B02.national_design_load_input_coverage import (
-    PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY,
+    QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
     current_design_load_blockers,
     national_design_load_input_coverage,
 )
@@ -193,20 +193,18 @@ class B02P92HungarianFacadeOpeningSplitTests(unittest.TestCase):
             149.13024,
         )
 
-    def test_current_geometry_coverage_is_partial_and_still_fail_closed(self):
+    def test_current_geometry_coverage_is_superseded_and_qualified(self):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         geometry = by["POST_RETROFIT_ENVELOPE_GEOMETRY"]
         self.assertEqual(
             geometry.status,
-            PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY,
+            QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
         )
-        self.assertEqual(
-            geometry.blocker,
-            "POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED",
-        )
+        self.assertIsNone(geometry.blocker)
         self.assertIn("B02-P92", geometry.source_refs)
+        self.assertIn("B02-P95", geometry.source_refs)
         blockers = set(current_design_load_blockers())
-        self.assertIn("POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED", blockers)
+        self.assertNotIn("POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED", blockers)
 
     def test_p92_state_retires_only_the_split_blocker(self):
         state = p92_state()
