@@ -41,6 +41,8 @@ MATERIALIZED_ASS_CALIBRATED = "MATERIALIZED_ASS_CALIBRATED"
 CALIBRATION_ONLY = "CALIBRATION_ONLY"
 PARTIAL_ARCHETYPE_CALIBRATION = "PARTIAL_ARCHETYPE_CALIBRATION"
 PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
+PARTIAL_CURRENT_METHOD_HVENT_SURFACE = "PARTIAL_CURRENT_METHOD_HVENT_SURFACE"
+CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
 PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
 
@@ -194,12 +196,12 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "POST_RETROFIT_VENTILATION",
-            PARTIAL_ARCHETYPE_CALIBRATION,
-            "DER",
-            ("SRC-B02-BME-RBSM-2026",),
+            PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+            "POL/DER/SCN",
+            ("SRC-B06-HU-ENERGY-METHOD-2023", "SRC-B02-BME-RBSM-2026", "B02-P85", "B02-P87"),
             True,
-            "POST_RETROFIT_VENTILATION_SURFACE_REQUIRED",
-            "Type-5 survey-derived ventilation distribution exists, but not an admitted all-archetype post-retrofit ventilation surface.",
+            "POST_RETROFIT_AIRTIGHTNESS_AND_HRV_PREVALENCE_REQUIRED",
+            "B02-P87 materializes 14-stratum H_vent and ventilation-only design-load bounds from current Hungarian method semantics and P85 volumes. Remaining uncertainty is airtightness/mechanical-ventilation/HRV assignment, not missing ventilation physics.",
         ),
         InputCoverage(
             "POST_RETROFIT_THERMAL_BRIDGE_H",
@@ -227,12 +229,12 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "DESIGN_INDOOR_TEMPERATURE",
-            Q,
-            "Q",
+            CURRENT_METHOD_SERVICE_REFERENCE,
+            "POL",
             ("SRC-B06-HU-ENERGY-METHOD-2023",),
             True,
-            "DESIGN_INDOOR_SERVICE_CONDITION_REQUIRED",
-            "The service/design indoor temperature must be explicit for each calculation and cannot be inferred from stock averages.",
+            None,
+            "The current residential calculation method supplies 20 C as an explicit service/reference condition. It is not an observed household setpoint and may be overridden by project authority.",
         ),
         InputCoverage(
             "ACTION_TO_POST_STATE_PHYSICS",
