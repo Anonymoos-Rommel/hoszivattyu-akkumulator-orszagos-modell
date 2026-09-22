@@ -184,7 +184,7 @@ class B02P91ReferenceProgrammeThermalBridgeTests(unittest.TestCase):
         blockers = set(current_design_load_blockers())
         self.assertNotIn("POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED", blockers)
         self.assertNotIn("POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED", blockers)
-        self.assertIn("POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED", blockers)
+        self.assertNotIn("POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED", blockers)
 
     def test_p91_state_preserves_independent_dependencies(self):
         state = p91_state()
