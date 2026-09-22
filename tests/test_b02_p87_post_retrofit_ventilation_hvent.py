@@ -22,7 +22,7 @@ from modules.B02.post_retrofit_ventilation_hvent import (
 )
 from modules.B02.national_design_load_input_coverage import (
     CURRENT_METHOD_SERVICE_REFERENCE,
-    PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+    PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
     current_design_load_blockers,
     national_design_load_input_coverage,
 )
@@ -139,11 +139,11 @@ class B02P87PostRetrofitVentilationHventTests(unittest.TestCase):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         self.assertEqual(
             by["POST_RETROFIT_VENTILATION"].status,
-            PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+            PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE,
         )
         self.assertEqual(
             by["POST_RETROFIT_VENTILATION"].blocker,
-            "ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED",
+            "POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED",
         )
         self.assertEqual(
             by["DESIGN_INDOOR_TEMPERATURE"].status,
@@ -152,7 +152,7 @@ class B02P87PostRetrofitVentilationHventTests(unittest.TestCase):
         self.assertIsNone(by["DESIGN_INDOOR_TEMPERATURE"].blocker)
 
         blockers = set(current_design_load_blockers())
-        self.assertIn("ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED", blockers)
+        self.assertIn("POST_RETROFIT_ABSOLUTE_AIRTIGHTNESS_STATE_OR_PROGRAMME_TARGET_REQUIRED", blockers)
         self.assertNotIn("POST_RETROFIT_VENTILATION_SURFACE_REQUIRED", blockers)
         self.assertNotIn("DESIGN_INDOOR_SERVICE_CONDITION_REQUIRED", blockers)
 
