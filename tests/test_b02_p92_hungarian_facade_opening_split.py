@@ -24,7 +24,7 @@ from modules.B02.hungarian_facade_opening_split import (
     split_gross_facade_proxy,
 )
 from modules.B02.national_design_load_input_coverage import (
-    PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY,
+    PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY,
     current_design_load_blockers,
     national_design_load_input_coverage,
 )
@@ -198,7 +198,7 @@ class B02P92HungarianFacadeOpeningSplitTests(unittest.TestCase):
         geometry = by["POST_RETROFIT_ENVELOPE_GEOMETRY"]
         self.assertEqual(
             geometry.status,
-            PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY,
+            PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY,
         )
         self.assertEqual(
             geometry.blocker,
