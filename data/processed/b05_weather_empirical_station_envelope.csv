@@ -1,0 +1,3 @@
+metric_id,target_return_period_years,station_count,colder_envelope_C,warmer_envelope_C,status,evidence_status,source_id,notes
+WINTER_MEAN_TA_C,10,5,-2.156435,0.168194,PROJECT_STATION_ENVELOPE,DER,SRC-B05-HUNGARY-HOURLY-HIST-2026,Spatial station envelope only; no national population or climate-zone weights; not an official HungaroMet 1-in-10 statistic.
+WINTER_MIN_72H_MEAN_TA_C,10,5,-13.331944,-9.644444,PROJECT_STATION_ENVELOPE,DER,SRC-B05-HUNGARY-HOURLY-HIST-2026,Spatial station envelope only; no national population or climate-zone weights; not an official HungaroMet 1-in-10 statistic.
