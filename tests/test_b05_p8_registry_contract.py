@@ -30,29 +30,31 @@ class B05P8RegistryContractTests(unittest.TestCase):
             q["residual_gap"],
         )
 
-    def test_cold_subgate_is_method_ready_but_module_readiness_not_inflated(self):
+    def test_p8_method_gate_can_be_superseded_by_real_p9_materialization(self):
         with READINESS.open(encoding="utf-8", newline="") as handle:
             readiness = {row["component_id"]: row for row in csv.DictReader(handle)}
         cold = readiness["COLD_1_IN_10"]
         self.assertEqual(cold["status"], "PARTIAL")
-        self.assertEqual(cold["readiness_percent"], "35")
+        self.assertGreaterEqual(int(cold["readiness_percent"]), 35)
         self.assertIn("not an official HungaroMet 1-in-10", cold["notes"])
 
         with MODULES.open(encoding="utf-8", newline="") as handle:
             modules = {row["module_id"]: row for row in csv.DictReader(handle)}
         self.assertEqual(modules["B05"]["readiness_percent"], "64")
         self.assertIn("B05-P8", modules["B05"]["gate_note"])
+        self.assertIn("B05-P9", modules["B05"]["gate_note"])
 
-    def test_open_question_is_narrowed_without_false_resolution(self):
+    def test_p8_open_question_can_be_resolved_only_by_later_numeric_materialization(self):
         with QUESTIONS.open(encoding="utf-8", newline="") as handle:
             questions = {row["question_id"]: row for row in csv.DictReader(handle)}
         q = questions["Q-B05-002"]
-        self.assertEqual(q["status"], "OPEN")
-        self.assertIn("OPEN_NARROWED", q["notes"])
-        self.assertIn(
-            "PROJECT-DERIVED EMPIRICAL RETURN PERIOD != OFFICIAL HUNGAROMET 1-IN-10",
-            q["notes"],
-        )
+        self.assertEqual(q["status"], "RESOLVED")
+        self.assertIn("RESOLVED_FOR_MODEL_USE", q["notes"])
+        self.assertIn("project-derived empirical historical 10-year stress", q["notes"].lower())
+
+        with REG.open(encoding="utf-8", newline="") as handle:
+            p8_rows = {row["item_id"]: row for row in csv.DictReader(handle)}
+        self.assertEqual(p8_rows["B05-P8-R10"]["status"], "OPEN_NARROWED")
 
     def test_existing_profiles_do_not_form_multiyear_winter_series(self):
         with PROFILES.open(encoding="utf-8", newline="") as handle:
