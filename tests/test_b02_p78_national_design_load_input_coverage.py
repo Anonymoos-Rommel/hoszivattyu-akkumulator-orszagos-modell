@@ -9,6 +9,7 @@ from modules.B02.national_design_load_input_coverage import (
     MATERIALIZED_OBS,
     MATERIALIZED_OBS_SET_BOUNDED,
     PARTIAL_ARCHETYPE_CALIBRATION,
+    PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
     Q,
     archetype_calibration_boundary,
     assess_national_post_retrofit_design_load_surface,
@@ -53,6 +54,14 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         self.assertEqual(by["BUILDING_TYPE"].status, MATERIALIZED_ASS_CALIBRATED)
         self.assertEqual(by["POST_RETROFIT_ENVELOPE_GEOMETRY"].status, Q)
         self.assertEqual(by["POST_RETROFIT_COMPONENT_U_VALUES"].status, Q)
+        self.assertEqual(
+            by["DESIGN_OUTDOOR_TEMPERATURE"].status,
+            PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
+        )
+        self.assertEqual(
+            by["DESIGN_OUTDOOR_TEMPERATURE"].blocker,
+            "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
+        )
 
     def test_hungarian_archetype_layer_is_calibration_not_post_state(self):
         b = archetype_calibration_boundary()
@@ -86,7 +95,7 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             "POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED",
             "POST_RETROFIT_VENTILATION_SURFACE_REQUIRED",
             "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
-            "DESIGN_OUTDOOR_TEMPERATURE_MAPPING_REQUIRED",
+            "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
             "DESIGN_INDOOR_SERVICE_CONDITION_REQUIRED",
             "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
         }

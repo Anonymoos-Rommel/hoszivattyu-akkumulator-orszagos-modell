@@ -40,6 +40,7 @@ MATERIALIZED_OBS_SET_BOUNDED = "MATERIALIZED_OBS_SET_BOUNDED"
 MATERIALIZED_ASS_CALIBRATED = "MATERIALIZED_ASS_CALIBRATED"
 CALIBRATION_ONLY = "CALIBRATION_ONLY"
 PARTIAL_ARCHETYPE_CALIBRATION = "PARTIAL_ARCHETYPE_CALIBRATION"
+PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
 PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
 
@@ -214,12 +215,15 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "DESIGN_OUTDOOR_TEMPERATURE",
-            Q,
-            "Q",
-            ("SRC-B06-HU-ENERGY-METHOD-2023",),
+            PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
+            "DER",
+            (
+                "SRC-B02-MSZ-24140-2026",
+                "SRC-B02-BIMLINE-MSZ24140-2026",
+            ),
             True,
-            "DESIGN_OUTDOOR_TEMPERATURE_MAPPING_REQUIRED",
-            "B06 requires an explicit design outdoor temperature; no national location-to-design-temperature map is currently materialized.",
+            "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
+            "B02-P86 materializes the current MSZ 24140:2026 zone domain (-12/-11/-10 C) and 20 public city anchors. Exact national settlement-to-zone geometry and out-of-baseline-scope local authority remain Q.",
         ),
         InputCoverage(
             "DESIGN_INDOOR_TEMPERATURE",
