@@ -106,7 +106,8 @@ class B05P9HistoricalWinterMaterializationTests(unittest.TestCase):
         q2 = questions["Q-B05-002"]
         self.assertEqual(q2["status"], "RESOLVED")
         self.assertIn("RESOLVED_FOR_MODEL_USE", q2["notes"])
-        self.assertIn("not official HungaroMet 1-in-10".lower(), q2["notes"].lower())
+        self.assertIn("project-derived empirical historical 10-year stress", q2["notes"].lower())
+        self.assertIn("nem official hungaromet 1-in-10", q2["notes"].lower())
 
         q1 = questions["Q-B05-001"]
         self.assertEqual(q1["status"], "OPEN")
