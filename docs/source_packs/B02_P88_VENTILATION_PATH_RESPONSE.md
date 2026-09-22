@@ -47,7 +47,7 @@ Canonical source:
 
 The simplified heat-recovery saving method applies:
 
-`0.35 * V * n_required * (eta_new - eta_old)`
+`0.35 * V * c * n_required * (eta_new - eta_old)`
 
 to the required ventilation flow.
 
