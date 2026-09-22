@@ -231,12 +231,12 @@ class B02P88VentilationPathResponseTests(unittest.TestCase):
     def test_source_authorities_and_nonpromotion_boundaries(self):
         sources = rows(SOURCES, "source_id")
         self.assertIn(
-            "SRC-EU-ECODESIGN-VENTILATION-1253-2014",
+            "SRC-B02-EU-ECODESIGN-VENTILATION-1253-2014",
             sources,
         )
         self.assertIn(
             "thermal efficiency",
-            sources["SRC-EU-ECODESIGN-VENTILATION-1253-2014"]["notes"],
+            sources["SRC-B02-EU-ECODESIGN-VENTILATION-1253-2014"]["notes"],
         )
         self.assertIn(
             "P88 section 2.8 authority",
