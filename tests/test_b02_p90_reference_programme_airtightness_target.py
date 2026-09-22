@@ -147,7 +147,7 @@ class B02P90ReferenceProgrammeAirtightnessTargetTests(unittest.TestCase):
             REALIZED_AIRTIGHTNESS_VERIFICATION_REQUIRED,
             blockers,
         )
-        self.assertIn("POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED", blockers)
+        self.assertNotIn("POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED", blockers)
 
     def test_target_state_keeps_realized_claim_separate(self):
         state = reference_programme_target_state()

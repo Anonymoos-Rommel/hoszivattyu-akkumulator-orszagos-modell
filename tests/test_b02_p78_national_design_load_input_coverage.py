@@ -11,6 +11,7 @@ from modules.B02.national_design_load_input_coverage import (
     PARTIAL_ARCHETYPE_CALIBRATION,
     PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
     QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
+    QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE,
     CURRENT_METHOD_SERVICE_REFERENCE,
     Q,
     archetype_calibration_boundary,
@@ -77,7 +78,7 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             b["forbidden_promotions"],
         )
 
-    def test_ventilation_is_partial_but_thermal_bridge_stays_q(self):
+    def test_ventilation_and_thermal_bridge_reference_inputs_are_qualified(self):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         self.assertEqual(
             by["POST_RETROFIT_VENTILATION"].status,
@@ -87,11 +88,11 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             by["DESIGN_INDOOR_TEMPERATURE"].status,
             CURRENT_METHOD_SERVICE_REFERENCE,
         )
-        self.assertEqual(by["POST_RETROFIT_THERMAL_BRIDGE_H"].status, Q)
         self.assertEqual(
-            by["POST_RETROFIT_THERMAL_BRIDGE_H"].blocker,
-            "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
+            by["POST_RETROFIT_THERMAL_BRIDGE_H"].status,
+            QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE,
         )
+        self.assertIsNone(by["POST_RETROFIT_THERMAL_BRIDGE_H"].blocker)
 
     def test_current_blockers_are_field_level_and_fail_closed(self):
         blockers = current_design_load_blockers()
@@ -99,7 +100,6 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             "HEATED_AREA_OR_DIRECT_GEOMETRY_SURFACE_REQUIRED",
             "POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED",
             "POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED",
-            "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
             "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
             "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
         }
