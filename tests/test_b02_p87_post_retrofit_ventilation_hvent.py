@@ -143,7 +143,7 @@ class B02P87PostRetrofitVentilationHventTests(unittest.TestCase):
         )
         self.assertEqual(
             by["POST_RETROFIT_VENTILATION"].blocker,
-            "POST_RETROFIT_AIRTIGHTNESS_AND_HRV_PREVALENCE_REQUIRED",
+            "ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED",
         )
         self.assertEqual(
             by["DESIGN_INDOOR_TEMPERATURE"].status,
@@ -152,7 +152,7 @@ class B02P87PostRetrofitVentilationHventTests(unittest.TestCase):
         self.assertIsNone(by["DESIGN_INDOOR_TEMPERATURE"].blocker)
 
         blockers = set(current_design_load_blockers())
-        self.assertIn("POST_RETROFIT_AIRTIGHTNESS_AND_HRV_PREVALENCE_REQUIRED", blockers)
+        self.assertIn("ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED", blockers)
         self.assertNotIn("POST_RETROFIT_VENTILATION_SURFACE_REQUIRED", blockers)
         self.assertNotIn("DESIGN_INDOOR_SERVICE_CONDITION_REQUIRED", blockers)
 

@@ -198,10 +198,10 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
             "POST_RETROFIT_VENTILATION",
             PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
             "POL/DER/SCN",
-            ("SRC-B06-HU-ENERGY-METHOD-2023", "SRC-B02-BME-RBSM-2026", "B02-P85", "B02-P87"),
+            ("SRC-B06-HU-ENERGY-METHOD-2023", "SRC-B02-BME-RBSM-2026", "SRC-B06-HU-EKR-18-2025", "SRC-B02-EU-ECODESIGN-VENTILATION-1253-2014", "B02-P85", "B02-P87", "B02-P88"),
             True,
-            "POST_RETROFIT_AIRTIGHTNESS_AND_HRV_PREVALENCE_REQUIRED",
-            "B02-P87 materializes 14-stratum H_vent and ventilation-only design-load bounds from current Hungarian method semantics and P85 volumes. Remaining uncertainty is airtightness/mechanical-ventilation/HRV assignment, not missing ventilation physics.",
+            "ACTION_CONDITIONED_POST_RETROFIT_INFILTRATION_REQUIRED",
+            "B02-P87 materializes 14-stratum H_vent bounds. B02-P88 decomposes required-air versus infiltration response and makes natural-window, regulated exhaust and explicit-eta HRV paths executable. Post-retrofit system prevalence and eta distribution are scenario/project inputs, not population-evidence prerequisites; action-conditioned infiltration remains Q.",
         ),
         InputCoverage(
             "POST_RETROFIT_THERMAL_BRIDGE_H",
