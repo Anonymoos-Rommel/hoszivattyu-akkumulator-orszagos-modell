@@ -10,6 +10,8 @@ from modules.B02.national_design_load_input_coverage import (
     MATERIALIZED_OBS_SET_BOUNDED,
     PARTIAL_ARCHETYPE_CALIBRATION,
     PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
+    PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+    CURRENT_METHOD_SERVICE_REFERENCE,
     Q,
     archetype_calibration_boundary,
     assess_national_post_retrofit_design_load_surface,
@@ -79,7 +81,11 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
         self.assertEqual(
             by["POST_RETROFIT_VENTILATION"].status,
-            PARTIAL_ARCHETYPE_CALIBRATION,
+            PARTIAL_CURRENT_METHOD_HVENT_SURFACE,
+        )
+        self.assertEqual(
+            by["DESIGN_INDOOR_TEMPERATURE"].status,
+            CURRENT_METHOD_SERVICE_REFERENCE,
         )
         self.assertEqual(by["POST_RETROFIT_THERMAL_BRIDGE_H"].status, Q)
         self.assertEqual(
@@ -93,10 +99,9 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             "HEATED_AREA_OR_DIRECT_GEOMETRY_SURFACE_REQUIRED",
             "POST_RETROFIT_ENVELOPE_GEOMETRY_SURFACE_REQUIRED",
             "POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED",
-            "POST_RETROFIT_VENTILATION_SURFACE_REQUIRED",
+            "POST_RETROFIT_AIRTIGHTNESS_AND_HRV_PREVALENCE_REQUIRED",
             "POST_RETROFIT_THERMAL_BRIDGE_SURFACE_REQUIRED",
             "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
-            "DESIGN_INDOOR_SERVICE_CONDITION_REQUIRED",
             "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
         }
         self.assertEqual(set(blockers), expected)
