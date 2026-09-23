@@ -1,0 +1,11 @@
+field_id,field,required_for_project_universe,required_for_1103_cohort,rule,status
+B02-P111-C01,programme_code,YES,YES,"preserve source-native 4.1.7 or 4.1.8 value",REQUIRED_FOR_PROJECT_UNIVERSE
+B02-P111-C02,extract_refresh_date,YES,YES,"explicit FAIR search/export refresh or extraction date",REQUIRED_FOR_PROJECT_UNIVERSE
+B02-P111-C03,project_id,YES,YES,"stable unique project identifier; duplicates rejected",REQUIRED_FOR_PROJECT_UNIVERSE
+B02-P111-C04,enumeration_complete_for_declared_scope,YES,YES,"must be true for the declared programme/cutoff scope",REQUIRED_FOR_PROJECT_UNIVERSE
+B02-P111-C05,source_scope_description,YES,YES,"declare programme/search/filter/time scope",REQUIRED_FOR_PROJECT_UNIVERSE
+B02-P111-C06,source_generated_csv,YES,YES,"must originate from FAIR supported-project export or equivalent source-native extract",REQUIRED_FOR_PROJECT_UNIVERSE
+B02-P111-C07,physical_completion_measure_category_codes,NO,YES,"must establish exact project-level completion category and contain 1103 for selected cohort",REQUIRED_TO_CLOSE_1103_COHORT
+B02-P111-C08,physical_completion_date,NO,YES,"required for completed-project cohort and must be <= extract cutoff",REQUIRED_TO_CLOSE_1103_COHORT
+B02-P111-C09,final_het_or_technical_join_key,NO,CONDITIONAL,"required for P108 technical-performance join",CONDITIONAL_TECHNICAL_ROUTE
+B02-P111-C10,hem_generation_agreement_or_hem_id,NO,CONDITIONAL,"explicit only; 1103 does not imply EKR/HEM",CONDITIONAL_EKR_OVERLAP
