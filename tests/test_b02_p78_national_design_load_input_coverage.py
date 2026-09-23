@@ -9,7 +9,7 @@ from modules.B02.national_design_load_input_coverage import (
     MATERIALIZED_OBS,
     MATERIALIZED_OBS_SET_BOUNDED,
     PARTIAL_ARCHETYPE_CALIBRATION,
-    PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
+    QUALIFIED_REFERENCE_PROGRAMME_STANDARD_ZONE_ENVELOPE,
     QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
     QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE,
     QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
@@ -68,12 +68,9 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         self.assertIsNone(by["POST_RETROFIT_COMPONENT_U_VALUES"].blocker)
         self.assertEqual(
             by["DESIGN_OUTDOOR_TEMPERATURE"].status,
-            PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
+            QUALIFIED_REFERENCE_PROGRAMME_STANDARD_ZONE_ENVELOPE,
         )
-        self.assertEqual(
-            by["DESIGN_OUTDOOR_TEMPERATURE"].blocker,
-            "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
-        )
+        self.assertIsNone(by["DESIGN_OUTDOOR_TEMPERATURE"].blocker)
 
     def test_hungarian_archetype_layer_is_calibration_not_post_state(self):
         b = archetype_calibration_boundary()
@@ -107,7 +104,6 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         blockers = current_design_load_blockers()
         expected = {
             "HEATED_AREA_OR_DIRECT_GEOMETRY_SURFACE_REQUIRED",
-            "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
             "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
         }
         self.assertEqual(set(blockers), expected)
