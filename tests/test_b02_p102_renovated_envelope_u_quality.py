@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "data" / "processed" / "b02" / "p102_historical_renovated_u_audit.csv"
 TYPE = ROOT / "data" / "processed" / "b02" / "p102_current_wall_quality_surface.csv"
 STRATUM = ROOT / "data" / "processed" / "b02" / "p102_renovated_wall_stratum_surface.csv"
+NATIONAL = ROOT / "data" / "processed" / "b02" / "p102_national_action_bounds.csv"
 REG = ROOT / "registry" / "b02_p102_renovated_envelope_u_quality.csv"
 SOURCES = ROOT / "registry" / "sources.csv"
 QUESTIONS = ROOT / "registry" / "open_questions.csv"
@@ -205,10 +206,51 @@ class B02P102RenovatedEnvelopeUQualityTests(unittest.TestCase):
             )
             self.assertEqual(row.residuals, NEXT_RESIDUALS)
 
+        by_scenario = {x.scenario: x for x in scenarios}
+        self.assertAlmostEqual(
+            by_scenario["CENTRAL"].calibrated_retrofit_floor_lower_share,
+            0.8318808960824373,
+        )
+        self.assertAlmostEqual(
+            by_scenario["CENTRAL"].calibrated_retrofit_floor_upper_share,
+            0.9844857269628596,
+        )
+        self.assertAlmostEqual(
+            by_scenario["FLAT"].calibrated_retrofit_floor_lower_share,
+            0.8278610299446981,
+        )
+        self.assertAlmostEqual(
+            by_scenario["FLAT"].calibrated_retrofit_floor_upper_share,
+            0.984317137821884,
+        )
+
+        materialized = rows(NATIONAL, "scenario")
+        self.assertEqual(set(materialized), {"CENTRAL", "FLAT", "STRUCTURAL_ENVELOPE"})
+        for scenario in ("CENTRAL", "FLAT"):
+            runtime = by_scenario[scenario]
+            data = materialized[scenario]
+            self.assertAlmostEqual(
+                runtime.calibrated_retrofit_floor_lower_share,
+                float(data["calibrated_retrofit_floor_lower_share"]),
+            )
+            self.assertAlmostEqual(
+                runtime.calibrated_retrofit_floor_upper_share,
+                float(data["calibrated_retrofit_floor_upper_share"]),
+            )
+            self.assertAlmostEqual(
+                runtime.hp_only_share_upper,
+                float(data["hp_only_share_upper"]),
+            )
+
         state = p102_state()
         self.assertEqual(state["status"], P102_STATUS)
-        self.assertGreater(state["incremental_floor_gain"], 0.0)
+        self.assertAlmostEqual(
+            state["structural_calibrated_retrofit_floor_lower_share"],
+            0.8278610299446981,
+        )
+        self.assertAlmostEqual(state["incremental_floor_gain"], 0.45004885271967826)
         self.assertEqual(state["hp_only_share_lower"], 0.0)
+        self.assertAlmostEqual(state["hp_only_share_upper"], 0.17213897005530188)
         self.assertEqual(
             state["primary_residual"],
             "CURRENT_REPLACED_WINDOW_U_QUALITY_EVIDENCE_REQUIRED",
@@ -229,10 +271,18 @@ class B02P102RenovatedEnvelopeUQualityTests(unittest.TestCase):
             reg["B02-P102-U06"]["status"],
             "NO_HISTORICAL_REPLACED_WINDOW_U_VALUE",
         )
+        self.assertAlmostEqual(
+            float(reg["B02-P102-U08"]["lower_bound"]),
+            0.8278610299446981,
+        )
+        self.assertAlmostEqual(
+            float(reg["B02-P102-U08"]["upper_bound"]),
+            0.9844857269628596,
+        )
 
         sources = rows(SOURCES, "source_id")
         csok = sources["SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"]["notes"]
-        self.assertIn("small renovated-case counts", csok)
+        self.assertIn("renovated-case counts are generally low", csok)
         self.assertIn("N/A", csok)
 
         rekk = sources["SRC-B02-HU-REKK-TARKI-ENVELOPE-2022"]["notes"]
@@ -269,6 +319,8 @@ class B02P102RenovatedEnvelopeUQualityTests(unittest.TestCase):
             "CURRENT_REPLACED_WINDOW_U_QUALITY_EVIDENCE_REQUIRED",
             "MISSING_HISTORICAL_RENOVATED_WALL_U_TIGHTENING_REQUIRED",
             "WINDOW REPLACED SHARE != REPLACED WINDOW U",
+            "82.7861029945%",
+            "17.2138970055%",
             "**B02 remains 55%**",
         ):
             self.assertIn(phrase, text)
