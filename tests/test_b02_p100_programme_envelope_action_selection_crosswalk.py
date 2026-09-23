@@ -288,7 +288,7 @@ class B02P100ProgrammeEnvelopeActionSelectionCrosswalkTests(unittest.TestCase):
             "UNKNOWN != DEFICIT",
             "AIR_TO_WATER_HP_ONLY candidate",
             "DEFENSIBLE_CURRENT_BASELINE_U_INFERENCE_REQUIRED",
-            "B02 remains **55%**",
+            "**B02 remains 55%**",
         ):
             self.assertIn(phrase, text)
 
