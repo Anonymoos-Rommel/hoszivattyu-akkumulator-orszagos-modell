@@ -47,6 +47,7 @@ PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY = "PARTIAL_HUNGARIAN_FACADE_OPENING
 PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY = "PARTIAL_HUNGARIAN_FACADE_AND_TOP_GEOMETRY_PROXY"
 PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY = "PARTIAL_HUNGARIAN_FACADE_TOP_BOTTOM_GEOMETRY_PROXY"
 QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY = "QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY"
+QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE"
 QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE"
 QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE = "QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE"
 CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
@@ -198,15 +199,19 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "POST_RETROFIT_COMPONENT_U_VALUES",
-            Q,
-            "Q",
+            QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE,
+            "POL/DER/SCN",
             (
+                "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
                 "SRC-B06-HU-ENERGY-RULES-2023",
-                "SRC-B02-BME-RBSM-2026",
+                "SRC-B06-HU-ENERGY-METHOD-2023",
+                "B02-P80",
+                "B02-P91",
+                "B02-P96",
             ),
             True,
-            "POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED",
-            "Current regulation can constrain retrofit outcomes, but the action-specific resulting U-values are not yet bound across the population surface.",
+            None,
+            "B02-P80 supplies the existing reference-retrofit component U upper bounds and B02-P96 resolves the previously missing pitched/heated-attic enclosing-structure U from the explicit current 9/2023 EKM 0.17 W/m2K requirement. P91 supplies the compatible simplified zeta correction, giving pitched-roof corrected U upper 0.204 W/m2K. This qualifies the prospective reference-programme component-U surface without claiming observed or realized household U-values.",
         ),
         InputCoverage(
             "POST_RETROFIT_VENTILATION",
@@ -244,10 +249,11 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
                 "B02-P80",
                 "B02-P85",
                 "B02-P91",
+                "B02-P96",
             ),
             True,
             None,
-            "B02-P91 uses the current Hungarian simplified thermal-bridge route U_R=U*(1+zeta) and expresses the equivalent separate B06 bridge term as A*U*zeta. This closes the independent reference-programme correction-factor input without inventing psi-length prevalence. Component area geometry and pitched-roof U remain separately tracked blockers; internal insulation and realized detailed project claims require the detailed route.",
+            "B02-P91 uses the current Hungarian simplified thermal-bridge route U_R=U*(1+zeta) and B02-P96 supplies the explicit 0.17 W/m2K pitched/heated-attic base-U authority, yielding corrected U upper 0.204 W/m2K for that route. The independent reference-programme thermal-bridge input is therefore complete for the admitted non-internal-insulation scenario; internal insulation and realized detailed project claims still require the detailed route.",
         ),
         InputCoverage(
             "DESIGN_OUTDOOR_TEMPERATURE",

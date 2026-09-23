@@ -11,6 +11,7 @@ from modules.B02.national_design_load_input_coverage import (
     PARTIAL_ARCHETYPE_CALIBRATION,
     PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
     QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
+    QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE,
     QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
     QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE,
     CURRENT_METHOD_SERVICE_REFERENCE,
@@ -60,7 +61,11 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
             by["POST_RETROFIT_ENVELOPE_GEOMETRY"].status,
             QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY,
         )
-        self.assertEqual(by["POST_RETROFIT_COMPONENT_U_VALUES"].status, Q)
+        self.assertEqual(
+            by["POST_RETROFIT_COMPONENT_U_VALUES"].status,
+            QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE,
+        )
+        self.assertIsNone(by["POST_RETROFIT_COMPONENT_U_VALUES"].blocker)
         self.assertEqual(
             by["DESIGN_OUTDOOR_TEMPERATURE"].status,
             PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
@@ -102,7 +107,6 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         blockers = current_design_load_blockers()
         expected = {
             "HEATED_AREA_OR_DIRECT_GEOMETRY_SURFACE_REQUIRED",
-            "POST_RETROFIT_COMPONENT_U_VALUE_SURFACE_REQUIRED",
             "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
             "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
         }
