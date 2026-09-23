@@ -30,6 +30,10 @@ STRATUM_DATA = (
     ROOT / "data" / "processed" / "b02"
     / "p101_current_baseline_u_stratum_surface.csv"
 )
+NATIONAL_DATA = (
+    ROOT / "data" / "processed" / "b02"
+    / "p101_national_action_bounds.csv"
+)
 REG = (
     ROOT / "registry"
     / "b02_p101_current_baseline_u_inference.csv"
@@ -155,11 +159,59 @@ class B02P101CurrentBaselineUInferenceTests(unittest.TestCase):
             )
             self.assertEqual(row.residual, NEXT_RESIDUAL)
 
+        by_scenario = {row.scenario: row for row in scenarios}
+        self.assertAlmostEqual(
+            by_scenario["CENTRAL"].calibrated_retrofit_floor_lower_share,
+            0.37828554686480326,
+        )
+        self.assertAlmostEqual(
+            by_scenario["CENTRAL"].calibrated_retrofit_floor_upper_share,
+            0.6337975082239213,
+        )
+        self.assertAlmostEqual(
+            by_scenario["FLAT"].calibrated_retrofit_floor_lower_share,
+            0.37781217722501986,
+        )
+        self.assertAlmostEqual(
+            by_scenario["FLAT"].calibrated_retrofit_floor_upper_share,
+            0.6314763486127777,
+        )
+
+        materialized = rows(NATIONAL_DATA, "scenario")
+        self.assertEqual(set(materialized), {"CENTRAL", "FLAT", "STRUCTURAL_ENVELOPE"})
+        for scenario in ("CENTRAL", "FLAT"):
+            runtime = by_scenario[scenario]
+            data = materialized[scenario]
+            self.assertAlmostEqual(
+                runtime.calibrated_retrofit_floor_lower_share,
+                float(data["calibrated_retrofit_floor_lower_share"]),
+            )
+            self.assertAlmostEqual(
+                runtime.calibrated_retrofit_floor_upper_share,
+                float(data["calibrated_retrofit_floor_upper_share"]),
+            )
+            self.assertAlmostEqual(
+                runtime.hp_only_share_upper,
+                float(data["hp_only_share_upper"]),
+            )
+
         state = p101_state()
         self.assertEqual(state["status"], P101_STATUS)
         self.assertIsNone(state["current_baseline_u_inference_blocker"])
         self.assertFalse(state["national_point_action_share_identified"])
         self.assertEqual(state["hp_only_share_lower"], 0.0)
+        self.assertAlmostEqual(
+            state["structural_calibrated_retrofit_floor_lower_share"],
+            0.37781217722501986,
+        )
+        self.assertAlmostEqual(
+            state["structural_calibrated_retrofit_floor_upper_share"],
+            0.6337975082239213,
+        )
+        self.assertAlmostEqual(
+            state["hp_only_share_upper"],
+            0.6221878227749802,
+        )
         self.assertEqual(state["residual"], NEXT_RESIDUAL)
 
         print(
@@ -172,6 +224,22 @@ class B02P101CurrentBaselineUInferenceTests(unittest.TestCase):
         self.assertEqual(
             reg["B02-P101-U04"]["status"],
             "RESOLVED_BOUNDED_CALIBRATED_INFERENCE",
+        )
+        self.assertAlmostEqual(
+            float(reg["B02-P101-U05"]["lower_bound"]),
+            0.37781217722501986,
+        )
+        self.assertAlmostEqual(
+            float(reg["B02-P101-U05"]["upper_bound"]),
+            0.6337975082239213,
+        )
+        self.assertEqual(
+            reg["B02-P101-U06"]["status"],
+            "BOUNDED_UPPER_ONLY",
+        )
+        self.assertAlmostEqual(
+            float(reg["B02-P101-U06"]["upper_bound"]),
+            0.6221878227749802,
         )
         self.assertEqual(
             reg["B02-P101-U06"]["residual_gap"],
@@ -216,6 +284,8 @@ class B02P101CurrentBaselineUInferenceTests(unittest.TestCase):
             "type-level weighted averages",
             "CALIBRATED DEFICIT FLOOR != OBSERVED HOUSEHOLD FAIL SHARE",
             "HP_ONLY lower bound remains 0",
+            "37.7812177225%",
+            "62.2187822775%",
             NEXT_RESIDUAL,
             "**B02 remains 55%**",
         ):
