@@ -1,0 +1,13 @@
+field_id,field,required_for_project_export,required_for_complete_cohort,rule,status
+B02-P112-C01,programme_code,YES,YES,"4.1.7 or 4.1.8; preserve source-native value",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C02,project_id,YES,YES,"stable project context identity; duplicates rejected at cohort grain",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C03,monitoring_name,YES,YES,"must preserve source-native monitoring/professional metric name",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C04,monitoring_type,YES,YES,"preserve source-native type; do not silently map generic indicator semantics",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C05,fact_value,YES,YES,"source-generated realized value; 1103 selection only after exact field binding",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C06,fact_date,YES,YES,"source-native fact date when present; completion cutoff enforced downstream",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C07,report_sequence,YES,YES,"preserve report sequence for provenance",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C08,report_type,YES,YES,"closing professional report preferred for physical-completion cohort",REQUIRED_FOR_PROJECT_EXPORT
+B02-P112-C09,complete_cross_project_enumeration,NO,YES,"must cover declared 4.1.7/4.1.8 project universe or source-generated equivalent aggregate",REQUIRED_FOR_COMPLETE_COHORT
+B02-P112-C10,exact_1103_parameterization_readback,NO,YES,"must directly establish KEHOP field/export binding before national cohort promotion",REQUIRED_FOR_COMPLETE_COHORT
+B02-P112-C11,technical_join_key,NO,CONDITIONAL,"required for P108 technical U route",CONDITIONAL_TECHNICAL_ROUTE
+B02-P112-C12,hem_id_or_agreement_ref,NO,CONDITIONAL,"required for EKR overlap classification",CONDITIONAL_EKR_OVERLAP
