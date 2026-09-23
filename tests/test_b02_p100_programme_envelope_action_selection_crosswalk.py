@@ -67,7 +67,7 @@ class B02P100ProgrammeEnvelopeActionSelectionCrosswalkTests(unittest.TestCase):
                 "FLAT_ROOF": 0.17,
                 "ATTIC_FLOOR": 0.17,
                 "BASEMENT_CEILING": 0.26,
-                "WINDOW": 1.15,
+                "WINDOW": 1.10,
                 "PITCHED_ROOF": 0.17,
             },
         )
@@ -214,7 +214,7 @@ class B02P100ProgrammeEnvelopeActionSelectionCrosswalkTests(unittest.TestCase):
         data = rows(DATA, "item_id")
         self.assertEqual(float(data["B02-P100-T01"]["upper_value"]), 0.24)
         self.assertEqual(float(data["B02-P100-T04"]["upper_value"]), 0.17)
-        self.assertEqual(float(data["B02-P100-T06"]["upper_value"]), 1.15)
+        self.assertEqual(float(data["B02-P100-T06"]["upper_value"]), 1.10)
         self.assertEqual(data["B02-P100-S01"]["selection_authority"], "NO")
         self.assertEqual(
             data["B02-P100-S01"]["residual_gap"],
