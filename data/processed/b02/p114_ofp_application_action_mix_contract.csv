@@ -1,0 +1,12 @@
+field_id,field,value,precision,grain,allowed_use,status,forbidden_use
+B02-P114-C01,snapshot_date,2025-10-17,EXACT,PROGRAMME_SERIES,"temporal anchoring",SOURCE_OBSERVED,"current-date substitution"
+B02-P114-C02,application_volume_huf_bn,50.4,REPORTED,PROGRAMME_SERIES,"programme pipeline scale",SOURCE_OBSERVED,"project count inference"
+B02-P114-C03,approval_volume_huf_bn,40.3,REPORTED,PROGRAMME_SERIES,"programme pipeline scale",SOURCE_OBSERVED,"physical completion inference"
+B02-P114-C04,disbursement_volume_huf_bn,18.8,REPORTED,PROGRAMME_SERIES,"programme pipeline scale",SOURCE_OBSERVED,"physical completion inference"
+B02-P114-C05,disbursement_case_count,4457,REPORTED,APPLICATION_CASE,"financial-stage case count",SOURCE_OBSERVED,"completed-project denominator"
+B02-P114-C06,average_application_huf_m,5.5,REPORTED,APPLICATION,"application scale context",SOURCE_OBSERVED,"realized final project cost"
+B02-P114-C07,insulation_application_share,0.90,REPORTED,APPLICATION,"empirical action-choice calibration",SOURCE_OBSERVED,"national stock prevalence"
+B02-P114-C08,insulation_plus_window_replacement_share,APPROX_TWO_THIRDS,APPROXIMATE,APPLICATION,"empirical combined action-choice calibration",SOURCE_OBSERVED,"exact hard bound; exact 1103 share"
+B02-P114-C09,programme_series_scope,RRF_PLUS_KEHOP_CUMULATIVE_OFP,EXACT_SCOPE_LABEL,PROGRAMME_SERIES,"scope preservation",EXPLICIT_SCOPE_BOUNDARY,"KEHOP 4.1.7/4.1.8-only inference"
+B02-P114-C10,stage,APPLICATION,EXACT_SCOPE_LABEL,APPLICATION,"stage preservation",EXPLICIT_SCOPE_BOUNDARY,"completion-cohort inference"
+B02-P114-C11,action_label,WINDOW_REPLACEMENT_HUMAN_READABLE,REPORTED_LABEL,APPLICATION,"semantic action calibration",EXPLICIT_SCOPE_BOUNDARY,"verified FAIR/MEKH code 1103 readback"
