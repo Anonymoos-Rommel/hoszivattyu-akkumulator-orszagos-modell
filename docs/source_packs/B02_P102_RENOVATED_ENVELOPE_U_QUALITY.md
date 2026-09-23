@@ -123,8 +123,36 @@ construction-period x P21 building-group strata.
 The P21 CENTRAL and FLAT building-group models then weight those strata over
 the exact 4,008,541 occupied-dwelling universe.
 
-Exact national values are produced by the runtime and frozen only after
-successful CI validation.
+The validated national results are:
+
+- CENTRAL calibrated type-mean retrofit-floor lower edge:
+  **83.1880896082%** = **3,334,628.6791 expected dwelling-equivalents**;
+- CENTRAL candidate-set upper edge of that calibrated floor:
+  **98.4485726963%**;
+- FLAT calibrated type-mean retrofit-floor lower edge:
+  **82.7861029945%** = **3,318,514.8808 expected dwelling-equivalents**;
+- FLAT candidate-set upper edge:
+  **98.4317137822%**.
+
+The conservative structural calibrated floor is therefore:
+
+**82.7861029945%**.
+
+Relative to P101's **37.7812177225%** floor, the P102 historical-renovated
+wall-quality calibration increases the model-layer floor by:
+
+**45.0048852720 percentage points**.
+
+The corresponding HP_ONLY candidate upper edge tightens from **62.2187822775%**
+to **17.2138970055%**. The HP_ONLY lower edge remains **0%** because no current
+population mass is yet proven compliant across all applicable envelope
+components.
+
+These numbers are synthetic type-mean calibrated programme bounds, not observed
+household failure rates and not a final national retrofit mandate.
+
+Exact values are materialized in `p102_national_action_bounds.csv` and frozen
+by regression.
 
 ## 8. Blocker effect
 
