@@ -1,0 +1,12 @@
+field_id,field,required_for_count_extract,required_for_technical_extract,required_for_ekr_overlap,rule,status
+B02-P110-C01,programme_code,YES,YES,YES,"4.1.7 or 4.1.8; preserve source-native value",REQUIRED
+B02-P110-C02,project_id,YES,YES,YES,"stable unique ID; duplicates rejected",REQUIRED
+B02-P110-C03,physical_completion_date,YES,YES,YES,"valid date and <= extract cutoff",REQUIRED
+B02-P110-C04,measure_category_codes,YES,YES,YES,"must contain exact 1103",REQUIRED
+B02-P110-C05,extract_cutoff_date,YES,YES,YES,"explicit source cutoff",REQUIRED
+B02-P110-C06,enumeration_complete_for_declared_scope,YES,YES,YES,"must be true; convenience sample rejected",REQUIRED
+B02-P110-C07,final_het_ref,NO,YES,NO,"required for final-calculation route",CONDITIONAL
+B02-P110-C08,final_energy_calculation_ref,NO,YES,NO,"required unless installed-product DoP route is complete",CONDITIONAL
+B02-P110-C09,installed_product_or_dop_ref,NO,ALTERNATIVE,NO,"must be invoice/scope-linked under P108",CONDITIONAL
+B02-P110-C10,hem_generation_agreement_or_hem_id,NO,NO,YES,"explicit only; category 1103 does not imply HEM",REQUIRED_FOR_OVERLAP
+B02-P110-C11,source_scope_description,YES,YES,YES,"programme/time/completion-status scope",REQUIRED
