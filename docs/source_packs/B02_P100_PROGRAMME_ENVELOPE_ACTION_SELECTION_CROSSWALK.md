@@ -20,7 +20,13 @@ P80 already supplies the reference-retrofit component U upper bounds:
 - flat roof: **0.17 W/m2K**;
 - attic floor: **0.17 W/m2K**;
 - basement ceiling: **0.26 W/m2K**;
-- timber/PVC window: **1.15 W/m2K**.
+- timber/PVC window: **1.10 W/m2K** for the current prospective programme.
+
+P103 later repaired the window target temporally: P80's **1.15 W/m2K**
+is retained as historical reference-retrofit calibration, while the current
+9/2023 ÉKM requirement already admitted by P92 sets **1.10 W/m2K** for
+>0.5 m2 wood/PVC facade glazed openings. The current prospective programme
+therefore uses 1.10 W/m2K for that window class.
 
 P96 independently closes the pitched/heated-attic enclosing-structure gap at:
 
