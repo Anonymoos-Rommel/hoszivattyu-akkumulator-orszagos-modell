@@ -41,6 +41,7 @@ MATERIALIZED_ASS_CALIBRATED = "MATERIALIZED_ASS_CALIBRATED"
 CALIBRATION_ONLY = "CALIBRATION_ONLY"
 PARTIAL_ARCHETYPE_CALIBRATION = "PARTIAL_ARCHETYPE_CALIBRATION"
 PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN = "PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN"
+QUALIFIED_REFERENCE_PROGRAMME_STANDARD_ZONE_ENVELOPE = "QUALIFIED_REFERENCE_PROGRAMME_STANDARD_ZONE_ENVELOPE"
 PARTIAL_CURRENT_METHOD_HVENT_SURFACE = "PARTIAL_CURRENT_METHOD_HVENT_SURFACE"
 PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE = "PARTIAL_ACTION_CONDITIONED_AIRTIGHTNESS_RESPONSE"
 PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY = "PARTIAL_HUNGARIAN_FACADE_OPENING_SPLIT_PROXY"
@@ -257,15 +258,18 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "DESIGN_OUTDOOR_TEMPERATURE",
-            PARTIAL_CURRENT_STANDARD_ZONE_DOMAIN,
-            "DER",
+            QUALIFIED_REFERENCE_PROGRAMME_STANDARD_ZONE_ENVELOPE,
+            "POL/DER/SCN",
             (
                 "SRC-B02-MSZ-24140-2026",
                 "SRC-B02-BIMLINE-MSZ24140-2026",
+                "B02-P82",
+                "B02-P86",
+                "B02-P97",
             ),
             True,
-            "COMPLETE_LOCATION_TO_CURRENT_STANDARD_ZONE_MAPPING_REQUIRED",
-            "B02-P86 materializes the current MSZ 24140:2026 zone domain (-12/-11/-10 C) and 20 public city anchors. Exact national settlement-to-zone geometry and out-of-baseline-scope local authority remain Q.",
+            None,
+            "B02-P97 applies the P82 national-inference rule to P86 current-standard authority. Because the canonical WBL grain is county plus settlement type rather than exact settlement coordinates, the prospective national reference programme propagates the full current zone set {-12,-11,-10 C} instead of inventing a point zone. With the 20 C service reference this gives DeltaT 30..32 K. Exact project/location authority, baseline-scope admission and local adjustments remain record-level fail-closed in the unchanged P86 resolver.",
         ),
         InputCoverage(
             "DESIGN_INDOOR_TEMPERATURE",
