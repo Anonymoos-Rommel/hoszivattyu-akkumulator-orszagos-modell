@@ -46,6 +46,9 @@ from modules.B02.keop23_uvalue_poststate import (
     REFERENCE_ENVELOPE_RETROFIT_PLUS_AWHP,
     REFERENCE_RETROFIT_U_MAX,
 )
+from modules.B02.hungarian_facade_opening_split import (
+    CURRENT_REFERENCE_WINDOW_U_MAX_W_M2K,
+)
 from modules.B02.pitched_roof_poststate_u import (
     PITCHED_ROOF_BASE_U_UPPER_W_M2K,
 )
@@ -65,6 +68,12 @@ NEXT_RESIDUAL = "DEFENSIBLE_CURRENT_BASELINE_U_INFERENCE_REQUIRED"
 
 REFERENCE_COMPONENT_U_MAX = {
     **REFERENCE_RETROFIT_U_MAX,
+    # P80's source-native timber/PVC reference-retrofit value is 1.15,
+    # but the prospective programme is governed by the current 9/2023 EKM
+    # wood/PVC glazed-opening requirement already admitted in P92: 1.10.
+    # P103 therefore supersedes only the WINDOW target while preserving P80
+    # as historical calibration.
+    "WINDOW": CURRENT_REFERENCE_WINDOW_U_MAX_W_M2K,
     "PITCHED_ROOF": PITCHED_ROOF_BASE_U_UPPER_W_M2K,
 }
 REQUIRED_COMPONENT_KEYS = tuple(REFERENCE_COMPONENT_U_MAX)
