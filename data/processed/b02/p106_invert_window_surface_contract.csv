@@ -1,0 +1,12 @@
+field_id,source_field,required,grain,semantic_role,admission_rule,status,notes
+B02-P106-C01,country,YES,archetype_year,scope_identity,"must equal HUN",FAIL_CLOSED,"No cross-country transfer."
+B02-P106-C02,year,YES,archetype_year,reference_period,"prefer 2025 as nearest modelled current state; 2020 may be retained as historical calibration; future years are scenario-only",FAIL_CLOSED,"2025 remains model output under scenario assumptions, not 2025 observation."
+B02-P106-C03,name,YES,archetype_year,source_native_archetype_identity,"must be preserved source-native; renovation generation must be extracted without rewriting building type or construction period",FAIL_CLOSED,"Zenodo metadata states name encodes building type, construction period and renovation generation."
+B02-P106-C04,renovation_generation,YES_DERIVED_FROM_NAME,archetype_year,renovation_state,"must be source-native or reproducibly parsed from name; unknown remains unknown",FAIL_CLOSED,"No assumption that renovation generation equals window replacement."
+B02-P106-C05,areawindows,YES,archetype_year,total_window_area,"finite > 0 m2",FAIL_CLOSED,"Required denominator for effective window coefficient."
+B02-P106-C06,Htr_w,YES,archetype_year,window_transmission_coefficient,"finite >= 0 W/K",FAIL_CLOSED,"5R1C transmission heat-transfer coefficient through windows."
+B02-P106-C07,effective_window_u,DERIVED,archetype_year,model_effective_window_U,"Htr_w / areawindows",QUALIFIED_DERIVED_MODEL_METRIC,"Area-weighted effective model coefficient; not a product declaration and not measured in-situ Uw."
+B02-P106-C08,number_of_buildings,YES,archetype_year,stock_weight,"finite >= 0",FAIL_CLOSED,"Model population weight."
+B02-P106-C09,number_of_dwellings_per_building,YES,archetype_year,dwelling_multiplier,"finite > 0",FAIL_CLOSED,"Dwelling weight = number_of_buildings * dwellings_per_building."
+B02-P106-C10,observed_replacement_calibration,YES_BEFORE_POPULATION_PROMOTION,type_or_national,OBS_bridge,"must bind model renovation/performance strata to TARKI-REKK replacement-state observations without assuming generation=window replacement",REQUIRED_FOR_POPULATION_PROMOTION,"Without this bridge Invert remains SCN validation/sensitivity only."
+B02-P106-C11,ekr_exclusion_or_overlap,YES_FOR_NON_EKR_CLAIM,population_bridge,cohort_boundary,"EKR 1103 overlap must be explicit or set-bounded",REQUIRED_FOR_NON_EKR_LABEL,"Modelled stock does not identify EKR participation."
