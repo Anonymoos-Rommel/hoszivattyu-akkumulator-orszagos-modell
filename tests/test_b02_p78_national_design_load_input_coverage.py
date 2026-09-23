@@ -14,6 +14,7 @@ from modules.B02.national_design_load_input_coverage import (
     QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE,
     QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE,
     QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE,
+    QUALIFIED_ACTION_SELECTION_CROSSWALK,
     CURRENT_METHOD_SERVICE_REFERENCE,
     Q,
     archetype_calibration_boundary,
@@ -104,9 +105,14 @@ class B02P78NationalDesignLoadInputCoverageTests(unittest.TestCase):
         blockers = current_design_load_blockers()
         expected = {
             "HEATED_AREA_OR_DIRECT_GEOMETRY_SURFACE_REQUIRED",
-            "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
         }
         self.assertEqual(set(blockers), expected)
+        by = {item.input_id: item for item in national_design_load_input_coverage()}
+        self.assertEqual(
+            by["ACTION_TO_POST_STATE_PHYSICS"].status,
+            QUALIFIED_ACTION_SELECTION_CROSSWALK,
+        )
+        self.assertIsNone(by["ACTION_TO_POST_STATE_PHYSICS"].blocker)
         d = assess_national_post_retrofit_design_load_surface()
         self.assertEqual(d.status, "PARTIAL_RESOLVED_INPUT_COVERAGE_DECOMPOSED")
         self.assertEqual(set(d.blockers), expected)

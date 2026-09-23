@@ -51,6 +51,7 @@ QUALIFIED_REFERENCE_PROGRAMME_ENVELOPE_GEOMETRY_PROXY = "QUALIFIED_REFERENCE_PRO
 QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_COMPONENT_U_SURFACE"
 QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE = "QUALIFIED_REFERENCE_PROGRAMME_TARGET_SURFACE"
 QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE = "QUALIFIED_SIMPLIFIED_THERMAL_BRIDGE_CORRECTION_SURFACE"
+QUALIFIED_ACTION_SELECTION_CROSSWALK = "QUALIFIED_ACTION_SELECTION_CROSSWALK"
 CURRENT_METHOD_SERVICE_REFERENCE = "CURRENT_METHOD_SERVICE_REFERENCE"
 PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY = "PUBLIC_23_TYPE_BASELINE_NUMERIC_AUTHORITY"
 Q = "Q"
@@ -282,12 +283,22 @@ def national_design_load_input_coverage() -> tuple[InputCoverage, ...]:
         ),
         InputCoverage(
             "ACTION_TO_POST_STATE_PHYSICS",
-            Q,
-            "Q",
-            ("B06-P63",),
+            QUALIFIED_ACTION_SELECTION_CROSSWALK,
+            "DER/SCN",
+            (
+                "B02-P80",
+                "B02-P83",
+                "B02-P90",
+                "B02-P91",
+                "B02-P95",
+                "B02-P96",
+                "B02-P99",
+                "B02-P100",
+                "B06-P63",
+            ),
             True,
-            "ACTION_TO_POST_STATE_PHYSICAL_MAPPING_REQUIRED",
-            "P63 calculates from explicit before/after states but does not itself assign after-state geometry/U/ventilation/thermal-bridge values to every national cell.",
+            None,
+            "B02-P83 already contracts the action-to-post-state model; P90/P91/P95/P96 complete the prospective reference-programme physical target. B02-P100 makes current-state -> target -> action selection executable and fail-closed. The national current HP-only population still requires DEFENSIBLE_CURRENT_BASELINE_U_INFERENCE_REQUIRED, but that is a population-evidence residual rather than a missing action-to-post-state model contract.",
         ),
     )
 
