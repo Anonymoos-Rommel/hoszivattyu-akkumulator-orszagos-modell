@@ -115,8 +115,34 @@ The model propagates:
 The result is a bounded **calibrated retrofit floor**, not an observed national
 fail share.
 
-The exact national values are materialized in the P101 runtime state and frozen
-by regression after validation.
+The validated P21-weighted results are:
+
+- CENTRAL calibrated retrofit-floor lower edge:
+  **37.8285546865%** = **1,516,373.1243 expected dwelling-equivalents**;
+- CENTRAL upper edge of the calibrated-floor set:
+  **63.3797508224%**;
+- FLAT calibrated retrofit-floor lower edge:
+  **37.7812177225%** = **1,514,475.6027 expected dwelling-equivalents**;
+- FLAT upper edge of the calibrated-floor set:
+  **63.1476348613%**.
+
+The conservative structural calibrated retrofit floor is therefore:
+
+**37.7812177225%**.
+
+This is not a hard observed household retrofit requirement. It is the lower
+edge of the admitted calibrated/set-valued model under CENTRAL/FLAT structural
+uncertainty.
+
+Because every dwelling outside that calibrated floor remains potentially
+reference-compliant or deficient until renovated-component U quality is known,
+the current programme-action interval is still:
+
+- retrofit+AWHP: **[37.7812177225%, 100%]** at the calibrated model layer;
+- HP_ONLY candidate: **[0%, 62.2187822775%]**.
+
+The exact national values are also materialized in
+`p101_national_action_bounds.csv` and frozen by regression.
 
 ## 6. Blocker effect
 
