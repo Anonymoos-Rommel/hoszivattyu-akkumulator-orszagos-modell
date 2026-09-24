@@ -184,3 +184,24 @@ penalty.
 
 Q-B05-003 ezért nem záródik, hanem
 `OPEN_NARROWED_TO_WEATHER_DRIVEN_RUNTIME_MODEL` állapotba kerül.
+
+## B05-P15 certified Cdh and part-load evidence
+
+P15 adds a current HP KEYMARK certification surface for Vaillant aroTHERM plus
+M subtype 011-1W0760 / VWL 85/6 A 230V S3. The current certificate-holder
+surface identifies DIN CERTCO as certification body and TÜV Rheinland Energy
+GmbH as testing laboratory.
+
+For EN 14825 average climate, P15 materializes certified Pdh, COP Tj and Cdh Tj
+at -7/+2/+7/+12 C for low- and medium-temperature applications. The eight Cdh
+values span 0.94-0.99.
+
+EN 14825 defines 0.9 as the air-to-water degradation-coefficient fallback when
+Cd is not determined by measurement. Therefore the Vaillant non-default
+certified Cdh fields qualify product-specific measurement-determined evidence
+and supersede the P6 no-product-Cdh gap for this admitted product.
+
+P15 does not promote these values to a universal B05 hourly cycling multiplier.
+The exact EN14825-to-B05 runtime application, capacity-ratio/modulation mapping,
+interpolation/out-of-domain behavior and cross-manufacturer validation remain
+Q. Pdh is explicitly not interpreted as minimum stable modulation.
