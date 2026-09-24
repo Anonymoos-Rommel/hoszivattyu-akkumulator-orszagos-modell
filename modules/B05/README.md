@@ -9,7 +9,7 @@ A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-po
 - órás `timestamp` és `outdoor_temperature_C` időjárási input;
 - `space_heating_required_kW` és külön `dhw_required_kW` hőigény;
 - `required_supply_temperature_C` és külön HMV előremenő hőmérséklet;
-- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a B05-P2 adatcsomag Vaillant aroTHERM és STIEBEL ELTRON HPA-O EU-origin-gated pontokat tartalmaz, utóbbinál W35 `-15/-7/2/7`, W45 `-7/2/7` surface-szel, míg W55 továbbra is izolált/Q;
+- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a kanonikus exact point-set Vaillant aroTHERM és STIEBEL ELTRON HPA-O pontokat tartalmaz. B05-P10 külön NIBE S2125 source-native continuous W35/W45/W55 **capacity-domain** evidence-et ad a P9 hidegstressz-tartományára, de ebből nem készít cold total-input/COP pontokat;
 - explicit backup-konfiguráció, ha van;
 - opcionális páratartalom csak bizonyított defrost-modellhez.
 
@@ -44,15 +44,17 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 
 Az engine csak explicit órás időjárási inputot fogad. A HungaroMet ODP historikus automata-állomás adataiban a `Time` UTC, a `-999` hiányjel, a `ta` az elmúlt óra átlaghőmérséklete, a `t` pillanatnyi hőmérséklet, a `tn`/`tx` az óra minimuma/maximuma, az `u` pedig pillanatnyi relatív nedvesség. A canonical B05 `outdoor_temperature_C` kifejezetten `ta`-ból képzett `DER` leképezés; a source-native mezők `OBS` és a `t` nem cserélődik fel csendben.
 
-A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. A P4 STIEBEL HPA-O 4/8 W35 source-native felülete `−15…+7 °C`-ra bővült, P5 pedig külön W35/W45/W55 weather-domain coverage fájlt materializál. W45 `−7…+7 °C` marad, W55 felülete incomplete/Q. A `1-in-10` visszatérési idő továbbra is `Q`, az engine pedig a performance-map határon kívül fail-closed módon működik.
+A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. P8/P9 104 teljes Dec-Feb blokk alapján project-derived empirical historical 10-year coldest-72h-mean stress envelope-et materializál `−13.331944…−9.644444 °C` tartományban; ez nem official HungaroMet 1-in-10 és nem jövőbeli gyakorisági állítás. P10 az official NIBE S2125 continuous capacity curves alapján bizonyítja, hogy W35/W45/W55 capacity-domain szinten ez a teljes mean-stress intervallum lefedett egy további gyártónál is. A görbékből exact kW érték nem kerül digitizálásra, és a cold total-input/COP surface továbbra is Q. Az engine a complete performance-map határon kívül fail-closed módon működik.
 
 ## Readiness és Q-k
 
-`PERFORMANCE_MAP=PARTIAL (80%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=PARTIAL (65%)`; `WEATHER_SOURCE=VALIDATED`; `HOURLY_WEATHER_INPUT=PARTIAL`; `REFERENCE_WEATHER=PARTIAL`; `COLD_1_IN_10=Q`; `EXTREME_COLD_EVENT=VALIDATED`; `SPATIAL_COVERAGE=PARTIAL`; `WEATHER_PERFORMANCE_DOMAIN_COVERAGE=PARTIAL (50%)`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (45%)`; `OPERATING_ENVELOPE=PARTIAL (55%)`; `PRODUCT_DIVERSITY=PARTIAL (45%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
+`PERFORMANCE_MAP=PARTIAL (80%)`; `THERMAL_DEMAND_INTERFACE=PARTIAL`; `WEATHER_INPUT=PARTIAL (75%)`; `WEATHER_SOURCE=VALIDATED`; `HOURLY_WEATHER_INPUT=PARTIAL (85%)`; `REFERENCE_WEATHER=PARTIAL (60%)`; `COLD_1_IN_10=PARTIAL (80%)`; `EXTREME_COLD_EVENT=VALIDATED (90%)`; `SPATIAL_COVERAGE=PARTIAL (60%)`; `WEATHER_PERFORMANCE_DOMAIN_COVERAGE=PARTIAL (60%)`; `DEFROST=Q`; `PART_LOAD_MODULATION=PARTIAL (45%)`; `OPERATING_ENVELOPE=PARTIAL (55%)`; `PRODUCT_DIVERSITY=PARTIAL (45%)`; `DHW_MODE=PARTIAL`; `PRODUCT_SCALING=Q`. A B05 státusza ezért `IN_PROGRESS`, nem `VALIDATED`. A jelenlegi B02/B03/B04 dependency edge megmarad orchestration-gate-ként, de a fizikai runtime nem használ tarifát vagy pénzértéket.
 
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
+- `docs/source_packs/B05_P10_NIBE_COLD_HIGH_SUPPLY_CAPACITY_DOMAIN.md`
+- `registry/b05_p10_nibe_cold_high_supply_capacity_domain.csv`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
