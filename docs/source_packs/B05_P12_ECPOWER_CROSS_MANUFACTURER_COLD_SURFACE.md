@@ -64,18 +64,25 @@ water temperature of 58 C. Those limits are operating-envelope controls only.
 | A-15/W55 | 8.50 | 1.64 | DER = capacity/COP |
 | A-7/W55 | 10.68 | 1.96 | DER = capacity/COP |
 
-The canonical point CSV intentionally leaves the EC POWER electrical-input
-field blank. B05 already requires at least two of capacity / electrical input /
-COP and deterministically completes the third quantity.
+P12 preserves the eight source-native capacity+COP observations separately in:
+
+`data/processed/b05_p12_ecpower_source_capacity_cop_observations.csv`
+
+The canonical performance-point table must satisfy the repository's complete
+numeric point contract. Therefore P12 materializes:
+
+`electrical_input = capacity / COP`
+
+and marks each completed EC POWER canonical point `DER`.
 
 Therefore:
 
-- source-native capacity = OBS;
-- source-native COP = OBS;
-- completed electrical input = DER;
-- exact evaluated operating triple = DER because one metric is derived.
+- source-native capacity = OBS in the P12 source-observation layer;
+- source-native COP = OBS in the P12 source-observation layer;
+- electrical input = DER;
+- canonical complete performance-point row = DER.
 
-No input value is promoted to OBS.
+No derived input value is promoted to OBS.
 
 ## 3. Cross-manufacturer physical cohort
 
