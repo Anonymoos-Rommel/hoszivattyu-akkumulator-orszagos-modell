@@ -29,7 +29,11 @@ class B05P4ColdPerformanceTests(unittest.TestCase):
 
     def test_operating_envelope_is_not_performance_evidence_and_eu_gate_remains(self):
         with POINTS.open(encoding="utf-8", newline="") as handle:
-            cold_rows = [\n                row for row in csv.DictReader(handle)\n                if row["equipment_id"] in {"STIEBEL-HPA-O-4-CS-PLUS-INT", "STIEBEL-HPA-O-8-CS-PLUS-INT"}\n                and row["point_id"].endswith("A-15-W35")\n            ]
+            cold_rows = [
+                row for row in csv.DictReader(handle)
+                if row["equipment_id"] in {"STIEBEL-HPA-O-4-CS-PLUS-INT", "STIEBEL-HPA-O-8-CS-PLUS-INT"}
+                and row["point_id"].endswith("A-15-W35")
+            ]
         self.assertEqual({row["evidence_status"] for row in cold_rows}, {"OBS"})
         self.assertEqual({row["source_id"] for row in cold_rows}, {"SRC-B05-STIEBEL-HPA-O-P4-COLD-2025"})
         for row in cold_rows:
