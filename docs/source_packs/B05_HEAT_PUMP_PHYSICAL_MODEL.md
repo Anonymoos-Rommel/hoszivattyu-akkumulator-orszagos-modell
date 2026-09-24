@@ -132,3 +132,24 @@ sales/procurement presence is not asserted.
 The manufacturer sheet states a wider heating operating range down to -25 C,
 but this is not promoted to a performance point. Below -15 C remains Q if
 hourly-extreme runtime is retained. Defrost accounting also remains Q.
+
+## B05-P13 WAMAK observed extreme cold closure
+
+P13 adds WAMAK AWK 35 EVI source performance at the four corners
+`A-22/A-10 x W35/W55`.
+
+Three source triples are internally consistent and remain OBS. The published
+A-22/W55 `Qh=21.2 kW / P=13.0 kW / COP=1.51` triple fails the canonical B05
+consistency tolerance, so the source conflict is preserved and the 13.0 kW
+input is not promoted. The canonical A-22/W55 input is materialized as
+`21.2 / 1.51 = 14.039735099 kW` DER; that complete canonical point is DER.
+
+The canonical observed extreme event minimum `-21.9 C` lies inside the
+admitted `-22..-10 C` outdoor rectangle and W35/W45/W55 lie inside the
+`35..55 C` supply rectangle. The event minimum is therefore evaluable without
+extrapolation for this bounded product map.
+
+This resolves Q-B05-001 for the declared physical performance-map scope.
+It does not convert the historical event minimum into a future design
+temperature, and it does not close market/procurement, defrost, cycling or DHW
+questions.
