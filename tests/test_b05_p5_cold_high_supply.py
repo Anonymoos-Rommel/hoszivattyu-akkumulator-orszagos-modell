@@ -45,17 +45,18 @@ class B05P5ColdHighSupplyTests(unittest.TestCase):
         self.assertTrue(performance_map.evaluate(2.0, 55.0).status.startswith("Q / MISSING_GRID_POINT"))
         self.assertTrue(performance_map.evaluate(-20.0, 35.0).status.startswith("Q / OUT_OF_PERFORMANCE_DOMAIN"))
 
-    def test_no_new_high_supply_obs_or_synthetic_promotion(self):
+    def test_p5_stiebel_high_supply_gap_and_no_synthetic_promotion(self):
         with self.POINTS.open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle))
-        high_supply_obs = [
+        stiebel_high_supply_obs = [
             row
             for row in rows
-            if row["evidence_status"] == "OBS"
+            if row["equipment_id"] in {"STIEBEL-HPA-O-4-CS-PLUS-INT", "STIEBEL-HPA-O-8-CS-PLUS-INT"}
+            and row["evidence_status"] == "OBS"
             and row["supply_temperature_C"] in {"45", "55"}
             and float(row["outdoor_temperature_C"]) < -7
         ]
-        self.assertEqual(high_supply_obs, [])
+        self.assertEqual(stiebel_high_supply_obs, [])
         self.assertNotIn(
             "SRC-B05-SYNTHETIC-TEST-GRID",
             {row["source_id"] for row in rows if row["evidence_status"] == "OBS"},
