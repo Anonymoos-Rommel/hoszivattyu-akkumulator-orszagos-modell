@@ -111,3 +111,24 @@ cycling/part-load or DHW-priority gates. The manufacturer `P assorb. / Power`
 field is normalized to the B05 heat-pump product-unit electrical-input boundary;
 no external system auxiliary or separable defrost-energy term is inferred.
 
+## B05-P12 EC POWER cross-manufacturer cold surface
+
+P12 adds EC POWER PMH 6/19 source-native heating capacity + COP points at
+`A-15/A-7 x W35/W55`. The source-observation layer preserves those OBS pairs.
+The source does not publish electrical input at those cold points, so P12
+materializes `electrical_input = capacity / COP` as DER and marks the
+canonical complete performance-point rows DER.
+
+Together with P11 Tekno Point ATHENA R32 complete triples, this gives two
+different current European manufacturer families with B05-admissible complete
+physical surfaces over `-15..-7 C x W35..W55`.
+
+The P9 `-13.331944..-9.644444 C` mean cold-stress envelope and W35/W45/W55
+anchors are therefore cross-manufacturer covered without extrapolation.
+P12 qualifies surface availability only: unlike product sizes are not averaged,
+product count is not a market-share weight, and EC POWER Hungarian
+sales/procurement presence is not asserted.
+
+The manufacturer sheet states a wider heating operating range down to -25 C,
+but this is not promoted to a performance point. Below -15 C remains Q if
+hourly-extreme runtime is retained. Defrost accounting also remains Q.
