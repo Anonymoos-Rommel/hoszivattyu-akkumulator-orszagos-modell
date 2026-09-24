@@ -13,6 +13,7 @@ from modules.B05.engine import PerformanceMap
 
 ROOT = Path(__file__).resolve().parents[1]
 POINTS = ROOT / "data" / "processed" / "heat_pump_performance_points.csv"
+SOURCE_OBS = ROOT / "data" / "processed" / "b05_p12_ecpower_source_capacity_cop_observations.csv"
 SURFACE = ROOT / "data" / "processed" / "b05_p12_cross_manufacturer_cold_high_supply_surface.csv"
 REG = ROOT / "registry" / "b05_p12_ecpower_cross_manufacturer_cold_surface.csv"
 QUESTIONS = ROOT / "registry" / "open_questions.csv"
@@ -27,18 +28,29 @@ def rows(path):
 
 
 class B05P12EcPowerCrossManufacturerColdSurfaceTests(unittest.TestCase):
-    def test_ecpower_source_points_keep_input_unpromoted(self):
-        relevant = [
+    def test_ecpower_source_observations_keep_input_unpromoted(self):
+        source_rows = rows(SOURCE_OBS)
+        self.assertEqual(len(source_rows), 8)
+        for row in source_rows:
+            self.assertEqual(row["evidence_status"], "OBS")
+            self.assertNotEqual(row["thermal_capacity_kW"], "")
+            self.assertNotEqual(row["COP"], "")
+            self.assertEqual(row["derived_field_required"], "electrical_input_kW")
+            self.assertEqual(row["source_id"], "SRC-B05-ECPOWER-PMH-2023")
+
+        canonical = [
             row for row in rows(POINTS)
             if row["equipment_id"] in {"ECPOWER-PMH-6", "ECPOWER-PMH-19"}
         ]
-        self.assertEqual(len(relevant), 8)
-        for row in relevant:
-            self.assertEqual(row["evidence_status"], "OBS")
-            self.assertNotEqual(row["thermal_capacity_kW"], "")
-            self.assertEqual(row["electrical_input_kW"], "")
-            self.assertNotEqual(row["COP"], "")
-            self.assertEqual(row["source_id"], "SRC-B05-ECPOWER-PMH-2023")
+        self.assertEqual(len(canonical), 8)
+        for row in canonical:
+            self.assertEqual(row["evidence_status"], "DER")
+            self.assertNotEqual(row["electrical_input_kW"], "")
+            self.assertAlmostEqual(
+                float(row["thermal_capacity_kW"]) / float(row["electrical_input_kW"]),
+                float(row["COP"]),
+                delta=0.05,
+            )
 
     def test_ecpower_exact_points_are_der_completed_not_obs_input(self):
         performance_map = PerformanceMap.from_csv(POINTS, "ECPOWER-PMH-6")
