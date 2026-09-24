@@ -87,3 +87,27 @@ forrásnatív bemenet marad.
 ## Downstream interface
 
 B02/B06 explicit hőigény- és readiness-kaput adhat; B04 és későbbi B12 csak a B05 által leadott hő- és villamos-idősor után alkalmazhat ár- vagy gazdasági modellt. A jelenlegi `B02;B03;B04` module dependency orchestration gate-ként megmarad, de a fizikai engine nem fogyaszt B03/B04 numerikus értéket.
+
+## B05-P11 Tekno Point cold high-supply rectangle
+
+P11 adds two current Tekno Point ATHENA R32 equipment maps with source-native
+capacity, published electrical power input and COP at the four corners
+`A-15/A-7 x W35/W55`.
+
+For each admitted product the existing B05 engine therefore has a complete
+rectangle over outdoor `-15..-7 C` and supply `35..55 C`. The full P9
+project-derived mean cold-stress interval `-13.331944..-9.644444 C` is inside
+that rectangle. W35/W45/W55 model points across that interval are admissible
+without extrapolation; source corners remain OBS and interior coordinates are
+DER.
+
+The current ATHENA R32 product page states heating-water operation to 55 C at
+-20 C outdoor, but P11 does not turn that limit into a performance point.
+Below -15 C therefore remains Q unless a complete colder performance surface is
+later admitted.
+
+P11 does not create national market-share weights and does not close defrost,
+cycling/part-load or DHW-priority gates. The manufacturer `P assorb. / Power`
+field is normalized to the B05 heat-pump product-unit electrical-input boundary;
+no external system auxiliary or separable defrost-energy term is inferred.
+
