@@ -1,0 +1,10 @@
+field_id,field,rule,status,forbidden_use
+B02-P114-C01,hc004_only_single_share,"source-native Hungary 2023 HC004 = 0.162",OBSERVED,"DO_NOT_REINTERPRET_AS_ALL_SINGLE_WINDOW_AREA"
+B02-P114-C02,hc004_mixed_single_multi_share,"source-native Hungary 2023 HC004 = 0.053",OBSERVED,"DO_NOT_ASSUME_SINGLE_AREA_FRACTION"
+B02-P114-C03,single_glazing_present_share,"0.162+0.053=0.215",DERIVED_EXACT_FROM_OBSERVED_MARGINAL,"DO_NOT_PROMOTE_TO_WHOLE_WINDOW_UW"
+B02-P114-C04,hc001_district_heating_share,"source-native Hungary 2023 HC001 = 0.154",OBSERVED,"DO_NOT_SUBSTITUTE_FOR_CENSUS_DWELLING_COUNT"
+B02-P114-C05,non_district_share,"1-0.154=0.846",DERIVED_EXACT_FROM_OBSERVED_MARGINAL,"DO_NOT_ASSUME_HC001_HC004_INDEPENDENCE"
+B02-P114-C06,frechet_intersection_lower,"max(0,0.215+0.846-1)=0.061",DERIVED_DEPENDENCE_FREE,"DO_NOT_CALL_OBSERVED_JOINT"
+B02-P114-C07,conditional_non_district_single_lower,"0.061/0.846=0.072104018913",DERIVED_HARD_LOWER_BOUND,"DO_NOT_MINT_INTEGER_B02_DWELLING_COUNT"
+B02-P114-C08,household_to_b02_dwelling_binding,"required before exact B02 dwelling-count multiplication",REQUIRED_FOR_EXACT_B02_COUNT,"NO_1_TO_1_HOUSEHOLD_DWELLING_ASSUMPTION"
+B02-P114-C09,double_triple_realized_uw,"direct representative/calibrated whole-window performance distribution required",PRIMARY_REMAINING_PERFORMANCE_GAP,"NO_LAYER_COUNT_TO_COMPLIANCE_PROMOTION"
