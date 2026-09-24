@@ -9,7 +9,7 @@ A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-po
 - órás `timestamp` és `outdoor_temperature_C` időjárási input;
 - `space_heating_required_kW` és külön `dhw_required_kW` hőigény;
 - `required_supply_temperature_C` és külön HMV előremenő hőmérséklet;
-- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a kanonikus exact point-set Vaillant aroTHERM és STIEBEL ELTRON HPA-O pontokat tartalmaz. B05-P10 külön NIBE S2125 source-native continuous W35/W45/W55 **capacity-domain** evidence-et ad a P9 hidegstressz-tartományára. B05-P11 két Tekno Point ATHENA R32 mérethez exact `A-15/A-7 × W35/W55` capacity + published power-input + COP sarkokat ad; ezekből az engine W45-öt és a P9 stressz-intervallum belső pontjait bounded DER interpolációval számolja;
+- berendezés-azonosító, technológia és source-native/certified operating-point teljesítménytérkép; a kanonikus exact point-set Vaillant aroTHERM és STIEBEL ELTRON HPA-O pontokat tartalmaz. B05-P10 külön NIBE S2125 source-native continuous W35/W45/W55 **capacity-domain** evidence-et ad a P9 hidegstressz-tartományára. B05-P11 két Tekno Point ATHENA R32 mérethez exact `A-15/A-7 × W35/W55` capacity + published power-input + COP sarkokat ad; ezekből az engine W45-öt és a P9 stressz-intervallum belső pontjait bounded DER interpolációval számolja. B05-P12 két EC POWER PMH mérethez ugyanezen sarokkoordinátákon source-native capacity + COP adatot ad; az electrical input a már meglévő two-of-three szabály szerint DER;
 - explicit backup-konfiguráció, ha van;
 - opcionális páratartalom csak bizonyított defrost-modellhez.
 
@@ -44,7 +44,7 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 
 Az engine csak explicit órás időjárási inputot fogad. A HungaroMet ODP historikus automata-állomás adataiban a `Time` UTC, a `-999` hiányjel, a `ta` az elmúlt óra átlaghőmérséklete, a `t` pillanatnyi hőmérséklet, a `tn`/`tx` az óra minimuma/maximuma, az `u` pedig pillanatnyi relatív nedvesség. A canonical B05 `outdoor_temperature_C` kifejezetten `ta`-ból képzett `DER` leképezés; a source-native mezők `OBS` és a `t` nem cserélődik fel csendben.
 
-A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. P8/P9 104 teljes Dec-Feb blokk alapján project-derived empirical historical 10-year coldest-72h-mean stress envelope-et materializál `−13.331944…−9.644444 °C` tartományban; ez nem official HungaroMet 1-in-10 és nem jövőbeli gyakorisági állítás. P10 az official NIBE S2125 continuous capacity curves alapján bizonyítja, hogy W35/W45/W55 capacity-domain szinten ez a teljes mean-stress intervallum lefedett egy további gyártónál is. A P10 görbékből exact kW érték nem kerül digitizálásra. P11 viszont külön source-native teljesítménytáblából két ATHENA R32 mérethez complete `-15..-7 C × W35..W55` rectangular performance surface-et materializál; a teljes P9 mean-stress intervallumon W35/W45/W55 így extrapoláció nélkül értékelhető. Exact sarkok OBS, belső pontok DER. Az engine a complete performance-map határon kívül továbbra is fail-closed módon működik.
+A P3 materializáció öt állomás station-specific, legutóbbi közös teljes megfigyelt év (2025) profilját és a teljes elérhető archívumból kiválasztott, 72 órás megfigyelt hidegperiódust tartalmazza. A 2025-ös profil nem nevezhető 1991–2020 normálnak; a klimatológiai normál és a homogenizált adatsor külön evidence layer. Nincs imputáció, helyi időre/DST-re konverzió vagy országos súlyozás. P8/P9 104 teljes Dec-Feb blokk alapján project-derived empirical historical 10-year coldest-72h-mean stress envelope-et materializál `−13.331944…−9.644444 °C` tartományban; ez nem official HungaroMet 1-in-10 és nem jövőbeli gyakorisági állítás. P10 az official NIBE S2125 continuous capacity curves alapján bizonyítja, hogy W35/W45/W55 capacity-domain szinten ez a teljes mean-stress intervallum lefedett egy további gyártónál is. A P10 görbékből exact kW érték nem kerül digitizálásra. P11 viszont külön source-native teljesítménytáblából két ATHENA R32 mérethez complete `-15..-7 C × W35..W55` rectangular performance surface-et materializál; a teljes P9 mean-stress intervallumon W35/W45/W55 így extrapoláció nélkül értékelhető. Exact Tekno Point sarkok complete OBS triple-ek; az EC POWER exact capacity/COP forrásértékek OBS-k, a belőlük képzett electrical input DER. P11+P12 így két külön gyártónál ad teljes B05-admissible `-15..-7 C × W35..W55` fizikai felületet; a P9 stressz W35/W45/W55 tartománya cross-manufacturer lefedett. Az engine a complete performance-map határon kívül továbbra is fail-closed módon működik.
 
 ## Readiness és Q-k
 
@@ -57,6 +57,10 @@ A P3 materializáció öt állomás station-specific, legutóbbi közös teljes 
 - `registry/b05_p10_nibe_cold_high_supply_capacity_domain.csv`
 - `docs/source_packs/B05_P11_TEKNOPOINT_COLD_HIGH_SUPPLY_RECTANGLE.md`
 - `registry/b05_p11_teknopoint_cold_high_supply_rectangle.csv`
+- `docs/source_packs/B05_P12_ECPOWER_CROSS_MANUFACTURER_COLD_SURFACE.md`
+- `registry/b05_p12_ecpower_cross_manufacturer_cold_surface.csv`
+- `data/processed/b05_p12_cross_manufacturer_cold_high_supply_surface.csv`
+- `modules/B05/cold_high_supply_cohort.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
