@@ -30,7 +30,7 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 - A V1 motor determinisztikus, bounded bilineáris interpolációt használ a teljesítménytérkép teljes téglalap-rácsán.
 - Ismert pontot változtatás nélkül reprodukál; hiányzó sarokpont vagy tartományon kívüli hőmérséklet `Q / OUT_OF_PERFORMANCE_DOMAIN` vagy `Q / MISSING_GRID_POINT`.
 - A kapacitás, teljes egység-input és COP közül kettőből a harmadik `DER`; három forrásérték inkonzisztenciája validációs hiba. A gyártói, két tizedesre kerekített táblákhoz legfeljebb 0,05 COP-eltérés tolerált; nagyobb eltérés Q/validációs hiba.
-- Modulation-floor hiányában nincs kitalált degradációs együttható. B05-P15 current HP KEYMARK EN14825 Vaillant part-load Pdh/COP/Cdh mezőket materializál. B05-P16 ezt egy második, Bosch HP KEYMARK gyártói rekorddal cross-manufacturer szinten validálja, és külön fail-closed runtime-state contractot ad: explicit minimum continuous capacity nélkül a cycling-state alkalmazhatósága Q; a floor alatt `CYCLING_REQUIRED`, fölötte `CONTINUOUS_MODULATION`. A current UK HEM-TP-12 ezt a sorrendet módszertani kontrollként támogatja, de nem magyar szabályozási authority és nem termékadat. A certified Cdh csak cycling-state után válhat megfontolható evidence-é; közvetlen órás multiplier vagy `COP × Cdh` korrekció továbbra is tiltott bizonyított numerikus runtime-módszer nélkül. B05-P17 ehhez két exact same-product minimum-modulation anchor-t ad (Vaillant A7/W35, Bosch A2/W35); az anchor lookup exact-coordinate-only, ezért a hiányzó operating coordinate továbbra is Q.
+- Modulation-floor hiányában nincs kitalált degradációs együttható. B05-P15 current HP KEYMARK EN14825 Vaillant part-load Pdh/COP/Cdh mezőket materializál. B05-P16 ezt egy második, Bosch HP KEYMARK gyártói rekorddal cross-manufacturer szinten validálja, és külön fail-closed runtime-state contractot ad: explicit minimum continuous capacity nélkül a cycling-state alkalmazhatósága Q; a floor alatt `CYCLING_REQUIRED`, fölötte `CONTINUOUS_MODULATION`. A current UK HEM-TP-12 ezt a sorrendet módszertani kontrollként támogatja, de nem magyar szabályozási authority és nem termékadat. A certified Cdh csak cycling-state után válhat megfontolható evidence-é; közvetlen órás multiplier vagy `COP × Cdh` korrekció továbbra is tiltott bizonyított numerikus runtime-módszer nélkül. B05-P17 ehhez két exact same-product minimum-modulation anchor-t ad (Vaillant A7/W35, Bosch A2/W35); az anchor lookup exact-coordinate-only, ezért a hiányzó operating coordinate továbbra is Q. B05-P18 a to-water EN14825 cycling képletet külön executable standard-method contractként kvalifikálja: `COPbin = COPd × CR / (Cdh × CR + (1 − Cdh))`. Ez nem engedi meg a névleges vagy más kapacitásponton mért COP csendes használatát: a `COPd`-nek ugyanahhoz a cycling kapacitáshoz kell tartoznia, amely a `CR` nevezője.
 - Defrost büntetés nincs beégetve. B05-P14 szerint az explicit EN 14511-tagged performance pointoknál a rating interval alatt fellépő defrost hőhatása a heating-capacity, villamos igénye pedig az effective-power-input accounting része; ezért ezekre külön univerzális defrost penalty nem tehető rá. Ez nem állítja, hogy minden rating point alatt ténylegesen történt defrost.
 - P6 audit runtime következtetése megmarad: `defrost_runtime_penalty`, `defrost_model_status`, `cdh_measured` és `cycling_penalty_runtime` Q. P14 kizárólag a `defrost_accounting_boundary`-t oldja fel explicit EN 14511-tagged pontokra. Az EU 813/2013 szerinti `cdh_regulatory_default=0,9` továbbra is csak POL compliance-method érték, nem runtime-korrekció.
 - Backup csak explicit engedélyezéssel, típussal, kapacitással és hatásfokkal működik, és külön fogyasztásként jelenik meg.
@@ -53,6 +53,8 @@ A P3 materializáció öt állomás station-specific, legutóbbi közös teljes 
 B05-P16 után a `PART_LOAD_MODULATION` továbbra is 45%: a cross-manufacturer Cdh/part-load mezők és a cycling-state sorrend már bizonyítottabb, de a same-product minimum-modulation coverage és a numerikus cycling-energy módszer még nyitott.
 
 B05-P17 két exact same-product anchorral lezárja a többtermékes minimum-modulation evidence hiányát bounded anchor szinten. Az anchorok között vagy rajtuk kívül minimum modulation nem interpolálható/extrapolálható; a következő residual a modulation-floor surface/interpolation contract és a numerikus cycling-energy method.
+
+B05-P18 lezárja a numerikus módszer-authority részt az EN14825-based to-water cycling képlettel, de a canonical runtime még nem kap cycling-korrekciót. A két P17 anchor esetén a certified Pdh/COP kapacitáspont nem egyezik pontosan a minimum modulation kapacitással, ezért `MINIMUM_CAPACITY_COP_INPUT_REQUIRED` marad Q. A másik residual továbbra is a modulation-floor surface/interpolation contract.
 
 ## Kanonikus artefaktumok
 
@@ -86,6 +88,10 @@ B05-P17 két exact same-product anchorral lezárja a többtermékes minimum-modu
 - `registry/b05_p17_same_product_modulation_anchors.csv`
 - `data/processed/b05_p17_same_product_modulation_anchors.csv`
 - `modules/B05/modulation_anchor_contract.py`
+- `docs/source_packs/B05_P18_EN14825_CYCLING_NUMERIC_METHOD.md`
+- `registry/b05_p18_cycling_numeric_method.csv`
+- `data/processed/b05_p18_cycling_input_gap.csv`
+- `modules/B05/cycling_degradation_method.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
