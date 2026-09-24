@@ -1,0 +1,9 @@
+observation_id,equipment_id,outdoor_temperature_C,supply_temperature_C,thermal_capacity_kW,COP,evidence_status,source_id,derived_field_required,forbidden_use,notes
+ECPOWER-PMH6-SRC-A-15-W35,ECPOWER-PMH-6,-15,35,3.56,2.42,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH6-SRC-A-7-W35,ECPOWER-PMH-6,-7,35,4.75,3.04,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH6-SRC-A-15-W55,ECPOWER-PMH-6,-15,55,2.82,1.37,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH6-SRC-A-7-W55,ECPOWER-PMH-6,-7,55,3.69,1.77,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH19-SRC-A-15-W35,ECPOWER-PMH-19,-15,35,9.73,2.62,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH19-SRC-A-7-W35,ECPOWER-PMH-19,-7,35,12.57,3.19,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH19-SRC-A-15-W55,ECPOWER-PMH-19,-15,55,8.50,1.64,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
+ECPOWER-PMH19-SRC-A-7-W55,ECPOWER-PMH-19,-7,55,10.68,1.96,OBS,SRC-B05-ECPOWER-PMH-2023,electrical_input_kW,SOURCE_NATIVE_INPUT_CLAIM,"Exact manufacturer capacity+COP observation."
