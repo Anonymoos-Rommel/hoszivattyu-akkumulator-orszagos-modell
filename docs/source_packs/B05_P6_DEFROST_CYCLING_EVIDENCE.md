@@ -56,3 +56,31 @@ P6 után a `DEFROST` és `PART_LOAD_MODULATION` readiness nem emelkedik:
 A fennmaradó magas értékű kérdések: termékszintű defrost inclusion boundary és
 defrost energy series; mért part-load/Cdh vagy cycling COP; továbbá a hideg
 W45/W55 pontfelület teljessége és a B02/B06 hőigény-interfész.
+
+## P14 supersession boundary
+
+B05-P14 partially supersedes one P6 conclusion.
+
+P6 correctly kept both the point-accounting boundary and runtime penalty Q
+given the sources available on 2026-08-22. P14 adds direct EN 14511 method
+authority and resolves the point-accounting boundary **only for canonical
+performance points explicitly tagged EN 14511**:
+
+`EN14511_RATED_POINT -> NO_EXTRA_UNIVERSAL_DEFROST_PENALTY`.
+
+This means that defrost heat/electrical effects occurring within the EN 14511
+rating interval belong in the standard heating-capacity/effective-input
+accounting. It does not prove that every rating point actually contained a
+defrost event.
+
+The following P6 conclusions remain fully current:
+
+- weather-driven defrost runtime penalty = Q;
+- product-specific defrost frequency/duration = Q;
+- humidity alone is not a defrost trigger;
+- measured Cdh = Q;
+- cycling runtime penalty = Q;
+- no hidden defrost or cycling penalty is applied by the B05 engine.
+
+NIBE P10 continuous capacity curves remain a separate explicit source boundary
+because the manufacturer states that those curves exclude defrost.
