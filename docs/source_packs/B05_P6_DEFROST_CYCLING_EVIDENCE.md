@@ -84,3 +84,30 @@ The following P6 conclusions remain fully current:
 
 NIBE P10 continuous capacity curves remain a separate explicit source boundary
 because the manufacturer states that those curves exclude defrost.
+
+## P15 supersession boundary
+
+B05-P15 partially supersedes the P6 statement that product-specific measured
+Cdh was unavailable.
+
+The current HP KEYMARK Vaillant aroTHERM plus M subtype 011-1W0760 publishes
+certified EN 14825 Pdh/COP/Cdh fields for an identified air-to-water product.
+Its average-climate Cdh values are 0.94-0.99 rather than the EN 14825
+no-measurement fallback 0.9.
+
+Because EN 14825 states that 0.9 is the fallback when Cd is not determined by
+measurement, P15 qualifies these non-default certified fields as
+product-specific measurement-determined Cdh evidence.
+
+P15 does **not** claim that every Tj-specific published value is an independent
+raw laboratory measurement. The certified EN 14825 output may include
+standard-method transformations.
+
+The following P6 boundaries remain current:
+
+- Cdh is not a universal cross-product value;
+- Pdh is not minimum stable modulation;
+- the B05 hourly cycling-runtime application remains Q;
+- no implicit cycling penalty is added by the engine;
+- a published Cdh exactly equal to 0.9 is not automatically promoted to
+  measured evidence without further test metadata.
