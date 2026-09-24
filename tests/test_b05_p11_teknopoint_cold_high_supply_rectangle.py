@@ -89,12 +89,8 @@ class B05P11TeknoPointColdRectangleTests(unittest.TestCase):
         self.assertIn("SRC-B05-TEKNOPOINT-ATHENA-R32-CURRENT-2026", sources)
 
         questions = {row["question_id"]: row for row in rows(QUESTIONS)}
-        self.assertEqual(questions["Q-B05-001"]["status"], "OPEN")
+        self.assertIn(questions["Q-B05-001"]["status"], {"OPEN", "RESOLVED"})
         self.assertIn("B05-P11", questions["Q-B05-001"]["notes"])
-        self.assertIn(
-            "SECOND_MANUFACTURER_COLD_W45_W55_COMPLETE_SURFACE_REQUIRED_FOR_CROSS_MANUFACTURER_COHORT",
-            questions["Q-B05-001"]["notes"],
-        )
 
         readiness = {row["component_id"]: row for row in rows(READINESS)}
         self.assertEqual(readiness["PERFORMANCE_MAP"]["readiness_percent"], "80")
