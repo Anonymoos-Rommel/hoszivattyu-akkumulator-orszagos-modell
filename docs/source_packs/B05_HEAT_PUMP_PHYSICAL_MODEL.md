@@ -70,15 +70,17 @@ Az operating-point outputok: `cop`, `thermal_capacity_kW`, `electrical_input_kW`
 ### P6 defrost- és cycling-audit
 
 A P6 audit a [külön bizonyítékkapu](B05_P6_DEFROST_CYCLING_EVIDENCE.md) szerint
-lezárta, hogy a jelenlegi forrásokból nem vezethető le külön, termékszintű
-defrost-energia- vagy cycling-degradation runtime-modell. A STIEBEL manual
-defrost-energy/hidraulikai feltételt, a Vaillant dokumentáció defrost-volume és
-anti-cycling/modulation állapotot közöl, de nem a source-native performance
-points elszámolási határát vagy mért Cdh-t. Az EU 813/2013 `Cdh=0,9` értéke
-elkülönített `POL` compliance default; nem kerül `OBS`-ként a registrybe és nem
-alkalmazzuk automatikusan a runtime-ra. A meglévő engine ezért változatlanul
-nem alkalmaz rejtett defrost- vagy cycling-penaltyt, és a humidity csak
-forrásnatív bemenet marad.
+helyesen nem vezetett be külön termékszintű defrost-energia- vagy
+cycling-degradation runtime-modellt. B05-P14 később részlegesen supersedeli a
+P6 accounting-boundary következtetését: explicit EN 14511-tagged pointoknál a
+rating interval alatt fellépő defrost hőhatása a heating-capacity, villamos
+igénye pedig az effective-power-input accounting része, ezért külön univerzális
+defrost penalty nem adható hozzá. Ez nem bizonyít tényleges defrost eseményt
+minden rating pointnál és nem ad weather-driven runtime modellt. Az EU 813/2013
+`Cdh=0,9` továbbra is elkülönített `POL` compliance default; nem kerül
+`OBS`-ként a registrybe és nem alkalmazzuk automatikusan a runtime-ra. Az
+engine ezért változatlanul nem alkalmaz rejtett defrost- vagy cycling-penaltyt,
+és a humidity csak forrásnatív bemenet marad.
 5. HMV priority és magasabb előremenő üzemmód csak explicit termékadat esetén használható.
 6. Egy termék teljesítménytérképe nem skálázható automatikusan 6/8/10/12/16 kW gépekre.
 7. B04 tarifa, ár, gázár, számla, támogatás, finanszírozás, battery/VPP dispatch és pénzérték nem szerepel a B05 runtime-ban.
@@ -153,3 +155,32 @@ This resolves Q-B05-001 for the declared physical performance-map scope.
 It does not convert the historical event minimum into a future design
 temperature, and it does not close market/procurement, defrost, cycling or DHW
 questions.
+
+## B05-P14 EN 14511 defrost accounting boundary
+
+P14 direct EN 14511 method authority alapján különválasztja a rating-point
+accountingot a weather-driven defrost runtime modelltől.
+
+Az explicit EN 14511-tagged canonical performance pointokra:
+
+- a rating intervalban fellépő defrost miatt elvont hő a heating-capacity
+  accounting része;
+- a defrost villamos igénye az effective power input része;
+- ezért egy második, univerzális defrost penalty alkalmazása tiltott, mert
+  kettős elszámolást okozhat.
+
+A jelenlegi canonical point-setben 36 explicit EN 14511-tagged pont van.
+Ez a szabály csak ezekre a bizonyított test-basisú pontokra vonatkozik.
+
+A NIBE P10 continuous capacity curves külön maradnak, mert a gyártó explicit
+defrost-excluded görbeként publikálja őket. A Tekno Point P11 és EC POWER P12
+pontokat P14 nem minősíti visszamenőleg EN 14511-accounted pontokká, ha a
+canonical test basis nincs explicit kötve.
+
+A product-specific/weather-driven defrost event frequency, duration, heat
+removal, electricity és auxiliary-heater interaction továbbra is Q. A Vaillant
+UK 12-15% design allowance kizárólag UK design context; nem magyar runtime
+penalty.
+
+Q-B05-003 ezért nem záródik, hanem
+`OPEN_NARROWED_TO_WEATHER_DRIVEN_RUNTIME_MODEL` állapotba kerül.

@@ -31,8 +31,8 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 - Ismert pontot változtatás nélkül reprodukál; hiányzó sarokpont vagy tartományon kívüli hőmérséklet `Q / OUT_OF_PERFORMANCE_DOMAIN` vagy `Q / MISSING_GRID_POINT`.
 - A kapacitás, teljes egység-input és COP közül kettőből a harmadik `DER`; három forrásérték inkonzisztenciája validációs hiba. A gyártói, két tizedesre kerekített táblákhoz legfeljebb 0,05 COP-eltérés tolerált; nagyobb eltérés Q/validációs hiba.
 - Modulation-floor hiányában nincs kitalált degradációs együttható; a motor csak `CYCLING_REQUIRED` állapotot jelez, implicit büntetést nem ad.
-- Defrost büntetés nincs beégetve: a defrost kimenetek Q-k, amíg bizonyított modell nem áll rendelkezésre.
-- P6 audit: a `defrost_accounting_boundary`, `defrost_runtime_penalty`, `cdh_measured` és `cycling_penalty_runtime` külön Q-változók; az EU 813/2013 szerinti `cdh_regulatory_default=0,9` csak POL compliance-method érték, nem runtime-korrekció.
+- Defrost büntetés nincs beégetve. B05-P14 szerint az explicit EN 14511-tagged performance pointoknál a rating interval alatt fellépő defrost hőhatása a heating-capacity, villamos igénye pedig az effective-power-input accounting része; ezért ezekre külön univerzális defrost penalty nem tehető rá. Ez nem állítja, hogy minden rating point alatt ténylegesen történt defrost.
+- P6 audit runtime következtetése megmarad: `defrost_runtime_penalty`, `defrost_model_status`, `cdh_measured` és `cycling_penalty_runtime` Q. P14 kizárólag a `defrost_accounting_boundary`-t oldja fel explicit EN 14511-tagged pontokra. Az EU 813/2013 szerinti `cdh_regulatory_default=0,9` továbbra is csak POL compliance-method érték, nem runtime-korrekció.
 - Backup csak explicit engedélyezéssel, típussal, kapacitással és hatásfokkal működik, és külön fogyasztásként jelenik meg.
 - HMV eltérő hőmérsékleten egyidejű térfűtéssel csak explicit priority-konfigurációval fut; egyébként Q.
 
@@ -66,6 +66,10 @@ A P3 materializáció öt állomás station-specific, legutóbbi közös teljes 
 - `registry/b05_p13_wamak_extreme_cold_closure.csv`
 - `data/processed/b05_p13_wamak_source_observations.csv`
 - `data/processed/b05_p13_observed_extreme_performance_coverage.csv`
+- `docs/source_packs/B05_P14_EN14511_DEFROST_ACCOUNTING_BOUNDARY.md`
+- `registry/b05_p14_en14511_defrost_accounting_boundary.csv`
+- `data/processed/b05_p14_defrost_point_applicability.csv`
+- `modules/B05/defrost_accounting_contract.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
