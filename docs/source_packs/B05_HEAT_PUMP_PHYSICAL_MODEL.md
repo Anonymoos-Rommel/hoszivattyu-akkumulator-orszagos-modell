@@ -114,9 +114,10 @@ no external system auxiliary or separable defrost-energy term is inferred.
 ## B05-P12 EC POWER cross-manufacturer cold surface
 
 P12 adds EC POWER PMH 6/19 source-native heating capacity + COP points at
-`A-15/A-7 x W35/W55`. The source does not publish electrical input at those
-cold points, so the canonical CSV keeps input blank and the existing B05
-two-of-three rule completes `electrical_input = capacity / COP` as DER.
+`A-15/A-7 x W35/W55`. The source-observation layer preserves those OBS pairs.
+The source does not publish electrical input at those cold points, so P12
+materializes `electrical_input = capacity / COP` as DER and marks the
+canonical complete performance-point rows DER.
 
 Together with P11 Tekno Point ATHENA R32 complete triples, this gives two
 different current European manufacturer families with B05-admissible complete
