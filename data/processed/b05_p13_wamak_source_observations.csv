@@ -1,0 +1,5 @@
+observation_id,equipment_id,outdoor_temperature_C,supply_temperature_C,thermal_capacity_kW,published_electrical_input_kW,COP,evidence_status,admission_status,source_id,notes
+WAMAK-AWK35-SRC-A-22-W35,WAMAK-AWK35-EVI,-22,35,19.2,8.8,2.18,OBS,ADMITTED_COMPLETE_OBS,SRC-B05-WAMAK-AWK35-EVI-2026,"Detailed manufacturer performance table; internally consistent within B05 tolerance."
+WAMAK-AWK35-SRC-A-10-W35,WAMAK-AWK35-EVI,-10,35,26.5,8.8,3.02,OBS,ADMITTED_COMPLETE_OBS,SRC-B05-WAMAK-AWK35-EVI-2026,"Detailed manufacturer performance table; internally consistent within B05 tolerance."
+WAMAK-AWK35-SRC-A-22-W55,WAMAK-AWK35-EVI,-22,55,21.2,13.0,1.51,OBS,REJECTED_INPUT_CONFLICT,SRC-B05-WAMAK-AWK35-EVI-2026,"21.2/13.0 ~= 1.63, inconsistent with published COP 1.51 beyond B05 tolerance. Capacity/COP retained; published input not promoted to canonical OBS."
+WAMAK-AWK35-SRC-A-10-W55,WAMAK-AWK35-EVI,-10,55,28.2,13.9,2.04,OBS,ADMITTED_COMPLETE_OBS,SRC-B05-WAMAK-AWK35-EVI-2026,"Detailed manufacturer performance table; internally consistent within B05 tolerance."
