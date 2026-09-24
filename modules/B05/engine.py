@@ -202,8 +202,9 @@ class PerformanceMap:
         low_capacity, low_input, low_cop = self._complete(lower)
         high_capacity, high_input, high_cop = self._complete(upper)
         weight = (outdoor_temperature_c - coldest) / (next_outdoor - coldest)
-        minimums = [value for value in (lower.min_modulation_kw, upper.min_modulation_kw) if value is not None]
-        minimum = sum(minimums) / len(minimums) if len(minimums) == 2 else None
+        minimum = None
+        if lower.min_modulation_kw is not None and upper.min_modulation_kw is not None:
+            minimum = lower.min_modulation_kw + weight * (upper.min_modulation_kw - lower.min_modulation_kw)
         return OperatingPointResult(
             "DER",
             OperatingPoint(
@@ -251,8 +252,11 @@ class PerformanceMap:
         capacity, electrical, cop = bilinear(0), bilinear(1), bilinear(2)
         if electrical < 0 or capacity < 0 or cop <= 0:
             return OperatingPointResult("Q / INVALID_INTERPOLATED_POINT", reason="interpolation violated physical bounds")
-        minimums = [point.min_modulation_kw for row in corners for point in row if point.min_modulation_kw is not None]
-        minimum = sum(minimums) / len(minimums) if len(minimums) == 4 else None
+        minimum = None
+        if all(point.min_modulation_kw is not None for row in corners for point in row):
+            low_supply_minimum = corners[0][0].min_modulation_kw + weights[0] * (corners[0][1].min_modulation_kw - corners[0][0].min_modulation_kw)  # type: ignore[operator]
+            high_supply_minimum = corners[1][0].min_modulation_kw + weights[0] * (corners[1][1].min_modulation_kw - corners[1][0].min_modulation_kw)  # type: ignore[operator]
+            minimum = low_supply_minimum + weights[1] * (high_supply_minimum - low_supply_minimum)
         sources = tuple(sorted({point.source_id for row in corners for point in row if point.source_id}))
         status = "DER"
         return OperatingPointResult(status, OperatingPoint(outdoor_temperature_c, supply_temperature_c, capacity, electrical, cop, minimum, status, sources, "bilinear_bounded"))

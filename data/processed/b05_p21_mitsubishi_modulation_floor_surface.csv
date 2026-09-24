@@ -1,0 +1,5 @@
+row_id,model_identifier,outdoor_temperature_C,supply_temperature_C,min_modulation_kW,evidence_status,source_id,source_semantics,notes
+B05-P21-C01,PUZ-WM50VHA,2,35,2.50,OBS,SRC-B05-MITSUBISHI-ECODAN-PLAN-MINFLOOR-2021,MINIMUM_OF_PUBLISHED_MIN_MAX_RANGE,"Manufacturer planning table: A2/W35 minimum-maximum heating-output range 2.5..5.5 kW."
+B05-P21-C02,PUZ-WM50VHA,2,45,2.50,OBS,SRC-B05-MITSUBISHI-ECODAN-PLAN-MINFLOOR-2021,MINIMUM_OF_PUBLISHED_MIN_MAX_RANGE,"Manufacturer planning table: A2/W45 minimum-maximum heating-output range 2.5..5.1 kW."
+B05-P21-C03,PUZ-WM50VHA,7,35,1.80,OBS,SRC-B05-MITSUBISHI-PUZ-WM-MINNOMMAX-2024,EXPLICIT_MIN_COLUMN,"P20 source-native Min/Nom/Max A7/W35 point."
+B05-P21-C04,PUZ-WM50VHA,7,45,1.30,OBS,SRC-B05-MITSUBISHI-SE-WM50-A7W45-2026,EXPLICIT_MIN_HEATING_OUTPUT,"Official Mitsubishi Sweden archived product page: minimum heating output A7/W45 = 1.3 kW."
