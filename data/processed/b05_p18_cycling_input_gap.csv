@@ -1,0 +1,3 @@
+row_id,model_identifier,outdoor_temperature_C,supply_temperature_C,min_modulation_kW,certified_Pdh_kW,certified_COP_Tj,Cdh_Tj,cop_capacity_matches_cycling_capacity,status,residual_gap,notes
+B05-P18-G01,VWL 85/6 A 230V S3,7,35,3.00,3.21,6.33,0.950,false,Q,MINIMUM_CAPACITY_COP_INPUT_REQUIRED,"Certified +7 low-temperature Pdh/COP point is near but not equal to the A7/W35 minimum capacity. No tolerance-based substitution is admitted."
+B05-P18-G02,CS5800iAW 4 ORE-S,2,35,1.80,4.31,3.21,0.990,false,Q,MINIMUM_CAPACITY_COP_INPUT_REQUIRED,"Certified +2 low-temperature Pdh/COP point is materially above the A2/W35 minimum modulation capacity. No substitution is admitted."
