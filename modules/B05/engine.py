@@ -14,6 +14,13 @@ from math import isclose
 from pathlib import Path
 from typing import Iterable, Sequence
 
+from modules.B05.hourly_onoff_parameter_policy import (
+    HEM_DEFAULT_SCENARIO,
+    PRODUCT_SPECIFIC_EXPLICIT,
+    evaluate_hourly_onoff_with_policy,
+)
+from modules.B05.minimum_point_surface import MinimumPointSurface
+
 
 EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
 
@@ -282,12 +289,25 @@ class OperatingConfig:
     backup_efficiency: float | None = None
     defrost_status: str = "Q"
     dhw_priority: str = "Q"
+    cycling_parameter_policy: str | None = None
+    cycling_emitter_class: str | None = None
+    product_specific_tau_eq_s: float | None = None
 
     def validate(self) -> None:
         if self.timestep_hours <= 0 or self.backup_capacity_kw < 0:
             raise ValueError("timestep and backup capacity must be positive/non-negative")
         if self.backup_enabled and (not self.backup_type or self.backup_efficiency is None or self.backup_efficiency <= 0):
             raise ValueError("enabled backup requires type and positive efficiency")
+        if self.cycling_parameter_policy not in (None, HEM_DEFAULT_SCENARIO, PRODUCT_SPECIFIC_EXPLICIT):
+            raise ValueError("unsupported cycling_parameter_policy")
+        if self.cycling_parameter_policy is not None and not self.cycling_emitter_class:
+            raise ValueError("explicit cycling policy requires cycling_emitter_class")
+        if self.product_specific_tau_eq_s is not None and self.product_specific_tau_eq_s <= 0:
+            raise ValueError("product_specific_tau_eq_s must be positive")
+        if self.product_specific_tau_eq_s is not None and self.cycling_parameter_policy != PRODUCT_SPECIFIC_EXPLICIT:
+            raise ValueError("product-specific tau_eq requires PRODUCT_SPECIFIC_EXPLICIT policy")
+        if self.cycling_parameter_policy == PRODUCT_SPECIFIC_EXPLICIT and self.product_specific_tau_eq_s is None:
+            raise ValueError("PRODUCT_SPECIFIC_EXPLICIT policy requires product_specific_tau_eq_s")
 
 
 @dataclass(frozen=True)
@@ -309,6 +329,9 @@ class HourlyResult:
     operating_state: str
     defrost_energy_penalty_kwh: float | None = None
     defrost_heat_penalty_kwh: float | None = None
+    cycling_inertia_energy_kwh: float | None = None
+    cycling_runtime_status: str = "NOT_APPLICABLE"
+    cycling_runtime_evidence_status: str = ""
 
 
 @dataclass(frozen=True)
@@ -326,6 +349,7 @@ class SimulationResult:
     peak_hourly_electrical_power_kw: float
     cold_day_peak_hourly_kw: float | None
     defrost_status: str
+    cycling_runtime_status: str = "NOT_APPLICABLE"
 
 
 def _validate_demand(demand: HourlyDemand) -> None:
@@ -339,10 +363,23 @@ def _validate_demand(demand: HourlyDemand) -> None:
         raise ValueError("DHW supply temperature is mandatory for positive DHW load")
 
 
-def simulate_hourly(performance_map: PerformanceMap, demands: Iterable[HourlyDemand], config: OperatingConfig | None = None) -> SimulationResult:
-    """Simulate explicit hourly demand; no monetary or tariff inputs are accepted."""
+def simulate_hourly(
+    performance_map: PerformanceMap,
+    demands: Iterable[HourlyDemand],
+    config: OperatingConfig | None = None,
+    minimum_point_surface: MinimumPointSurface | None = None,
+) -> SimulationResult:
+    """Simulate explicit hourly demand; no monetary or tariff inputs are accepted.
+
+    P28 keeps legacy state-only calls inspectable, but any actually encountered
+    below-minimum-modulation hour is Q unless a same-product minimum-point
+    capacity/COP surface and an explicit cycling parameter policy qualify the
+    on/off transient term.
+    """
     config = config or OperatingConfig()
     config.validate()
+    if minimum_point_surface is not None and minimum_point_surface.model_identifier != performance_map.equipment_id:
+        raise ValueError("minimum_point_surface model_identifier must match performance_map equipment_id exactly")
     demand_rows = tuple(demands)
     results: list[HourlyResult] = []
     for demand in demand_rows:
@@ -368,10 +405,97 @@ def simulate_hourly(performance_map: PerformanceMap, demands: Iterable[HourlyDem
         backup_electricity = backup_kw * config.timestep_hours / config.backup_efficiency if config.backup_enabled else 0.0  # type: ignore[operator]
         hp_electricity = delivered_kw * config.timestep_hours / point.cop
         state = "CONTINUOUS_MODULATION"
-        if point.min_modulation_kw is not None and 0 < delivered_kw < point.min_modulation_kw:
-            state = "BELOW_MINIMUM_MODULATION / CYCLING_REQUIRED"
         status = "VALID" if shortfall_kw <= backup_kw + 1e-12 else "VALID / CAPACITY_SHORTFALL"
-        results.append(HourlyResult(demand.timestamp, status, space * config.timestep_hours, dhw * config.timestep_hours, delivered_kw * config.timestep_hours, backup_kw * config.timestep_hours, hp_electricity, backup_electricity, hp_electricity + backup_electricity, point.thermal_capacity_kw, total_required, (delivered_kw + backup_kw) * config.timestep_hours, max(shortfall_kw - backup_kw, 0.0) * config.timestep_hours, 0.0 if point.thermal_capacity_kw == 0 else delivered_kw / point.thermal_capacity_kw, state, None, None))
+        cycling_inertia_energy_kwh: float | None = None
+        cycling_runtime_status = "NOT_APPLICABLE"
+        cycling_runtime_evidence_status = ""
+
+        minimum_capacity_kw = point.min_modulation_kw
+        minimum_input_kw: float | None = None
+        minimum_result = None
+        point_floor_requires_cycling = (
+            minimum_capacity_kw is not None and 0 < delivered_kw < minimum_capacity_kw
+        )
+
+        if minimum_point_surface is not None:
+            minimum_result = minimum_point_surface.evaluate(demand.outdoor_temperature_c, supply)  # type: ignore[arg-type]
+            if minimum_result.minimum_capacity_kw is not None:
+                if point.min_modulation_kw is not None and not isclose(
+                    point.min_modulation_kw,
+                    minimum_result.minimum_capacity_kw,
+                    rel_tol=1e-6,
+                    abs_tol=1e-9,
+                ):
+                    state = "Q / MINIMUM_MODULATION_SOURCE_CONFLICT"
+                    status = state
+                    cycling_runtime_status = state
+                    cycling_runtime_evidence_status = "Q"
+                minimum_capacity_kw = minimum_result.minimum_capacity_kw
+                minimum_input_kw = minimum_result.minimum_input_kw
+            elif point.min_modulation_kw is None or point_floor_requires_cycling:
+                state = minimum_result.status
+                status = minimum_result.status
+                cycling_runtime_status = minimum_result.status
+                cycling_runtime_evidence_status = "Q"
+
+        if not status.startswith("Q") and minimum_capacity_kw is not None and 0 < delivered_kw < minimum_capacity_kw:
+            state = "BELOW_MINIMUM_MODULATION / CYCLING_REQUIRED"
+            if minimum_point_surface is None:
+                cycling_runtime_status = "Q / MINIMUM_POINT_RUNTIME_SURFACE_REQUIRED"
+                cycling_runtime_evidence_status = "Q"
+            elif minimum_input_kw is None:
+                cycling_runtime_status = "Q / MINIMUM_CONTINUOUS_COMPRESSOR_POWER_REQUIRED"
+                cycling_runtime_evidence_status = "Q"
+            elif config.cycling_parameter_policy is None:
+                cycling_runtime_status = "Q / CYCLING_RUNTIME_POLICY_REQUIRED"
+                cycling_runtime_evidence_status = "Q"
+            elif minimum_capacity_kw > point.thermal_capacity_kw + 1e-12:
+                cycling_runtime_status = "Q / MINIMUM_POINT_EXCEEDS_AVAILABLE_CAPACITY"
+                cycling_runtime_evidence_status = "Q"
+            else:
+                load_ratio = delivered_kw / point.thermal_capacity_kw
+                minimum_continuous_load_ratio = minimum_capacity_kw / point.thermal_capacity_kw
+                cycling = evaluate_hourly_onoff_with_policy(
+                    minimum_continuous_compressor_power_kw=minimum_input_kw,
+                    load_ratio=load_ratio,
+                    minimum_continuous_load_ratio=minimum_continuous_load_ratio,
+                    emitter_class=config.cycling_emitter_class or "",
+                    policy=config.cycling_parameter_policy,
+                    product_specific_tau_eq_s=config.product_specific_tau_eq_s,
+                )
+                cycling_runtime_status = cycling.status
+                cycling_runtime_evidence_status = cycling.evidence_status
+                if cycling.onoff_inertia_power_kw is not None:
+                    cycling_inertia_energy_kwh = cycling.onoff_inertia_power_kw * config.timestep_hours
+                    hp_electricity += cycling_inertia_energy_kwh
+
+            if cycling_runtime_status.startswith("Q"):
+                status = cycling_runtime_status
+
+        results.append(
+            HourlyResult(
+                demand.timestamp,
+                status,
+                space * config.timestep_hours,
+                dhw * config.timestep_hours,
+                delivered_kw * config.timestep_hours,
+                backup_kw * config.timestep_hours,
+                hp_electricity,
+                backup_electricity,
+                hp_electricity + backup_electricity,
+                point.thermal_capacity_kw,
+                total_required,
+                (delivered_kw + backup_kw) * config.timestep_hours,
+                max(shortfall_kw - backup_kw, 0.0) * config.timestep_hours,
+                0.0 if point.thermal_capacity_kw == 0 else delivered_kw / point.thermal_capacity_kw,
+                state,
+                None,
+                None,
+                cycling_inertia_energy_kwh,
+                cycling_runtime_status,
+                cycling_runtime_evidence_status,
+            )
+        )
 
     hp_heat = sum(row.heat_pump_heat_delivered_kwh for row in results)
     backup_heat = sum(row.backup_heat_delivered_kwh for row in results)
@@ -388,4 +512,11 @@ def simulate_hourly(performance_map: PerformanceMap, demands: Iterable[HourlyDem
         if cold_indices:
             cold_peak = max(powers[index] for index in cold_indices)
     status = "Q" if any(row.status.startswith("Q") for row in results) else ("PARTIAL" if shortfall > 0 else "VALID")
-    return SimulationResult(tuple(results), status, delivered_heat, hp_electricity, backup_electricity, total_electricity, (hp_heat / hp_electricity) if hp_electricity else None, (delivered_heat / total_electricity) if total_electricity else None, shortfall, sum(1 for row in results if row.capacity_shortfall_kwh > 0), max(powers, default=0.0), cold_peak, config.defrost_status)
+    cycling_q = next((row.cycling_runtime_status for row in results if row.cycling_runtime_status.startswith("Q")), None)
+    if cycling_q is not None:
+        cycling_runtime_status = cycling_q
+    elif any(row.cycling_runtime_status == "QUALIFIED_HOURLY_ONOFF_METHOD" for row in results):
+        cycling_runtime_status = "QUALIFIED_HOURLY_ONOFF_METHOD"
+    else:
+        cycling_runtime_status = "NOT_APPLICABLE"
+    return SimulationResult(tuple(results), status, delivered_heat, hp_electricity, backup_electricity, total_electricity, (hp_heat / hp_electricity) if hp_electricity else None, (delivered_heat / total_electricity) if total_electricity else None, shortfall, sum(1 for row in results if row.capacity_shortfall_kwh > 0), max(powers, default=0.0), cold_peak, config.defrost_status, cycling_runtime_status)

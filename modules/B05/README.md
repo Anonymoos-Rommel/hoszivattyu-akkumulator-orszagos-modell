@@ -74,6 +74,8 @@ B05-P26 a Mitsubishi cold/high-supply gapet öt blank celláról egyetlen exact 
 
 B05-P27 repairs the internal semantics of Q-B05-004 without changing its top-level OPEN lineage. The umbrella question is split into explicit P27 subclaims: `PRODUCT_LEVEL_EVIDENCE = RESOLVED_BOUNDED_PRODUCT_EVIDENCE` for the currently proven Mitsubishi/Dimplex surfaces; `COORDINATE_COVERAGE = OPEN` for the remaining exact product-grid gaps; and `OBS_HOURLY_TRANSIENT_FIDELITY = OPEN` for the fan-coil documentation/code divergence plus product-specific `tau_eq`. `PART_LOAD_MODULATION` remains 45% and B05 remains 64%.
 
+B05-P28 closes the **engine-integration** gap left after P24-P27. The core `simulate_hourly()` path can now apply the explicit P25 on/off-transient policy only when a same-product `MinimumPointSurface` supplies minimum continuous capacity and minimum-point COP/input at the same operating coordinate. An encountered below-minimum hour with no such surface or no explicit cycling policy is Q; the engine retains the unadjusted base electricity only as inspectable incomplete output and the simulation status becomes Q. Under explicit `HEM_DEFAULT_SCENARIO` and a supported emitter class, the derived on/off inertia power is multiplied by timestep and added to heat-pump electricity. Mitsubishi PUZ-WM50VHA(-BS) A7/W35 is the first real-product exact regression point for this end-to-end path. Fan-coil doc/code divergence and product-specific `tau_eq` remain fail-closed. `PART_LOAD_MODULATION` stays 45% and B05 stays 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -143,6 +145,8 @@ B05-P27 repairs the internal semantics of Q-B05-004 without changing its top-lev
 - `data/processed/b05_p26_mitsubishi_cold_high_supply_classification.csv`
 - `docs/source_packs/B05_P27_QUESTION_LAYER_SEMANTIC_SPLIT.md`
 - `registry/b05_p27_question_layer_semantic_split.csv`
+- `docs/source_packs/B05_P28_ENGINE_HOURLY_CYCLING_POLICY_INTEGRATION.md`
+- `registry/b05_p28_engine_hourly_cycling_policy_integration.csv`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
