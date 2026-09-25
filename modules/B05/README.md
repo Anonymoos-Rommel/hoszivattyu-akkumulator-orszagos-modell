@@ -80,6 +80,8 @@ B05-P29 qualifies bounded product/controller DHW dispatch semantics without prom
 
 B05-P30 resolves Q-B05-006 as a hydraulic-axis admissibility contract. The current canonical performance snapshot contains 53 OBS/DER product points across 11 equipment IDs and no source-native return-temperature or delta-T performance coordinates. Current Dimplex evidence demonstrates why the distinction matters: A7/W35...30 is a fixed EN14511 test condition, return temperature is instrumented, and heating curves are published by outlet-water temperature at fixed water flow. Fixed test condition / sensor / operating limit therefore does not prove performance sensitivity. A return or delta-T axis may be admitted only when exact same-product, same-unit-boundary capacity/input/COP evidence explicitly varies that coordinate at otherwise matched outdoor and supply conditions. With supply retained, return and delta-T are algebraically linked and cannot both be independent axes. Q-B05-006 is RESOLVED_CONTRACT; PERFORMANCE_MAP remains 80% and B05 remains 64%.
 
+B05-P31 separates the current HEM fan-coil document/code divergence from OBS-grade emitter physics. Fresh upstream readback on 2026-09-25 confirms HEM-TP-12 v3 still assigns the Light-embedded method value to all wet-distribution heat pumps, while the current official reference implementation main remains commit `5a3ac9728df712332a5625571c43d3bc10bd2bf3` and explicitly maps `FanCoils` to 360 s versus `RadiatorsUfh` to 1370 s. P31 does not choose a winner. It exposes two explicit POL branches: `HEM_TP12_V3_DOCUMENT_POLICY = 1370 s` and `HEM_REFERENCE_CODE_5A3AC972 = 360 s`. The legacy P25 generic fan-coil resolver remains fail-closed. A separate explicit OBS path can use an emitter/manufacturer/lab response-time record without waiting for upstream HEM reconciliation. Therefore `HEM_FANCOIL_EMITTER_TIME_DOC_CODE_DIVERGENCE_REQUIRED` is resolved as a governance blocker by authority separation, while `FANCOIL_OBS_EMITTER_RESPONSE_EVIDENCE_REQUIRED` remains open. Product-specific `tau_eq` remains separately open through the P28 product/lab route. PART_LOAD_MODULATION remains 45% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -158,6 +160,9 @@ B05-P30 resolves Q-B05-006 as a hydraulic-axis admissibility contract. The curre
 - `registry/b05_p30_hydraulic_axis_admissibility.csv`
 - `data/processed/b05_p30_hydraulic_axis_snapshot.csv`
 - `modules/B05/hydraulic_axis_admissibility.py`
+- `docs/source_packs/B05_P31_FANCOIL_POL_OBS_AUTHORITY_SEPARATION.md`
+- `registry/b05_p31_fancoil_authority_separation.csv`
+- `modules/B05/fan_coil_authority_separation.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
