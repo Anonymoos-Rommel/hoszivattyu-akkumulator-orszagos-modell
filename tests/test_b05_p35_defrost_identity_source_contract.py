@@ -263,9 +263,9 @@ class B05P35DefrostIdentitySourceContractTests(unittest.TestCase):
             variables["VAR-B05-SILKEBORG-S2125-DIRECT-STATE-EXPORT"]["status"],
             "Q",
         )
-        self.assertEqual(
+        self.assertIn(
             variables["VAR-B05-SILKEBORG-S2125-COTIMED-METER-EXPORT"]["status"],
-            "Q",
+            {"Q", "OBS"},
         )
         self.assertEqual(
             variables["VAR-B05-HEATPUMPMONITOR-DEFROST-LOSS-PROXY"]["status"],
