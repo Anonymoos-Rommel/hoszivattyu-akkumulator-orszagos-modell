@@ -72,6 +72,8 @@ B05-P25 a `HOURLY_ONOFF_TRANSIENT_PARAMETER_AUTHORITY_REQUIRED` residualt `RESOL
 
 B05-P26 a Mitsubishi cold/high-supply gapet öt blank celláról egyetlen exact kérdésre szűkíti. `MITSUBISHI_COLD_HIGH_SUPPLY_DOMAIN_CLASSIFICATION_REQUIRED -> PARTIAL_RESOLVED_NARROWED_TO_A_MINUS15_W50`; új residual: `MITSUBISHI_A_MINUS15_W50_MINIMUM_CLASSIFICATION_REQUIRED`. Q-B05-004: `OPEN_NARROWED_TO_SINGLE_MITSUBISHI_CELL_PLUS_DIMPLEX_FANCOIL_TAU_EQ`. Readiness marad 45%.
 
+B05-P27 repairs the internal semantics of Q-B05-004 without changing its top-level OPEN lineage. The umbrella question is split into explicit P27 subclaims: `PRODUCT_LEVEL_EVIDENCE = RESOLVED_BOUNDED_PRODUCT_EVIDENCE` for the currently proven Mitsubishi/Dimplex surfaces; `COORDINATE_COVERAGE = OPEN` for the remaining exact product-grid gaps; and `OBS_HOURLY_TRANSIENT_FIDELITY = OPEN` for the fan-coil documentation/code divergence plus product-specific `tau_eq`. `PART_LOAD_MODULATION` remains 45% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -139,6 +141,8 @@ B05-P26 a Mitsubishi cold/high-supply gapet öt blank celláról egyetlen exact 
 - `docs/source_packs/B05_P26_MITSUBISHI_COLD_HIGH_SUPPLY_CLASSIFICATION.md`
 - `registry/b05_p26_mitsubishi_cold_high_supply_classification.csv`
 - `data/processed/b05_p26_mitsubishi_cold_high_supply_classification.csv`
+- `docs/source_packs/B05_P27_QUESTION_LAYER_SEMANTIC_SPLIT.md`
+- `registry/b05_p27_question_layer_semantic_split.csv`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
