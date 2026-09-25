@@ -1,0 +1,7 @@
+product_family,slave,function,register_id,register_type,size,unit,factor,mode,evidence_status,source_id,notes
+NIBE_S2125_F2120,1,Return temperature (BT3),1475,FC04 Input Register,s16,degC,10,R,OBS,SRC-B05-NIBE-S2125-MODBUS-DEFROST-2026,"Exact current manufacturer slave-1 channel; register IDs are not generalized to other slave numbers."
+NIBE_S2125_F2120,1,Total run time compressor (EP14),1491,FC04 Input Register,s32,h,10,R,OBS,SRC-B05-NIBE-S2125-MODBUS-DEFROST-2026,"Exact current manufacturer slave-1 channel; register IDs are not generalized to other slave numbers."
+NIBE_S2125_F2120,1,Outdoor temperature (BT28),1621,FC04 Input Register,s16,degC,10,R,OBS,SRC-B05-NIBE-S2125-MODBUS-DEFROST-2026,"Exact current manufacturer slave-1 channel."
+NIBE_S2125_F2120,1,Evaporator in (BT16),1622,FC04 Input Register,s16,degC,10,R,OBS,SRC-B05-NIBE-S2125-MODBUS-DEFROST-2026,"Exact current manufacturer slave-1 channel; required to avoid ambient-weather-only trigger inference."
+NIBE_S2125_F2120,1,Current compressor frequency,1803,FC04 Input Register,s16,Hz,10,R,OBS,SRC-B05-NIBE-S2125-MODBUS-DEFROST-2026,"Exact current manufacturer slave-1 channel."
+NIBE_S2125_F2120,1,Defrost,1805,FC04 Input Register,u8,,1,R,OBS,SRC-B05-NIBE-S2125-MODBUS-DEFROST-2026,"0=off; 1=active; 2=passive."
