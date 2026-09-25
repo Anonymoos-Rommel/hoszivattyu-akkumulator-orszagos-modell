@@ -74,6 +74,8 @@ B05-P26 a Mitsubishi cold/high-supply gapet öt blank celláról egyetlen exact 
 
 B05-P27 repairs the internal semantics of Q-B05-004 without changing its top-level OPEN lineage. The umbrella question is split into explicit P27 subclaims: `PRODUCT_LEVEL_EVIDENCE = RESOLVED_BOUNDED_PRODUCT_EVIDENCE` for the currently proven Mitsubishi/Dimplex surfaces; `COORDINATE_COVERAGE = OPEN` for the remaining exact product-grid gaps; and `OBS_HOURLY_TRANSIENT_FIDELITY = OPEN` for the fan-coil documentation/code divergence plus product-specific `tau_eq`. `PART_LOAD_MODULATION` remains 45% and B05 remains 64%.
 
+B05-P28 audits the product-specific `tau_eq` evidence path. Current HEM requires `tau_eq` as a heat-pump on/off transient characteristic, but the checked exact public PCDB records for PUZ-WM50VHA and LA 2030CP do not expose a product `tau_eq` value. This does not prove internal PCDB/manufacturer data absence. `PRODUCT_SPECIFIC_TAU_EQ_EVIDENCE_REQUIRED_FOR_OBS_RUNTIME` therefore remains open but is narrowed to `PRODUCT_OR_LAB_TRANSIENT_TEST_RECORD_REQUIRED`. Cdh, minimum modulation, controller anti-cycling time and the 140 s HEM default are explicitly forbidden as product-OBS substitutes. `PART_LOAD_MODULATION` remains 45% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -143,6 +145,8 @@ B05-P27 repairs the internal semantics of Q-B05-004 without changing its top-lev
 - `data/processed/b05_p26_mitsubishi_cold_high_supply_classification.csv`
 - `docs/source_packs/B05_P27_QUESTION_LAYER_SEMANTIC_SPLIT.md`
 - `registry/b05_p27_question_layer_semantic_split.csv`
+- `docs/source_packs/B05_P28_PRODUCT_TAU_EQ_EVIDENCE_PATH.md`
+- `registry/b05_p28_product_tau_eq_evidence_path.csv`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
