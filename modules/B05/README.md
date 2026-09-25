@@ -96,6 +96,9 @@ B05-P36 resolves the exact Silkeborg co-timed electric/thermal acquisition resid
 
 B05-P37 audits the remaining direct-state acquisition boundary instead of treating negative heat or a generic operating mode as event identity. The exact Silkeborg public EmonCMS read route reports 13 feeds; a targeted direct-state candidate scan returns only S2125 Operation Mode 501344. Co-timed readback shows 10/20/30 values across 8297 thermal timestamps, and NIBE prioritisation semantics plus persistence through negative-heat runs exclude that feed as Defrost 0/1/2. The public EmonCMS input list contains exactly seven names — OutdoorTemp, FlowRate, TargetSupplyTemp, OperationMode, ReturnTemp, SupplyTemp and CurPwr — with no direct Defrost input. This bounded public result is not promoted to private Home Assistant absence. Independent real S2125 implementations prove that direct 1805/HA state can be historized into InfluxDB, so the remaining blocker is narrowed to an exact Silkeborg private HA history export or a prospective exact-system 1805 logger export containing one complete OFF→ACTIVE/PASSIVE→OFF event. No numeric event kWh is minted. DEFROST remains 20%; B05 remains 64%.
 
+
+B05-P38 performs the final bounded public acquisition attack for one complete S2125 direct defrost event package. A hosted HeatpumpMonitor API scan reads 809 current public systems and identifies four S2125 systems: 252 Silkeborg, 448 Bristol, 660 Farnham and 729 Molesey. Every system exposes electric/thermal energy surfaces, but every /timeseries/available result has zero direct-state candidates. Additional metadata and heatpump-page route probes for 448/660/729 find only internal HeatpumpMonitor routes and zero linked public EmonCMS app routes; 252's separate owner EmonCMS surface was already audited in P36/P37. Independent S2125 Home Assistant/InfluxDB field evidence still proves direct-state history exists and can be co-displayed with compressor frequency, BF1 flow, EB101 power and temperatures, so the fleet result is explicitly bounded and never treated as global absence. The event residual is consolidated to S2125_COMPLETE_RAW_DIRECT_EVENT_PACKAGE_REQUIRED; Silkeborg private HA history plus P36 energy remains one valid route, or another exact S2125 may supply state+electric+thermal on one timebase. No numeric event kWh is minted. DEFROST remains 20%; B05 remains 64%. Next independent priority: WEATHER_TO_NIBE_BT16_OR_OBS_TIMESERIES_REQUIRED.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -201,6 +204,10 @@ B05-P37 audits the remaining direct-state acquisition boundary instead of treati
 - `registry/b05_p37_s2125_direct_state_public_acquisition.csv`
 - `data/processed/b05_p37_s2125_public_state_surface_inventory.csv`
 - `modules/B05/direct_defrost_state_acquisition.py`
+- `docs/source_packs/B05_P38_PUBLIC_S2125_DIRECT_EVENT_ACQUISITION.md`
+- `registry/b05_p38_public_s2125_direct_event_acquisition.csv`
+- `data/processed/b05_p38_public_s2125_fleet_inventory.csv`
+- `modules/B05/public_s2125_direct_event_acquisition.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
