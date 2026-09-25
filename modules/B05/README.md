@@ -93,6 +93,9 @@ B05-P35 separates HeatpumpMonitor's public heat-loss proxy from direct NIBE even
 
 B05-P36 resolves the exact Silkeborg co-timed electric/thermal acquisition residual and qualifies a bounded cumulative-energy route through the owner's publicly linked EmonCMS app without storing the public read credential. The exact app exposes heatpump_elec 501345 and heatpump_heat 501342 as 10 s W feeds; the audited day yields 8297 common non-null timestamps and 596 negative-heat points. Direct W integration remains forbidden because PHPFina is Fixed Interval No Averaging. Separately, pinned MyHeatpump code defines heatpump_elec_kwh / heatpump_heat_kwh as cumulative energy and computes window energy as end minus start. An exact four-feed field probe then yields 68 common timestamps, 42/42 negative thermal points with negative thermal-kWh delta and zero reset-like >1 kWh steps across 67 deltas. Thus both SILKEBORG_S2125_COTIMED_ELECTRIC_THERMAL_EXPORT_REQUIRED and the qualified cumulative-delta route are resolved; raw direct NIBE Defrost state/event boundary is the remaining exact-system event-energy blocker. No numeric event kWh is minted. DEFROST remains 20%; B05 remains 64%.
 
+
+B05-P37 audits the remaining direct-state acquisition boundary instead of treating negative heat or a generic operating mode as event identity. The exact Silkeborg public EmonCMS read route reports 13 feeds; a targeted direct-state candidate scan returns only S2125 Operation Mode 501344. Co-timed readback shows 10/20/30 values across 8297 thermal timestamps, and NIBE prioritisation semantics plus persistence through negative-heat runs exclude that feed as Defrost 0/1/2. The public EmonCMS input list contains exactly seven names — OutdoorTemp, FlowRate, TargetSupplyTemp, OperationMode, ReturnTemp, SupplyTemp and CurPwr — with no direct Defrost input. This bounded public result is not promoted to private Home Assistant absence. Independent real S2125 implementations prove that direct 1805/HA state can be historized into InfluxDB, so the remaining blocker is narrowed to an exact Silkeborg private HA history export or a prospective exact-system 1805 logger export containing one complete OFF→ACTIVE/PASSIVE→OFF event. No numeric event kWh is minted. DEFROST remains 20%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -194,6 +197,10 @@ B05-P36 resolves the exact Silkeborg co-timed electric/thermal acquisition resid
 - `registry/b05_p36_silkeborg_cotimed_meter_export.csv`
 - `data/processed/b05_p36_silkeborg_public_meter_export_inventory.csv`
 - `modules/B05/defrost_meter_export_contract.py`
+- `docs/source_packs/B05_P37_S2125_DIRECT_STATE_PUBLIC_ACQUISITION.md`
+- `registry/b05_p37_s2125_direct_state_public_acquisition.csv`
+- `data/processed/b05_p37_s2125_public_state_surface_inventory.csv`
+- `modules/B05/direct_defrost_state_acquisition.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
