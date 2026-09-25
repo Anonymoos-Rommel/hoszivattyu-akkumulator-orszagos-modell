@@ -78,6 +78,8 @@ B05-P28 audits the product-specific `tau_eq` evidence path. Current HEM requires
 
 B05-P29 qualifies bounded product/controller DHW dispatch semantics without promoting controller behavior into high-temperature performance evidence. Mitsubishi PUZ-WM50VHA(-BS) + EHPT20X-MHEDW/FTC6 exposes configurable simultaneous DHW/heating operation and a source-defined post-DHW heating-priority restriction after the maximum DHW operation time. Dimplex LA 2030CP + WPM Touch explicitly switches circulation from space heating to DHW when a DHW request occurs during heating. The generic engine remains fail-closed without explicit controller identity/state, and high-temperature operating-envelope capability is not reused as capacity/COP. Q-B05-005 remains OPEN_NARROWED_TO_STATEFUL_CONTROLLER_RUNTIME_AND_DHW_HIGH_TEMP_PERFORMANCE. DHW_MODE rises to 45%; B05 remains 64%.
 
+B05-P30 resolves Q-B05-006 as a hydraulic-axis admissibility contract. The current canonical performance snapshot contains 53 OBS/DER product points across 11 equipment IDs and no source-native return-temperature or delta-T performance coordinates. Current Dimplex evidence demonstrates why the distinction matters: A7/W35...30 is a fixed EN14511 test condition, return temperature is instrumented, and heating curves are published by outlet-water temperature at fixed water flow. Fixed test condition / sensor / operating limit therefore does not prove performance sensitivity. A return or delta-T axis may be admitted only when exact same-product, same-unit-boundary capacity/input/COP evidence explicitly varies that coordinate at otherwise matched outdoor and supply conditions. With supply retained, return and delta-T are algebraically linked and cannot both be independent axes. Q-B05-006 is RESOLVED_CONTRACT; PERFORMANCE_MAP remains 80% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -152,6 +154,10 @@ B05-P29 qualifies bounded product/controller DHW dispatch semantics without prom
 - `docs/source_packs/B05_P29_DHW_CONTROLLER_DISPATCH.md`
 - `registry/b05_p29_dhw_controller_dispatch.csv`
 - `modules/B05/dhw_dispatch_contract.py`
+- `docs/source_packs/B05_P30_HYDRAULIC_AXIS_ADMISSIBILITY.md`
+- `registry/b05_p30_hydraulic_axis_admissibility.csv`
+- `data/processed/b05_p30_hydraulic_axis_snapshot.csv`
+- `modules/B05/hydraulic_axis_admissibility.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
