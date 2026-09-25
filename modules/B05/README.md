@@ -99,6 +99,9 @@ B05-P37 audits the remaining direct-state acquisition boundary instead of treati
 
 B05-P38 performs the final bounded public acquisition attack for one complete S2125 direct defrost event package. A hosted HeatpumpMonitor API scan reads 809 current public systems and identifies four S2125 systems: 252 Silkeborg, 448 Bristol, 660 Farnham and 729 Molesey. Every system exposes electric/thermal energy surfaces, but every /timeseries/available result has zero direct-state candidates. Additional metadata and heatpump-page route probes for 448/660/729 find only internal HeatpumpMonitor routes and zero linked public EmonCMS app routes; 252's separate owner EmonCMS surface was already audited in P36/P37. Independent S2125 Home Assistant/InfluxDB field evidence still proves direct-state history exists and can be co-displayed with compressor frequency, BF1 flow, EB101 power and temperatures, so the fleet result is explicitly bounded and never treated as global absence. The event residual is consolidated to S2125_COMPLETE_RAW_DIRECT_EVENT_PACKAGE_REQUIRED; Silkeborg private HA history plus P36 energy remains one valid route, or another exact S2125 may supply state+electric+thermal on one timebase. No numeric event kWh is minted. DEFROST remains 20%; B05 remains 64%. Next independent priority: WEATHER_TO_NIBE_BT16_OR_OBS_TIMESERIES_REQUIRED.
 
+
+B05-P39 narrows the weather-to-evaporator blocker to a concrete observed telemetry object instead of inventing an ambient-weather formula. Official S2125 control semantics require BT16 plus compressor/controller state and directly expose BT28, BT16, current compressor frequency and Defrost 0/1/2. A hosted probe of two publicly linked MyHeatpump EmonCMS systems finds only metoffice outside_temperature among targeted weather/evaporator/controller candidates: app 1 has 14 feeds/123 inputs, app 2 has 9 feeds/55 inputs, and neither exposes a BT16/evaporator/direct-state input candidate. Independent exact S2125 field evidence proves HA/Influx direct-state historization, BT16 HA monitoring and USB diagnostic logging routes exist. An exact S2125+SMO20 myUplink issue exposes 579 entities but its diagnostics attachment is currently unavailable, so no raw channel content is inferred. WEATHER_TO_NIBE_BT16_OR_OBS_TIMESERIES_REQUIRED is narrowed to S2125_RAW_BT28_BT16_COMPRESSOR_DEFROST_TIMESERIES_REQUIRED. Direct Modbus, actual USB raw logs and raw HA/Influx history are admissible acquisition classes only with exact system identity and explicit cadence, scaling and aggregation semantics. No numeric weather-to-BT16 mapping or frequency curve is minted. DEFROST remains 20%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -208,6 +211,10 @@ B05-P38 performs the final bounded public acquisition attack for one complete S2
 - `registry/b05_p38_public_s2125_direct_event_acquisition.csv`
 - `data/processed/b05_p38_public_s2125_fleet_inventory.csv`
 - `modules/B05/public_s2125_direct_event_acquisition.py`
+- `docs/source_packs/B05_P39_BT16_OBSERVED_TIMESERIES_ACQUISITION.md`
+- `registry/b05_p39_bt16_observed_timeseries_acquisition.csv`
+- `data/processed/b05_p39_bt16_acquisition_route_inventory.csv`
+- `modules/B05/bt16_observed_timeseries_contract.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
