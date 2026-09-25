@@ -88,6 +88,8 @@ B05-P33 narrows the remaining defrost blocker with exact NIBE S2125 product-fami
 
 B05-P34 audits the remaining NIBE event-energy path without manufacturing a numeric penalty. Current official NIBE S-Series Modbus authority co-exposes direct S2125 Defrost state with common electrical and thermal measurement channels (including instantaneous used power and cumulative kWh/flow-energy registers), proving that a same-system measurement path is technically available. Public HeatpumpMonitor system 252 and its OpenEnergyMonitor owner discussion bind a real 7.6 kW S2125 R290 Silkeborg installation to public heat/electric monitoring and defrost observations; HeatpumpMonitor also publishes a timestamped timeseries API contract. P34 nevertheless keeps event energy Q because no raw series has been admitted that co-times direct Defrost=1/2 state with exact electrical and thermal meter values on a common event boundary. An executable admission gate now requires same system identity, direct state, contiguous interval-mean measurements, explicit meter boundaries and thermal sign convention before event kWh may be derived. DEFROST remains 20%; B05 remains 64%.
 
+B05-P35 separates HeatpumpMonitor's public heat-loss proxy from direct NIBE event identity and narrows the remaining Silkeborg acquisition artifact. Exact HeatpumpMonitor code at commit a68fdc026bdfc74afe557d952f0d4d96ce76eba5 accumulates negative `heatpump_heat` not classified as cooling into `total_defrost_and_loss_kwh`; this is therefore a negative-heat proxy, not direct controller state. The same backend exposes only configured MyHeatpump app feed keys through the public timeseries API. Separately, the exact system owner documents S2125/S320 internal-sensor ingestion through Modbus/TCP into EmonCMS and later direct `defrosting mode` / `last defrost` logging in Home Assistant. The public `jkjaer/emonhub` fork does not expose the owner's site register configuration, and an isolated hosted API probe was blocked by HTTP 403 before system-252 metadata retrieval. P35 therefore narrows the numeric blocker to an owner raw direct-state export plus a co-timed electric/thermal export; proxy heat loss, screenshots and remote-access failures cannot mint event identity or kWh. DEFROST remains 20%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -181,6 +183,10 @@ B05-P34 audits the remaining NIBE event-energy path without manufacturing a nume
 - `registry/b05_p34_nibe_defrost_event_energy_admission.csv`
 - `data/processed/b05_p34_public_nibe_defrost_evidence_inventory.csv`
 - `modules/B05/defrost_event_energy_admission.py`
+- `docs/source_packs/B05_P35_NIBE_DEFROST_DIRECT_STATE_EXPORT_BOUNDARY.md`
+- `registry/b05_p35_nibe_defrost_direct_state_export_boundary.csv`
+- `data/processed/b05_p35_silkeborg_defrost_source_inventory.csv`
+- `modules/B05/defrost_identity_source_contract.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
