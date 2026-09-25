@@ -102,6 +102,9 @@ B05-P38 performs the final bounded public acquisition attack for one complete S2
 
 B05-P39 narrows the weather-to-evaporator blocker to a concrete observed telemetry object instead of inventing an ambient-weather formula. Official S2125 control semantics require BT16 plus compressor/controller state and directly expose BT28, BT16, current compressor frequency and Defrost 0/1/2. A hosted probe of two publicly linked MyHeatpump EmonCMS systems finds only metoffice outside_temperature among targeted weather/evaporator/controller candidates: app 1 has 14 feeds/123 inputs, app 2 has 9 feeds/55 inputs, and neither exposes a BT16/evaporator/direct-state input candidate. Independent exact S2125 field evidence proves HA/Influx direct-state historization, BT16 HA monitoring and USB diagnostic logging routes exist. An exact S2125+SMO20 myUplink issue exposes 579 entities but its diagnostics attachment is currently unavailable, so no raw channel content is inferred. WEATHER_TO_NIBE_BT16_OR_OBS_TIMESERIES_REQUIRED is narrowed to S2125_RAW_BT28_BT16_COMPRESSOR_DEFROST_TIMESERIES_REQUIRED. Direct Modbus, actual USB raw logs and raw HA/Influx history are admissible acquisition classes only with exact system identity and explicit cadence, scaling and aggregation semantics. No numeric weather-to-BT16 mapping or frequency curve is minted. DEFROST remains 20%; B05 remains 64%.
 
+
+B05-P40 acquires the first public machine-readable exact S2125 same-response OBS snapshot containing every P39 target signal. A pinned SvenPausH/NibeAPI field export from an owner-identified S2125-12 + VVMS320 system contains source-native raw/scaled BT28 (1621: 8.3 C), BT16 (1622: 4.9 C), current compressor frequency (1803: 20 Hz) and direct Defrost (1805: 0) in the same exported API response at source-native timestamp 2026-05-13 20:36:13; the source does not state timezone. The raw third-party JSON is not copied into the public repository. The pinned NibeAPI implementation refreshes the REST API at a 10 s default interval and can write scaled timestamped input-register values to InfluxDB, but the owner's historical Influx rows are not public. Therefore S2125_RAW_BT28_BT16_COMPRESSOR_DEFROST_TIMESERIES_REQUIRED is only PARTIAL_RESOLVED_TO_SINGLE_SNAPSHOT and the exact residual becomes S2125_MULTI_TIMESTAMP_BT28_BT16_COMPRESSOR_DEFROST_SERIES_REQUIRED. One non-defrost snapshot cannot create a weather-to-BT16 model or defrost-frequency curve. DEFROST remains 20%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -215,6 +218,10 @@ B05-P39 narrows the weather-to-evaporator blocker to a concrete observed telemet
 - `registry/b05_p39_bt16_observed_timeseries_acquisition.csv`
 - `data/processed/b05_p39_bt16_acquisition_route_inventory.csv`
 - `modules/B05/bt16_observed_timeseries_contract.py`
+- `docs/source_packs/B05_P40_S2125_FOUR_SIGNAL_OBS_SNAPSHOT.md`
+- `registry/b05_p40_s2125_four_signal_obs_snapshot.csv`
+- `data/processed/b05_p40_s2125_four_signal_obs_snapshot.csv`
+- `modules/B05/s2125_four_signal_snapshot_contract.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`

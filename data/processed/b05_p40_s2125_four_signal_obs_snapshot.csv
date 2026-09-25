@@ -1,0 +1,5 @@
+record_id,source_timestamp_source_native,timezone_status,api_id,modbus_id,channel,register_type,raw_value,divisor,unit,published_value,evidence_status,source_id,notes
+B05-P40-E01,"2026-05-13 20:36:13",UNSPECIFIED,2766,1621,EB101-BT28 outdoor temperature,MODBUS_INPUT_REGISTER,83,10,degC,8.3,OBS,SRC-B05-P40-SVENPAUSH-S2125-REST-SNAPSHOT-FCE467-2026,"Exact field-system current snapshot; source timezone is not stated."
+B05-P40-E02,"2026-05-13 20:36:13",UNSPECIFIED,2767,1622,EB101-BT16 evaporator,MODBUS_INPUT_REGISTER,49,10,degC,4.9,OBS,SRC-B05-P40-SVENPAUSH-S2125-REST-SNAPSHOT-FCE467-2026,"Exact field-system current snapshot."
+B05-P40-E03,"2026-05-13 20:36:13",UNSPECIFIED,3096,1803,EB101 current compressor frequency,MODBUS_INPUT_REGISTER,200,10,Hz,20,OBS,SRC-B05-P40-SVENPAUSH-S2125-REST-SNAPSHOT-FCE467-2026,"Exact field-system current snapshot."
+B05-P40-E04,"2026-05-13 20:36:13",UNSPECIFIED,3098,1805,EB101 direct Defrost,MODBUS_INPUT_REGISTER,0,1,state,0,OBS,SRC-B05-P40-SVENPAUSH-S2125-REST-SNAPSHOT-FCE467-2026,"Direct state 0 in this snapshot; this observation is not a defrost event."
