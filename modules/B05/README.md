@@ -76,6 +76,8 @@ B05-P27 repairs the internal semantics of Q-B05-004 without changing its top-lev
 
 B05-P28 audits the product-specific `tau_eq` evidence path. Current HEM requires `tau_eq` as a heat-pump on/off transient characteristic, but the checked exact public PCDB records for PUZ-WM50VHA and LA 2030CP do not expose a product `tau_eq` value. This does not prove internal PCDB/manufacturer data absence. `PRODUCT_SPECIFIC_TAU_EQ_EVIDENCE_REQUIRED_FOR_OBS_RUNTIME` therefore remains open but is narrowed to `PRODUCT_OR_LAB_TRANSIENT_TEST_RECORD_REQUIRED`. Cdh, minimum modulation, controller anti-cycling time and the 140 s HEM default are explicitly forbidden as product-OBS substitutes. `PART_LOAD_MODULATION` remains 45% and B05 remains 64%.
 
+B05-P29 qualifies bounded product/controller DHW dispatch semantics without promoting controller behavior into high-temperature performance evidence. Mitsubishi PUZ-WM50VHA(-BS) + EHPT20X-MHEDW/FTC6 exposes configurable simultaneous DHW/heating operation and a source-defined post-DHW heating-priority restriction after the maximum DHW operation time. Dimplex LA 2030CP + WPM Touch explicitly switches circulation from space heating to DHW when a DHW request occurs during heating. The generic engine remains fail-closed without explicit controller identity/state, and high-temperature operating-envelope capability is not reused as capacity/COP. Q-B05-005 remains OPEN_NARROWED_TO_STATEFUL_CONTROLLER_RUNTIME_AND_DHW_HIGH_TEMP_PERFORMANCE. DHW_MODE rises to 45%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -147,6 +149,9 @@ B05-P28 audits the product-specific `tau_eq` evidence path. Current HEM requires
 - `registry/b05_p27_question_layer_semantic_split.csv`
 - `docs/source_packs/B05_P28_PRODUCT_TAU_EQ_EVIDENCE_PATH.md`
 - `registry/b05_p28_product_tau_eq_evidence_path.csv`
+- `docs/source_packs/B05_P29_DHW_CONTROLLER_DISPATCH.md`
+- `registry/b05_p29_dhw_controller_dispatch.csv`
+- `modules/B05/dhw_dispatch_contract.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
