@@ -84,6 +84,8 @@ B05-P31 separates the current HEM fan-coil document/code divergence from OBS-gra
 
 B05-P32 closes the two P29 residual families in bounded exact Dimplex scope. WPM Touch provides a source-defined stateful DHW request rule using setpoint, hysteresis and current controller-calculated HP maximum temperature; LA 2030CP now has an exact manufacturer W65 table containing min/max Qh, Pel and COP at nine outdoor temperatures. The two evidence layers are joined without graph digitization or interpolation. A unique W65 performance point is executable only when the runtime inverter level is explicitly MIN or MAX and the outdoor temperature matches an exact source-table coordinate. Generic controller state and generic DHW high-temperature performance remain Q outside this product/controller grid. Q-B05-005 remains OPEN_NARROWED_TO_RUNTIME_LEVEL_AND_CROSS_PRODUCT_COVERAGE. DHW_MODE rises from 45% to 60%; B05 remains 64%.
 
+B05-P33 narrows the remaining defrost blocker with exact NIBE S2125 product-family controller and telemetry evidence. The S2125 controller creates a defrost requirement when BT16 is below the configured defrost-start threshold while the compressor runs; the controller exposes time until active defrost, and defrost begins when that value reaches zero. Passive defrost is separately gated by fulfilled compressor demand, an existing defrost requirement and BT28 above the configured passive-defrost cut-out. Active defrost is compressor-on/fan-off; passive defrost is compressor-off/fan-on. Current NIBE Modbus documentation directly exposes BT28, BT16, current compressor frequency and Defrost state 0=off/1=active/2=passive. P33 therefore makes exact defrost state observable/classifiable for this product family, but does not infer BT16 from Hungarian ambient temperature/humidity and does not manufacture event heat or electrical kWh. Q-B05-003 remains OPEN_NARROWED_TO_EVENT_ENERGY_AND_WEATHER_TO_EVAPORATOR_STATE. DEFROST rises from 5% to 20%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -169,6 +171,10 @@ B05-P32 closes the two P29 residual families in bounded exact Dimplex scope. WPM
 - `registry/b05_p32_dhw_stateful_w65_runtime.csv`
 - `data/processed/b05_p32_dimplex_w65_performance.csv`
 - `modules/B05/dhw_stateful_high_temp.py`
+- `docs/source_packs/B05_P33_NIBE_DEFROST_STATE_TELEMETRY.md`
+- `registry/b05_p33_nibe_defrost_runtime.csv`
+- `data/processed/b05_p33_nibe_s2125_modbus_channels.csv`
+- `modules/B05/defrost_runtime_state.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`

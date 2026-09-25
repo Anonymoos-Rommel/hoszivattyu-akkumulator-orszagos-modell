@@ -115,7 +115,7 @@ class B05P14EN14511DefrostAccountingTests(unittest.TestCase):
             "Q",
         )
 
-    def test_live_question_and_readiness_do_not_mint_uplift(self):
+    def test_live_question_and_readiness_preserve_p14_floor_and_lineage(self):
         questions = {row["question_id"]: row for row in rows(QUESTIONS)}
         q = questions["Q-B05-003"]
         self.assertEqual(q["status"], "OPEN")
@@ -123,8 +123,15 @@ class B05P14EN14511DefrostAccountingTests(unittest.TestCase):
         self.assertIn("B05-P14", q["notes"])
 
         readiness = {row["component_id"]: row for row in rows(READINESS)}
-        self.assertEqual(readiness["DEFROST"]["status"], "Q")
-        self.assertEqual(readiness["DEFROST"]["readiness_percent"], "5")
+        self.assertGreaterEqual(int(readiness["DEFROST"]["readiness_percent"]), 5)
+        self.assertIn(readiness["DEFROST"]["status"], {"Q", "PARTIAL"})
+
+        historical = {row["claim"]: row for row in rows(REG)}
+        self.assertEqual(
+            historical["WEATHER_DRIVEN_DEFROST_RUNTIME_MODEL"]["status"],
+            "OPEN",
+        )
+        self.assertIn("DEFROST remains **Q / 5%**", PACK.read_text(encoding="utf-8"))
 
     def test_document_preserves_double_count_and_runtime_boundaries(self):
         text = PACK.read_text(encoding="utf-8")
