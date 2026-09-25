@@ -82,6 +82,8 @@ B05-P30 resolves Q-B05-006 as a hydraulic-axis admissibility contract. The curre
 
 B05-P31 separates the current HEM fan-coil document/code divergence from OBS-grade emitter physics. Fresh upstream readback on 2026-09-25 confirms HEM-TP-12 v3 still assigns the Light-embedded method value to all wet-distribution heat pumps, while the current official reference implementation main remains commit `5a3ac9728df712332a5625571c43d3bc10bd2bf3` and explicitly maps `FanCoils` to 360 s versus `RadiatorsUfh` to 1370 s. P31 does not choose a winner. It exposes two explicit POL branches: `HEM_TP12_V3_DOCUMENT_POLICY = 1370 s` and `HEM_REFERENCE_CODE_5A3AC972 = 360 s`. The legacy P25 generic fan-coil resolver remains fail-closed. A separate explicit OBS path can use an emitter/manufacturer/lab response-time record without waiting for upstream HEM reconciliation. Therefore `HEM_FANCOIL_EMITTER_TIME_DOC_CODE_DIVERGENCE_REQUIRED` is resolved as a governance blocker by authority separation, while `FANCOIL_OBS_EMITTER_RESPONSE_EVIDENCE_REQUIRED` remains open. Product-specific `tau_eq` remains separately open through the P28 product/lab route. PART_LOAD_MODULATION remains 45% and B05 remains 64%.
 
+B05-P32 closes the two P29 residual families in bounded exact Dimplex scope. WPM Touch provides a source-defined stateful DHW request rule using setpoint, hysteresis and current controller-calculated HP maximum temperature; LA 2030CP now has an exact manufacturer W65 table containing min/max Qh, Pel and COP at nine outdoor temperatures. The two evidence layers are joined without graph digitization or interpolation. A unique W65 performance point is executable only when the runtime inverter level is explicitly MIN or MAX and the outdoor temperature matches an exact source-table coordinate. Generic controller state and generic DHW high-temperature performance remain Q outside this product/controller grid. Q-B05-005 remains OPEN_NARROWED_TO_RUNTIME_LEVEL_AND_CROSS_PRODUCT_COVERAGE. DHW_MODE rises from 45% to 60%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -163,6 +165,10 @@ B05-P31 separates the current HEM fan-coil document/code divergence from OBS-gra
 - `docs/source_packs/B05_P31_FANCOIL_POL_OBS_AUTHORITY_SEPARATION.md`
 - `registry/b05_p31_fancoil_authority_separation.csv`
 - `modules/B05/fan_coil_authority_separation.py`
+- `docs/source_packs/B05_P32_DHW_STATEFUL_W65_RUNTIME.md`
+- `registry/b05_p32_dhw_stateful_w65_runtime.csv`
+- `data/processed/b05_p32_dimplex_w65_performance.csv`
+- `modules/B05/dhw_stateful_high_temp.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`

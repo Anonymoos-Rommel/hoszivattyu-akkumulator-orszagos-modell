@@ -124,9 +124,12 @@ class B05P29DhwControllerDispatchTests(unittest.TestCase):
         self.assertIn("DHW_HIGH_TEMP_PRODUCT_PERFORMANCE_REQUIRED", q["notes"])
 
         readiness = {r["component_id"]: r for r in rows(READINESS)}["DHW_MODE"]
-        self.assertEqual(readiness["readiness_percent"], "45")
+        self.assertGreaterEqual(int(readiness["readiness_percent"]), 45)
         self.assertIn("P29", readiness["notes"])
-        self.assertIn("B05 remains 64%", readiness["notes"])
+        self.assertIn("64%", readiness["notes"])
+
+        historical = {r["claim"]: r for r in rows(REG)}
+        self.assertEqual(historical["DHW_MODE_READINESS"]["status"], "PARTIAL_45")
 
     def test_high_temperature_capability_does_not_become_performance(self):
         variables = {r["variable_id"]: r for r in rows(VARIABLES)}
