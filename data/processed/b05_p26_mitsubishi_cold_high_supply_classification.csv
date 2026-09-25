@@ -1,0 +1,6 @@
+row_id,model_identifier,outdoor_temperature_C,supply_temperature_C,p22_min_cell_status,p26_domain_classification,evidence_status,source_id,notes
+B05-P26-C01,PUZ-WM50VHA(-BS),-20,45,BLANK,OUTSIDE_OPERATING_ENVELOPE,OBS,SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025,"Manufacturer maximum-outlet curve is below W45 at A-20; no minimum point should be demanded outside the operating envelope."
+B05-P26-C02,PUZ-WM50VHA(-BS),-20,50,BLANK,OUTSIDE_OPERATING_ENVELOPE,OBS,SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025,"Manufacturer maximum-outlet curve is below W50 at A-20."
+B05-P26-C03,PUZ-WM50VHA(-BS),-20,55,BLANK,OUTSIDE_OPERATING_ENVELOPE,OBS,SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025,"Manufacturer maximum-outlet curve is below W55 at A-20."
+B05-P26-C04,PUZ-WM50VHA(-BS),-15,55,BLANK,OUTSIDE_OPERATING_ENVELOPE,OBS,SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025,"The manufacturer curve reaches W55 only at approximately A-10; A-15/W55 is outside the declared envelope."
+B05-P26-C05,PUZ-WM50VHA(-BS),-15,50,BLANK,Q_THRESHOLD_NOT_EXACT,Q,SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025,"P26 does not digitize or interpolate the intermediate graph threshold. Exact A-15/W50 classification remains open."
