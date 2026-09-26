@@ -105,6 +105,9 @@ B05-P39 narrows the weather-to-evaporator blocker to a concrete observed telemet
 
 B05-P40 acquires the first public machine-readable exact S2125 same-response OBS snapshot containing every P39 target signal. A pinned SvenPausH/NibeAPI field export from an owner-identified S2125-12 + VVMS320 system contains source-native raw/scaled BT28 (1621: 8.3 C), BT16 (1622: 4.9 C), current compressor frequency (1803: 20 Hz) and direct Defrost (1805: 0) in the same exported API response at source-native timestamp 2026-05-13 20:36:13; the source does not state timezone. The raw third-party JSON is not copied into the public repository. The pinned NibeAPI implementation refreshes the REST API at a 10 s default interval and can write scaled timestamped input-register values to InfluxDB, but the owner's historical Influx rows are not public. Therefore S2125_RAW_BT28_BT16_COMPRESSOR_DEFROST_TIMESERIES_REQUIRED is only PARTIAL_RESOLVED_TO_SINGLE_SNAPSHOT and the exact residual becomes S2125_MULTI_TIMESTAMP_BT28_BT16_COMPRESSOR_DEFROST_SERIES_REQUIRED. One non-defrost snapshot cannot create a weather-to-BT16 model or defrost-frequency curve. DEFROST remains 20%; B05 remains 64%.
 
+
+B05-P41 bounds the multi-timestamp acquisition problem after P40. Nine exact S2125 field-history surfaces are audited. schingeldi supplies the first public source-native exact-S2125 multi-timestamp rows, but only for non-target BT12/BT25/BF1 channels. Havisoft now proves a stronger same-system owner-side result: an exact S2125-12+VVM S320 Home Assistant history environment contains BT28, direct Defrost and compressor frequency and later adds BT16, so all four target histories are proven owner-side without a public raw recorder/Influx/CSV export. A fresh 2026-09-26 rerun of the Silkeborg public EmonCMS probes remains unchanged at 13 feeds and seven inputs, with no public BT16 or direct Defrost. Expanded owner/forum/repository/attachment/filetype/history-surface searches found no source-native public four-signal target export. Therefore the audited public-web target-export route is bounded exhausted, not globally absent; the next admissible route is targeted owner raw export acquisition. The physical residual remains S2125_MULTI_TIMESTAMP_BT28_BT16_COMPRESSOR_DEFROST_SERIES_REQUIRED. DEFROST remains 20%; B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -222,6 +225,10 @@ B05-P40 acquires the first public machine-readable exact S2125 same-response OBS
 - `registry/b05_p40_s2125_four_signal_obs_snapshot.csv`
 - `data/processed/b05_p40_s2125_four_signal_obs_snapshot.csv`
 - `modules/B05/s2125_four_signal_snapshot_contract.py`
+- `docs/source_packs/B05_P41_S2125_MULTITIMESTAMP_HISTORY_ACQUISITION.md`
+- `registry/b05_p41_s2125_multitimestamp_history_acquisition.csv`
+- `data/processed/b05_p41_s2125_history_surface_inventory.csv`
+- `modules/B05/s2125_multitimestamp_public_history_contract.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
