@@ -107,6 +107,8 @@ B05-P40 acquires the first public machine-readable exact S2125 same-response OBS
 
 B05-P42 freezes the independent S2125 defrost acquisition path and returns to Q-B05-004. A current Dimplex System C Version 03/2026 detailed table set publishes a complete LA2030CP minimum Qh/Pel/COP surface over ten outdoor nodes (-22,-15,-10,-7,2,7,12,20,30,40 C) and W35/W45/W55. This is 30 exact source-native points and 18 complete bounded cells. The previously blocked A-10 row is explicit at W35/W45/W55, so the A-10 interpolation barrier is retired. Because the current detailed revision differs from the older P23 summary at some coordinates, P42 supersedes the P23 Dimplex surface for current model use and forbids cross-version mixing. The canonical P9 stress interval is continuously covered at W35/W45/W55. A fresh Mitsubishi current-databook recheck does not close A-15/W50: Vol.6.0 still leaves that coordinate blank across Max/Nominal/Mid/Min, while no exact tabular operating threshold resolves physical applicability. The cell remains fail-closed Q. PART_LOAD_MODULATION remains 45% and B05 remains 64%.
 
+B05-P43 attacks the remaining Q-B05-004 OBS transient-fidelity residuals without manufacturing either response constant. A real fan-coil laboratory study is admitted only as system-level dynamic evidence because it measures room operative temperature for a room+FCU cooling setup; room response, cooling-only response and HEM policy constants cannot populate the physical fan-coil emitter-response variable. Peer-reviewed AWHP on/off literature confirms that measured heat-pump transient time constants vary materially across units/control hardware and explicitly requires detailed seconds-scale testing for a given unit; published generic values therefore cannot populate product tau_eq. Current HP KEYMARK records bind the two canonical targets to named laboratories: LA 2030CP / registration 40060852 -> VDE Prüf- und Zertifizierungsinstitut GmbH, and PUZ-WM50VHA(-BS) within registration 037-0032-20 rev.2 -> SZU Brno. Public KEYMARK certification surfaces identify the lab but do not expose product tau_eq or raw transient traces. P43 adds executable fail-closed admission gates and narrows acquisition to an emitter-output heating step-response record plus an exact-product seconds-scale manufacturer/named-lab transient record. PART_LOAD_MODULATION remains 45% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -224,6 +226,10 @@ B05-P42 freezes the independent S2125 defrost acquisition path and returns to Q-
 - `registry/b05_p40_s2125_four_signal_obs_snapshot.csv`
 - `data/processed/b05_p40_s2125_four_signal_obs_snapshot.csv`
 - `modules/B05/s2125_four_signal_snapshot_contract.py`
+- `docs/source_packs/B05_P43_TRANSIENT_FIDELITY_ADMISSION.md`
+- `registry/b05_p43_transient_fidelity_admission.csv`
+- `data/processed/b05_p43_transient_evidence_inventory.csv`
+- `modules/B05/transient_fidelity_admission.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
