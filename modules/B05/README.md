@@ -275,3 +275,6 @@ B05-P48 converts the P47 Mitsubishi/SZU lineage blocker into an exact human-gate
 - `data/processed/heat_pump_weather_supply_coverage.csv`
 - `modules/B05/weather.py`
 - `tools/materialize_b05_weather.py` (raw ZIP input outside Git; bounded derived output only)
+
+
+B05-P52 separates the exact S2125 passive-defrost branch from active reverse-cycle defrost using the pinned P49 owner raw package. All 102 direct Defrost=2 samples across 22 runs are compressor-off and requested-compressor-off with source-native qheat406=0 while the outdoor fan remains positive. Median passive duration is 180.5 s. The unchanged P49 Victron integration reproduces the active P49 result before deriving passive measured-covered state-window electricity (median 0.004854669 kWh), but short passive windows have materially lower boundary coverage (median 94.9480%). A strict compressor-off matched-control attack supports only 5/9 HEAT events and 0/11 DHW events, so P52 does not mint a branch-wide causal passive increment and does not transfer the P50 signed-thermal factor into compressor-off operation. PASSIVE_DEFROST_BRANCH_REQUIRED -> PARTIAL_RESOLVED_TO_DIRECT_PASSIVE_STATE_AND_MEASURED_WINDOW_ELECTRICITY. DEFROST remains 20%; B05 remains 64%.
