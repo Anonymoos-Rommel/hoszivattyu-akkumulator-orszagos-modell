@@ -115,6 +115,8 @@ B05-P45 attacks the exact Dimplex VDE report object before any external request.
 
 B05-P46 re-attacks the sole remaining Mitsubishi cold/high-supply coordinate without relaxing P26's no-digitization boundary. PUZ-WM50VHA(-BS) A-15/W50 is blank across all published performance levels in Vol.5.3, Vol.5.9 and current Vol.6.0, while A-15/W35/W40/W45 and A-10/W50/W55 remain source-native populated neighbours. Two independent official Mitsubishi publication surfaces reinforce the same publication boundary: Mitsubishi Sweden gives A-15/W35=3.9 kW and A-15/W45=3.9 kW, and Mitsubishi France's 2026 catalogue gives A-15/W35/W45 maximum output 3.90/3.90 kW, with neither surface publishing W50 at A-15. P46 freezes that persistent omission as source-availability evidence only. A general maximum outlet temperature plus a separate ambient operating range may not be composed into a synthetic two-dimensional coordinate. The residual therefore narrows to `EXACT_SOURCE_NATIVE_A_MINUS15_W50_2D_OPERATING_OR_PERFORMANCE_RECORD_REQUIRED`; graph digitization, interpolation and blank=unsupported remain forbidden. PART_LOAD_MODULATION remains 45% and B05 remains 64%.
 
+B05-P47 corrects the Mitsubishi transient-report acquisition grain before any external request. The original SZU certificate 037-0032-20 and current rev.2 certificate bind PUZ-WM50VHA(-BS) product scope and SZU/KEYMARK authority but expose neither tested-sample identity nor underlying report/protocol ID. The current public KEYMARK database adds detailed EN14511/EN14825 values and pass/fail operating tests but still no raw transient trace. More importantly, the exact PUZ-WM50VHA(-BS) outdoor unit appears under multiple registrations (037-0030-20 rev.2 and 037-0032-20 rev.2), while official KEYMARK sampling rules establish that certification scope may exceed directly tested subtype scope: Annex A Rev.3 already required only one tested subtype for up to five certified non-air/air subtypes, and current Scheme Rev.15 explicitly states that one air/water test can certify five subtypes and that the test report is communicated to the certification body. P47 therefore freezes `REGISTRATION_ID != UNIQUE_TESTED_SPECIMEN != TEST_REPORT_ID`. Exact public report/protocol searches did not recover the underlying SZU report, but non-recovery is not nonexistence. A historical MCS product-directory capture additionally resolves 037-0032-20-01/02 as PUZ-WM50VHA / PUZ-WM50VHA-BS model-level certification identifiers, so those suffixes are explicitly forbidden as guessed SZU report IDs. The Mitsubishi transient residual narrows to `EXACT_PUZ_WM50_TESTED_SPECIMEN_BINDING_AND_SZU_REPORT_OR_SOURCE_NATIVE_TRANSIENT_RECORD_REQUIRED`. No product tau is minted; PART_LOAD_MODULATION remains 45% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -248,6 +250,10 @@ B05-P46 re-attacks the sole remaining Mitsubishi cold/high-supply coordinate wit
 - `registry/b05_p46_mitsubishi_a15_w50_domain_boundary.csv`
 - `data/processed/b05_p46_mitsubishi_a15_w50_evidence.csv`
 - `modules/B05/mitsubishi_a15_w50_domain_gate.py`
+- `docs/source_packs/B05_P47_MITSUBISHI_SZU_SAMPLING_REPORT_BOUNDARY.md`
+- `registry/b05_p47_mitsubishi_szu_sampling_report_boundary.csv`
+- `data/processed/b05_p47_mitsubishi_szu_sampling_inventory.csv`
+- `modules/B05/mitsubishi_szu_sampling_report_boundary.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
