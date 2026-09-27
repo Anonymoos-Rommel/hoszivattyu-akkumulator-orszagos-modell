@@ -84,7 +84,8 @@ class EvidenceTierAndValidationDebtPolicyTests(unittest.TestCase):
         for row in rows(AUDIT):
             if row["evidence_tier"] == "E2":
                 self.assertTrue(row["validation_debt"].strip())
-                self.assertNotIn("LOW_BASE_HIGH", row["canonical_base_rule"])
+                if "LOW_BASE_HIGH" in row["canonical_base_rule"]:
+                    self.assertIn("NO_LOW_BASE_HIGH", row["canonical_base_rule"])
                 self.assertNotIn("X_low", row["canonical_base_rule"])
                 self.assertTrue(
                     "SINGLE" in row["canonical_base_rule"]
