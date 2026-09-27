@@ -224,3 +224,86 @@ for the same full 2025 PT15M period.
 Updated residual:
 
 `NET_OPERATIONAL_2025_EXPORT_REQUIRED_FOR_DUAL_BASIS_SELECTION -> DUAL_BASIS_OVERLAP_SELECTION_REQUIRED -> GAP_RECOVERY_ADMISSION_REQUIRED`
+
+
+## 8. Net-operational acquisition and dual-basis selection
+
+The second official MAVIR measurement basis is now acquired:
+
+**Erőművi termelés tüzelőanyag szerinti bontásban - Nettó üzemirányítási mérés alapján**
+
+Exact external-only source hashes are recorded in:
+
+`registry/b09_p6_mavir_operational_acquisition.csv`
+
+The raw files overlap and extend beyond the canonical year. P6 therefore uses the explicit half-open UTC extraction window:
+
+`[2025-01-01T00:00:00Z, 2026-01-01T00:00:00Z)`
+
+This yields exactly:
+
+- **35,040** unique PT15M interval starts;
+- **0** time gaps;
+- **26,404** timestamps occurring in more than one raw file;
+- **0** full-row disagreements across those overlapping copies.
+
+### Dual-basis validation
+
+The selected recovery basis is the **net operational** MAVIR series for all three affected A75 production types.
+
+| Production type | Basis | Correlation | MAE MW | Mean bias MW | Selection |
+|---|---|---:|---:|---:|---|
+| Fossil Gas | settlement | 0.9958461087 | 82.5284432616 | -82.4419909527 | reject for recovery boundary |
+| Fossil Gas | operational | 0.9999966663 | 0.2305897311 | -0.0061843998 | **selected** |
+| Fossil Oil | settlement | 0.9979316596 | 0.0915304900 | -0.0820952255 | secondary |
+| Fossil Oil | operational | 0.9991878070 | 0.0052377329 | -0.0023304106 | **selected** |
+| Hydro Water Reservoir | settlement | 0.9998165968 | 0.0585813522 | -0.0482361369 | secondary |
+| Hydro Water Reservoir | operational | 0.9999887048 | 0.0041866777 | -0.0019938640 | **selected** |
+
+Thus:
+
+`DUAL_BASIS_SELECTION_REQUIRED -> RESOLVED`
+
+### Exact recovery values
+
+Every current A75 missing cell has an exact operational-source value.
+
+- Fossil Gas: **2/2** — `-5.790 MW`, `-54.592 MW`
+- Fossil Oil: **4,817/4,817**
+  - negative: **4,809**
+  - zero: **6**
+  - positive: **2**
+  - range: **-0.788 .. 2.005 MW**
+- Hydro Water Reservoir: **1/1** — `-0.180 MW`
+
+No interpolation is required.
+
+## 9. Remaining blocker — signed net-generation semantics
+
+The current B09 runtime deliberately enforces:
+
+`delivered_generation_kw >= 0`
+
+and the ENTSO-E observed-generation contract enforces:
+
+`power_mw >= 0`
+
+The selected MAVIR recovery source is explicitly a **net operational measurement** and contains signed negative values at many of the exact A75 missing cells.
+
+Therefore the following operations remain forbidden:
+
+`NEGATIVE_RECOVERY -> ZERO`
+
+`NEGATIVE_RECOVERY -> ABS(VALUE)`
+
+`NEGATIVE_RECOVERY -> POSITIVE_GENERATION`
+
+P6 does not alter engine semantics.
+
+The numeric acquisition gap is closed, but Q-B09-001 remains E3 / MODEL_BLOCKER until a bounded runtime contract explicitly represents the signed net-operational contribution without double counting or false relabelling.
+
+Exact residual:
+
+`SIGNED_NET_GENERATION_RECOVERY_SEMANTICS_REQUIRED`
+
+The next slice should solve only that physical/runtime boundary.
