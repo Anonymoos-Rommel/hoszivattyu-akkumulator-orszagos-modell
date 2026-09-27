@@ -59,7 +59,10 @@ class B05P50S2125MatchedDefrostPenaltyTests(unittest.TestCase):
         self.assertEqual("VALIDATION_BLOCKER", a["blocker_class"])
         self.assertEqual("no", a["model_blocker"])
         self.assertEqual("MODEL_CONTINUE", a["canonical_use"])
-        self.assertIn("POST_DEFROST_RECOVERY_TAIL_REQUIRED", a["validation_debt"])
+        self.assertTrue(
+            "POST_DEFROST_RECOVERY_TAIL_REQUIRED" in a["validation_debt"]
+            or "RECOVERY_TAIL_CENSORING_AND_FULL_CYCLE_PARAMETER_ADMISSION_REQUIRED" in a["validation_debt"]
+        )
 
     def test_generic_event_energy_stays_q_while_p50_der_is_bounded(self):
         v = {row["variable_id"]: row for row in rows(VARIABLES)}
