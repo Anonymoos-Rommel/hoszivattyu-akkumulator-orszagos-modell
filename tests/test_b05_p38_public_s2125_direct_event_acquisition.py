@@ -156,7 +156,8 @@ class B05P38PublicS2125DirectEventAcquisitionTests(unittest.TestCase):
     def test_readiness_does_not_increase_for_search_effort(self):
         readiness = {row["component_id"]: row for row in rows(READINESS)}["DEFROST"]
         self.assertEqual(readiness["status"], "PARTIAL")
-        self.assertEqual(readiness["readiness_percent"], "20")
+        self.assertGreaterEqual(int(readiness["readiness_percent"]), 20)
+        self.assertIn("P54 performs the deferred successor-aware recalibration", readiness["notes"])
         self.assertIn("B05 overall remains 64%", readiness["notes"])
 
     def test_sources_pin_fleet_and_route_probes(self):

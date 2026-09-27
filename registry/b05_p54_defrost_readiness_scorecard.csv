@@ -1,0 +1,13 @@
+gate_id,weight,earned,status,evidence_basis,residual,notes
+DIRECT_CONTROLLER_STATE,8,8,RESOLVED,P33;P49,,"Direct Defrost=0/1/2 semantics and exact source register identity are canonical."
+SAME_SYSTEM_RAW_EVENT_BOUNDARY,10,10,RESOLVED,P49,,"Exact S2125-12+VVM320+S135 direct-state package with pinned hashes and 381 active / 22 passive runs."
+ELECTRIC_METER_EVENT_COVERAGE,10,10,RESOLVED,P49,,"Victron whole-NIBE-system boundary confirmed; all 381 active windows >=99.3757% measured-time coverage under no-gap-fill integration."
+ACTIVE_HEAT_MATCHED_EFFECT,12,12,RESOLVED,P50,,"Strict HEAT n=266; direct electrical uplift and matched active-state thermal service shortfall admitted for exact-system validation."
+SIGNED_THERMAL_ACTIVE_EFFECT,8,5,PARTIAL,P50,SIGNED_NEGATIVE_THERMAL_REMAINS_SOURCE_BOUND_DER,"March holdout MAPE 4.96%, but the signed negative thermal quantity is DER rather than source-native signed metering."
+RECOVERY_FULL_CYCLE_ADMISSION,14,7,PARTIAL,P51,RECOVERY_TAIL_CENSORING_AND_FULL_CYCLE_PARAMETER_ADMISSION_REQUIRED,"Recovery tail is measured; sustained recovery observed in 30/266 strict HEAT events but heavy right-censoring prevents population/full-cycle admission."
+PASSIVE_BRANCH,8,4,PARTIAL,P52,PASSIVE_INCREMENTAL_ELECTRIC_AND_THERMAL_DOMAIN_VALIDATION_REQUIRED,"Direct passive state and measured-window electricity are resolved; branch-wide causal incremental electric/thermal effect is not."
+DHW_BRANCH,10,7,PARTIAL,P53,SIGNED_DHW_THERMAL_AND_FULL_CYCLE_TRANSFER_NOT_ADMITTED,"Strict pre-DHW active branch, QN10 routing and source-native DHW counter shortfall/recovery are resolved for the exact system; signed/full-cycle transfer is not."
+STATE_CONDITIONED_PREDICTIVE_MODEL,5,2,PARTIAL,P51,STATE_CONDITIONED_PREDICTIVE_MODEL_VALIDATION_REQUIRED,"Strong empirical state dependence and bins exist; continuous predictor is not admitted because temporal holdout is too small."
+CROSS_PRODUCT_REPLICATION,10,0,OPEN,,CROSS_PRODUCT_DEFROST_RUNTIME_COVERAGE_REQUIRED,"No second independent complete direct-state+electrical package is canonical yet. This gate is the current hard ceiling."
+HUNGARIAN_WEATHER_EVENT_TRANSFER,5,0,OPEN,,HUNGARIAN_WEATHER_TRANSFER_VALIDATION_REQUIRED,"Exact-system German weather/event frequency cannot be transferred to Hungarian fleet weighting without a separate transfer model."
+TOTAL,100,65,PARTIAL,P49-P53,,"Successor-aware DEFROST readiness recalibrates 20 -> 65. Independent replication is required before any score above 65 can be admitted."

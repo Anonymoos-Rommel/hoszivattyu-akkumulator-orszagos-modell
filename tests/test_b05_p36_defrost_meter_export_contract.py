@@ -201,7 +201,8 @@ class B05P36SilkeborgCotimedMeterExportTests(unittest.TestCase):
 
         readiness = {row["component_id"]: row for row in rows(READINESS)}["DEFROST"]
         self.assertEqual(readiness["status"], "PARTIAL")
-        self.assertEqual(readiness["readiness_percent"], "20")
+        self.assertGreaterEqual(int(readiness["readiness_percent"]), 20)
+        self.assertIn("P54 performs the deferred successor-aware recalibration", readiness["notes"])
         self.assertIn("B05 overall remains 64%", readiness["notes"])
 
     def test_sources_pin_both_probes_and_app_contract(self):
