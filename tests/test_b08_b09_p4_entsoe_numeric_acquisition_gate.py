@@ -59,14 +59,17 @@ class B08B09P4EntsoeNumericAcquisitionGateTests(unittest.TestCase):
             self.assertEqual("OPEN", questions[qid]["status"])
             self.assertIn("ENTSOE_REGISTERED_EXPORT_OR_API_TOKEN_REQUIRED", questions[qid]["notes"])
 
-    def test_project_blocker_audit_remains_e3_model_blocker(self):
+    def test_p4_access_gate_is_historical_after_p5_acquisition(self):
         audit = {row["blocker_id"]: row for row in read_rows(AUDIT)}
-        for qid in ("Q-B08-001", "Q-B09-001"):
-            row = audit[qid]
-            self.assertEqual("E3", row["evidence_tier"])
-            self.assertEqual("MODEL_BLOCKER", row["blocker_class"])
-            self.assertEqual("yes", row["model_blocker"])
-            self.assertIn("ENTSOE_REGISTERED_EXPORT_OR_API_TOKEN_REQUIRED", row["canonical_base_rule"])
+        b08 = audit["Q-B08-001"]
+        b09 = audit["Q-B09-001"]
+        self.assertEqual("E2", b08["evidence_tier"])
+        self.assertEqual("VALIDATION_BLOCKER", b08["blocker_class"])
+        self.assertEqual("no", b08["model_blocker"])
+        self.assertEqual("E3", b09["evidence_tier"])
+        self.assertEqual("MODEL_BLOCKER", b09["blocker_class"])
+        self.assertEqual("yes", b09["model_blocker"])
+        self.assertIn("ACTIVE_SERIES_BLANKS_NOT_ZERO", b09["canonical_base_rule"])
 
     def test_no_readiness_uplift_is_claimed(self):
         text = PACK.read_text(encoding="utf-8")
