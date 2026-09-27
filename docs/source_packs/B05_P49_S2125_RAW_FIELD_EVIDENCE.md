@@ -125,11 +125,15 @@ Q-B05-004 gains exact S2125 field runtime validation but still requires exact Mi
 
 ## Readiness
 
-- DEFROST: 20 -> 65
-- PART_LOAD_MODULATION: 45 -> 55
-- all other component values unchanged
+P49 is an evidence-acquisition slice and deliberately performs **no mechanical readiness uplift**.
 
-PRODUCT_SCALING remains an intentional E1 contract boundary, not missing-data readiness. Mean of the other 15 components = 67.67%, so canonical rounded B05 readiness becomes **68%** from **64%**.
+Canonical live values remain:
+
+- DEFROST: **20%**
+- PART_LOAD_MODULATION: **45%**
+- B05 overall: **64%**
+
+The new evidence is strong enough to justify a later successor-aware readiness recalibration, but that percentage change is not mixed into the acquisition slice. This preserves historical test contracts while keeping the new bounded E1/OBS and E2/DER evidence canonical.
 
 ## Raw-data governance
 

@@ -31,13 +31,15 @@ class B05P49S2125RawFieldEvidenceTests(unittest.TestCase):
         self.assertEqual("0.298304", r["ACTIVE_DEFROST_MEASURED_COVERED_ELECTRIC_ENERGY"]["value"])
         self.assertIn("CALL_DEFROST_PENALTY", r["ACTIVE_DEFROST_MEASURED_COVERED_ELECTRIC_ENERGY"]["forbidden_use"])
 
-    def test_readiness_uplift_and_module_mean(self):
+    def test_acquisition_slice_does_not_mechanically_uplift_readiness(self):
         ready = {row["component_id"]: row for row in rows(READINESS)}
-        self.assertEqual("65", ready["DEFROST"]["readiness_percent"])
-        self.assertEqual("55", ready["PART_LOAD_MODULATION"]["readiness_percent"])
-        vals = [int(row["readiness_percent"]) for row in rows(READINESS) if row["component_id"] != "PRODUCT_SCALING"]
-        self.assertAlmostEqual(sum(vals) / len(vals), 67.6666666667, places=6)
-        self.assertEqual("68", {row["module_id"]: row for row in rows(MODULES)}["B05"]["readiness_percent"])
+        self.assertEqual("20", ready["DEFROST"]["readiness_percent"])
+        self.assertEqual("45", ready["PART_LOAD_MODULATION"]["readiness_percent"])
+        self.assertEqual("64", {row["module_id"]: row for row in rows(MODULES)}["B05"]["readiness_percent"])
+        reg = {row["claim"]: row for row in rows(REG)}
+        self.assertEqual("NO_MECHANICAL_UPLIFT", reg["DEFROST_READINESS"]["status"])
+        self.assertEqual("NO_MECHANICAL_UPLIFT", reg["PART_LOAD_MODULATION_READINESS"]["status"])
+        self.assertEqual("NO_MECHANICAL_UPLIFT", reg["B05_READINESS"]["status"])
 
     def test_questions_remain_e2_not_falsely_closed(self):
         q = {row["question_id"]: row for row in rows(QUESTIONS)}
@@ -49,7 +51,8 @@ class B05P49S2125RawFieldEvidenceTests(unittest.TestCase):
 
     def test_cotimed_series_becomes_obs_but_full_event_energy_stays_q(self):
         v = {row["variable_id"]: row for row in rows(VARIABLES)}
-        self.assertEqual("OBS", v["VAR-B05-NIBE-DEFROST-COTIMED-EVENT-SERIES"]["status"])
+        self.assertEqual("Q", v["VAR-B05-NIBE-DEFROST-COTIMED-EVENT-SERIES"]["status"])
+        self.assertEqual("OBS", v["VAR-B05-S2125-P49-COTIMED-RAW-SERIES"]["status"])
         self.assertEqual("Q", v["VAR-B05-NIBE-DEFROST-EVENT-ENERGY"]["status"])
         self.assertEqual("DER", v["VAR-B05-S2125-P49-DEFROST-ELECTRIC-WINDOW"]["status"])
         self.assertEqual("OBS", v["VAR-B05-S2125-P49-FIELD-CYCLING-OBS"]["status"])
