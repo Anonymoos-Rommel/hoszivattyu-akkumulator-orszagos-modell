@@ -66,10 +66,10 @@ class B08B09P4EntsoeNumericAcquisitionGateTests(unittest.TestCase):
         self.assertEqual("E2", b08["evidence_tier"])
         self.assertEqual("VALIDATION_BLOCKER", b08["blocker_class"])
         self.assertEqual("no", b08["model_blocker"])
-        self.assertEqual("E3", b09["evidence_tier"])
-        self.assertEqual("MODEL_BLOCKER", b09["blocker_class"])
-        self.assertEqual("yes", b09["model_blocker"])
-        self.assertIn("ACTIVE_SERIES_BLANKS_NOT_ZERO", b09["canonical_base_rule"])
+        self.assertEqual("E2", b09["evidence_tier"])
+        self.assertEqual("VALIDATION_BLOCKER", b09["blocker_class"])
+        self.assertEqual("no", b09["model_blocker"])
+        self.assertIn("SINGLE_CANONICAL_GENERATION_PANEL", b09["canonical_base_rule"])
 
     def test_no_readiness_uplift_is_claimed(self):
         text = PACK.read_text(encoding="utf-8")

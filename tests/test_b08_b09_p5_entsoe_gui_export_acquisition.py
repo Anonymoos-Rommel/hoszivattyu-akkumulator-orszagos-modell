@@ -67,7 +67,7 @@ class B08B09P5EntsoeGuiExportAcquisitionTests(unittest.TestCase):
         self.assertEqual("4817", r["B08B09-P5-R06"]["missing_value_cells"])
         self.assertEqual("1", r["B08B09-P5-R07"]["missing_value_cells"])
 
-    def test_b08_blocker_is_e2_validation_debt_but_b09_remains_e3(self):
+    def test_b08_and_b09_current_state_are_e2_validation_debt(self):
         audit = {row["blocker_id"]: row for row in rows(AUDIT)}
         b08 = audit["Q-B08-001"]
         self.assertEqual("E2", b08["evidence_tier"])
@@ -75,10 +75,10 @@ class B08B09P5EntsoeGuiExportAcquisitionTests(unittest.TestCase):
         self.assertEqual("no", b08["model_blocker"])
         self.assertEqual("MODEL_CONTINUE", b08["canonical_use"])
         b09 = audit["Q-B09-001"]
-        self.assertEqual("E3", b09["evidence_tier"])
-        self.assertEqual("MODEL_BLOCKER", b09["blocker_class"])
-        self.assertEqual("yes", b09["model_blocker"])
-        self.assertIn("ACTIVE_SERIES_BLANKS_NOT_ZERO", b09["canonical_base_rule"])
+        self.assertEqual("E2", b09["evidence_tier"])
+        self.assertEqual("VALIDATION_BLOCKER", b09["blocker_class"])
+        self.assertEqual("no", b09["model_blocker"])
+        self.assertIn("SINGLE_CANONICAL_GENERATION_PANEL", b09["canonical_base_rule"])
 
     def test_open_questions_preserve_current_residuals(self):
         q = {row["question_id"]: row for row in rows(QUESTIONS)}
