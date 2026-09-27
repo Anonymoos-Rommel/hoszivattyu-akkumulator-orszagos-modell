@@ -66,9 +66,9 @@ class B08B09P4EntsoeNumericAcquisitionGateTests(unittest.TestCase):
         self.assertEqual("E2", b08["evidence_tier"])
         self.assertEqual("VALIDATION_BLOCKER", b08["blocker_class"])
         self.assertEqual("no", b08["model_blocker"])
-        self.assertEqual("E3", b09["evidence_tier"])
-        self.assertEqual("MODEL_BLOCKER", b09["blocker_class"])
-        self.assertEqual("yes", b09["model_blocker"])
+        self.assertEqual("E2", b09["evidence_tier"])
+        self.assertEqual("VALIDATION_BLOCKER", b09["blocker_class"])
+        self.assertEqual("no", b09["model_blocker"])
         self.assertIn("MAVIR_NET_OPERATIONAL_SELECTED_FOR_EXACT_MISSING_CELL_RECOVERY", b09["canonical_base_rule"])
 
     def test_no_readiness_uplift_is_claimed(self):

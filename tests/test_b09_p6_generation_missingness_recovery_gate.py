@@ -35,8 +35,8 @@ class B09P6GenerationMissingnessRecoveryGateTests(unittest.TestCase):
         self.assertIn("üzemirányítási", operational["source_product"])
         self.assertIn("0.9999966663", operational["notes"])
         self.assertIn("4,809 negative", operational["notes"])
-        self.assertEqual("BLOCKED_BY_CURRENT_NONNEGATIVE_GENERATION_CONTRACT", semantics["current_state"])
-        self.assertEqual("SIGNED_NET_GENERATION_RECOVERY_SEMANTICS_REQUIRED", semantics["residual_gap"])
+        self.assertEqual("RESOLVED_BY_P7_SIGNED_NET_DIRECTIONAL_CONTRACT", semantics["current_state"])
+        self.assertEqual("PUBLIC_RAW_REUSE_VALIDATION_DEBT", semantics["residual_gap"])
 
     def test_a73_is_secondary_threshold_bound_not_complete_aggregate(self):
         r = {row["record_id"]: row for row in rows(REGISTRY)}
@@ -54,14 +54,15 @@ class B09P6GenerationMissingnessRecoveryGateTests(unittest.TestCase):
         self.assertIn("BLANK_TO_ZERO", x["disqualifier"])
         self.assertIn("Fossil Oil=4817", x["notes"])
 
-    def test_blocker_remains_e3_until_recovery(self):
+    def test_blocker_transitions_to_e2_after_p7_runtime_closure(self):
         audit = {row["blocker_id"]: row for row in rows(AUDIT)}
         x = audit["Q-B09-001"]
-        self.assertEqual("E3", x["evidence_tier"])
-        self.assertEqual("MODEL_BLOCKER", x["blocker_class"])
-        self.assertEqual("yes", x["model_blocker"])
-        self.assertIn("MAVIR_NET_OPERATIONAL_SELECTED_FOR_EXACT_MISSING_CELL_RECOVERY", x["canonical_base_rule"])
-        self.assertIn("NO_NEGATIVE_TO_ZERO_CLAMP", x["canonical_base_rule"])
+        self.assertEqual("E2", x["evidence_tier"])
+        self.assertEqual("VALIDATION_BLOCKER", x["blocker_class"])
+        self.assertEqual("no", x["model_blocker"])
+        self.assertEqual("MODEL_CONTINUE", x["canonical_use"])
+        self.assertIn("SINGLE_CANONICAL_GENERATION_PANEL", x["canonical_base_rule"])
+        self.assertIn("NO_OVERWRITE_NO_CLAMP", x["canonical_base_rule"])
 
     def test_operational_raw_acquisition_is_exact_and_overlap_consistent(self):
         r = {row["record_id"]: row for row in rows(ACQ)}
