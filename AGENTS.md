@@ -29,6 +29,10 @@ These instructions apply to the entire repository.
 - Preserve inference provenance: sample frame/design, sample size, reference period, missingness/non-response treatment, weighting controls, estimator/model, uncertainty interval or quantiles, and structural sensitivity where applicable.
 - Do not manufacture a joint distribution by multiplying unrelated marginals unless an explicitly approved statistical model controls the independence assumption and propagates uncertainty.
 - Follow `docs/methodology/population_inference_policy.md` for project-wide national-inference claims.
+
+- For source gaps and blockers, follow `docs/methodology/evidence_tier_and_validation_debt_policy.md`. Every current OPEN blocker must be classified E1/E2/E3 in `registry/project_blocker_evidence_audit.csv`.
+- E2/PROVISIONAL_BASE permits one defensible canonical base value while exact primary evidence remains explicit validation debt. Do not convert a missing source into an automatic low/base/high Cartesian input set.
+- E3/ASSUMPTION_ONLY does not authorize a canonical central value when that quantity is required by the model. Legal/permission questions remain fail-closed and cannot be promoted to E2 by inference.
 - Keep wholesale/import valuation separate from household retail prices.
 - Keep baseline and incremental program effects separate.
 - Prevent double counting across household, fiscal, import, financing, and macroeconomic benefits.

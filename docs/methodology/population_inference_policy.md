@@ -180,3 +180,19 @@ from
 `DEFENSIBLE INFERENCE MISSING`.
 
 Only the second condition is a general population-modelling blocker.
+
+## 11. Evidence-gap clarification — effective 2026-09-27
+
+This population policy and the project-wide evidence-tier policy are complementary. The canonical blocker/source-gap contract is [`evidence_tier_and_validation_debt_policy.md`](evidence_tier_and_validation_debt_policy.md).
+
+Where a missing exact source can be replaced by a defensible E2 provisional base, the canonical central model uses **one** selected base definition. The project does not create independent low/base/high substitutes for every source gap and then multiply them into a Cartesian scenario space.
+
+This does not remove estimator uncertainty. Confidence intervals, sampling error, credible intervals, source-native quantiles and structural diagnostics may still be reported where they are properties of the population estimator or evidence. They remain distinct from source-gap substitution.
+
+Thus:
+
+`STATISTICAL UNCERTAINTY != SOURCE-GAP LOW/BASE/HIGH INPUT SET`
+
+`ONE CANONICAL BASE FOR THE CENTRAL RUN`
+
+An E2 population input remains validation debt until upgraded to E1 for material final decision-grade claims.
