@@ -27,7 +27,9 @@ class B05P28ProductTauEqEvidencePathTests(unittest.TestCase):
         variables = {r["variable_id"]: r for r in rows(VARIABLES)}
         tau = variables["VAR-B05-ONOFF-TRANSIENT-TAU-EQ"]
         self.assertEqual(tau["status"], "Q")
-        self.assertEqual(tau["updated_at"], "2026-09-26")
+        self.assertEqual(tau["updated_at"], "2026-09-27")
+        self.assertIn("P45 performs an exact-ID recoverability attack", tau["notes"])
+        self.assertIn("EXACT_VDE_328782_TL2_1_REPORT_CONTENT_OR_SOURCE_NATIVE_TRANSIENT_EXCERPT_REQUIRED", tau["notes"])
         self.assertIn("SRC-B05-UK-PCDB-MITSUBISHI-WM50-2026", tau["source_ids"])
         self.assertIn("SRC-B05-UK-PCDB-DIMPLEX-LA2030CP-2026", tau["source_ids"])
         self.assertIn("PRODUCT_OR_LAB_TRANSIENT_TEST_RECORD_REQUIRED", tau["notes"])
