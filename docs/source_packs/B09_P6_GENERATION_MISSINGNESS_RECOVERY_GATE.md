@@ -163,3 +163,64 @@ https://transparency.entsoe.eu/content/static_content/download?path=%2FStatic+co
 
 Commission Regulation (EU) No 543/2013:
 https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32013R0543
+
+
+## 7. Settlement-basis acquisition — 2026-09-27
+
+Human acquisition context confirms that the first four MAVIR fuel-type XLSX exports are:
+
+**Erőművi termelés tüzelőanyag szerinti bontásban - Nettó elszámolási mérés alapján**
+
+External-only artifacts:
+
+- `export_1.xlsx` — SHA-256 `b0c1a200cad877732c44799ef7efef328bf4fdd5cec9df5d25610d3844a372df`
+- `export_2.xlsx` — SHA-256 `935c538b1116c2df565ec18873908e4e70ced71cdd0f6644a3c4d6e69d8508bb`
+- `export_3.xlsx` — SHA-256 `100a7eea4f4a3ba9f4cf7e6313dcd4a7fb43b2e5359d42b2f17098cf05108edf`
+- `export_4.xlsx` — SHA-256 `96e570491e1c7bb4fd61961ceec5aa56b6a4f3d09f92f80f02e74efb4465fce3`
+
+The four files form a complete 2025 source panel after converting source-local offset-aware interval-end labels to UTC interval starts:
+
+- unique PT15M UTC starts: **35,040**
+- duplicate UTC starts: **0**
+- time gaps: **0**
+- missing numeric source values across the 15 exported generation fields: **0**
+
+The candidate therefore contains a numeric value for every current A75 source gap:
+
+- Fossil Gas: **2 / 2**
+- Fossil Oil: **4,817 / 4,817**
+- Hydro Water Reservoir: **1 / 1**
+
+### Complete-overlap validation against ENTSO-E A75
+
+For intervals where A75 itself is numeric:
+
+| Production type | Overlap n | Correlation | MAE (MW) | Mean MAVIR-A75 bias (MW) |
+|---|---:|---:|---:|---:|
+| Fossil Gas | 35,038 | 0.99584611 | 82.52844326 | -82.44199095 |
+| Fossil Oil | 30,223 | 0.99793166 | 0.09153049 | -0.08209523 |
+| Hydro Water Reservoir | 35,039 | 0.99981660 | 0.05858135 | -0.04823614 |
+
+Interpretation:
+
+- **Fossil Oil** — very strong candidate equivalence, but not admitted until the second MAVIR measurement basis is compared.
+- **Hydro Water Reservoir** — very strong candidate equivalence, but not admitted until the second MAVIR measurement basis is compared.
+- **Fossil Gas** — high shape correlation but a large systematic level offset; the settlement-basis series is **not directly spliceable** into A75.
+
+Therefore:
+
+`COMPLETE_CANDIDATE_COVERAGE != CANONICAL_RECOVERY_ADMISSION`
+
+and:
+
+`HIGH_CORRELATION != SAME_MEASUREMENT_BOUNDARY`
+
+The exact next acquisition is now only:
+
+**Erőművi termelés tüzelőanyag szerinti bontásban - Nettó üzemirányítási mérés alapján**
+
+for the same full 2025 PT15M period.
+
+Updated residual:
+
+`NET_OPERATIONAL_2025_EXPORT_REQUIRED_FOR_DUAL_BASIS_SELECTION -> DUAL_BASIS_OVERLAP_SELECTION_REQUIRED -> GAP_RECOVERY_ADMISSION_REQUIRED`
