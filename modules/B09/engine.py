@@ -22,6 +22,8 @@ EVIDENCE_STATUSES = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
 TRUTH_CONTEXTS = {"REAL", "SCN"}
 ALLOWED_SCOPES = {"BOUNDED_REAL_AGGREGATE", "BOUNDED_SCN_FIXTURE"}
 GENERATION_BOUNDARY = "GENERATION_AC"
+SIGNED_NET_GENERATION_BOUNDARY = "SIGNED_NET_GENERATION_AC"
+ALLOWED_GENERATION_BOUNDARIES = {GENERATION_BOUNDARY, SIGNED_NET_GENERATION_BOUNDARY}
 
 
 class B09ContractError(ValueError):
@@ -31,6 +33,12 @@ class B09ContractError(ValueError):
 def _nonnegative(value: float, name: str) -> float:
     if not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value) or value < 0:
         raise B09ContractError(f"{name} must be finite and non-negative")
+    return float(value)
+
+
+def _finite_signed(value: float, name: str) -> float:
+    if not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value):
+        raise B09ContractError(f"{name} must be finite")
     return float(value)
 
 
@@ -74,6 +82,7 @@ class SupplyRecord:
     source_refs: tuple[str, ...]
     delivered_generation_kw: float
     boundary_id: str = GENERATION_BOUNDARY
+    source_withdrawal_kw: float = 0.0
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "timestamp", _utc(self.timestamp))
@@ -82,7 +91,7 @@ class SupplyRecord:
         for name, value in (("source_component_id", self.source_component_id), ("region_id", self.region_id), ("region_scheme", self.region_scheme), ("boundary_id", self.boundary_id)):
             if not isinstance(value, str) or not value.strip():
                 raise B09ContractError(f"{name} is required")
-        if self.boundary_id != GENERATION_BOUNDARY:
+        if self.boundary_id not in ALLOWED_GENERATION_BOUNDARIES:
             raise B09ContractError("unsupported B09 generation boundary")
         if self.truth_context not in TRUTH_CONTEXTS:
             raise B09ContractError("truth_context must be REAL or SCN")
@@ -92,6 +101,15 @@ class SupplyRecord:
         if isinstance(self.source_refs, str) or not isinstance(self.source_refs, (tuple, list)) or not self.source_refs or any(not isinstance(ref, str) or not ref.strip() for ref in self.source_refs):
             raise B09ContractError("source_refs must be a non-empty collection of strings")
         _nonnegative(self.delivered_generation_kw, "delivered_generation_kw")
+        _nonnegative(self.source_withdrawal_kw, "source_withdrawal_kw")
+        if self.boundary_id == GENERATION_BOUNDARY and self.source_withdrawal_kw != 0:
+            raise B09ContractError("GENERATION_AC records cannot carry source withdrawal")
+        if self.boundary_id == SIGNED_NET_GENERATION_BOUNDARY and self.delivered_generation_kw > 0 and self.source_withdrawal_kw > 0:
+            raise B09ContractError("signed net generation must use one directional leg per source value")
+
+    @property
+    def net_generation_contribution_kw(self) -> float:
+        return self.delivered_generation_kw - self.source_withdrawal_kw
 
 
 @dataclass(frozen=True)
@@ -103,11 +121,15 @@ class AdequacyRecord:
     scope: str
     b08_net_grid_load_kw: float
     delivered_generation_kw: float
+    generation_source_withdrawal_kw: float
+    net_generation_kw: float
     residual_demand_kw: float
     unserved_or_residual_load_kw: float
     surplus_supply_kw: float
     net_load_kwh: float
     generation_kwh: float
+    generation_source_withdrawal_kwh: float
+    net_generation_kwh: float
     residual_demand_kwh: float
     unserved_or_residual_load_kwh: float
     surplus_supply_kwh: float
@@ -228,7 +250,9 @@ def aggregate_adequacy(b08_rows: Iterable[GridLoadAggregate], supply_records: It
         if not component_rows:
             raise B09ContractError(f"missing generation at B08 load key: {key!r}")
         generation = sum(row.delivered_generation_kw for row in component_rows)
-        residual = load.net_grid_load_kw - generation
+        source_withdrawal = sum(row.source_withdrawal_kw for row in component_rows)
+        net_generation = generation - source_withdrawal
+        residual = load.net_grid_load_kw - net_generation
         status = _derived_status(truth, [load.evidence_status, *(row.evidence_status for row in component_rows)])
         refs = tuple(sorted(set(load.source_refs) | {ref for row in component_rows for ref in row.source_refs}))
         dt = load.timestep_hours
@@ -236,9 +260,11 @@ def aggregate_adequacy(b08_rows: Iterable[GridLoadAggregate], supply_records: It
             timestamp=load.timestamp, timestep_hours=dt, region_id=load.region_id,
             region_scheme=load.region_scheme, scope=scope,
             b08_net_grid_load_kw=load.net_grid_load_kw, delivered_generation_kw=generation,
+            generation_source_withdrawal_kw=source_withdrawal, net_generation_kw=net_generation,
             residual_demand_kw=residual, unserved_or_residual_load_kw=max(residual, 0.0),
             surplus_supply_kw=max(-residual, 0.0), net_load_kwh=load.net_grid_load_kw * dt,
-            generation_kwh=generation * dt, residual_demand_kwh=residual * dt,
+            generation_kwh=generation * dt, generation_source_withdrawal_kwh=source_withdrawal * dt,
+            net_generation_kwh=net_generation * dt, residual_demand_kwh=residual * dt,
             unserved_or_residual_load_kwh=max(residual, 0.0) * dt,
             surplus_supply_kwh=max(-residual, 0.0) * dt,
             truth_context=truth, evidence_status=status,
@@ -251,14 +277,19 @@ def aggregate_adequacy(b08_rows: Iterable[GridLoadAggregate], supply_records: It
         first = group[0]
         residual = sum(row.residual_demand_kw for row in group)
         generation = sum(row.delivered_generation_kw for row in group)
+        source_withdrawal = sum(row.generation_source_withdrawal_kw for row in group)
+        net_generation = sum(row.net_generation_kw for row in group)
         load = sum(row.b08_net_grid_load_kw for row in group)
         dt = first.timestep_hours
         scope_rows.append(AdequacyRecord(
             timestamp=timestamp, timestep_hours=dt, region_id="BOUNDED_SCOPE_TOTAL",
             region_scheme=first.region_scheme, scope=scope, b08_net_grid_load_kw=load,
-            delivered_generation_kw=generation, residual_demand_kw=residual,
+            delivered_generation_kw=generation, generation_source_withdrawal_kw=source_withdrawal,
+            net_generation_kw=net_generation, residual_demand_kw=residual,
             unserved_or_residual_load_kw=max(residual, 0.0), surplus_supply_kw=max(-residual, 0.0),
-            net_load_kwh=load * dt, generation_kwh=generation * dt, residual_demand_kwh=residual * dt,
+            net_load_kwh=load * dt, generation_kwh=generation * dt,
+            generation_source_withdrawal_kwh=source_withdrawal * dt,
+            net_generation_kwh=net_generation * dt, residual_demand_kwh=residual * dt,
             unserved_or_residual_load_kwh=max(residual, 0.0) * dt,
             surplus_supply_kwh=max(-residual, 0.0) * dt, truth_context=truth,
             evidence_status=_derived_status(truth, (row.evidence_status for row in group)),
@@ -279,18 +310,52 @@ def aggregate_adequacy(b08_rows: Iterable[GridLoadAggregate], supply_records: It
         peak_surplus_timestamps=peak_surplus_ts, source_refs=refs,
         explanations=({"scope": scope, "truth_context": truth, "region_scheme": next(iter(schemes)),
                        "bounded_scope_total_label": "BOUNDED_SCOPE_TOTAL",
-                       "notes": "Physical residual/surplus only; no dispatch, curtailment, reserve, headroom, market, tariff, storage or national claim."},),
+                       "notes": "Physical residual/surplus only. Signed net-generation recovery is represented as separate non-negative injection/withdrawal legs and enters the balance once as injection minus withdrawal; it is never clamped or relabelled. No dispatch, curtailment, reserve, headroom, market, tariff, storage or national claim."},),
+    )
+
+
+def supply_record_from_signed_net_generation(
+    *,
+    timestamp: datetime,
+    timestep_hours: float,
+    source_component_id: str,
+    region_id: str,
+    region_scheme: str,
+    truth_context: str,
+    evidence_status: str,
+    source_refs: tuple[str, ...],
+    signed_net_generation_kw: float,
+) -> SupplyRecord:
+    """Represent one signed net-generation value without negative generation relabelling.
+
+    Positive source values become an injection leg. Negative source values become a
+    withdrawal leg. The exact signed value is preserved by
+    delivered_generation_kw - source_withdrawal_kw.
+    """
+    signed = _finite_signed(signed_net_generation_kw, "signed_net_generation_kw")
+    return SupplyRecord(
+        timestamp=timestamp,
+        timestep_hours=timestep_hours,
+        source_component_id=source_component_id,
+        region_id=region_id,
+        region_scheme=region_scheme,
+        truth_context=truth_context,
+        evidence_status=evidence_status,
+        source_refs=source_refs,
+        delivered_generation_kw=max(signed, 0.0),
+        source_withdrawal_kw=max(-signed, 0.0),
+        boundary_id=SIGNED_NET_GENERATION_BOUNDARY,
     )
 
 
 def _supply_from_mapping(raw: Mapping[str, Any]) -> SupplyRecord:
     if not isinstance(raw, Mapping):
         raise B09ContractError("generation row must be an object")
-    allowed = {"timestamp", "timestep_hours", "source_component_id", "region_id", "region_scheme", "truth_context", "evidence_status", "source_refs", "delivered_generation_kw", "boundary_id"}
+    allowed = {"timestamp", "timestep_hours", "source_component_id", "region_id", "region_scheme", "truth_context", "evidence_status", "source_refs", "delivered_generation_kw", "boundary_id", "source_withdrawal_kw"}
     unknown = sorted(set(raw) - allowed)
     if unknown:
         raise B09ContractError(f"unsupported generation fields: {unknown!r}")
-    required = allowed
+    required = allowed - {"source_withdrawal_kw"}
     missing = sorted(field for field in required if field not in raw)
     if missing:
         raise B09ContractError(f"missing generation fields: {missing!r}")
@@ -302,7 +367,7 @@ def _supply_from_mapping(raw: Mapping[str, Any]) -> SupplyRecord:
         timestamp = datetime.fromisoformat(raw["timestamp"].replace("Z", "+00:00"))
     except ValueError as exc:
         raise B09ContractError("invalid generation timestamp") from exc
-    return SupplyRecord(timestamp=timestamp, timestep_hours=raw["timestep_hours"], source_component_id=raw["source_component_id"], region_id=raw["region_id"], region_scheme=raw["region_scheme"], truth_context=raw["truth_context"], evidence_status=raw["evidence_status"], source_refs=tuple(raw["source_refs"]), delivered_generation_kw=raw["delivered_generation_kw"], boundary_id=raw["boundary_id"])
+    return SupplyRecord(timestamp=timestamp, timestep_hours=raw["timestep_hours"], source_component_id=raw["source_component_id"], region_id=raw["region_id"], region_scheme=raw["region_scheme"], truth_context=raw["truth_context"], evidence_status=raw["evidence_status"], source_refs=tuple(raw["source_refs"]), delivered_generation_kw=raw["delivered_generation_kw"], boundary_id=raw["boundary_id"], source_withdrawal_kw=raw.get("source_withdrawal_kw", 0.0))
 
 
 def run_fixture(path: str | Path) -> AdequacyResult:

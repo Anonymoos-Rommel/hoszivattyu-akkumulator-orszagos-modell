@@ -4,7 +4,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from modules.B08.engine import GridLoadAggregate, run_fixture as run_b08_fixture
-from modules.B09.engine import B09ContractError, SupplyRecord, aggregate_adequacy, run_fixture
+from modules.B09.engine import (
+    B09ContractError,
+    SIGNED_NET_GENERATION_BOUNDARY,
+    SupplyRecord,
+    aggregate_adequacy,
+    run_fixture,
+    supply_record_from_signed_net_generation,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -135,6 +142,52 @@ class B09SupplyAdequacyTests(unittest.TestCase):
     def test_negative_generation_rejected(self):
         with self.assertRaises(B09ContractError):
             SupplyRecord(datetime(2026, 1, 1, tzinfo=timezone.utc), 1.0, "G1", "R1", "HU_COUNTY_SCN", "SCN", "SCN", SOURCE, -1.0)
+
+    def test_signed_net_generation_uses_directional_legs_without_clamping(self):
+        row = supply_record_from_signed_net_generation(
+            timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc),
+            timestep_hours=1.0,
+            source_component_id="G1",
+            region_id="R1",
+            region_scheme="HU_COUNTY_SCN",
+            truth_context="SCN",
+            evidence_status="SCN",
+            source_refs=SOURCE,
+            signed_net_generation_kw=-5.0,
+        )
+        self.assertEqual(row.boundary_id, SIGNED_NET_GENERATION_BOUNDARY)
+        self.assertEqual(row.delivered_generation_kw, 0.0)
+        self.assertEqual(row.source_withdrawal_kw, 5.0)
+        self.assertEqual(row.net_generation_contribution_kw, -5.0)
+
+    def test_signed_net_withdrawal_increases_residual_once(self):
+        loads = unique_load_rows()
+        supplies = make_supply(loads)
+        first = supplies[0]
+        supplies[0] = supply_record_from_signed_net_generation(
+            timestamp=first.timestamp,
+            timestep_hours=first.timestep_hours,
+            source_component_id=first.source_component_id,
+            region_id=first.region_id,
+            region_scheme=first.region_scheme,
+            truth_context=first.truth_context,
+            evidence_status=first.evidence_status,
+            source_refs=first.source_refs,
+            signed_net_generation_kw=-1.0,
+        )
+        result = aggregate_adequacy(loads, supplies, scope="BOUNDED_SCN_FIXTURE")
+        target = next(
+            row for row in result.rows
+            if row.timestamp == first.timestamp and row.region_id == first.region_id
+        )
+        load = next(
+            row for row in loads
+            if row.timestamp == first.timestamp and row.region_id == first.region_id
+        )
+        self.assertEqual(target.delivered_generation_kw, 0.0)
+        self.assertEqual(target.generation_source_withdrawal_kw, 1.0)
+        self.assertEqual(target.net_generation_kw, -1.0)
+        self.assertEqual(target.residual_demand_kw, load.net_grid_load_kw + 1.0)
 
     def test_half_hour_energy_conversion(self):
         loads = tuple(replace(row, timestep_hours=0.5) for row in unique_load_rows())

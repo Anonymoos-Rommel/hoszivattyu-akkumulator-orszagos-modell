@@ -78,7 +78,7 @@ class B08B09P5EntsoeGuiExportAcquisitionTests(unittest.TestCase):
         self.assertEqual("E3", b09["evidence_tier"])
         self.assertEqual("MODEL_BLOCKER", b09["blocker_class"])
         self.assertEqual("yes", b09["model_blocker"])
-        self.assertIn("ACTIVE_SINGLE_SPACE_CELLS_NOT_ZERO", b09["canonical_base_rule"])
+        self.assertIn("MAVIR_NET_OPERATIONAL_SELECTED_FOR_EXACT_MISSING_CELL_RECOVERY", b09["canonical_base_rule"])
 
     def test_open_questions_preserve_current_residuals(self):
         q = {row["question_id"]: row for row in rows(QUESTIONS)}

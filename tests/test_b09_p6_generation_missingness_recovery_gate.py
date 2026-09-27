@@ -34,7 +34,7 @@ class B09P6GenerationMissingnessRecoveryGateTests(unittest.TestCase):
         self.assertEqual("ACQUIRED_SELECTED_RECOVERY_BASIS", operational["current_state"])
         self.assertIn("üzemirányítási", operational["source_product"])
         self.assertIn("0.9999966663", operational["notes"])
-        self.assertIn("4809 negative", operational["notes"])
+        self.assertIn("4,809 negative", operational["notes"])
         self.assertEqual("BLOCKED_BY_CURRENT_NONNEGATIVE_GENERATION_CONTRACT", semantics["current_state"])
         self.assertEqual("SIGNED_NET_GENERATION_RECOVERY_SEMANTICS_REQUIRED", semantics["residual_gap"])
 

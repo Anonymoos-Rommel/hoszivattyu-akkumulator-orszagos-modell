@@ -307,3 +307,36 @@ Exact residual:
 `SIGNED_NET_GENERATION_RECOVERY_SEMANTICS_REQUIRED`
 
 The next slice should solve only that physical/runtime boundary.
+
+
+## 10. P7 follow-on closure
+
+B09-P7 resolves the runtime residual identified by P6.
+
+The signed source value `v` is represented as:
+
+`injection = max(v, 0)`
+
+`source_withdrawal = max(-v, 0)`
+
+`net_generation = injection - source_withdrawal = v`
+
+The B09 adequacy identity is:
+
+`residual_demand = B08_net_grid_load - sum(net_generation)`
+
+The withdrawal leg is **not** added separately to B08 load. This preserves the signed generation-side contribution exactly once.
+
+P7 also enforces:
+
+`NUMERIC_A75_CELL -> NEVER_OVERWRITTEN`
+
+`RECOVERY_KEYS == A75_MISSING_KEYS`
+
+`NEGATIVE_RECOVERY != ZERO`
+
+`NEGATIVE_RECOVERY != ABS(VALUE)`
+
+`SIGNED_NET_RECOVERY != POSITIVE_DELIVERED_GENERATION_LABEL`
+
+Q-B09-001 therefore moves from E3 / MODEL_BLOCKER to E2 / VALIDATION_BLOCKER / MODEL_CONTINUE. Raw-publication/reuse authority remains validation debt.
