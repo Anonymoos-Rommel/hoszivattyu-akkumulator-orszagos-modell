@@ -1,0 +1,5 @@
+target_id,target_role,organization,contact_channel,contact_value,request_scope,dispatch_state,evidence_authority,notes
+B05-P48-T01,CERTIFICATION_BODY_PRODUCT_CERTIFICATION,SZU,email,strakova@szutest.cz,"tested subtype/model; specimen binding; report/protocol ID/date; testing lab; sampling record",READY_UNSENT,SRC-B05-SZU-CERTIFICATION-PROCESS-CONTACT-2024,"Primary certification-body route."
+B05-P48-T02,CERTIFICATION_BODY_GENERAL_FALLBACK,SZU,email,szu@szutest.cz,"route request to product certification / Heat Pump KEYMARK records",READY_UNSENT,SRC-B05-SZU-CERTIFICATION-PROCESS-CONTACT-2024,"Fallback only."
+B05-P48-T03,CERTIFICATE_HOLDER_TECHNICAL,Mitsubishi Electric UK,email,Ecodan.technical@meuk.mee.com,"direct-test binding; report identity; report copy/excerpt; product transient data",READY_UNSENT,SRC-B05-MITSUBISHI-ECODAN-TECHNICAL-CONTACT-2026,"Primary manufacturer technical route."
+B05-P48-T04,CERTIFICATE_HOLDER_HELPDESK,Mitsubishi Electric UK,email,residential.helpdesk@meuk.mee.com,"route exact certification evidence request to appropriate technical/compliance owner",READY_UNSENT,SRC-B05-MITSUBISHI-CONTACT-US-2026,"Secondary manufacturer route."

@@ -117,6 +117,8 @@ B05-P46 re-attacks the sole remaining Mitsubishi cold/high-supply coordinate wit
 
 B05-P47 corrects the Mitsubishi transient-report acquisition grain before any external request. The original SZU certificate 037-0032-20 and current rev.2 certificate bind PUZ-WM50VHA(-BS) product scope and SZU/KEYMARK authority but expose neither tested-sample identity nor underlying report/protocol ID. The current public KEYMARK database adds detailed EN14511/EN14825 values and pass/fail operating tests but still no raw transient trace. More importantly, the exact PUZ-WM50VHA(-BS) outdoor unit appears under multiple registrations (037-0030-20 rev.2 and 037-0032-20 rev.2), while official KEYMARK sampling rules establish that certification scope may exceed directly tested subtype scope: Annex A Rev.3 already required only one tested subtype for up to five certified non-air/air subtypes, and current Scheme Rev.15 explicitly states that one air/water test can certify five subtypes and that the test report is communicated to the certification body. P47 therefore freezes `REGISTRATION_ID != UNIQUE_TESTED_SPECIMEN != TEST_REPORT_ID`. Exact public report/protocol searches did not recover the underlying SZU report, but non-recovery is not nonexistence. A historical MCS product-directory capture additionally resolves 037-0032-20-01/02 as PUZ-WM50VHA / PUZ-WM50VHA-BS model-level certification identifiers, so those suffixes are explicitly forbidden as guessed SZU report IDs. The Mitsubishi transient residual narrows to `EXACT_PUZ_WM50_TESTED_SPECIMEN_BINDING_AND_SZU_REPORT_OR_SOURCE_NATIVE_TRANSIENT_RECORD_REQUIRED`. No product tau is minted; PART_LOAD_MODULATION remains 45% and B05 remains 64%.
 
+B05-P48 converts the P47 Mitsubishi/SZU lineage blocker into an exact human-gated acquisition package without sending any request. Current KEYMARK sampling semantics require certification-body sample selection from serial-traceable units and transmission of the test report to the certification body; the public KEYMARK document index exposes Annex L as the sampling-template artifact class, but no filled Mitsubishi sampling record was recovered. P48 therefore defines the source-native fields required from a response: tested subtype/model, direct-test/specimen binding, exact report/protocol ID and date, testing laboratory, test conditions, and whether the record contains direct `tau_eq` or a seconds-scale trace sufficient for explicit derivation. Official routes are pinned to SZU product-certification/COSM and Mitsubishi Ecodan technical support. The canonical dispatch state is `ACQUISITION_PACKAGE_READY_UNSENT`; no external send is authorized. Contact readiness is not physical readiness: the residual remains `EXACT_PUZ_WM50_TESTED_SPECIMEN_BINDING_AND_SZU_REPORT_OR_SOURCE_NATIVE_TRANSIENT_RECORD_REQUIRED`, PART_LOAD_MODULATION remains 45%, and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -254,6 +256,10 @@ B05-P47 corrects the Mitsubishi transient-report acquisition grain before any ex
 - `registry/b05_p47_mitsubishi_szu_sampling_report_boundary.csv`
 - `data/processed/b05_p47_mitsubishi_szu_sampling_inventory.csv`
 - `modules/B05/mitsubishi_szu_sampling_report_boundary.py`
+- `docs/source_packs/B05_P48_MITSUBISHI_SZU_ACQUISITION_PACKAGE.md`
+- `registry/b05_p48_mitsubishi_szu_acquisition_package.csv`
+- `data/processed/b05_p48_mitsubishi_szu_acquisition_targets.csv`
+- `modules/B05/mitsubishi_szu_acquisition_package.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
