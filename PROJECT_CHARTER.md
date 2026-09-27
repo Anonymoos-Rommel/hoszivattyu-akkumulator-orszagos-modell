@@ -40,6 +40,25 @@ A kanonikus egység nem az egyszeri háztartási telepítés, hanem az `S0`–`S
 - `POL` — szakpolitikai döntési változó;
 - `Q` — nyitott kérdés vagy hiányzó bizonyíték.
 
+
+## E1/E2/E3 evidence tier és validation debt
+
+A `Q` státusz önmagában nem mondja meg, hogy a központi modellnek meg kell-e állnia. A projekt minden aktuális blockerét külön evidenciaszintre és blocker-osztályra méri be:
+
+- `E1` — verified/authoritative;
+- `E2` — provisional base, explicit validation debttel;
+- `E3` — assumption-only / insufficient evidence.
+
+Adatforrás-hiány esetén a központi modell változónként **egy** kanonikus base értéket használ. E2 csak akkor engedélyezett, ha a rendelkezésre álló források a grain, boundary, unit és applicability szempontjából egy védhető központi értéket támasztanak alá. A hiányzó primer bizonyíték ettől nem tűnik el: final decision-grade lezárás előtt materialis E2 tételeknél továbbra is validation debt.
+
+`ONE CANONICAL VALUE PER MODEL VARIABLE`
+
+`NO AUTOMATIC LOW/BASE/HIGH CARTESIAN PRODUCT FOR SOURCE GAPS`
+
+A valódi statisztikai bizonytalanság, populációs heterogenitás vagy source-native eloszlás továbbra is dokumentálható; ez nem azonos azzal, hogy minden hiányzó forrást low/base/high alternatív inputokká alakítunk.
+
+Részletes szerződés: [`docs/methodology/evidence_tier_and_validation_debt_policy.md`](docs/methodology/evidence_tier_and_validation_debt_policy.md). A jelenlegi gépi audit: [`registry/project_blocker_evidence_audit.csv`](registry/project_blocker_evidence_audit.csv).
+
 ## Országos inferencia és egyedi döntés
 
 A projekt országos döntéstámogató modell, nem négymillió lakásból álló teljes műszaki nyilvántartás. A teljes populációs mikroadat hiánya önmagában nem bizonyítékhiány, ha az adott állítás megfelelő pontossággal és dokumentált bizonytalansággal levezethető reprezentatív megfigyelt mintából vagy validált, többforrású kalibrált becslésből.

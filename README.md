@@ -14,6 +14,9 @@ A jelenlegi program-egység egy fázisokon átvezetett háztartási beavatkozás
 
 Az országos modellhez nem követelmény minden magyar lakás teljes egyedi műszaki dokumentációja. Ahol teljes adminisztratív/populációs adat nincs, reprezentatív megfigyelt minta vagy validált, kalibrált többforrású inferencia használható, kötelező bizonytalanság- és érzékenységkezeléssel. Ez nem helyettesíti a konkrét háztartás állapotátmenetéhez szükséges record-level bizonyítást. Részletek: [`docs/methodology/population_inference_policy.md`](docs/methodology/population_inference_policy.md).
 
+
+Adatforrás-hiány esetén a projekt E1/E2/E3 evidenciaszintet használ. Egy materialis E2 tétel egyetlen védhető `PROVISIONAL_BASE` értékkel engedheti a központi modell folytatását, miközben az exact primer bizonyíték validation debtként nyitva marad; E3 esetén nincs engedélyezett kanonikus base, ha az input szükséges. A source-gap bizonytalanságot nem alakítjuk automatikus low/base/high Cartesian forgatókönyvtérré. Részletek: [`docs/methodology/evidence_tier_and_validation_debt_policy.md`](docs/methodology/evidence_tier_and_validation_debt_policy.md).
+
 Minden érdemi számnak visszavezethetőnek kell lennie:
 
 1. forrásra vagy explicit feltételezésre;

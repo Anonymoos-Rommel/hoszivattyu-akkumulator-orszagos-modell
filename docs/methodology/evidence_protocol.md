@@ -57,3 +57,19 @@ Ezért például:
 ## Bizonytalansági kimenetek
 
 Ahol a populációs inferencia érdemben befolyásolja az országos eredményt, a pontbecslés mellett kötelező legalább egy bizonytalansági kimenet. A forrás és módszer függvényében ez lehet konfidenciaintervallum, bootstrap/intervallumbecslés, vagy `P10/P50/P90` eloszlási kimenet. A modell nem közölhet indokolatlan tizedesjegy-pontosságot olyan változóra, amely mintából vagy kalibrált becslésből származik.
+
+## E1/E2/E3 evidence tier és validation debt
+
+A forrásprioritás (P1-P4) és az értékstátusz (OBS/DER/ASS/SCN/POL/Q) mellett a projekt külön kezeli azt is, hogy egy nyitott blocker megállítja-e a modellt vagy csak final validation debt.
+
+A kanonikus szerződés: [`evidence_tier_and_validation_debt_policy.md`](evidence_tier_and_validation_debt_policy.md).
+
+Kiemelt szabályok:
+
+- E1: verified/authoritative;
+- E2: egyetlen defensible `PROVISIONAL_BASE`, explicit validation debttel;
+- E3: assumption-only / insufficient evidence;
+- `ONE CANONICAL VALUE PER MODEL VARIABLE`;
+- source-gap miatt nincs automatikus low/base/high Cartesian szorzás;
+- legal/permission authority fail-closed marad;
+- record-level PASS/FAIL nem helyettesíthető populációs vagy E2 inferenciával.
