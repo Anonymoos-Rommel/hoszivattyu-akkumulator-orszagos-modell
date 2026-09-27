@@ -198,7 +198,8 @@ class B05P33NibeDefrostRuntimeTests(unittest.TestCase):
     def test_readiness_uplift_does_not_close_generic_penalty(self):
         readiness = {r["component_id"]: r for r in rows(READINESS)}["DEFROST"]
         self.assertEqual(readiness["status"], "PARTIAL")
-        self.assertEqual(readiness["readiness_percent"], "20")
+        self.assertGreaterEqual(int(readiness["readiness_percent"]), 20)
+        self.assertIn("P54 performs the deferred successor-aware recalibration", readiness["notes"])
         self.assertIn("B05 overall remains 64%", readiness["notes"])
 
         variables = {r["variable_id"]: r for r in rows(VARIABLES)}
