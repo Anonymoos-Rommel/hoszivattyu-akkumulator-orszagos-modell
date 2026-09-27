@@ -113,6 +113,8 @@ B05-P44 performs a second public-web attack on the two remaining OBS transient-f
 
 B05-P45 attacks the exact Dimplex VDE report object before any external request. Report `328782-TL2-1` is independently bound by the LA2030CP VDE/KEYMARK certificate and the Bosch CS5001AW22 ErP declaration, but an exact-ID/format-variant sweep across indexed public web surfaces and targeted VDE/Dimplex/Bosch domains does not recover the underlying report, Appendix 601 content or a source-native transient excerpt. This is deliberately recorded as public recoverability evidence only: `PUBLIC_INDEX_SEARCH_MISS != REPORT_NONEXISTENCE != INTERNAL_CONTENT_ABSENCE`. The official VDE catalogue describes certificate/product/technical-data outputs; the HP KEYMARK five-page LA2030CP public export exposes EN14511 pass/fail items and EN14825 Prated/SCOP/Tbiv/TOL/Pdh/COP/Cdh plus auxiliary powers, but no `tau_eq`, transient, time-constant or seconds-scale trace field. The Dimplex residual therefore narrows to `EXACT_VDE_328782_TL2_1_REPORT_CONTENT_OR_SOURCE_NATIVE_TRANSIENT_EXCERPT_REQUIRED`. No physical parameter is minted; PART_LOAD_MODULATION remains 45% and B05 remains 64%.
 
+B05-P46 re-attacks the sole remaining Mitsubishi cold/high-supply coordinate without relaxing P26's no-digitization boundary. PUZ-WM50VHA(-BS) A-15/W50 is blank across all published performance levels in Vol.5.3, Vol.5.9 and current Vol.6.0, while A-15/W35/W40/W45 and A-10/W50/W55 remain source-native populated neighbours. Two independent official Mitsubishi publication surfaces reinforce the same publication boundary: Mitsubishi Sweden gives A-15/W35=3.9 kW and A-15/W45=3.9 kW, and Mitsubishi France's 2026 catalogue gives A-15/W35/W45 maximum output 3.90/3.90 kW, with neither surface publishing W50 at A-15. P46 freezes that persistent omission as source-availability evidence only. A general maximum outlet temperature plus a separate ambient operating range may not be composed into a synthetic two-dimensional coordinate. The residual therefore narrows to `EXACT_SOURCE_NATIVE_A_MINUS15_W50_2D_OPERATING_OR_PERFORMANCE_RECORD_REQUIRED`; graph digitization, interpolation and blank=unsupported remain forbidden. PART_LOAD_MODULATION remains 45% and B05 remains 64%.
+
 ## Kanonikus artefaktumok
 
 - `docs/source_packs/B05_HEAT_PUMP_PHYSICAL_MODEL.md`
@@ -242,6 +244,10 @@ B05-P45 attacks the exact Dimplex VDE report object before any external request.
 - `registry/b05_p45_dimplex_vde_report_recoverability.csv`
 - `data/processed/b05_p45_dimplex_vde_report_recoverability.csv`
 - `modules/B05/transient_report_recoverability.py`
+- `docs/source_packs/B05_P46_MITSUBISHI_A15_W50_DOMAIN_BOUNDARY.md`
+- `registry/b05_p46_mitsubishi_a15_w50_domain_boundary.csv`
+- `data/processed/b05_p46_mitsubishi_a15_w50_evidence.csv`
+- `modules/B05/mitsubishi_a15_w50_domain_gate.py`
 - `modules/B05/engine.py`
 - `registry/heat_pump_sources.csv`
 - `registry/heat_pump_variables.csv`
