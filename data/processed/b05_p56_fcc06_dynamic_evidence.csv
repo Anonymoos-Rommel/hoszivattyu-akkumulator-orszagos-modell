@@ -1,0 +1,13 @@
+evidence_id,source_id,product,mode,measurement_or_parameter,value,unit,evidence_status,admission,notes
+B05-P56-D01,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,test_step_duration,480,s,OBS,EXPERIMENT_WINDOW_ONLY,"Each fan-speed engagement lasts 8 min and covers transient plus steady-state behaviour; not a response-time constant."
+B05-P56-D02,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,identification_runs,32,runs,OBS,EXACT_PRODUCT_DYNAMIC_RECORD,"Runs span heating 2015/16 and 2016/17 plus cooling 2017; heating epsilon is one."
+B05-P56-D03,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_a_OFF,5.30,W_per_K,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D04,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_a_L,96.45,W_per_K,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D05,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_a_M,152.90,W_per_K,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D06,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_a_H,201.80,W_per_K,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D07,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_b_L,0.00173,flow_function_parameter,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D08,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_b_M,0.00358,flow_function_parameter,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D09,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_b_H,0.00540,flow_function_parameter,DER,STATE_SURFACE_PARAMETER,"Identified parameter."
+B05-P56-D10,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,Uo_beta,1.86,dimensionless,DER,STATE_SURFACE_PARAMETER,"Common identified exponent."
+B05-P56-D11,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,heating,air_side_time_ratio_upper,1,s,DER,MODEL_STRUCTURE_BOUND,"Source describes ma/qa as typically below 1 s; not HEM tau_out."
+B05-P56-D12,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,Trane FCC06,mixed_validation,open_loop_NRMSE_upper,6,percent,DER,MODEL_VALIDATION_BOUND,"Prediction error below 6% across all validation data sets."

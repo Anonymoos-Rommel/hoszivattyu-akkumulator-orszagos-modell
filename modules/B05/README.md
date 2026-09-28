@@ -284,3 +284,13 @@ B05-P53 resolves the exact-system S2125 pre-DHW active-defrost branch without po
 
 
 B05-P54 performs the deferred successor-aware DEFROST readiness recalibration over the P49-P53 evidence stack. The new explicit 11-gate scorecard totals 100 possible points and awards 65: direct state semantics, exact same-system raw event boundary, electrical coverage and strict active-HEAT matched effect are resolved; signed thermal, recovery/full-cycle, passive, DHW and state-conditioned predictive gates remain partial; cross-product replication and Hungarian weather/event-frequency transfer remain open. DEFROST therefore moves **20 -> 65** and remains PARTIAL. A hard ceiling of 65 applies until independent replication. Q-B05-003 residuals are unchanged. B05 overall remains **64%** because no canonical component-to-module aggregation authority exists; P54 does not invent one.
+
+
+B05-P56 resolves the generic fan-coil heating dynamic-record search target to an exact **Trane FCC06** physical record. The peer-reviewed 2019 living-lab study provides explicit fan-speed step tests, minute-scale water-side measurements, 32 thermodynamic identification runs, a state-dependent switched-linear `Uo(x,qw)` heating surface and <6% open-loop validation error. P56 preserves the physical semantics: the 8 min test engagement is not a 480 s response constant, and a state-dependent FCC06 water-state time constant is not silently mapped to the HEM/EN15316 scalar `tau_out`. Numeric state-time derivation remains fail-closed until exact FCC06 in-coil water mass is bound. Q-B05-004 remains OPEN; PART_LOAD_MODULATION remains **45%** and B05 remains **64%**.
+
+P56 canonical artifacts:
+
+- `docs/source_packs/B05_P56_FCC06_STATE_DEPENDENT_RESPONSE.md`
+- `registry/b05_p56_fcc06_state_dependent_response.csv`
+- `data/processed/b05_p56_fcc06_dynamic_evidence.csv`
+- `modules/B05/fcu_state_dependent_response.py`
