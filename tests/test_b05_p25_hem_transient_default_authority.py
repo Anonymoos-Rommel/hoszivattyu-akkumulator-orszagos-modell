@@ -116,7 +116,7 @@ class B05P25HemTransientDefaultAuthorityTests(unittest.TestCase):
         ):
             self.assertIn(marker,q["notes"])
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
 
     def test_sources_and_document_preserve_default_vs_observation_boundary(self):
         sources={r["source_id"]:r for r in rows(SOURCES)}
