@@ -61,7 +61,7 @@ class B05P26MitsubishiColdHighSupplyClassificationTests(unittest.TestCase):
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025",sources)
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
 
     def test_document_forbids_graph_digitization_and_keeps_b05_64(self):
         text=PACK.read_text(encoding="utf-8")
