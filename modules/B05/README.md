@@ -294,3 +294,13 @@ P56 canonical artifacts:
 - `registry/b05_p56_fcc06_state_dependent_response.csv`
 - `data/processed/b05_p56_fcc06_dynamic_evidence.csv`
 - `modules/B05/fcu_state_dependent_response.py`
+
+
+B05-P57 resolves the FCC06 `state-response -> HEM tau_out mapping OR direct runtime` fork by choosing the second route: an exact constant-input analytical step of the peer-reviewed FCC06 water-side ODE. The bounded direct path consumes fan state, water mass flow, explicit study-compatible water mass, medium heat capacity, inlet/zone/outlet temperatures and timestep; it does not require or assert one HEM/EN15316 scalar `tau_out`. Catalogue lineage is tightened separately: the paper-cited Trane `UNT-PRC006-E4` (2010) document identity is publicly recoverable, while a separate Trane UniTrane product-guide revision exposes **1.7 L** for size-06 2-pipe/3-row water content and **0.29 L** for the non-applicable 4-pipe/1-row heating coil. P57 keeps 1.7 L as cross-revision corroboration only and forbids `1.7 L = 1.7 kg` without exact cited-edition binding plus explicit medium density. Q-B05-004 remains OPEN; PART_LOAD_MODULATION remains **45%** and B05 remains **64%**.
+
+P57 canonical artifacts:
+
+- `docs/source_packs/B05_P57_FCC06_WATER_CONTENT_LINEAGE.md`
+- `registry/b05_p57_fcc06_water_content_lineage.csv`
+- `data/processed/b05_p57_fcc06_water_content_evidence.csv`
+- `modules/B05/fcc06_direct_runtime.py`
