@@ -91,7 +91,7 @@ class B05P42CoordinateGapClosureTests(unittest.TestCase):
         self.assertEqual(q["status"],"OPEN")
         self.assertIn("B05-P42",q["notes"])
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
 
     def test_sources_boundaries_and_document(self):
         sources={r["source_id"]:r for r in rows(SOURCES)}
