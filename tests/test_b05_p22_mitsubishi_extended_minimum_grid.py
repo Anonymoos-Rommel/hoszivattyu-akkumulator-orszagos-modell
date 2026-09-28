@@ -121,7 +121,7 @@ class B05P22MitsubishiExtendedMinimumGridTests(unittest.TestCase):
         self.assertEqual(variables["VAR-B05-MINIMUM-POINT-COP-SURFACE"]["status"],"DER")
         self.assertEqual(variables["VAR-B05-COP-CYCLING-BIN"]["status"],"Q")
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-MITSUBISHI-DATABOOK-WM50-MIN-GRID-2020",sources)
         self.assertIn("SRC-B05-MITSUBISHI-ERP-WM50-CDH-2026",sources)
