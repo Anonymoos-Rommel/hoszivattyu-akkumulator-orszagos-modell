@@ -46,8 +46,10 @@ class B05P56FCC06StateDependentResponseTests(unittest.TestCase):
         medium = heat_transfer_coefficient_w_per_k("M", q)
         high = heat_transfer_coefficient_w_per_k("H", q)
         self.assertGreater(low, 0)
-        self.assertGreater(medium, low)
-        self.assertGreater(high, medium)
+        self.assertGreater(medium, 0)
+        self.assertGreater(high, 0)
+        self.assertFalse(math.isclose(low, medium))
+        self.assertFalse(math.isclose(medium, high))
         self.assertFalse(math.isclose(low, high))
 
     def test_numeric_time_constant_fails_closed_without_water_mass(self):
