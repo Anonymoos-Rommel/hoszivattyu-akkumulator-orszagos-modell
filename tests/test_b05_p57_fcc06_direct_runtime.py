@@ -96,7 +96,7 @@ class B05P57FCC06DirectRuntimeTests(unittest.TestCase):
         hp_ids = {r["source_id"] for r in rows(HP_SOURCES)}
         for sid in (
             "SRC-B05-TRANE-UNITRANE-UNT-PRC006-E4-2010",
-            "SRC-B05-TRANE-UNITRANE-PROD-PRC014-E4",
+            "SRC-B05-TRANE-UNITRANE-PROD-PRC014-E4-2006",
         ):
             self.assertIn(sid, ids)
             self.assertIn(sid, hp_ids)
