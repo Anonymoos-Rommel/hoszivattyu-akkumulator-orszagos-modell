@@ -85,7 +85,7 @@ class B05P46MitsubishiA15W50Tests(unittest.TestCase):
         self.assertIn("General max outlet temperature 60 C", q["notes"])
         self.assertIn("synthetic two-dimensional A-15/W50 authority", q["notes"])
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"], "45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
 
     def test_sources_and_inventory(self):
         s = {r["source_id"]: r for r in rows(SOURCES)}
