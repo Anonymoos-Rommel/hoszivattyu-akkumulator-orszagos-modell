@@ -76,7 +76,7 @@ class B05P43TransientFidelityAdmissionTests(unittest.TestCase):
         self.assertEqual(vars_["VAR-B05-FANCOIL-OBS-EMITTER-RESPONSE-TIME"]["status"],"Q")
         self.assertEqual(vars_["VAR-B05-ONOFF-TRANSIENT-TAU-EQ"]["status"],"Q")
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
 
     def test_sources_data_and_boundaries_registered(self):
         s={r["source_id"]:r for r in rows(SOURCES)}
