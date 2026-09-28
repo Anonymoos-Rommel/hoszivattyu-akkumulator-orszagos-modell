@@ -1,0 +1,6 @@
+evidence_id,source_id,product,topology,field,value,unit,evidence_status,admission,notes
+B05-P57-D01,SRC-B05-TRANE-UNITRANE-UNT-PRC006-E4-2010,UniTrane FCC family,document,catalogue_id,UNT-PRC006-E4,text,OBS,EXACT_DOCUMENT_IDENTITY,"Public mirror index confirms Trane 2010 and includes FCC size 06; numeric page content not directly exposed by the indexed layer."
+B05-P57-D02,SRC-B05-TRANE-UNITRANE-PROD-PRC014-E4,FCC06,2-pipe_3-row,water_content,1.7,L,OBS,CROSS_REVISION_CANDIDATE,"Separate Trane product guide; exact product/topology value, but not silently equated to the 2010 cited edition."
+B05-P57-D03,SRC-B05-TRANE-UNITRANE-PROD-PRC014-E4,FCC06,4-pipe_1-row,water_content,0.29,L,OBS,NON_APPLICABLE_TO_STUDY_TWO_PIPE,"Recorded to prevent topology confusion."
+B05-P57-D04,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,FCC06,study_medium,identified_mean_heat_capacity,4504,J_per_kg_K,DER,SOURCE_REPORTED_IDENTIFIED_MEAN,"Figure 11 mean of identified heating/cooling medium heat capacity; 4180 J/(kg K) is shown separately as nominal clear-water reference."
+B05-P57-D05,B05-P57,FCC06,direct_runtime,hem_tau_out_required,0,boolean,DER,RESOLVED_BY_DIRECT_RUNTIME_PATH,"Exact FCC06 direct path integrates the published ODE and does not consume HEM tau_out."
