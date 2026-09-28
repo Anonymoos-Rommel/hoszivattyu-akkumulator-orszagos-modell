@@ -99,7 +99,7 @@ class B05P48MitsubishiSzuAcquisitionPackageTests(unittest.TestCase):
         ):
             self.assertIn(sid, sources)
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"], "45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
         text = PACK.read_text(encoding="utf-8")
         self.assertIn("ACQUISITION_PACKAGE_READY_UNSENT", text)
         self.assertIn("NO_EXTERNAL_SEND_WITHOUT_HUMAN_AUTHORIZATION", p48_boundaries())

@@ -58,7 +58,7 @@ class B05P27QuestionLayerSemanticSplitTests(unittest.TestCase):
         self.assertEqual(fan["status"], "CONFIRMED_CURRENT_DIVERGENCE_Q")
         self.assertEqual((fan["lower_bound"], fan["upper_bound"], fan["unit"]), ("360", "1370", "s"))
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"], "45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
         self.assertIn("P27", readiness["PART_LOAD_MODULATION"]["notes"])
 
     def test_fresh_hem_sources_pack_and_readme_are_pinned(self):

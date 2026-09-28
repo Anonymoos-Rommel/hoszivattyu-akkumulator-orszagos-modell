@@ -132,8 +132,8 @@ class B05P16CrossManufacturerRuntimeGateTests(unittest.TestCase):
         self.assertEqual(variables["VAR-B05-CYCLING-PENALTY-RUNTIME"]["status"], "Q")
 
         readiness = {row["component_id"]: row for row in rows(READINESS)}
-        self.assertEqual(
-            readiness["PART_LOAD_MODULATION"]["readiness_percent"], "45"
+        self.assertGreaterEqual(
+            int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45
         )
 
         questions = {row["question_id"]: row for row in rows(QUESTIONS)}

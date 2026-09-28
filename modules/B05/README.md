@@ -314,3 +314,12 @@ P58 canonical artifacts:
 - `registry/b05_p58_fcc06_mass_sensitivity.csv`
 - `data/processed/b05_p58_fcc06_water_content_stability.csv`
 - `modules/B05/fcc06_mass_sensitivity.py`
+
+
+B05-P59 performs the deferred successor-aware **PART_LOAD_MODULATION** readiness recalibration across the accumulated P15-P58 evidence stack. An explicit 12-gate / 100-point scorecard awards **75 points**. Source-native minimum-modulation surfaces, same-point minimum capacity/COP pairing, bounded multi-manufacturer product evidence, certified Cdh, EN14825 standard-bin cycling, hourly-method separation and explicit bounded default runtime policy are resolved. Cold/high-supply coordinate coverage, one-system field cycling validation and exact FCC06 transient physics remain partial. Product-specific Dimplex/Mitsubishi heat-pump transient authority and exact FCC06 OBS transient mass binding remain open zero-credit gates. Therefore **PART_LOAD_MODULATION moves 45 -> 75** and remains PARTIAL. Q-B05-004 remains OPEN / E2 / VALIDATION_BLOCKER / MODEL_CONTINUE. B05 overall remains **64%** because no canonical component-to-module aggregation authority exists.
+
+P59 canonical artifacts:
+
+- `docs/source_packs/B05_P59_PART_LOAD_READINESS_RECALIBRATION.md`
+- `registry/b05_p59_part_load_readiness_scorecard.csv`
+- `modules/B05/part_load_readiness_recalibration.py`

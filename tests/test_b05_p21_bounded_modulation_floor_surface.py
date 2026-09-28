@@ -109,7 +109,7 @@ class B05P21BoundedModulationFloorSurfaceTests(unittest.TestCase):
         variables={r["variable_id"]:r for r in rows(VARIABLES)}
         self.assertEqual(variables["VAR-B05-MODULATION-FLOOR-SURFACE"]["status"],"DER")
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertEqual(readiness["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-MITSUBISHI-ECODAN-PLAN-MINFLOOR-2021",sources)
         self.assertIn("SRC-B05-MITSUBISHI-SE-WM50-A7W45-2026",sources)
