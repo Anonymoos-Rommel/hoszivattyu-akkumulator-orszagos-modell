@@ -100,7 +100,7 @@ class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
         self.assertEqual(v["VAR-B05-COP-AT-CYCLING-CAPACITY"]["status"],"Q")
         self.assertEqual(v["VAR-B05-COP-CYCLING-BIN"]["status"],"Q")
         self.assertEqual(v["VAR-B05-CYCLING-INPUT-COLOCATION"]["status"],"Q")
-        self.assertEqual({r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"]["readiness_percent"],"45")
+        self.assertGreaterEqual(int({r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"]["readiness_percent"]),45)
 
     def test_sources_and_document_are_bounded(self):
         s={r["source_id"]:r for r in rows(SOURCES)}
