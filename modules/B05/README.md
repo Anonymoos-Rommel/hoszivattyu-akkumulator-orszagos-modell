@@ -304,3 +304,13 @@ P57 canonical artifacts:
 - `registry/b05_p57_fcc06_water_content_lineage.csv`
 - `data/processed/b05_p57_fcc06_water_content_evidence.csv`
 - `modules/B05/fcc06_direct_runtime.py`
+
+
+B05-P58 narrows the remaining FCC06 water-mass blocker. Two Trane manufacturer catalogue revisions — **PROD-PRC011-E4 (2004)** and **PROD-PRC014-E4 (2006)** — independently publish **1.7 L** for the FCC06 size-06 / 2-pipe / 3-row water-content branch. The exact experiment-cited **UNT-PRC006-E4 (2010)** document and page-16 General Data location are known, but its numeric cell remains unrecovered, so the repeated 1.7 L value is admitted only for explicit ASS sensitivity and never relabeled exact study OBS. From the published FCC06 ODE, P58 makes two structural facts executable: steady-state outlet temperature/power are independent of `m_w`, while the first-order state time constant scales linearly with `m_w`. The exact-mass residual is therefore narrowed to **OBS transient validation** rather than generic FCC06 runtime. PART_LOAD_MODULATION remains **45%** and B05 remains **64%**.
+
+P58 canonical artifacts:
+
+- `docs/source_packs/B05_P58_FCC06_MASS_SENSITIVITY.md`
+- `registry/b05_p58_fcc06_mass_sensitivity.csv`
+- `data/processed/b05_p58_fcc06_water_content_stability.csv`
+- `modules/B05/fcc06_mass_sensitivity.py`

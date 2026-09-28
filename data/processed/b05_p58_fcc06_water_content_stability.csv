@@ -1,0 +1,6 @@
+evidence_id,source_id,publication_year,product,topology,field,value,unit,evidence_status,admission,notes
+B05-P58-D01,SRC-B05-TRANE-UNITRANE-PROD-PRC011-E4-2004,2004,FCC06,2-pipe_3-row,water_content,1.7,L,OBS,CROSS_REVISION_ONLY,"Trane general catalogue; source line identifies © American Standard Inc. 2004 and UniTrane FCC-FCK-FVC technical section."
+B05-P58-D02,SRC-B05-TRANE-UNITRANE-PROD-PRC014-E4-2006,2006,FCC06,2-pipe_3-row,water_content,1.7,L,OBS,CROSS_REVISION_ONLY,"Trane product guide; source line identifies American Standard Inc. 2006."
+B05-P58-D03,SRC-B05-TRANE-UNITRANE-UNT-PRC006-E4-2010,2010,FCC06,2-pipe_seasonal,cited_catalogue_numeric_cell,,L,Q,EXACT_IDENTITY_NUMERIC_CELL_UNRECOVERED,"Exact study-cited document identity is known and General Data is indexed on page 16; current public text layer does not expose the numeric cell."
+B05-P58-D04,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,2019,FCC06,published_ODE,steady_state_mass_dependence,0,dependency,DER,RESOLVED_MASS_CANCELS,"Within the published first-order water-state ODE, m_w cancels from the steady-state solution."
+B05-P58-D05,SRC-B05-FCU-FCC06-CONTROL-DYNAMIC-2019,2019,FCC06,published_ODE,tau_mass_scaling,1,linear_exponent,DER,RESOLVED_LINEAR,"tau is directly proportional to m_w when q_w, Uo and cw are fixed."
