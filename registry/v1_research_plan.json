@@ -643,7 +643,7 @@
           "data": "2025 HU PT15M MW termelési típusonként; exact A75 üres cellákhoz MAVIR net-operational pótlás, injection/withdrawal előjel és mértékegység.",
           "phase": "A",
           "slice_id": "B09-D01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
             "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
@@ -653,7 +653,12 @@
           "accepted_artifacts": [
             "registry/b08_b09_p5_entsoe_gui_export_acquisition.csv",
             "registry/b09_p6_mavir_operational_acquisition.csv",
-            "registry/b09_p7_signed_net_generation_semantics.csv"
+            "registry/b09_p7_signed_net_generation_semantics.csv",
+            "registry/b09_gui_reference_manifest.json",
+            "modules/B09/gui_generation_reference.py",
+            "tools/materialize_b09_gui_generation_reference.py",
+            "docs/checkpoints/V1_017_VERIFICATION.json",
+            "docs/checkpoints/V1_017_ACCEPTANCE.json"
           ],
           "consumer_tests": [
             "tests/test_b09_gui_generation_reference.py",
@@ -674,9 +679,20 @@
               "expected_decision_value": "Reproduces every original numeric cell and exactly the P7-admitted signed recoveries, enabling source-native 2025 UTC model input without discarding sign or changing raw-reuse policy",
               "decision": "REVIEW_QUALIFIED_UTC_SOURCE_HANDOFF",
               "evidence": "docs/checkpoints/V1_017_B09_GUI_GENERATION_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing P5/P6/P7 sources with independent complete-cell XML comparison and exact published-head verification"
+              ],
+              "remaining_unknown": "Public raw reuse remains Q-B09-001 debt. The prior-hour local-year boundary and future supply/value/dispatch/region/programme integration remain separate open work.",
+              "promising_next_lead": "Acquire the previous-hour generation boundary for later common local-year reporting, while reusing the accepted native UTC source handoff",
+              "expected_decision_value": "Closes the defined observed-generation input/recovery slice with source identity, sign preservation, exact missing-key matching and independent review",
+              "decision": "ACCEPT_QUALIFIED_UTC_GENERATION_HANDOFF",
+              "evidence": "docs/checkpoints/V1_017_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "facd46bc4c4b6c26a7f54040103c0a2f611ec17d"
         },
         {
           "title": "Jövőbeli ellátási alap",
@@ -949,12 +965,45 @@
           "data": "Programazonosító, kiíró, hatály/verzió, ország/régió, jogosult/kizárt tevékenység, költség, intenzitás, saját erő, kumuláció, beadási/teljesítési határidő.",
           "phase": "V",
           "slice_id": "B14-L01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+            "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+            "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+            "SRC-B14-MFB-KEHOP-PROCESSING-FAQ-202609",
+            "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+            "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+            "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261001",
+            "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
+            "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+            "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+            "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414"
+          ],
+          "accepted_artifacts": [
+            "registry/b14_funding_reference_manifest.json",
+            "data/processed/b14/funding_reference_snapshot.json",
+            "data/processed/b14/eligible_cost_caps_417.csv",
+            "modules/B14/funding_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b14_funding_reference.py"
+          ],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Official KEHOP Plusz 4.1.7/4.1.8 calls and common procedure",
+                "MFB September 2026 operational FAQ and current status",
+                "FAIR current document lists and official April suspension notices"
+              ],
+              "remaining_unknown": "Broader programme coverage and record-level fit, current financial balances/assignment and university/pilot financing remain open. Two household calls do not close all of B14-L01.",
+              "promising_next_lead": "Dated official financial reconciliation and targeted research/pilot programme fit, preserving original envelopes versus committed/paid/available and project-confirmed quantities",
+              "expected_decision_value": "Prevents suspended intakes, original envelopes or gross eligible-cost caps from being mistaken for currently available programme funding or expected project prices",
+              "decision": "ADMIT_BOUNDED_DATED_RULE_REFERENCE_CONTINUE_SCOPE_RESEARCH",
+              "evidence": "docs/checkpoints/V1_018_B14_FUNDING_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

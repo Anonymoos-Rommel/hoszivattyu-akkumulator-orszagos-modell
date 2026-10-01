@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "status": "BOUNDED_DATED_RULE_REFERENCE",
+  "as_of": "2026-10-01",
+  "data_path": "data/processed/b14/funding_reference_snapshot.json",
+  "data_sha256": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
+  "caps_path": "data/processed/b14/eligible_cost_caps_417.csv",
+  "caps_sha256": "a5a0d68a58f070c8620b6dd31a73b4185c194a26c0b47c9f5c79f9dd07ea3613",
+  "sources": [
+    {
+      "original_url": "https://www.palyazat.gov.hu/api/download/68ee54b32d31a0de426eb2d3",
+      "retrieved_at": "2026-10-01T20:15:28.119321+00:00",
+      "sha256": "d78d8f1bf3651531b9f86e8f32330ab0222f9da35d7973c2490ee56508b9af3c",
+      "bytes": 516820,
+      "document_date_or_revision": "2025-10-15",
+      "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+      "authority": "MFB Zrt / official Pályázati Portál",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_LISTED_CALL_WITH_LATER_INTAKE_SUSPENSION",
+      "existing_mirror_url": "https://epito.turszol.hu/wp-content/uploads/2025/10/kehop-plusz-417-24-felhivas-hatalyos-20251015-tol.pdf",
+      "mirror_byte_identity": true,
+      "same_document_alias_source_ids": [
+        "SRC-B02-HU-KEHOP-417-MAX-COST-2025"
+      ]
+    },
+    {
+      "original_url": "https://www.palyazat.gov.hu/api/download/68ee51cc26c1f4c8b489352d",
+      "retrieved_at": "2026-10-01T20:15:27.855350+00:00",
+      "sha256": "359af1ee779eb13f64e266c79e6f91b9fae37164e69e55da9b308a7a1d178804",
+      "bytes": 516878,
+      "document_date_or_revision": "2025-10-15",
+      "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+      "authority": "MFB Zrt / official Pályázati Portál",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_LISTED_CALL_WITH_LATER_INTAKE_SUSPENSION",
+      "existing_mirror_url": "https://siholding.hu/wp-content/uploads/2025/11/kehop-plusz-418-24-felhivas-hatalyos-20251015-tol.pdf",
+      "mirror_byte_identity": true,
+      "same_document_alias_source_ids": []
+    },
+    {
+      "original_url": "https://www.palyazat.gov.hu/api/download/68ee54b3a98fefdd172249e0",
+      "retrieved_at": "2026-10-01T20:15:30.868803+00:00",
+      "sha256": "f99ddcdc275d0ce73f48cb0965b139a2c28146f5397cb4fb372ef891c2b2d2aa",
+      "bytes": 1025709,
+      "document_date_or_revision": "2025-10-15",
+      "source_id": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+      "authority": "MFB Zrt / official Pályázati Portál",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_LISTED_GENERAL_PROCEDURE"
+    },
+    {
+      "original_url": "https://www.mfb.hu/backend/documents/KEHOP-PLUSZ-Otthonfelujitasi-Program-GYIK-20260901.pdf",
+      "retrieved_at": "2026-10-01T20:14:15.430155+00:00",
+      "sha256": "7bf0f95404033e49a7b207eb5ece226e529b2baea948c4cabd1c3fa9e59589f3",
+      "bytes": 161581,
+      "document_date_or_revision": "2026-09 (day not printed)",
+      "source_id": "SRC-B14-MFB-KEHOP-PROCESSING-FAQ-202609",
+      "authority": "MFB Zrt",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_LINKED_OPERATIONAL_FAQ"
+    },
+    {
+      "original_url": "https://cms.mfb.hu/maganszemelyek/kehop-plusz-417-24-otthonfelujitasi-program-2025--budapesten-kivuli-ingatlanokhoz-t240-p240",
+      "retrieved_at": "2026-10-01T20:18:31.937072+00:00",
+      "sha256": "cf7bb6f6ad04fb5ee396322b2f66f7d2877683bf565ef573f7ab3bf0734e3500",
+      "bytes": 499362,
+      "document_date_or_revision": "undated current page; suspension dates explicit",
+      "source_id": "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+      "authority": "MFB Zrt",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_INTAKE_STATUS"
+    },
+    {
+      "original_url": "https://mfb.hu/maganszemelyek/kehop-plusz-418-24-otthonfelujitasi-program-2025--budapesti-ingatlanokhoz-t241-p241",
+      "retrieved_at": "2026-10-01T20:18:32.067045+00:00",
+      "sha256": "d26c103178789183d76e27e66c250ec737062e17670860089fb3ae4731308509",
+      "bytes": 497201,
+      "document_date_or_revision": "undated current page; suspension date explicit",
+      "source_id": "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+      "authority": "MFB Zrt",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_INTAKE_STATUS"
+    },
+    {
+      "original_url": "https://ginapp-api.fair.gov.hu/document/document-list?slug=kehop_plusz-4.1.7-24&type=tender",
+      "retrieved_at": "2026-10-01T20:18:30.920879+00:00",
+      "sha256": "4e8dcd209eeb24b7322f2f9e003a8500d0261e82cef841adce04a0a9ca4c9db3",
+      "bytes": 5044,
+      "document_date_or_revision": "2026-10-01 retrieval",
+      "source_id": "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261001",
+      "authority": "official Pályázati Portál / FAIR public API",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_DOCUMENT_IDENTITY_INDEX"
+    },
+    {
+      "original_url": "https://ginapp-api.fair.gov.hu/document/document-list?slug=kehop_plusz-4.1.8-24&type=tender",
+      "retrieved_at": "2026-10-01T20:18:30.931408+00:00",
+      "sha256": "1f210cab9cf01f704f6004473731533f5b68ec1193f491cbb2824b541cb82df5",
+      "bytes": 5045,
+      "document_date_or_revision": "2026-10-01 retrieval",
+      "source_id": "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
+      "authority": "official Pályázati Portál / FAIR public API",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "CURRENT_DOCUMENT_IDENTITY_INDEX"
+    },
+    {
+      "original_url": "https://www.palyazat.gov.hu/api/download/69de4454364ec6bb184ff0c2",
+      "retrieved_at": "2026-10-01T20:24:25.684099+00:00",
+      "sha256": "793c02f255d543b0136568cc426650ea4ff31abc267e68fa8d8c44d10aede93a",
+      "bytes": 117379,
+      "document_date_or_revision": "2026-04-14",
+      "source_id": "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+      "authority": "official Pályázati Portál / FAIR public API",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "OFFICIAL_SUSPENSION_NOTICE"
+    },
+    {
+      "original_url": "https://www.palyazat.gov.hu/api/download/69e5e8dd57d6d132f8579756",
+      "retrieved_at": "2026-10-01T20:24:20.883495+00:00",
+      "sha256": "8605d46276c7013b9a790326f832a439f0a1612c05e933913cb831315f8dac92",
+      "bytes": 152675,
+      "document_date_or_revision": "2026-04-20",
+      "source_id": "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+      "authority": "official Pályázati Portál / FAIR public API",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "OFFICIAL_SUSPENSION_NOTICE"
+    },
+    {
+      "original_url": "https://www.palyazat.gov.hu/api/download/69de44f872e48b668a6b473a",
+      "retrieved_at": "2026-10-01T20:24:43.281842+00:00",
+      "sha256": "f923607ce61daf8c9dc2c86ef7ebdec69015ba4f15c3ac95f4c639bca520d334",
+      "bytes": 114763,
+      "document_date_or_revision": "2026-04-14",
+      "source_id": "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+      "authority": "official Pályázati Portál / FAIR",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "Public redistribution not cleared; curated facts only; external bytes excluded",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+      "evidence_role": "OFFICIAL_SUSPENSION_NOTICE"
+    }
+  ],
+  "programme_bindings": [
+    {
+      "programme_id": "KEHOP Plusz-4.1.7-24",
+      "sha256": "8925530740ea3828bf7003d2ebe03e6fe2989dfcd75bb2012c4a9d15e764fe35"
+    },
+    {
+      "programme_id": "KEHOP Plusz-4.1.8-24",
+      "sha256": "8c8bec44252c02edbce957c8277c3de45f5aa40d47c15b05799565be2b301c70"
+    }
+  ],
+  "operational_observations_sha256": "e140bea35cd3c9f16dc5edea44aa2c0b43673060cde62f0bcb0eedad6c231ae9",
+  "cap_bindings": [
+    {
+      "cap_id": "KEHOP417-CAP-01",
+      "sha256": "3ae4bb909e8b2d4d5f630e9e79debaab18975945ee474afc399a53029fb83e92"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-02",
+      "sha256": "83537f69ceec6c74139401d18a26c616a4914bf77a7054a72decce41e6a28dff"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-03",
+      "sha256": "41be3dd1fff4d374cf52b737355e67ce4c35dbcd68a36bba30e2ff033ee5c590"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-04",
+      "sha256": "c4f52d34ef0ec7fd614dbe1e92f82fa767bcca4c026c6d4ac0b3a644895335f7"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-05",
+      "sha256": "0d04bd0c49e082aded5437d5f74f351404f7d9c8936a2f7250cfb60a9b120607"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-06",
+      "sha256": "f51b26188a6eb568951c5f3e09e3c39d013d52adad3d8ff848715137439d4863"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-07",
+      "sha256": "5c376f24c5889b9f88c4b00cbaaa25aa79ab71fb42fa559931323c7b6a29fbf3"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-08",
+      "sha256": "dd85208a70a5690a9501a8bc3f261de18b6cef7a8c6ae93a0dbd3ac22d6fea94"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-09",
+      "sha256": "c221ff3ebcb416445d4e68765456a55a4d0c71294e50c3e6a566243a9849dad8"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-10",
+      "sha256": "bc90e2868538d63efb2bd35e820d18e01a34d6a4a08bb9fda954c65e7c0a9b97"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-11",
+      "sha256": "6cf2d4303a603eb4f72903ad3ec88290ba48b9c2993032dd6713204d82d39fda"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-12",
+      "sha256": "12c2b9de33fcd30720b5510ff0bc54ec724ea06e4c6d0f8a61397f56e06ef878"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-13",
+      "sha256": "0ab790d2b0e244e0fe47f6535d9a7041c60ddc195017ad5d5a65792917c610d0"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-14",
+      "sha256": "7caca1309bcce3fd2a11940ed47606513c1526d9ada42d47e7a9a78a3f1921a8"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-15",
+      "sha256": "f76e71b963a8c6c73e25eb20329c33dbf5145d044c094bdca77e57105e45c7e1"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-16",
+      "sha256": "be99e4736515f9799233bfb74d8ce0d53816bf0d72fcba95fc9ec472f379a385"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-17",
+      "sha256": "fa45ed27e55a4410fdd4cb61d09994e41ee49c8eb2f4be665d7e792fa532ae8f"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-18",
+      "sha256": "daa687b016af249a52f097e7f235100834b236611a7a261005934f62ad3656c2"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-19",
+      "sha256": "398dc95616b357898339736c79b4719c1a3b42139a44a8f4566a765cb4a5e7b8"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-20",
+      "sha256": "93b18567e55241fd4efae7d73062cbc75ec40f5934e336cc8009917a02d39f4c"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-21",
+      "sha256": "1ada5170f71ffd17273c8ceb141d9c9dcd601230703732e8d518d3e161ba29d5"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-22",
+      "sha256": "43bc06976cac0c8e401d672c28bc5192e9689dbb12c666955af7fa9b9196eace"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-23",
+      "sha256": "dbd132da4f0d9375704ab546a465885d952843d508810f2bd68ec60da79f68ad"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-24",
+      "sha256": "8efef69d492831391d5b606ac807aa6c616b2eef3322d2135408265cd8fac49e"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-25",
+      "sha256": "a9f7aa59ba9cade5de8e9d017428136121f9115da1c5cd96d7555383099bea90"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-26",
+      "sha256": "22058aaf18e277670cafac759a2bf11c079cf33c2fb5602a509684c400892392"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-27",
+      "sha256": "306fc7eda632991a02862b8b0d8ce372b9b3a1b7a55eaea32d211a99c5c5a8bd"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-28",
+      "sha256": "6c9ddd9513aab7df0dc67e7a4f56f60248ce9d6226df9be493c27829eb338963"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-29",
+      "sha256": "5327d4f3c97169d818d4e19408bb4994796f6d6fe8f72522d0d31e6daf02e499"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-30",
+      "sha256": "186eabc1deab70df9dd38acc5e022790ba11c290d6c1adf3ed1928c0a5c3b034"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-31",
+      "sha256": "b927f2eb05e337d93dcc8545c2b2cb5e851410be3760046717e4e4e1e0703878"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-32",
+      "sha256": "8fb3001300e2f077c9c8f2fc59f5a09a14345ead0a185341a088d315ed22f910"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-33",
+      "sha256": "f38324961289c9a411f6c2c38151f537dffe63c553158dae5aa914075bf1d4dc"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-34",
+      "sha256": "5e6ff34febafcd1def33332d8b6b5f22af8569ddc2fbd9f1ec6085df53468435"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-35",
+      "sha256": "7530afe443b5968cba867e80d81df33734c36f45cd961303fa04aaf772c1a56d"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-36",
+      "sha256": "954dddc72b6c87cb498d6c4c36bc94421f35378b39fb95f070b4680439f6f51e"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-37",
+      "sha256": "308ef1351fb094ef79ec2b7a33f6063ab78fa23beb6317446a3b2efc65a6c18f"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-38",
+      "sha256": "445a42f389364ae0910958e42a0d7cafe53457f452922d28639dc7d8a73b08d6"
+    },
+    {
+      "cap_id": "KEHOP417-CAP-39",
+      "sha256": "b1dc1313b0de9b46c4ed88d540f0f23d2b89af0e013797bb82c3541956d95eb1"
+    }
+  ],
+  "admission_notes": [
+    "EXACT_RULES_AND_DATED_STATUS_ONLY",
+    "SAME_MIRROR_AND_OFFICIAL_BYTES_ONE_DOCUMENT_LINEAGE",
+    "B14_D01_BALANCES_AND_B14_D02_RESEARCH_FIT_REMAIN_OPEN",
+    "B15_NOT_STARTED_OR_UNBLOCKED"
+  ]
+}

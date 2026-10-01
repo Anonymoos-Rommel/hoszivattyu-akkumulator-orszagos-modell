@@ -1,0 +1,67 @@
+{
+  "checkpoint": "V1_018",
+  "reviewed_base_head": "facd46bc4c4b6c26a7f54040103c0a2f611ec17d",
+  "focused_tests": {
+    "command": "python -m unittest discover -s tests -p 'test_b14_funding_reference.py'",
+    "tests": 24,
+    "result": "PASS"
+  },
+  "plan_tests": {
+    "tests": 3,
+    "result": "PASS"
+  },
+  "registry_validation": "PASS",
+  "local_full_suite": {
+    "result": "RESOURCE_BLOCKED",
+    "normal_command": "python -m unittest discover -s tests",
+    "normal_exit_code": 137,
+    "normal_completion": "Killed after 363 progress markers; no completed full-suite result",
+    "isolated_fallback": "Sequential fresh process per test file; 12 of 308 files attempted, process killed (-9) within unchanged test_b02_keop_prior_calibration.py after 104 completed tests from preceding files",
+    "assertion_failure_observed": false,
+    "environment_note": "Transient synthetic mount No space left on device; subsequent read succeeded, filesystem 28 GB free and 97% inodes free. Available memory recovered from about 1.4 GB to 6.4 GB. No source or evidence removed. Resource-heavy retries paused.",
+    "required_followthrough": "Exact published-head GitHub full-suite CI must pass before this checkpoint is called verified"
+  },
+  "independent_review": {
+    "result": "PASS_NO_BLOCKING_FINDING",
+    "candidate_files": 8,
+    "focused_tests": 24,
+    "exact_source_files": 11,
+    "targeted_source_checks": 113,
+    "visually_reviewed_cap_rows": 39,
+    "scope": "Frozen code/data/manifest/verifier plus separately reviewed shared source/plan/module/README/checkpoint integration",
+    "full_suite_independently_rerun": false
+  },
+  "source_verification": {
+    "result": "PASS",
+    "sources": 11,
+    "targeted_checks": 113,
+    "source_verifier_sha256": "f014c8a0ce346093e0da0db139483fd7238d6f0ba429212f386b1d26f19e3da1"
+  },
+  "artifact_sha256": {
+    "modules/B14/funding_reference.py": "ce3b29422a3e0e8ea4530e2ab7805caa89f1a71bf6538cfaa0f11431574b5d1c",
+    "modules/B14/__init__.py": "acee4c8551559d878e3eb2845269d74e63ae02d27feb4692a01c9ad88983e758",
+    "data/processed/b14/funding_reference_snapshot.json": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
+    "data/processed/b14/eligible_cost_caps_417.csv": "a5a0d68a58f070c8620b6dd31a73b4185c194a26c0b47c9f5c79f9dd07ea3613",
+    "registry/b14_funding_reference_manifest.json": "809a9c92afcd4ce488905ad4e7b43e5c78dac151a48d165bfb9cfb85abc361bc",
+    "tests/test_b14_funding_reference.py": "6b20d7b47c9ab85f5cc6c4860034726f2480df5817e9cc43ddd5a58441584e25",
+    "tools/verify_b14_funding_reference.py": "f014c8a0ce346093e0da0db139483fd7238d6f0ba429212f386b1d26f19e3da1",
+    "docs/checkpoints/V1_018_B14_FUNDING_REFERENCE.md": "9178e7266a7d3dc5b878dd915a1a435da3ccb9887cd90aecb7790d5652a1d53d",
+    "modules/B14/README.md": "64eca97d221a0e3f29b7eaaa8a2d733f0b1887bd6b9aa59536874cab2690aa03",
+    "registry/sources.csv": "574e3e09866f29198b6c344c12379be60a6cfacf3dee54e2c6bde1ad99235d09",
+    "registry/module_status.csv": "bd481abb2efc43ea8bd1943149bab0a629cac7758b032bbbee11fdbb7664cb97",
+    "registry/v1_research_plan.json": "2948b4235ae0e33a50ae1a5c842bbc4c87bd3cd4b5887e453f143ee69fe4190f",
+    "docs/checkpoints/V1_017_ACCEPTANCE.json": "373b1a13ef123dc5742486605ee37e416178478081ff24e100d050a0e25c795a"
+  },
+  "included_prior_acceptance": {
+    "slice_id": "B09-D01",
+    "reviewed_commit": "facd46bc4c4b6c26a7f54040103c0a2f611ec17d",
+    "evidence": "docs/checkpoints/V1_017_ACCEPTANCE.json"
+  },
+  "boundaries": [
+    "Dated 2026-10-01 structural funding-rule reference only",
+    "No current balance, household award, confirmed project grant, financing calculation or national allocation",
+    "Gross 4.1.7 policy caps are not expected costs or automatically transferable to 4.1.8",
+    "No source bytes or private EKR/Hans material included",
+    "B14-L01 remains INTEGRATING; B14-D01/D02 open; B15 remains gated"
+  ]
+}
