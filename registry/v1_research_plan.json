@@ -17,12 +17,29 @@
           "data": "Lakás/év és arány, HU vármegye × archetípus × S0–S5; 2022 állomány és kiválasztott induló év közti építés/megszűnés/felújítás híd. Részvétel, kiesés, várakozás és alkalmas állomány külön.",
           "phase": "A",
           "slice_id": "B01-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B02-KSH-CENSUS-API-2022",
+            "SRC-B01-KSH-STADAT-STOCK-2026",
+            "SRC-B01-KSH-STADAT-FLOW-2025"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "KSH census-derived STADAT total stock",
+                "KSH administrative completions/removals; same institutional lineage, not independent surveys"
+              ],
+              "remaining_unknown": "Occupied/non-district cohort transitions, renovation, participation and technical eligibility; total-stock bridge does not identify them",
+              "promising_next_lead": "Reuse original occupied KSH frame while acquiring claim-appropriate occupancy/renovation transition evidence",
+              "expected_decision_value": "Adds exact public county/time stock accounting without silently changing target denominator",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_004_B01_PUBLIC_STOCK_FLOW.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
