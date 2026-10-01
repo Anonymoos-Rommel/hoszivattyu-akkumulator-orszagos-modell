@@ -122,3 +122,5 @@ Részletes szerződés: [`data_contract.md`](data_contract.md).
 ## V1 national household final-energy controls
 
 [Eurostat control intake](../../docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md) separates end uses and energy products for Hungary in 2022–2024. It preserves missing cells and rounding residuals; it is not a useful-heat estimate or a programme savings result.
+
+[JRC household model controls](../../docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md) retain selected 2022–2023 native cells and expose the end-use decomposition difference against Eurostat. They remain research calibration controls, without E2 admission.

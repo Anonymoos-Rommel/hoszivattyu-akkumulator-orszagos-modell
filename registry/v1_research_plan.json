@@ -73,7 +73,8 @@
           "slice_id": "B02-D01",
           "status": "INTEGRATING",
           "canonical_source_ids": [
-            "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024"
+            "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+            "SRC-B02-JRC-IDEES-HU-2023"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -90,6 +91,17 @@
               "expected_decision_value": "Separates heating and hot water from cooking/appliances before gas or electricity programme comparison",
               "decision": "CONTINUE_CORE_INFERENCE",
               "evidence": "docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "JRC-IDEES official model; dependent on Eurostat and EU Ecodesign"
+              ],
+              "remaining_unknown": "End-use revision/decomposition discrepancy and Hungarian equipment/target-cohort applicability",
+              "promising_next_lead": "Use native paired final/useful controls for coherent same-year calibration sensitivity",
+              "expected_decision_value": "Provides sourced useful-energy ratios while exposing household/dwelling and final/useful boundary errors",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md"
             }
           ],
           "reviewed_commit": null
