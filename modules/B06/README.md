@@ -254,3 +254,7 @@ benne. Ez new-build design, ezért nem retrofit effect és nem országos default
 
 `Q-B06-008` authority szinten RESOLVED; a hiányos egyedi épület továbbra is
 `Q`, országos emitter-inventory lefedettséget P65 nem állít.
+
+## V1 historical seasonal reference
+
+[Three TABULA physical examples](../../docs/checkpoints/V1_012_TABULA_SEASONAL_REFERENCE.md) now have nine source-filled seasonal useful-space-heat calculations in `tabula_seasonal_reference.py`. Original geometry warnings, source-cell provenance and native unit harmonization remain explicit. The source-native DER and uniform-service SCN cases do not populate the separate monthly/design-peak effect-surface gate or represent current national usage.

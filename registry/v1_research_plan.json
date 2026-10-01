@@ -417,12 +417,26 @@
           "data": "Szigetelés/ablak/hőleadó/hidraulika csomag × archetípus: m², U W/m²K, kWh_th/év, kW_th, °C; magyar baseline és post külön. Tervezett és megvalósult állapot nem egy címke.",
           "phase": "A",
           "slice_id": "B06-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-TABULA-HU-CALCULATOR-2016"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "TABULA/EPISCOPE compact workbook2016; historical Hungarian illustrative building examples"
+              ],
+              "remaining_unknown": "Current population applicability, monthly/hourly and design-peak handoff, generator losses and realized outcomes; seasonal examples do not pass P63",
+              "promising_next_lead": "Use populated same-service reference calculations to identify necessary handoffs; avoid another generic typology survey",
+              "expected_decision_value": "Reproduces three envelope-state triples from actual public physical inputs instead of synthetic thermal fixtures",
+              "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_012_TABULA_SEASONAL_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

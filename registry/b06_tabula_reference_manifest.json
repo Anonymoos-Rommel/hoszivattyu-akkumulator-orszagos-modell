@@ -1,0 +1,48 @@
+{
+  "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+  "original_url": "https://episcope.eu/fileadmin/tabula/public/calc/tabula-calculator.xlsx",
+  "retrieved_at": "2026-10-01",
+  "document_revision": "TABULA compact database workbook, July 20 2016",
+  "source_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+  "source_sheet": "Calc.Set.Building",
+  "source_rows": [
+    1218,
+    1219,
+    1220,
+    1227,
+    1228,
+    1229,
+    1239,
+    1240,
+    1241
+  ],
+  "attribution": "IEE Projects TABULA + EPISCOPE (www.episcope.eu)",
+  "reuse_terms_url": "https://episcope.eu/communication/download/",
+  "reuse_status": "Non-exclusive use with prominent TABULA/EPISCOPE attribution; numerical subset and equation provenance attributed",
+  "repo_snapshot_path": null,
+  "archive_debt": "Exact original workbook retained outside repository; source hash and reproducible extraction preserved. Binary archive not published in this text-only checkpoint.",
+  "curated_extract_sha256": "9b946e1ecded543bff1540273417add5b975d9ddbe5ce8b48f0d528cad76bb93",
+  "evidence_scope": "Historical source-reference annual useful space heat only; not current stock, final energy, design peak, monthly/hourly demand or site eligibility",
+  "source_native_unit_corrections": {
+    "Sum_DeltaT_for_HeatingDays": {
+      "native": "kKh/a",
+      "used": "K day",
+      "basis": "(theta_i-Theta_e)*HeatingDays; factor24/1000 converts W day to kWh"
+    },
+    "I_Sol_*": {
+      "native": "kWh/a",
+      "used": "kWh/m2 receiving surface per declared heating period",
+      "basis": "Source equation multiplies irradiation by receiving window area; TABULA method chapter6"
+    },
+    "g_gl_n_Measure_Window_*": {
+      "native": "m2 K/W",
+      "used": "dimensionless",
+      "basis": "Solar-energy transmittance multiplies incident solar energy"
+    }
+  },
+  "geometry_warning": "All nine source geometry-estimator compatibility flags are zero. Manual geometry is retained with warning, not reclassified erroneous or transferred to a real building.",
+  "method_limit": "Supports only the nine pinned Refurbishment variants. Native2016 factor extrapolation retained; not a general TABULA Variation engine.",
+  "service_boundary": "Native adjustment is DER; setting nonuniform heating factor1 is an explicit fixed-season SCN and not always an upper demand bound. Temperature perturbation only with explicit uniform-service scenario.",
+  "method_url": "https://episcope.eu/fileadmin/tabula/public/docs/report/TABULA_CommonCalculationMethod.pdf",
+  "method_sha256": "69963a02efba405bf0970d199d6fcdd24b44ef87521afd7b71694e714f6b92ef"
+}
