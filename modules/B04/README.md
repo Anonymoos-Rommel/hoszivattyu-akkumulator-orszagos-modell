@@ -48,3 +48,5 @@ Wholesale history/forward and dynamic residential pricing remain fail-closed Q. 
 ## V1 canonical tariff consumer
 
 `engine.py` now consumes canonical A1 and H heating-season tariff rows. It returns explicitly labelled constant-2026-tariff SCN costs using supplied period allocations, not validated historical/future invoices; it does not grant site eligibility or authorize battery/export dispatch. H energy-only and final-price fields are distinct. The universal outside-season A1-higher fallback is retired; its complete tariff/period handoff remains Q. See [checkpoint 002](../../docs/checkpoints/V1_002_B04_TARIFF_BOUNDARY.md).
+
+The optional D-tariff source intake and net-energy-only backcast consumer are documented in [checkpoint 003](../../docs/checkpoints/V1_003_B04_DYNAMIC_SOURCE_INTAKE.md). Actual application cannot start before 2027-01-01. The public retrospective series is not an observed historical D bill, a pure wholesale series or a forecast; the core programme does not require this optional extension.

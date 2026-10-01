@@ -183,12 +183,30 @@
           "data": "EUR/MWh vagy HUF/MWh órás/napi nagykereskedelmi sor, HU ajánlati zóna, as-of; külön a lakossági számlától. Dinamikus termék csak ha tényleges szerződési/elszámolási feltétel elérhető.",
           "phase": "A",
           "slice_id": "B04-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B04-MVM-D-PRODUCT-2026",
+            "SRC-B04-MVM-D-METHOD-2026",
+            "SRC-B04-MVM-D-FEE-20260910",
+            "SRC-B04-MVM-D-HISTORY-2026-09"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "MVM supplier contract/method/notice",
+                "MVM HUPX-derived retrospective price table; not independent of HUPX"
+              ],
+              "remaining_unknown": "Aligned household loads/weather; network/fixed/tax and entitlement; actual future contract eligibility; public full-series reuse rights",
+              "promising_next_lead": "Use the materialized panel only for a justified optional D scenario with matching physical time window",
+              "expected_decision_value": "Replaces hypothetical dynamic-product assumption with source-native product terms and an acquired price panel",
+              "decision": "CONTINUE_WHEN_SCENARIO_CONSUMER_READY",
+              "evidence": "docs/checkpoints/V1_003_B04_DYNAMIC_SOURCE_INTAKE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
