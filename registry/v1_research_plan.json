@@ -75,7 +75,8 @@
           "canonical_source_ids": [
             "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
             "SRC-B02-JRC-IDEES-HU-2023",
-            "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
+            "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
+            "SRC-B02-HU-REKK-TARKI-ENVELOPE-2022"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -132,6 +133,17 @@
               "expected_decision_value": "Real116452-cell mass-conserving run locates area-basis mismatch and prevents spurious national heat/cost scaling",
               "decision": "CONTINUE_TARGETED_CALIBRATION",
               "evidence": "docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "TARKI-REKK2022 household survey; existing KEOP/Csoknyai and related Hungarian usage studies"
+              ],
+              "remaining_unknown": "Within-group area/use cross-moment, type-level actual heat allocation and source-matched annual/peak physical states",
+              "promising_next_lead": "Reuse populated same-service physical cases and published low-dimensional usage controls before requiring more granular measurement",
+              "expected_decision_value": "Prevents national-total calibration from hiding service, weather and stock-year differences",
+              "decision": "PUBLIC_SERVICE_CONTROL_INTEGRATED_NOT_HEAT_ADMISSION",
+              "evidence": "docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md"
             }
           ],
           "reviewed_commit": null

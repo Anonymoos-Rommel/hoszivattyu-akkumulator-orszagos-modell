@@ -128,3 +128,5 @@ Részletes szerződés: [`data_contract.md`](data_contract.md).
 [Scoped annual heat E2 reference](../../docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md) uses the paired 2022 JRC SH/DHW cohorts, excludes the whole district cohort and separates circulation. KSH is a normalization-only denominator; participant scaling remains forbidden until the target-allocation estimator is admitted.
 
 [Historical type-prior and area-bridge experiment](../../docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md) conserves current WBL/P21 counts while keeping source census area separate from prototype geometry. Its weights and 2011-to-2022 area transfer remain explicit SCN/ASS, not E2 household assignments.
+
+[Reported2022 service controls](../../docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md) retain gas-use-group survey means and their denominators. Separate mean dwelling area and mean heated fraction do not authorize mean heated area or a type-level heat allocation.
