@@ -126,3 +126,5 @@ Részletes szerződés: [`data_contract.md`](data_contract.md).
 [JRC household model controls](../../docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md) retain selected 2022–2023 native cells and expose the end-use decomposition difference against Eurostat. They remain research calibration controls, without E2 admission.
 
 [Scoped annual heat E2 reference](../../docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md) uses the paired 2022 JRC SH/DHW cohorts, excludes the whole district cohort and separates circulation. KSH is a normalization-only denominator; participant scaling remains forbidden until the target-allocation estimator is admitted.
+
+[Historical type-prior and area-bridge experiment](../../docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md) conserves current WBL/P21 counts while keeping source census area separate from prototype geometry. Its weights and 2011-to-2022 area transfer remain explicit SCN/ASS, not E2 household assignments.

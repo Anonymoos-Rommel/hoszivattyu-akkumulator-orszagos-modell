@@ -74,7 +74,8 @@
           "status": "INTEGRATING",
           "canonical_source_ids": [
             "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
-            "SRC-B02-JRC-IDEES-HU-2023"
+            "SRC-B02-JRC-IDEES-HU-2023",
+            "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -119,6 +120,18 @@
               "expected_decision_value": "Admits a real E2 annual calibration base without rescaling national heat by mismatched counts or repeating general source searches",
               "decision": "SCOPED_E2_ADMITTED_CONTINUE_INTEGRATION",
               "evidence": "docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing dissertation census2011-based type counts/area and author-applied area bridge",
+                "Existing KSH2022 full joint and P21 linkage"
+              ],
+              "remaining_unknown": "Historical area/type transfer and omitted within-cell physical conditioning; weights remain SCN experiment not E2",
+              "promising_next_lead": "Use true census dwelling-area exposure with source-defined full-heating bridge, not synthetic prototype size as current dwelling area",
+              "expected_decision_value": "Real116452-cell mass-conserving run locates area-basis mismatch and prevents spurious national heat/cost scaling",
+              "decision": "CONTINUE_TARGETED_CALIBRATION",
+              "evidence": "docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md"
             }
           ],
           "reviewed_commit": null
