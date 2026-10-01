@@ -7,14 +7,18 @@ from decimal import Decimal, localcontext
 from pathlib import Path
 
 from modules.B10.cost_reference import (
-    BILL_ITEM, CONNECTION, DATA_PATH, EXACT_REFERENCE_ONLY, MANIFEST_PATH,
+    ANNEX_SOURCE, BILL_ITEM, BOQ_SOURCE, CONNECTION, CONTRACT_SOURCE, DATA_PATH,
+    EXACT_REFERENCE_ONLY, MANIFEST_PATH, ORGOVANY_I,
     PRICE_KINDS, REJECTED_PRICE_KINDS, SUBSTATION, SUPPLY, UNKNOWN_FIELDS,
     CostReferenceError, load_reference_catalog, validate_payload,
 )
 from modules.B10.national_network_inference_layer import (
     Q_NATIONAL_NETWORK_INFERENCE, assess_national_network_inference,
 )
-from tools.verify_b10_cost_reference import extract_amended_item, extract_winning_awards, verify_external_sources
+from tools.verify_b10_cost_reference import (
+    extract_amended_item, extract_contract_amounts, extract_winning_awards,
+    verify_external_sources, verify_supplement_sources,
+)
 
 
 class B10CostReferenceTests(unittest.TestCase):
@@ -115,7 +119,8 @@ class B10CostReferenceTests(unittest.TestCase):
 
     def test_unknowns_and_reserves_are_not_zero_filled_or_added(self):
         for row in self.rows:
-            self.assertEqual(set(row["unknowns"]), UNKNOWN_FIELDS)
+            expected = UNKNOWN_FIELDS - {"reserve_included"} if row["observation_id"] == ORGOVANY_I else UNKNOWN_FIELDS
+            self.assertEqual(set(row["unknowns"]), expected)
             self.assertTrue(all(v is None for v in row["unknowns"].values()))
         with self.assertRaises(CostReferenceError):
             self.derive(self.rows[2], "AWARD_PLUS_RESERVE", "HUF")
@@ -248,6 +253,137 @@ class B10CostReferenceTests(unittest.TestCase):
         )
         self.assertEqual(result.status, Q_NATIONAL_NETWORK_INFERENCE)
         self.assertIn("REPRESENTATIVE_REINFORCEMENT_COHORT_AND_INCREMENTAL_CAPEX_DISTRIBUTION_REQUIRED", result.blockers)
+
+    def test_orgovany_signed_contract_sources_do_not_relabel_ted_snapshot(self):
+        row = self.rows[2]
+        supplement = self.catalog.supplement(ORGOVANY_I, price_basis=row["price_basis"])
+        self.assertIs(supplement["reserve_included"]["value"], False)
+        self.assertNotIn("reserve_included", row["unknowns"])
+        ted_value = self.read(row)
+        contract_value = self.catalog.read_supplement_fact(
+            ORGOVANY_I, "contract_net_amount", unit="HUF", price_basis=row["price_basis"])
+        boq_value = self.catalog.read_supplement_fact(
+            ORGOVANY_I, "boq_net_total", unit="HUF", price_basis=row["price_basis"])
+        self.assertEqual(ted_value.value, contract_value.value)
+        self.assertEqual(ted_value.value, boq_value.value)
+        self.assertEqual(ted_value.source["source_id"], "SRC-B10-V1-TED-438132-2026")
+        self.assertEqual(contract_value.source["source_id"], CONTRACT_SOURCE)
+        self.assertEqual(boq_value.source["source_id"], BOQ_SOURCE)
+        self.assertEqual(boq_value.source["parent_source_id"], ANNEX_SOURCE)
+
+    def test_other_lots_keep_unknowns_and_cannot_read_or_copy_supplement(self):
+        for index, row in enumerate(self.rows):
+            if row["observation_id"] == ORGOVANY_I:
+                continue
+            self.assertIsNone(row["unknowns"]["reserve_included"])
+            self.assertNotIn("contract_supplement", row)
+            with self.assertRaises(CostReferenceError):
+                self.catalog.supplement(row["observation_id"], price_basis=row["price_basis"])
+            data, manifest = copy.deepcopy(self.data), copy.deepcopy(self.manifest)
+            data["observations"][index]["contract_supplement"] = copy.deepcopy(data["observations"][2]["contract_supplement"])
+            self.rebind(data, manifest)
+            with self.assertRaises(CostReferenceError):
+                validate_payload(data, manifest)
+
+    def test_conditional_reserve_is_not_cost_forecast_or_recomputed_percentage(self):
+        row = self.rows[2]
+        reserve = self.catalog.read_supplement_fact(
+            ORGOVANY_I, "conditional_reserve_amount", unit="HUF", price_basis=row["price_basis"])
+        self.assertEqual(reserve.value, Decimal("5998208"))
+        self.assertNotEqual(reserve.value, self.read(row).value * Decimal("0.1"))
+        self.assertEqual(reserve.metadata["contract_supplement"]["facts"]["conditional_reserve_amount"]["role"],
+                         "CONDITIONAL_RESERVE_NOT_COST_OR_FORECAST")
+        for calculation in ("AWARD_PLUS_RESERVE", "EXPECTED_RESERVE_USE", "TOTAL_PROJECT_COST"):
+            with self.assertRaises(CostReferenceError):
+                self.derive(row, calculation, "HUF")
+        for claim in ("ACTUAL_PAID", "COST_FORECAST", "NATIONAL_COST", "ANNUAL_CASHFLOW"):
+            with self.assertRaises(CostReferenceError):
+                self.catalog.read_supplement_fact(ORGOVANY_I, "conditional_reserve_amount",
+                                                  unit="HUF", price_basis=row["price_basis"], claim=claim)
+
+    def test_native_columns_reconcile_but_are_not_pure_deflator_buckets(self):
+        row = self.rows[2]
+        supplement = row["contract_supplement"]
+        facts = supplement["facts"]
+        self.assertEqual(Decimal(facts["boq_anyag_total"]["value"]), Decimal("42667980"))
+        self.assertEqual(Decimal(facts["boq_dij_total"]["value"]), Decimal("17314107"))
+        self.assertEqual(Decimal(facts["boq_anyag_total"]["value"]) + Decimal(facts["boq_dij_total"]["value"]),
+                         self.read(row).value)
+        self.assertIs(supplement["boundaries"]["pure_material_labour_deflator_buckets"], False)
+        for name in ("equipment_cost", "pure_labour_cost", "transformer_unit_price", "normalized_2026_huf"):
+            with self.assertRaises(CostReferenceError):
+                self.catalog.read_supplement_fact(ORGOVANY_I, name, unit="HUF", price_basis=row["price_basis"])
+
+    def test_dates_conditions_and_route_headers_do_not_create_actual_cashflow(self):
+        row = self.rows[2]
+        supplement = row["contract_supplement"]
+        cover = supplement["dates"]["boq_cover_date"]
+        self.assertEqual((cover["value"], cover["truth_status"]), ("2025-12-02", "OBS"))
+        self.assertIn("NOT_PROVEN_ECONOMIC_PRICE_BASE", cover["semantics"])
+        self.assertTrue(all(v is None for v in supplement["unknowns"].values()))
+        self.assertIs(supplement["boundaries"]["contract_schedule_is_actual_cashflow"], False)
+        self.assertEqual(supplement["facts"]["payment_after_invoice_without_subcontractor"]["role"],
+                         "ONLY_WITHOUT_SUBCONTRACTOR")
+        self.assertEqual(self.read(row, "mv_cable_length").value, Decimal("148"))
+        route = self.catalog.read_supplement_fact(ORGOVANY_I, "route_a_header_length",
+                                                  unit="m_route_header_A", price_basis=row["price_basis"])
+        self.assertEqual(route.value, Decimal("147.62"))
+        with self.assertRaises(CostReferenceError):
+            self.catalog.read_supplement_fact(ORGOVANY_I, "route_a_header_length",
+                                              unit="m_cable", price_basis=row["price_basis"])
+        with self.assertRaises(TypeError):
+            supplement["reserve_included"]["value"] = True
+
+    @staticmethod
+    def rebind(data, manifest):
+        for row, binding in zip(data["observations"], manifest["record_bindings"]):
+            binding["record_sha256"] = hashlib.sha256(json.dumps(
+                row, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+    def test_rehashed_supplement_semantic_mutations_are_rejected(self):
+        mutations = [
+            lambda s: s["reserve_included"].update(value=True),
+            lambda s: s["reserve_included"].update(source_id="SRC-B10-V1-TED-438132-2026"),
+            lambda s: s["boundaries"].update(reserve_addition_to_cost_or_forecast_allowed=True),
+            lambda s: s["boundaries"].update(pure_material_labour_deflator_buckets=True),
+            lambda s: s["boundaries"].update(contract_schedule_is_actual_cashflow=True),
+            lambda s: s["unknowns"].update(actual_paid_huf="59982087"),
+            lambda s: s["unknowns"].update(actual_reserve_used_huf="0"),
+            lambda s: s["facts"]["boq_anyag_total"].update(role="PURE_MATERIAL_COST"),
+            lambda s: s["facts"]["contract_net_amount"].update(source_id=BOQ_SOURCE),
+            lambda s: s["facts"]["boq_net_total"].update(value="59982088"),
+            lambda s: s["facts"].update(transformer_unit_price={"value": "1"}),
+            lambda s: s["dates"]["boq_cover_date"].update(semantics="ECONOMIC_PRICE_BASE"),
+        ]
+        for mutate in mutations:
+            data, manifest = copy.deepcopy(self.data), copy.deepcopy(self.manifest)
+            mutate(data["observations"][2]["contract_supplement"])
+            self.rebind(data, manifest)
+            with self.assertRaises(CostReferenceError):
+                validate_payload(data, manifest)
+
+    def test_supplement_sources_are_fail_closed_and_external_only(self):
+        for field, value in (("original_url", "https://ekr.gov.hu/other"),
+                             ("observation_id", self.rows[3]["observation_id"]),
+                             ("repo_snapshot_path", "evidence/signed.pdf"),
+                             ("curated_reuse_scope", "ALL_ANNEX_ROWS")):
+            manifest = copy.deepcopy(self.manifest)
+            manifest["supplemental_sources"][0][field] = value
+            with self.assertRaises(CostReferenceError):
+                validate_payload(self.data, manifest)
+        with self.assertRaises(CostReferenceError):
+            verify_supplement_sources(self.catalog, {})
+
+    def test_contract_parser_requires_exclusion_and_printed_reserve(self):
+        text = ('EKR001158812025 nettó 59 982 087 HUF, azaz összegű átalányár, '
+                'amely nem tartalmazza a tartalékkeret összegét. vállalkozói díj '
+                '10%-ának megfelelő összeget, azaz nettó 5 998 208 forint tartalékkeretet')
+        self.assertEqual(extract_contract_amounts(text),
+                         (Decimal("59982087"), Decimal("5998208"), Decimal("10")))
+        for wrong in (text.replace("nem tartalmazza", "tartalmazza"), text + text,
+                      text.replace("EKR001158812025", "EKR_OTHER")):
+            with self.assertRaises(CostReferenceError):
+                extract_contract_amounts(wrong)
 
 
 if __name__ == "__main__":

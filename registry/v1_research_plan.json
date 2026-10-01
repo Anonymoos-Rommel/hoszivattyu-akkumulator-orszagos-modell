@@ -754,7 +754,10 @@
             "SRC-B10-V1-TED-777208-2025",
             "SRC-B10-V1-TED-438132-2026",
             "SRC-B10-V1-TED-761369-2025",
-            "SRC-B10-V1-TED-373350-2026"
+            "SRC-B10-V1-TED-373350-2026",
+            "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "SRC-B10-V1-EKR-SZ0176453-ANNEX-BUNDLE-20260722",
+            "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202"
           ],
           "accepted_artifacts": [
             "data/processed/b10/cost_reference_observations.json",
@@ -782,6 +785,18 @@
               "expected_decision_value": "Resolve local component/supply and payment boundaries before generic unit prices or national weighting",
               "decision": "CONTINUE_TARGETED_COHORT_AND_ATTRIBUTION_RESEARCH",
               "evidence": "docs/checkpoints/V1_015_B10_COST_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Public EKR Orgovány I signed contract and selected priced-annex aggregate",
+                "Existing TED award, same procurement cluster"
+              ],
+              "remaining_unknown": "Representative reinforcement cohort, programme-caused quantities, complete purchaser/free-issue schedule, economic price-base normalization, actual reserve use, payment/completion and annual cashflow remain open. Granular priced-offer publication is separate unresolved reuse scope.",
+              "promising_next_lead": "Use source-scoped contract aggregates in the continuing representative cost-cohort research; acquire comparable projects with compatible quantities and price periods before any national weighting",
+              "expected_decision_value": "Resolves this exact package reserve exclusion and source-native cost/supply/date/payment boundaries without duplicating the sample or inventing actual cashflow",
+              "decision": "ADMIT_ORGOVANY_I_CONTRACT_AGGREGATE_REFINEMENT_CONTINUE_COHORT_RESEARCH",
+              "evidence": "docs/checkpoints/V1_019_ORGOVANY_CONTRACT_REFINEMENT.md"
             }
           ],
           "reviewed_commit": null
@@ -1002,9 +1017,20 @@
               "expected_decision_value": "Prevents suspended intakes, original envelopes or gross eligible-cost caps from being mistaken for currently available programme funding or expected project prices",
               "decision": "ADMIT_BOUNDED_DATED_RULE_REFERENCE_CONTINUE_SCOPE_RESEARCH",
               "evidence": "docs/checkpoints/V1_018_B14_FUNDING_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Exact published-head verification of bounded KEHOP rule reference"
+              ],
+              "remaining_unknown": "Broader programme scope, current financial balances and research/pilot fit remain open; no whole-slice or module acceptance",
+              "promising_next_lead": "Continue qualified programme and balance research independently of the accepted dated-reference implementation",
+              "expected_decision_value": "Confirms canonical LF input identity,25focusedchecks and2660hostedtests without misreporting the resource-blocked local aggregate",
+              "decision": "VERIFY_BOUNDED_REFERENCE_IMPLEMENTATION_ONLY",
+              "evidence": "docs/checkpoints/V1_018_CI.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "fdbddafc19582780c190753cbe3c6bf170eb885f"
         },
         {
           "title": "Összeg és pénzbeérkezés",

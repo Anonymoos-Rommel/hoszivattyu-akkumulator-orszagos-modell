@@ -198,3 +198,21 @@ are rejected. These observations do not populate the programme-incremental
 ledger or representative national cost cohort. The existing E2 inference route
 is unchanged. See [checkpoint 015](../../docs/checkpoints/V1_015_B10_COST_REFERENCE.md)
 and `registry/b10_cost_reference_manifest.json` for exact source boundaries.
+
+## V1-019 — Orgovány I contract supplement
+
+The existing LOT-0001 reference now has a source-separated signed-contract and
+priced-bill aggregate supplement. Its HUF 59,982,087 net base excludes the
+separate conditional HUF 5,998,208 reserve. Reserve authorization is not actual
+cost, reserve use or a forecast. The seven observations/four procurement
+clusters are unchanged; other lots retain their unknowns.
+
+`ReferenceCatalog.supplement()` returns the immutable exact-lot conditions;
+`read_supplement_fact()` retains each fact's contract/BoQ source, native unit and
+price basis. Native anyag/díj totals are not pure inflation-index buckets; the
+BoQ cover date is not a verified economic price base. Contractual payment and
+site-handover deadlines do not become actual cashflow. No generic unit-price
+conversion, complete free-issue schedule or national CAPEX is inferred.
+
+See [checkpoint 019](../../docs/checkpoints/V1_019_ORGOVANY_CONTRACT_REFINEMENT.md).
+Raw signed documents and granular bill rows remain external-only.

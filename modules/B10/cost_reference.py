@@ -29,6 +29,46 @@ REJECTED_PRICE_KINDS = frozenset({
     "FRAMEWORK_MAXIMUM_CEILING", "LIFECYCLE_BID_SCORE", "UNRESOLVED_RESERVE_FIELD",
 })
 PRICE_KINDS = frozenset({SUPPLY, CONNECTION, SUBSTATION, BILL_ITEM}) | REJECTED_PRICE_KINDS
+ORGOVANY_I = "B10-REF-TED-438132-2026-LOT-0001"
+CONTRACT_SOURCE = "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610"
+BOQ_SOURCE = "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202"
+ANNEX_SOURCE = "SRC-B10-V1-EKR-SZ0176453-ANNEX-BUNDLE-20260722"
+SUPPLEMENT_SOURCES = frozenset({CONTRACT_SOURCE, BOQ_SOURCE, ANNEX_SOURCE})
+EKR_URL = "https://ekr.gov.hu/ekr-szerzodestar/hu/szerzodes/1204237"
+
+# Only these reviewed facts are admitted for this exact lot. Dates, conditions
+# and unresolved actuals remain typed metadata, never inferred numeric costs.
+_SUPPLEMENT_FACTS = {
+    "contract_net_amount": ("HUF", CONTRACT_SOURCE, "BASE_LUMP_SUM_EXCLUDING_RESERVE"),
+    "conditional_reserve_amount": ("HUF", CONTRACT_SOURCE, "CONDITIONAL_RESERVE_NOT_COST_OR_FORECAST"),
+    "reserve_percentage_as_printed": ("percent", CONTRACT_SOURCE, "PRINTED_PERCENT_NOT_RECOMPUTED_AMOUNT"),
+    "boq_anyag_total": ("HUF", BOQ_SOURCE, "SOURCE_NATIVE_ANYAG_COLUMN"),
+    "boq_dij_total": ("HUF", BOQ_SOURCE, "SOURCE_NATIVE_DIJ_COLUMN"),
+    "boq_net_total": ("HUF", BOQ_SOURCE, "SAME_BASE_PACKAGE_NOT_ADDITIONAL_COST"),
+    "route_a_header_length": ("m_route_header_A", BOQ_SOURCE, "DISTINCT_FROM_NOTICE_AND_CABLE_ITEM_LENGTHS"),
+    "route_b_header_length": ("m_route_header_B", BOQ_SOURCE, "DISTINCT_ROUTE_HEADER"),
+    "maximum_duration_after_site_handover": ("calendar_day_planned", CONTRACT_SOURCE, "CONDITIONAL_CONTRACT_SCHEDULE"),
+    "site_handover_after_effectiveness": ("working_day_planned", CONTRACT_SOURCE, "CONDITIONAL_CONTRACT_SCHEDULE"),
+    "telecontrol_before_final_deadline": ("calendar_day_before_planned_final", CONTRACT_SOURCE, "CONDITIONAL_CONTRACT_SCHEDULE"),
+    "base_invoice_count": ("invoice_contractual", CONTRACT_SOURCE, "AFTER_CERTIFIED_PERFORMANCE"),
+    "invoice_issuance_after_certificate": ("calendar_day_contractual", CONTRACT_SOURCE, "AFTER_SIGNED_PERFORMANCE_CERTIFICATE"),
+    "advance_payment_after_request": ("calendar_day_contractual", CONTRACT_SOURCE, "ONLY_IF_VALID_ADVANCE_REQUEST"),
+    "payment_after_invoice_without_subcontractor": ("calendar_day_contractual", CONTRACT_SOURCE, "ONLY_WITHOUT_SUBCONTRACTOR"),
+}
+_SUPPLEMENT_UNKNOWNS = frozenset({
+    "actual_reserve_used_huf", "actual_advance_huf", "actual_effectiveness_date",
+    "actual_site_handover_date", "actual_completion_date", "actual_paid_huf",
+    "annual_cashflow_huf", "economic_price_base_date", "normalized_2026_huf",
+    "complete_purchaser_free_issue_schedule", "national_programme_attribution",
+})
+_SUPPLEMENT_BOUNDARIES = {
+    "reserve_addition_to_cost_or_forecast_allowed": False,
+    "pure_material_labour_deflator_buckets": False,
+    "contract_schedule_is_actual_cashflow": False,
+    "generic_unit_price_conversion_allowed": False,
+    "granular_component_prices_admitted": False,
+    "complete_free_issue_schedule_observed": False,
+}
 
 # These are admission boundaries, not duplicated monetary inputs.
 _SOURCE_SPECS = {
@@ -119,6 +159,71 @@ def _units(kind, lot):
     return dict(quantity="m_bill_item", unit_price="HUF/m_bill_item", line_total="HUF")
 
 
+def _validate_supplement(row, supplemental_sources):
+    supplement = row["contract_supplement"]
+    _require(set(supplement) == {"status", "facts", "reserve_included", "dates",
+                                "conditions", "boundaries", "unknowns"},
+             "unexpected contract supplement fields")
+    _require(supplement["status"] == "ORGOVANY_I_ONLY_REVIEWED_AGGREGATES",
+             "supplement cannot broaden its lot or publication scope")
+    _require(supplement["boundaries"] == _SUPPLEMENT_BOUNDARIES and
+             all(type(v) is bool for v in supplement["boundaries"].values()),
+             "conditional reserve, native columns and schedule boundaries required")
+    _require(set(supplement["unknowns"]) == _SUPPLEMENT_UNKNOWNS and
+             all(v is None for v in supplement["unknowns"].values()),
+             "supplement actuals, normalization and attribution must remain unknown")
+    reserve = supplement["reserve_included"]
+    _require(set(reserve) == {"value", "truth_status", "source_id", "source_locator"} and
+             reserve["value"] is False and reserve["truth_status"] == "OBS" and
+             reserve["source_id"] == CONTRACT_SOURCE and bool(reserve["source_locator"]),
+             "only signed-contract exclusion of reserve is admitted")
+    _require(set(supplement["facts"]) == set(_SUPPLEMENT_FACTS),
+             "unreviewed or missing supplemental facts")
+    for name, fact in supplement["facts"].items():
+        unit, sid, role = _SUPPLEMENT_FACTS[name]
+        _require(set(fact) == {"value", "unit", "truth_status", "source_id", "source_locator", "role"} and
+                 (fact["unit"], fact["source_id"], fact["role"]) == (unit, sid, role) and
+                 fact["truth_status"] == "OBS" and bool(fact["source_locator"]),
+                 "supplement fact source, truth, unit or role mismatch")
+        _number(fact["value"])
+    dates = supplement["dates"]
+    _require(set(dates) == {"latest_visible_signature", "boq_cover_date"},
+             "only observed signature and cover dates admitted")
+    for name, sid, meaning in (
+        ("latest_visible_signature", CONTRACT_SOURCE, "VISIBLE_SIGNING_DATE_CRYPTOGRAPHIC_VALIDITY_NOT_TESTED"),
+        ("boq_cover_date", BOQ_SOURCE, "OBSERVED_COVER_DATE_NOT_PROVEN_ECONOMIC_PRICE_BASE"),
+    ):
+        fact = dates[name]
+        _require(set(fact) == {"value", "truth_status", "source_id", "source_locator", "semantics"} and
+                 fact["source_id"] == sid and fact["truth_status"] == "OBS" and
+                 fact["value"] == supplemental_sources[sid]["document_date"] and
+                 fact["semantics"] == meaning and bool(fact["source_locator"]),
+                 "date observation cannot become an economic price-fixation assumption")
+    conditions = supplement["conditions"]
+    expected_conditions = {
+        "reserve_use": CONTRACT_SOURCE, "effectiveness": CONTRACT_SOURCE,
+        "planned_timing": CONTRACT_SOURCE, "payment": CONTRACT_SOURCE,
+        "native_columns": BOQ_SOURCE, "hardware_inclusion": BOQ_SOURCE,
+        "route_denominators": BOQ_SOURCE, "crosshatched_cells": BOQ_SOURCE,
+    }
+    _require(set(conditions) == set(expected_conditions), "source-bound conditions required")
+    for name, sid in expected_conditions.items():
+        condition = conditions[name]
+        _require(set(condition) == {"summary", "source_id", "source_locator"} and
+                 condition["source_id"] == sid and bool(condition["source_locator"]) and
+                 isinstance(condition["summary"], str) and bool(condition["summary"].strip()),
+                 "condition requires source-bound summary")
+    facts = supplement["facts"]
+    with localcontext() as context:
+        context.prec = 40
+        amount = _number(row["facts"]["lot_amount"]["value"])
+        _require(amount == _number(facts["contract_net_amount"]["value"]) ==
+                 _number(facts["boq_net_total"]["value"]), "TED/contract/BoQ base mismatch")
+        _require(_number(facts["boq_anyag_total"]["value"]) +
+                 _number(facts["boq_dij_total"]["value"]) == amount,
+                 "source-native column reconciliation mismatch")
+
+
 def validate_payload(data, manifest):
     """Validate bounded semantics and per-record provenance before consumption.
 
@@ -157,6 +262,28 @@ def validate_payload(data, manifest):
             datetime.fromisoformat(source["retrieved_at"])
         except (KeyError, ValueError, TypeError) as exc:
             raise CostReferenceError("source dates required") from exc
+    supplemental_sources = manifest.get("supplemental_sources", [])
+    _require(len(supplemental_sources) == len(SUPPLEMENT_SOURCES) and
+             {s.get("source_id") for s in supplemental_sources} == SUPPLEMENT_SOURCES,
+             "exact contract, priced-bill and parent-archive provenance required")
+    supplemental_sources = {s["source_id"]: s for s in supplemental_sources}
+    for sid, source in supplemental_sources.items():
+        _require(source.get("original_url") == EKR_URL and
+                 source.get("observation_id") == ORGOVANY_I and
+                 source.get("correlation_cluster_id") == "EKR001158812025" and
+                 source.get("source_tier") == "P1" and source.get("evidence_status") == "OBS",
+                 "supplement provenance must bind this exact EKR contract and lot")
+        _require(re.fullmatch(r"[0-9a-f]{64}", source.get("sha256", "")) and
+                 source.get("repo_snapshot_path") is None and source.get("reuse_status") == "EXTERNAL_ONLY" and
+                 source.get("curated_reuse_scope") == "REVIEWED_NONPERSONAL_AGGREGATES_AND_CONDITIONS_ONLY",
+                 "supplement source identity and narrow reuse boundary required")
+        try:
+            date.fromisoformat(source["document_date"])
+            datetime.fromisoformat(source["retrieved_at"])
+        except (KeyError, ValueError, TypeError) as exc:
+            raise CostReferenceError("supplement source dates required") from exc
+    _require(supplemental_sources[BOQ_SOURCE].get("parent_source_id") == ANNEX_SOURCE and
+             bool(supplemental_sources[BOQ_SOURCE].get("zip_member")), "priced-bill archive lineage required")
     records = data["observations"]
     _require(isinstance(records, list) and len(records) == len(EXPECTED_IDS) and
              {r.get("observation_id") for r in records} == EXPECTED_IDS,
@@ -166,7 +293,9 @@ def validate_payload(data, manifest):
              {b.get("observation_id") for b in bindings} == EXPECTED_IDS, "record bindings required")
     bindings = {b["observation_id"]: b for b in bindings}
     for row in records:
-        _require(set(row) == _RECORD_FIELDS, "unexpected or missing record fields")
+        refined = row["observation_id"] == ORGOVANY_I
+        expected_fields = _RECORD_FIELDS | {"contract_supplement"} if refined else _RECORD_FIELDS
+        _require(set(row) == expected_fields, "unexpected or missing record fields")
         sid = row["source_id"]
         _require(sid in _SOURCE_SPECS, "source not admitted")
         kind, family, currency, vat, basis, lots = _SOURCE_SPECS[sid]
@@ -182,8 +311,11 @@ def validate_payload(data, manifest):
         _require(row["evidence_tier"] == "E1" and row["permitted_use"] == EXACT_REFERENCE_ONLY and
                  row["national_input_status"] == "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
                  "reference evidence cannot promote national applicability")
-        _require(set(row["unknowns"]) == UNKNOWN_FIELDS and
+        unknown_fields = UNKNOWN_FIELDS - {"reserve_included"} if refined else UNKNOWN_FIELDS
+        _require(set(row["unknowns"]) == unknown_fields and
                  all(v is None for v in row["unknowns"].values()), "unknowns must remain null, never zero-filled")
+        if refined:
+            _validate_supplement(row, supplemental_sources)
         for field in ("source_locator", "technical_scope", "scope_qualification", "geography",
                       "geography_semantics", "buyer_context", "supplier_context"):
             _require(isinstance(row[field], str) and row[field].strip(), f"missing {field}")
@@ -218,6 +350,11 @@ def validate_payload(data, manifest):
         binding = bindings[row["observation_id"]]
         _require(binding.get("source_id") == sid and binding.get("record_sha256") == _digest(row),
                  "record revision/provenance digest mismatch")
+        if refined:
+            _require(binding.get("supplemental_source_ids") == sorted(SUPPLEMENT_SOURCES),
+                     "supplement source bindings required")
+        else:
+            _require("supplemental_source_ids" not in binding, "other lots have no signed-contract supplement")
 
 
 @dataclass(frozen=True)
@@ -235,6 +372,7 @@ class ReferenceValue:
 class ReferenceCatalog:
     observations: Mapping[str, Mapping[str, object]]
     sources: Mapping[str, Mapping[str, object]]
+    supplemental_sources: Mapping[str, Mapping[str, object]]
 
     def _record(self, observation_id, claim, price_basis):
         _require(claim == EXACT_REFERENCE_ONLY, "only exact reference use is admitted")
@@ -251,6 +389,30 @@ class ReferenceCatalog:
         _require(unit == fact["unit"], "currency/unit conversion is not admitted")
         return ReferenceValue(Decimal(fact["value"]), unit, "OBS", None, (fact_name,),
                               row, self.sources[row["source_id"]])
+
+    def supplement(self, observation_id, *, price_basis, claim=EXACT_REFERENCE_ONLY):
+        """Read reviewed contract conditions for Orgovány I only.
+
+        Dates describe visible source dates; schedule/payment clauses describe
+        conditional obligations. Neither is an observed cashflow or price base.
+        """
+        row = self._record(observation_id, claim, price_basis)
+        _require(observation_id == ORGOVANY_I, "no contract supplement admitted for this lot")
+        return row["contract_supplement"]
+
+    def read_supplement_fact(self, observation_id, fact_name, *, unit, price_basis,
+                             claim=EXACT_REFERENCE_ONLY):
+        """Read a literal supplement fact with its own source and bounded role.
+
+        Reserve is a conditional authorization amount, not a cost or forecast.
+        Anyag/díj are source columns, not clean material/labour price-index bins.
+        """
+        supplement = self.supplement(observation_id, price_basis=price_basis, claim=claim)
+        _require(fact_name in supplement["facts"], "supplement fact not admitted")
+        fact = supplement["facts"][fact_name]
+        _require(unit == fact["unit"], "supplement unit/currency conversion is not admitted")
+        return ReferenceValue(Decimal(fact["value"]), unit, "OBS", None, (fact_name,),
+                              self.observations[observation_id], self.supplemental_sources[fact["source_id"]])
 
     def derive(self, observation_id, calculation, *, unit, price_basis, claim=EXACT_REFERENCE_ONLY):
         """Only homogeneous supply-lot ratios or the exact amended-item product.
@@ -291,4 +453,5 @@ def load_reference_catalog(data_path=DATA_PATH, manifest_path=MANIFEST_PATH):
     return ReferenceCatalog(
         _freeze({r["observation_id"]: r for r in data["observations"]}),
         _freeze({s["source_id"]: s for s in manifest["sources"]}),
+        _freeze({s["source_id"]: s for s in manifest["supplemental_sources"]}),
     )

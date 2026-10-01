@@ -1,4 +1,4 @@
-"""Verify B10 reference intake and optionally its four external-only TED PDFs.
+"""Verify B10 references and optional external-only TED/Orgovány I sources.
 
 Pass each exact source as --source SOURCE_ID=/local/file.pdf. This reads local
 bytes only; it never acquires, archives or redistributes documents. Scope/VAT/
@@ -11,6 +11,7 @@ import json
 import re
 import subprocess
 import sys
+import zipfile
 from decimal import Decimal, localcontext
 from pathlib import Path
 
@@ -18,7 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from modules.B10.cost_reference import (  # noqa: E402
-    BILL_ITEM, DATA_PATH, MANIFEST_PATH, CostReferenceError, load_reference_catalog,
+    ANNEX_SOURCE, BILL_ITEM, BOQ_SOURCE, CONTRACT_SOURCE, DATA_PATH, MANIFEST_PATH,
+    ORGOVANY_I, CostReferenceError, load_reference_catalog,
 )
 
 
@@ -107,9 +109,59 @@ def verify_external_sources(catalog, paths):
     return checks
 
 
+def extract_contract_amounts(text):
+    """Check exact printed amounts and reserve exclusion, not legal performance."""
+    text = " ".join(text.split())
+    base = re.findall(r"nettó ([\d ]+) HUF,.*?átalányár, amely nem tartalmazza a tartalékkeret összegét", text)
+    reserve = re.findall(r"vállalkozói díj (\d+)%-ának megfelelő összeget, azaz nettó ([\d ]+) forint tartalékkeretet", text)
+    if len(base) != 1 or len(reserve) != 1 or "EKR001158812025" not in text:
+        raise CostReferenceError("signed-contract identity/amount/reserve exclusion not found uniquely")
+    return _amount(base[0]), _amount(reserve[0][1]), _amount(reserve[0][0])
+
+
+def verify_supplement_sources(catalog, paths):
+    """Bind original bytes and archive lineage; scanned BoQ remains visual review.
+
+    A byte match preserves the reviewed source, not cryptographic signature
+    validity, actual performance, or machine re-extraction of scanned amounts.
+    """
+    if set(paths) != set(catalog.supplemental_sources):
+        raise CostReferenceError("provide exact contract, priced-bill and archive source bindings")
+    checks = []
+    for sid, source in catalog.supplemental_sources.items():
+        digest = hashlib.sha256(Path(paths[sid]).read_bytes()).hexdigest()
+        if digest != source["sha256"]:
+            raise CostReferenceError(f"supplement source revision mismatch: {sid}")
+        checks.append(dict(source_id=sid, sha256=digest, result="PASS", numeric_row_checks=0,
+                           verification="EXACT_SOURCE_BYTES"))
+    contract_text = subprocess.run(["pdftotext", "-layout", str(paths[CONTRACT_SOURCE]), "-"],
+                                   check=True, capture_output=True, text=True, timeout=30).stdout
+    facts = catalog.observations[ORGOVANY_I]["contract_supplement"]["facts"]
+    expected = tuple(Decimal(facts[k]["value"]) for k in
+                     ("contract_net_amount", "conditional_reserve_amount", "reserve_percentage_as_printed"))
+    if extract_contract_amounts(contract_text) != expected:
+        raise CostReferenceError("signed-contract amounts differ from supplement")
+    boq = catalog.supplemental_sources[BOQ_SOURCE]
+    with zipfile.ZipFile(paths[ANNEX_SOURCE]) as archive:
+        members = [m for m in archive.infolist() if m.filename == boq["zip_member"]]
+        if len(members) != 1 or members[0].file_size != boq["size_bytes"]:
+            raise CostReferenceError("priced-bill archive member identity mismatch")
+        with archive.open(members[0]) as member:
+            digest = hashlib.file_digest(member, "sha256").hexdigest()
+        if digest != boq["sha256"]:
+            raise CostReferenceError("priced-bill archive member digest mismatch")
+    for check in checks:
+        if check["source_id"] == CONTRACT_SOURCE:
+            check.update(numeric_row_checks=3, verification="BYTES_AND_PRINTED_AMOUNTS_AND_RESERVE_EXCLUSION")
+        elif check["source_id"] == BOQ_SOURCE:
+            check.update(verification="BYTES_AND_PARENT_ARCHIVE_LINEAGE; AGGREGATES_VISUALLY_REVIEWED")
+    return checks
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", action="append", default=[], metavar="SOURCE_ID=PDF_PATH")
+    parser.add_argument("--supplement-source", action="append", default=[], metavar="SOURCE_ID=FILE_PATH")
     args = parser.parse_args()
     try:
         catalog = load_reference_catalog()
@@ -120,6 +172,13 @@ def main():
                 raise CostReferenceError("unique SOURCE_ID=PDF_PATH required")
             paths[sid] = path
         checks = verify_external_sources(catalog, paths) if paths else []
+        supplement_paths = {}
+        for binding in args.supplement_source:
+            sid, separator, path = binding.partition("=")
+            if not separator or not path or sid in supplement_paths:
+                raise CostReferenceError("unique supplemental SOURCE_ID=FILE_PATH required")
+            supplement_paths[sid] = path
+        supplement_checks = verify_supplement_sources(catalog, supplement_paths) if supplement_paths else []
         print(json.dumps({
             "result": "PASS", "observations": len(catalog.observations),
             "procurement_clusters": len({r["correlation_cluster_id"] for r in catalog.observations.values()}),
@@ -127,6 +186,8 @@ def main():
             "manifest_sha256": hashlib.sha256(MANIFEST_PATH.read_bytes()).hexdigest(),
             "source_verification": "PASS" if checks else "NOT_RUN_NO_EXTERNAL_PDFS_SUPPLIED",
             "external_checks": checks,
+            "supplement_source_verification": "PASS" if supplement_checks else "NOT_RUN_NO_EXTERNAL_FILES_SUPPLIED",
+            "supplement_external_checks": supplement_checks,
             "scope_vat_quantity_review": "SEPARATE_MANUAL_SOURCE_REVIEW",
             "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
         }, ensure_ascii=False, indent=2))
