@@ -481,12 +481,26 @@
           "data": "Exact rendszerre AC-oldali használható kWh, töltés/kisütés kW, egyirányú vagy round-trip hatásfok, standby W, hőmérséklet °C; revízió és tesztterhelés.",
           "phase": "A",
           "slice_id": "B07-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B07-HTW-SAX-REFERENCE-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "HTW/aquu2026 report and official inspector data asset; same research family"
+              ],
+              "remaining_unknown": "Reference runtime, nonempty idle/BMS draw, capacity/cycle efficiency transfer beyond lab conditions, aging and national cohort applicability",
+              "promising_next_lead": "Implement reviewed discharge-equivalent reference coordinate with source-supported converter clipping; preserve legacy one-way contract",
+              "expected_decision_value": "Avoids non-identifiable chemical-loss measurement demand while preserving measured capacity/cycle energy and material low-load converter losses",
+              "decision": "CONTINUE_REFERENCE_RUNTIME",
+              "evidence": "docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

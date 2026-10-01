@@ -1,0 +1,54 @@
+{
+  "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+  "original_url": "https://solar.htw-berlin.de/wp-content/uploads/HTW-aquu-Stromspeicher-Inspektion-2026.pdf",
+  "source_sha256": "97266383faf3a4257a6a521cd1ce04d02eac2628142716e548333fb0c46cbfc7",
+  "data_asset_url": "https://solar.htw-berlin.de/stromspeicher-inspektor-2026/js/Daten.js",
+  "data_asset_sha256": "3a843f5e1d3135112d714a274eb22a3ada2cffbec6dda9bb188d2a0d53c59528",
+  "retrieved_at": "2026-10-01",
+  "reference_period": "2026 comparison edition; individual laboratory test date not established",
+  "identity": "2026:A1 SAX Power Home Plus firmware V23.50; report AppendixA4 page65",
+  "curve_sha256": "87d1b6b91950792c429746f71770237afd227e26ff5afd3bc5eb4d2b943ebfd6",
+  "control_sha256": "bed133fe134b6559f074ca85ee55cf2043c26bf0792903b04b86866cc582b5de",
+  "repo_snapshot_path": null,
+  "reuse_status": "Attributed factual numeric and plotted-fit extract; original PDF/JavaScript redistribution not cleared and neither is published",
+  "source_locations": {
+    "standard_curves": "AppendixA3 PDFpage64; A1 orange; charge outputDC and discharge outputAC",
+    "low_load_curve": "Figure20 PDFpage22; SAX green; discharge outputAC",
+    "standby": "Figure24 PDFpage26; separate cumulative DC/AC/sensor bars",
+    "control_literals": "Year-qualified A1 object in pinned official data asset; expressions not evaluated"
+  },
+  "numeric_boundary": "1194 vector vertices of three published fitted curves, not1194 independent laboratory measurements. Coordinate precision does not imply physical measurement precision.",
+  "constant_cycle_boundary": "Reported battery-only DC cycle efficiency95.8183%; treating it as constant is a reference-model approximation, not observed chemical one-way coefficients.",
+  "capacity_boundary": "7.572kWh measured discharged-DC usable energy, not nominal chemical capacity or a second DoD haircut.",
+  "standby_boundary": "Tested empty-state4.07W AC system+sensor total, verified by Figure24 composition. Nonempty idle and cell/BMS drain are unresolved; no implicit all-state load or observed-zero loss.",
+  "selection_boundary": "Explicit curve selection; no automatic low/high-load blending or extrapolation. Source curves share a research family and are not independent replication.",
+  "source_fit_disagreement": "At0.2kW standard discharge eta exceeds dedicated low-load eta by0.55723percentage points; retain separate references.",
+  "curve_counts": {
+    "AC2BAT_STANDARD": 324,
+    "BAT2AC_STANDARD": 439,
+    "BAT2AC_LOW_LOAD": 431
+  },
+  "standby_component_evidence": {
+    "scope": "SAX2026A1 EMPTY_STATE plotted system components only; excludes unmeasured cell-powered BMS and does not establish all-state idle",
+    "pdf_page": 26,
+    "figure": 24,
+    "source_sha256": "97266383faf3a4257a6a521cd1ce04d02eac2628142716e548333fb0c46cbfc7",
+    "cumulative_height_points": {
+      "35": 8.865325927734375,
+      "49": 8.865325927734375,
+      "63": 1.872406005859375
+    },
+    "plot_derived_w": {
+      "35": 4.0694976939767225,
+      "49": 4.0694976939767225,
+      "63": 0.8595004836985388
+    },
+    "dc_component_plot_difference_w": 0.0,
+    "ac_system_plot_difference_w": 3.2099972102781837,
+    "ac_sensor_plot_w": 0.8595004836985388,
+    "exact_app_total_w": 4.07,
+    "interpretation": "Cumulative total and AC cumulative bar geometries coincide exactly for A1: graph depicts zero DC standby component. All reported4.07W can be assigned to AC only for this tested empty-state system boundary; cell/BMS draw is outside the test total."
+  },
+  "extractor_runtime": "PyMuPDF 1.26.6",
+  "review_scope": "Independent read-only inspection of1194vertices, monotone output/input mappings and boundary semantics; mathematical coordinate review. Not full independent laboratory-data or annual-system validation."
+}

@@ -81,3 +81,7 @@ The next highest-value blocker is a combined B04/B07 evidence slice: prove the
 H-tariff meter/battery/export boundary and obtain product-specific AC/DC
 one-way efficiency plus cell/supply-chain origin evidence without importing a
 foreign-dependence assumption.
+
+## V1 tested-reference evidence and coordinate
+
+[SAX2026 source reference](../../docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md) adds explicit, bounded converter-point consumers and a [proposed discharge-equivalent coordinate contract](../../docs/methodology/b07_discharge_equivalent_reference_contract.md). It does not fill legacy one-way efficiency fields or alter the existing engine. Source-tested DC capacity/cycle efficiency and separate output-axis converter curves permit a conditional reference route; idle, aging, national applicability and legal gates remain distinct. No new state runtime is included in this checkpoint.

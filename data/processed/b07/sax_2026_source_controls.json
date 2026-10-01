@@ -1,0 +1,29 @@
+{
+  "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+  "edition": 2026,
+  "system_id": "A1",
+  "product": "SAX Power Home Plus",
+  "firmware": "V23.50",
+  "identity_locator": "Report Appendix A4 PDFpage65",
+  "native_numeric_fields": {
+    "Year": 2026,
+    "E_BAT_usable": 7.572,
+    "ETA_BAT2AC_MEAN": 97.697,
+    "ETA_AC2BAT_MEAN": 97.3741,
+    "eta_BAT": 95.8183,
+    "P_BAT2AC_out": 4.5459,
+    "P_SYS_SOC0": 4.07
+  },
+  "source_js_sha256": "3a843f5e1d3135112d714a274eb22a3ada2cffbec6dda9bb188d2a0d53c59528",
+  "source_pdf_sha256": "97266383faf3a4257a6a521cd1ce04d02eac2628142716e548333fb0c46cbfc7",
+  "notes": "Means are source summaries, not time-weighted annual efficiency. E_BAT_usable is measured discharged-DC usable capacity. No observed chemical one-way efficiencies are inferred. Identity is from report, not evaluated JS name expressions.",
+  "native_numeric_units": {
+    "Year": "calendar_year_comparison_edition",
+    "E_BAT_usable": "kWh_DC_discharged_usable",
+    "ETA_BAT2AC_MEAN": "percent",
+    "ETA_AC2BAT_MEAN": "percent",
+    "eta_BAT": "percent",
+    "P_BAT2AC_out": "kW_AC_output",
+    "P_SYS_SOC0": "W"
+  }
+}
