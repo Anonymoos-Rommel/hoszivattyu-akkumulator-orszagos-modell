@@ -243,7 +243,8 @@
           "status": "INTEGRATING",
           "canonical_source_ids": [
             "SRC-B04-MVM-M1-2026",
-            "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026"
+            "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+            "SRC-B04-MEKH-SYSTEM-FEES-2024"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -260,6 +261,17 @@
               "expected_decision_value": "Prevent energy-component/final-price confusion and incorrect universal high-rate H fallback",
               "decision": "CONTINUE",
               "evidence": "docs/checkpoints/V1_002_B04_TARIFF_BOUNDARY.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing MVM current tariff table/M.1/M.2.2 and official MEKH consolidated network rule"
+              ],
+              "remaining_unknown": "Exact H settlement entitlement/carryover and seasonal billed-month allocation; aligned annual load/billing handoff and individual legal eligibility remain separate",
+              "promising_next_lead": "Supplier/distributor authoritative worked H settlement or explicit billing-period input for conditional V1 costs; avoid arbitrary full 2523-kWh or half-year quota assumption",
+              "expected_decision_value": "Closes profiled outside-H rate mapping and B Alap cost consumer without manufacturing an annual invoice",
+              "decision": "CONTINUE_BILLING_PERIOD_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md"
             }
           ],
           "reviewed_commit": null

@@ -1,0 +1,42 @@
+{
+  "checkpoint": "V1_014",
+  "reviewed_base_head": "a6a6c878d458bec794b9b6f391e516b43c014e15",
+  "targeted_tests": {
+    "command": "python -m unittest discover -s tests -p 'test_b04*.py'",
+    "tests": 48,
+    "result": "PASS"
+  },
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2565,
+    "result": "PASS",
+    "duration_seconds": 111.622
+  },
+  "registry_validation": "PASS",
+  "source_extraction": {
+    "command": "python tools/verify_b04_b_alap_extract.py --pdf <external-only-pinned-PDF>",
+    "result": "PASS",
+    "numeric_comparisons": 56,
+    "source_id": "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+    "source_sha256": "5a771af5ad6b1f505aca14a2af1c9bf49101f77cc9ccc98b77356fa5d9b039df"
+  },
+  "review_scope": "Independent review of original source tables and official legal clauses supports B Alap and bounded profiled outside-H mapping; author reviewed the final hardening, documentation and exact changed artifacts and ran their regressions. This is not actual annual invoice, legal site-eligibility or national-result validation.",
+  "slice_status": "B04-D01 INTEGRATING",
+  "artifacts": {
+    "data/processed/electricity_price_component_bridge.csv": "2d0c1990c23087337912f3da09518279e6da4c3bc10e3e17c37507e8e3f0a5c5",
+    "data/processed/h_tariff_schedule.csv": "68069849cbae36b2226ba620531361dcefef24814f8fe37154f3e8b00505978d",
+    "data/processed/residential_electricity_tariff_schedule.csv": "e587240e93ec602f375c9bb668e14fb8ec984ed504f8d11cb0e5de84ec83fccb",
+    "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md": "da79fcbbaca5a6d0a001e65c61d32c7babb52f822c8980222227a6eb541c5ef3",
+    "modules/B04/README.md": "adefaa76c579a54498cf93b8a106c482f4b86dbb9c18fe055d23cd0217f040ac",
+    "modules/B04/engine.py": "57f00eb92999a317cfc016f96ae87378f548b0d1be93f5e70a08cac2874fbdcb",
+    "registry/b04_tariff_source_verification.json": "709304cfec57c7b14a58574a06e077ef786367aa16414355db9427859ebbec67",
+    "registry/electricity_price_sources.csv": "68f5b4536ea77709c1cdd39b5ce97ffbdbc580e31e679be4ad5466af1fa9d085",
+    "registry/sources.csv": "e87f8af902b8fbb2a45f29b446936b36170816dc3330d34c1b230192c6449a74",
+    "registry/v1_research_plan.json": "79f3c92b3690287776b9e0be93b5f1d3e3be879e4f8f8127658eb1799a721c0c",
+    "tests/test_b04_canonical_tariff_consumer.py": "93147df84ab3ca478cc6dc3f801e1f9663ebfd459f3b6579ea81b9c82787b13e",
+    "tests/test_b04_outside_h_and_b.py": "965702c312d40b3d3f117726906171503b8985197796ec89c6a1edc6d7155b11",
+    "tests/test_b04_tariff_source_verifier.py": "df9c865e4351e88f01a4cc27875843575ea61ce09e413a7c2bfcf6f765c62142",
+    "tools/validate_registry.py": "47ad49811c8b07226275b2416459b70404854e2b19157172157af91e801fd0c7",
+    "tools/verify_b04_b_alap_extract.py": "ebf7d73e8f510fd98c3e9b51f1d16dca926dd8b89d8284b05cd53fc57b375c3a"
+  }
+}

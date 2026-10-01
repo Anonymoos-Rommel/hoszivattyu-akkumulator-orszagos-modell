@@ -72,12 +72,12 @@ class CanonicalTariffConsumerTests(unittest.TestCase):
         gross = (Decimal(row['energy_net_huf_per_kwh']) + Decimal(row['network_charge_huf_per_kwh'])) * (1 + Decimal(row['vat_rate']))
         self.assertLess(abs(gross - Decimal(row['final_gross_huf_per_kwh'])), Decimal('0.00051'))
 
-    def test_outside_discounted_energy_exists_but_full_bill_is_not_invented(self):
+    def test_outside_rates_have_derived_mapping_but_no_permission(self):
         with (ROOT/'data/processed/h_tariff_schedule.csv').open() as f:
             rows = list(csv.DictReader(f))
         outside = [r for r in rows if r['period_type']=='outside season discounted energy']
         self.assertEqual(len(outside), 4)
-        self.assertTrue(all(r['net_huf_per_kwh'] and r['final_price_status']=='Q' and not r['final_gross_huf_per_kwh'] for r in outside))
+        self.assertTrue(all(r['net_huf_per_kwh'] and r['final_price_status']=='DER' and r['final_gross_huf_per_kwh'] for r in outside))
         self.assertTrue(all(r['battery_charging_status']=='Q' and r['export_status']=='Q' for r in rows))
 
 

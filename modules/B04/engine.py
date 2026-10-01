@@ -85,7 +85,7 @@ def price_h_heating(consumption_kwh, billed_months, distributor_area: str, start
     if end < start or (end - start).days > 366:
         raise TariffInputError('invalid billing interval')
     if any(not h_is_in_season(start + timedelta(days=i)) for i in range((end - start).days + 1)):
-        raise TariffInputError('outside-season full-price/period contract is not yet admitted')
+        raise TariffInputError('entirely heating-season interval required; price outside-season separately')
     quantity = amount(consumption_kwh, 'consumption_kwh')
     months = amount(billed_months, 'billed_months')
     matches = [r for r in _rows('h_tariff_schedule.csv') if r['distributor_area'] == distributor_area and r['period_type'] == 'heating season']
@@ -95,3 +95,68 @@ def price_h_heating(consumption_kwh, billed_months, distributor_area: str, start
     energy = quantity * amount(row['final_gross_huf_per_kwh'], 'final H rate')
     fixed = months * amount(row['fixed_gross_huf_per_month'], 'monthly H fixed charge')
     return Bill(quantity, Decimal(0), energy, fixed, energy + fixed, tuple(sorted(set(row['source_id'].split(';')))))
+
+
+def _tiered_snapshot_bill(quantity, allowance, months, low_rate, high_rate, fixed_monthly, sources):
+    quantity = amount(quantity, 'consumption_kwh')
+    allowance = amount(allowance, 'discounted_allocation_kwh')
+    months = amount(months, 'billed_months')
+    discounted = min(quantity, allowance)
+    excess = quantity - discounted
+    energy = discounted * amount(low_rate, 'discounted final rate') + excess * amount(high_rate, 'excess final rate')
+    fixed = months * amount(fixed_monthly, 'monthly fixed rate')
+    return Bill(discounted, excess, energy, fixed, energy + fixed, tuple(sorted(set(sources))))
+
+
+def price_b_alap(consumption_kwh, discounted_allocation_kwh, billed_months, distributor_area: str, *, load_scope: str) -> Bill:
+    """Conditional controlled-circuit cost; no site or dispatch eligibility proof."""
+    if load_scope != 'DECLARED_ELIGIBLE_CONTROLLED_LOAD':
+        raise TariffInputError('explicit eligible controlled-load scope required')
+    rows = _rows('residential_electricity_tariff_schedule.csv')
+    low = [r for r in rows if r['distributor_area'] == distributor_area and r['tariff_band'] == 'B Alap discounted']
+    high = [r for r in rows if r['tariff_id'] == 'B-ALAP-ALL-MARKET']
+    if len(low) != 1 or len(high) != 1:
+        raise TariffInputError('exactly one B Alap area and excess rate required')
+    low, high = low[0], high[0]
+    if any(r['status'] != 'OBS' or not r['source_id'] for r in (low, high)):
+        raise TariffInputError('source-backed B Alap rates required')
+    return _tiered_snapshot_bill(consumption_kwh, discounted_allocation_kwh, billed_months,
+        low['final_gross_huf_per_kwh'], high['final_gross_huf_per_kwh'],
+        amount(low['fixed_charge_huf_per_year'], 'annualized fixed rate') / 12,
+        (low['source_id'] + ';' + high['source_id']).split(';'))
+
+
+def price_h_outside(consumption_kwh, discounted_allocation_kwh, billed_months, distributor_area: str,
+                    start: date, end: date, *, load_scope: str, connection_scope: str) -> Bill:
+    """Profiled H outside-season SCN with explicit allocation and fee fractions.
+
+    DER rate mapping does not determine annual H entitlement, season-crossing
+    monthly allocation, smart-meter applicability or an individual permission.
+    """
+    if connection_scope != 'PROFILED_LOW_VOLTAGE':
+        raise TariffInputError('outside-H mapping is scoped to profiled low voltage')
+    if load_scope != 'ELIGIBLE_HEAT_PUMP_AND_DIRECT_AUXILIARIES':
+        raise TariffInputError('H pricing does not authorize battery/general/export loads')
+    if end < start or (end - start).days > 366:
+        raise TariffInputError('invalid billing interval')
+    if any(h_is_in_season(start + timedelta(days=i)) for i in range((end - start).days + 1)):
+        raise TariffInputError('entirely outside-season interval required')
+    low = [r for r in _rows('h_tariff_schedule.csv') if r['distributor_area'] == distributor_area
+           and r['period_type'] == 'outside season discounted energy']
+    high = [r for r in _rows('residential_electricity_tariff_schedule.csv') if r['tariff_id'] == 'A1-ALL-MARKET']
+    if len(low) != 1 or len(high) != 1:
+        raise TariffInputError('exactly one outside-H area and excess rate required')
+    low, high = low[0], high[0]
+    required_sources = {
+        'SRC-B04-MEKH-SYSTEM-FEES-2024',
+        'SRC-B04-MVM-M1-2026',
+        'SRC-B04-MVM-RESIDENTIAL-TARIFF-2026',
+    }
+    if (low['final_price_status'] != 'DER' or low['status'] != 'OBS'
+            or not required_sources.issubset(low['source_id'].split(';'))):
+        raise TariffInputError('reviewed profiled outside-H derived mapping required')
+    if high['status'] != 'OBS' or not high['source_id']:
+        raise TariffInputError('source-backed outside-H excess rate required')
+    return _tiered_snapshot_bill(consumption_kwh, discounted_allocation_kwh, billed_months,
+        low['final_gross_huf_per_kwh'], high['final_gross_huf_per_kwh'], low['fixed_gross_huf_per_month'],
+        (low['source_id'] + ';' + high['source_id']).split(';'))

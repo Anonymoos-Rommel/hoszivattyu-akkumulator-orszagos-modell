@@ -1087,10 +1087,17 @@ def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
             if filename == "h_tariff_schedule.csv":
                 if row.get("price_boundary") != "ENERGY_COMPONENT_ONLY":
                     errors.append(f"H legacy net/gross columns must be explicitly energy-only: {row.get('tariff_id')!r}")
-                if row.get("final_price_status") not in {"OBS", "Q"}:
+                if row.get("final_price_status") not in {"OBS", "DER", "Q"}:
                     errors.append(f"invalid H final price status: {row.get('tariff_id')!r}")
-                if row.get("final_price_status") == "OBS" and (not row.get("final_gross_huf_per_kwh") or not row.get("fixed_gross_huf_per_month")):
+                if row.get("final_price_status") in {"OBS", "DER"} and (not row.get("final_gross_huf_per_kwh") or not row.get("fixed_gross_huf_per_month")):
                     errors.append(f"H final price requires gross variable and fixed components: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") == "DER" and (
+                    row.get("period_type") != "outside season discounted energy"
+                    or "SRC-B04-MEKH-SYSTEM-FEES-2024" not in refs
+                    or "SRC-B04-MVM-M1-2026" not in refs
+                    or "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026" not in refs
+                ):
+                    errors.append(f"derived outside-H rate requires scoped legal/energy/network sources: {row.get('tariff_id')!r}")
                 if row.get("final_price_status") == "Q" and row.get("final_gross_huf_per_kwh"):
                     errors.append(f"unadmitted H final price must remain blank: {row.get('tariff_id')!r}")
 
