@@ -1,0 +1,985 @@
+{
+  "schema_version": 1,
+  "plan_id": "V1-EVIDENCE-FEASIBILITY-2026-10-01",
+  "baseline_commit": "144c0d96cee674fbea4bf951826e68f000b45705",
+  "purpose": "Conditional national feasibility calculation; no site permission or guaranteed funding claim",
+  "status": "AUTHORIZED_EXECUTION_PLAN",
+  "evidence_policy": "docs/methodology/evidence_tier_and_validation_debt_policy.md",
+  "execution_contract": "docs/methodology/v1_evidence_feasibility_execution.md",
+  "modules": [
+    {
+      "id": "B01",
+      "title": "Programterjedelem és penetráció",
+      "dependencies": "B02 állomány; később B10, B12–B15 és B18 visszacsatolás.",
+      "slices": [
+        {
+          "title": "Célpopuláció és átmenetek",
+          "data": "Lakás/év és arány, HU vármegye × archetípus × S0–S5; 2022 állomány és kiválasztott induló év közti építés/megszűnés/felújítás híd. Részvétel, kiesés, várakozás és alkalmas állomány külön.",
+          "phase": "A",
+          "slice_id": "B01-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Tulajdonosi forgatókönyv",
+          "data": "Célszám, horizont, éves keret [HUF/év], cash-flow minimum, súlyok és társadalmi minimum: POL/SCN döntés, nem három publikációból becsült tény.",
+          "phase": "A",
+          "slice_id": "B01-P01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "A központi célszámhoz populációhoz illesztett minta/kalibráció kell; az explicit 2M SCN futtatható, de nem jogosultsági bizonyíték. Meglévő jó KSH-kontrollt nem kell újra beszerezni.",
+      "accept": "Állománymegmaradás, fázisduplázás tilalma, kapacitás miatti elmaradás látható; a B18/B13/B10 visszacsatolás után ismételt futás. Előbb SCN pálya, utána végrehajthatóság.",
+      "stop": "Ha csak állománydarabszám van, technikai jogosultsági becslés nem zárható. A döntési súlyokra forráskeresés helyett tulajdonosi döntés kell.",
+      "existing_at_base": "SCN rollout és állapotgép van; a fizikai nem távfűtött univerzum 3 389 817 lakás. A tényleges technikai/final jogosultsági szám Q; célérték nem bizonyított részvétel."
+    },
+    {
+      "id": "B02",
+      "title": "Épületállomány és archetípusok",
+      "dependencies": "B01 nevező; B06 beavatkozási csomag; átadás B05/B11/B12.",
+      "slices": [
+        {
+          "title": "Állomány és hőigény",
+          "data": "m²/lakás, hasznos kWh_th/év és kW_th design-csúcs; HU típus × kor × térség, 2022 állományból dokumentált frissítés. KSH primerenergia → hasznos hő átalakítás külön, végfelhasználási bontással.",
+          "phase": "A",
+          "slice_id": "B02-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Burok és hőleadó",
+          "data": "U [W/m²K], felületek [m²], légcsere [1/h], hőhidak [W/K], méretezési hőfok [°C], műszaki beavatkozás. Meglévő E2 felületek materializálása; ismeretlen közös eloszlás részleges azonosítással.",
+          "phase": "A",
+          "slice_id": "B02-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Magyar átvihetőség",
+          "data": "Lakás- és háztartásnevező egyeztetése; megfigyelt baseline/felújított állapot és terminal kimenet; a brit technikai válasz nem magyar prevalencia.",
+          "phase": "A",
+          "slice_id": "B02-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "KSH+REKK+TABULA nem automatikusan három független minta: közös BME/KEOP eredetet jelölni. E2-höz hazai kontroll, reprezentativitás és termikus konzisztencia szükséges.",
+      "accept": "Súlyok a céluniverzumra zárnak; hasznos hő és primerenergia külön; hiányzó cella nem nulla; függőségi stressz és országos fogyasztási kontroll. Egyedi lakás PASS nem származik arányból.",
+      "stop": "Csak ténylegesen nyilvános, költségmentes adatbeszerzés használható. Ha a nyilvános felület nem azonosít egy pontot, a védhető halmazt továbbvinni; pont-E2 csak valódi alátámasztással.",
+      "existing_at_base": "KSH joint és jóváhagyott kalibrált típuskapcsolás, számos fizikai korlát van. A primerenergia nem hasznos hő, az egyedi alkalmasság és a teljes nemzeti fizikai input még hiányos."
+    },
+    {
+      "id": "B03",
+      "title": "Gázár és földgáz-kitettség",
+      "dependencies": "Árforráskutatás önálló; B11 fizikai mennyiségével értékké kapcsolódik; átadás B12/B13/B15.",
+      "slices": [
+        {
+          "title": "Nagykereskedelmi bázis",
+          "data": "TTF EUR/MWh nap/hónap, megfigyelési ablak és forward as-of dátum; HU importértékhez nem automatikusan azonos. ACER táblából exact érték és eredet, frissességi/használati ellenőrzés.",
+          "phase": "A",
+          "slice_id": "B03-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Lakossági árhíd",
+          "data": "HUF/MJ vagy HUF/kWh, fix HUF/év, fogyasztási sáv és hatálynap; adó, hálózat, tárolás/margin, kedvezmény. Szabályozott és piaci csatorna külön.",
+          "phase": "A",
+          "slice_id": "B03-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Értékelési egységek és jövő",
+          "data": "HUF/EUR azonos időablak; LHV/GCV, MJ/m³ referenciaállapot; hosszú távú árpálya SCN és forrásolt kiindulás, nem a 2027-ig látott görbe önkényes hosszabbítása.",
+          "phase": "A",
+          "slice_id": "B03-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Az ACER numerikus nyilvános jelölt, de ICIS-alapú és 2026.04.21-i; EC-riport azonos eredet esetén nem független. Más időfelbontású nyilvános helyettesítő új V1 input-szerződést igényel, nem csendes átnevezést.",
+      "accept": "Deviza/idő/energiahatár teszt; adó és fix díj egyszer; fogyasztási sávhatár; üres forward/nulla jelentés; spot és határidős ár nem összekeverve.",
+      "stop": "Ha friss, ingyenes, megengedett forward nincs, ne ígérjünk ilyet. Dátumozott alap + explicit hosszú távú SCN csak jóváhagyott scope-pal; érintett canonical E3 addig nyitott.",
+      "existing_at_base": "Szabályozott tarifa-snapshot és számítási szabály van. A friss hosszú távú piaci sor, árhíd és jogszerű numerikus export több jelenlegi E3 kérdés."
+    },
+    {
+      "id": "B04",
+      "title": "Villamosenergia-ár és tarifák",
+      "dependencies": "B05/B07 mérőkör és órás profil; átadás B12/B13.",
+      "slices": [
+        {
+          "title": "Háztartási számlázási tábla",
+          "data": "HUF/kWh és HUF/év, nettó/bruttó, DSO-terület, H/A1/B mérőkör, hatálynap, szezon és fogyasztási küszöb; jelenlegi hivatalos mellékletből.",
+          "phase": "A",
+          "slice_id": "B04-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Rendszerértékelési ár",
+          "data": "EUR/MWh vagy HUF/MWh órás/napi nagykereskedelmi sor, HU ajánlati zóna, as-of; külön a lakossági számlától. Dinamikus termék csak ha tényleges szerződési/elszámolási feltétel elérhető.",
+          "phase": "A",
+          "slice_id": "B04-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Mérési topológia",
+          "data": "H-mérőn töltés/kisütés/export és VPP jogosultság igen/nem/nyitott, pontos kapcsolás és hatály. Jogi bizonyíték, nem statisztikai becslés.",
+          "phase": "A",
+          "slice_id": "B04-L01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Árhoz a hivatalos hatályos tábla lehet E1; hiányos komponenshez csak dokumentált E2. Fizikai akkumulátorképesség nem jogi engedély. HUPX hiánya nem állítja meg külön a háztartási tarifaszámítást.",
+      "accept": "ÁFA, fix díj, H-szezon és idősávteszt; import/export külön; az árgráf nem vezethet engedély nélküli dispatchhez.",
+      "stop": "Nyilvános jogi forrás nélkül a topológiát nem felminősíteni. A V1-ben csak igazolt legális topológia vagy kikapcsolt/nyitott ág; elvesző haszon látható, nem bizonyított nulla.",
+      "existing_at_base": "MVM A1/H és tarifakeret van, dinamikus tarifa és akkumulátoros H-jogosultság külön nyitott."
+    },
+    {
+      "id": "B05",
+      "title": "Hőszivattyú-fizika",
+      "dependencies": "B02/B06 hőigény/hőfok, B01 termék- és rollout SCN; B08/B12 fogyasztó.",
+      "slices": [
+        {
+          "title": "Órás fizikai bemenet",
+          "data": "HU állomás/éghajlati réteg × óra: T [°C], szükséges páratartalom, kW_th fűtés/HMV, előremenő °C. 2025 referencia plusz dokumentált hideg történeti ablak; közös időtengely.",
+          "phase": "A",
+          "slice_id": "B05-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Termékkohorsz",
+          "data": "Exact típus/revízió × T_kültér × T_víz: Qh, Pel [kW], COP, minimumteljesítmény, üzemhatár, rásegítés. EPREL/certifikáció/gyártó forrásokat eredet szerint összekötni.",
+          "phase": "A",
+          "slice_id": "B05-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Korrekció és validáció",
+          "data": "Részterhelés, ki-be kapcsolás, defrost és HMV módszer az adott forráshatáron. Egy rendszer event-kWh-ja nem flottakonstans; magyar transzfer külön adósság.",
+          "phase": "A",
+          "slice_id": "B05-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Összevethető termékpontok és igazolt tartomány kell; katalógus+EPREL gyakran közös gyártói eredet. Egy exact E1 pont jobb, mint három nem összeillő átlag. Hiányzó korrekció nem 0.",
+      "accept": "Az interpolált Q=P×COP konzisztencia javítása; domain-outside fail-closed, éves hő/villamos mérleg, backup és HMV; összevont órás runtime teszt.",
+      "stop": "Az exact FCC06 víztömeg csak érintett tranziens állítást blokkoljon. Független új terepmérés akkor prioritás, ha outputérzékenység indokolja; egyetemes defrost-együttható nem elfogadási út.",
+      "existing_at_base": "Terméktérképek, részterhelési és defrost-részmodellek vannak. E2 folytatás engedett, de országos integráció nincs; korábbi audit konkrét Q/P/COP interpolációs eltérést jelzett."
+    },
+    {
+      "id": "B06",
+      "title": "Energetikai korszerűsítés",
+      "dependencies": "B02 baseline; B05 hőfokátadás; B12 CAPEX; B18 kapacitás.",
+      "slices": [
+        {
+          "title": "Beavatkozás és fizikai hatás",
+          "data": "Szigetelés/ablak/hőleadó/hidraulika csomag × archetípus: m², U W/m²K, kWh_th/év, kW_th, °C; magyar baseline és post külön. Tervezett és megvalósult állapot nem egy címke.",
+          "phase": "A",
+          "slice_id": "B06-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Költség és munka",
+          "data": "2026 HUF/csomag vagy HUF/m², anyag/munka/tervezés/engedély/ÁFA, FTE-nap, élettartam; régió és műszaki tartalom. KEHOP plafon csak scope-hoz kötött felső korlát.",
+          "phase": "V",
+          "slice_id": "B06-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Eredményátvitel",
+          "data": "Párosított előtte/utána megfigyelés, időjáráskorrekció, használat/rebound; mintavétel, hiány és magyar súlyok. Külföldi EoH csak kontrollált transzfer.",
+          "phase": "A",
+          "slice_id": "B06-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Hazai megvalósult/boundary-kompatibilis költség vagy független, tételes piaci ajánlati konvergencia kell. Az árindex régi költséget időben rendez, nem javít ki hiányzó műszaki scope-ot.",
+      "accept": "A beavatkozások együtt és sorrendben számolódjanak; megtakarítások ne összeadott százalékok legyenek; baseline/post átadás és költség egyszeri elszámolás.",
+      "stop": "Ha csak támogatási plafon vagy brit medián található, az nem magyar expected CAPEX. Költség-E2 nyitott marad, vagy külön korlátszámítás készül teljes V1 megtérülési állítás nélkül.",
+      "existing_at_base": "Éves/design-peak motor és magyar tervezett hatásbizonyíték létezik; a realized completion és a reprezentatív költség/hatás még hiányos."
+    },
+    {
+      "id": "B07",
+      "title": "Akkumulátor és rugalmasság",
+      "dependencies": "B04 jog/tarifa; B05 terhelés; B08 nettó profil; B12 életciklus.",
+      "slices": [
+        {
+          "title": "Termék és veszteség",
+          "data": "Exact rendszerre AC-oldali használható kWh, töltés/kisütés kW, egyirányú vagy round-trip hatásfok, standby W, hőmérséklet °C; revízió és tesztterhelés.",
+          "phase": "A",
+          "slice_id": "B07-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Életciklus és költség",
+          "data": "HUF/telepített rendszer, csere/karbantartás HUF/év, év/ciklus/throughput és SOH; garanciafeltétel nem mért öregedési görbe. B12 hosszú távú kimenethez ez már nem mellékes.",
+          "phase": "V",
+          "slice_id": "B07-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Vezérlés és hozzáférhető kapacitás",
+          "data": "SOC-kezdő/végfeltétel, órás kW parancs, tartalék és rendelkezésre állás; jogszerű mérőkör. VPP-bevételhez külön piaci/szerződési adat.",
+          "phase": "A",
+          "slice_id": "B07-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "A HTW független ellenőrzés lehet azonos termék/határok mellett; eltérő AC/DC számok nem átlagolhatók. Két egyirányú hatásfok nem vezethető le önkényesen a round-trip gyökéből.",
+      "accept": "Energiamérleg, SOC/power korlát, veszteség egyszer, B08 double-count tiltás; életciklusban csere és maradványérték következetes.",
+      "stop": "Runtime-aging törvény hiányában explicit garanciahatár/csere-SCN csak címkézetten; bizonyított hosszú távú hozam nincs. VPP nélküli V1 megengedhető, de az elhagyott bevételt nem ígéri.",
+      "existing_at_base": "SOC/kW/kWh motor és kéttermékes korlátos kohorsz van. Hatásfok E2 adósság, aging és VPP külön feature-határ."
+    },
+    {
+      "id": "B08",
+      "title": "Országos rendszerterhelés",
+      "dependencies": "B01 állomány; B05 órás villamos igény; B07 akkumulátor.",
+      "slices": [
+        {
+          "title": "Referencia-terhelés",
+          "data": "HU control-area 2025 teljes PT15M MW panel, UTC és Europe/Budapest éves stitch; 2024 előző óra. Meglévő hash-es artefaktum hozzáférésének ellenőrzése, nem új keresési kör.",
+          "phase": "A",
+          "slice_id": "B08-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Aggregációs súly és ellenforgatókönyv",
+          "data": "Archetípus/régió × év lakásállomány és profil; már meglevő villamos fűtés kiszűrése, baseline növekedés és programtöbblet külön; kW→MW, kWh→MWh.",
+          "phase": "A",
+          "slice_id": "B08-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Regionális átadás",
+          "data": "DSO/réteg vagy vármegye kulcs, bizonyított megfeleltetés és fennmaradó lefedetlenség; országos control-area tény nem alállomási tény.",
+          "phase": "A",
+          "slice_id": "B08-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Az országos alapterhelést nem kell három másodközléssel kiváltani. E2-ben megengedett model-use és proveniencia kell; raw újraközlés más jogkérdés.",
+      "accept": "Hiány/duplikáció/DST; teljes téli és éves ablak; egyidejű maximum nem egyéni maximumok összege; mérleg és mintasúlyok; meglévő HP kétszer ne szerepeljen.",
+      "stop": "Külső panel hiányzik az aktuális környezetből: átadási blokkoló, nem adatnemlétezés. Regionális adat hiánya ne blokkolja az országos eredményt, de regionális output maradjon Q.",
+      "existing_at_base": "2024/2025 A65 külső export és időszakszerződés megszerzett; public raw reuse külön adósság, regionális állítás külön."
+    },
+    {
+      "id": "B09",
+      "title": "Termelés, ellátási mérleg és rendszerérték",
+      "dependencies": "B08 nettó load; B04 értékelési ár; átadás B10/B13/B17.",
+      "slices": [
+        {
+          "title": "Megfigyelt termelési panel",
+          "data": "2025 HU PT15M MW termelési típusonként; exact A75 üres cellákhoz MAVIR net-operational pótlás, injection/withdrawal előjel és mértékegység.",
+          "phase": "A",
+          "slice_id": "B09-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Jövőbeli ellátási alap",
+          "data": "Év × technológia: MW, rendelkezésre állás, tervezett/finanszírozott/üzemelő státusz; import/export határ és időjárásfüggés. ERAA adott forgatókönyve kontroll, nem programeredmény.",
+          "phase": "A",
+          "slice_id": "B09-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Monetizálható rendszerérték",
+          "data": "HUF/év, szolgáltatás/mérési határ, tényleges piaci vagy elkerültköltség-levezetés. Fizikai rugalmasság önmagában nem bevétel; háztartási és rendszeroldali érték elkülönítve.",
+          "phase": "V",
+          "slice_id": "B09-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Előjelek és mérési határ előbb, utána számítás. Elkerült költséghez programnélküli és programos világ; piaci joghoz exact authority, nem E2 valószínűség.",
+      "accept": "Nem írunk felül numerikus A75 cellát; nincs zero-clamp; B07 tároló nincs még egyszer hozzáadva; NO_DISPATCH és optimalizált ág elkülönítése; residual nem LOLE.",
+      "stop": "Egyetlen történeti év nem jövőbeli ellátásbiztonsági igazolás. Hiányzó bevételi jogosultság esetén külön pénz nélküli fizikai output, a finanszírozás nem számíthatja be ezt biztos hozamként.",
+      "existing_at_base": "A75+MAVIR signed-net hiánypótlási szerződés és fizikai residual van; megvalósítható jövőbeli mix/monetizálás nincs kész."
+    },
+    {
+      "id": "B10",
+      "title": "Hálózati hatás, CAPEX és időzítés",
+      "dependencies": "B01/B08/B09 programterhelés; B18/B13 végrehajtási hurok.",
+      "slices": [
+        {
+          "title": "Reprezentatív hálózati kohorsz",
+          "data": "DSO × feszültség/réteg × horizont: MW/MVA headroom, terhelés és topológiai korlát; programigény-eloszlás és kohorszsúly. Magyar operátorok lefedése, residual explicit.",
+          "phase": "A",
+          "slice_id": "B10-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Fejlesztési költségkohorsz",
+          "data": "Projekt/komponens: többlet MW/MVA, km/eszköz, 2026 HUF, baseline vs program-okozta erősítés/gyorsítás; reprezentatív műszaki scope, nem összes DSO CAPEX.",
+          "phase": "A",
+          "slice_id": "B10-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Megvalósulás és idő",
+          "data": "Tervezett ex-ante és tényleges dátum, nap/hónap/év, állapot és cenzorálás; managed peak/survivability evidence. Egy késés nem országos valószínűség.",
+          "phase": "A",
+          "slice_id": "B10-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Nemzeti E2 csak reprezentatív/kalibrált kohorsz és igazolt attribúció alapján. Publikált headroom tájékoztató; egyedi MGT és projekthez rendelt költség exact marad.",
+      "accept": "Átfedő alállomások nem összeadhatók; source-grain, operator és horizon egyezés; baseline/inkrementális kettős elszámolás tiltás; populációs kalibráció és timing stressz.",
+      "stop": "Ha a nyilvános dokumentumokból nem épül védhető kohorsz, a nemzeti hálózati CAPEX/időzés nem zárható. E2 címke nem tölti fel az üres ledgert; ezt támogatási kutatási hiányként kell kimondani.",
+      "existing_at_base": "P67 megengedi országos inferenciát teljes node-inventory nélkül. Két baseline-projekt és hatósági kapuk vannak; programinkrementális/timed CAPEX-ledgerek üresek."
+    },
+    {
+      "id": "B11",
+      "title": "Gázkiváltás és importérték",
+      "dependencies": "B02/B05/B06 energia; B03 ár; B12/B13/B17 fogyasztó.",
+      "slices": [
+        {
+          "title": "Készülék és felhasználás",
+          "data": "HU készülékosztály × év: fűtés/HMV/főzés hasznos energia kWh_th, éves gáz MJ/kWh; hatásfok [arány] szezonális, LHV/GCV következetes; több tüzelőanyag és rebound.",
+          "phase": "A",
+          "slice_id": "B11-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Gázminőség és országos kontroll",
+          "data": "MJ/m³, referencia-hőmérséklet/nyomás és tér-időeloszlás; éves magyar lakossági eladás és végfelhasználási kontroll [TJ/GWh/bcm]. Nem kell minden fogyasztó FGSZ-pontja aggregált becsléshez.",
+          "phase": "A",
+          "slice_id": "B11-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Érték átadása",
+          "data": "bcm/év fizikai kiváltás és HUF/év importérték külön; lakossági számla-megtakarítás más ledger.",
+          "phase": "A",
+          "slice_id": "B11-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "A tanulmány készülékmixe támogatja a súlyokat, de nem ad minden készülékosztályra szezonális hatásfokot. Három gyári névleges hatásfok nem lakossági szezonális E2.",
+      "accept": "LHV/GCV és m³-reference teszt; több tüzelőanyag összege kontrollra zár; HMV/főzés nem vész el; eladási kalibráció és bizonytalanság.",
+      "stop": "Ha a szezonális hatásfok/alapfogyasztás nem védhető, nem szabad egyszerű névleges százalékkal végleges bcm-et közölni. Forrásolt class-bound/stressz külön, központi kapu megőrizve.",
+      "existing_at_base": "Hasznoshő–gázenergia–térfogat híd és magyar készülékosztály-súlyok vannak; szezonális hatásfok és nemzeti kalibráció hiányos."
+    },
+    {
+      "id": "B12",
+      "title": "Háztartási gazdaságosság",
+      "dependencies": "B03/04/05/06/07/11; B01 policy floor; B14 támogatási feltétel.",
+      "slices": [
+        {
+          "title": "Teljes költség és életciklus",
+          "data": "Archetípus × fázis × év: 2026 HUF induló CAPEX, O&M, biztosítás ahol releváns, csere, maradványérték, élettartam, ÁFA. A műszaki scope és eligible/összes költség külön.",
+          "phase": "V",
+          "slice_id": "B12-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Megfizethetőség és hitel",
+          "data": "HU háztartástípus/jövedelmi csoport: HUF/év nettó jövedelem, kötelező kiadás, likvid eszköz, meglévő törlesztés; hitelkamat/THM, futamidő, önerő, díj és hozzáférés. Aggregált minta nem egyedi hitelbírálat.",
+          "phase": "V",
+          "slice_id": "B12-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Pénzáram és értékelési alap",
+          "data": "HUF/év baseline/program számla, energia és tarifa upstream; diszkontráta, árszint, inflációs kezelés, adó, támogatás időpontja. NPV/IRR/DSCR számított output, nem megvásárolandó adat.",
+          "phase": "V",
+          "slice_id": "B12-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "E2 költség és jövedelmi/likviditási becslés megengedett megfelelő magyar kalibrációval. A külön margók egyszerű összeszorzása nem közös affordability-eloszlás. Hiteljogosultság exact feltétel.",
+      "accept": "Real/nominal egyezés; törlesztési tábla; számla-megtakarítás és támogatás nem kétszer; negatív pénzáram/IRR-nemlétezés kezelése; affordability floor csoportonként.",
+      "stop": "B12 input-szerződés előre elkészülhet, de B12 eredmény nem a saját előfeltétele. Nem reprezentatív költségmintával központi megtérülés nem kész; nullával kitöltött hiány tiltott.",
+      "existing_at_base": "NOT_STARTED. Két globális bemenet: eligible CAPEX és affordable financing, mindkettő üres. Nincs teljes cash-flow szerződés vagy kész NPV/IRR/DSCR."
+    },
+    {
+      "id": "B13",
+      "title": "Fiskális állami modell",
+      "dependencies": "B01 keret; B03/04/11 érték; B12 pénzáram; B14/15 forrás.",
+      "slices": [
+        {
+          "title": "Fiskális baseline",
+          "data": "HU központi/államháztartási kör, év: HUF bevétel/kiadás, GDP, adósság, kamat, energiaár-kompenzáció releváns tételei. Pénzforgalmi és eredményszemlélet nem keverhető.",
+          "phase": "V",
+          "slice_id": "B13-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Program pénzáramai",
+          "data": "HUF/év grant, hitel/garancia nettó kockázat, adminisztráció, adóhatás, visszafizetés, energiaár-támogatás változása; tényleges jogcím, kedvezményezett és esedékesség.",
+          "phase": "V",
+          "slice_id": "B13-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Fiskális politika",
+          "data": "Éves keret, reinvesztálható arány és adósság/floor POL/SCN; nem a teljes importmegtakarítás kerül az állam kasszájába.",
+          "phase": "V",
+          "slice_id": "B13-P01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Hivatalos elszámolási és jogi alap E1; becsült viselkedési/adóalaphatás lehet E2 külön adóssággal. Támogatási keretet nem lehet GDP-arányból automatikusan levezetni.",
+      "accept": "Pénzáram stock-flow és időzítés; háztartás/állam transzfer konszolidáció; importérték nem adóbevétel; államadósság és támogatási hitel kétszerezésének kizárása.",
+      "stop": "Ha konkrét fiskális jogcímhez nincs adat, a sor Q; puszta bruttó energia-megtakarítás nem bizonyít költségvetési megtérülést.",
+      "existing_at_base": "NOT_STARTED; reinvesztálási ráta SCN, fiskális ledger/headroom még üres keret."
+    },
+    {
+      "id": "B14",
+      "title": "Pályázati és EU-forrástérkép",
+      "dependencies": "Önálló forráskutatás; B01/B06/B12 jogosult scope; B15 fogyasztó.",
+      "slices": [
+        {
+          "title": "Aktuális konstrukciók",
+          "data": "Programazonosító, kiíró, hatály/verzió, ország/régió, jogosult/kizárt tevékenység, költség, intenzitás, saját erő, kumuláció, beadási/teljesítési határidő.",
+          "phase": "V",
+          "slice_id": "B14-L01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Összeg és pénzbeérkezés",
+          "data": "HUF/EUR keret, valóban rendelkezésre álló maradvány, kötelezettségvállalás, kifizetés, programhoz rendelhetőség és folyósítás időpontja; állapot külön mező.",
+          "phase": "V",
+          "slice_id": "B14-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Kutatási finanszírozási illeszkedés",
+          "data": "Egyetemi kutatási/pilot és országos beruházási forrás külön. A V1 támogatható kutatási hiányainak tételes költsége/eredménye csak további tervezéssel.",
+          "phase": "V",
+          "slice_id": "B14-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Jogosultság és támogatási döntés nem E2 átlag. A finanszírozási lehetőség rangsora lehet kutatási output, biztos forrásként csak exact hozzárendelés számítható.",
+      "accept": "Keret és megítélt összeg külön; dátumok/átfedő programok/kettős finanszírozás; baseline beruházást nem új grantként elszámolni.",
+      "stop": "Lejárt vagy érdemi tartalom nélküli oldal esetén forrásazonosítót megtartani, mai rendelkezésre állást nem állítani. Ha nincs megerősítés, a „confirmed” mező Q; külön grant-nélküli SCN vizsgálható.",
+      "existing_at_base": "NOT_STARTED; confirmed grant globális változó üres. Elérhető programoldal nem projektnek megítélt forrás."
+    },
+    {
+      "id": "B15",
+      "title": "Finanszírozási stratégia",
+      "dependencies": "B12+B13+B14 számszerű kimenete kötelező, B09 monetizálható érték ha beszámítjuk.",
+      "slices": [
+        {
+          "title": "Finanszírozási termék",
+          "data": "Érvényes nyilvános termékfeltétel: HUF/EUR, kamat/THM, futamidő, díj, garancia, önerő, hitel/lease/grant jogi keret és hozzáférhetőség.",
+          "phase": "V",
+          "slice_id": "B15-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Finanszírozási rés és idő",
+          "data": "HUF/év, fázis és archetipus: eligible CAPEX – megfizethető finanszírozás – confirmed grant – egyszer elszámolt realizálható rendszerérték; cash-flow időzítés.",
+          "phase": "V",
+          "slice_id": "B15-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Javasolt konstrukció",
+          "data": "Új közpolitikai finanszírozási termék csak POL/SCN, nem piacon már elérhető ajánlat. Elosztási és garanciakockázat külön.",
+          "phase": "V",
+          "slice_id": "B15-P01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Megfigyelt átlagkamat E2 kontroll lehet, de nem szerződési ígéret. A forrásmixhez minden komponens státusza és időzítése világos, jogi feltételek exact.",
+      "accept": "Finanszírozási azonosság, támogatási plafon/jogosultság, adósságszolgálat és állami kockázat; negatív rés kezelése és dupla érték tiltása.",
+      "stop": "Upstream hiányt nem old meg új hiteltermék fantáziálása. Ha finanszírozási rés fennmarad, ezt eredményként közölni kell, nem optimista támogatási feltevéssel elrejteni.",
+      "existing_at_base": "NOT_STARTED. Támogatási rés képlete strukturális hipotézis; upstream inputok nélkül nem eredmény."
+    },
+    {
+      "id": "B16",
+      "title": "Makrogazdasági hatás",
+      "dependencies": "B11 fizikai import; B12/13/15 pénz; B18 kínálati kapacitás.",
+      "slices": [
+        {
+          "title": "Gazdasági szerkezet",
+          "data": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR, importarány, hozzáadottérték, foglalkoztatás/FTE. FIGARO-kód és hazai kiadási csomag közti híd.",
+          "phase": "V",
+          "slice_id": "B16-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Nettó többlethatás",
+          "data": "HUF/év beruházási és működési impulzus, finanszírozás alternatív felhasználása, kiszorítás, importszivárgás, bérek és kapacitáskorlát. Ezek becslési modellfeltevések, nem könyvelési automatizmus.",
+          "phase": "V",
+          "slice_id": "B16-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Megbízható IO-adat E1/DER input lehet; nettó multiplikátor alkalmazása E2/SCN módszerhatárt igényel. A GDP, árbevétel, munkahely és fiskális bevétel nem összeadható haszon.",
+      "accept": "Ágazati megfeleltetés, árszint és hazai/import bontás; bruttó vs nettó külön; baseline-hoz viszonyított output, munkaévek vs tartós állás elkülönítése.",
+      "stop": "Ha nincs védhető kiszorítási modell, csak bruttó ágazati kitettség közölhető, nettó nemzetgazdasági megtérülés nem. A V1 főállítás ezt jelezze.",
+      "existing_at_base": "NOT_STARTED; nincs kanonikus numerikus macro-motor vagy teljes inputlista. Az alábbiak új V1 szerződésjavaslatok."
+    },
+    {
+      "id": "B17",
+      "title": "Klíma, levegő és egészség",
+      "dependencies": "B05/09 áram; B11 kiváltott tüzelőanyag; B02 térbeli súly.",
+      "slices": [
+        {
+          "title": "Kibocsátási faktorok",
+          "data": "Technológia/tüzelőanyag × év: kgCO2e/kWh, gPM/NOx/GJ, használati és szükség szerint életciklus-határ; importáram, marginális/átlagos mix külön; hűtőközeg szivárgás ahol érdemi.",
+          "phase": "V",
+          "slice_id": "B17-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Egészséghatás",
+          "data": "HU terület × népességcsoport: koncentrációváltozás μg/m³, expozíció, baseline halálozás/megbetegedés, koncentráció–válasz és értékelési év. Emisszió nem koncentráció.",
+          "phase": "V",
+          "slice_id": "B17-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Társadalmi értékelés",
+          "data": "HUF/év vagy nem pénzbeli egészségmutató; értékelési módszer és diszkontráta. Klíma- és egészségnyereség átfedésvizsgálata.",
+          "phase": "V",
+          "slice_id": "B17-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "EEA módszer + magyar aktivitás jó emissziós út. WHO módszer nem magyar expozíció. Külföldi egészségfaktort csak dokumentált transzferrel, nem tetszőleges Ft/tonna adattal.",
+      "accept": "Energia/emisszió egységteszt, térbeli érzékenység; CO2/CO2e és árammix; emisszióból egészséghez külön modell; kettős monetizálás tilalma.",
+      "stop": "Megbízható expozíciós híd nélkül emisszióeredmény közölhető, egészségszám nyitott. Az elhagyott egészségnyereség nem garantált nulla és nem garantált pozitív összeg.",
+      "existing_at_base": "NOT_STARTED. Kibocsátás és egészséghatás eltérő bizonyítási réteg."
+    },
+    {
+      "id": "B18",
+      "title": "Kivitelezési és beszállítói kapacitás",
+      "dependencies": "B06 munkacsomag; B10 hálózati munka; B15 pénz; vissza B01.",
+      "slices": [
+        {
+          "title": "Munkakapacitás",
+          "data": "HU szakma/régió/év: aktív FTE, projekt-/m²-/készülék-nap, rendelkezésre álló munkaóra, képzés/belépés és kiesés. KSH ágazati létszám kontroll, nem installálási darabkorlát.",
+          "phase": "V↔A",
+          "slice_id": "B18-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Beszállítás és hazai tartalom",
+          "data": "Termékkód/technológia × év: db, kW/kWh, szállítási hónap, import/hazai termelés, importarány és hozzáadottérték. PRODCOM/Comext kategória pontosítása.",
+          "phase": "V↔A",
+          "slice_id": "B18-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Minőség és felfutás",
+          "data": "Visszajavítás/hibaarány, engedélyezés/szerelés átfutás, tanulás mintával; múltbeli programtermelés és rendelkezésre álló többletkapacitás külön.",
+          "phase": "V↔A",
+          "slice_id": "B18-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Ágazati publikációk mellé műszaki munkatartalom és megvalósulási kontroll kell. Regisztrált szerelők száma × kitalált éves db nem E2.",
+      "accept": "FTE-nap és munkaóra egyezés, szakmánkénti bottleneck, más piaci munkák levonása, régiós kapacitás és rollout visszafuttatás; importot nem kétszer számolni.",
+      "stop": "Ha ingyenes, nyilvános termelékenységi minta nincs, éves tempó csak feltételes SCN. Ne állítsunk bizonyított 15 éves megvalósulást puszta pénzügyi keretből.",
+      "existing_at_base": "NOT_STARTED, mégis B01 tényleges megvalósulásának kemény korlátja. A hiteles V1 rollout előtt nem hagyható végleg későbbre."
+    },
+    {
+      "id": "B19",
+      "title": "Kockázat és reziliencia",
+      "dependencies": "Minden modul; stresszek vissza B01–B18.",
+      "slices": [
+        {
+          "title": "Közös stresszesemények",
+          "data": "Időjárás/ár/terhelés/ellátás/timing együttes, dátumozott történeti ablakok; HU/EU kapcsolódás. Külön statisztikai bizonytalanság, strukturális ismerethiány és POL stressz.",
+          "phase": "V",
+          "slice_id": "B19-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Döntési küszöbök",
+          "data": "HUF/év, NPV, MW, nem kiszolgált energia, átmenet/év és fiscal headroom; tulajdonosi tolerancia, nem univerzális önkényes százalék.",
+          "phase": "V",
+          "slice_id": "B19-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "E2→E1 prioritás",
+          "data": "Input/adósság → érintett output → rangsor-/küszöbfordulás → beszerzési költség és elérhetőség. A mérés értéke az elkerülhető döntési tévedés, nem a forrásdarabszám.",
+          "phase": "V",
+          "slice_id": "B19-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Nincs új általános „kockázati szorzó” megvásárlására szükség. Események korrelációját és töréspontokat őrizni; ismeretlen függőség strukturális stressz, nem független véletlen húzás.",
+      "accept": "Központi referencia és reprodukálható eltérések; out-of-domain felismerés; rangsorfordulás és kötő korlát; eredmény mindkét irányban közölve.",
+      "stop": "Ha nincs integrált futás, driver-rangsor csak hipotézis. Nem automatikus mindenhiány×low/base/high szorzattér; a döntési érzékenység után célzott újranyitás.",
+      "existing_at_base": "NOT_STARTED. Nem kell minden előző modul 100%-os E1 állapotáig várni az érzékenységgel."
+    },
+    {
+      "id": "B20",
+      "title": "Közös interfész és V1 átadhatóság",
+      "dependencies": "B01–B19 stabil output-szerződés és V1 elfogadási jegyzőkönyv.",
+      "slices": [
+        {
+          "title": "Modellcsomag",
+          "data": "Verziózott input/output séma: változó-ID, mértékegység, régió/év/fázis, forrás/evidence tier, bizonytalanság, scenario-ID, commit és artefaktumhash.",
+          "phase": "V",
+          "slice_id": "B20-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Átadható eredmény",
+          "data": "Reprodukálható futási parancs/környezet, teszt, gépi eredmény, vezetői jelentés, E2-adósságlista és újrafuttatási szabály. Egyetemi/kormányzati címzettnek az állítás határa látható.",
+          "phase": "V",
+          "slice_id": "B20-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Megjelenítés",
+          "data": "Végleges alkalmazás csak stabil szerződések után. A V1 ellenőrizhető számítási/jelentési csomagjához nem szükségszerű azonnal teljes webapp.",
+          "phase": "V",
+          "slice_id": "B20-P01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Az E1/E2 származást meg kell őrizni; a szép felület nem ad evidence-felminősítést. Az újratölthető hiányjelölés legyen ugyanúgy elsőrendű, mint a szám.",
+      "accept": "Egygombos/parancsos reprodukció, schema/egységteszt, eredményhash; jelentés és gépi output egyezés; Q nem nullává konvertálva; legális raw-kezelés.",
+      "stop": "Hiányos upstream kapunál nem kész V1. Felületépítés nem helyettesíti az országos futást; B20-hoz nem kell mesterséges húsz külső kutatási kör.",
+      "existing_at_base": "NOT_STARTED. Nincs önálló új fizikai/gazdasági adatforrás-igény; a modul a kanonikus eredményeket teszi visszakereshetővé."
+    }
+  ]
+}
