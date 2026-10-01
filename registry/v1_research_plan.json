@@ -557,12 +557,31 @@
           "data": "HU control-area 2025 teljes PT15M MW panel, UTC és Europe/Budapest éves stitch; 2024 előző óra. Meglévő hash-es artefaktum hozzáférésének ellenőrzése, nem új keresési kör.",
           "phase": "A",
           "slice_id": "B08-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "REVIEW_REQUIRED",
+          "canonical_source_ids": [
+            "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026"
+          ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "consumer_tests": [
+            "tests/test_b08_gui_load_reference.py",
+            "tests/test_b08_p3_seasonal_reporting_contract.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B08-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Reuse of already acquired qualified ENTSO-E P5 actual-load GUI exports; two adjacent years, not independent source families"
+              ],
+              "remaining_unknown": "Public raw reuse remains validation debt; programme aggregation and regional mapping are separate B08-D02/D03 inputs",
+              "promising_next_lead": "Connect the qualified historical baseline to accepted programme physical handoffs; do not reacquire the same panel or infer regional allocation",
+              "expected_decision_value": "Restores exact complete Budapest 2025-year and winter reference with source-hash, UTC/DST and actual-versus-forecast controls",
+              "decision": "REVIEW_INTEGRATED_SOURCE_REUSE",
+              "evidence": "docs/checkpoints/V1_016_B08_QUALIFIED_LOAD_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -670,12 +689,41 @@
           "data": "Projekt/komponens: többlet MW/MVA, km/eszköz, 2026 HUF, baseline vs program-okozta erősítés/gyorsítás; reprezentatív műszaki scope, nem összes DSO CAPEX.",
           "phase": "A",
           "slice_id": "B10-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B10-V1-TED-777208-2025",
+            "SRC-B10-V1-TED-438132-2026",
+            "SRC-B10-V1-TED-761369-2025",
+            "SRC-B10-V1-TED-373350-2026"
+          ],
+          "accepted_artifacts": [
+            "data/processed/b10/cost_reference_observations.json",
+            "registry/b10_cost_reference_manifest.json"
+          ],
+          "consumer_tests": [
+            "tests/test_b10_cost_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B10-001",
+            "Q-B10-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "TED awarded transformer supply",
+                "TED storage-connection and substation works",
+                "TED utility-relocation amendment",
+                "Framework/lifecycle rejection and EKR metadata boundary",
+                "MNB/KSH normalization candidates kept outside admitted values"
+              ],
+              "remaining_unknown": "Representative reinforcement cohort, programme-caused quantities, equipment/free-issued and reserve boundary, compatible price normalization, actual timing/cashflow and joint uncertainty",
+              "promising_next_lead": "Listed EKR signed contract and priced annex pending CAPTCHA approval; similar-scope multi-operator projects and upstream demand/cohort integration",
+              "expected_decision_value": "Resolve local component/supply and payment boundaries before generic unit prices or national weighting",
+              "decision": "CONTINUE_TARGETED_COHORT_AND_ATTRIBUTION_RESEARCH",
+              "evidence": "docs/checkpoints/V1_015_B10_COST_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

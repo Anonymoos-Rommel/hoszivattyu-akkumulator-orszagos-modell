@@ -1,0 +1,52 @@
+{
+  "reviewed_base_head": "042d7f6ee514550182a3ab1af1674797fa77bdee",
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2603,
+    "duration_seconds": 113.643,
+    "result": "PASS"
+  },
+  "registry_validation": "PASS",
+  "scope": "Combined bounded B10 reference intake and existing qualified B08 source reuse; no programme result, whole module acceptance or raw redistribution",
+  "checkpoint": "V1_016",
+  "artifact_sha256": {
+    "docs/checkpoints/V1_016_B08_QUALIFIED_LOAD_REFERENCE.md": "d82452e033c6de0c8d32de6d0f74f74d6c1ce89dbb1a2cc69dc36d04008f15cd",
+    "modules/B08/README.md": "5594bb91e7dc8e266103003a169637547c5d10df0e965e821676c26b5c8890f0",
+    "modules/B08/gui_load_reference.py": "4a802fa46a3c6b9b2813c430841fcbfaacba8b52e55d1e8061c3fd85b5609f96",
+    "registry/sources.csv": "d7358daa78c8fcc81dd291c6370c5d538a3f66f7ebd8d536c09fe6ba68c4e3e1",
+    "registry/v1_research_plan.json": "4dbc59b21ac533f93cec77ab8a4273dba608af1a6c4b0380200734ad352f5ff8",
+    "tests/test_b08_gui_load_reference.py": "92fb5717fda88956b8914224b8ad1a90813971c547ce880bb67470ef4b6db0b6",
+    "tools/materialize_b08_gui_load_reference.py": "8dc0510143a3b4d71dbaf1dd3d49c5a8376184cc0f0d7c8c6ed9e9406cb84d4d"
+  },
+  "focused_tests": {
+    "command": "python -m unittest tests.test_b08_gui_load_reference -q",
+    "tests": 15,
+    "result": "PASS"
+  },
+  "module_tests": {
+    "command": "python -m unittest discover -s tests -p 'test_b08*.py' -q",
+    "tests": 71,
+    "result": "PASS"
+  },
+  "source_verification": {
+    "source_workbooks": 2,
+    "exact_source_hashes": [
+      "1712362093a2957a8870bff5c8758f53a3358587bc7fa9a54e8ee3ba6ecf301d",
+      "66caeba6f85fdef5eecfa9efb2d5a3c0bc2003bf0a344faf2bce01f786b54228"
+    ],
+    "utc_source_row_counts": [
+      35040,
+      35136
+    ],
+    "local_2025_intervals": 35040,
+    "winter_2025_intervals": 8640,
+    "spring_day_intervals": 92,
+    "autumn_day_intervals": 100,
+    "normalized_csv_sha256": "db1405233772e0a792d1fae3c80d6b35f7e619c096e0a97a97b1fac6c0d5b918",
+    "result": "PASS",
+    "deterministic_reproduction": "Complete materialization receipt and CSV digest identical on rerun",
+    "independent_numeric_reader": "openpyxl read_only with reset_dimensions reproduced local-year energy and peak exactly; source dimension metadata A1:E19 is stale",
+    "output_storage": "Ignored data/interim; raw/source/complete numeric panel not published"
+  },
+  "review": "Author implementation review, byte-identity checks and independent-library numeric reproduction. No separate independent whole-code audit is claimed. Existing XML/OBS reuse gate and qualified E2/external-only status preserved."
+}

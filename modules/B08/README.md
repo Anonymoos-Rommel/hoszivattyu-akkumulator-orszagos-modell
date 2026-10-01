@@ -64,3 +64,18 @@ reuse for an acquired A65 response is not established by the inspected list.
 The 2023 ENTSO-E Transparency Terms remain the governing provenance/reuse
 context. Consequently, raw responses stay external and the runtime reuse
 decision remains unresolved until acquisition-specific clearance is evidenced.
+
+## Qualified P5 GUI load reference
+
+`gui_load_reference.py` implements the later P5 source-specific E2 model-use
+admission for the two exact registered 2025/2024 GUI exports. It verifies the
+original bytes/hash and source headers, reads actual sheet rows despite stale
+XLSX dimensions, and builds the exact 2025 Europe/Budapest civil-year panel.
+The output remains DER with explicit E2/external-only provenance. It does not
+relax the older XML parser's OBS/reuse gate above.
+
+`tools/materialize_b08_gui_load_reference.py` writes the normalized numeric
+panel and its annual/winter receipt only into ignored `data/interim`. Raw XLSX
+and complete source series are not published. The historical control-area
+baseline is not a programme result or a regional mapping. See
+[checkpoint 016](../../docs/checkpoints/V1_016_B08_QUALIFIED_LOAD_REFERENCE.md).

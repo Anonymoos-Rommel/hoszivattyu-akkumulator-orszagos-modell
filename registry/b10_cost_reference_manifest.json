@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "status": "BOUNDED_REFERENCE_INTAKE",
+  "data_path": "data/processed/b10/cost_reference_observations.json",
+  "data_sha256": "d4910362b1c1c4ba4b69df79f33405909579402644045b76a943cceb79c4dd93",
+  "sources": [
+    {
+      "source_id": "SRC-B10-V1-TED-777208-2025",
+      "original_url": "https://ted.europa.eu/hu/notice/777208-2025/pdf",
+      "retrieved_at": "2026-10-01T19:10:52.282914+00:00",
+      "document_date": "2025-11-24",
+      "authority": "European Union TED / MVM Émász award notice",
+      "sha256": "b97e507deb9dcee820e222cc7695ca95b934bfb1dd3a63c1dae6afb265a9b0ab",
+      "document_revision": "777208-2025",
+      "source_tier": "P1",
+      "evidence_status": "OBS",
+      "retrieval_precision": "timestamp",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "TED procurement-notice facts reused; exact source bytes remain outside repository by task scope. Exclude contact-person information.",
+      "rights_url": "https://ted.europa.eu/en/legal-notice"
+    },
+    {
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "original_url": "https://ted.europa.eu/hu/notice/438132-2026/pdf",
+      "retrieved_at": "2026-10-01",
+      "document_date": "2026-06-25",
+      "authority": "European Union TED / MVM Démász works award notice",
+      "sha256": "4d0b7f3002b16dea6148b8acbab3a1755ae8444848e977dc50fa30256d581e87",
+      "document_revision": "438132-2026",
+      "source_tier": "P1",
+      "evidence_status": "OBS",
+      "retrieval_precision": "day",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "TED procurement-notice facts reused; exact source bytes remain outside repository by task scope. Exclude contact-person information.",
+      "rights_url": "https://ted.europa.eu/en/legal-notice"
+    },
+    {
+      "source_id": "SRC-B10-V1-TED-761369-2025",
+      "original_url": "https://ted.europa.eu/hu/notice/761369-2025/pdf",
+      "retrieved_at": "2026-10-01T19:10:52.285300+00:00",
+      "document_date": "2025-11-17",
+      "authority": "European Union TED / E.ON ÉDÁSZ works award notice",
+      "sha256": "257cab334715e9db66c20feb60d824a000c7680617b86b15397f631ba68c5abd",
+      "document_revision": "761369-2025",
+      "source_tier": "P1",
+      "evidence_status": "OBS",
+      "retrieval_precision": "timestamp",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "TED procurement-notice facts reused; exact source bytes remain outside repository by task scope. Exclude contact-person information.",
+      "rights_url": "https://ted.europa.eu/en/legal-notice"
+    },
+    {
+      "source_id": "SRC-B10-V1-TED-373350-2026",
+      "original_url": "https://ted.europa.eu/hu/notice/373350-2026/pdf",
+      "retrieved_at": "2026-10-01T19:12:48.213252+00:00",
+      "document_date": "2026-06-01",
+      "authority": "European Union TED / Ministry of Construction and Transport contract modification",
+      "sha256": "72ba35f6118c20099c47441000f848e97940841653ad1a2621a5d13a432348e8",
+      "document_revision": "373350-2026",
+      "source_tier": "P1",
+      "evidence_status": "OBS",
+      "retrieval_precision": "timestamp",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "reuse_note": "TED procurement-notice facts reused; exact source bytes remain outside repository by task scope. Exclude contact-person information.",
+      "rights_url": "https://ted.europa.eu/en/legal-notice"
+    }
+  ],
+  "record_bindings": [
+    {
+      "observation_id": "B10-REF-TED-777208-2025-LOT-0001",
+      "source_id": "SRC-B10-V1-TED-777208-2025",
+      "record_sha256": "8c611294eeff80d7d8dcd58f59f6c6592c0254919f0870e7c38f665b3535278a"
+    },
+    {
+      "observation_id": "B10-REF-TED-777208-2025-LOT-0002",
+      "source_id": "SRC-B10-V1-TED-777208-2025",
+      "record_sha256": "427d46a95ba1d1e31af11e97e91410c5bb2edd36b523ee9ff15b217f35fe3798"
+    },
+    {
+      "observation_id": "B10-REF-TED-438132-2026-LOT-0001",
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "record_sha256": "50c150ba6a164b045520968d0d9f846ffc5ac573e468cf86e196862dc0f89dbc"
+    },
+    {
+      "observation_id": "B10-REF-TED-438132-2026-LOT-0002",
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "record_sha256": "ab67441ed710f67591097bcf1d89cb1b0dfb25e2c342c415fcc85ef62a5ccdd4"
+    },
+    {
+      "observation_id": "B10-REF-TED-438132-2026-LOT-0003",
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "record_sha256": "82502aace372e478fbdc8d011a16bc2c1aed9cd5ff92013084bed67789333c78"
+    },
+    {
+      "observation_id": "B10-REF-TED-761369-2025-LOT-0001",
+      "source_id": "SRC-B10-V1-TED-761369-2025",
+      "record_sha256": "33d49773209e8e0b9d1edf7e33cd2257d7603ac5f6886056e7346ae0d277f272"
+    },
+    {
+      "observation_id": "B10-REF-TED-373350-2026-122236",
+      "source_id": "SRC-B10-V1-TED-373350-2026",
+      "record_sha256": "ff54aea8bab45f5bd089f49945f57ae10fc1b267c6a06783f252664777a08ed3"
+    }
+  ],
+  "excluded_price_kinds": {
+    "FRAMEWORK_MAXIMUM_CEILING": "No realized price or exercised homogeneous quantity",
+    "LIFECYCLE_BID_SCORE": "Includes lifecycle valuation; not purchase-price CAPEX",
+    "UNRESOLVED_RESERVE_FIELD": "Inclusion in published net award unresolved; no addition"
+  },
+  "excluded_normalizations": [
+    "MNB historical FX illustration",
+    "KSH equipment and construction index candidates",
+    "Full-year 2026 price average"
+  ],
+  "scope": "Seven exact reference observations; no national calibration, installed-total conversion, programme attribution or actual timing admission"
+}
