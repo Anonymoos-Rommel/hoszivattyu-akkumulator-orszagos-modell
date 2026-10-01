@@ -699,12 +699,49 @@
           "data": "Év × technológia: MW, rendelkezésre állás, tervezett/finanszírozott/üzemelő státusz; import/export határ és időjárásfüggés. ERAA adott forgatókönyve kontroll, nem programeredmény.",
           "phase": "A",
           "slice_id": "B09-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B09-ERAA2025-DASHBOARD-FINAL",
+            "SRC-B09-ERAA2025-EVA-CURRENT",
+            "SRC-B09-ERAA2025-COMMON-FINAL",
+            "SRC-B09-ERAA2025-RELEASE-NOTE",
+            "SRC-B09-ERAA2025-CHANGELOG",
+            "SRC-B09-ERAA2025-ANNEX1-AMENDED",
+            "SRC-B09-ERAA2025-COUNTRY-COMMENTS",
+            "SRC-B09-ACER-ERAA2025-DECISION-06-2026",
+            "SRC-B09-MAVIR-HFT2026-NATURE",
+            "SRC-B09-MAVIR-HFT2026-CONSULTATION-INPUT",
+            "SRC-B09-MAVIR-HFT2025-APPROVAL",
+            "SRC-B09-MAVIR-HFT2025-NATURE",
+            "SRC-B09-MAVIR-HFT2026-ANNEXES",
+            "SRC-B09-ACER-ERAA2025-CORRIGENDUM",
+            "SRC-B09-ERAA2025-ANNEX2-AMENDED",
+            "SRC-B09-ENTSOE-WEBSITE-DISCLAIMER-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/b09_future_supply_reference_manifest.json",
+            "modules/B09/future_supply_reference.py",
+            "tools/materialize_b09_future_supply_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b09_future_supply_reference.py"
+          ],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "ERAA2025 final National Trends inputs and amended Cost Based EVA output",
+                "ACER2026 decision and July corrigendum",
+                "MAVIR HFT2026 project-status assumptions and HFT2025 approval"
+              ],
+              "remaining_unknown": "Source-specific model-use qualification, actual programme future/horizon selection and coherent future weather/availability/network integration remain unresolved. This is reference materialization only, not full B09-D02 acceptance or runtime input authority.",
+              "promising_next_lead": "Review the intended source-dependent use scope and select a programme calculation only when its horizon/scenario is decided; then acquire the coherent weather/outage/network inputs actually needed",
+              "expected_decision_value": "Preserves exact future source scenarios without mistaking market status for financing/commissioning, sparse absence for zero, consumption/storage for generation or source-scenario changes for programme effects",
+              "decision": "INTEGRATE_BOUNDED_FUTURE_SOURCE_REFERENCE_NO_BASELINE_SELECTION",
+              "evidence": "docs/checkpoints/V1_020_B09_FUTURE_SUPPLY_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

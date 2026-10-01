@@ -1,0 +1,30 @@
+{
+  "checkpoint": "V1_019",
+  "verified_head": "cb62b971ad215b05930236152d43964dc955bed8",
+  "verified_tree": "8fd1587a208d3ad8e34fed8edba1e1b8578df037",
+  "review_date": "2026-10-01",
+  "github_ci": {
+    "run_number": 1080,
+    "run_id": 36927580909,
+    "job_id": 110588601888,
+    "result": "PASS",
+    "registry_validation": "PASS",
+    "tests": 2668,
+    "duration_seconds": 120.363,
+    "tested_pr_merge_commit": "7ad22792bf263e937272bedd433ccc3900bca265",
+    "tested_tree_equals_head_tree": true,
+    "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36927580909"
+  },
+  "local_checks": {
+    "focused": 31,
+    "B10_module_regressions": 681,
+    "plan_tests": 3,
+    "registry": "PASS",
+    "external_hashes": 7,
+    "numeric_source_checks": 15,
+    "archive_member_lineage": "PASS",
+    "full_suite": "NOT_RERUN; exact-content hosted suite passed"
+  },
+  "independent_review": "PASS exact six-file implementation plus narrow shared integration; scanned source aggregates separately visually reviewed",
+  "scope": "Orgovány I aggregate/contract refinement only; seven observations/four clusters; no national cost base, granular price table or raw source publication"
+}

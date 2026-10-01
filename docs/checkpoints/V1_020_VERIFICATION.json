@@ -1,0 +1,66 @@
+{
+  "checkpoint": "V1_020",
+  "reviewed_base_head": "cb62b971ad215b05930236152d43964dc955bed8",
+  "focused_tests": {
+    "tests": 19,
+    "result": "PASS"
+  },
+  "module_regression_tests": {
+    "command": "python -B -m unittest discover -s tests -p 'test_b09*.py'",
+    "tests": 124,
+    "result": "PASS"
+  },
+  "independent_review": {
+    "result": "PASS_NO_UNRESOLVED_FINDING",
+    "focused_tests": 37,
+    "test_breakdown": {
+      "adapter": 19,
+      "research_plan": 3,
+      "registry_contracts": 15
+    },
+    "numeric_sources": 2,
+    "capacity_rows": 88,
+    "EVA_change_rows": 49,
+    "all_source_fields_rows_and_Decimal_MW": "EXACT_MATCH",
+    "independent_readers": [
+      "pandas C CSV parser",
+      "minidom XLSX parser"
+    ],
+    "source_and_member_hashes": "PASS",
+    "normalized_CSV_and_receipt_hashes": "MATCH",
+    "context_source_precision": "ACER decision date independently verified as 24 April 2026; no original PDF hashes invented for rendered-text-only inspection. Corrigendum rendered-text inspection remains author provenance; independent repeat access was unavailable.",
+    "shared_integration": "16 added source/context/rights pins; D02 INTEGRATING; B09 IN_PROGRESS and 35% unchanged; no runtime, scenario, permission or gate promotion",
+    "full_suite_rerun": false
+  },
+  "registry_validation": "PASS",
+  "canonical_public_bytes": "LF_EQUALS_GIT_BLOB_BYTES",
+  "local_full_suite": {
+    "result": "NOT_RUN",
+    "followthrough": "Full hosted suite required on exact published content before checkpoint is called verified"
+  },
+  "external_normalized_csv_sha256": {
+    "capacity": "2a481c65da2b3ac962d00e37ebf356a53a6c35d1c3cf049808de6272a21489b2",
+    "cost_based_EVA": "9561038c694433c42bce0c0e0afbae1a99f208950770c0943529e4db0c7a790e"
+  },
+  "artifact_sha256": {
+    "modules/B09/future_supply_reference.py": "c4c6b79d1166d6f5812d745e1fc3f2ae8b212eea5448cf7d82b67c6bcb6fd824",
+    "tools/materialize_b09_future_supply_reference.py": "4a1f965cb72260d6b86a4a7f36436aefe6af30f7b6c22767dbe42411a219d0da",
+    "tests/test_b09_future_supply_reference.py": "6500dcd0b3a9b0e718f0015c62003980e9f155a3936f39c4ce966ac9a3bff6f8",
+    "registry/b09_future_supply_reference_manifest.json": "de54fc3c705cfeaeba0d04585fa136afe486906e607578c8213cf7590878ec69",
+    "docs/checkpoints/V1_020_B09_FUTURE_SUPPLY_REFERENCE.md": "734d2e4d6541a7cdf01e7a0b5550b3d41cfdfa4dda7bef006a40cd7a0d8f41be",
+    "registry/sources.csv": "61ac55ba3c6c20c0a0962a993b19891f6f1fc80c74c67109077f2f46209f8173",
+    "registry/v1_research_plan.json": "5584f330b2b489cc8ee3bacc6c00a63866330963680bd3afcde3430bf2059d94",
+    "modules/B09/README.md": "ad5875ae3b1ef852ea2c7cd41fb33ed362a10bf8056cafd3e0ad1b842982ea62",
+    "registry/module_status.csv": "5884ae12658e3d178daf13869ad53aac3ed964b92b606e586054cccf886f9d91",
+    "docs/checkpoints/V1_019_CI.json": "63a27d7317664713012c702ce8e648ac317e2d41e849e5791fe71fc47263211f"
+  },
+  "boundaries": [
+    "SCN source references only; no selected programme baseline or authorized future runtime",
+    "Source-specific model use remains REVIEW_REQUIRED, separately from raw repository-copy clearance",
+    "Market-treatment status is not lifecycle or financing evidence",
+    "Storage, demand response and consumption remain separate from generation",
+    "Sparse absence is not zero; pre-EVA inputs and non-cumulative EVA changes stay separate",
+    "No hourly supply, import guarantee, storage dispatch, LOLE, revenue or programme result",
+    "Original and normalized numeric sources remain external-only"
+  ]
+}
