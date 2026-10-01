@@ -1,0 +1,205 @@
+{
+  "reference_id": "B18-D02-SUPPLY-SOURCE-REFERENCE-V1",
+  "schema_version": 1,
+  "research_date": "2026-10-01",
+  "materialization_scope": "RESEARCH_REFERENCE_ONLY",
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "public_raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+  "national_supply_capacity_status": "NOT_ESTABLISHED",
+  "national_import_share_status": "NOT_ESTABLISHED",
+  "model_use_status": "SOURCE_SPECIFIC_REVIEW_REQUIRED",
+  "classification_bridge": {
+    "cn_2025": "84186100",
+    "prodcom_2025": "28211400",
+    "prior_prodcom": "28251380",
+    "prior_last_reference_year": 2024,
+    "excluded_reversible_prodcom_2025": "28251252",
+    "excluded_reversible_cn_2025": "84158100",
+    "cn_2025_supplementary_unit": null,
+    "time_series_substitution_authorized": false
+  },
+  "source_artifacts": [
+    {
+      "source_id": "SRC-B18-COMEXT-HU-CN84186100-2025",
+      "sha256": "58bc362738335491a31cb4f5e7e81a30badb8b5bd6452c4ddf27da4cea94f19b",
+      "byte_count": 14763,
+      "dataset_id": "DS-045409",
+      "product_code": "84186100",
+      "classification": "CN_2025",
+      "reference_year": 2025,
+      "source_updated_at": "2026-09-15T11:00:00+0200",
+      "dimensions": [
+        "freq",
+        "reporter",
+        "partner",
+        "product",
+        "flow",
+        "indicators",
+        "time"
+      ],
+      "sizes": [
+        1,
+        1,
+        278,
+        1,
+        2,
+        3,
+        1
+      ],
+      "authority": "Eurostat",
+      "original_url": "https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-045409?lang=EN&freq=A&reporter=HU&product=84186100&time=2025",
+      "retrieved_at": "2026-10-01",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-PRODCOM-HU-28211400-2025",
+      "sha256": "db1164f0bfe1b69f9c3a8a022c4dcc2d617db1f8b8480f6662f49cab544d7c78",
+      "byte_count": 3494,
+      "dataset_id": "DS-059367",
+      "product_code": "28211400",
+      "classification": "PRODCOM_2025_CPA_2_2",
+      "reference_year": 2025,
+      "source_updated_at": "2026-09-29T11:00:00+0200",
+      "dimensions": [
+        "freq",
+        "reporter",
+        "product",
+        "indicators",
+        "time"
+      ],
+      "sizes": [
+        1,
+        1,
+        1,
+        23,
+        1
+      ],
+      "authority": "Eurostat",
+      "original_url": "https://ec.europa.eu/eurostat/api/comext/dissemination/statistics/1.0/data/DS-059367?lang=EN&freq=A&reporter=HU&product=28211400&time=2025",
+      "retrieved_at": "2026-10-01T22:49:19.912483+00:00",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    }
+  ],
+  "metadata_artifacts": [
+    {
+      "source_id": "SRC-B18-KSH-ITO22-ITO25",
+      "original_url": "https://www.ksh.hu/docs/osztalyozasok/ito/ito22_ito25_forditokulcs.xlsx",
+      "retrieved_at": "2026-10-01T22:47:40.811948+00:00",
+      "sha256": "95601e1057fab350423019a5db27534d65ed5f6da596abd23e3b7d9ec143fc47",
+      "byte_count": 340073,
+      "authority": "KSH official classification",
+      "exact_locator": "ITO'22 - ITO'25 Fk, row3798; prior/current national codes, first8digits PRODCOM",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-ITO25-CN25",
+      "original_url": "https://www.ksh.hu/docs/osztalyozasok/ito/ito25_kn25_forditokulcs.xlsx",
+      "retrieved_at": "2026-10-01T22:47:41.871857+00:00",
+      "sha256": "03f6b6e339e1cf0c534b10709a2990ce4b540d6a634e5272fadb8f517cd2d1cc",
+      "byte_count": 664163,
+      "authority": "KSH official classification",
+      "exact_locator": "ITO'25 - KN'25 Fk, rows8933 and9039; explicit CN mapping",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-ITO25-STRUCTURE",
+      "original_url": "https://www.ksh.hu/docs/osztalyozasok/ito/ito_25_struktura.xlsx",
+      "retrieved_at": "2026-10-01T22:47:40.030302+00:00",
+      "sha256": "e060554e3055501252398d519437a023a41087eacda609403d2ae0849906c37e",
+      "byte_count": 274850,
+      "authority": "KSH official classification",
+      "exact_locator": "row3668, target national code282114000706; PR,CP markers",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-ITO-METHOD",
+      "original_url": "https://www.ksh.hu/ito_menu",
+      "retrieved_at": "2026-10-01T22:49:20.561943+00:00",
+      "sha256": "d9bc23088c158772cdcf2222ef3c8f7026ab02b7a0d49dbfdef621e0cfe190c1",
+      "byte_count": 46737,
+      "authority": "KSH official classification",
+      "exact_locator": "First8digits correspondence; HU exceptions",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-CN2025-STRUCTURE",
+      "original_url": "https://www.ksh.hu/docs/osztalyozasok/kn/kn2025_struktura.xlsx",
+      "retrieved_at": "2026-10-01T22:48:00.827736+00:00",
+      "sha256": "49e3fad426eb1c80d8b239280d94357e7bf985440b38813ddda65d3fe0f7064e",
+      "byte_count": 583256,
+      "authority": "KSH official classification",
+      "exact_locator": "KN8_2025 struktúra, A7698:C7698; supplementary unit dash",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-EU-CN2025",
+      "original_url": "https://www.ksh.hu/docs/osztalyozasok/kn/CELEX_2024R2522_HU_TXT.pdf",
+      "retrieved_at": "2026-10-01T22:48:10.107520+00:00",
+      "sha256": "46bdb53adc435a96844f14341a12a52b3e40c0c7b3301ea436c9a8280cf9193d",
+      "byte_count": 10574975,
+      "authority": "Eurostat / European Union",
+      "exact_locator": "Regulation2024/2522 Annex p579; CN84186100; no supplementary unit",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-PRODCOM2025-GUIDE",
+      "original_url": "https://ec.europa.eu/eurostat/documents/d/prodcom/quick-guide-on-accessing-prodcom-data-ds-059367",
+      "retrieved_at": "2026-10-01T22:47:39.053321+00:00",
+      "sha256": "962620f902301d796f2a5ed04f5f70ca9065715b074ad4ec86f51425a8a3adcb",
+      "byte_count": 467268,
+      "authority": "Eurostat / European Union",
+      "exact_locator": "July2026 guide; DS059367, CPA2.2, reference2025 onwards",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-EUROSTAT-TRADE-METHOD",
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/en/ext_go_detail_sims.htm",
+      "retrieved_at": "2026-10-01T22:49:19.710733+00:00",
+      "sha256": "4316c274962dff22af93d5b570610470dc5a05864f1a7f31d26c34efc5fea6b9",
+      "byte_count": 301728,
+      "authority": "Eurostat / European Union",
+      "exact_locator": "Sections3.4,3.6,4; border value, net mass, dispatch versus origin",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-EUROSTAT-HU-PRODCOM-METHOD",
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/EN/prom_esms_hu.htm",
+      "retrieved_at": "2026-10-01T22:47:39.620085+00:00",
+      "sha256": "7a9ac0765af5b20307e8d0a0bc17885a1bdd85ce8a61c5491ca1a237b29b3942",
+      "byte_count": 214102,
+      "authority": "Eurostat / European Union",
+      "exact_locator": "2025 classification break and confidential-data treatment",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    }
+  ],
+  "boundaries": [
+    "No household/industrial split or device/kW count from this product aggregate",
+    "One partner aggregate per read; WORLD overlaps intra/extra; no aggregation method",
+    "Imports/exports are gross statistical flows, not sales, installations, stock additions, manufacturing origin or available capacity",
+    "EUR values preserve native statistical valuation and source period; no retail-price/deflator/HUF conversion",
+    "Production missingness, confidentiality and inapplicable quantity remain different states",
+    "No automatic bridge to historical P/ST or separate reversible category"
+  ],
+  "cross_source_reconciliation": {
+    "status": "OPEN",
+    "question_id": "Q-B18-002",
+    "comext_updated_at": "2026-09-15T11:00:00+0200",
+    "prodcom_updated_at": "2026-09-29T11:00:00+0200",
+    "import_difference_eur": "142546",
+    "export_difference_eur": "16486",
+    "difference_basis": "Comext minus PRODCOM-associated trade; diagnostic DER, not correction",
+    "cause": "UNKNOWN",
+    "substitution_or_averaging_authorized": false
+  }
+}

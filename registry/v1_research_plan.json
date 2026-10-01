@@ -1281,12 +1281,32 @@
           "data": "HU szakma/régió/év: aktív FTE, projekt-/m²-/készülék-nap, rendelkezésre álló munkaóra, képzés/belépés és kiesés. KSH ágazati létszám kontroll, nem installálási darabkorlát.",
           "phase": "V↔A",
           "slice_id": "B18-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "RESEARCHING",
+          "canonical_source_ids": [
+            "SRC-B18-HU-CS4L-SQA-2023",
+            "SRC-B18-HU-CS4L-ROADMAP-2024",
+            "SRC-B18-KSH-MUN0009-2026",
+            "SRC-B18-KSH-MUN-METHOD-2026",
+            "SRC-B18-KSH-MUN0009-HTML-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "validation_debt_ids": [
+            "Q-B18-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "ConstructSkills4LIFE scenario family and KSH broad-sector employment"
+              ],
+              "remaining_unknown": "Aktív FTE; mért projekt-/m²-/készülék-munkaóra; más munkák, kiesés és belépés; illesztett reprezentatív minta vagy kalibrált következtetés.",
+              "promising_next_lead": "Trade/region completed-job labour hours, available active FTE and measured quality sample",
+              "expected_decision_value": "Prevent source controls or external scenarios from silently becoming national rollout limits",
+              "decision": "BOUNDED_REFERENCE_WITH_TARGETED_ACQUISITION_DEBT",
+              "evidence": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -1294,12 +1314,38 @@
           "data": "Termékkód/technológia × év: db, kW/kWh, szállítási hónap, import/hazai termelés, importarány és hozzáadottérték. PRODCOM/Comext kategória pontosítása.",
           "phase": "V↔A",
           "slice_id": "B18-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B18-COMEXT-HU-CN84186100-2025",
+            "SRC-B18-PRODCOM-HU-28211400-2025",
+            "SRC-B18-KSH-ITO22-ITO25",
+            "SRC-B18-KSH-ITO25-CN25",
+            "SRC-B18-KSH-ITO25-STRUCTURE",
+            "SRC-B18-KSH-ITO-METHOD",
+            "SRC-B18-KSH-CN2025-STRUCTURE",
+            "SRC-B18-EU-CN2025",
+            "SRC-B18-PRODCOM2025-GUIDE",
+            "SRC-B18-EUROSTAT-TRADE-METHOD",
+            "SRC-B18-EUROSTAT-HU-PRODCOM-METHOD"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "validation_debt_ids": [
+            "Q-B18-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Eurostat/KSH product classification and trade/production"
+              ],
+              "remaining_unknown": "Nem bizalmas termelési kontroll; termékkód/év készlet-reexport-értékesítés híd; beszállítói átfutás és szabad kapacitás; adatverzió-egyeztetés.",
+              "promising_next_lead": "Claim-matched product supply-use reconciliation and supplier capacity",
+              "expected_decision_value": "Prevent source controls or external scenarios from silently becoming national rollout limits",
+              "decision": "BOUNDED_REFERENCE_WITH_TARGETED_ACQUISITION_DEBT",
+              "evidence": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -1307,12 +1353,32 @@
           "data": "Visszajavítás/hibaarány, engedélyezés/szerelés átfutás, tanulás mintával; múltbeli programtermelés és rendelkezésre álló többletkapacitás külön.",
           "phase": "V↔A",
           "slice_id": "B18-D03",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "RESEARCHING",
+          "canonical_source_ids": [
+            "SRC-B18-HU-CS4L-SQA-2023",
+            "SRC-B18-HU-CS4L-ROADMAP-2024",
+            "SRC-B18-KSH-MUN0009-2026",
+            "SRC-B18-KSH-MUN-METHOD-2026",
+            "SRC-B18-KSH-MUN0009-HTML-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "validation_debt_ids": [
+            "Q-B18-003"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "ConstructSkills4LIFE scenario family and KSH broad-sector employment"
+              ],
+              "remaining_unknown": "Munkacsomaghoz rendelt megvalósult idő/hibaarány minta; lefedettség, súlyozás és bizonytalanság; múltbeli output versus szabad többletkapacitás.",
+              "promising_next_lead": "Trade/region completed-job labour hours, available active FTE and measured quality sample",
+              "expected_decision_value": "Prevent source controls or external scenarios from silently becoming national rollout limits",
+              "decision": "BOUNDED_REFERENCE_WITH_TARGETED_ACQUISITION_DEBT",
+              "evidence": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
