@@ -78,7 +78,13 @@
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
+          "validation_debt_ids": [
+            "VD-B02-V1-HEAT-UNIVERSE",
+            "VD-B02-V1-HEAT-ENDUSE",
+            "VD-B02-V1-HEAT-EFFICIENCY",
+            "VD-B02-V1-HEAT-ALLOCATION",
+            "VD-B02-V1-HEAT-WEATHER"
+          ],
           "research_log": [
             {
               "date": "2026-10-01",
@@ -102,6 +108,17 @@
               "expected_decision_value": "Provides sourced useful-energy ratios while exposing household/dwelling and final/useful boundary errors",
               "decision": "CONTINUE_CORE_INFERENCE",
               "evidence": "docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing pinned JRC paired SH/DHW detail; dependent Eurostat controls; KSH occupied-dwelling normalization"
+              ],
+              "remaining_unknown": "Physical population/energy universe, programme allocation and annual-to-hourly calibration",
+              "promising_next_lead": "Use existing admitted physical surfaces and this scoped annual reference in a controlled calibration estimator",
+              "expected_decision_value": "Admits a real E2 annual calibration base without rescaling national heat by mismatched counts or repeating general source searches",
+              "decision": "SCOPED_E2_ADMITTED_CONTINUE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md"
             }
           ],
           "reviewed_commit": null

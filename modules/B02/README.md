@@ -124,3 +124,5 @@ Részletes szerződés: [`data_contract.md`](data_contract.md).
 [Eurostat control intake](../../docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md) separates end uses and energy products for Hungary in 2022–2024. It preserves missing cells and rounding residuals; it is not a useful-heat estimate or a programme savings result.
 
 [JRC household model controls](../../docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md) retain selected 2022–2023 native cells and expose the end-use decomposition difference against Eurostat. They remain research calibration controls, without E2 admission.
+
+[Scoped annual heat E2 reference](../../docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md) uses the paired 2022 JRC SH/DHW cohorts, excludes the whole district cohort and separates circulation. KSH is a normalization-only denominator; participant scaling remains forbidden until the target-allocation estimator is admitted.

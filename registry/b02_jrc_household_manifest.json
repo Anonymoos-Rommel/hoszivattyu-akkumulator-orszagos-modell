@@ -40,5 +40,10 @@
   "license_snapshot_path": "evidence/history/SRC-B02-JRC-IDEES-HU-2023/copyright_2026-10-01.txt",
   "license_sha256": "f20723519a580fb35b3499870f0b1baea54f483195105416e547f0014f1610d2",
   "extract_path": "data/processed/b02/jrc_household_controls_2022_2023.csv",
-  "extract_sha256": "c1d1ce28e499df5d7c8d3c2fca8993a5a9f60a4637c0d9174086d94f9b5f0202"
+  "extract_sha256": "c1d1ce28e499df5d7c8d3c2fca8993a5a9f60a4637c0d9174086d94f9b5f0202",
+  "scoped_admissions": [
+    "registry/b02_v1_annual_heat_admission.json"
+  ],
+  "coupled_extract_path": "data/processed/b02/jrc_sh_dhw_cohorts_2022_2023.csv",
+  "coupled_extract_sha256": "9bb56a5eb76b8b8d3c84607f454739368dfd2de99b532bb60685de70e238190a"
 }
