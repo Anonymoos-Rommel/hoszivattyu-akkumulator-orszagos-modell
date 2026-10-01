@@ -1,0 +1,20 @@
+{
+  "checkpoint": "V1-022",
+  "head_commit": "35001ecab6c9f3b6d1e9f2e471fbb3e00122e7c1",
+  "tree": "090bb745c83e9d853a3fddeaf8ddfe1320775aa0",
+  "run_number": 1083,
+  "run_id": 36939812702,
+  "job_id": 110628431970,
+  "conclusion": "failure",
+  "registry_validation": "VALID",
+  "tests_run": 2744,
+  "failures": 1,
+  "test_seconds": 140.654,
+  "failed_test": "test_project_reaudit_covers_every_question",
+  "failure_reason": "New Q-B18-001/002/003 absent from the all-question historical audit index; first assertion reports Q-B18-001",
+  "tested_merge_commit": "0137cc5c071bac9e6610c1f2582f04a3c1497151",
+  "merge_tree_matches_head": true,
+  "repair_scope": "Append a dated B18 index section while preserving historical text; no numeric/source-reader change",
+  "replacement_ci": "REQUIRED_ON_REPAIR_HEAD; this failed run is not PASS",
+  "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36939812702"
+}

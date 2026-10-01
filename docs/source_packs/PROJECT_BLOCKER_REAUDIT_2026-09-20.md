@@ -96,3 +96,20 @@ Some nominally separate questions should be researched as one evidence track:
 ## Next action
 
 B02-P50 closes Q-B02-002 from existing canonical evidence. The next active blocker is Q-B02-004 because it is CRITICAL, upstream of Q-B02-001, and already has substantial evidence in P39 and P44-P49 that can be re-used under the new population-inference policy before any new web search.
+
+## V1-022 appendix — 2026-10-01
+
+This appendix extends the question index for the later approved B18 work. It does
+not rewrite the historical 2026-09-20 audit, its counts or its then-current queue.
+The current execution plan and evidence-tier audit govern these new entries.
+
+| ID | Module | Priority | Current status | Re-audit classification | Reason / next action |
+|---|---|---|---|---|---|
+| Q-B18-001 | B18 | HIGH | OPEN | TARGETED_EXTERNAL_SEARCH | Broad construction employment is not active installer FTE. Acquire trade/region work availability and work-package labour evidence, allowing defensible representative or calibrated inference with explicit uncertainty. |
+| Q-B18-002 | B18 | HIGH | OPEN | CONTINUE_EXISTING_FIRST | Reuse the exact classified trade/production references. Confidential production and absent unit counts do not establish supply or import share. Reconcile dataset vintages and acquire product-matched stocks, re-exports, lead times and available supplier capacity. |
+| Q-B18-003 | B18 | HIGH | OPEN | TARGETED_EXTERNAL_SEARCH | The reviewed historical survey is nonrepresentative and does not measure job time or rework. Seek completed-job quality/labour evidence before claiming a learning-adjusted national capacity. |
+
+These are explicit debts within the existing B18-D01/D02/D03 scope, not additional
+mandatory work slices. They remain E3 for a claimed national capacity base;
+conditional scenarios remain SCN. B18 readiness remains zero. See the V1-022
+checkpoint and the two B18 source manifests for evidence and source limitations.
