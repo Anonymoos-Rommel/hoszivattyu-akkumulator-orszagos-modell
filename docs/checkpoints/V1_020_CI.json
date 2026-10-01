@@ -1,0 +1,21 @@
+{
+  "checkpoint": "V1_020",
+  "verified_head": "bb6ffac5bb2e64fc750b3c7ec9a537a68471f6a3",
+  "verified_tree": "c51097ab4c78bf7a9852dc8fe0ab53d32216d34b",
+  "review_date": "2026-10-01",
+  "github_ci": {
+    "run_number": 1081,
+    "run_id": 36929089920,
+    "job_id": 110593632636,
+    "result": "PASS",
+    "registry_validation": "PASS",
+    "tests": 2687,
+    "duration_seconds": 138.775,
+    "tested_pr_merge_commit": "d2d19994ff5c1ef724c0ccd15ddda323a9b331ce",
+    "tested_tree_equals_head_tree": true,
+    "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36929089920"
+  },
+  "independent_review": "137 source rows/all fields independently matched; 19 adapter tests plus 3 plan and 15 registry tests passed; ACER decision date corrected before publication",
+  "module_regressions": 124,
+  "scope": "Future source references remain SCN, external-only and SOURCE_SPECIFIC_REVIEW_REQUIRED; no central future/runtime selected; D02 remains INTEGRATING"
+}

@@ -54,11 +54,26 @@ P11 also re-runs P6 from the supplied timing evidence. It preserves:
 
 - `DELIVERY_EX_ANTE_TARGET`;
 - `DELIVERY_CURRENT_TARGET_ONLY`;
-- `DELIVERY_ACTUAL_OBSERVED`;
-- schedule variance semantics;
+- `DELIVERY_ACTUAL_OBSERVED`, only for exact physical in-service evidence bound
+  to the same intended milestone and scope;
+- `PROJECT_MILESTONE_ONLY`, retaining project-completion/reporting facts without
+  physical delivery promotion;
+- `Q_PHYSICAL_DELIVERY_UNRESOLVED` when physical milestone/scope authority is absent;
+- physical schedule variance semantics;
 - `Q_NO_CALIBRATED_DELIVERY_MODEL` completion-probability status.
 
-It cannot create a completion probability.
+It cannot create a completion probability. Exact administrative project completion
+and completed-by publication bounds remain separate reporting fields; neither can
+populate P11's physical `actual_completion_date` or physical delay. An exact
+physical event for another phase or scope also cannot complete the intended
+delivery. Pair equality is insufficient: both physical evidence scope IDs must
+explicitly match `physical_delivery_scope_id(record)`, a canonical key containing
+the exact P5 project, operator, substation, region grain, infrastructure type and
+cost component. The helper names the scope; it supplies no source authority and
+never fills missing evidence. Each timing source must independently bind that
+scope through `scope_source_id`; a missing P5 component leaves delivery Q. Ex-ante authority controls retrospective performance comparison, not
+whether an independently evidenced physical event occurred. Neither type of
+date provides CAPEX cash-flow authority.
 
 ## CAPEX cash-flow authority
 

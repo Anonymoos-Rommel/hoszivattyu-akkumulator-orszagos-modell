@@ -843,12 +843,45 @@
           "data": "Tervezett ex-ante és tényleges dátum, nap/hónap/év, állapot és cenzorálás; managed peak/survivability evidence. Egy késés nem országos valószínűség.",
           "phase": "A",
           "slice_id": "B10-D03",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+            "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+            "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+            "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+            "SRC-B10-OPUS-TITASZ-RRF-TIMING-2024",
+            "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/project_delivery_timing.csv",
+            "registry/baseline_infrastructure.csv",
+            "registry/b10_timing_source_review_manifest.json",
+            "modules/B10/project_delivery_timing_contract.py",
+            "modules/B10/rrf_baseline_ledger.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b10_p6_project_delivery_timing.py",
+            "tests/test_b10_p4_observed_baseline_rrf.py",
+            "tests/test_b10_p11_timed_investment_pathway.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B10-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Exact current MVM and OPUS RRF project/target/completion sources",
+                "OPUS dated news-index context",
+                "Phase-specific multi-operator project and procurement leads, not yet an admitted national cohort"
+              ],
+              "remaining_unknown": "Physical commissioning dates and target-versus-event scope links, representative cohort weights, censoring/calibration and actual cashflow remain unresolved. No national delivery probability is admitted.",
+              "promising_next_lead": "Named commissioning/acceptance and revision-chain records for Répcelak, Soltvadkert and Nyírjes; preserve phase-specific evidence rather than pooling ceremony or umbrella completion dates",
+              "expected_decision_value": "Withdraws false exact-date/OPERATING/delay precision from existing seed records while retaining valid project completion, baseline attribution and declared finance evidence",
+              "decision": "REPAIR_SOURCE_PRECISION_CONTINUE_PHASE_SPECIFIC_TIMING_RESEARCH",
+              "evidence": "docs/checkpoints/V1_021_B10_TIMING_PRECISION_REPAIR.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],

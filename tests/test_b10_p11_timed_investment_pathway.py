@@ -24,6 +24,8 @@ from modules.B10.incremental_reinforcement_contract import (
 )
 from modules.B10.project_delivery_timing_contract import (
     ACTUAL_COMPLETION,
+    EXACT, ON_OR_BEFORE, PHYSICAL_IN_SERVICE, PROJECT_COMPLETION,
+    PUBLICATION_REPORTING_BOUND, SOURCE_STATED_EVENT_DATE, SOURCE_STATED_TARGET_DATE,
     CURRENT_PAGE_ONLY,
     EX_ANTE_VERIFIED,
     EXPECTED_COMPLETION,
@@ -39,6 +41,8 @@ from modules.B10.timed_investment_pathway_contract import (
     DELIVERY_ACTUAL_OBSERVED,
     DELIVERY_CURRENT_TARGET_ONLY,
     DELIVERY_EX_ANTE_TARGET,
+    PROJECT_MILESTONE_ONLY,
+    Q_PHYSICAL_DELIVERY_UNRESOLVED,
     PROGRAMME_INCREMENTAL_CAPEX_CASHFLOW,
     Q_CAPEX_TIMING_UNRESOLVED,
     Q_PROGRAMME_ATTRIBUTION_UNRESOLVED,
@@ -46,6 +50,7 @@ from modules.B10.timed_investment_pathway_contract import (
     SCN_TIMED_PROGRAMME_CAPEX,
     TIMED_PROGRAMME_CAPEX_PROVEN,
     build_timed_investment_pathway,
+    physical_delivery_scope_id,
 )
 
 
@@ -131,6 +136,10 @@ def target(*, project_id=PROJECT_ID, operator=OPERATOR, snapshot=EX_ANTE_VERIFIE
         source_id="SRC-P11-TARGET",
         source_publication_date="2026-09-02",
         evidence_status=OBS,
+        milestone_type=PHYSICAL_IN_SERVICE,
+        scope_id=physical_delivery_scope_id(programme_record()),
+        scope_source_id="SRC-P11-TARGET",
+        date_relation=EXACT, date_precision="DAY", date_authority=SOURCE_STATED_TARGET_DATE,
         snapshot_status=snapshot,
     )
 
@@ -144,6 +153,10 @@ def actual(*, project_id=PROJECT_ID, operator=OPERATOR):
         source_id="SRC-P11-ACTUAL",
         source_publication_date="2029-02-16",
         evidence_status=OBS,
+        milestone_type=PHYSICAL_IN_SERVICE,
+        scope_id=physical_delivery_scope_id(programme_record()),
+        scope_source_id="SRC-P11-ACTUAL",
+        date_relation=EXACT, date_precision="DAY", date_authority=SOURCE_STATED_EVENT_DATE,
         snapshot_status=NOT_APPLICABLE,
     )
 
@@ -346,6 +359,100 @@ class B10P11TimedInvestmentPathwayTests(unittest.TestCase):
         forged = replace(reinforcement, program_incremental_capex_huf=999.0)
         with self.assertRaisesRegex(B10TimedInvestmentPathwayError, "canonical P5"):
             build_timed_investment_pathway(record, forged, target())
+
+
+    def test_exact_project_completion_is_not_physical_delivery_or_cashflow(self):
+        record, reinforcement = proven_inputs()
+        project_target = replace(target(), milestone_type=PROJECT_COMPLETION)
+        project_actual = replace(actual(), milestone_type=PROJECT_COMPLETION)
+        result = build_timed_investment_pathway(record, reinforcement, project_target, project_actual)
+        self.assertEqual(PROJECT_MILESTONE_ONLY, result.delivery_status)
+        self.assertIsNone(result.actual_completion_date)
+        self.assertEqual("2029-02-15", result.reported_project_completion_date)
+        self.assertIsNone(result.schedule_variance_days)
+        self.assertEqual("Q", result.schedule_variance_status)
+        self.assertEqual((), result.cashflow_rows)
+        self.assertEqual(Q_CAPEX_TIMING_UNRESOLVED, result.status)
+
+    def test_completion_reporting_bound_cannot_mint_physical_delivery_or_cashflow(self):
+        record, reinforcement = proven_inputs()
+        bounded = replace(actual(), claimed_date="2029-02-16", milestone_type=PROJECT_COMPLETION,
+                          date_relation=ON_OR_BEFORE, date_authority=PUBLICATION_REPORTING_BOUND)
+        result = build_timed_investment_pathway(record, reinforcement,
+                                              replace(target(), milestone_type=PROJECT_COMPLETION), bounded)
+        self.assertEqual(PROJECT_MILESTONE_ONLY, result.delivery_status)
+        self.assertIsNone(result.actual_completion_date)
+        self.assertIsNone(result.reported_project_completion_date)
+        self.assertEqual("2029-02-16", result.reported_completion_upper_bound)
+        self.assertEqual((), result.cashflow_rows)
+
+    def test_project_completion_preserves_separately_proven_cashflow_without_physical_claim(self):
+        record, reinforcement = proven_inputs()
+        rows = (cashflow("CF-1", "2027-01-01", "2027-12-31", 100.0, complete=True),)
+        result = build_timed_investment_pathway(
+            record, reinforcement, replace(target(), milestone_type=PROJECT_COMPLETION),
+            replace(actual(), milestone_type=PROJECT_COMPLETION), rows,
+        )
+        self.assertEqual(TIMED_PROGRAMME_CAPEX_PROVEN, result.status)
+        self.assertEqual(PROJECT_MILESTONE_ONLY, result.delivery_status)
+        self.assertIsNone(result.actual_completion_date)
+        self.assertEqual("2027-01-01", result.cashflow_rows[0].period_start)
+
+    def test_untyped_legacy_target_is_not_physical_delivery_authority(self):
+        record, reinforcement = proven_inputs()
+        untyped = ProjectTimingEvidence(PROJECT_ID, OPERATOR, EXPECTED_COMPLETION, "2028-12-31",
+                                       "SRC-T", "2026-09-02", OBS, EX_ANTE_VERIFIED)
+        result = build_timed_investment_pathway(record, reinforcement, untyped)
+        self.assertEqual(Q_PHYSICAL_DELIVERY_UNRESOLVED, result.delivery_status)
+        self.assertEqual((), result.cashflow_rows)
+
+
+    def test_other_physical_scope_cannot_complete_the_promised_delivery(self):
+        record, reinforcement = proven_inputs()
+        other = replace(actual(), scope_id="SYNTHETIC:P11:OTHER_PHASE")
+        result = build_timed_investment_pathway(record, reinforcement, target(), other)
+        self.assertEqual(DELIVERY_EX_ANTE_TARGET, result.delivery_status)
+        self.assertIsNone(result.actual_completion_date)
+        self.assertIsNone(result.schedule_variance_days)
+        self.assertEqual((), result.cashflow_rows)
+
+
+    def test_matching_wrong_physical_pair_cannot_attach_to_p5_scope(self):
+        record, reinforcement = proven_inputs()
+        for wrong_scope in (
+            "OTHER:SUBSTATION:PHASE",
+            physical_delivery_scope_id(replace(record, region_id="MVM_DEMASZ:OTHER:132KV")),
+            physical_delivery_scope_id(replace(record, cost_component_id="OTHER-COMPONENT")),
+            physical_delivery_scope_id(replace(record, infrastructure_type="OTHER-ASSET-SCOPE")),
+        ):
+            with self.subTest(wrong_scope=wrong_scope):
+                result = build_timed_investment_pathway(
+                    record, reinforcement, replace(target(), scope_id=wrong_scope),
+                    replace(actual(), scope_id=wrong_scope),
+                )
+                self.assertEqual(Q_PHYSICAL_DELIVERY_UNRESOLVED, result.delivery_status)
+                self.assertIsNone(result.actual_completion_date)
+                self.assertIsNone(result.schedule_variance_days)
+                self.assertEqual("Q", result.schedule_variance_status)
+                self.assertEqual((), result.cashflow_rows)
+
+    def test_matching_pair_without_explicit_scope_source_binding_is_not_p5_delivery(self):
+        record, reinforcement = proven_inputs()
+        result = build_timed_investment_pathway(
+            record, reinforcement, replace(target(), scope_source_id=None),
+            replace(actual(), scope_source_id=None),
+        )
+        self.assertEqual(Q_PHYSICAL_DELIVERY_UNRESOLVED, result.delivery_status)
+        self.assertIsNone(result.actual_completion_date)
+        self.assertIsNone(result.schedule_variance_days)
+
+    def test_missing_p5_component_cannot_be_inferred_from_pair_identity(self):
+        record, reinforcement = proven_inputs(capex=None)
+        self.assertIsNone(physical_delivery_scope_id(record))
+        result = build_timed_investment_pathway(record, reinforcement, target(), actual())
+        self.assertEqual(Q_PHYSICAL_DELIVERY_UNRESOLVED, result.delivery_status)
+        self.assertIsNone(result.actual_completion_date)
+        self.assertIsNone(result.schedule_variance_days)
 
 
 if __name__ == "__main__":

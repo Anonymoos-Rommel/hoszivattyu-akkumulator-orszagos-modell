@@ -108,14 +108,14 @@ nem jön létre cross-DSO vagy B08/B09 control-area → alállomás mapping.
 The canonical contract is implemented in
 [`baseline_infrastructure_contract.py`](baseline_infrastructure_contract.py).
 Every project is evaluated against two explicit worlds: `WITHOUT_PROGRAM` and
-`WITH_PROGRAM`. `OPERATING`, `UNDER_CONSTRUCTION`, `CONTRACTED` and
+`WITH_PROGRAM`. `OPERATING`, `PROJECT_COMPLETED_REPORTED`, `UNDER_CONSTRUCTION`, `CONTRACTED` and
 `BUDGETED_OR_ALLOCATED` are baseline candidates only when project identity,
 effective date and authoritative evidence are complete. `OPEN_TENDER` and
 `ANNOUNCED_UNFUNDED` are not baseline by announcement alone.
 
 Authority level alone is insufficient: every baseline candidate must have a
 referenced, high-authority evidence item explicitly supporting its status
-claim (`OPERATING`, `UNDER_CONSTRUCTION`, `CONTRACTED` or
+claim (`OPERATING`, `PROJECT_COMPLETED_REPORTED`, `UNDER_CONSTRUCTION`, `CONTRACTED` or
 `FUNDED_OR_ALLOCATED`). Announcement, tender, plan, funding, construction and
 operation remain separate claims; only evidence named by `source_refs` may
 satisfy a gate, and record truth cannot outrank that referenced evidence.
@@ -139,7 +139,10 @@ remains 15.
 B10-P4 applies the P3 classifier to exactly two completed, official RRF
 projects: MVM Démász `RRF-6.1.1-21-2022-00006` and OPUS TITÁSZ
 `RRF-6.1.1-21-2022-00001`. Their realised scope is `WITHOUT_PROGRAM` baseline
-with `OPERATING` evidence effective 2026-06-15. The rows use the umbrella
+with `PROJECT_COMPLETED_REPORTED` lifecycle evidence as of 2026-06-15.
+The date basis is `REPORTING_AS_OF_DATE`; physical operating coverage and exact
+energization/in-service dates remain Q. `RRF_REPORTING_DATE` replaces the
+misleading common `RRF_COMPLETION_DATE` constant. The rows use the umbrella
 `DSO_SERVICE_AREA` project grain and are deliberately excluded from the
 `DSO_SUBSTATION` consumption-headroom assessment path.
 
@@ -182,9 +185,25 @@ and B10 readiness remains 15.
 
 ## B10-P6 — project delivery timing evidence gate
 
-B10-P6 separates source-native planned/expected completion dates, observed actual completion dates, retrospective schedule variance and future completion probability. A variance is DER only for a verified ex-ante target paired with separately evidenced actual completion for the same project/operator. A live current project page may preserve a planned date as OBS, but without a version-pinned pre-completion snapshot it cannot mint historical forecast-performance evidence.
+B10-P6 separates target dates, completed-by reporting bounds, exact source-declared
+project completion, physical in-service events, retrospective variance and future
+completion probability. DER variance requires an exact source-stated target, dated
+ex-ante authority predating the event, and an exact actual event with separately
+referenced matching milestone and scope. Matching project/operator alone cannot
+prove correspondence. Legacy unqualified timing records remain constructible but
+cannot mint exact events or variance.
 
-The bounded ledger covers the two P4 RRF projects. OPUS has a dated 2024-09-30 ex-ante source for target 2026-04-03 and completion 2026-06-15, so 73 days is DER. MVM's current page states target 2026-04-30 and completion is 2026-06-15, but its target snapshot is CURRENT_PAGE_ONLY, so variance remains blank/Q. No numeric completion probability is published. Q-B10-002 stays OPEN / PARTIALLY_BOUNDED and readiness stays 15.
+The two P4 projects remain bounded source records. MVM is reported completed by
+2026-06-15; its exact event date is Q and its April 30 target remains
+CURRENT_PAGE_ONLY. OPUS's project page explicitly dates project completion
+2026-06-15, but the dated April 3 target concerns 378 MW additional transfer
+capability, while completion news reports 261 MW integration capability. The
+scope/milestone bridge is unresolved, so both real schedule variances are blank/Q.
+The formerly published 73-day OPUS performance claim is withdrawn. Neither
+project proves physical delivery on June 15. P11 exposes physical actual delivery
+only from explicit physical evidence; project reporting never phases CAPEX.
+Q-B10-002 stays OPEN / PARTIALLY_BOUNDED and readiness stays 15.
+
 
 ## V1 bounded procurement-cost references
 
