@@ -1,0 +1,71 @@
+{
+  "checkpoint": "V1_017",
+  "reviewed_base_head": "1906d9709d4b6f8810b8b054c4eef6a9eceb5a7e",
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2635,
+    "duration_seconds": 119.552,
+    "result": "PASS"
+  },
+  "focused_tests": {
+    "new_tests": 32,
+    "B09_tests": 105,
+    "shared_P5_tests": 8,
+    "result": "PASS"
+  },
+  "registry_validation": "PASS",
+  "independent_review": {
+    "result": "PASS_NO_BLOCKING_FINDING",
+    "frozen_five_file_hashes": {
+      "modules/B09/gui_generation_reference.py": "ca6125d5186a882712ad00be33914120699b1e0ac875a2fb05cfee93cf3c888d",
+      "tools/materialize_b09_gui_generation_reference.py": "6285124e5ac0cf13b64a7a3ce44f2df983e3ff8255e62247401e3073f6ffdcf5",
+      "tests/test_b09_gui_generation_reference.py": "913df41031ad80f9ca6f5914249c9b07c171b562c36e24237b9774837793a40c",
+      "registry/b09_gui_reference_manifest.json": "01ca821878e87b84727a57dc702ba51add16e91ca800d752e0d0a2090aa70e27",
+      "docs/checkpoints/V1_017_B09_GUI_GENERATION_REFERENCE.md": "5ecb542cfb1ba64345e76d313f83bf7cd5970c98dbcc2248386e3e89a0a0083e"
+    },
+    "source_oracle": "Separate original-XML parser; all six original SHA256 hashes verified",
+    "numeric_a75_cells_compared": 485740,
+    "signed_recovery_cells_compared": 4820,
+    "recovery_lineage_decimal_values": "EXACT_MATCH",
+    "runtime_value_comparison": "Matches existing float MW-to-kW transfer semantics; maximum binary representation difference 2e-13 MW",
+    "recovery_signs": {
+      "negative": 4812,
+      "zero": 6,
+      "positive": 2
+    },
+    "overlap_timestamps_full_rows_compared": 26404,
+    "overlap_conflicts": 0,
+    "quarter_hour_UTC_intervals": 35040,
+    "DST_local_day_intervals": [
+      92,
+      100
+    ],
+    "private_output_digests_reproduced": true,
+    "full_suite_independently_rerun": false,
+    "full_suite_final_author_rerun": "PASS"
+  },
+  "external_output_sha256": {
+    "panel_csv": "88d23d3d4ea2d5e5d130106fc3d8c0801e93743759c3012f225d9b2bf3030bc3",
+    "lineage_csv": "07067299bd825b68da065aed1233939bc846afccc386c644b993dcd090f88019",
+    "receipt_json": "6d8fb4235d36fb027e104ddb3d5dee7462a7ff0cc166100e96a5a2a07f6dcd0c"
+  },
+  "boundaries": [
+    "Q-derived rows inside existing qualified E2/external-only wrapper",
+    "No XML/OBS reuse-gate change",
+    "Complete native UTC-2025 source/recovery handoff; missing previous-hour local-year boundary remains explicit",
+    "No full module, programme, dispatch, regional or future adequacy claim",
+    "No original workbook or complete source/normalized panel published"
+  ],
+  "included_acceptance_update": "B08-D01 only, independently accepted against previous exact published head; Q-B08-001 remains validation debt",
+  "artifact_sha256": {
+    "docs/checkpoints/V1_016_ACCEPTANCE.json": "55820f51e98bfef1d791a3079f0f1a954f1817d0705fae2e5c1b2079c223f8ef",
+    "docs/checkpoints/V1_017_B09_GUI_GENERATION_REFERENCE.md": "5ecb542cfb1ba64345e76d313f83bf7cd5970c98dbcc2248386e3e89a0a0083e",
+    "modules/B09/README.md": "3630de8df47b997dbe164afe933d8d82f89702fae40d2f95224c7d96e96ee2e6",
+    "modules/B09/gui_generation_reference.py": "ca6125d5186a882712ad00be33914120699b1e0ac875a2fb05cfee93cf3c888d",
+    "registry/b09_gui_reference_manifest.json": "01ca821878e87b84727a57dc702ba51add16e91ca800d752e0d0a2090aa70e27",
+    "registry/sources.csv": "7d1f949c055af000285450b9d39fb0d92fd4d770e86b6dbbd6b3c475121ff619",
+    "registry/v1_research_plan.json": "3d93f4dda63083d3f8f72655a613b0b93403ce69b4ea95a302e4bfed15518273",
+    "tests/test_b09_gui_generation_reference.py": "913df41031ad80f9ca6f5914249c9b07c171b562c36e24237b9774837793a40c",
+    "tools/materialize_b09_gui_generation_reference.py": "6285124e5ac0cf13b64a7a3ce44f2df983e3ff8255e62247401e3073f6ffdcf5"
+  }
+}
