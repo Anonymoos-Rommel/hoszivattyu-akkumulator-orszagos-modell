@@ -327,3 +327,7 @@ P59 canonical artifacts:
 ## V1 weather interval support
 
 [Reused source-window adapter](../../docs/checkpoints/V1_007_B05_WEATHER_TIME_SUPPORT.md) retains HungaroMet observation endpoints and exposes the preceding temperature-average interval. Concurrent energy/price joins must use interval_start_utc; endpoint humidity is not an hourly mean.
+
+## V1 explicit manufacturer reference
+
+[WM50 source-condition reference](../../docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md) preserves four separate frequency modes, 208 capacity/COP pairs, 44 source blanks and exact defrost annotations. `manufacturer_wm50_reference.py` uses existing bounded Q/input interpolation; an explicit fixed-supply column is available without filling source gaps. It does not change the default dispatch surface or establish annual/national efficiency.

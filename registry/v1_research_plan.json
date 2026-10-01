@@ -355,7 +355,8 @@
           "status": "INTEGRATING",
           "canonical_source_ids": [
             "SRC-B05-JRC-COP-2023",
-            "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022"
+            "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -372,6 +373,17 @@
               "expected_decision_value": "Remove deterministic consumer/map electricity discrepancy before national aggregation",
               "decision": "CONTINUE",
               "evidence": "docs/checkpoints/V1_001_B05_POWER_CONSISTENCY.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing Mitsubishi Vol.5.3 manufacturer document, extended exact product table"
+              ],
+              "remaining_unknown": "Thermal-demand/supply handoff, mode selection and weather-realized runtime; source blanks and national cohort applicability remain explicit",
+              "promising_next_lead": "Integrate a source-filled same-service physical reference case rather than acquiring another generic product average",
+              "expected_decision_value": "Provides explicit cold-condition Q/input reference with preserved source domain and defrost boundary",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
