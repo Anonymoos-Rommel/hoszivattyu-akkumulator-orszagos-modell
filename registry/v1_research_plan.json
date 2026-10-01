@@ -71,12 +71,27 @@
           "data": "m²/lakás, hasznos kWh_th/év és kW_th design-csúcs; HU típus × kor × térség, 2022 állományból dokumentált frissítés. KSH primerenergia → hasznos hő átalakítás külön, végfelhasználási bontással.",
           "phase": "A",
           "slice_id": "B02-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Eurostat national energy reporting; MEKH administrative and KSH household survey lineage",
+                "TU Wien Invert primary model release; current full physical import tooling-blocked"
+              ],
+              "remaining_unknown": "Useful-heat/device boundary and target-cohort mapping; no measured heating need or design peak inferred from national final energy",
+              "promising_next_lead": "Claim-matched physical stock inputs and conversion assumptions with national final-energy calibration",
+              "expected_decision_value": "Separates heating and hot water from cooking/appliances before gas or electricity programme comparison",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

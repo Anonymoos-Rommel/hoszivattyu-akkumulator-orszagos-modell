@@ -118,3 +118,7 @@ A KSH webtartalom CC BY 4.0, attribution required; a két source-history manifes
 `IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok materializáltak, a kanonikus archetípus-dimenziók szerződöttek, és B02-P21 a building-type valamint primary-energy WBL linkage-et APPROVED / JOSEPH / QUALIFIED állapotban biztosítja. B02-P50 ezért `Q-B02-002` kérdést RESOLVED-ra állítja a project-wide population-inference policy szerint. **Ez nem ad országos eligible-stock számot és nem emeli az ASS/MODELLED outputot OBS/DER-re.** `Q-B02-001` és `Q-B02-004` továbbra is nyitott. B02 readiness változatlanul 55%.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
+
+## V1 national household final-energy controls
+
+[Eurostat control intake](../../docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md) separates end uses and energy products for Hungary in 2022–2024. It preserves missing cells and rounding residuals; it is not a useful-heat estimate or a programme savings result.
