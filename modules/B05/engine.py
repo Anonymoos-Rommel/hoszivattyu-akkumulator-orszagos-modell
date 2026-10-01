@@ -58,7 +58,7 @@ class OperatingPointResult:
 
 
 class PerformanceMap:
-    """Rectangular operating-point grid with bounded bilinear interpolation."""
+    """Bounded interpolation of capacity/input; derived COP preserves Q = P * COP."""
 
     def __init__(self, equipment_id: str, technology: str, points: Iterable[PerformancePoint], consistency_tolerance_cop: float = 0.05):
         self.equipment_id = equipment_id
@@ -199,9 +199,13 @@ class PerformanceMap:
         if not coldest < outdoor_temperature_c < next_outdoor:
             return None
         lower, upper = self._point(coldest, supply_temperature_c), self._point(next_outdoor, supply_temperature_c)
-        low_capacity, low_input, low_cop = self._complete(lower)
-        high_capacity, high_input, high_cop = self._complete(upper)
+        low_capacity, low_input, _ = self._complete(lower)
+        high_capacity, high_input, _ = self._complete(upper)
         weight = (outdoor_temperature_c - coldest) / (next_outdoor - coldest)
+        capacity = low_capacity + weight * (high_capacity - low_capacity)
+        electrical = low_input + weight * (high_input - low_input)
+        if capacity <= 0 or electrical <= 0:
+            return OperatingPointResult("Q / INVALID_INTERPOLATED_POINT", reason="interpolated COP requires positive capacity and electrical input")
         minimum = None
         if lower.min_modulation_kw is not None and upper.min_modulation_kw is not None:
             minimum = lower.min_modulation_kw + weight * (upper.min_modulation_kw - lower.min_modulation_kw)
@@ -210,9 +214,9 @@ class PerformanceMap:
             OperatingPoint(
                 outdoor_temperature_c,
                 supply_temperature_c,
-                low_capacity + weight * (high_capacity - low_capacity),
-                low_input + weight * (high_input - low_input),
-                low_cop + weight * (high_cop - low_cop),
+                capacity,
+                electrical,
+                capacity / electrical,
                 minimum,
                 "DER",
                 tuple(sorted({source_id for source_id in (lower.source_id, upper.source_id) if source_id})),
@@ -249,9 +253,12 @@ class PerformanceMap:
             high_supply = completed[1][0][index] + weights[0] * (completed[1][1][index] - completed[1][0][index])
             return low_supply + weights[1] * (high_supply - low_supply)
 
-        capacity, electrical, cop = bilinear(0), bilinear(1), bilinear(2)
-        if electrical < 0 or capacity < 0 or cop <= 0:
-            return OperatingPointResult("Q / INVALID_INTERPOLATED_POINT", reason="interpolation violated physical bounds")
+        # Interpolate the extensive powers, not their nonlinear ratio as a
+        # third independent surface. Exact source-native triples stay unchanged.
+        capacity, electrical = bilinear(0), bilinear(1)
+        if electrical <= 0 or capacity <= 0:
+            return OperatingPointResult("Q / INVALID_INTERPOLATED_POINT", reason="interpolated COP requires positive capacity and electrical input")
+        cop = capacity / electrical
         minimum = None
         if all(point.min_modulation_kw is not None for row in corners for point in row):
             low_supply_minimum = corners[0][0].min_modulation_kw + weights[0] * (corners[0][1].min_modulation_kw - corners[0][0].min_modulation_kw)  # type: ignore[operator]

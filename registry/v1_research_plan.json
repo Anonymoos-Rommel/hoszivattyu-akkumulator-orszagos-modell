@@ -217,12 +217,28 @@
           "data": "Exact típus/revízió × T_kültér × T_víz: Qh, Pel [kW], COP, minimumteljesítmény, üzemhatár, rásegítés. EPREL/certifikáció/gyártó forrásokat eredet szerint összekötni.",
           "phase": "A",
           "slice_id": "B05-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B05-JRC-COP-2023",
+            "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing JRC definition",
+                "Existing STIEBEL manufacturer point table"
+              ],
+              "remaining_unknown": "National equipment/cohort applicability and populated thermal-demand handoff; component consistency is not slice completion",
+              "promising_next_lead": "Reuse source-grain product coverage and B02/B06 physical outputs before new product acquisition",
+              "expected_decision_value": "Remove deterministic consumer/map electricity discrepancy before national aggregation",
+              "decision": "CONTINUE",
+              "evidence": "docs/checkpoints/V1_001_B05_POWER_CONSISTENCY.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
