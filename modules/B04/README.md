@@ -44,3 +44,7 @@ Háztartási hőszivattyú- és akkumulátortöltési költség előállítása 
 - `data/processed/electricity_price_component_bridge.csv`
 
 Wholesale history/forward and dynamic residential pricing remain fail-closed Q. B05/B07 may use only the validated regulated tariff inputs and must not infer H battery charging or a wholesale-to-retail bridge.
+
+## V1 canonical tariff consumer
+
+`engine.py` now consumes canonical A1 and H heating-season tariff rows. It returns explicitly labelled constant-2026-tariff SCN costs using supplied period allocations, not validated historical/future invoices; it does not grant site eligibility or authorize battery/export dispatch. H energy-only and final-price fields are distinct. The universal outside-season A1-higher fallback is retired; its complete tariff/period handoff remains Q. See [checkpoint 002](../../docs/checkpoints/V1_002_B04_TARIFF_BOUNDARY.md).

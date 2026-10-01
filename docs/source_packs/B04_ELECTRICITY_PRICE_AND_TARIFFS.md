@@ -6,7 +6,7 @@ Snapshot: 2026-08-24. Ez a dokumentum a háztartási villamosenergia-költség k
 
 1. **WHOLESALE_ELECTRICITY** – HUPX day-ahead/forward benchmark EUR/MWh. A teljes 2015–2026 history és a 2026-08-22 forward görbe licencelt export hiányában Q. Egyetlen ellenőrző OBS pont a HUPX 2026. márciusi DAM baseload 103.52 EUR/MWh.
 2. **REGULATED_RESIDENTIAL_ELECTRICITY** – A1/A2/B lakossági ársávok, mérőnként és felhasználási helyenként 2523 kWh/év küszöbbel, augusztus 1.–július 31. elszámolási évvel és 27% ÁFÁ-val. Az A1 current snapshot az MVM 2026. március 1-jén hatályos M.1 melléklete és a hivatalos területi díjtábla alapján készült.
-3. **H_TARIFF** – külön mért, állandóan bekötött kéttarifás mérőkör; október 15.–április 15. idény, legalább 3.4 szezonális fűtési tényező, hőszivattyú/megújuló hőtermelő és közvetlenül kiszolgáló segédberendezések. Idényen kívül az A1 magasabb ára fut.
+3. **H_TARIFF** – külön mért, állandóan bekötött kéttarifás mérőkör; október 15.–április 15. idény, legalább 3.4 szezonális fűtési tényező, hőszivattyú/megújuló hőtermelő és közvetlenül kiszolgáló segédberendezések. Idényen kívül kedvezményes jogosultság és sáv feletti elszámolás van; a korábbi általános A1-magasabb fallbacket a V1 002 checkpoint visszavonja.
 4. **MARKET_BASED_RESIDENTIAL_ELECTRICITY** – küszöb feletti lakossági végső ár. Nem azonos a HUPX nagykereskedelmi árral; az aktuális komponenshíd részleges/Q.
 5. **DYNAMIC_ELECTRICITY** – HUPX spot elérhetősége nem bizonyít lakossági dinamikus terméket. Háztartási termék, jogi és mérési feltétel hiányában Q.
 
@@ -14,7 +14,7 @@ Snapshot: 2026-08-24. Ez a dokumentum a háztartási villamosenergia-költség k
 
 Az MVM M.1 nettó/bruttó energiaár-táblája szerint az A1 energia-komponens nettó/bruttó értékei elosztói területenként: MVM Démász 5.25/6.67; E.ON Dél/Észak és OPUS 4.39/5.58; ELMŰ 5.11/6.49; MVM Émász 4.94/6.27 Ft/kWh. A hivatalos területi díjtábla szerinti A1 kedvezményes végső bruttó árak: 36.386; 35.293; 36.208; 35.992 Ft/kWh. A küszöb feletti A1 lakossági piaci végső bruttó kontrollérték 70.104 Ft/kWh.
 
-H idényben a végső bruttó területi értékek: 22.962; 23.520; 23.152; 22.682 Ft/kWh. Az H mérőkör idényen kívüli fogyasztása az A1 magasabb ársávja szerint fut. A fix díj, hálózati díj és adó külön komponensként szerepel; a 2026-os teljes jogi komponenshíd még nem tekinthető teljesen lezártnak.
+H idényben a végső bruttó területi értékek: 22.962; 23.520; 23.152; 22.682 Ft/kWh. A H mérőkör idényen kívüli fogyasztásánál a kedvezményes keretet és a sáv feletti részt külön kell kezelni; a teljes időszaki díjhandoff még Q. A fix díj, hálózati díj és adó külön komponensként szerepel; a 2026-os teljes jogi komponenshíd még nem tekinthető teljesen lezártnak.
 
 ## Kanonikus számlaképlet
 

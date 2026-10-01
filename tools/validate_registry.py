@@ -528,6 +528,7 @@ PROCESSED_EXPECTED_HEADERS = {
         "tariff_id", "distributor_area", "period_type", "valid_from", "valid_to",
         "net_huf_per_kwh", "gross_huf_per_kwh", "separate_meter_required", "eligible_load_scope",
         "battery_charging_status", "export_status", "status", "source_id", "notes",
+        "price_boundary", "final_gross_huf_per_kwh", "fixed_gross_huf_per_month", "final_price_status",
     ],
     "electricity_price_component_bridge.csv": [
         "bridge_id", "reference_period", "tariff_id", "layer", "energy_net_huf_per_kwh",
@@ -1083,6 +1084,16 @@ def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"H battery charging must remain Q: {row.get('tariff_id')!r}")
             if filename == "h_tariff_schedule.csv" and row.get("export_status") != "Q":
                 errors.append(f"H export must remain Q: {row.get('tariff_id')!r}")
+            if filename == "h_tariff_schedule.csv":
+                if row.get("price_boundary") != "ENERGY_COMPONENT_ONLY":
+                    errors.append(f"H legacy net/gross columns must be explicitly energy-only: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") not in {"OBS", "Q"}:
+                    errors.append(f"invalid H final price status: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") == "OBS" and (not row.get("final_gross_huf_per_kwh") or not row.get("fixed_gross_huf_per_month")):
+                    errors.append(f"H final price requires gross variable and fixed components: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") == "Q" and row.get("final_gross_huf_per_kwh"):
+                    errors.append(f"unadmitted H final price must remain blank: {row.get('tariff_id')!r}")
+
 
 
 def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:

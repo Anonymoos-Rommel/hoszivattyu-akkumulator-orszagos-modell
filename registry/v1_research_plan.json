@@ -154,12 +154,28 @@
           "data": "HUF/kWh és HUF/év, nettó/bruttó, DSO-terület, H/A1/B mérőkör, hatálynap, szezon és fogyasztási küszöb; jelenlegi hivatalos mellékletből.",
           "phase": "A",
           "slice_id": "B04-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "MVM current price page and linked residential tariff table",
+                "MVM M.1 sections 2.2.4-2.2.5 and 3.1"
+              ],
+              "remaining_unknown": "Exact H outside-season full-rate/network and period allocation; downstream annual billing integration",
+              "promising_next_lead": "Current tariff authority and actual invoice-period allocation contract",
+              "expected_decision_value": "Prevent energy-component/final-price confusion and incorrect universal high-rate H fallback",
+              "decision": "CONTINUE",
+              "evidence": "docs/checkpoints/V1_002_B04_TARIFF_BOUNDARY.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

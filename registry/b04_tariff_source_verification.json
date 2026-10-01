@@ -1,0 +1,35 @@
+{
+  "verification_id": "B04-V1-2026-10-01",
+  "current_listing_url": "https://www.mvmnext.hu/aram/Arak",
+  "sources": [
+    {
+      "source_id": "SRC-B04-MVM-M1-2026",
+      "original_url": "https://www.mvmnext.hu/aram/servlet/download?id=16548&type=file",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "2026-03-01",
+      "authority": "MVM Next",
+      "sha256": "777828acc44c73f266cdafc6f3a1b6d765b7632b523e4c3e07e51b499fefe735",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_DOCUMENT_BYTES_NOT_CLEARED",
+      "scope": "M.1 2.2.4-2.2.5 and 3.1; energy components, season and allocation boundary",
+      "numeric_handling": "Curated tariff facts with attribution; no document/text dump republished"
+    },
+    {
+      "source_id": "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+      "original_url": "https://www.mvmnext.hu/aram/servlet/download?id=16214&type=file",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "VE_Lakossági_Árak_2025/1",
+      "authority": "MVM Next",
+      "sha256": "5a771af5ad6b1f505aca14a2af1c9bf49101f77cc9ccc98b77356fa5d9b039df",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_DOCUMENT_BYTES_NOT_CLEARED",
+      "scope": "All four distributor groups; published final prices and fixed/network components",
+      "numeric_handling": "Curated tariff facts with attribution; no document/text dump republished"
+    }
+  ],
+  "limits": [
+    "No H battery/export permission",
+    "Outside-season full-rate and exact billing-allocation handoff remain Q",
+    "No future tariff guarantee"
+  ]
+}
