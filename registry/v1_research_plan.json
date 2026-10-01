@@ -282,12 +282,27 @@
           "data": "HU állomás/éghajlati réteg × óra: T [°C], szükséges páratartalom, kW_th fűtés/HMV, előremenő °C. 2025 referencia plusz dokumentált hideg történeti ablak; közös időtengely.",
           "phase": "A",
           "slice_id": "B05-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+            "SRC-B05-HUNGARY-HOURLY-DESC-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing canonical HungaroMet five-station hourly panel and official format description"
+              ],
+              "remaining_unknown": "Population/climate weighting, thermal demand and supply-temperature path; final consumer interval join not yet complete",
+              "promising_next_lead": "Reuse populated B02 thermal inputs with explicit interval-start energy/price joins",
+              "expected_decision_value": "Avoids redundant weather acquisition and a one-hour physical accounting misalignment",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_007_B05_WEATHER_TIME_SUPPORT.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

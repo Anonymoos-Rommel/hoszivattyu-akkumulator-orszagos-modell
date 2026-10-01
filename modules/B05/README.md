@@ -323,3 +323,7 @@ P59 canonical artifacts:
 - `docs/source_packs/B05_P59_PART_LOAD_READINESS_RECALIBRATION.md`
 - `registry/b05_p59_part_load_readiness_scorecard.csv`
 - `modules/B05/part_load_readiness_recalibration.py`
+
+## V1 weather interval support
+
+[Reused source-window adapter](../../docs/checkpoints/V1_007_B05_WEATHER_TIME_SUPPORT.md) retains HungaroMet observation endpoints and exposes the preceding temperature-average interval. Concurrent energy/price joins must use interval_start_utc; endpoint humidity is not an hourly mean.
