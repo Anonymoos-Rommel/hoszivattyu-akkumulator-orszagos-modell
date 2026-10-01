@@ -44,6 +44,14 @@ class B14FundingReferenceTests(unittest.TestCase):
         manifest["programme_bindings"] = [dict(programme_id=p["programme_id"], sha256=_digest(p))
                                             for p in data["programmes"]]
 
+    def test_curated_bytes_follow_repository_lf_contract(self):
+        # .gitattributes normalizes these public files to LF. Hashes must bind
+        # the same bytes in the working tree and a clean Git checkout.
+        for path in (CAPS_PATH, DATA_PATH, MANIFEST_PATH):
+            self.assertNotIn(b"\r", path.read_bytes(), str(path))
+        self.assertEqual(hashlib.sha256(CAPS_PATH.read_bytes()).hexdigest(),
+                         self.manifest["caps_sha256"])
+
     def test_reference_cardinality_and_source_family(self):
         self.assertEqual(len(self.catalog.programmes), 2)
         self.assertEqual(len(self.catalog.caps), 39)

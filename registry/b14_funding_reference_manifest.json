@@ -5,7 +5,7 @@
   "data_path": "data/processed/b14/funding_reference_snapshot.json",
   "data_sha256": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
   "caps_path": "data/processed/b14/eligible_cost_caps_417.csv",
-  "caps_sha256": "a5a0d68a58f070c8620b6dd31a73b4185c194a26c0b47c9f5c79f9dd07ea3613",
+  "caps_sha256": "87ec275050a912a41065629def73589fb72199b8532813374951ed938ab8cd3a",
   "sources": [
     {
       "original_url": "https://www.palyazat.gov.hu/api/download/68ee54b32d31a0de426eb2d3",

@@ -1,9 +1,9 @@
 {
   "checkpoint": "V1_018",
-  "reviewed_base_head": "facd46bc4c4b6c26a7f54040103c0a2f611ec17d",
+  "reviewed_base_head": "cb9d90fb482628c7fa98410c54f71d8069305e15",
   "focused_tests": {
     "command": "python -m unittest discover -s tests -p 'test_b14_funding_reference.py'",
-    "tests": 24,
+    "tests": 25,
     "result": "PASS"
   },
   "plan_tests": {
@@ -35,17 +35,18 @@
     "result": "PASS",
     "sources": 11,
     "targeted_checks": 113,
-    "source_verifier_sha256": "f014c8a0ce346093e0da0db139483fd7238d6f0ba429212f386b1d26f19e3da1"
+    "source_verifier_sha256": "f014c8a0ce346093e0da0db139483fd7238d6f0ba429212f386b1d26f19e3da1",
+    "canonical_cap_csv_sha256": "87ec275050a912a41065629def73589fb72199b8532813374951ed938ab8cd3a"
   },
   "artifact_sha256": {
     "modules/B14/funding_reference.py": "ce3b29422a3e0e8ea4530e2ab7805caa89f1a71bf6538cfaa0f11431574b5d1c",
     "modules/B14/__init__.py": "acee4c8551559d878e3eb2845269d74e63ae02d27feb4692a01c9ad88983e758",
     "data/processed/b14/funding_reference_snapshot.json": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
-    "data/processed/b14/eligible_cost_caps_417.csv": "a5a0d68a58f070c8620b6dd31a73b4185c194a26c0b47c9f5c79f9dd07ea3613",
-    "registry/b14_funding_reference_manifest.json": "809a9c92afcd4ce488905ad4e7b43e5c78dac151a48d165bfb9cfb85abc361bc",
-    "tests/test_b14_funding_reference.py": "6b20d7b47c9ab85f5cc6c4860034726f2480df5817e9cc43ddd5a58441584e25",
+    "data/processed/b14/eligible_cost_caps_417.csv": "87ec275050a912a41065629def73589fb72199b8532813374951ed938ab8cd3a",
+    "registry/b14_funding_reference_manifest.json": "cc2619038b67c22d4c2c117a66e02e7b1b22872773431f7cf9ecc71f86c5646f",
+    "tests/test_b14_funding_reference.py": "28e08a13964cdfe58112bacb6cf83a40acafe645072647f788f3c76220642dd5",
     "tools/verify_b14_funding_reference.py": "f014c8a0ce346093e0da0db139483fd7238d6f0ba429212f386b1d26f19e3da1",
-    "docs/checkpoints/V1_018_B14_FUNDING_REFERENCE.md": "9178e7266a7d3dc5b878dd915a1a435da3ccb9887cd90aecb7790d5652a1d53d",
+    "docs/checkpoints/V1_018_B14_FUNDING_REFERENCE.md": "bbf215534bf36247fdeb672916ce6e685f6241cd4aae434dc950da856c02d835",
     "modules/B14/README.md": "64eca97d221a0e3f29b7eaaa8a2d733f0b1887bd6b9aa59536874cab2690aa03",
     "registry/sources.csv": "574e3e09866f29198b6c344c12379be60a6cfacf3dee54e2c6bde1ad99235d09",
     "registry/module_status.csv": "bd481abb2efc43ea8bd1943149bab0a629cac7758b032bbbee11fdbb7664cb97",
@@ -63,5 +64,27 @@
     "Gross 4.1.7 policy caps are not expected costs or automatically transferable to 4.1.8",
     "No source bytes or private EKR/Hans material included",
     "B14-L01 remains INTEGRATING; B14-D01/D02 open; B15 remains gated"
-  ]
+  ],
+  "canonical_byte_followup": {
+    "original_publication": "cb9d90fb482628c7fa98410c54f71d8069305e15",
+    "finding": "Original working CSV was CRLF while repository .gitattributes requires LF; original manifest bound pre-normalization bytes, so clean checkout could not load it",
+    "correction": "Canonical LF CSV bytes retained; manifest binds those exact bytes; regression asserts LF and exact hash. All 39 parsed cap records unchanged",
+    "focused_tests": 25,
+    "external_sources": 11,
+    "external_checks": 113,
+    "result": "PASS_INDEPENDENTLY_RECHECKED_PENDING_EXACT_HEAD_CI",
+    "independent_review": "Current LF CSV matches original published Git blob; in-memory CRLF restoration reproduces original reviewed digest exactly. All39records unchanged. Independent25focusedtests and11source/113checks pass.",
+    "superseded_ci": {
+      "run_number": 1078,
+      "run_id": 36925098643,
+      "job_id": 110580360181,
+      "unit_test_step": "FAILURE",
+      "registry": "PASS",
+      "requires_successor": true,
+      "tests": 2659,
+      "duration_seconds": 140.94,
+      "errors": 24,
+      "error": "file revision mismatch: caps_sha256"
+    }
+  }
 }

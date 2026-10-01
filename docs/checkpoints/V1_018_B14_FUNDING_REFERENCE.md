@@ -177,3 +177,13 @@ cancellations and residual. A project grant additionally needs its own decision,
 contract and disbursement evidence. Official reopening/amendment or successor
 calls would require a new reviewed snapshot. This reference cannot fill those
 unknowns or relax any gate.
+
+## Canonical-byte follow-up
+
+The first publication exposed a CRLF/LF mismatch between the cap CSV's original
+working bytes and the repository's canonical `.gitattributes` LF contract. The
+39 parsed cap records were unchanged. The manifest now binds the canonical LF
+bytes and a regression test checks the curated files' LF/hash contract. The
+final focused suite has **25 tests**. Full verification requires the corrected
+published head's hosted CI; earlier local aggregate runs were resource-killed,
+not passing or failing assertions.
