@@ -1,0 +1,154 @@
+{
+  "checkpoint": "V1-029",
+  "revision": 2,
+  "base_commit": "a43327e1239ddc6f3ec9dff217cbc3d86c4342c1",
+  "independently_reviewed_tree": "646f6e6a0669381b4b50a94b9d709c0b04effffe",
+  "independent_verdict": "PASS_REFERENCE_ONLY_INTEGRATION",
+  "independent_report_sha256": "0e22d38343c9d11722ca6721e1eba1328223d638250aaa3fa1ef55bd7816bc68",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_028_CI.json",
+      "sha256": "458eae57c1ef24435b0b649ea537db4ce000f81ce8d4da6f1867f3fe44dd4b26",
+      "bytes": 1707,
+      "git_blob": "950e57d6c238cbdbeb35dd52b1118f5470d5ac17"
+    },
+    {
+      "path": "docs/checkpoints/V1_029_B17_EMISSION_FACTOR_REFERENCE.md",
+      "sha256": "cb9619ef5ffc3240d24171d54eb50c0c5e0722190618c7cc5f0d07e0c21bc4d5",
+      "bytes": 8377,
+      "git_blob": "855dea88411ae2a30aff72a23c1a547cbf36c448"
+    },
+    {
+      "path": "modules/B17/__init__.py",
+      "sha256": "e0d0be20fedaa528771b9d1b7713ad9b8c6a239261375858de240fcb3b5da34f",
+      "bytes": 88,
+      "git_blob": "965607ef920f6e54fa0c279cf46853548162ffad"
+    },
+    {
+      "path": "modules/B17/emission_factor_reference.py",
+      "sha256": "5680f99294955ec6ac2d1b3a7d079cedf5cb0c002193b3aed56709b012e004e1",
+      "bytes": 16778,
+      "git_blob": "82b3f90c88b60576d23d2e14f5522a053c865f76"
+    },
+    {
+      "path": "registry/b17_emission_factor_reference_manifest.json",
+      "sha256": "f014003803f9997c590a9e79fbd2b0752e217194bdec44643dfa94647c8cf78e",
+      "bytes": 84438,
+      "git_blob": "805383728d351d08d98598756f1266551bf68915"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "c95b19f2cb0e25da7ab9028036b831e2cf6143299310317094f2b84e1163232d",
+      "bytes": 54488,
+      "git_blob": "8b259b3c22d11c5c181d88149ed7ed6384c4cb9a"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "735b5832a5375307ac5da2f5900bc24763561f8417fb45e908c8717e349888b0",
+      "bytes": 251457,
+      "git_blob": "08d5bd6866fefa83ef3e6e783afd879f24437e9b"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "6e16965dc1b5db5059e728dddb1658ea462e9f6cdf6ac60abe7c23f91248427c",
+      "bytes": 92447,
+      "git_blob": "1c78bb27b5a4c05c4f59758990d073594b32e9ef"
+    },
+    {
+      "path": "tests/test_b17_emission_factor_reference.py",
+      "sha256": "febff63754f19ce1878576751929ce18485125fe22b8887c02a23d67f09861e2",
+      "bytes": 18912,
+      "git_blob": "4ad7adaffbd322b7e24eb3581c79ff33e8956083"
+    }
+  ],
+  "independent_new_checks": {
+    "focused_passed": 39,
+    "focused_composition": {
+      "B17": 21,
+      "registry": 15,
+      "plan": 3
+    },
+    "registry": "VALID",
+    "git_diff_check": "PASS",
+    "genuine_rows": 36,
+    "genuine_numeric_cells": 108,
+    "genuine_decimal_precision": 2
+  },
+  "independent_prior_evidence": {
+    "schema_probes": 2110,
+    "public_API_substitution_negatives": 25,
+    "original_source_rows": 36,
+    "original_numeric_cells": 108,
+    "retained_acquisition_hashes": 16,
+    "assessment": "Earlier independent artifacts and generating scripts inspected during final review; genuine execution and39focused checks separately rerun. Counts overlap and are not additional aggregate test credit."
+  },
+  "source_integrity": {
+    "four_corrections_preserved": [
+      19,
+      20,
+      23,
+      24
+    ],
+    "abatement_status_and_numerical_adjustment_separate": true,
+    "native_units_NCV_individual_pollutant_PM_and_biogenic_boundaries_preserved": true,
+    "country_year_device_reference_state_electricity_refrigerant_boundaries_remain_explicit": true,
+    "source_reference_verification_is_not_programme_applicability": true,
+    "original_pack_files_unchanged": 34,
+    "failed_NID_source_id": "SRC-B17-HU-NID-2026",
+    "successful_context_NID_source_id": "SRC-B17-HU-NID-2026-OFFICIAL",
+    "full_household_microdata_not_required_for_later_defensible_population_inference": true
+  },
+  "shared_registry_integrity": {
+    "bytes": 243313,
+    "data_rows": 383,
+    "exact_bytes_preserved": true,
+    "appended_metadata_rows": 8,
+    "prior_source_prefix_sha256": "bbd56d5a4046822b81d5f41506893a7c2f1d6f82eea1239057edbcc1b02c4595",
+    "revision2_only_delta": [
+      {
+        "source_id": "SRC-B17-EEA-ELECTRICITY-INTENSITY",
+        "changed_fields": {
+          "published_at": {
+            "before": "undated",
+            "after": "2026-07-10"
+          }
+        }
+      }
+    ],
+    "revision2_date_support": "Retained EEA page visibly states 10 Jul 2026; hash e0b15a7fbc2a9c72db999b8d2b317be40d3078213d8cfaff76db7d9c202de1b1. This was already documented in the independent source review.",
+    "AIB_date_interpretation": "Retained landing page dates release announcement 2026-05-28 and links the exact report; report body gives Version 1.0 2026-05-26. The registry retains these in document/revision notes. Leaving a distinct report publication field undated is conservative, not a factor or applicability defect.",
+    "five_author_files_unchanged_from_original_review": true,
+    "B17_D01_status": "INTEGRATING",
+    "B17_module_status": "IN_PROGRESS",
+    "B17_readiness_percent": 0,
+    "accepted_artifacts": [],
+    "B17_D02_D03": "NOT_STARTED unchanged",
+    "other_module_plan_status_changes": false
+  },
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3007,
+    "seconds": 113.552,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "passed": 3004,
+    "frozen_tree": "646f6e6a0669381b4b50a94b9d709c0b04effffe",
+    "all_hashes_unchanged": true,
+    "log_sha256": "593d1f1372cd326107d60820d3a7996e745b592d63a5ecbbc91dec1295158769",
+    "completed_at": "2026-10-02T03:39:19.675302+00:00"
+  },
+  "full_log_review": "Exact lead full log/hash independently verified; not independently rerun",
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; all three existing external-positive methods must execute as ok without skips",
+  "boundaries": [
+    "Official method parameters remain ASS; verified source transcription does not admit a Hungarian household or programme factor.",
+    "Read-only API, no factor selection, activity weighting, GWP, numerical emissions, national, health or valuation result.",
+    "All original source bytes and complete numeric factor panel remain external-only; public manifest contains identity and interpretation metadata.",
+    "B17-D01 INTEGRATING, module IN_PROGRESS with readiness0, no accepted artifacts; D02/D03 remain NOT_STARTED.",
+    "No B15 admission or main merge."
+  ]
+}

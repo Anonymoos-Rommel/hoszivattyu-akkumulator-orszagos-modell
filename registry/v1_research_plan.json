@@ -1314,12 +1314,35 @@
           "data": "Technológia/tüzelőanyag × év: kgCO2e/kWh, gPM/NOx/GJ, használati és szükség szerint életciklus-határ; importáram, marginális/átlagos mix külön; hűtőközeg szivárgás ahol érdemi.",
           "phase": "V",
           "slice_id": "B17-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B17-IPCC-2006-STATIONARY",
+            "SRC-B17-EEA-SMALL-COMBUSTION-2023",
+            "SRC-B17-IPCC-2019-STATIONARY",
+            "SRC-B17-HU-NID-2026-OFFICIAL",
+            "SRC-B17-HU-IIR-2026",
+            "SRC-B17-EEA-ELECTRICITY-INTENSITY",
+            "SRC-B17-AIB-RESIDUAL-2025-REPORT",
+            "SRC-B17-AIB-RESIDUAL-MIX-FAQ"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "IPCC stationary-combustion default methods",
+                "EMEP/EEA small-combustion method factors",
+                "Current Hungarian NID/IIR and EEA/AIB contextual accounting references"
+              ],
+              "remaining_unknown": "Claim-specific Hungarian fuel/device/year/NCV activity and applicability; marginal and physical import electricity response; refrigerant and separate exposure/health/valuation bridges. No programme input selected.",
+              "promising_next_lead": "Connect qualified B05/B09/B11 activity only after explicit matching applicability, while retaining source-native default and uncertainty semantics.",
+              "expected_decision_value": "Prevents fuel-energy, pollutant, PM-boundary, source-vintage and electricity-accounting substitutions in later environmental consumers.",
+              "decision": "CONTINUE_SCOPED_ACTIVITY_AND_APPLICABILITY_BRIDGE",
+              "evidence": "docs/checkpoints/V1_029_B17_EMISSION_FACTOR_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
