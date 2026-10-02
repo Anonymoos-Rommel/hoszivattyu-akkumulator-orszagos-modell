@@ -1,10 +1,12 @@
 """Synthetic values only: no external normalized numeric panel is a fixture."""
 import copy
+from contextlib import ExitStack
 from dataclasses import FrozenInstanceError
 from decimal import Decimal, localcontext
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -14,6 +16,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 from modules.B13 import fiscal_reference as ref
+from tools import materialize_b13_fiscal_reference as fiscal_tool
 from tools.materialize_b13_fiscal_reference import guard_private_output, materialize, source_map
 
 
@@ -375,6 +378,128 @@ class FiscalReferenceTests(unittest.TestCase):
     def test_parent_traversal_to_public_output_stays_rejected(self):
         with self.assertRaisesRegex(ref.FiscalReferenceError, 'ignored data/interim'):
             guard_private_output(ref.ROOT/'data/interim/../../public-output')
+
+
+class FiscalOutputIndexTests(unittest.TestCase):
+    @staticmethod
+    def git(root, *args):
+        return subprocess.run(['git', *args], cwd=root, capture_output=True, check=False)
+
+    @staticmethod
+    def snapshot(root):
+        return {str(path.relative_to(root)): ('directory' if path.is_dir() else path.read_bytes())
+                for path in root.rglob('*')}
+
+    def check_index_fixture(self, case, name, expected_ls, expected_ignore, accepted):
+        with tempfile.TemporaryDirectory(prefix='b13-index-', dir='/tmp') as directory:
+            root = Path(directory)
+            self.assertEqual(self.git(root, 'init', '--quiet').returncode, 0)
+            (root/'.gitignore').write_text('' if case == 'unignored' else '/data/interim/\n')
+            self.assertEqual(self.git(root, 'add', '--', '.gitignore').returncode, 0)
+            index = root/'.git/index'
+            output = root/'data/interim/deep/output'
+            target = output/name
+            relative = str(target.relative_to(root))
+            tracked = case not in ('valid_untracked', 'unignored')
+            if tracked:
+                output.mkdir(parents=True)
+                target.write_bytes(b'SYNTHETIC TRACKED OUTPUT\n')
+                self.assertEqual(self.git(root, 'add', '--force', '--', relative).returncode, 0)
+                self.assertEqual(self.git(root, 'ls-files', '--error-unmatch', '--', relative).returncode, 0)
+                if case != 'tracked_present':
+                    target.unlink()
+            original_index = index.read_bytes()
+            if case == 'corrupt_index':
+                index.write_bytes(b'CORRUPT INDEX')
+            elif case == 'truncated_index':
+                index.write_bytes(original_index[:8])
+            elif case == 'index_is_directory':
+                index.unlink()
+                index.mkdir()
+            self.assertEqual(self.git(root, 'ls-files', '--error-unmatch', '--', relative).returncode,
+                             expected_ls)
+            self.assertEqual(self.git(root, 'check-ignore', '--quiet', '--no-index', '--', relative).returncode,
+                             expected_ignore)
+            before = self.snapshot(root)
+            try:
+                if accepted:
+                    self.assertEqual(guard_private_output(output, root=root), output)
+                else:
+                    with self.assertRaises(ref.FiscalReferenceError):
+                        guard_private_output(output, root=root)
+                # Only redirect the fixture root and intercept the first source
+                # reader. Every Git result above and inside the guard is real.
+                with patch.object(fiscal_tool, 'guard_private_output',
+                                  side_effect=lambda path: guard_private_output(path, root=root)), \
+                     patch.object(fiscal_tool, 'read_fiscal_reference',
+                                  side_effect=RuntimeError('FIRST_FISCAL_SOURCE_READ')) as reader:
+                    if accepted:
+                        with self.assertRaisesRegex(RuntimeError, 'FIRST_FISCAL_SOURCE_READ'):
+                            materialize(root/'absent-synthetic-panel.json', {}, output)
+                        reader.assert_called_once_with(root/'absent-synthetic-panel.json', {})
+                    else:
+                        with self.assertRaises(ref.FiscalReferenceError):
+                            materialize(root/'absent-synthetic-panel.json', {}, output)
+                        reader.assert_not_called()
+                self.assertEqual(self.snapshot(root), before)
+            finally:
+                if index.is_dir():
+                    index.rmdir()
+                index.write_bytes(original_index)
+            if tracked:
+                # The damaged indexes really represented a tracked target;
+                # restoring the exact bytes must recover that same evidence.
+                self.assertEqual(self.git(root, 'ls-files', '--error-unmatch', '--', relative).returncode, 0)
+
+    def test_real_index_errors_fail_before_first_fiscal_source_read(self):
+        for name in fiscal_tool.OUTPUT_NAMES:
+            for case in ('corrupt_index', 'truncated_index', 'index_is_directory'):
+                with self.subTest(name=name, case=case):
+                    self.check_index_fixture(case, name, 128, 0, False)
+
+    def test_valid_index_neighbors_preserve_storage_admission(self):
+        for name in fiscal_tool.OUTPUT_NAMES:
+            for case, ls_code, ignore_code, accepted in (
+                    ('valid_untracked', 1, 0, True),
+                    ('tracked_deleted', 0, 0, False),
+                    ('tracked_present', 0, 0, False),
+                    ('unignored', 1, 1, False)):
+                with self.subTest(name=name, case=case):
+                    self.check_index_fixture(case, name, ls_code, ignore_code, accepted)
+
+    def check_external_fixture(self, *, controlled_host_metadata):
+        with tempfile.TemporaryDirectory(prefix='b13-external-', dir='/tmp') as directory, ExitStack() as stack:
+            root = Path(directory)
+            if controlled_host_metadata:
+                # Mask only inherited host markers outside this fixture. All
+                # fixture paths and the Git discovery subprocess remain real.
+                host_markers = {ancestor/'.git' for ancestor in root.parents}
+                exists, is_symlink = Path.exists, Path.is_symlink
+                stack.enter_context(patch.object(Path, 'exists',
+                    lambda path: False if path in host_markers else exists(path)))
+                stack.enter_context(patch.object(Path, 'is_symlink',
+                    lambda path: False if path in host_markers else is_symlink(path)))
+            elif any((parent/'.git').exists() or (parent/'.git').is_symlink()
+                     for parent in (root, *root.parents)):
+                if os.environ.get('GITHUB_ACTIONS') == 'true':
+                    self.fail('GitHub Actions must execute the real external-positive case in a Git-free temporary directory')
+                self.skipTest('host temporary directory has a Git ancestor; real external-positive requires clean hosted CI')
+            self.assertEqual(self.git(root, 'rev-parse', '--show-toplevel').returncode, 128)
+            output = root/'absent/deep/output'
+            before = self.snapshot(root)
+            self.assertEqual(guard_private_output(output), output)
+            with patch.object(fiscal_tool, 'read_fiscal_reference',
+                              side_effect=RuntimeError('FIRST_FISCAL_SOURCE_READ')) as reader:
+                with self.assertRaisesRegex(RuntimeError, 'FIRST_FISCAL_SOURCE_READ'):
+                    materialize(root/'absent-synthetic-panel.json', {}, output)
+                reader.assert_called_once_with(root/'absent-synthetic-panel.json', {})
+            self.assertEqual(self.snapshot(root), before)
+
+    def test_controlled_external_directory_still_reaches_first_fiscal_source_read(self):
+        self.check_external_fixture(controlled_host_metadata=True)
+
+    def test_real_external_directory_still_reaches_first_fiscal_source_read(self):
+        self.check_external_fixture(controlled_host_metadata=False)
 
 
 if __name__ == '__main__':

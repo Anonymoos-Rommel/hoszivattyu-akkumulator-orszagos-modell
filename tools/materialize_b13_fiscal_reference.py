@@ -65,7 +65,7 @@ def guard_private_output(output_dir, *, root=ROOT):
                                      cwd=root, capture_output=True, check=False)
             ignored = subprocess.run(['git', 'check-ignore', '--quiet', '--no-index', '--', relative],
                                      cwd=root, capture_output=True, check=False)
-            if tracked.returncode == 0 or ignored.returncode != 0:
+            if tracked.returncode != 1 or ignored.returncode != 0:
                 raise FiscalReferenceError('numeric output must be untracked and ignored')
     return output
 
