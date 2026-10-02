@@ -229,12 +229,26 @@
           "data": "HUF/MJ vagy HUF/kWh, fix HUF/év, fogyasztási sáv és hatálynap; adó, hálózat, tárolás/margin, kedvezmény. Szabályozott és piaci csatorna külön.",
           "phase": "A",
           "slice_id": "B03-D02",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Original TABULA workbook and method",
+                "IEA/Eurostat2004 general energy convention",
+                "MVM2026 gas rulebook and current listing"
+              ],
+              "remaining_unknown": "Physical Hungarian NCV/GCV and actual billing-energy compatibility; retained other uses and allowance; actual connection attribution/avoidability; wholesale/import valuation remain separate",
+              "promising_next_lead": "Integrate named source-only gas convention and explicitly conditional regulated reference; preserve actual billing and national inference debt",
+              "expected_decision_value": "Prevents mixing GCV with NCV tariff energy and NET fixed charges with GROSS rates; makes bounded source/reference arithmetic reproducible without invented gas chronology",
+              "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_045_GAS_ENERGY_AND_TARIFF_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -1220,6 +1234,19 @@
               "expected_decision_value": "Prevents mixing unlike per-volume/calorific denominators before data admission",
               "decision": "REVIEW_BOUNDED_REFERENCE_STATE_REPAIR",
               "evidence": "docs/checkpoints/V1_023_B11_REFERENCE_STATE_REPAIR.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Original TABULA workbook and method",
+                "IEA/Eurostat2004 general energy convention",
+                "MVM2026 gas rulebook and current listing"
+              ],
+              "remaining_unknown": "Physical Hungarian NCV/GCV and actual billing-energy compatibility; retained other uses and allowance; actual connection attribution/avoidability; wholesale/import valuation remain separate",
+              "promising_next_lead": "Integrate named source-only gas convention and explicitly conditional regulated reference; preserve actual billing and national inference debt",
+              "expected_decision_value": "Prevents mixing GCV with NCV tariff energy and NET fixed charges with GROSS rates; makes bounded source/reference arithmetic reproducible without invented gas chronology",
+              "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_045_GAS_ENERGY_AND_TARIFF_REFERENCE.md"
             }
           ],
           "reviewed_commit": null

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "reference_id": "E2-TABULA-ANNUAL-GAS-SOURCE-NCV-CONVENTION-001",
+  "repository_pins": {
+    "source_family": {
+      "path": "registry/b11_annual_retrofit_reference_manifest.json",
+      "sha256": "192b6aa0b0547373fadbe362b89969a7828002bc04305a07dca912b405479791"
+    }
+  },
+  "source_convention": {
+    "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+    "source_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+    "ncv_over_gcv": "0.92",
+    "evidence_status": "OBS",
+    "quantity_scope": "WORKBOOK_NATURAL_GAS_CONVENTION",
+    "locators": [
+      "Calc.Set.BuildingStock!II3/II4/II12",
+      "Calc.Set.BuildingStock!QI4/RM4",
+      "Calc.Demo.BuildingStock!C1946/H1946/I1943"
+    ],
+    "direction": "GCV=NCV/0.92; therefore NCV=GCV*0.92",
+    "reference_revision": "2016-07-20"
+  },
+  "distinct_general_convention": {
+    "ncv_over_gcv": "0.90",
+    "source": "IEA/Eurostat Energy Statistics Manual2004",
+    "locator": "TableA3.12 printed/PDFp183",
+    "role": "Disclosed convention disagreement; no second canonical case or uncertainty interval"
+  },
+  "sources": [
+    {
+      "filename": "tabula-calculator.xlsx",
+      "original_url": "https://episcope.eu/fileadmin/tabula/public/calc/tabula-calculator.xlsx",
+      "bytes": 34383251,
+      "sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    },
+    {
+      "filename": "TABULA_CommonCalculationMethod.pdf",
+      "original_url": "https://episcope.eu/fileadmin/tabula/public/docs/report/TABULA_CommonCalculationMethod.pdf",
+      "bytes": 1486573,
+      "sha256": "69963a02efba405bf0970d199d6fcdd24b44ef87521afd7b71694e714f6b92ef",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "source_id": "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    },
+    {
+      "filename": "episcope_download_20261002.html",
+      "original_url": "https://episcope.eu/communication/download/",
+      "bytes": 74254,
+      "sha256": "627ff6a6d1a627f63c17c2914adeba169edbf300e06a9b7f116b47f4f25e5085",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "source_id": "SRC-B06-TABULA-REUSE-CONDITIONS-2026",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    },
+    {
+      "filename": "IEA_Eurostat_Energy_Statistics_Manual_2004.pdf",
+      "original_url": "https://ec.europa.eu/eurostat/documents/3859598/5885369/NRG-2004-EN.PDF/b3c4b86f-8e88-4ca6-9188-b95320900b3f",
+      "bytes": 1897552,
+      "sha256": "87895166daa220f780cc3a15f27d26a14fae6b5d6e289b2ce0c797c234de66c7",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "locator": "Table A3.12 p183; NCV=0.90 GCV, separate general convention; not proposed canonical value",
+      "source_id": "SRC-B11-IEA-EUROSTAT-ENERGY-MANUAL-2004",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    }
+  ],
+  "source_admission_review_sha256": "11cb06851fd414c5960334e9731e2cada31fe33e64e059a7166a12788540702a",
+  "validation_debt": [
+    {
+      "quantity": "Physical Hungarian NCV/GCV applicability",
+      "evidence_tier": "E2",
+      "model_use": "Named source-convention reference only",
+      "upgrade": "Admitted compatible physical gas composition/period/calorimetric relationship; energy-weighted aggregate can support an aggregate claim; no universal record-by-record demand"
+    },
+    {
+      "quantity": "Actual MVM billing-energy equivalence",
+      "scope": "ACTUAL_BILLING_NOT_NAMED_REFERENCE",
+      "upgrade": "Compatible full calorimetric conventions and actual billing energy where claimed;15C volume temperature is not combustion temperature; unquantified mismatch is not assumed zero or bounded by0.90/0.92",
+      "evidence_status": "Q"
+    }
+  ],
+  "boundaries": [
+    "No volume or FGSZ numerical admission",
+    "No gas hourly profile or settlement-year allocation",
+    "Heating-only source; no DHW/cooking or gas auxiliary conversion",
+    "No physical gas constant, household saving or national promotion"
+  ],
+  "admitted_source_cases": {
+    "original": {
+      "system_row": 3390,
+      "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.011",
+      "fuel": "Gas",
+      "gas_energy_basis": "GCV",
+      "quantity": "Annual heating-only historical TABULA native source case"
+    },
+    "standard": {
+      "system_row": 3391,
+      "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.012",
+      "fuel": "Gas",
+      "gas_energy_basis": "GCV",
+      "quantity": "Annual heating-only historical TABULA native source case"
+    },
+    "ambitious": {
+      "system_row": 3392,
+      "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.013",
+      "fuel": "Gas",
+      "gas_energy_basis": "GCV",
+      "quantity": "Annual heating-only historical TABULA native source case"
+    }
+  },
+  "source_serialization_note": "Calculations preserve the existing admitted registry decimals. Original workbook CI3390=376.52800472842142 was serialized as376.5280047284214; the2e-14kWh_GCV/m2 difference is serialization precision, not a measurement uncertainty estimate. Exact workbook lexemes are not claimed for all cases."
+}

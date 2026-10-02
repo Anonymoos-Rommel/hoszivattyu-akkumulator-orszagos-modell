@@ -7,6 +7,7 @@ import json
 import re
 import sys
 from datetime import date
+from decimal import Decimal, InvalidOperation, localcontext
 from pathlib import Path
 
 
@@ -535,6 +536,7 @@ PROCESSED_EXPECTED_HEADERS = {
         "gross_price_huf_per_mj", "gross_price_status",
         "reference_heating_value_mj_per_m3", "illustrative_gross_huf_per_m3",
         "illustrative_status", "annual_fixed_charge_huf", "fixed_charge_status",
+        "annual_fixed_charge_vat_basis", "gross_annual_fixed_charge_huf", "gross_fixed_charge_status",
         "status", "source_id", "notes",
     ],
     "gas_price_component_bridge.csv": [
@@ -1077,6 +1079,33 @@ def validate_b01_artifacts(errors: list[str]) -> None:
             errors.append(f"B01 SCN candidate gate evidence mismatch: {candidate.get('intervention_id')!r}")
 
 
+def validate_b03_fixed_fee(row: dict[str, str], errors: list[str]) -> None:
+    """Keep source NET fees distinct from gross tariff arithmetic."""
+    net = row.get("annual_fixed_charge_huf", "")
+    gross = row.get("gross_annual_fixed_charge_huf", "")
+    if row.get("tariff_band") == "ABOVE_THRESHOLD_BAND" and (net or gross):
+        errors.append("B03 higher tariff band must not introduce a second fixed charge")
+        return
+    if not net:
+        if (gross or row.get("annual_fixed_charge_vat_basis") != "NOT_SEPARATE_FEE"
+                or row.get("gross_fixed_charge_status") != "Q"):
+            errors.append("B03 absent per-band fee must not create another gross charge")
+        return
+    try:
+        values = [Decimal(x) for x in (net, gross, row.get("vat_rate", ""))]
+        if any(not x.is_finite() or x < 0 for x in values):
+            raise ValueError("invalid fixed charge or VAT")
+        with localcontext() as context:
+            context.prec = 50
+            expected = values[0] * (1 + values[2])
+        if (row.get("annual_fixed_charge_vat_basis") != "NET"
+                or row.get("gross_fixed_charge_status") != "DER"
+                or values[1] != expected):
+            errors.append("B03 fixed charge requires explicit NET plus VAT equals gross DER")
+    except (InvalidOperation, ValueError, TypeError):
+        errors.append("B03 fixed charge and VAT must be explicit finite numbers")
+
+
 def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
     """Validate B03's layer/status/source invariants in addition to headers."""
     b03_registry = REGISTRY
@@ -1119,6 +1148,8 @@ def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
             unknown = [item for item in refs if item not in source_ids]
             if unknown:
                 errors.append(f"unknown B03 processed source references in {filename}: {unknown!r}")
+            if filename == "residential_gas_tariff_schedule.csv":
+                validate_b03_fixed_fee(row, errors)
 
 
 def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
