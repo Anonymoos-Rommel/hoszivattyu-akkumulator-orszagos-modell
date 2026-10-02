@@ -353,7 +353,15 @@
           "status": "INTEGRATING",
           "canonical_source_ids": [
             "SRC-B05-HUNGARY-HOURLY-HIST-2026",
-            "SRC-B05-HUNGARY-HOURLY-DESC-2026"
+            "SRC-B05-HUNGARY-HOURLY-DESC-2026",
+            "SRC-B06-TABULA-HU-CALCULATOR-2016",
+            "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+            "SRC-B06-HOURLY-NOAA-SOLAR-EQUATIONS",
+            "SRC-B06-HOURLY-PVLIB-IRRADIANCE-0161",
+            "SRC-B06-HOURLY-SANDIA-ISOTROPIC",
+            "SRC-B06-HOURLY-SANDIA-GROUND-REFLECTION",
+            "SRC-B05-HUNGARY-ODP-TERMS-2026"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -369,6 +377,20 @@
               "expected_decision_value": "Avoids redundant weather acquisition and a one-hour physical accounting misalignment",
               "decision": "CONTINUE_CONSUMER_INTEGRATION",
               "evidence": "docs/checkpoints/V1_007_B05_WEATHER_TIME_SUPPORT.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "TABULA source template and explicitly transferred hourly method parameters",
+                "HungaroMet observed station temperature, humidity and global radiation",
+                "Mitsubishi fixed-water manufacturer capacity grid",
+                "NOAA solar geometry and Erbs/Sandia modeled radiation components"
+              ],
+              "remaining_unknown": "Empirical one-node and floor-boundary applicability; actual cycling, defrost, auxiliary durations/component boundaries and emitter-required supply; population assignment and national service policy remain unadmitted",
+              "promising_next_lead": "Claim-matched lower-boundary/thermal validation and a separately qualified product/runtime method; no inferred electrical or national result",
+              "expected_decision_value": "A reproducible finite hourly thermal SCN and common prescribed-path capacity requirement distinguish insufficient capacity from reduced service",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -458,7 +480,16 @@
           "slice_id": "B06-D01",
           "status": "INTEGRATING",
           "canonical_source_ids": [
-            "SRC-B06-TABULA-HU-CALCULATOR-2016"
+            "SRC-B06-TABULA-HU-CALCULATOR-2016",
+            "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+            "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+            "SRC-B05-HUNGARY-HOURLY-DESC-2026",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+            "SRC-B06-HOURLY-NOAA-SOLAR-EQUATIONS",
+            "SRC-B06-HOURLY-PVLIB-IRRADIANCE-0161",
+            "SRC-B06-HOURLY-SANDIA-ISOTROPIC",
+            "SRC-B06-HOURLY-SANDIA-GROUND-REFLECTION",
+            "SRC-B05-HUNGARY-ODP-TERMS-2026"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -487,6 +518,20 @@
               "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
               "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
               "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "TABULA source template and explicitly transferred hourly method parameters",
+                "HungaroMet observed station temperature, humidity and global radiation",
+                "Mitsubishi fixed-water manufacturer capacity grid",
+                "NOAA solar geometry and Erbs/Sandia modeled radiation components"
+              ],
+              "remaining_unknown": "Empirical one-node and floor-boundary applicability; actual cycling, defrost, auxiliary durations/component boundaries and emitter-required supply; population assignment and national service policy remain unadmitted",
+              "promising_next_lead": "Claim-matched lower-boundary/thermal validation and a separately qualified product/runtime method; no inferred electrical or national result",
+              "expected_decision_value": "A reproducible finite hourly thermal SCN and common prescribed-path capacity requirement distinguish insufficient capacity from reduced service",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
