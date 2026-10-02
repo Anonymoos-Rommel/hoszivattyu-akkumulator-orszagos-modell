@@ -153,12 +153,26 @@
           "data": "U [W/m²K], felületek [m²], légcsere [1/h], hőhidak [W/K], méretezési hőfok [°C], műszaki beavatkozás. Meglévő E2 felületek materializálása; ismeretlen közös eloszlás részleges azonosítással.",
           "phase": "A",
           "slice_id": "B02-D02",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing P90/P91/P94/P95/P96/P97/P98 prospective physical contracts and source surfaces",
+                "Pinned Mitsubishi WM50 manufacturer-coordinate consumer",
+                "Separate native TABULA annual reference"
+              ],
+              "remaining_unknown": "Hourly demand/gains/time/supply/controller and source-specific runtime penalties; actual-record P65 emitter authority; population allocation and national service choices. No annual/SPF or national programme result.",
+              "promising_next_lead": "Use this bounded design/capacity balance as a reference before an explicitly justified hourly same-service consumer and defensible population inference.",
+              "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
+              "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -396,6 +410,19 @@
               "expected_decision_value": "Provides explicit cold-condition Q/input reference with preserved source domain and defrost boundary",
               "decision": "CONTINUE_CONSUMER_INTEGRATION",
               "evidence": "docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing P90/P91/P94/P95/P96/P97/P98 prospective physical contracts and source surfaces",
+                "Pinned Mitsubishi WM50 manufacturer-coordinate consumer",
+                "Separate native TABULA annual reference"
+              ],
+              "remaining_unknown": "Hourly demand/gains/time/supply/controller and source-specific runtime penalties; actual-record P65 emitter authority; population allocation and national service choices. No annual/SPF or national programme result.",
+              "promising_next_lead": "Use this bounded design/capacity balance as a reference before an explicitly justified hourly same-service consumer and defensible population inference.",
+              "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
+              "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -447,6 +474,19 @@
               "expected_decision_value": "Reproduces three envelope-state triples from actual public physical inputs instead of synthetic thermal fixtures",
               "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
               "evidence": "docs/checkpoints/V1_012_TABULA_SEASONAL_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing P90/P91/P94/P95/P96/P97/P98 prospective physical contracts and source surfaces",
+                "Pinned Mitsubishi WM50 manufacturer-coordinate consumer",
+                "Separate native TABULA annual reference"
+              ],
+              "remaining_unknown": "Hourly demand/gains/time/supply/controller and source-specific runtime penalties; actual-record P65 emitter authority; population allocation and national service choices. No annual/SPF or national programme result.",
+              "promising_next_lead": "Use this bounded design/capacity balance as a reference before an explicitly justified hourly same-service consumer and defensible population inference.",
+              "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
+              "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
             }
           ],
           "reviewed_commit": null

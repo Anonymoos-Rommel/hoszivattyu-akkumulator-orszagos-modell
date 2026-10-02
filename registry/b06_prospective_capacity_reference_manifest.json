@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "case_id": "B06-PROSPECTIVE-Y_LT1919-FAMILY_HOUSE-OUTER-STRESS",
+  "claim_scope": "PROSPECTIVE_DESIGN_CAPACITY_DIAGNOSTIC_ONLY",
+  "physical_evidence_status": "SCN",
+  "stratum": {
+    "wbl_period_code": "Y_LT1919",
+    "building_group": "FAMILY_HOUSE"
+  },
+  "dependence_qualification": "COMPONENT_MAXIMA_OUTER_BOUND_NOT_JOINTLY_ATTAINED_BUILDING",
+  "boundary_declarations": {
+    "facade": "OUTSIDE",
+    "top": "HEATED_ATTIC_ENCLOSURE",
+    "bottom": "BASEMENT_CEILING",
+    "ventilation": "NATURAL_VENTILATION_NO_HEAT_RECOVERY",
+    "insulation": "NON_INTERNAL_SIMPLIFIED_ZETA"
+  },
+  "thermal_bridge_treatment": "CORRECTED_U_ONCE_NO_SEPARATE_BRIDGE_SUM",
+  "scenario": {
+    "bottom_base_u_w_m2k": {
+      "value": 0.26,
+      "unit": "W/m2K",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
+      ]
+    },
+    "bottom_zeta": {
+      "value": 0.2,
+      "unit": "ratio",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "bottom_design_boundary_correction": {
+      "value": 1.0,
+      "unit": "ratio",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-B06-PROSPECTIVE-BASEMENT-DESIGN-STRESS"
+      ]
+    },
+    "outside_design_boundary_correction": {
+      "value": 1.0,
+      "unit": "ratio",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-B06-PROSPECTIVE-BASEMENT-DESIGN-STRESS"
+      ]
+    },
+    "heat_recovery_efficiency": {
+      "value": 0.0,
+      "unit": "ratio",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-B06-PROSPECTIVE-BASEMENT-DESIGN-STRESS"
+      ]
+    },
+    "additional_thermal_bridge_h_w_per_k": {
+      "value": 0.0,
+      "unit": "W/K",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-B06-PROSPECTIVE-BASEMENT-DESIGN-STRESS"
+      ]
+    },
+    "design_indoor_temperature_c": {
+      "value": 20.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "design_outdoor_temperature_c": {
+      "value": -12.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SRC-B02-BIMLINE-MSZ24140-2026"
+      ]
+    }
+  },
+  "equipment": {
+    "product": "PUZ-WM50VHA(-BS)",
+    "mode": "MAX",
+    "source_id": "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+    "probe_role": "MANUFACTURER_COORDINATE_NOT_EMITTER_REQUIRED_TEMPERATURE",
+    "fixed_supply_probes_c": [
+      {
+        "value": 35.0,
+        "unit": "degC",
+        "evidence_status": "SCN",
+        "source_ids": [
+          "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+        ]
+      },
+      {
+        "value": 45.0,
+        "unit": "degC",
+        "evidence_status": "SCN",
+        "source_ids": [
+          "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+        ]
+      },
+      {
+        "value": 55.0,
+        "unit": "degC",
+        "evidence_status": "SCN",
+        "source_ids": [
+          "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+        ]
+      }
+    ]
+  },
+  "inputs": {
+    "facade": {
+      "path": "data/processed/b02/p95_tabula_facade_reference_surface.csv",
+      "sha256": "c8f203fea0dd59333351b6deafe6d84c0ca02bd1d7c7ad7deafb4f12526c25bd",
+      "source_ids": [
+        "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+        "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
+      ]
+    },
+    "top": {
+      "path": "data/processed/b02/p96_pitched_roof_top_envelope_thermal_surface.csv",
+      "sha256": "ae926c7afda0aef835a52bd2ffe0868767ac40ab2468dac55b5525b58a294a50",
+      "source_ids": [
+        "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+        "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
+        "SRC-B06-HU-ENERGY-RULES-2023",
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "bottom": {
+      "path": "data/processed/b02/p94_hungarian_bottom_envelope_area.csv",
+      "sha256": "29271a43ba89ea50759a1735332eba1875f055be93247cc6178ec461fcf282e0",
+      "source_ids": [
+        "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+        "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
+      ]
+    },
+    "ventilation": {
+      "path": "data/processed/b02/p90_reference_programme_airtightness_target.csv",
+      "sha256": "629995e5842e272a30df714ff8312d9e9cf12b3f20a9dcf34f1e88fbb7e84d42",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023",
+        "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
+      ]
+    },
+    "bridges": {
+      "path": "data/processed/b02/p91_reference_programme_thermal_bridge_correction.csv",
+      "sha256": "2aefbb45bd3d5bdcd268e06b251099d551b51b3e7d6fa64fc087a262734d2a3b",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "temperatures": {
+      "path": "data/processed/b02/p97_national_design_temperature_envelope.csv",
+      "sha256": "8023f5b8a1ba076f8efbb144f476affeaaccbe0416c8929e9a6fb929e8377c06",
+      "source_ids": [
+        "SRC-B02-MSZ-24140-2026",
+        "SRC-B02-BIMLINE-MSZ24140-2026",
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "probe_categories": {
+      "path": "data/processed/b02/p98_national_supply_temperature_envelope.csv",
+      "sha256": "589ba8908d250d3758ba21b3e84b52b9666ee6f6fe60676a50bdab9db55d80d2",
+      "source_ids": [
+        "SRC-B06-MCS-021-2-1-2015"
+      ]
+    },
+    "wm50_grid": {
+      "path": "data/processed/b05/wm50_full_performance_v53.csv",
+      "sha256": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    },
+    "wm50_manifest": {
+      "path": "registry/b05_wm50_full_grid_manifest.json",
+      "sha256": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    },
+    "opening_method": {
+      "path": "modules/B02/hungarian_facade_opening_split.py",
+      "sha256": "dd92ce6774293df8d4d81fd4fd84cdd0ade9429869b40ef5611312bb3f3c59eb",
+      "source_ids": [
+        "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+        "SRC-B06-HU-ENERGY-RULES-2023",
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "ventilation_method": {
+      "path": "modules/B02/post_retrofit_ventilation_hvent.py",
+      "sha256": "b00526a74687852551adef9e780a54aff288577f34efc105f7ca86bc4bce0e40",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "design_consumer": {
+      "path": "modules/B06/design_load.py",
+      "sha256": "5277bdbdcdfcb9893be415fb1c7817f8aeea2bfa25ab98a881629fcee826c811",
+      "source_ids": []
+    },
+    "design_evidence_contract": {
+      "path": "modules/B06/engine.py",
+      "sha256": "b7dc74e3fe00a45817d56463590a9db94a55f5e7349378bf66c0b022bf96b0fe",
+      "source_ids": []
+    },
+    "design_contract": {
+      "path": "modules/B06/data_contract.md",
+      "sha256": "8ad9f85cb78c8d1430ca51b6635f96cf97679ec67a8a4ba838e6d522941df248",
+      "source_ids": []
+    },
+    "wm50_consumer": {
+      "path": "modules/B05/manufacturer_wm50_reference.py",
+      "sha256": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    },
+    "performance_consumer": {
+      "path": "modules/B05/engine.py",
+      "sha256": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+      "source_ids": []
+    },
+    "facade_method": {
+      "path": "modules/B02/tabula_facade_estimator_supersession.py",
+      "sha256": "4caba1f3cd49a439e40bad2c3873d93272ad56d36d9312def825b4c21a32dd99",
+      "source_ids": [
+        "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+        "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022"
+      ]
+    },
+    "top_method": {
+      "path": "modules/B02/pitched_roof_poststate_u.py",
+      "sha256": "2dc59ba5fdf6fe750f36d75892842af85a93761cfb03ef4dea5fdc11a7bd4056",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-RULES-2023",
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "bridge_method": {
+      "path": "modules/B02/reference_programme_thermal_bridge_correction.py",
+      "sha256": "eb94f3ff800564916551b3a81e3e0c5f3804fb04253cb810b9a755efb31ad56c",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "ventilation_target_method": {
+      "path": "modules/B02/reference_programme_airtightness_target.py",
+      "sha256": "fcb0eed031fc8a9be22a0e50ddbb7ed1f35d6fd083d163590ca74baf137a4ff5",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    },
+    "opening_authority": {
+      "path": "registry/b02_p92_hungarian_facade_opening_split.csv",
+      "sha256": "09e720eff58a585d79100b80743e93fe29a654d7b55d411a5035005d6c5eb737",
+      "source_ids": [
+        "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+        "SRC-B06-HU-ENERGY-RULES-2023"
+      ]
+    },
+    "ventilation_authority": {
+      "path": "registry/b02_p87_post_retrofit_ventilation_hvent.csv",
+      "sha256": "8bdc62e509cff61d3d864acd7cdc7113c78dbeba4fb1d011405e6a23cac55214",
+      "source_ids": [
+        "SRC-B06-HU-ENERGY-METHOD-2023"
+      ]
+    }
+  },
+  "limitations": [
+    "Upper model-envelope stress case; no observed, expected, weighted or necessarily jointly attained building.",
+    "Basement ceiling is an explicit technical scenario, not a P94-inferred boundary or national assignment. Boundary correction 1 is a declared design stress assumption, not a TABULA seasonal ground reduction.",
+    "Corrected U already includes simplified thermal bridges; aggregate openings include doors and receive no generic zeta.",
+    "Ti20/Tout-12 is an engineering coordinate; no national comfort objective, population allocation or programme size is selected.",
+    "W35/W45/W55 are separate fixed manufacturer-coordinate probes; P98 supplies neither probabilities nor emitter authority.",
+    "MAX is a source compressor-frequency mode for capacity comparison, not a runtime modulation rule or procurement choice.",
+    "A shortfall against this outer load does not establish actual-building failure, backup requirement or backup size.",
+    "No annual or hourly calculation, solar/internal gains assumption, annual electricity, savings, SPF, DHW duty, B07 runtime policy or national programme result.",
+    "Cycling, additional dynamic defrost, auxiliary load, return-temperature path, schedule and runtime remain unpopulated. Source defrost labels are retained only at their original cells.",
+    "No P65 emitter authority, real-record eligibility, realized completion, slice completion or readiness uplift follows."
+  ],
+  "separate_regression": {
+    "module": "modules.B06.tabula_seasonal_reference",
+    "service": "source",
+    "claim_scope": "HISTORICAL_ANNUAL_USEFUL_SPACE_HEAT_REFERENCE",
+    "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+    "input_path": "data/processed/b06/tabula_three_reference_cases.json",
+    "sha256": "9b946e1ecded543bff1540273417add5b975d9ddbe5ce8b48f0d528cad76bb93",
+    "relationship": "SEPARATE_NATIVE_ANNUAL_REGRESSION_NOT_A_DESIGN_INPUT"
+  }
+}
