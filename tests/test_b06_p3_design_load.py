@@ -218,3 +218,29 @@ def test_emitter_and_result_datasets_are_lineaged_and_non_national():
     assert len(results) == 3
     assert all(row["status"].startswith("SCN") for row in results)
     assert all("scenario" in row["notes"].lower() or "explicit" in row["notes"].lower() for row in results)
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_annual_factor_and_installed_capacity_are_not_inputs,
+            test_before_after_recomputes_physical_state_not_annual_factor,
+            test_emitter_and_result_datasets_are_lineaged_and_non_national,
+            test_known_transmission_and_ventilation_loss_are_dimensional,
+            test_lower_post_load_and_larger_emitter_each_reduce_required_supply,
+            test_missing_area_u_design_temperature_and_ventilation_fail_closed,
+            test_missing_emitter_fields_fail_closed,
+            test_no_automatic_w35_and_b05_out_of_domain_is_q,
+            test_no_w35_w45_w55_snapping,
+            test_p3_post_load_enters_b05_bridge_and_capacity_shortfall_is_explicit,
+            test_peak_evidence_layer_is_explicit_synthetic_fixture_only,
+            test_purmo_logarithmic_mean_branch_and_lower_water_reduce_output,
+            test_real_purmo_nominal_condition_reproduces_nominal_output,
+            test_supply_requires_explicit_emitter_and_return_temperature,
+        )
+    )
+    return tests

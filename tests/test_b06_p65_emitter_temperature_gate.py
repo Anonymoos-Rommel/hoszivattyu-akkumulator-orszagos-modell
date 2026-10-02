@@ -252,3 +252,23 @@ def test_runtime_rejects_temperature_evidence_for_a_different_post_peak():
     assert result.status == "Q"
     assert any("does not match current sequential peak" in gap for gap in result.remaining_readiness_gaps)
 
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_measured_route_cannot_extrapolate_from_warmer_weather,
+            test_p65_rejects_real_status_without_source_lineage,
+            test_room_by_room_route_requires_complete_heated_room_coverage,
+            test_room_by_room_route_uses_worst_room_not_average,
+            test_runtime_accepts_only_the_temperature_minted_by_p65,
+            test_runtime_rejects_naked_supply_temperature_claim,
+            test_runtime_rejects_temperature_evidence_for_a_different_post_peak,
+            test_signed_mep_design_requires_heat_loss_emitter_and_hydraulic_basis,
+            test_signed_mep_design_requires_identified_signed_authority,
+        )
+    )
+    return tests

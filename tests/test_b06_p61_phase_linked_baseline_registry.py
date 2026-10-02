@@ -45,7 +45,7 @@ def test_zalavar_record_is_exact_same_phase_annual_peak_pair():
 def test_q_b06_006_is_resolved_without_national_claim():
     question = next(r for r in rows(QUESTIONS) if r["question_id"] == "Q-B06-006")
     assert question["status"] == "RESOLVED"
-    assert "no national annual/peak distribution" in question["notes"]
+    assert "no national annual/peak distribution" in question["notes"].lower()
     assert "universal ratio" in question["notes"]
 
 
@@ -112,4 +112,32 @@ def test_p61_pair_does_not_authorize_unlinked_real_intervention_effect():
     )
     result = evaluate_retrofit(baseline, [intervention])
     assert result.status == "Q"
-    assert any("P62 linked annual/peak effect evidence" in gap for gap in result.remaining_readiness_gaps)
+    assert result.remaining_readiness_gaps == (
+        "TEST-RETROFIT: P62 linked pair or P63 physical surface evidence is required for OBS/DER intervention effects",
+    )
+    assert result.post_retrofit_annual_space_heat_kwh is None
+    assert result.post_retrofit_peak_heat_load_kw is None
+    assert result.annual_heat_reduction_kwh is None
+    assert result.peak_heat_reduction_kw is None
+    assert result.applied_intervention_ids == ()
+    assert result.s1_gate == "BLOCKED"
+    assert result.post_state_candidate == "S0_BASELINE_AUDITED"
+    assert result.b05_handoff.status == "Q"
+    assert result.b05_handoff.space_heating_required_kw is None
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_p61_pair_does_not_authorize_unlinked_real_intervention_effect,
+            test_q_b06_006_is_resolved_without_national_claim,
+            test_readiness_percentage_is_not_uplifted_from_one_case,
+            test_real_der_engine_baseline_without_p61_pair_fails_closed,
+            test_zalavar_record_is_exact_same_phase_annual_peak_pair,
+        )
+    )
+    return tests

@@ -1,0 +1,159 @@
+{
+  "checkpoint": "V1-024",
+  "base_commit": "2cd8767fd5db7f98bf20279930c9668f6896bd50",
+  "independently_reviewed_tree": "fa4183087b0eaa206bafb7de19682dd7a8fe98ef",
+  "independent_verdict": "PASS",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_024_LEGACY_TEST_DISCOVERY.md",
+      "sha256": "414087099fff0094a9688faa9f07106593b6786752e9876b1590e5650cada703",
+      "bytes": 4738,
+      "git_blob": "fb74d26a4e56688ddb47030325ae53b20b7ce69c"
+    },
+    {
+      "path": "tests/test_b05_p10_nibe_cold_high_supply_capacity_domain.py",
+      "sha256": "5b522462bf7e507767f808af76f646dea0f04ba69fbdd2ea2e257cc283416530",
+      "bytes": 5204,
+      "git_blob": "37a6799b420f81104b17d0a0595d88673eb88987"
+    },
+    {
+      "path": "tests/test_b05_p6_defrost_cycling.py",
+      "sha256": "6d4691674971a1f66d3d692fb5d0ce8d79f121c68d62b1900f3ad7700e445f8c",
+      "bytes": 6665,
+      "git_blob": "e7ffc4340e6acf312627022c3e4c1aa14f07c5ee"
+    },
+    {
+      "path": "tests/test_b06_p2_effect_evidence.py",
+      "sha256": "ae705461b843fdf22ed54bd0f1e4411ab05d2e3878bad93a34f8d86fae990893",
+      "bytes": 6869,
+      "git_blob": "11c565992a72d0aadca470e0b6a15f33305ea0ad"
+    },
+    {
+      "path": "tests/test_b06_p3_design_load.py",
+      "sha256": "8a7533332cea8828b0f9aca09740242933e98338068608d579ff57b61b98f243",
+      "bytes": 11765,
+      "git_blob": "39cf2b2ac6f968ffaf15abdf0c3b71dd6aedf89f"
+    },
+    {
+      "path": "tests/test_b06_p60_hu_s1_outcome_registry.py",
+      "sha256": "1490b54d6923838283bf4296799299807cb61f3c660ac08176412f83669efb37",
+      "bytes": 3163,
+      "git_blob": "d0870f2614a28ac7436e4eafd54f285593ceb60c"
+    },
+    {
+      "path": "tests/test_b06_p61_phase_linked_baseline_registry.py",
+      "sha256": "20824178db1b2007963374a90487382b9e3cb8d898ac9ed6d9e96c5f26a6e83d",
+      "bytes": 5347,
+      "git_blob": "e903138d2d24ebc78432f0297e03c9c03d08eabe"
+    },
+    {
+      "path": "tests/test_b06_p62_hu_peak_effect_registry.py",
+      "sha256": "b7fdfc47d055d54db676343b2840e273eac87e68cc21b901c218b3a0c09a647b",
+      "bytes": 11067,
+      "git_blob": "01ab1b962ee1cf0e79888cbd5d76039893bf498e"
+    },
+    {
+      "path": "tests/test_b06_p63_effect_surface_registry.py",
+      "sha256": "aef3096f70df60edb2be67b6ec3111de9688cfdf62f42ef59b98620be684f032",
+      "bytes": 4512,
+      "git_blob": "35dc6f6c2dcbf7f8221374b109099ac1f5e6869b"
+    },
+    {
+      "path": "tests/test_b06_p64_engine_s1_handoff.py",
+      "sha256": "c822d4b8962c0650257966d4f4d842868357e196b2d0b36ad92ae6d0473fe7a9",
+      "bytes": 6033,
+      "git_blob": "a38f3bd9e7cbda9b7a629947645c37ff27b32455"
+    },
+    {
+      "path": "tests/test_b06_p64_registry_contract.py",
+      "sha256": "d77cc8da3c60444ef61baf8d9fecdd87d18eedd068331dc0d1649ce286b81cff",
+      "bytes": 5004,
+      "git_blob": "6e37d4e6d4f44d986a26e5e23721b1ffe30c696e"
+    },
+    {
+      "path": "tests/test_b06_p65_emitter_temperature_gate.py",
+      "sha256": "6bc542a0cffeb75f0a0c3e42f936f8536eaf47eebead7df93bf4484ffd03c36a",
+      "bytes": 9962,
+      "git_blob": "66b8599dfa70cdb343c03598558cf2acb8623ab4"
+    },
+    {
+      "path": "tests/test_b06_p65_registry_contract.py",
+      "sha256": "c58833efcf2a18d687239ff9dc2e42ca7b1fa211a0a6febe0d77d8008415611b",
+      "bytes": 4617,
+      "git_blob": "972e1e202684f446df999a56f8f5960db5318048"
+    },
+    {
+      "path": "tests/test_b06_retrofit_engine.py",
+      "sha256": "ec530d7ed4754b019eecf249a43616fadf23b2a5de4a1884aaa266213852208a",
+      "bytes": 9695,
+      "git_blob": "4b37ac17cf8f95a13e29253b9265c3abb494b4c7"
+    },
+    {
+      "path": "tests/test_b10_p17_remaining_dso_node_source_discovery.py",
+      "sha256": "8b44590cf81f361076f2247af8e860bd7903eb006924a17ebf178c0835981f89",
+      "bytes": 5095,
+      "git_blob": "45c0a505a2768d3b40c33588ac1d987c959adec6"
+    },
+    {
+      "path": "tests/test_b10_p23_consumption_node_publication_expansion.py",
+      "sha256": "caee33971134643b0426e97ffe867f4b34c94583f3e2e7c746c172658b0bb730",
+      "bytes": 6139,
+      "git_blob": "c949beeff6b0de166c16344639692a8516ecc605"
+    },
+    {
+      "path": "tests/test_b10_p34_eon_consumption_source_resolution.py",
+      "sha256": "0ae866fbd33db90d6f1246790460cbf0f529cd0413078b95c9893d134292bea7",
+      "bytes": 5528,
+      "git_blob": "77b376b54c24daf833647320a8464a0a62bd0a83"
+    },
+    {
+      "path": "tests/test_v1_024_legacy_discovery.py",
+      "sha256": "f2f94747b5b5da0c68f356c6251594f201cfd3c760fcb54bca0dc744f3146b65",
+      "bytes": 10360,
+      "git_blob": "9c1c3c5639ae22d8ef2aaea4a10f34407a7d26e0"
+    }
+  ],
+  "local_full_suite": {
+    "candidate_tree": "fa4183087b0eaa206bafb7de19682dd7a8fe98ef",
+    "base_commit": "2cd8767fd5db7f98bf20279930c9668f6896bd50",
+    "test_command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "test_summary": [
+      [
+        "2886",
+        "111.781"
+      ]
+    ],
+    "wall_seconds": 113.107,
+    "log_sha256": "c36d7c7c0d9f7bfa3ca7adc098bd7ed7db140a3995e50fa31f1ab9b39150ed8c",
+    "frozen_file_hashes_rechecked": 18
+  },
+  "independent_verification": {
+    "restored_individual_cases_traced_once": 109,
+    "exact_inventory_guard": 1,
+    "unchanged_original_test_bodies": 101,
+    "unchanged_original_helpers": 36,
+    "reviewed_changed_functions": 8,
+    "replaced_assertion_lines": 14,
+    "historical_false_assertion_evaluations": 15,
+    "later_authority_witnesses": 46,
+    "reproduced_adverse_probes": 56,
+    "additional_collection_negatives": 5,
+    "separate_successor_authority_review": {
+      "changed_cases": 8,
+      "behavioral_witnesses": 18,
+      "adverse_B10_authority_mutations": 15
+    },
+    "full_suite": "Exact lead log and hash corroborated, not a second aggregate run"
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD_BEFORE_CHECKPOINT_CLOSURE",
+  "boundaries": [
+    "Validation-only repair; no production, source, registry, workflow or readiness change",
+    "109 original test identities restored through individual FunctionTestCase entries; no skips or expected failures",
+    "Eight superseded expectations are bound to explicit later canonical authority; no generic status broadening",
+    "Existing B08 bridge and B05 fixture are unchanged and are not new coverage",
+    "Prior109-case diagnostic remains historically101PASS/8FAIL; this checkpoint records the separately reviewed repair",
+    "No new model output, policy default, source dataset or national claim admitted",
+    "No main merge"
+  ]
+}

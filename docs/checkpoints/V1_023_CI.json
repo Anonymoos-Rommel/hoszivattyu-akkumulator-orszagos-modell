@@ -1,0 +1,17 @@
+{
+  "checkpoint": "V1-023",
+  "head_commit": "2cd8767fd5db7f98bf20279930c9668f6896bd50",
+  "tree": "6bb05e3f145f709bb5539e0a40b7eca063ef04ce",
+  "run_number": 1085,
+  "run_id": 36946005992,
+  "job_id": 110648177249,
+  "conclusion": "success",
+  "registry_validation": "VALID",
+  "tests": 2776,
+  "test_seconds": 144.139,
+  "tested_merge_commit": "23cdbdf7d9ce3ab2164e04a4519586842af6cdd1",
+  "merge_tree_matches_head": true,
+  "verified_at": "2026-10-02T00:30:01Z",
+  "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36946005992",
+  "scope_note": "Configured unittest suite; separate109 dormant legacy functions are not counted here"
+}
