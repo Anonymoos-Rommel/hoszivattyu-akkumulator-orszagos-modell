@@ -325,5 +325,226 @@ class StorageBoundaryTests(unittest.TestCase):
                 self.assertEqual(clean, raw)
 
 
+class AdversarialStorageTests(unittest.TestCase):
+    """Disposable Git fixtures only; rejection must precede source access."""
+
+    def test_storage_boundaries_before_first_source_read(self):
+        from contextlib import ExitStack, redirect_stderr
+        import io
+        import subprocess
+        import sys
+        from tools import materialize_b09_future_supply_reference as materializer
+
+        cases = (
+            'deep_ignored', 'normalized_ignored', 'external_non_git_controlled_metadata',
+            'nested_git', 'nested_git_deep', 'nested_worktree', 'nested_worktree_deep',
+            'nested_output_root', 'nested_tracked_deleted', 'worktree_tracked_deleted',
+            'foreign_git', 'foreign_worktree', 'removed_ignore', 'outer_tracked_deleted',
+            'existing_csv', 'existing_receipt', 'csv_public_symlink', 'receipt_public_symlink',
+            'csv_broken_symlink', 'receipt_broken_symlink', 'directory_private_symlink',
+            'directory_public_symlink', 'directory_broken_symlink', 'private_root_symlink',
+            'public_traversal', 'public_repository', 'broken_git_marker',
+        )
+        for case in cases:
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as temporary, ExitStack() as stack:
+                base = Path(temporary)
+                root = base / 'repository'
+                def git(*args, cwd=root):
+                    return subprocess.run(['git', *args], cwd=cwd, capture_output=True,
+                                          text=True, check=True)
+                git('init', '--quiet', str(root), cwd=base)
+                (root / '.gitignore').write_text('/data/interim/\n')
+                private = root / 'data/interim'
+                private.mkdir(parents=True)
+                output = private / 'missing/several/ancestors/output'
+                if case.startswith('nested_') or case == 'worktree_tracked_deleted':
+                    nested = private / 'nested'
+                    if 'worktree' in case:
+                        git('worktree', 'add', '--quiet', '--orphan', '-b', 'synthetic-only', str(nested))
+                        self.assertTrue((nested / '.git').is_file())
+                    else:
+                        git('init', '--quiet', str(nested))
+                        self.assertTrue((nested / '.git').is_dir())
+                    self.assertEqual(Path(git('rev-parse', '--show-toplevel', cwd=nested).stdout.strip()), nested)
+                    output = nested / ('missing/several/ancestors/output' if 'deep' in case else 'output')
+                    if case == 'nested_output_root':
+                        output = nested
+                if case.startswith('foreign_'):
+                    foreign = base / 'foreign'
+                    if case == 'foreign_worktree':
+                        git('worktree', 'add', '--quiet', '--orphan', '-b', 'foreign-only', str(foreign))
+                        self.assertTrue((foreign / '.git').is_file())
+                    else:
+                        git('init', '--quiet', str(foreign))
+                    output = foreign / 'missing/several/ancestors/output'
+                if case == 'removed_ignore':
+                    (root / '.gitignore').write_text('')
+                if case.endswith('tracked_deleted'):
+                    output.mkdir(parents=True)
+                    target = output / materializer.OUTPUT_NAMES[0]
+                    target.write_bytes(b'SYNTHETIC_INDEX_SENTINEL\n')
+                    owner = root if case == 'outer_tracked_deleted' else nested
+                    git('add', '--force', '--', str(target), cwd=owner)
+                    target.unlink()
+                    git('ls-files', '--error-unmatch', '--', str(target.relative_to(owner)), cwd=owner)
+                sentinels = []
+                if case.startswith('existing_'):
+                    output.mkdir(parents=True)
+                    target = output / (materializer.OUTPUT_NAMES[0] if case == 'existing_csv' else 'receipt.json')
+                    target.write_bytes(b'SYNTHETIC_EXISTING_SENTINEL\n')
+                    sentinels.append(target)
+                if case.startswith(('csv_', 'receipt_')):
+                    output.mkdir(parents=True)
+                    destination = root / 'public-sentinel'
+                    if 'public' in case:
+                        destination.write_bytes(b'SYNTHETIC_PUBLIC_SENTINEL\n')
+                        sentinels.append(destination)
+                    filename = materializer.OUTPUT_NAMES[0] if case.startswith('csv_') else 'receipt.json'
+                    (output / filename).symlink_to(destination)
+                if case.startswith('directory_'):
+                    destination = root / 'public' if 'public' in case else private / 'real'
+                    if 'broken' not in case:
+                        destination.mkdir()
+                    (private / 'link').symlink_to(destination, target_is_directory=True)
+                    output = private / 'link/output'
+                if case == 'private_root_symlink':
+                    private.rmdir()
+                    (root / 'public').mkdir()
+                    private.symlink_to(root / 'public', target_is_directory=True)
+                    output = private / 'output'
+                if case == 'normalized_ignored':
+                    output = private / 'missing/../output'
+                if case == 'external_non_git_controlled_metadata':
+                    output = base / 'private/missing/output'
+                    # Isolate inherited host checkouts outside the disposable fixture.
+                    # Fixture Git markers, indexes, and all output paths stay real.
+                    host_markers = {ancestor / '.git' for ancestor in base.parents}
+                    exists, is_symlink = Path.exists, Path.is_symlink
+                    stack.enter_context(patch.object(Path, 'exists',
+                        lambda p: False if p in host_markers else exists(p)))
+                    stack.enter_context(patch.object(Path, 'is_symlink',
+                        lambda p: False if p in host_markers else is_symlink(p)))
+                if case == 'public_traversal':
+                    output = private / '../../public/output'
+                if case == 'public_repository':
+                    output = root / 'public/output'
+                if case == 'broken_git_marker':
+                    private.joinpath('.git').symlink_to(base / 'missing-git')
+                before = {path: path.read_bytes() for path in sentinels}
+                entries_before = sorted(str(path.relative_to(base)) for path in base.rglob('*'))
+                accepted = case in ('deep_ignored', 'normalized_ignored') or (True and case == 'external_non_git_controlled_metadata')
+                guard = materializer.guard_private_output
+                if accepted:
+                    self.assertEqual(guard(output, root=root), output.resolve())
+                else:
+                    with self.assertRaises(ValueError):
+                        guard(output, root=root)
+                argv = ['materializer', *['--source-file', 'missing.zip', '--source-id', 'synthetic', '--source-revision', 'synthetic', '--scenario-id', 'synthetic', '--model-stage', 'synthetic', '--capacity-date-convention', 'synthetic', '--target-years', '2030', '--resource-roles', 'synthetic'], '--output-dir', str(output)]
+                with patch.object(materializer, 'guard_private_output', side_effect=lambda p: guard(p, root=root)), \
+                        patch.object(materializer, 'read_future_supply_reference', side_effect=RuntimeError('FIRST_SOURCE_READ')) as reader, \
+                        patch.object(sys, 'argv', argv), redirect_stderr(io.StringIO()):
+                    if accepted:
+                        with self.assertRaisesRegex(RuntimeError, 'FIRST_SOURCE_READ'):
+                            materializer.main()
+                        reader.assert_called_once()
+                    else:
+                        with self.assertRaises(SystemExit) as error:
+                            materializer.main()
+                        self.assertEqual(error.exception.code, 2)
+                        reader.assert_not_called()
+                self.assertEqual({path: path.read_bytes() for path in sentinels}, before)
+                self.assertEqual(sorted(str(path.relative_to(base)) for path in base.rglob('*')), entries_before)
+
+
+    def test_real_external_non_git_directory_remains_allowed(self):
+        import os
+        import subprocess
+        from tools import materialize_b09_future_supply_reference as materializer
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            if any((p / '.git').exists() or (p / '.git').is_symlink()
+                   for p in (base, *base.parents)):
+                if os.environ.get('GITHUB_ACTIONS') == 'true':
+                    self.fail('GitHub Actions must execute the real external-positive case in a Git-free temporary directory')
+                self.skipTest('host temporary directory has a Git ancestor; real external-positive requires clean hosted CI')
+            root = base / 'repository'
+            subprocess.run(['git', 'init', '--quiet', str(root)], check=True)
+            output = base / 'external/missing/several/ancestors/output'
+            self.assertEqual(materializer.guard_private_output(output, root=root), output)
+            self.assertFalse(output.exists())
+
+
+    def test_git_index_errors_fail_closed_before_source_read(self):
+        from contextlib import redirect_stderr
+        import io
+        import subprocess
+        import sys
+        from tools import materialize_b09_future_supply_reference as materializer
+
+        for case in ('valid_untracked', 'valid_tracked_deleted', 'unignored',
+                     'corrupt_index', 'truncated_index', 'index_is_directory'):
+            with self.subTest(case=case), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                def git(*args):
+                    return subprocess.run(['git', *args], cwd=root, capture_output=True)
+                self.assertEqual(git('init', '--quiet').returncode, 0)
+                (root / '.gitignore').write_text('' if case == 'unignored' else '/data/interim/\n')
+                known = root / 'synthetic-known-tracked.txt'
+                known.write_bytes(b'SYNTHETIC_INDEX_NEIGHBOR\n')
+                self.assertEqual(git('add', '--', known.name).returncode, 0)
+                output = root / 'data/interim/deep/missing/output'
+                target = output / materializer.OUTPUT_NAMES[0]
+                tracked_target = case not in ('valid_untracked', 'unignored')
+                if tracked_target:
+                    output.mkdir(parents=True)
+                    target.write_bytes(b'SYNTHETIC_TRACKED_TARGET\n')
+                    self.assertEqual(git('add', '--force', '--', str(target.relative_to(root))).returncode, 0)
+                    target.unlink()
+                index = root / '.git/index'
+                valid_index = index.read_bytes()
+                if case == 'corrupt_index':
+                    index.write_bytes(b'CORRUPT INDEX')
+                elif case == 'truncated_index':
+                    index.write_bytes(valid_index[:8])
+                elif case == 'index_is_directory':
+                    index.unlink()
+                    index.mkdir()
+                tracked = git('ls-files', '--error-unmatch', '--', str(target.relative_to(root)))
+                ignored = git('check-ignore', '--quiet', '--no-index', '--', str(target.relative_to(root)))
+                expected_git_code = 0 if case == 'valid_tracked_deleted' else 1 if not tracked_target else 128
+                self.assertEqual(tracked.returncode, expected_git_code)
+                self.assertEqual(ignored.returncode, 1 if case == 'unignored' else 0)
+                before_entries = sorted(str(p.relative_to(root)) for p in root.rglob('*'))
+                before_bytes = {p: p.read_bytes() for p in root.rglob('*') if p.is_file()}
+                accepted = case == 'valid_untracked'
+                guard = materializer.guard_private_output
+                if accepted:
+                    self.assertEqual(guard(output, root=root), output)
+                else:
+                    with self.assertRaises(ValueError):
+                        guard(output, root=root)
+                argv = ['materializer', *['--source-file', 'missing.zip', '--source-id', 'synthetic', '--source-revision', 'synthetic', '--scenario-id', 'synthetic', '--model-stage', 'synthetic', '--capacity-date-convention', 'synthetic', '--target-years', '2030', '--resource-roles', 'synthetic'], '--output-dir', str(output)]
+                with patch.object(materializer, 'guard_private_output', side_effect=lambda p: guard(p, root=root)), \
+                        patch.object(materializer, 'read_future_supply_reference', side_effect=RuntimeError('FIRST_SOURCE_READ')) as reader, \
+                        patch.object(sys, 'argv', argv), redirect_stderr(io.StringIO()):
+                    if accepted:
+                        with self.assertRaisesRegex(RuntimeError, 'FIRST_SOURCE_READ'):
+                            materializer.main()
+                        reader.assert_called_once()
+                    else:
+                        with self.assertRaises(SystemExit) as error:
+                            materializer.main()
+                        self.assertEqual(error.exception.code, 2)
+                        reader.assert_not_called()
+                self.assertEqual(sorted(str(p.relative_to(root)) for p in root.rglob('*')), before_entries)
+                self.assertEqual({p: p.read_bytes() for p in root.rglob('*') if p.is_file()}, before_bytes)
+                # Recover only this disposable index and prove the deleted target is still tracked.
+                if index.is_dir():
+                    index.rmdir()
+                index.write_bytes(valid_index)
+                self.assertEqual(git('ls-files', '--error-unmatch', '--', str(target.relative_to(root))).returncode,
+                                 0 if tracked_target else 1)
+
+
 if __name__ == '__main__':
     unittest.main()

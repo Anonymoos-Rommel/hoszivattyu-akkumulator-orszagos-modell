@@ -35,6 +35,13 @@ def guard_private_output(output_dir, *, root=ROOT):
             break
         if path.is_symlink():
             raise GuiGenerationReferenceError('symlinked output paths are forbidden')
+    output = output.resolve()
+    for path in (output, *output.parents):
+        if path == root:
+            break
+        marker = path / '.git'
+        if marker.exists() or marker.is_symlink():
+            raise GuiGenerationReferenceError('output must not belong to a nested Git checkout')
     for name in OUTPUT_NAMES:
         target = output / name
         if target.exists() or target.is_symlink():
@@ -44,7 +51,7 @@ def guard_private_output(output_dir, *, root=ROOT):
                                  cwd=root, capture_output=True, check=False)
         ignored = subprocess.run(['git', 'check-ignore', '--quiet', '--no-index', '--', str(relative)],
                                  cwd=root, capture_output=True, check=False)
-        if tracked.returncode == 0 or ignored.returncode != 0:
+        if tracked.returncode != 1 or ignored.returncode != 0:
             raise GuiGenerationReferenceError('outputs must be untracked and covered by the repository ignore policy')
     return output.resolve()
 

@@ -33,8 +33,12 @@ def guard_private_output(output_dir, *, root=ROOT):
     in_repo = resolved.is_relative_to(root)
     if in_repo and not resolved.is_relative_to(root / 'data/interim'):
         raise SupplySourceReferenceError('repository output must be in ignored data/interim')
-    if not in_repo and any((p / '.git').exists() for p in (resolved, *resolved.parents)):
-        raise SupplySourceReferenceError('external output must not belong to another Git checkout')
+    for path in (resolved, *resolved.parents):
+        if path == root:
+            break
+        marker = path / '.git'
+        if marker.exists() or marker.is_symlink():
+            raise SupplySourceReferenceError('output must not belong to another Git checkout')
     for name in OUTPUT_NAMES:
         target = output / name
         if target.exists() or target.is_symlink():
@@ -45,7 +49,7 @@ def guard_private_output(output_dir, *, root=ROOT):
                                      cwd=root, capture_output=True, check=False)
             ignored = subprocess.run(['git', 'check-ignore', '--quiet', '--no-index', '--', relative],
                                      cwd=root, capture_output=True, check=False)
-            if tracked.returncode == 0 or ignored.returncode != 0:
+            if tracked.returncode != 1 or ignored.returncode != 0:
                 raise SupplySourceReferenceError('numeric output must be untracked and ignored')
     return resolved
 
