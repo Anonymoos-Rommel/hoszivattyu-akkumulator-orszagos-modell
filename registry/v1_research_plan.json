@@ -646,12 +646,32 @@
           "data": "Archetípus/régió × év lakásállomány és profil; már meglevő villamos fűtés kiszűrése, baseline növekedés és programtöbblet külön; kW→MW, kWh→MWh.",
           "phase": "A",
           "slice_id": "B08-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+            "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+            "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
+            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+            "SRC-B09-ENTSOE-PSR-TYPE-CODES-2024"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Already accepted original ENTSO-E GUI load/generation sources",
+                "Already accepted signed MAVIR recovery and exact lineage",
+                "Targeted ENTSO-E quantity-definition metadata"
+              ],
+              "remaining_unknown": "Programme physical profiles and temporal support, weights and existing-heat-pump counterfactual; observed exchange/storage for trade claims; regional mapping and future adequacy. Missing preceding B09 civil-year hour remains separate.",
+              "promising_next_lead": "Join only separately qualified incremental physical/allocation profiles under explicit support and baseline-subtraction rules; use observed exchange/storage only for a future independently justified trade claim.",
+              "expected_decision_value": "Produces a complete native-window historical load/signed-generation reference and coincident source residual without shifting data or reclassifying source gaps.",
+              "decision": "CONTINUE_INCREMENTAL_PROFILE_AND_COUNTERFACTUAL_HANDOFF",
+              "evidence": "docs/checkpoints/V1_032_HISTORICAL_SOURCE_BALANCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

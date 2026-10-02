@@ -1,0 +1,176 @@
+{
+  "checkpoint": "V1-032",
+  "base_commit": "90a7a9efd9bbbf7ba257a40552952d6e39ffcc50",
+  "independently_reviewed_tree": "193887e45c20e93e8da694e9bdbd08444667aa0a",
+  "independent_verdict": "PASS_EXACT_HISTORICAL_SOURCE_REFERENCE_CONSUMER_AND_SEVEN_FILE_INTEGRATION",
+  "independent_report_sha256": "57c4c2c0f3392b38e8a08736c2d9fe31ad8d088694f9f7639b0ad9683871fb4f",
+  "independent_artifact_manifest_sha256": "da2f6770aadd20d8784395017e5d89d483ec89fd2a64e8564cae2067b6b5d0c4",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_031_CI.json",
+      "sha256": "78933d9c8a809837cf2cf954fcc8fba407c0e5f56bcb70e3b3b2c6823cd9b7fe",
+      "bytes": 1242,
+      "git_blob": "376ea07b980ce32efa7f80f6a5c32a17428480f2"
+    },
+    {
+      "path": "docs/checkpoints/V1_032_HISTORICAL_SOURCE_BALANCE.md",
+      "sha256": "742bfd22a252858c6c463dddc9744c2902f6a530dc6011ccb4fe455b18898168",
+      "bytes": 9111,
+      "git_blob": "49b4bfd2350f2835cf4c54d84085eb6e1fb8a316"
+    },
+    {
+      "path": "modules/B08/historical_source_balance.py",
+      "sha256": "466aba7d3f292a522612d97d686c0f24e0e27ad4389d79d874e944ecc253d145",
+      "bytes": 33349,
+      "git_blob": "2b9e7bf84c7b929dfd925ad7c50d12dcf4944062"
+    },
+    {
+      "path": "registry/b08_b09_historical_balance_manifest.json",
+      "sha256": "f8f3664b70e8bf84373c8bdb7b0653260bbb57cbc2bc07dc939c9f2188a5bd29",
+      "bytes": 9147,
+      "git_blob": "54acc43124730c2b3cb1f64e25af13ed75889a98"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "d58344cf55c429f83deb53cb020000397108ba798547e55d9e5032cfaa9911d2",
+      "bytes": 56720,
+      "git_blob": "fc42aa9824fd4b6d2a24ad1447b568cce2d3070c"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "7088af2458c1a0b095e3b0a6a7784bcb654b9707660062b5d041678d807f2b0e",
+      "bytes": 97428,
+      "git_blob": "cb3315da7546aa7c04b1e98af3d4f7ae9bab672f"
+    },
+    {
+      "path": "tests/test_b08_b09_historical_balance.py",
+      "sha256": "404c9aeef7a20fb297f0e7ced24e69cc502cbdc5c877cb528e086fa966c41ed6",
+      "bytes": 23938,
+      "git_blob": "d2024b1c8a9d28f33b14a7e8ea55bf9dcb826e90"
+    }
+  ],
+  "independent_checks": {
+    "focused_author_tests_rerun": 22,
+    "focused_skips": 0,
+    "separate_mutation_boundary_cases": 63,
+    "oracle": "Independent original OOXML parser and Decimal arithmetic; not the author calculation script",
+    "genuine_public_API": {
+      "result": "PASS_EXACT_FROZEN_PUBLIC_API_AGAINST_INDEPENDENT_ORACLE",
+      "freeze_sha256": "54d10a6770a4e0ae05902aca7d0bba3bd424697189db1582915467916745567f",
+      "substantive_tree": "193887e45c20e93e8da694e9bdbd08444667aa0a",
+      "reviewed_at_utc": "2026-10-02T04:58:12.835498+00:00",
+      "all_annual_monthly_type_and_extrema_tie_oracle_comparisons": true,
+      "all_9965_original_recovery_copies_replayed": true,
+      "caller_precision_6_ROUND_DOWN_context_preserved": true,
+      "max_rss_kib": 33116,
+      "output_sha256": "fea427bf6762c3c6edc23d19c89e6b993847f32362c3bb6d84fb91e1b8150a4e",
+      "full_panel_written": false
+    },
+    "source_coverage": {
+      "original_source_files": 8,
+      "UTC_quarter_hours": 35040,
+      "active_generation_cells": 490560,
+      "original_A75_numeric_cells": 485740,
+      "signed_recoveries": 4820,
+      "retained_original_recovery_copy_locators_replayed": 9965,
+      "structural_not_existent_cells": 245280,
+      "overlapping_civil_and_native_load_cells": 35036,
+      "MAVIR_full_field_overlap_reconciliation": "Inherited from accepted V1-017 admission; not claimed as freshly rerun by this consumer"
+    },
+    "integration": {
+      "result": "PASS_EXACT_COMBINED_INTEGRATION_SCOPE",
+      "base_commit": "90a7a9efd9bbbf7ba257a40552952d6e39ffcc50",
+      "substantive_tree": "193887e45c20e93e8da694e9bdbd08444667aa0a",
+      "frozen_files": [
+        "docs/checkpoints/V1_031_CI.json",
+        "docs/checkpoints/V1_032_HISTORICAL_SOURCE_BALANCE.md",
+        "modules/B08/historical_source_balance.py",
+        "registry/b08_b09_historical_balance_manifest.json",
+        "registry/module_status.csv",
+        "registry/v1_research_plan.json",
+        "tests/test_b08_b09_historical_balance.py"
+      ],
+      "all_worktree_bytes_match_tree_and_manifest": true,
+      "module_status_changes": {
+        "B08": [
+          "gate_note"
+        ],
+        "B09": [
+          "gate_note"
+        ]
+      },
+      "research_plan_changes": [
+        [
+          "modules",
+          7,
+          "slices",
+          1,
+          "status"
+        ],
+        [
+          "modules",
+          7,
+          "slices",
+          1,
+          "canonical_source_ids"
+        ],
+        [
+          "modules",
+          7,
+          "slices",
+          1,
+          "research_log"
+        ]
+      ],
+      "only_plan_slice_changed": "B08-D02",
+      "status_transition": "NOT_STARTED -> INTEGRATING",
+      "accepted_artifacts_unchanged_empty": true,
+      "existing_B08_D01_and_all_B09_plan_source_producer_unchanged": true,
+      "national_inference_policy_unchanged": true,
+      "new_numeric_panels_or_workbook_files": false,
+      "prior_CI_receipt_is_for_base_not_candidate": true
+    },
+    "negative_families": [
+      "Source/handoff/authority hashes, bytes, identity, scope, units and grain",
+      "Missing, duplicate, off-grid and outside-window intervals and technology rows",
+      "Late iterator exhaustion errors; summary never returns an incomplete year",
+      "Original A75 numeric/blank authority, structural n/e and storage exclusion",
+      "Recovery original cell, explicit timestamp offset, sign and every retained identical copy",
+      "No doubled withdrawals or simultaneous injection and withdrawal",
+      "Caller Decimal precision, rounding, flags and traps restored across yield, close and exhaustion"
+    ]
+  },
+  "lead_focused_checks": {
+    "new_consumer": 22,
+    "registry": 15,
+    "plan": 3,
+    "total_passed": 40,
+    "registry_validation": "VALID",
+    "diff_check": "PASS"
+  },
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3054,
+    "seconds": 110.628,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "passed": 3051,
+    "frozen_tree": "193887e45c20e93e8da694e9bdbd08444667aa0a",
+    "all_hashes_unchanged": true,
+    "log_sha256": "fd19adaa7cd8d7405c7133672d44b9d4dc7f03bc1db81c7c65628fd0333cec04",
+    "completed_at": "2026-10-02T04:58:22.716468+00:00"
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; zero skips and all three existing real external-directory positives must execute as ok",
+  "boundaries": [
+    "Historical complete UTC 2025 source-reference arithmetic only; not a complete Budapest civil year or meteorological winter.",
+    "Residual is load minus signed source generation, not observed imports/exports, unmet demand, adequacy, dispatch or programme headroom.",
+    "DER/E2 scope, B08 DER and B09 Q provenance, external-only inputs and Q-B08-001/Q-B09-001 remain explicit.",
+    "Iterator validates yielded intervals; complete-year acceptance requires exhaustion. Summary fully exhausts and reconciles before return.",
+    "No raw workbooks, private panels, new source rights, national service/adoption policy, scenario selection, slice acceptance, readiness increase or main merge."
+  ]
+}
