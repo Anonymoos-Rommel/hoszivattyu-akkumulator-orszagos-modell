@@ -15,6 +15,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 import math
+from numbers import Real
+
+from .gas_reference_contract import CalorificBasis, GasReferenceState
 
 
 class EvidenceStatus(str, Enum):
@@ -33,14 +36,23 @@ class PhysicalEvidence:
     unit: str
     status: EvidenceStatus
     source_ref: str | None = None
+    reference_state: GasReferenceState | None = None
+    calorific_basis: CalorificBasis | None = None
 
     def numeric(self, expected_unit: str) -> float:
         if self.unit != expected_unit:
             raise ValueError(f"expected {expected_unit!r}, got {self.unit!r}")
         if self.status not in _ALLOWED:
             raise ValueError("Q evidence cannot authorize gas-volume derivation")
-        if self.value is None or not math.isfinite(self.value):
+        if (isinstance(self.value, bool) or not isinstance(self.value, Real)
+                or not math.isfinite(self.value)):
             raise ValueError("missing/non-finite evidence is not zero")
+        if expected_unit in {"MJ/m3_GCV", "MJ/m3_LHV"}:
+            if not isinstance(self.reference_state, GasReferenceState):
+                raise ValueError("explicit gas volume reference state is required")
+        if expected_unit in {"MJ/m3_GCV", "MJ/m3_LHV", "fraction_lhv"}:
+            if not isinstance(self.calorific_basis, CalorificBasis):
+                raise ValueError("explicit calorific reference and gas-quality context are required")
         return float(self.value)
 
 
@@ -57,6 +69,8 @@ class GasVolumeBridgeResult:
     gas_input_energy_kwh_year: float
     gas_volume_m3_year: float
     output_status: EvidenceStatus
+    reference_state: GasReferenceState
+    calorific_basis: CalorificBasis
 
 
 def _combined_status(values: tuple[PhysicalEvidence, ...]) -> EvidenceStatus:
@@ -65,15 +79,17 @@ def _combined_status(values: tuple[PhysicalEvidence, ...]) -> EvidenceStatus:
         return EvidenceStatus.Q
     if EvidenceStatus.SCN in statuses:
         return EvidenceStatus.SCN
-    if EvidenceStatus.DER in statuses:
-        return EvidenceStatus.DER
-    return EvidenceStatus.OBS
+    # Arithmetic is derived even when every input is observed.
+    return EvidenceStatus.DER
 
 
 def derive_gas_volume(inputs: GasVolumeBridgeInputs) -> GasVolumeBridgeResult:
     useful_heat = inputs.useful_heat_kwh_year.numeric("kWh/year")
     efficiency = inputs.seasonal_appliance_efficiency.numeric("fraction_lhv")
     heating_value = inputs.gas_lower_heating_value_mj_m3.numeric("MJ/m3_LHV")
+
+    if inputs.seasonal_appliance_efficiency.calorific_basis != inputs.gas_lower_heating_value_mj_m3.calorific_basis:
+        raise ValueError("efficiency and LHV calorific reference / gas-quality context do not match")
 
     if useful_heat < 0:
         raise ValueError("useful heat cannot be negative")
@@ -84,6 +100,8 @@ def derive_gas_volume(inputs: GasVolumeBridgeInputs) -> GasVolumeBridgeResult:
 
     gas_input_kwh = useful_heat / efficiency
     heating_value_kwh_m3 = heating_value / 3.6
+    if not math.isfinite(gas_input_kwh) or heating_value_kwh_m3 <= 0:
+        raise ValueError("derived gas energy or heating-value conversion is invalid")
     gas_volume = gas_input_kwh / heating_value_kwh_m3
 
     if gas_volume < 0 or not math.isfinite(gas_volume):
@@ -93,6 +111,8 @@ def derive_gas_volume(inputs: GasVolumeBridgeInputs) -> GasVolumeBridgeResult:
         useful_heat_kwh_year=useful_heat,
         gas_input_energy_kwh_year=gas_input_kwh,
         gas_volume_m3_year=gas_volume,
+        reference_state=inputs.gas_lower_heating_value_mj_m3.reference_state,
+        calorific_basis=inputs.gas_lower_heating_value_mj_m3.calorific_basis,
         output_status=_combined_status(
             (
                 inputs.useful_heat_kwh_year,

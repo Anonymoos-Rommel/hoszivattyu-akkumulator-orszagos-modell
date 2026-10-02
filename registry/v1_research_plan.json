@@ -900,7 +900,7 @@
           "data": "HU készülékosztály × év: fűtés/HMV/főzés hasznos energia kWh_th, éves gáz MJ/kWh; hatásfok [arány] szezonális, LHV/GCV következetes; több tüzelőanyag és rebound.",
           "phase": "A",
           "slice_id": "B11-D01",
-          "status": "NOT_STARTED",
+          "status": "RESEARCHING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -913,12 +913,29 @@
           "data": "MJ/m³, referencia-hőmérséklet/nyomás és tér-időeloszlás; éves magyar lakossági eladás és végfelhasználási kontroll [TJ/GWh/bcm]. Nem kell minden fogyasztó FGSZ-pontja aggregált becsléshez.",
           "phase": "A",
           "slice_id": "B11-D02",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B11-FGSZ-MER-INDEX-2026",
+            "SRC-B11-FGSZ-MER-2026-REV1-PDF",
+            "SRC-B11-FGSZ-MER-2026-REV1-XLSX",
+            "SRC-B11-FGSZ-COPYRIGHT-NOTICE-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "FGSZ MER revision and source-use metadata; synthetic dimensional contract"
+              ],
+              "remaining_unknown": "Actual source-use authority, temporally/geographically weighted gas-quality distribution and national sales calibration; no numerical admission",
+              "promising_next_lead": "Resolve source-specific permission or suitable alternative; retain reference-state context in any later numeric handoff",
+              "expected_decision_value": "Prevents mixing unlike per-volume/calorific denominators before data admission",
+              "decision": "REVIEW_BOUNDED_REFERENCE_STATE_REPAIR",
+              "evidence": "docs/checkpoints/V1_023_B11_REFERENCE_STATE_REPAIR.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
