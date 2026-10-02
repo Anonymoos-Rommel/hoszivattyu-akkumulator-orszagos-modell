@@ -967,12 +967,24 @@
           "data": "Archetípus × fázis × év: 2026 HUF induló CAPEX, O&M, biztosítás ahol releváns, csere, maradványérték, élettartam, ÁFA. A műszaki scope és eligible/összes költség külön.",
           "phase": "V",
           "slice_id": "B12-D01",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing canonical B03/B04/B06/B07/B11/B14 consumer authorities; synthetic input/accounting contract"
+              ],
+              "remaining_unknown": "Sourced cost/lifecycle and complete retail cash flows, net-income/required-spending/liquidity/housing linkage, actual finance access and owner valuation/affordability policies; no numerical household or national admission",
+              "promising_next_lead": "Qualify claim-specific upstream cost and representative household financial evidence, then connect admitted inputs without duplicating canonical source data",
+              "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
+              "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
+              "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -980,12 +992,24 @@
           "data": "HU háztartástípus/jövedelmi csoport: HUF/év nettó jövedelem, kötelező kiadás, likvid eszköz, meglévő törlesztés; hitelkamat/THM, futamidő, önerő, díj és hozzáférés. Aggregált minta nem egyedi hitelbírálat.",
           "phase": "V",
           "slice_id": "B12-D02",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing canonical B03/B04/B06/B07/B11/B14 consumer authorities; synthetic input/accounting contract"
+              ],
+              "remaining_unknown": "Sourced cost/lifecycle and complete retail cash flows, net-income/required-spending/liquidity/housing linkage, actual finance access and owner valuation/affordability policies; no numerical household or national admission",
+              "promising_next_lead": "Qualify claim-specific upstream cost and representative household financial evidence, then connect admitted inputs without duplicating canonical source data",
+              "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
+              "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
+              "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -993,12 +1017,24 @@
           "data": "HUF/év baseline/program számla, energia és tarifa upstream; diszkontráta, árszint, inflációs kezelés, adó, támogatás időpontja. NPV/IRR/DSCR számított output, nem megvásárolandó adat.",
           "phase": "V",
           "slice_id": "B12-D03",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing canonical B03/B04/B06/B07/B11/B14 consumer authorities; synthetic input/accounting contract"
+              ],
+              "remaining_unknown": "Sourced cost/lifecycle and complete retail cash flows, net-income/required-spending/liquidity/housing linkage, actual finance access and owner valuation/affordability policies; no numerical household or national admission",
+              "promising_next_lead": "Qualify claim-specific upstream cost and representative household financial evidence, then connect admitted inputs without duplicating canonical source data",
+              "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
+              "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
+              "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
