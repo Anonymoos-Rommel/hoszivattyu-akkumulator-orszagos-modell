@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "reference_id": "B02-V1-NATIONAL-ACCOUNTING-BOUNDS-2022",
+  "claim_scope": "CONDITIONAL_NATIONAL_COUNT_AND_SOURCE_ACCOUNTING_SCREENS",
+  "reference_year": 2022,
+  "geography": "HU",
+  "evidence_status": "DER",
+  "count_evidence": "AGGREGATION_OF_OBS_CENSUS_COUNTS",
+  "energy_evidence": "INHERITED_E2_SOURCE_MODEL_LEDGER_NOT_ACTUAL_POPULATION_INTERVAL",
+  "source_ids": [
+    "SRC-B02-KSH-CENSUS-API-2022",
+    "SRC-B02-JRC-IDEES-HU-2023"
+  ],
+  "source_provenance": [
+    "data/processed/b02/ksh_wbl_joint_manifest.json",
+    "registry/b02_jrc_household_manifest.json",
+    "registry/b02_v1_annual_heat_admission.json"
+  ],
+  "input_artifacts": {
+    "data/processed/b02/ksh_wbl_joint_cells_2022.csv": "f4df16e4f53947e33a2d4477d9806faee903b999d26143b3bdc92d747d3c800f",
+    "data/processed/b02/ksh_wbl_joint_manifest.json": "33b31358a6d98015feaf2e7620076db545b77bc5a1d19196d89745fd761d378c",
+    "data/processed/b02/jrc_sh_dhw_cohorts_2022_2023.csv": "9bb56a5eb76b8b8d3c84607f454739368dfd2de99b532bb60685de70e238190a",
+    "data/processed/b02/jrc_household_controls_2022_2023.csv": "c1d1ce28e499df5d7c8d3c2fca8993a5a9f60a4637c0d9174086d94f9b5f0202",
+    "registry/b02_v1_annual_heat_admission.json": "f5101315b825296463ebb7edcf29c0b108d5fef25ce4e10d5074155a92032d32"
+  },
+  "count_projection": "WBL011_FULL_STOCK_JOINT",
+  "count_source_version": "V67",
+  "native_gas_service_code": "TES.ktoe.HU.Res.HH.Thermal.SH.Gas.SH.Gas",
+  "native_gas_final_code": "FEC.ktoe.HU.Res.HH.Thermal.SH.Gas.SH.Gas",
+  "energy_conversion": {
+    "ktoe_to_gwh": "11.63",
+    "derivation": "41.868 TJ/ktoe / 3.6 TJ/GWh"
+  },
+  "source_accounting_conditions": [
+    "Target energy is a nonnegative subset of the named native 2022 JRC ledger on the same end-use, carrier and service/final-energy boundary.",
+    "Source-universe applicability is a condition, not established by census membership. Outside-target and coverage residuals remain nonnegative unknowns; none is silently set to zero.",
+    "Each ledger bound is an outer accounting enclosure, not a statistical interval or an assertion of endpoint attainability."
+  ],
+  "avoided_gas_additional_conditions": [
+    "Scenario displaces only baseline direct-gas space heating, adds no gas use, and has nonnegative gross replacement savings on the same source-native final-energy basis.",
+    "No conversion to GCV, volume, retail bills, net energy, import value, emissions or fiscal benefits is supplied."
+  ],
+  "validation_debt_ids": [
+    "VD-B02-V1-HEAT-UNIVERSE",
+    "VD-B02-V1-HEAT-ENDUSE",
+    "VD-B02-V1-HEAT-EFFICIENCY",
+    "VD-B02-V1-HEAT-ALLOCATION",
+    "VD-B02-V1-HEAT-WEATHER"
+  ],
+  "consumer": "modules/B02/national_accounting_bounds.py",
+  "tests": [
+    "tests/test_b02_national_accounting_bounds.py"
+  ],
+  "national_central_heat_admitted": false,
+  "policy_defaults_selected": false,
+  "forbidden_uses": [
+    "PARTICIPANT_COUNT_TIMES_WHOLE_GROUP_MEAN",
+    "ACTUAL_POPULATION_CONFIDENCE_INTERVAL",
+    "TECHNICAL_OR_LEGAL_ELIGIBILITY",
+    "FEASIBILITY_FROM_RELAXED_SET_MEMBERSHIP",
+    "NATIONAL_PEAK_FROM_ANNUAL_ENERGY",
+    "FULL_B12_ECONOMICS",
+    "INDEPENDENT_MULTIPLICATION_OF_ENDPOINTS"
+  ],
+  "native_gas_carrier_label": "Natural gas and biogas; not pure purchased natural gas or import gas"
+}

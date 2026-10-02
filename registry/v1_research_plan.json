@@ -38,6 +38,18 @@
               "expected_decision_value": "Adds exact public county/time stock accounting without silently changing target denominator",
               "decision": "CONTINUE_CORE_INFERENCE",
               "evidence": "docs/checkpoints/V1_004_B01_PUBLIC_STOCK_FLOW.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing KSH 2022 WBL011 V67 full observed joint; no new synthetic join",
+                "Existing scoped JRC 2022 SH service and final-energy model ledgers; natural gas and biogas source boundary"
+              ],
+              "remaining_unknown": "Central and selected-stock heat allocation, actual-population ledger applicability, positive saving floor, eligibility, rollout and complete national feasibility remain unresolved",
+              "promising_next_lead": "Use explicit policy/scenario thresholds and compatible heat/selection constraints when stronger decisions require tighter bounds; continue independent accepted-input modules",
+              "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
+              "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
+              "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
             }
           ],
           "reviewed_commit": null
@@ -156,6 +168,18 @@
               "expected_decision_value": "Rejects unchanged historical area exposures even under the wider rounding sensitivity and bounds subgroup area without midpoint or independence assumptions",
               "decision": "CONTINUE_SCOPED_E2_AREA_CALIBRATION",
               "evidence": "docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing KSH 2022 WBL011 V67 full observed joint; no new synthetic join",
+                "Existing scoped JRC 2022 SH service and final-energy model ledgers; natural gas and biogas source boundary"
+              ],
+              "remaining_unknown": "Central and selected-stock heat allocation, actual-population ledger applicability, positive saving floor, eligibility, rollout and complete national feasibility remain unresolved",
+              "promising_next_lead": "Use explicit policy/scenario thresholds and compatible heat/selection constraints when stronger decisions require tighter bounds; continue independent accepted-input modules",
+              "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
+              "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
+              "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
             }
           ],
           "reviewed_commit": null
@@ -1222,6 +1246,18 @@
               "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
               "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
               "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing KSH 2022 WBL011 V67 full observed joint; no new synthetic join",
+                "Existing scoped JRC 2022 SH service and final-energy model ledgers; natural gas and biogas source boundary"
+              ],
+              "remaining_unknown": "Central and selected-stock heat allocation, actual-population ledger applicability, positive saving floor, eligibility, rollout and complete national feasibility remain unresolved",
+              "promising_next_lead": "Use explicit policy/scenario thresholds and compatible heat/selection constraints when stronger decisions require tighter bounds; continue independent accepted-input modules",
+              "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
+              "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
+              "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
             }
           ],
           "reviewed_commit": null

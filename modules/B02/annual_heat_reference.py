@@ -13,7 +13,9 @@ from modules.B02.household_energy_controls import control
 ROOT=Path(__file__).resolve().parents[2]
 COHORTS=('Solids','LPG','Oil','Gas','Biomass','Geo','DistrHeat','AdvElc','ConvElc')
 CIRCULATION_COHORTS=COHORTS[:7]
-GWH_PER_KTOE=TJ_PER_KTOE/Decimal('3.6')
+# Exact 41.868 TJ/ktoe / 3.6 TJ/GWh. Construct the terminating decimal
+# directly so a caller's low precision before import cannot round the constant.
+GWH_PER_KTOE=Decimal('11.63')
 
 
 def load_native_cells():

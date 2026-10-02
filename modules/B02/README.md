@@ -134,3 +134,13 @@ Részletes szerződés: [`data_contract.md`](data_contract.md).
 ## V1 current occupied-area reference
 
 `current_area_reference.calculate_reference()` provides source-bound 2022 census area enclosures and compares the preserved historical dwelling-area exposures. The published 82 m² mean is observed at publication precision; its nearest-whole interpretation and wider rounding sensitivity are explicit assumptions. Open bands retain their unbounded tails before applying the aggregate budget. This DER/E2 area diagnostic does not provide heated area, type weights or participant heat. See [V1-042](../../docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md).
+
+## V1 conditional national accounting screens
+
+[National count and source-accounting bounds](../../docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md)
+combine native 2022 census group counts and the admitted JRC ledger in a
+parametric necessary-condition screen. Above-cap requirements are excluded
+within their stated boundaries; other requirements remain INCONCLUSIVE.
+The gas ledger includes natural gas and biogas. Nonempty selected groups
+retain the whole ledger cap, with no proportional heat assignment. Central
+heat allocation, eligibility and national feasibility remain unresolved.

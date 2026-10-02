@@ -57,3 +57,13 @@ and source-package replacement condition for the conditional original-gas
 pathway. Distinct signed rating-to-installed residuals remain unknown. Source
 service completion does not establish actual installed heat delivery. See
 [V1-041](../../docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md).
+
+## V1 conditional national accounting screens
+
+[National count and source-accounting bounds](../../docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md)
+combine native 2022 census group counts and the admitted JRC ledger in a
+parametric necessary-condition screen. Above-cap requirements are excluded
+within their stated boundaries; other requirements remain INCONCLUSIVE.
+The gas ledger includes natural gas and biogas. Nonempty selected groups
+retain the whole ledger cap, with no proportional heat assignment. Central
+heat allocation, eligibility and national feasibility remain unresolved.
