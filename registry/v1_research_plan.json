@@ -693,12 +693,30 @@
           "data": "2026 HUF/csomag vagy HUF/m², anyag/munka/tervezés/engedély/ÁFA, FTE-nap, élettartam; régió és műszaki tartalom. KEHOP plafon csak scope-hoz kötött felső korlát.",
           "phase": "V",
           "slice_id": "B06-D02",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "validation_debt_ids": [
+            "B06-LIFE-SYSTEM-BOUNDARY",
+            "B06-LIFE-MAINTENANCE",
+            "B06-LIFE-HU-DUTY",
+            "B06-LIFE-SERVICE"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact-product Mitsubishi/BRE EPD",
+                "Scope-separated public Hungarian supplier component quotes and historical cost-optimal inputs"
+              ],
+              "remaining_unknown": "Complete matched Hungarian installed CAPEX, annual monetary O&M, physical survival/target transfer, replacement scheduling/cost and terminal values; unmatched offers are not a national mean",
+              "promising_next_lead": "Reuse the 17-year ASS/E2 source-model life in existing asset input; acquire a dated itemized engineering-matched heat-only procurement scope before pricing a complete case",
+              "expected_decision_value": "Populates one required lifecycle subinput without inventing complete costs or creating new accessor machinery",
+              "decision": "ADMIT_SCOPED_LIFECYCLE_SUBINPUT_CONTINUE_COST_QUALIFICATION",
+              "evidence": "docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -1284,7 +1302,12 @@
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
+          "validation_debt_ids": [
+            "B06-LIFE-SYSTEM-BOUNDARY",
+            "B06-LIFE-MAINTENANCE",
+            "B06-LIFE-HU-DUTY",
+            "B06-LIFE-SERVICE"
+          ],
           "research_log": [
             {
               "date": "2026-10-02",
@@ -1296,6 +1319,18 @@
               "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
               "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
               "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact-product Mitsubishi/BRE EPD",
+                "Scope-separated public Hungarian supplier component quotes and historical cost-optimal inputs"
+              ],
+              "remaining_unknown": "Complete matched Hungarian installed CAPEX, annual monetary O&M, physical survival/target transfer, replacement scheduling/cost and terminal values; unmatched offers are not a national mean",
+              "promising_next_lead": "Reuse the 17-year ASS/E2 source-model life in existing asset input; acquire a dated itemized engineering-matched heat-only procurement scope before pricing a complete case",
+              "expected_decision_value": "Populates one required lifecycle subinput without inventing complete costs or creating new accessor machinery",
+              "decision": "ADMIT_SCOPED_LIFECYCLE_SUBINPUT_CONTINUE_COST_QUALIFICATION",
+              "evidence": "docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md"
             }
           ],
           "reviewed_commit": null

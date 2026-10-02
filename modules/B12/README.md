@@ -5,6 +5,12 @@ This slice implements the entry contract in the approved
 [V1 execution plan](../../docs/methodology/v1_evidence_feasibility_execution.md),
 not an affordability decision, estimator, tariff engine or financing optimizer.
 
+The [B06 WM50 lifecycle handoff](../../docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md)
+now supplies one 17-year ASS/E2 modeled reference-life subinput with transfer
+debt. `current_source_admissions` records this partial upstream admission;
+complete assets/costs and external numerical outputs remain Q. No replacement
+schedule, observed survival, whole-system life or annual monetary O&M follows.
+
 ## Public operations and admission
 
 `validate_case(case)` validates immutable section records, known identities and

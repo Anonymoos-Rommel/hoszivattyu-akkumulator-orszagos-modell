@@ -906,7 +906,8 @@ class B12InputAccountingTests(unittest.TestCase):
         inventory = json.loads((ROOT / "registry/b12_input_inventory.json").read_text())
         self.assertEqual(inventory["numerical_output_status"], "Q")
         self.assertEqual(inventory["b15_gate"], "BLOCKED")
-        self.assertEqual(inventory["current_source_admissions"], [])
+        self.assertEqual([r["admission_id"] for r in inventory["current_source_admissions"]], ["B06-WM50-MODELED-LIFE-E2-001"])
+        self.assertFalse(inventory["current_source_admissions"][0]["numerical_b12_output_admitted"])
         self.assertTrue(all(row["value"] is None and row["status"] == "Q" for row in inventory["inputs"]))
         with (ROOT / "registry/variables.csv").open(newline="") as stream:
             variables = {row["variable_id"]: row for row in csv.DictReader(stream)}
