@@ -1,0 +1,23 @@
+{
+  "checkpoint": "V1-035",
+  "head": "a9b011d975adc235af9a7ecd808d40da1618a85b",
+  "tree": "ca4f744fc82b75bf6e2ab748c3c6816367d5377e",
+  "run_id": 36979256658,
+  "run_number": 1097,
+  "job_id": 110749802974,
+  "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36979256658",
+  "conclusion": "success",
+  "registry": "VALID",
+  "tests": 3101,
+  "passed": 3101,
+  "skipped": 0,
+  "seconds": 162.718,
+  "tested_merge": "b26efa3920bda9cf7421877971e197f44e85c4a0",
+  "tested_merge_tree": "ca4f744fc82b75bf6e2ab748c3c6816367d5377e",
+  "required_external_positive_cases_executed": 3,
+  "log_file": "V1_035_HOSTED.log",
+  "verified_at": "2026-10-02T07:38:35.918Z",
+  "scope": "Cycling source admission and evidence-status repair; no actual hourly/seasonal/national electrical result",
+  "main_unchanged": "144c0d96cee674fbea4bf951826e68f000b45705",
+  "log_sha256": "5a847f362f6fa5bd8837a4d697770f303fd3f618129db1061c3d84686b156f71"
+}
