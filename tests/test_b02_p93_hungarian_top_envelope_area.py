@@ -1,4 +1,7 @@
 import csv
+from dataclasses import asdict
+import hashlib
+import json
 import unittest
 from pathlib import Path
 
@@ -29,6 +32,7 @@ MODULES = ROOT / "registry" / "module_status.csv"
 READINESS = ROOT / "registry" / "retrofit_readiness.csv"
 SOURCES = ROOT / "registry" / "sources.csv"
 DOC = ROOT / "docs" / "source_packs" / "B02_P93_HUNGARIAN_TOP_ENVELOPE_AREA.md"
+PRECISION = ROOT / "registry" / "b02_p93_top_ratio_source_precision.json"
 
 
 def rows(path, key=None):
@@ -47,7 +51,7 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
         )
         self.assertEqual(
             TABULA_HU_MFH_TOP_TO_CONDITIONED_FLOOR_RATIO,
-            0.35,
+            0.36,
         )
         self.assertEqual(
             TABULA_HU_AB_TOP_TO_CONDITIONED_FLOOR_RATIO,
@@ -61,7 +65,7 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
 
         multi = top_area_ratio_bound(MULTI_DWELLING)
         self.assertEqual(multi.source_classes, ("HU_MFH", "HU_AB"))
-        self.assertEqual((multi.lower, multi.upper), (0.20, 0.35))
+        self.assertEqual((multi.lower, multi.upper), (0.20, 0.36))
 
         with self.assertRaises(ValueError):
             top_area_ratio_bound("TERRACED_HOUSE_POINT_DEFAULT")
@@ -81,7 +85,30 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
             building_group=MULTI_DWELLING,
         )
         self.assertAlmostEqual(multi.top_area_lower_m2, 20.0)
-        self.assertAlmostEqual(multi.top_area_upper_m2, 70.0)
+        self.assertAlmostEqual(multi.top_area_upper_m2, 72.0)
+
+    def test_source_cell_binding_rejects_common_column_substitution(self):
+        precision = json.loads(PRECISION.read_text(encoding="utf-8"))
+        self.assertEqual(precision["source_id"], "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015")
+        self.assertEqual(precision["source_location"], {
+            "table": "Table 4", "printed_page": 8, "pdf_page_index": 7,
+            "column": "HU", "row": "A_Roof / A_C_Ref", "unit": "m2/m2",
+        })
+        self.assertEqual(precision["sha256"],
+                         "800959c8ac321144d2e8cbe42b5a17f94c41587fde8fc63f445d6e35cdfc2a63")
+        self.assertIsNone(precision["repo_snapshot_path"])
+        self.assertEqual(precision["reuse_status"], "REPOSITORY_COPY_NOT_CLEARED")
+        source_ratios = precision["published_hu_class_average_ratios"]
+        self.assertEqual(source_ratios, {"SFH": 0.84, "MFH": 0.36, "AB": 0.20})
+        self.assertEqual(TABULA_HU_MFH_TOP_TO_CONDITIONED_FLOOR_RATIO, source_ratios["MFH"])
+        historical = precision["historical_error"]
+        self.assertEqual((historical["selected_column"], historical["value"]), ("Common", 0.35))
+        self.assertNotEqual(TABULA_HU_MFH_TOP_TO_CONDITIONED_FLOOR_RATIO, historical["value"])
+        reg = rows(REG, "item_id")
+        self.assertEqual((reg["B02-P93-T02"]["lower_bound"], reg["B02-P93-T02"]["upper_bound"]),
+                         ("0.36", "0.36"))
+        self.assertEqual((reg["B02-P93-T04"]["lower_bound"], reg["B02-P93-T04"]["upper_bound"]),
+                         ("0.20", "0.36"))
 
     def test_fourteen_stratum_surface_and_global_extrema(self):
         surface = reference_programme_top_envelope_surface()
@@ -128,6 +155,25 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
             max(float(row["top_envelope_area_upper_m2_per_dwelling"]) for row in data),
             196.392,
         )
+        for stored, computed in zip(data, reference_programme_top_envelope_surface()):
+            for field, value in asdict(computed).items():
+                with self.subTest(surface_id=computed.surface_id, field=field):
+                    if isinstance(value, float):
+                        self.assertAlmostEqual(float(stored[field]), value, places=10)
+                    else:
+                        self.assertEqual(stored[field], value)
+
+    def test_regeneration_preserves_exact_family_house_rows(self):
+        from tools.materialize_b02_top_envelope import p93_bytes
+
+        self.assertEqual(p93_bytes(), SURFACE.read_bytes())
+        family_rows = b"".join(line for line in SURFACE.read_bytes().splitlines(keepends=True)
+                               if b",FAMILY_HOUSE," in line)
+        precision = json.loads(PRECISION.read_text(encoding="utf-8"))
+        historical = precision["historical_artifacts"][str(SURFACE.relative_to(ROOT))]
+        self.assertEqual(family_rows.count(b"\n"), historical["preserved_family_house_row_count"])
+        self.assertEqual(hashlib.sha256(family_rows).hexdigest(),
+                         historical["preserved_family_house_rows_sha256"])
 
     def test_current_geometry_coverage_includes_p93_and_p95(self):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
@@ -178,7 +224,7 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
         self.assertIn("P93 top-envelope authority", note)
         self.assertIn("A_Roof=A_Roof_1+A_Roof_2", note)
         self.assertIn("SFH=0.84", note)
-        self.assertIn("MFH=0.35", note)
+        self.assertIn("MFH=0.36", note)
         self.assertIn("AB=0.20", note)
 
         q = rows(QUESTIONS, "question_id")["Q-B02-004"]
@@ -212,7 +258,7 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
         for phrase in (
             "A_Roof = A_Roof_1 + A_Roof_2",
             "0.84 m2/m2",
-            "0.20 .. 0.35",
+            "0.20 .. 0.36",
             "TOP-AREA CALIBRATION != PITCHED-ROOF U RESOLUTION",
             "B02 remains **55%**",
         ):

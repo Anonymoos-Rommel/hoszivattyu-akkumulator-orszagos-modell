@@ -1,4 +1,7 @@
 import csv
+from dataclasses import asdict
+import hashlib
+import json
 import unittest
 from pathlib import Path
 
@@ -113,6 +116,50 @@ class B02P96PitchedRoofPostStateUTests(unittest.TestCase):
             max(float(row["top_envelope_h_upper_w_per_k_per_dwelling"]) for row in data),
             40.063968,
         )
+        names = {
+            "base_u_upper_w_m2k": "pitched_roof_base_u_upper_w_m2k",
+            "zeta_lower": "pitched_roof_zeta_lower",
+            "zeta_upper": "pitched_roof_zeta_upper",
+            "corrected_u_upper_w_m2k": "pitched_roof_corrected_u_upper_w_m2k",
+        }
+        for stored, computed in zip(data, reference_programme_top_envelope_thermal_surface()):
+            for field, value in asdict(computed).items():
+                with self.subTest(surface_id=computed.surface_id, field=field):
+                    if isinstance(value, float):
+                        self.assertAlmostEqual(float(stored[names.get(field, field)]), value, places=10)
+                    else:
+                        self.assertEqual(stored[field], value)
+
+    def test_hungarian_mfh_upper_bound_reaches_every_multi_dwelling_row(self):
+        expected = {
+            "Y_LT1919": (31.446, 6.414984),
+            "Y1919-1945": (31.446, 6.414984),
+            "Y1946-1960": (27.983999999988, 5.708735999998),
+            "Y1961-1980": (27.983999999988, 5.708735999998),
+            "Y1981-2000": (27.983999999988, 5.708735999998),
+            "Y2001-2010": (31.385999999988, 6.402743999998),
+            "Y_GE2011": (31.385999999988, 6.402743999998),
+        }
+        multi = [row for row in reference_programme_top_envelope_thermal_surface()
+                 if row.building_group == "MULTI_DWELLING"]
+        self.assertEqual(len(multi), len(expected))
+        for row in multi:
+            area, thermal = expected[row.wbl_period_code]
+            self.assertAlmostEqual(row.top_envelope_area_upper_m2_per_dwelling, area, places=10)
+            self.assertAlmostEqual(row.top_envelope_h_upper_w_per_k_per_dwelling, thermal, places=10)
+            self.assertEqual(row.evidence_status, "POL/DER/SCN")
+
+    def test_regeneration_preserves_exact_family_house_rows(self):
+        from tools.materialize_b02_top_envelope import p96_bytes
+
+        self.assertEqual(p96_bytes(), SURFACE.read_bytes())
+        family_rows = b"".join(line for line in SURFACE.read_bytes().splitlines(keepends=True)
+                               if b",FAMILY_HOUSE," in line)
+        precision = json.loads((ROOT / "registry/b02_p93_top_ratio_source_precision.json").read_text())
+        historical = precision["historical_artifacts"][str(SURFACE.relative_to(ROOT))]
+        self.assertEqual(family_rows.count(b"\n"), historical["preserved_family_house_row_count"])
+        self.assertEqual(hashlib.sha256(family_rows).hexdigest(),
+                         historical["preserved_family_house_rows_sha256"])
 
     def test_current_component_u_coverage_is_qualified(self):
         by = {item.input_id: item for item in national_design_load_input_coverage()}
