@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "reference_id": "B02-CURRENT-OCCUPIED-AREA-BOUNDS-2022",
+  "evidence_status": "DER",
+  "evidence_tier": "E2_PROVISIONAL_BASE",
+  "model_use_status": "SCOPED_AREA_BOUNDS_ONLY",
+  "reported_control": {
+    "published_mean_m2": 82,
+    "occupied_dwellings": 4008541,
+    "reference_year": 2022,
+    "population": "Occupied conventional dwellings; all heating modes, LAKAS_OCS=DW_OC",
+    "area_basis": "Census dwelling floor area across its rooms; not measured heated area or synthetic whole-building geometry",
+    "value_status": "OBS_AT_PUBLICATION_PRECISION",
+    "unrounded_mean_m2": null,
+    "source_rounding_rule": null
+  },
+  "source_artifacts": [
+    {
+      "source_id": "SRC-B02-KSH-OCCUPIED-AREA-CONTROL-2022",
+      "original_url": "https://www.ksh.gov.hu/nepszamlalasok",
+      "retrieved_at": "2026-10-02T16:08:36.937642+00:00",
+      "sha256": "8f470862b23a1271902d409a995d0b05939ff36a8e86f7a47d24ed21c5c12a87",
+      "bytes": 100115,
+      "claim": "Reported 82 m2 mean for occupied dwellings in 2022, not exact unrounded mean",
+      "locator": "A lakott lakások átlagos alapterülete; 82 m²; 2022",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B02-KSH-CENSUS-DEFINITIONS-2022",
+      "original_url": "https://nepszamlalas2022.ksh.hu/fogalmak",
+      "retrieved_at": "2026-10-02T16:08:41.187102+00:00",
+      "sha256": "e4cfdf50ff5b832c9ff86df4db93b390039e271ec3f0060bf25014dd7b5da390",
+      "bytes": 18600,
+      "claim": "Census dwelling and area definitions; not heated area",
+      "locator": "Lakás; A lakások alapterülete",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B02-KSH-OCCUPIED-ROOMS-2022",
+      "original_url": "https://nepszamlalas2022.ksh.hu/eredmenyek/vegleges-adatok/tablazatok/nsz2022-1.3.3.xlsx",
+      "retrieved_at": "2026-10-02T16:05:27.187643+00:00",
+      "sha256": "d9ea3812ccf8a9674abe99a83950b697a8785b2ee346fab1fa4090abd8087244",
+      "bytes": 36484,
+      "claim": "Occupied 2022 denominator only; workbook contains room counts, not area",
+      "locator": "Országos!A8=2022; F8=4008541",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    }
+  ],
+  "joint": {
+    "path": "data/processed/b02/ksh_wbl_joint_cells_2022.csv",
+    "sha256": "f4df16e4f53947e33a2d4477d9806faee903b999d26143b3bdc92d747d3c800f",
+    "projection": "WBL011_FULL_STOCK_JOINT",
+    "rows": 116452,
+    "area_band_authority": "data/processed/b02/ksh_wbl_joint_manifest.json",
+    "missing_rule": "Use only the observed returned full joint; no zero fill or cross-projection join"
+  },
+  "historical_diagnostic": {
+    "path": "docs/checkpoints/V1_009_CALIBRATION_DIAGNOSTICS.json",
+    "sha256": "2a788c954ba282bc81f4b9bfd52b69ccb420d3a09ca761e403e6b6b0aa9fdc0b",
+    "quantity": "historical_dwelling_area_exposure_m2",
+    "status": "SCN_2011_TYPE_MEANS_ON_2022_COUNTS"
+  },
+  "precision_interpretations": {
+    "NEAREST_WHOLE_ASS": {
+      "mean_interval_m2": [
+        "81.5",
+        "82.5"
+      ],
+      "status": "ASS",
+      "role": "One canonical interpretation of whole-number publication rounding; closed enclosure avoids asserting a tie rule"
+    },
+    "WIDER_ROUNDING_SENSITIVITY": {
+      "mean_interval_m2": [
+        "81",
+        "83"
+      ],
+      "status": "ASS",
+      "role": "One coherent sensitivity to ordinary nearest/floor/ceiling conventions; not a source-observed or universal error bound"
+    }
+  },
+  "method": "For a disjoint subgroup S and complement C, project the national area budget T: lower=max(L_S,T_low-U_C); upper=min(U_S,T_high-L_C). Preserve infinite upper band limits before this projection.",
+  "validation_debt": [
+    {
+      "quantity": "Exact unrounded occupied mean and publication-rounding convention",
+      "current": "Named E2 area-only interpretation and coherent wider sensitivity; no source-observed confidence interval",
+      "upgrade": "Source total floor area or unrounded mean and rounding metadata for the same census universe",
+      "question_id": null,
+      "gate_effect": "No new blocker; bounded model continuation permitted"
+    },
+    {
+      "quantity": "Area-service-physical-state joint and aggregate energy-universe bridge",
+      "existing_debt_id": "VD-B02-V1-HEAT-ALLOCATION",
+      "current": "Annual useful heat, heated area and participant allocation remain unknown",
+      "upgrade": "Qualified coarse-group annual useful-heat contrast or bound with JRC-household to occupied-dwelling energy-universe applicability; representative/calibrated inference allowed",
+      "gate_effect": "Existing heat admission boundary unchanged"
+    }
+  ],
+  "excluded_claims": [
+    "Cell-level mean areas or individual eligibility",
+    "New point archetype weights",
+    "Automatic national rescaling",
+    "Heated floor area or annual heat allocation",
+    "Participant/rollout/comfort policy",
+    "Installed electricity or national savings"
+  ]
+}

@@ -130,3 +130,7 @@ Részletes szerződés: [`data_contract.md`](data_contract.md).
 [Historical type-prior and area-bridge experiment](../../docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md) conserves current WBL/P21 counts while keeping source census area separate from prototype geometry. Its weights and 2011-to-2022 area transfer remain explicit SCN/ASS, not E2 household assignments.
 
 [Reported2022 service controls](../../docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md) retain gas-use-group survey means and their denominators. Separate mean dwelling area and mean heated fraction do not authorize mean heated area or a type-level heat allocation.
+
+## V1 current occupied-area reference
+
+`current_area_reference.calculate_reference()` provides source-bound 2022 census area enclosures and compares the preserved historical dwelling-area exposures. The published 82 m² mean is observed at publication precision; its nearest-whole interpretation and wider rounding sensitivity are explicit assumptions. Open bands retain their unbounded tails before applying the aggregate budget. This DER/E2 area diagnostic does not provide heated area, type weights or participant heat. See [V1-042](../../docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md).

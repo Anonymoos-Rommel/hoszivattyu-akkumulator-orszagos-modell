@@ -1,0 +1,26 @@
+{
+  "checkpoint": "V1-041",
+  "commit": "148ccae8b8e8e7cca12f18a1e3d8cf9ab7df1380",
+  "tree": "f9d40ca1f9a0a48d4c31fb107eab64b6d169c034",
+  "run_id": 37024914758,
+  "run_number": 1103,
+  "job_id": 110896970528,
+  "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37024914758",
+  "conclusion": "success",
+  "tests": 3247,
+  "failures": 0,
+  "skips": 0,
+  "elapsed_seconds": 117.668,
+  "registry": "VALID",
+  "tested_merge": "74530308b997f69649da47ff0ed3917f95ff9a92",
+  "tested_tree": "f9d40ca1f9a0a48d4c31fb107eab64b6d169c034",
+  "required_external_positive_log_lines": [
+    "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "verified_at": "2026-10-02T15:14:11Z",
+  "verification_route": "Fresh GitHub run/job/log/merge-tree reads after local workspace incident; no GitHub mutation repeated",
+  "boundary": "Annual source-package and signed rating-boundary reference; no installed-system, national or household-result promotion",
+  "hosted_log_sha256": "0c5f35fd98174cc37ec9f6f61900951c599e0df0cabcef05fcfaf609ceed4180"
+}

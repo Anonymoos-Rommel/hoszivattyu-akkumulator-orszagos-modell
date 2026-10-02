@@ -144,6 +144,18 @@
               "expected_decision_value": "Prevents national-total calibration from hiding service, weather and stock-year differences",
               "decision": "PUBLIC_SERVICE_CONTROL_INTEGRATED_NOT_HEAT_ADMISSION",
               "evidence": "docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Current KSH occupied-area publication and same-year occupied denominator",
+                "Existing observed full joint and preserved historical area-transfer diagnostics"
+              ],
+              "remaining_unknown": "Unrounded publication mean/rounding metadata remain E1 upgrade debt; area-service-physical cross-moments and aggregate heat-universe bridge remain unresolved",
+              "promising_next_lead": "Use the source-bound current-area feasible set before a qualified coarse-group heat contrast; no automatic historical-weight rescaling",
+              "expected_decision_value": "Rejects unchanged historical area exposures even under the wider rounding sensitivity and bounds subgroup area without midpoint or independence assumptions",
+              "decision": "CONTINUE_SCOPED_E2_AREA_CALIBRATION",
+              "evidence": "docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md"
             }
           ],
           "reviewed_commit": null
