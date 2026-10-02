@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.hourly_onoff_parameter_policy import (
     DHW_STORAGE,
     FAN_COIL,
@@ -116,7 +118,7 @@ class B05P25HemTransientDefaultAuthorityTests(unittest.TestCase):
         ):
             self.assertIn(marker,q["notes"])
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
 
     def test_sources_and_document_preserve_default_vs_observation_boundary(self):
         sources={r["source_id"]:r for r in rows(SOURCES)}

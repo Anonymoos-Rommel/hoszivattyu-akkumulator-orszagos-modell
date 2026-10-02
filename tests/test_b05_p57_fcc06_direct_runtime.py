@@ -3,6 +3,8 @@ import math
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.fcc06_direct_runtime import (
     CROSS_REVISION_FCC06_2PIPE_3ROW_WATER_CONTENT_L,
     CROSS_REVISION_VOLUME_NOT_EXACT_MASS,
@@ -122,7 +124,7 @@ class B05P57FCC06DirectRuntimeTests(unittest.TestCase):
 
     def test_no_mechanical_readiness_uplift(self):
         ready = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(ready["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, ready["PART_LOAD_MODULATION"])
         self.assertIn("P57", ready["PART_LOAD_MODULATION"]["notes"])
         modules = {r["module_id"]: r for r in rows(MODULES)}
         self.assertEqual("64", modules["B05"]["readiness_percent"])

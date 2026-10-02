@@ -483,12 +483,33 @@
           "data": "Részterhelés, ki-be kapcsolás, defrost és HMV módszer az adott forráshatáron. Egy rendszer event-kWh-ja nem flottakonstans; magyar transzfer külön adósság.",
           "phase": "A",
           "slice_id": "B05-D03",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B05-HPKEYMARK-MITSUBISHI-WM50-2026",
+            "SRC-B05-HPKEYMARK-DIMPLEX-LA2030CP-2026",
+            "SRC-B05-MITSUBISHI-PUZ-WM-MINNOMMAX-2024",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-MIN-GRID-2020",
+            "SRC-B05-DIMPLEX-LA2030CP-DETAILED-MIN-SURFACE-2026",
+            "SRC-B05-UK-SAP-CALCM01-ONOFF-DEFAULTS-2017"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Exact component/climate/application/bin KEYMARK observations",
+                "Independent manufacturer fixed-water minimum Q/P/COP tables",
+                "Official CALCM fixed/variable test-water methodology"
+              ],
+              "remaining_unknown": "Certified test-water/MIN-transfer authority for both current physical joins; complete actual hourly cycling/defrost/DHW runtime and empirical applicability remain unadmitted. Current P59 total is unassessed; 67 supported points and 8 unresolved gate weight are separate from historical75.",
+              "promising_next_lead": "Acquire the exact test-condition or named admissible transfer authority before qualified physical joining; preserve explicit conditional mathematics without choosing an hourly method or national policy",
+              "expected_decision_value": "Prevents source labels from qualifying unproven physical joins and prevents an old score from being carried forward after its criterion loses support",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],

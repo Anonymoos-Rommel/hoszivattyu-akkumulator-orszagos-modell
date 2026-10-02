@@ -3,6 +3,8 @@ import math
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.fcc06_mass_sensitivity import (
     ASS_CROSS_REVISION_SENSITIVITY,
     CROSS_REVISION_SOURCE_IDS,
@@ -118,7 +120,7 @@ class B05P58FCC06MassSensitivityTests(unittest.TestCase):
 
     def test_no_mechanical_readiness_uplift(self):
         ready = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(ready["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, ready["PART_LOAD_MODULATION"])
         self.assertIn("P58", ready["PART_LOAD_MODULATION"]["notes"])
         modules = {r["module_id"]: r for r in rows(MODULES)}
         self.assertEqual("64", modules["B05"]["readiness_percent"])

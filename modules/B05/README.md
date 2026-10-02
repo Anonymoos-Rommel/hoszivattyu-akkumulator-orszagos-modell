@@ -1,5 +1,17 @@
 # B05 – Hőszivattyú fizikai és teljesítménymodell
 
+## Current cycling qualification — 2026-10-02
+
+P20/P22 WM50 and P23/P42 Dimplex exact fixed-W35 Cdh/MIN joining are Q.
+Manufacturer fixed-coordinate minimum facts and separately scoped certified
+Cdh remain valid. The common gate requires source-bound test-water and MIN
+transfer authority; caller booleans cannot close it. Conditional P18 algebra
+is executable under an explicit conditional status. Historical exact-join
+claims below are superseded for physical admission. The original P59 eight-point
+execution criterion remains unchanged but unresolved: current component total
+is Q/null, with 67 supported points and 8 unresolved weight. Historical 75 is
+preserved; B05 module 64 is unchanged. See the V1-035 checkpoint note.
+
 ## Cél
 
 A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-point teljesítménytérképes hőszivattyú-fizikai motor. Nem egyetlen éves SCOP/COP értékkel helyettesíti az üzemi viselkedést.

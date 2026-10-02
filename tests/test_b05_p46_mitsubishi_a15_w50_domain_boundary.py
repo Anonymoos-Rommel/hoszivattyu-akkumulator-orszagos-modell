@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.mitsubishi_a15_w50_domain_gate import (
     PersistentBlankEvidence,
     CoordinateAuthority,
@@ -85,7 +87,7 @@ class B05P46MitsubishiA15W50Tests(unittest.TestCase):
         self.assertIn("General max outlet temperature 60 C", q["notes"])
         self.assertIn("synthetic two-dimensional A-15/W50 authority", q["notes"])
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
 
     def test_sources_and_inventory(self):
         s = {r["source_id"]: r for r in rows(SOURCES)}

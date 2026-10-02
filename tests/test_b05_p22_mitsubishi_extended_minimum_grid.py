@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.minimum_point_surface import (
     MISSING_CORNER,
     MinimumPoint,
@@ -87,12 +89,15 @@ class B05P22MitsubishiExtendedMinimumGridTests(unittest.TestCase):
         self.assertEqual(surface().evaluate(-9.644444,55.0).status,"DER")
         self.assertEqual(surface().evaluate(-13.331944,55.0).status,MISSING_CORNER)
 
-    def test_four_exact_w35_cdh_bins_are_nondefault_and_colocated(self):
+    def test_four_cdh_bins_retain_values_without_fixed_water_admission(self):
         bins=rows(BINS)
         self.assertEqual(len(bins),4)
         self.assertEqual({float(r["outdoor_temperature_C"]) for r in bins},{-7.0,2.0,7.0,12.0})
         self.assertTrue(all(float(r["Cdh_Tj"])!=0.9 for r in bins))
-        self.assertTrue(all(r["runtime_scope"]=="EXACT_TJ_W35_CYCLING_READY" for r in bins))
+        self.assertTrue(all(r["runtime_scope"]=="CONDITIONAL_STANDARD_METHOD_ONLY_SOURCE_JOIN_Q" for r in bins))
+        self.assertTrue(all(r["historical_runtime_scope"]=="EXACT_TJ_W35_CYCLING_READY" for r in bins))
+        self.assertTrue(all(r["test_water_temperature_C"]=="Q" for r in bins))
+        self.assertEqual([float(r["Cdh_Tj"]) for r in bins],[.99,.98,.95,.93])
 
     def test_registry_narrows_to_three_real_residuals(self):
         reg={r["claim"]:r for r in rows(REG)}
@@ -121,7 +126,7 @@ class B05P22MitsubishiExtendedMinimumGridTests(unittest.TestCase):
         self.assertEqual(variables["VAR-B05-MINIMUM-POINT-COP-SURFACE"]["status"],"DER")
         self.assertEqual(variables["VAR-B05-COP-CYCLING-BIN"]["status"],"Q")
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-MITSUBISHI-DATABOOK-WM50-MIN-GRID-2020",sources)
         self.assertIn("SRC-B05-MITSUBISHI-ERP-WM50-CDH-2026",sources)

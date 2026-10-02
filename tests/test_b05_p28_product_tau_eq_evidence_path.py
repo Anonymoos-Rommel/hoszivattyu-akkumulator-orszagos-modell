@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 ROOT = Path(__file__).resolve().parents[1]
 QUESTIONS = ROOT / "registry" / "open_questions.csv"
 REG = ROOT / "registry" / "b05_p28_product_tau_eq_evidence_path.csv"
@@ -72,7 +74,7 @@ class B05P28ProductTauEqEvidencePathTests(unittest.TestCase):
 
     def test_readiness_stays_bounded(self):
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         self.assertIn("P28", readiness["PART_LOAD_MODULATION"]["notes"])
         pack = PACK.read_text(encoding="utf-8")
         self.assertIn("B05 = **64%**", pack)

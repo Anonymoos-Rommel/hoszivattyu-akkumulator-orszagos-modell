@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.fan_coil_authority_separation import (
     DOCUMENT_POLICY_RESPONSE_TIME_S,
     GOVERNANCE_TRANSITION,
@@ -149,7 +151,7 @@ class B05P31FanCoilAuthoritySeparationTests(unittest.TestCase):
         self.assertIn("PRODUCT_OR_LAB_TRANSIENT_TEST_RECORD_REQUIRED", q["notes"])
 
         readiness = {r["component_id"]: r for r in rows(READINESS)}["PART_LOAD_MODULATION"]
-        self.assertGreaterEqual(int(readiness["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness)
         self.assertIn("P27", readiness["notes"])
         self.assertIn("P28", readiness["notes"])
         self.assertIn("P31", readiness["notes"])

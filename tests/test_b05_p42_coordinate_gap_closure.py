@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.barrier_aware_modulation_floor_surface import (
     BarrierAwareFloorSurface,
     FloorPoint,
@@ -87,11 +89,13 @@ class B05P42CoordinateGapClosureTests(unittest.TestCase):
         self.assertEqual(reg["DIMPLEX_A_MINUS10_MINIMUM_ROW_CLASSIFICATION_REQUIRED"]["status"],"RESOLVED_BY_CURRENT_REVISION_FULL_SURFACE")
         self.assertEqual(reg["DIMPLEX_P23_CURRENT_USE_SURFACE"]["status"],"SUPERSEDED_BY_CURRENT_DETAILED_REVISION")
         self.assertEqual(reg["MITSUBISHI_A_MINUS15_W50_MINIMUM_CLASSIFICATION_REQUIRED"]["status"],"OPEN_BOUNDED_PERSISTENT_ALL_LEVELS_BLANK")
+        self.assertEqual(reg["DIMPLEX_CURRENT_W35_CYCLING_READY_BINS"]["status"],"Q_SOURCE_BOUND_CYCLING_JOIN_REQUIRED")
+        self.assertIn("DIMPLEX_SOURCE_BOUND_TEST_CONDITION",reg["DIMPLEX_CURRENT_W35_CYCLING_READY_BINS"]["residual_gap"])
         q={r["question_id"]:r for r in rows(QUESTIONS)}["Q-B05-004"]
         self.assertEqual(q["status"],"OPEN")
         self.assertIn("B05-P42",q["notes"])
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
 
     def test_sources_boundaries_and_document(self):
         sources={r["source_id"]:r for r in rows(SOURCES)}

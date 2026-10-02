@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.barrier_aware_modulation_floor_surface import (
     MISSING_CORNER,
     SOURCE_GAP_BARRIER,
@@ -70,14 +72,17 @@ class B05P23DimplexSecondFloorSurfaceTests(unittest.TestCase):
         self.assertEqual(surface().evaluate(-13.331944,35.0).status,MISSING_CORNER)
         self.assertEqual(surface().evaluate(-9.644444,45.0).status,MISSING_CORNER)
 
-    def test_three_exact_dimplex_cycling_bins_are_ready(self):
+    def test_historical_dimplex_values_do_not_admit_current_physical_join(self):
         bins=rows(BINS)
-        ready=[r for r in bins if r["runtime_scope"]=="EXACT_TJ_W35_CYCLING_READY"]
+        ready=[r for r in bins if r["historical_runtime_scope"]=="EXACT_TJ_W35_CYCLING_READY"]
+        self.assertTrue(all(r["runtime_scope"]=="HISTORICAL_P23_MIN_FACTS_CURRENT_PHYSICAL_JOIN_Q" for r in ready))
+        self.assertTrue(all(r["test_water_temperature_C"]=="Q" for r in bins))
         self.assertEqual(len(ready),3)
         self.assertEqual({float(r["outdoor_temperature_C"]) for r in ready},{-7.0,2.0,7.0})
         self.assertTrue(all(float(r["Cdh_Tj"])!=0.9 for r in ready))
         cdh_only=next(r for r in bins if float(r["outdoor_temperature_C"])==12.0)
-        self.assertEqual(cdh_only["runtime_scope"],"CDH_ONLY_NO_MINIMUM_POINT")
+        self.assertEqual(cdh_only["runtime_scope"],"HISTORICAL_P23_CDH_ONLY_CURRENT_PHYSICAL_JOIN_Q")
+        self.assertEqual(cdh_only["historical_runtime_scope"],"CDH_ONLY_NO_MINIMUM_POINT")
         self.assertEqual(cdh_only["min_modulation_kW"],"")
 
     def test_registry_resolves_second_surface_only(self):
@@ -103,7 +108,7 @@ class B05P23DimplexSecondFloorSurfaceTests(unittest.TestCase):
         self.assertEqual(variables["VAR-B05-MODULATION-FLOOR-SURFACE"]["status"],"DER")
         self.assertEqual(variables["VAR-B05-COP-CYCLING-BIN"]["status"],"Q")
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-DIMPLEX-LA2030CP-MIN-SURFACE-2026",sources)
         self.assertIn("SRC-B05-HPKEYMARK-DIMPLEX-LA2030CP-2026",sources)

@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.part_load_runtime_contract import (
     CAPACITY_SHORTFALL,
     CONTINUOUS,
@@ -132,9 +134,7 @@ class B05P16CrossManufacturerRuntimeGateTests(unittest.TestCase):
         self.assertEqual(variables["VAR-B05-CYCLING-PENALTY-RUNTIME"]["status"], "Q")
 
         readiness = {row["component_id"]: row for row in rows(READINESS)}
-        self.assertGreaterEqual(
-            int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45
-        )
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
 
         questions = {row["question_id"]: row for row in rows(QUESTIONS)}
         self.assertEqual(questions["Q-B05-004"]["status"], "OPEN")

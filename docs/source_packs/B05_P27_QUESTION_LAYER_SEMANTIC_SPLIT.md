@@ -1,5 +1,17 @@
 # B05-P27 - Q-B05-004 semantic subclaim split
 
+## Current-use qualification — 2026-10-02
+
+The original account below is retained as history. Both WM50 and Dimplex
+exact fixed-W35 Cdh/MIN joining are Q pending source-bound test conditions
+and transfer authority. Manufacturer minimum Q/P/COP and published scoped Cdh
+facts remain valid independently. Conditional P18 mathematics remains valid,
+but does not satisfy the original P59 eight-point EN14825 execution criterion.
+The current component total is unassessed (Q/null): 67 supported points and
+8 unresolved gate weight. Historical 75 is preserved, without a new point score
+or partial credit. B05 module 64 is unchanged because no aggregation rule exists.
+See the [V1-035 current qualification](../checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md).
+
 ## Purpose
 
 P24-P26 accumulated four different residual types under the single Q-B05-004 umbrella.

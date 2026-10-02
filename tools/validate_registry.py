@@ -415,6 +415,10 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "b05_p59_part_load_readiness_scorecard.csv": [
+        "gate_id", "weight", "earned", "historical_earned", "status",
+        "evidence_basis", "residual", "notes",
+    ],
     "retrofit_sources.csv": [
         "source_id", "module_id", "layer", "title", "institution", "url",
         "reference_period", "retrieved_at", "source_tier", "evidence_status",
@@ -1191,6 +1195,35 @@ def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
 
 
 
+def validate_b05_readiness_row(errors: list[str], row: dict[str, str]) -> None:
+    """Keep one explicitly unassessed component distinct from numeric readiness."""
+    component_id = row.get("component_id", "")
+    if row.get("status") not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+        errors.append(f"invalid B05 readiness status: {component_id!r}")
+    if component_id == "PART_LOAD_MODULATION":
+        if row.get("status") != "Q" or row.get("readiness_percent") != "":
+            errors.append("PART_LOAD_MODULATION current readiness must be Q with a blank score")
+        required_markers = (
+            "CURRENT_SCORE_UNASSESSED",
+            "HISTORICAL_P59_SCORE=75",
+            "SUPPORTED_UNAFFECTED_SUBTOTAL=67",
+            "UNASSESSED_GATE_WEIGHT=8",
+            "UNASSESSED_GATE=EN14825_STANDARD_BIN_CYCLING_METHOD",
+        )
+        markers = {part.strip().rstrip(".") for part in row.get("notes", "").split(";")}
+        for marker in required_markers:
+            if marker not in markers:
+                errors.append(f"missing B05 unassessed readiness marker: {marker}")
+        return
+    try:
+        readiness = int(row.get("readiness_percent", ""))
+    except ValueError:
+        errors.append(f"non-numeric B05 readiness: {component_id!r}")
+    else:
+        if not 0 <= readiness <= 100:
+            errors.append(f"invalid B05 readiness percent: {component_id!r}")
+
+
 def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
     """Validate B05 physical evidence labels, units, and fail-closed data."""
     allowed_layers = {"PHYSICAL_PERFORMANCE", "THERMAL_DEMAND_INTERFACE", "WEATHER_INPUT", "OPERATING_CONFIG", "PHYSICAL_OUTPUT", "TEST_FIXTURE"}
@@ -1218,8 +1251,8 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"invalid B05 evidence status in {filename}: {row[id_field]!r}")
             if filename == "heat_pump_formulas.csv" and row["status"] not in {"DER", "ASS"}:
                 errors.append(f"invalid B05 formula status: {row['formula_id']!r}")
-            if filename == "heat_pump_readiness.csv" and row["status"] not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
-                errors.append(f"invalid B05 readiness status: {row['component_id']!r}")
+            if filename == "heat_pump_readiness.csv":
+                validate_b05_readiness_row(errors, row)
 
     processed = ROOT / "data" / "processed"
     for filename in (
