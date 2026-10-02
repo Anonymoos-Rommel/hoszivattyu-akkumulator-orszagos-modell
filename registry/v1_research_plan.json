@@ -508,6 +508,20 @@
               "expected_decision_value": "Prevents source labels from qualifying unproven physical joins and prevents an old score from being carried forward after its criterion loses support",
               "decision": "CONTINUE_CORE_INFERENCE",
               "evidence": "docs/checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing TABULA annual building/system reference and effective distribution method",
+                "Existing WM50 native paired power map plus explicitly transferred fixed-capacity MIN-stage HEM/CALCM default",
+                "Matched KEYMARK nonactive powers and exact UTC2025 HungaroMet chronology",
+                "Existing original-source-validated B08/B09 historical balance"
+              ],
+              "remaining_unknown": "Outside-unit auxiliary aggregate, actual installed/field applicability, national building/product weights and programme counterfactual; no exact Cdh/MIN source join or original P59 credit is restored",
+              "promising_next_lead": "Connect a justified nonoverlapping system auxiliary/base and explicit programme inference to the admitted annual device profile; retain E1 validation debt without requiring every component measurement",
+              "expected_decision_value": "One complete8760-hour E2 device profile with exact35040-quarter timing comparison; no partial sums disguised as full annual electricity",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_039_ANNUAL_HP_DEVICE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -765,6 +779,20 @@
               "expected_decision_value": "Produces a complete native-window historical load/signed-generation reference and coincident source residual without shifting data or reclassifying source gaps.",
               "decision": "CONTINUE_INCREMENTAL_PROFILE_AND_COUNTERFACTUAL_HANDOFF",
               "evidence": "docs/checkpoints/V1_032_HISTORICAL_SOURCE_BALANCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing TABULA annual building/system reference and effective distribution method",
+                "Existing WM50 native paired power map plus explicitly transferred fixed-capacity MIN-stage HEM/CALCM default",
+                "Matched KEYMARK nonactive powers and exact UTC2025 HungaroMet chronology",
+                "Existing original-source-validated B08/B09 historical balance"
+              ],
+              "remaining_unknown": "Outside-unit auxiliary aggregate, actual installed/field applicability, national building/product weights and programme counterfactual; no exact Cdh/MIN source join or original P59 credit is restored",
+              "promising_next_lead": "Connect a justified nonoverlapping system auxiliary/base and explicit programme inference to the admitted annual device profile; retain E1 validation debt without requiring every component measurement",
+              "expected_decision_value": "One complete8760-hour E2 device profile with exact35040-quarter timing comparison; no partial sums disguised as full annual electricity",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_039_ANNUAL_HP_DEVICE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null

@@ -343,3 +343,6 @@ P59 canonical artifacts:
 ## V1 explicit manufacturer reference
 
 [WM50 source-condition reference](../../docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md) preserves four separate frequency modes, 208 capacity/COP pairs, 44 source blanks and exact defrost annotations. `manufacturer_wm50_reference.py` uses existing bounded Q/input interpolation; an explicit fixed-supply column is available without filling source gaps. It does not change the default dispatch surface or establish annual/national efficiency.
+
+
+V1-039 adds an [annual E2 device reference](annual_device_reference.py): native TABULA annual useful heat plus effective distribution loss, normalized observed-weather timing, paired WM50 input power and an explicit minimum-stage on/off transfer. All 8,760 UTC 2025 hours are covered in the declared reference. Its historical comparison consumes the existing B08/B09 original-source producer on all 35,040 quarters. This method preserves the withdrawn exact Cdh/MIN joins and their readiness treatment. Outside-unit auxiliaries and complete household/national outcomes remain distinct from the available device profile.

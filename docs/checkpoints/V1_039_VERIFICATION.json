@@ -1,0 +1,114 @@
+{
+  "checkpoint": "V1-039",
+  "base_commit": "812015a4a0cca04181457dca5e7d7b834aecd612",
+  "reviewed_substantive_tree": "75709b0d0ae5c7d32a797e19e25e34613002bfe9",
+  "scope": "One complete annual E2 device reference and original-source historical timing comparison; no programme/installed-system total",
+  "source_method_review": {
+    "proposal_manifest_sha256": "34e4e5a37027b07cf7ae7ae3c8b68981d3c3f8f27821e2b2ac474b764bc81afc",
+    "receipt_sha256": "65c2d75369a86bbe65d3d6c73c18f778d3c6908910113519cce8b69f6103bafb",
+    "verdict": "ADMIT_NAMED_E2_DEVICE_REFERENCE_FOR_BOUNDED_IMPLEMENTATION"
+  },
+  "independent_implementation_review": {
+    "verdict_at_content_review": "ACCEPT_EXACT_BOUNDED_IMPLEMENTATION_PENDING_CONFIGURED_FULL_AND_HOSTED_CHECKS",
+    "receipt_sha256": "4254eb6acf6659f2de5ffbcdaa4743ba437a00d8c7a211033699ce0c8c247a2f",
+    "review_sha256": "98cf7ae76b3a160d2ffa879d9d260d9cba5071573cb13ddecf92294e7c0a851c",
+    "new_module_tests": 26,
+    "additional_boundary_checks": 34,
+    "genuine_hours": 8760,
+    "genuine_original_source_quarters": 35040,
+    "all_historical_summary_fields_preserved": true
+  },
+  "focused_tests": {
+    "new_module": 26,
+    "registry": 15,
+    "plan": 3
+  },
+  "registry": "VALID",
+  "local_full": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3207,
+    "passed": 3204,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "seconds": 117.115,
+    "frozen_tree": "75709b0d0ae5c7d32a797e19e25e34613002bfe9",
+    "all_hashes_unchanged": true,
+    "log_sha256": "e12a1e90afdbe65f9d4692e16caaa67b35e0646666c806e194cd89052023d8d8",
+    "completed_at": "2026-10-02T12:35:37.164811+00:00"
+  },
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_038_CI.json",
+      "bytes": 1228,
+      "sha256": "7fd671f31f38928c294e0ca276895d6b5bf8e8325434265ecbe7d85db8e5f680",
+      "git_blob": "0f73721bc31a15d8b372f19d5fd85805097ae563"
+    },
+    {
+      "path": "docs/checkpoints/V1_039_ANNUAL_HP_DEVICE_REFERENCE.md",
+      "bytes": 6011,
+      "sha256": "b009d21420394f5d0143d0310debf4231fd64f061d63bad5626ebc0ef0a1fdae",
+      "git_blob": "974269ec6ffd28a22b6878994f25cf53f3270220"
+    },
+    {
+      "path": "modules/B05/README.md",
+      "bytes": 59414,
+      "sha256": "e1bac1083d6d5a782a492902b521d3124a22913341aa9a01ac280face7e65c66",
+      "git_blob": "4c2b769079f3d85e6154541efc161d5b01ae8d8b"
+    },
+    {
+      "path": "modules/B05/annual_device_reference.py",
+      "bytes": 16820,
+      "sha256": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+      "git_blob": "f045cc4d370180a34a904263981f21e142aedc51"
+    },
+    {
+      "path": "registry/b05_annual_device_reference_manifest.json",
+      "bytes": 8303,
+      "sha256": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15",
+      "git_blob": "ee1b7d999ba042648578297fffd26c8897b4e11d"
+    },
+    {
+      "path": "registry/project_blocker_evidence_audit.csv",
+      "bytes": 25356,
+      "sha256": "50c4d6cf7e24a5e440ca41caed3e6960595a4ab86b708bc53ef0e20d954850da",
+      "git_blob": "43dbecbb6e083bf3c8e9692ce8f559d747b4b27e"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 258748,
+      "sha256": "f29e134b539fb7e72917821dedfa3f9e6df8bbe4066d61268048625aa7debd8c",
+      "git_blob": "d5e420cee7c039244db5f51d35bba76d5f5860e3"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 106867,
+      "sha256": "2d7ccba28258c8aa704670ebd111cfb8f4cbdf44426dcf84355042ba55f979e6",
+      "git_blob": "5c0d9cc0268c2f4619962ab684286b0a67979206"
+    },
+    {
+      "path": "tests/test_b05_annual_device_reference.py",
+      "bytes": 17131,
+      "sha256": "1b71ff60d2445af2c2ee271f26144243e387c724c53dac369091c30786b1ce09",
+      "git_blob": "a72dc9ea7a3b37a7f7b7212c170cf8ae0d3dc738"
+    }
+  ],
+  "genuine_output_hashes": {
+    "V1_039_GENUINE_ANNUAL_SUMMARY.json": "bc307c4b549ddf8e77d38ba71c78882980d78582c51ea12654de2a60250d3133",
+    "V1_039_GENUINE_HISTORICAL_JOIN.json": "67196637b690d7c2e5ca2725f6c4f0101bba69aeaea4fa2f8cdff9ae5be5ac71"
+  },
+  "hosted_ci": "REQUIRED_ON_FINAL_PUBLICATION_HEAD_WITH_THREE_EXTERNAL_POSITIVES_AND_ZERO_SKIPS",
+  "limits": [
+    "Native TABULA annual reference is not metered or weather-corrected2025 demand",
+    "Explicit E2 temporal/distribution/minimum-stage/default/idle/source-rating transfers retain E1 validation debt",
+    "58 mixed grey/unmarked active support hours retained; no universal defrost factor or Cdh/MIN restoration",
+    "Device input2472.633793065277kWh is not complete installed-system electricity or physical SPF",
+    "Quarter-hour hold is explicit coarse allocation, not subhourly cycling or site peak",
+    "Historical comparison does not add a programme, assign population weights or remove existing stock",
+    "No readiness/whole-slice promotion, main merge or raw-panel/source republication"
+  ]
+}
