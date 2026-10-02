@@ -85,3 +85,6 @@ foreign-dependence assumption.
 ## V1 tested-reference evidence and coordinate
 
 [SAX2026 source reference](../../docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md) adds explicit, bounded converter-point consumers and a [proposed discharge-equivalent coordinate contract](../../docs/methodology/b07_discharge_equivalent_reference_contract.md). It does not fill legacy one-way efficiency fields or alter the existing engine. Source-tested DC capacity/cycle efficiency and separate output-axis converter curves permit a conditional reference route; idle, aging, national applicability and legal gates remain distinct. No new state runtime is included in this checkpoint.
+
+
+V1-038 adopts the separately named [discharge-equivalent reference](discharge_equivalent_reference.py) with explicit initial/terminal inventory, converter boundaries and cycle-eligibility checks. Its constant tested-product applicability and separately supplied idle-exposure aggregate use E2/PROVISIONAL_BASE; calculated balances are DER. [Validation debt](../../registry/b07_reference_validation_debt.json) preserves the E1 upgrade path. Exact component measurements are not required merely to continue the E2 aggregate model. The existing engine remains unchanged; the idle AC proxy does not invent a DC state transition, a national product choice or a complete annual-system efficiency.

@@ -1,0 +1,109 @@
+{
+  "checkpoint": "V1-038",
+  "base_commit": "c7196cf9b276da8b5150111d0cae0568de2eeca1",
+  "reviewed_substantive_tree": "5cc3155df7c092c430b23dd1d94606aef718adc1",
+  "scope": "Owner-adopted conditional discharged-DC-equivalent method; DER balances and scoped E2 applicability/aggregate idle energy with explicit E1 validation debt",
+  "source_contracts": "Exact tested source facts retained; manufacturer standby corroboration is metadata/factual attribution only, raw original external",
+  "predecessor_private_review": {
+    "manifest_sha256": "527c311407ff214a527b50c052f2bcfeb91b3d6a98ceb5cd9dff2b9f686d6f73",
+    "review_receipt_sha256": "120731de6e66b5035d3dcc86d14b2311c046310fd3278514f469da15478d6eed"
+  },
+  "e2_policy_review_receipt_sha256": "f4cea525f6bf25e03e4ac03cbd422437afe469bd64f3f990ca1e9a2c5a213ec2",
+  "independent_implementation_review": {
+    "verdict": "ACCEPT_EXACT_BOUNDED_IMPLEMENTATION_HOSTED_VERIFICATION_REQUIRED",
+    "review_sha256": "5b87a4a7c5610cbb81e3965b7e7bbb6f9c21cac0dfb8fa4fd0adc83af454282a",
+    "receipt_sha256": "75cd60806bc568e551166c453a2456a5485833f3706e94b92ebf106a73ca4be7",
+    "integration_negative_cases": 18,
+    "explicit_idle_exposures": 8,
+    "unknown_state_chains": 2,
+    "exact_numerical_regressions": 7,
+    "new_module_tests": 38
+  },
+  "focused_tests": {
+    "total_b07": 80,
+    "new_module": 38
+  },
+  "registry": "VALID",
+  "local_full": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3181,
+    "passed": 3178,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "seconds": 122.784,
+    "frozen_tree": "5cc3155df7c092c430b23dd1d94606aef718adc1",
+    "all_hashes_unchanged": true,
+    "log_sha256": "bd5d9b7b5113dea24ab96460d128acab2b6d1ed681da07cb56e2b2bb97ecc6a7",
+    "completed_at": "2026-10-02T11:06:26.161011+00:00"
+  },
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_037_CI.json",
+      "bytes": 994,
+      "sha256": "33f9b5d9930c0347a37b4073885d2a05340b6d67a5e3b4ec4924c77541995d3a",
+      "git_blob": "2e91785dacce88128db4542c4721cf38f17fbe7c"
+    },
+    {
+      "path": "docs/checkpoints/V1_038_B07_DISCHARGE_EQUIVALENT_REFERENCE.md",
+      "bytes": 4720,
+      "sha256": "743c2030df9f2ed5a446e3faf89b816b20cdb4612c99398d0f03958e406e959d",
+      "git_blob": "8752571ba499668117b54346e34094f0e97762e2"
+    },
+    {
+      "path": "docs/methodology/b07_discharge_equivalent_reference_contract.md",
+      "bytes": 9906,
+      "sha256": "2a3e39acece94e87874a5e4e0decce37d618fabfaf00849edf81cd010ea057f5",
+      "git_blob": "0df6f71ce5fc4cde60a3403e7aa73a63ba4beba6"
+    },
+    {
+      "path": "modules/B07/README.md",
+      "bytes": 5091,
+      "sha256": "2865b1f93ea6f3ae6f933f1c6040f3deb70bff337f644a3663920548dfde9cc9",
+      "git_blob": "e095888363242c9a2d4c34a560ddb4c1e6cd5a82"
+    },
+    {
+      "path": "modules/B07/discharge_equivalent_reference.py",
+      "bytes": 22545,
+      "sha256": "5e61472b51e7734ca7853492651ded7164bb659008b5ec4928a341fa1ed3e7fb",
+      "git_blob": "eff12e066bb045eb411aef8a22c8e657970b6444"
+    },
+    {
+      "path": "registry/b07_reference_validation_debt.json",
+      "bytes": 5341,
+      "sha256": "895705b66b02c93f8cad75e1cd03d58c245f0bbcf2fe2fa6f9b919b96bf076e6",
+      "git_blob": "8d4dca03be59a755d56a4142246893cf77091505"
+    },
+    {
+      "path": "registry/project_blocker_evidence_audit.csv",
+      "bytes": 24830,
+      "sha256": "d6bbd691fc2699f388fe863af2bbead91b14118e877d0589644ee89d46eecb69",
+      "git_blob": "adc588027aefea536ec9bd4d275b34111eb4ad67"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 257810,
+      "sha256": "0c9a0c391915ba7ee988be545d8e88edf05831d5d5c7a305f62e73d883264222",
+      "git_blob": "605cc66a51f8f661d31a31a0900785745daf41a1"
+    },
+    {
+      "path": "tests/test_b07_discharge_equivalent_reference.py",
+      "bytes": 26746,
+      "sha256": "7c9fc4ffc2a1ee98ed8be70f9898f25308680b2ffa3036da9a4c0813947e2fc1",
+      "git_blob": "fe61bab920a347786c1c1123d00a84d0d4804cbb"
+    }
+  ],
+  "hosted_ci": "REQUIRED_ON_FINAL_PUBLICATION_HEAD_WITH_THREE_EXTERNAL_POSITIVES_AND_ZERO_SKIPS",
+  "limits": [
+    "No replacement of legacy engine or broad national method/policy selection",
+    "Q-B07-003 remains E2 VALIDATION_BLOCKER/MODEL_CONTINUE; exact components are not a universal E2 prerequisite",
+    "Single4.07W aggregate AC idle proxy needs explicit exposure; state/revision/cell-loss applicability remains debt",
+    "Aggregate energy does not assert observed-zero DC drain or validate a physical idle inventory transition",
+    "No complete annual dispatch/system-efficiency, national savings, procurement or household-payback result",
+    "No module/readiness/whole-slice promotion or main merge"
+  ]
+}

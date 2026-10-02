@@ -1,6 +1,6 @@
-# PROPOSED B07 discharge-equivalent tested-reference coordinate contract
+# B07 discharge-equivalent conditional-reference coordinate contract
 
-Status: PROPOSED, branch-local reviewed method for a separately named conditional reference model. No canonical adoption or owner adoption is asserted. This document does not implement runtime or change the existing BatterySpec/one-way contract. Any required canonical adoption remains an explicit decision before normative replacement.
+Status: OWNER-ADOPTED CONDITIONAL REFERENCE METHOD, 2026-10-02. Adoption permits the separately named reference and its reviewed feature-branch implementation. It does not replace the existing BatterySpec/one-way engine, select national operating policy, or authorize a main merge. The coordinate and balances are DER; test-to-target constant-parameter applicability and the declared aggregate standby proxy remain E2/PROVISIONAL_BASE under Q-B07-003.
 
 ## Purpose and scope
 
@@ -47,7 +47,7 @@ Constant eta and C outside the lab conditions remain applicability debt: the rep
 
 ## Adoption boundary
 
-Existing Q-B07-003 is E2, VALIDATION_BLOCKER, model_blocker=no. Adoption is a methodological contract decision within the approved feasibility work; it does not close that validation debt or change owner claims. Altering final scope, evidence quality, costs, legal permission or procurement intent still requires the applicable owner decision. The new reference must have its own API and cannot be encoded by setting legacy charge_efficiency=eta and discharge_efficiency=1.
+Existing Q-B07-003 is E2, VALIDATION_BLOCKER, model_blocker=no. The owner adopted this bounded method after review and clarified that E2 continuation must not wait for every component-level E1 measurement. That adoption does not close validation debt or promote source applicability to E1. Altering final scope, evidence quality, costs, legal permission or procurement intent still requires the applicable owner decision. The new reference must have its own API and cannot be encoded by setting legacy charge_efficiency=eta and discharge_efficiency=1.
 
 ## Supporting standby and curve evidence
 
@@ -58,3 +58,39 @@ The separate discharge curve fits differ in their overlap. At160/200/300/400/450
 ## API necessity and existing-code reuse
 
 The existing BatterySpec, BatteryState, BatteryStepResult and B08 handoff encode stored-energy SOC and scalar one-way transitions. Their state/clipping fields cannot represent this coordinate without misleading semantics. A new reference state must name discharge-equivalent DC inventory and explicit converter flows. The existing AC household balance function compute_household_balance is reusable unchanged for actual admitted AC charge and delivered AC discharge. Existing scalar-efficiency clipping is not reused because converter efficiency varies with actual path output and curve support. A reference flexibility result, if implemented, must call the same new feasibility solver rather than the legacy scalar formula. This does not create a second tariff, export-permission or household accounting policy.
+
+
+## E2 aggregate continuation and later E1 closure
+
+The reference implementation is `modules/B07/discharge_equivalent_reference.py`.
+Its constant tested-product C and DC-cycle eta have scoped E2 applicability;
+its calculated balances are DER with explicit scenario commands. A caller-created
+mathematical Reference remains SCN/E3 rather than acquiring source status from
+the method's adoption. Source-labelled references must match the pinned facts.
+
+`provisional_standby_ac_energy(idle_hours=...)` applies one4.07W aggregate
+AC-accounting proxy to explicitly supplied idle exposure. HTW's exact-system
+empty-state observation and the manufacturer's approximately4W system statement
+support this E2 base. It may supply a provisional finite/annual aggregate energy
+component; exact BMS subcomponents are not a prerequisite. State/revision and
+cell-powered loss inclusion remain explicit validation debt. The value is not
+an all-state observation or an upper bound, and no idle duration is selected.
+Active cycle losses already include their tested BMS contribution; the idle
+proxy is not added to active converter/cycle paths a second time.
+
+The aggregate debit does not establish physical DC inventory drain. The current
+state-path consumer retains Q across idle intervals until that physical
+allocation is supplied under an appropriate contract. This is a scope limitation
+of that consumer, not an E3 reclassification of Q-B07-003 or a prohibition on
+provisional aggregate model continuation. Neither SPI nor a product of path
+means is a substitute for a boundary-consistent energy round-trip base.
+
+`registry/b07_reference_validation_debt.json` records the exact approximations,
+support, applicability and E1 upgrade evidence. Sufficient boundary-complete
+aggregate measurements or validated calibration can close that debt; a separate
+laboratory value for every internal component is not mandatory. Materiality is
+assessed for the actual decision/profile when relevant, not imposed as another
+universal E2 gate. The known4.07W component corresponds to5.0875–14.245kWh over
+the report's generic1,250–3,500empty hours, or35.6532kWh over8,760explicit hours.
+Those are conditional exposure calculations, not Hungarian operating assumptions
+or bounds on unmeasured losses. No claim of negligible total error is made.
