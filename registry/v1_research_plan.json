@@ -1083,12 +1083,28 @@
           "data": "HU készülékosztály × év: fűtés/HMV/főzés hasznos energia kWh_th, éves gáz MJ/kWh; hatásfok [arány] szezonális, LHV/GCV következetes; több tüzelőanyag és rebound.",
           "phase": "A",
           "slice_id": "B11-D01",
-          "status": "RESEARCHING",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-TABULA-HU-CALCULATOR-2016",
+            "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA building/system workbook and Common Method GCV/auxiliary definitions",
+                "Published complete annual WM50 device reference for the same historical source service"
+              ],
+              "remaining_unknown": "Actual installed/stock seasonal applicability and nonoverlapping post-replacement auxiliary/control aggregate; no volume, net hourly grid increment, national weights or savings admission",
+              "promising_next_lead": "Reuse this annual source-allocated gas/HP ledger with one qualified nondevice aggregate and explicit population inference when the intended consumer needs those claims",
+              "expected_decision_value": "Connects useful/generator heat, native seasonal GCV gas and complete device electricity while excluding mislabeled DHW totals and retaining shared-control uncertainty",
+              "decision": "CONTINUE_BOUNDED_E2_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {

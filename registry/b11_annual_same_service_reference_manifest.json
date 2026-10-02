@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "reference_id": "E2-SAME-SERVICE-GCV-GAS-TO-WM50-W55-TABULA-SFH01-001",
+  "device_reference_id": "E2-ANNUAL-WM50-W55-TABULA-SFH01-UTC2025-001",
+  "evidence_status": "DER",
+  "evidence_tier": "E2",
+  "scope": "SOURCE_ALLOCATED_ANNUAL_SPACE_HEATING_REFERENCE_WITH_EXPLICIT_FULL_REPLACEMENT_SCN",
+  "repository_pins": {
+    "modules/B05/annual_device_reference.py": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+    "registry/b05_annual_device_reference_manifest.json": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15"
+  },
+  "gas_reference": {
+    "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+    "original_url": "https://episcope.eu/fileadmin/tabula/public/calc/tabula-calculator.xlsx",
+    "source_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+    "source_sheet": "Calc.Set.System",
+    "source_row": 3392,
+    "reuse_status": "EXTERNAL_ONLY_ORIGINAL_WORKBOOK_NOT_REPUBLISHED",
+    "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.013",
+    "heating_system": "HU.Gas.B_C.SUH.01",
+    "generator": "HU.B_C.SUH.01",
+    "area_m2": 56,
+    "energy_basis": "GCV",
+    "useful_heat_kwh_m2": 102.64561485096266,
+    "generator_heat_kwh_m2": 108.04561485096266,
+    "seasonal_generator_expenditure_gcv": 1.05,
+    "space_heating_fuel_kwh_gcv_m2": 113.44789559351081,
+    "heating_auxiliary_kwh_m2": 2.8,
+    "excluded_dhw_fuel_kwh_gcv_m2": 9.696,
+    "excluded_dhw_auxiliary_kwh_m2": 1.3,
+    "cells": [
+      {
+        "cell": "B3392",
+        "field": "Code_BuildingVariant",
+        "value": "HU.N.SFH.01.Bel80.ReEx.001.013"
+      },
+      {
+        "cell": "L3392",
+        "field": "Code_SysH",
+        "value": "HU.Gas.B_C.SUH.01"
+      },
+      {
+        "cell": "U3392",
+        "field": "A_C_Ref",
+        "value": 56
+      },
+      {
+        "cell": "AR3392",
+        "field": "q_del_w_aux",
+        "value": 1.3
+      },
+      {
+        "cell": "AT3392",
+        "field": "q_del_w_1",
+        "value": 9.696
+      },
+      {
+        "cell": "BC3392",
+        "field": "q_h_nd",
+        "value": 102.64561485096266
+      },
+      {
+        "cell": "BD3392",
+        "field": "Code_SysH_G_1",
+        "value": "HU.B_C.SUH.01"
+      },
+      {
+        "cell": "BG3392",
+        "field": "Code_SysH_EC_1",
+        "value": "Gas"
+      },
+      {
+        "cell": "BO3392",
+        "field": "e_g_h_Heat_1",
+        "value": 1.05
+      },
+      {
+        "cell": "BW3392",
+        "field": "q_del_h_aux",
+        "value": 2.8
+      },
+      {
+        "cell": "CH3392",
+        "field": "q_g_h_out",
+        "value": 108.04561485096266
+      },
+      {
+        "cell": "CI3392",
+        "field": "q_del_h_1",
+        "value": 113.44789559351081
+      },
+      {
+        "cell": "DQ3392",
+        "field": "q_del_h_sum_gas",
+        "value": 123.1438955935108
+      },
+      {
+        "cell": "DU3392",
+        "field": "q_del_h_sum_el",
+        "value": 4.1
+      }
+    ],
+    "field_exclusions": {
+      "DQ3392": "Its formula includes CI3392 space-heating fuel and AT3392 DHW fuel despite a heating label; not a space-heating input",
+      "DU3392": "Its formula includes heating and DHW auxiliary electricity despite a heating label; not a space-heating input"
+    }
+  },
+  "method_source": {
+    "source_id": "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+    "source_sha256": "69963a02efba405bf0970d199d6fcdd24b44ef87521afd7b71694e714f6b92ef",
+    "reuse_status": "EXTERNAL_ONLY",
+    "locators": [
+      "Equation19: generator heat times seasonal expenditure gives delivered fuel",
+      "Equation20: effective distribution/storage loss and useful heat boundary",
+      "Gross calorific convention for delivered combustible-fuel energy",
+      "Table14: auxiliary system scope across available generator/storage/distribution/emission components"
+    ]
+  },
+  "residual": {
+    "name": "POST_REPLACEMENT_NONDEVICE_AND_RETAINED_AUXILIARY",
+    "meaning": "All nonoverlapping electricity beyond B05 device input at the declared heating-service boundary, including retained or reallocated combi controls",
+    "evidence_status": "Q",
+    "upper_bound": null,
+    "timing": null,
+    "source_baseline_is_measured_avoidable_consumption": false
+  },
+  "validation_debt": [
+    {
+      "scope": "SEASONAL_GAS_CLASS_APPLICABILITY",
+      "evidence_tier": "E2",
+      "quantity": "Source seasonal gas expenditure and annual service",
+      "upgrade": "Source/field calibration of the intended boiler class and operating service; no national mix or actual whole-boiler savings inferred"
+    },
+    {
+      "scope": "POST_REPLACEMENT_AUXILIARY_BOUNDARY",
+      "quantity": "Nondevice and retained/reallocated control aggregate",
+      "upgrade": "One justified nonoverlapping aggregate at the same service boundary, with timing only when an hourly net-grid claim requires it; component-level measurements are not universally required",
+      "evidence_status": "Q"
+    },
+    {
+      "scope": "GAS_VOLUME_AND_VALUE",
+      "quantity": "Gas volume and import/retail value",
+      "upgrade": "Compatible admitted calorific/reference-state and price inputs; no source factor is silently converted to LHV",
+      "evidence_status": "Q"
+    }
+  ],
+  "limits": [
+    "The full-replacement condition is SCN; arithmetic is DER with E2 source applicability",
+    "DHW gas/auxiliaries are excluded, not displaced or assumed zero",
+    "Annual gas and auxiliary source scalars do not supply an hourly gas or net-grid profile",
+    "No physical SPF, whole-household savings, national weights, boiler retirement or readiness promotion"
+  ],
+  "source_method_review": {
+    "proposal_manifest_sha256": "9c7262a40ee577de6a8dcf897e7bbcce8d79aa10121f9e23c33ae3b46974a325",
+    "verdict": "ADMIT_BOUNDED_E2_DER_IMPLEMENTATION",
+    "review_receipt_sha256": "49c2db830b0fde08ba55c617eb197156ca3a6b2f807c896cf4331f54d626d59d"
+  }
+}

@@ -31,3 +31,17 @@ conversion coefficient or default efficiency is embedded.
 
 Run `python -m unittest discover -s tests -p 'test_b11*.py'` for the discovered
 B11 tests and `python tools/validate_registry.py` for registry contracts.
+
+## Annual source-allocated GCV reference
+
+`annual_same_service_reference.calculate_reference(weather_path=...,
+condition=FULL_REFERENCE_REPLACEMENT)` connects the published B05 annual device
+case to TABULA's same-service seasonal gas account. The caller supplies the
+explicit reference substitution condition; no national policy is selected.
+It preserves the source's GCV basis and separates space heating from DHW.
+
+The resulting affine electricity account retains one unknown post-replacement
+nondevice/retained-control aggregate. Its known term is not complete household
+incremental electricity. Gas volume, hourly gas/auxiliary profiles, whole-system
+SPF and national outputs remain unavailable. See
+[V1-040](../../docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md).
