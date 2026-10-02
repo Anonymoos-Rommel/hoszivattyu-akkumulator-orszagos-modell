@@ -327,6 +327,18 @@
               "expected_decision_value": "Closes the actual D01 source-table criterion by verified reuse without requiring household records or national annual billing as a new table gate",
               "decision": "ACCEPT_BOUNDED_REUSED_TARIFF_HANDOFF_WITH_VALIDATION_DEBT",
               "evidence": "docs/checkpoints/V1_034_B04_TARIFF_HANDOFF_ACCEPTANCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing accepted B04 regulated tariff schedules and exact reacquired MVM source PDFs",
+                "Existing annual source-rating device method with exact Budapest civil2025 weather"
+              ],
+              "remaining_unknown": "Actual entitlement, invoice allocation, connection/end-use attribution, installed electricity and household baseline; no actual bill or B12 cashflow admission",
+              "promising_next_lead": "Use the explicit conditional charge function with qualified meter/account inputs when that downstream claim is needed",
+              "expected_decision_value": "Connects complete annual reference energy to tariff response while preventing whole-year H pricing, repeated A1 headroom, invented H August reset and double connection fees",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_TARIFF_CONSUMER",
+              "evidence": "docs/checkpoints/V1_043_ANNUAL_TARIFF_REFERENCE.md"
             }
           ],
           "reviewed_commit": "365a28433f5eda976fa00936282a1565922de45a"

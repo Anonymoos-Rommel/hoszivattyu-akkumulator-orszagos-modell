@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "reference_id": "B04-CIVIL2025-WM50-SOURCE-RATING-TARIFF-REFERENCE",
+  "scope": "Complete source-rating reference electricity and explicit connection charge function, not actual installed/household bill",
+  "energy_evidence_status": "DER",
+  "energy_evidence_tier": "E2",
+  "price_evidence_status": "SCN",
+  "price_basis": "CONSTANT_2026_TARIFF_SNAPSHOT",
+  "snapshot_date": "2026-10-01",
+  "calendar": "Europe/Budapest civil2025",
+  "repository_pins": {
+    "modules/B04/engine.py": "57f00eb92999a317cfc016f96ae87378f548b0d1be93f5e70a08cac2874fbdcb",
+    "data/processed/h_tariff_schedule.csv": "68069849cbae36b2226ba620531361dcefef24814f8fe37154f3e8b00505978d",
+    "data/processed/residential_electricity_tariff_schedule.csv": "e587240e93ec602f375c9bb668e14fb8ec984ed504f8d11cb0e5de84ec83fccb",
+    "modules/B05/annual_device_reference.py": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+    "registry/b05_annual_device_reference_manifest.json": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15",
+    "modules/B11/annual_retrofit_reference.py": "e8852b6560b42e3754a110ebf54e01b4b0439da77b4146d5b0c1bd41428e41e6",
+    "registry/b11_annual_retrofit_reference_manifest.json": "192b6aa0b0547373fadbe362b89969a7828002bc04305a07dca912b405479791"
+  },
+  "weather": {
+    "sha256": "bcc374a5592c72a3a24f43f065997d64b694215184df6f1889500fbd5dae425c",
+    "bytes": 973257,
+    "rows": 8760,
+    "start_utc": "2024-12-31T23:00:00+00:00",
+    "end_utc": "2025-12-31T23:00:00+00:00",
+    "station_id": "44527",
+    "history_source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "recent_source_id": "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+    "recent_endpoint_utc": "2026-01-01T00:00:00+00:00",
+    "history_rows": 8760,
+    "recent_rows": 0,
+    "history_panel_sha256": "bcc374a5592c72a3a24f43f065997d64b694215184df6f1889500fbd5dae425c",
+    "recent_zip_sha256": "86f57ea9b74b0b5c8e200f86e7a8e444d30105b021fb447983f1f702e1075fd9",
+    "recent_description_sha256": "c452a422515998764f56589f81517fc403601d41341575e941b98a0b62e55542",
+    "temperature_boundary": "preceding-hour mean Celsius, UTC half-open intervals",
+    "quality": "Primary checks; no climate homogenization; reserved Q fields are not quality-pass claims",
+    "raw_storage": "EXTERNAL_ONLY",
+    "parser_note": "Existing parser recent-endpoint marker lies outside this complete historical civil-year window; all8760 rows use the historical source."
+  },
+  "source_artifacts": [
+    {
+      "source_id": "SRC-B04-MVM-M1-2026",
+      "original_url": "https://www.mvmnext.hu/aram/servlet/download?id=16548&type=file",
+      "sha256": "777828acc44c73f266cdafc6f3a1b6d765b7632b523e4c3e07e51b499fefe735",
+      "bytes": 992933,
+      "claim": "Reacquired exact existing M.1 snapshot; H seasons/allowance, general A1 settlement and H exception; no actual settlement inferred",
+      "retrieved_at": "2026-10-02",
+      "reuse_status": "EXTERNAL_ONLY",
+      "repo_snapshot_path": null
+    },
+    {
+      "source_id": "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+      "original_url": "https://www.mvmnext.hu/aram/servlet/download?id=16214&type=file",
+      "sha256": "5a771af5ad6b1f505aca14a2af1c9bf49101f77cc9ccc98b77356fa5d9b039df",
+      "bytes": 73870,
+      "claim": "Reacquired exact existing final-price/fixed-fee source; constant2026 snapshot only",
+      "retrieved_at": "2026-10-02",
+      "reuse_status": "EXTERNAL_ONLY",
+      "repo_snapshot_path": null
+    },
+    {
+      "source_id": "SRC-B04-MEKH-SYSTEM-FEES-2024",
+      "original_url": "https://njt.jog.gov.hu/jogszabaly/2024-10-20-5Z",
+      "sha256": "825003dba4c004581ded377e1e6b266d4ba999e5fb3286148716d5655d8c23eb",
+      "bytes": 161460,
+      "claim": "Newly retained current text: sections14(1),26(3),(7); does not supply exact season-crossing invoice fractions",
+      "retrieved_at": "2026-10-02",
+      "reuse_status": "EXTERNAL_ONLY",
+      "repo_snapshot_path": null
+    }
+  ],
+  "source_currentness": "Exact existing PDF pins recovered on2026-10-02; listing inaccessible, so retain frozen2026-10-01 price boundary rather than claim new currentness",
+  "packages": [
+    "standard",
+    "ambitious"
+  ],
+  "original_case": "Excluded from complete annual pricing: civil probe355aboveMAXhours and170.241413671kWh unserved; no backup/default supplied",
+  "segmentation": {
+    "physical_hours": [
+      2519,
+      2568,
+      1800,
+      1873
+    ],
+    "h_periods": [
+      "Jan1-Apr15",
+      "Apr16-Oct14",
+      "Oct15-Dec31"
+    ],
+    "a1_portions": [
+      "Jan1-Jul31 from2024Aug1/2025Jul31 settlement year",
+      "Aug1-Dec31 from2025Aug1/2026Jul31 settlement year"
+    ],
+    "h_august_reset": false
+  },
+  "billing_condition": "SOURCE_RATING_ELECTRICITY_AS_IMPORTED_REFERENCE_SCN",
+  "allowance_rule": "Mandatory caller-supplied SCN allocations. A1 each settlement-window portion once; H one continuous outside-season allocation. No baseline headroom,2523kWh default or entitlement validation.",
+  "connection_fee_rule": "One explicit continuously connected2025 ledger; each of12 months occurs once. Applicable regime fractions sum to1 per month. April/October H fractions supplied, no automatic day prorating. Fee is per connection, no inferred device/end-use attribution.",
+  "source_qualification": {
+    "report_sha256": "6a26c11abc110d6f622ee5839d7163156bbbad3541d863aa16d99f3c9dbea29b",
+    "original_pdf_comparisons": 56,
+    "existing_b04_b12_tests": 90,
+    "verdict": "QUALIFIED_BOUNDED_CONNECTED_CONSUMER_SUBJECT_TO_IMPLEMENTATION_REVIEW"
+  },
+  "validation_debt": [
+    {
+      "scope": "ANNUAL_SOURCE_HEAT_AND_TIMING",
+      "evidence_tier": "E2",
+      "upgrade": "Qualified annual demand and timing calibration at declared service; no identical realised indoor trajectory claimed"
+    },
+    {
+      "scope": "DISTRIBUTION_CLASS_FIXED_W55_TRANSFER",
+      "evidence_tier": "E2",
+      "upgrade": "Compatible system temperature/control aggregate or calibration; original source class separately disclosed"
+    },
+    {
+      "scope": "MIN_STAGE_DEFAULT_AND_SOURCE_RATING_TRANSFER",
+      "evidence_tier": "E2",
+      "upgrade": "Matched product aggregate part-load/weather/defrost validation; existing V1-039 debt retained"
+    },
+    {
+      "scope": "NONDEVICE_AND_RETAINED_CONTROL_AGGREGATE",
+      "evidence_status": "Q",
+      "upgrade": "One compatible signed installed-minus-rating aggregate including matched heat-delivery/duty adjustment; rated-unit controls/safety input is already included and receives no blanket extra load or submeter prerequisite",
+      "thermal_applicability_debt": "Rated heating capacity also uses the pump convention. Actual installed heat-delivery/duty reconciliation remains unestablished; existing source-rating reference values remain usable E2."
+    },
+    {
+      "scope": "TARIFF_ENTITLEMENT_AND_PERIOD_ALLOCATION",
+      "status": "CALLER_SUPPLIED_SCN_NOT_SITE_OR_INVOICE_AUTHORITY",
+      "upgrade": "Compatible evidenced allowance/seasonal settlement and connection-fee allocation for an actual household claim; source-engine SCN continuation remains permitted"
+    },
+    {
+      "scope": "CONNECTION_VS_END_USE_ACCOUNTING",
+      "status": "NO_END_USE_FEE_ATTRIBUTION_SELECTED",
+      "upgrade": "Complete meter legs and explicit conserved attribution if later needed; no automatic B12 cashflow admission"
+    }
+  ],
+  "excluded_claims": [
+    "2025 observed bill or future tariff forecast",
+    "Installed electricity cost or its lower bound",
+    "Whole household or before/after cashflow",
+    "H site/battery/export/VPP permission",
+    "National allocation or programme readiness",
+    "Civil-year historical grid join without its missing generation hour"
+  ]
+}

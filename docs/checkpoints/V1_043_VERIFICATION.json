@@ -1,0 +1,115 @@
+{
+  "checkpoint": "V1-043",
+  "base_commit": "5ca625e1abdc8c6e387a85aa87655416ff1d3f8b",
+  "reviewed_substantive_tree": "c41117833f7171534bc5213bc43f137af2378923",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_042_CI.json",
+      "bytes": 1456,
+      "sha256": "a5453c559c2877fd6751fe4077b38a4879ae2855759461a6e53f50eda3929fe4",
+      "git_blob": "1330166e22b9fdbddad83ab7c32b90f3b46e1719"
+    },
+    {
+      "path": "docs/checkpoints/V1_043_ANNUAL_TARIFF_REFERENCE.md",
+      "bytes": 7344,
+      "sha256": "808f4e3ec6f3e66ea283b2807f8ad1c0d68f1fc186ed050feb4376c3f789c6ae",
+      "git_blob": "b8241fe2c09d41b9c7e0ecaff574220aae4715d2"
+    },
+    {
+      "path": "modules/B04/README.md",
+      "bytes": 4346,
+      "sha256": "29390fed1d38ac186f298733a2646f42d1854f2b697337846052b185a1849b97",
+      "git_blob": "d490ea383324562c546cfb21ed77d560cb909ab9"
+    },
+    {
+      "path": "modules/B04/annual_reference.py",
+      "bytes": 15627,
+      "sha256": "f3897688a1cef739fc44945d7dd98f08543004ed706a135b9ed3295808fc78f8",
+      "git_blob": "6a725cb9ae0861f61c55404e0c437498a07af804"
+    },
+    {
+      "path": "registry/b04_annual_reference_manifest.json",
+      "bytes": 7727,
+      "sha256": "7976a6afd87fb875c8fe243b92c7b1429eab404066a40d95845b039aaa64adc7",
+      "git_blob": "a3f64d1abe9fa7dd5ebfaf80b299aaf3e7d2c720"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 114647,
+      "sha256": "f210cd9419adb3474b347dc2e944db4f8c0d0f9f6638119c92cbc79f58730e6e",
+      "git_blob": "c7cf194b0f36e2df6ee93b6f5c94d7cb40053cf3"
+    },
+    {
+      "path": "tests/test_b04_annual_reference.py",
+      "bytes": 12864,
+      "sha256": "d951000b7086245c127f6cc2ebb03e5da07aa369481c62cb3754ed1374156550",
+      "git_blob": "ce748cf8422ecf0f150e1d747877d8c9f4850e67"
+    }
+  ],
+  "scope": "Source-rating energy and frozen2026 SCN; explicit allowances and one continuous connection ledger; no household/installed/national bill or B12 admission",
+  "independent_review": {
+    "verdict": "NO_BLOCKING_FINDINGS_BOUNDED_CONDITIONAL_CONSUMER",
+    "receipt_sha256": "e82d163d1dd275cb2876473eeae88207bd56b20089a9b1685021f6b40e545c1d",
+    "focused_and_plan_tests": 22,
+    "genuine_formula_evaluations": 48,
+    "additional_negative_cases": 18,
+    "b12_adapter_rejection_checks": 48,
+    "unexpected_acceptances": 0,
+    "report_sha256": "2a361f8dd34de616162295e7fecf65a2846508a58a4bf31d67ea47ff296760f2",
+    "genuine_replay_sha256": "37d8b5cc83dedcb0bb04f9c8e0ad36a562366bde403b87d98f092f056d5cf47f",
+    "candidate_edits": false,
+    "limits": "No actual/installed household bill, eligibility permission, B12 admission or national result; aggregate not duplicated by reviewer"
+  },
+  "author_verification": {
+    "focused_tests": 19,
+    "plan_tests": 3,
+    "registry": "VALID",
+    "diff_check": "PASS",
+    "genuine_evaluations": 32,
+    "genuine_verification_sha256": "c1bbbdfe4b441471fd046d75d553e1f758521e08cabcf72671d611e91215e43f",
+    "configured_suite": {
+      "checkpoint": "V1-043",
+      "substantive_tree": "c41117833f7171534bc5213bc43f137af2378923",
+      "command": "python3 -m unittest discover -s tests -v",
+      "discovered": 3280,
+      "passed": 3277,
+      "skipped": 3,
+      "failed": 0,
+      "duration_seconds": 131.574,
+      "log_sha256": "bee36180ea25ae9f1eda3bf425b0666a3991b571ed4af483ab34d8c4fc0f9ba4",
+      "skip_lines": [
+        "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+        "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+        "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+      ]
+    }
+  },
+  "source_qualification": {
+    "sha256": "6a26c11abc110d6f622ee5839d7163156bbbad3541d863aa16d99f3c9dbea29b",
+    "source_pdf_numeric_comparisons": 56,
+    "existing_b04_b12_tests": 90,
+    "raw_source_republication": false
+  },
+  "hosted_ci": {
+    "status": "REQUIRED_ON_FINAL_PUBLISHED_HEAD",
+    "expected_discovered": 3280,
+    "required_skips": 0,
+    "required_external_positives": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+    ]
+  },
+  "claim_boundary": {
+    "energy": "DER_E2_SOURCE_RATING_CIVIL2025",
+    "pricing": "SCN_CONSTANT_2026_NOMINAL_HUF",
+    "allowances": "EXPLICIT_CALLER_INPUT_NOT_ENTITLEMENT_PROOF",
+    "fees": "ONE_CONTINUOUS_CONNECTION_YEAR_WITH_SUPPLIED_CROSSING_MONTH_FRACTIONS",
+    "end_use_fee_attribution": null,
+    "whole_installed_or_household_bill": null,
+    "b12_admission": false,
+    "national_admission": false,
+    "legacy_utc_reference_changed": false,
+    "readiness_changed": false
+  }
+}
