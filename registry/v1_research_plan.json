@@ -254,15 +254,32 @@
           "data": "HUF/kWh és HUF/év, nettó/bruttó, DSO-terület, H/A1/B mérőkör, hatálynap, szezon és fogyasztási küszöb; jelenlegi hivatalos mellékletből.",
           "phase": "A",
           "slice_id": "B04-D01",
-          "status": "INTEGRATING",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B04-MVM-M1-2026",
             "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
             "SRC-B04-MEKH-SYSTEM-FEES-2024"
           ],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
+          "accepted_artifacts": [
+            "data/processed/residential_electricity_tariff_schedule.csv",
+            "data/processed/h_tariff_schedule.csv",
+            "data/processed/electricity_price_component_bridge.csv",
+            "registry/b04_tariff_source_verification.json",
+            "registry/electricity_price_sources.csv",
+            "registry/electricity_tariff_rules.csv",
+            "modules/B04/engine.py",
+            "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md"
+          ],
+          "consumer_tests": [
+            "tests/test_b04_canonical_tariff_consumer.py",
+            "tests/test_b04_outside_h_and_b.py",
+            "tests/test_b04_tariff_source_verifier.py",
+            "tests/test_b04_electricity_price_engine.py",
+            "tests/test_b04_h_battery_boundary.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B04-002"
+          ],
           "research_log": [
             {
               "date": "2026-10-01",
@@ -286,9 +303,21 @@
               "expected_decision_value": "Closes profiled outside-H rate mapping and B Alap cost consumer without manufacturing an annual invoice",
               "decision": "CONTINUE_BILLING_PERIOD_INTEGRATION",
               "evidence": "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Pinned MVM M.1 and residential tariff annexes, snapshot 2026-10-01",
+                "Official consolidated MEKH system-fee mapping, reread 2026-10-02"
+              ],
+              "remaining_unknown": "Q-B04-002 full effective-date component/tax bridge remains E2 debt; household annual allocation and B04-L01 topology/eligibility are separate downstream scopes",
+              "promising_next_lead": "Use the accepted bounded tariff consumer with evidenced circuit, seasonal allocation and connection-period inputs; acquire only missing downstream facts",
+              "expected_decision_value": "Closes the actual D01 source-table criterion by verified reuse without requiring household records or national annual billing as a new table gate",
+              "decision": "ACCEPT_BOUNDED_REUSED_TARIFF_HANDOFF_WITH_VALIDATION_DEBT",
+              "evidence": "docs/checkpoints/V1_034_B04_TARIFF_HANDOFF_ACCEPTANCE.md"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "365a28433f5eda976fa00936282a1565922de45a"
         },
         {
           "title": "Rendszerértékelési ár",

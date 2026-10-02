@@ -1,0 +1,93 @@
+{
+  "checkpoint": "V1-034",
+  "scope": "B04-D01 bounded tariff-data acceptance by verified reuse; metadata only",
+  "base_commit": "45758da67be7527423f06a0375c3dc858c7ea9ec",
+  "source_reviewed_commit": "365a28433f5eda976fa00936282a1565922de45a",
+  "source_reviewed_tree": "7b0807a1bea4d59533c99c30ee1811f27933d9c2",
+  "independent_source_verdict": "ACCEPTED_RECOMMENDATION_BOUNDED_D01",
+  "independent_source_receipt_sha256": "72d334d7ca17183bb5defd833a44109adec2dfb555a0c6c499885af15ab49715",
+  "independent_source_report_sha256": "c92009e2fe66308c0786dc90ec36ad41d9b45bded1cdd715072c75e1803e74ff",
+  "source_snapshot_as_of": "2026-10-01",
+  "legal_mapping_rechecked_at": "2026-10-02",
+  "original_pdf_hashes": {
+    "SRC-B04-MVM-M1-2026": "777828acc44c73f266cdafc6f3a1b6d765b7632b523e4c3e07e51b499fefe735",
+    "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026": "5a771af5ad6b1f505aca14a2af1c9bf49101f77cc9ccc98b77356fa5d9b039df"
+  },
+  "accepted_artifact_sha256": {
+    "data/processed/residential_electricity_tariff_schedule.csv": "e587240e93ec602f375c9bb668e14fb8ec984ed504f8d11cb0e5de84ec83fccb",
+    "data/processed/h_tariff_schedule.csv": "68069849cbae36b2226ba620531361dcefef24814f8fe37154f3e8b00505978d",
+    "data/processed/electricity_price_component_bridge.csv": "2d0c1990c23087337912f3da09518279e6da4c3bc10e3e17c37507e8e3f0a5c5",
+    "registry/b04_tariff_source_verification.json": "709304cfec57c7b14a58574a06e077ef786367aa16414355db9427859ebbec67",
+    "registry/electricity_price_sources.csv": "68f5b4536ea77709c1cdd39b5ce97ffbdbc580e31e679be4ad5466af1fa9d085",
+    "registry/electricity_tariff_rules.csv": "02ad09c7be332ce66fb08a5e3f00d9b4923428134f8c9b2d2ac1d82c2cd8c09e",
+    "modules/B04/engine.py": "57f00eb92999a317cfc016f96ae87378f548b0d1be93f5e70a08cac2874fbdcb",
+    "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md": "da79fcbbaca5a6d0a001e65c61d32c7babb52f822c8980222227a6eb541c5ef3"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b04_canonical_tariff_consumer.py": "93147df84ab3ca478cc6dc3f801e1f9663ebfd459f3b6579ea81b9c82787b13e",
+    "tests/test_b04_outside_h_and_b.py": "965702c312d40b3d3f117726906171503b8985197796ec89c6a1edc6d7155b11",
+    "tests/test_b04_tariff_source_verifier.py": "df9c865e4351e88f01a4cc27875843575ea61ce09e413a7c2bfcf6f765c62142",
+    "tests/test_b04_electricity_price_engine.py": "54b32f6f596ff15469844cb0d849a30365e6d9a7778e21e74a8a47cf3f2f3b52",
+    "tests/test_b04_h_battery_boundary.py": "b053ed2a8540897cfa651556a34203db78f7d74cb7ae44c024ac2548be3899a1"
+  },
+  "all_accepted_artifact_and_consumer_bytes_unchanged_at_integration_base": true,
+  "B04_source_rows_unchanged": true,
+  "B04_source_rows_canonical_JSON_sha256": "f9ed0282f05f0101102fd45165518895404c3eaaf8ace4263929b9dff1a6ed35",
+  "independent_checks": {
+    "targeted_pass": 39,
+    "genuine_source_comparisons_pass": 56,
+    "full_suite_run": false
+  },
+  "retained_validation_debt_ids": [
+    "Q-B04-002"
+  ],
+  "separate_fail_closed_legal_question": "Q-B04-001",
+  "acceptance_delta": {
+    "B04-D01": "INTEGRATING -> ACCEPTED",
+    "accepted_artifacts": [
+      "data/processed/residential_electricity_tariff_schedule.csv",
+      "data/processed/h_tariff_schedule.csv",
+      "data/processed/electricity_price_component_bridge.csv",
+      "registry/b04_tariff_source_verification.json",
+      "registry/electricity_price_sources.csv",
+      "registry/electricity_tariff_rules.csv",
+      "modules/B04/engine.py",
+      "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md"
+    ],
+    "consumer_tests": [
+      "tests/test_b04_canonical_tariff_consumer.py",
+      "tests/test_b04_outside_h_and_b.py",
+      "tests/test_b04_tariff_source_verifier.py",
+      "tests/test_b04_electricity_price_engine.py",
+      "tests/test_b04_h_battery_boundary.py"
+    ],
+    "reviewed_commit": "365a28433f5eda976fa00936282a1565922de45a"
+  },
+  "module_status_readiness_scientific_inputs_formulas_unchanged": true,
+  "prior_code_aggregate": {
+    "head": "45758da67be7527423f06a0375c3dc858c7ea9ec",
+    "CI": 1095,
+    "executed_passes": 3083,
+    "skipped": 0,
+    "scope": "Same unchanged production code; not a new local aggregate for this metadata change"
+  },
+  "targeted_metadata_checks": {
+    "command": "python -m unittest tests.test_b04_canonical_tariff_consumer tests.test_b04_outside_h_and_b tests.test_b04_tariff_source_verifier tests.test_b04_electricity_price_engine tests.test_b04_h_battery_boundary tests.test_registry_contract tests.test_v1_research_plan -v",
+    "passed": 57,
+    "skipped": 0,
+    "seconds": 0.323,
+    "log_sha256": "88394b66e772582a9753c3ab699c4052f5114655fe775bbfddeeea030f8a3279",
+    "registry_validation": "VALID",
+    "diff_check": "PASS"
+  },
+  "local_full_suite": "NOT_RERUN_METADATA_ONLY; previous exact-base aggregate covers unchanged code and fresh hosted aggregate remains required",
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; all three existing real external-directory positives must execute without skips",
+  "unadmitted": [
+    "Actual household annual allocation/invoice",
+    "B04-D02 and B04-L01",
+    "B07 dispatch/meter permission",
+    "B13 tax incidence",
+    "National billing or whole-module completion",
+    "Readiness increase or main merge"
+  ]
+}
