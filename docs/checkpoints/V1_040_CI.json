@@ -1,0 +1,25 @@
+{
+  "checkpoint": "V1-040",
+  "commit": "271fce8d526d09e3a4c2b20a9ccbce2aa468c5b9",
+  "tree": "6a522afe6e631694184d83ddc0c20619598c90c2",
+  "run_id": 37014226324,
+  "run_number": 1102,
+  "job_id": 110861028972,
+  "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37014226324",
+  "conclusion": "success",
+  "tests": 3227,
+  "failures": 0,
+  "skips": 0,
+  "elapsed_seconds": 165.378,
+  "registry": "VALID",
+  "tested_merge": "9560dbe685da2d88af4215c317a476ff0dca5600",
+  "tested_tree": "6a522afe6e631694184d83ddc0c20619598c90c2",
+  "required_external_positive_log_lines": [
+    "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "verified_at": "2026-10-02T13:42:10Z",
+  "boundary": "Conditional source-allocated annual gas/device ledger; nondevice residual and actual installed/national/household outputs remain unadmitted",
+  "hosted_log_sha256": "e9f66ca3ddf1dc6cab2583107045af9f1cabb71fd54b54b47b9c88fadf0462d7"
+}

@@ -42,20 +42,33 @@ the bounded reference, not a boiler-retirement, rollout or national policy.
 Arithmetic is DER, with E2 applicability to the stated source and service.
 
 The reference gas account decreases by 6,353.082 kWh_GCV/year. It is not labelled
-measured whole-boiler fuel savings. The published device input is 2,472.634
-kWh/year. Let A be all nonoverlapping post-replacement electricity outside that
-device input at the declared heating-service boundary, including any retained
-or reallocated combi-control demand. Then:
+measured whole-boiler fuel savings. The published rating-derived device input
+is 2,472.634 kWh/year. Let A be installed-case electricity for the declared
+heating service minus that rating-derived reference. This is a signed
+reconciliation, including electricity consequences of matching installed heat
+delivery/duty, replacement of embedded pump conventions, and genuinely
+additional/excluded or retained/reallocated combi controls. Then:
 
 - Electricity after minus before is `2,315.834 + A` kWh/year
 - Purchased final energy before minus after is `4,037.248 - A` kWh/year, with
   GCV gas and electricity explicitly retained as different carriers
 
 The second expression is not primary energy, money or a thermodynamic
-efficiency. Both complete totals remain unknown. A is not set to zero, bounded
-by the old 156.8 kWh allocation or cancelled by an unsupported unchanged-pump
-assumption. One compatible aggregate can close this boundary; separate
-measurements of every component are not required by the E2 route.
+efficiency. Both complete totals remain unknown. A may have either sign; its
+known intercept is not a lower bound. A is not set to zero, bounded by the old
+156.8 kWh allocation or cancelled by an unsupported unchanged-pump assumption.
+One compatible signed aggregate can close this boundary; separate measurements
+of every component are not required by the E2 route.
+
+The exact EN14511:2013 convention adjusts both effective electrical input and
+heating capacity for pump effects. Mitsubishi's 10 W allowance is a nominal
+W35 table fact, not a constant established across the W55 map. EN14511-1:2013
+already includes rated-unit control/safety input; no blanket controller
+addition or new submeter requirement is justified for those included devices.
+Actual installed heat delivery/duty and physical SPF require coherent
+reconciliation, while the existing source-rating results remain valid. The
+later V1-041 boundary clarification records the exact supporting sources;
+earlier numerical results and their historical verification are preserved.
 
 The existing 8,760-hour device/thermal profile is preserved. Gas and source
 auxiliary values remain annual-only, so the consumer supplies no hourly gas,

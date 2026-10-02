@@ -15,7 +15,7 @@ from modules.B05 import annual_device_reference as device
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / 'registry/b11_annual_same_service_reference_manifest.json'
-MANIFEST_SHA256 = '6c6be62037dc588cd2d7a48b5bb569fb227f0ba26aac77a4c57e8a410b843cf5'
+MANIFEST_SHA256 = '830363647476b66dfa141bac791c89fc3098aec85cd45d3a684fd378537c9adc'
 FULL_REFERENCE_REPLACEMENT = 'FULL_SOURCE_ALLOCATED_SPACE_HEATING_REPLACEMENT'
 
 
@@ -71,7 +71,10 @@ def _compose(hp, manifest, condition):
     residual = dict(
         name='POST_REPLACEMENT_NONDEVICE_AND_RETAINED_AUXILIARY',
         value_kwh_year=None, evidence_status='Q',
-        definition='Nonoverlapping post-replacement electricity at the declared heating-service boundary, including retained or reallocated combi-control demand',
+        definition='Signed installed-case electricity for the declared heating service minus the rating-derived device reference; includes replacement of embedded pump allowance, associated heat-delivery/duty reconciliation, and genuinely additional/excluded or retained/reallocated combi controls',
+        sign='SIGNED_UNKNOWN', is_physical_auxiliary_consumption_sum=False,
+        rated_unit_control_and_safety_input_already_included=True,
+        installed_thermal_boundary_and_duty_reconciled=False,
         timing=None, upper_bound_kwh_year=None,
         baseline_auxiliary_is_avoidable_measurement=False,
         unchanged_dhw_auxiliary_proves_residual_covered=False,
@@ -97,6 +100,8 @@ def _compose(hp, manifest, condition):
         excluded_dhw=dict(source_gas_kwh_gcv=area * source['excluded_dhw_fuel_kwh_gcv_m2'],
                           source_auxiliary_electricity_kwh=area * source['excluded_dhw_auxiliary_kwh_m2'],
                           displaced_by_this_reference=False),
+        service_completion_basis='SOURCE_RATING_REFERENCE_ONLY',
+        installed_heat_delivery_kwh=None, installed_service_completion=None,
         gas_hourly_profile=None, auxiliary_hourly_profile=None, net_grid_increment_profile=None,
         gas_volume_m3=None, import_value=None, household_savings=None,
         physical_spf=None, national_increment=None, national_admission=False,
@@ -108,8 +113,8 @@ def _compose(hp, manifest, condition):
 def calculate_reference(*, weather_path: Path, condition: str):
     """Pair only the reviewed annual source service with an explicit condition.
 
-The missing post-replacement residual is never filled with zero, the baseline
-156.8 kWh allocation, or an assumed pump cancellation. Gas and auxiliary
+The missing signed installed-minus-rating residual is never filled with zero,
+the baseline 156.8 kWh allocation, or an assumed pump cancellation. Gas and auxiliary
 annual values cannot authorize an hourly net grid increment or volume claim.
 """
     if condition != FULL_REFERENCE_REPLACEMENT:

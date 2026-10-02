@@ -79,7 +79,7 @@ class AnnualSameServiceReferenceTests(unittest.TestCase):
     def test_post_replacement_residual_preserves_retained_combi_uncertainty(self):
         result = self.compose()
         residual = result['replacement']['nondevice_and_retained_auxiliary']
-        self.assertIn('combi-control', residual['definition'])
+        self.assertIn('combi controls', residual['definition'])
         self.assertFalse(residual['baseline_auxiliary_is_avoidable_measurement'])
         self.assertFalse(residual['unchanged_dhw_auxiliary_proves_residual_covered'])
         self.assertEqual(residual['evidence_status'], 'Q')
@@ -128,6 +128,18 @@ class AnnualSameServiceReferenceTests(unittest.TestCase):
         for debt in debts:
             if 'evidence_tier' in debt:
                 self.assertIn(debt['evidence_tier'], ('E1', 'E2', 'E3'))
+
+    def test_rating_reconciliation_is_signed_and_does_not_duplicate_unit_controls(self):
+        result = self.compose()
+        residual = result['replacement']['nondevice_and_retained_auxiliary']
+        self.assertEqual(residual['sign'], 'SIGNED_UNKNOWN')
+        self.assertFalse(residual['is_physical_auxiliary_consumption_sum'])
+        self.assertTrue(residual['rated_unit_control_and_safety_input_already_included'])
+        self.assertFalse(residual['installed_thermal_boundary_and_duty_reconciled'])
+        self.assertIn('heat-delivery/duty', residual['definition'])
+        self.assertEqual(result['service_completion_basis'], 'SOURCE_RATING_REFERENCE_ONLY')
+        self.assertIsNone(result['installed_heat_delivery_kwh'])
+        self.assertIsNone(result['installed_service_completion'])
 
     def test_different_service_or_evidence_is_not_retagged(self):
         for key, value in [('reference_id', 'OTHER'), ('evidence_status', 'OBS'), ('evidence_tier', 'E1')]:

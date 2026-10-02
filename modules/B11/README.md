@@ -40,8 +40,20 @@ case to TABULA's same-service seasonal gas account. The caller supplies the
 explicit reference substitution condition; no national policy is selected.
 It preserves the source's GCV basis and separates space heating from DHW.
 
-The resulting affine electricity account retains one unknown post-replacement
-nondevice/retained-control aggregate. Its known term is not complete household
-incremental electricity. Gas volume, hourly gas/auxiliary profiles, whole-system
+The resulting affine electricity account retains one unknown signed
+installed-minus-rating reconciliation. It includes any matching heat-delivery/
+duty adjustment, replacement of embedded pump conventions and genuinely
+additional/excluded or retained controls. Rated-unit control/safety input is
+already included. The known term is neither complete household incremental
+electricity nor its lower bound. Gas volume, hourly gas/auxiliary profiles, whole-system
 SPF and national outputs remain unavailable. See
 [V1-040](../../docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md).
+
+`annual_retrofit_reference.calculate_family_reference(weather_path=...)` adds
+the same source building's original and standard packages. The original
+WM50 case retains its capacity shortfall and incomplete annual total. Use
+`compare_original_to_retrofit` with an explicit standard/ambitious after-case
+and source-package replacement condition for the conditional original-gas
+pathway. Distinct signed rating-to-installed residuals remain unknown. Source
+service completion does not establish actual installed heat delivery. See
+[V1-041](../../docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md).

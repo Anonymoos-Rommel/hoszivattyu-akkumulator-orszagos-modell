@@ -522,6 +522,19 @@
               "expected_decision_value": "One complete8760-hour E2 device profile with exact35040-quarter timing comparison; no partial sums disguised as full annual electricity",
               "decision": "CONTINUE_CONSUMER_INTEGRATION",
               "evidence": "docs/checkpoints/V1_039_ANNUAL_HP_DEVICE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA same-building original/standard/ambitious package rows and seasonal GCV system accounts",
+                "Existing complete UTC2025 weather and unchanged WM50W55 annual device method",
+                "Exact EN14511-1/-3:2013 pump and included-control definitions; original manufacturer nominal-point boundary"
+              ],
+              "remaining_unknown": "Actual installed/population applicability and signed rating-to-installed electricity/heat-delivery/duty reconciliation, genuinely excluded or retained controls, national weights and rollout; original same-device source service remains incomplete without a separate backup/capacity choice",
+              "promising_next_lead": "Use the complete source-package after-cases in an explicitly justified population/service model; preserve original-case shortage and independent auxiliary residuals",
+              "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -596,6 +609,19 @@
               "expected_decision_value": "A reproducible finite hourly thermal SCN and common prescribed-path capacity requirement distinguish insufficient capacity from reduced service",
               "decision": "CONTINUE_CORE_INFERENCE",
               "evidence": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA same-building original/standard/ambitious package rows and seasonal GCV system accounts",
+                "Existing complete UTC2025 weather and unchanged WM50W55 annual device method",
+                "Exact EN14511-1/-3:2013 pump and included-control definitions; original manufacturer nominal-point boundary"
+              ],
+              "remaining_unknown": "Actual installed/population applicability and signed rating-to-installed electricity/heat-delivery/duty reconciliation, genuinely excluded or retained controls, national weights and rollout; original same-device source service remains incomplete without a separate backup/capacity choice",
+              "promising_next_lead": "Use the complete source-package after-cases in an explicitly justified population/service model; preserve original-case shortage and independent auxiliary residuals",
+              "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -1103,6 +1129,19 @@
               "expected_decision_value": "Connects useful/generator heat, native seasonal GCV gas and complete device electricity while excluding mislabeled DHW totals and retaining shared-control uncertainty",
               "decision": "CONTINUE_BOUNDED_E2_CONSUMER_INTEGRATION",
               "evidence": "docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA same-building original/standard/ambitious package rows and seasonal GCV system accounts",
+                "Existing complete UTC2025 weather and unchanged WM50W55 annual device method",
+                "Exact EN14511-1/-3:2013 pump and included-control definitions; original manufacturer nominal-point boundary"
+              ],
+              "remaining_unknown": "Actual installed/population applicability and signed rating-to-installed electricity/heat-delivery/duty reconciliation, genuinely excluded or retained controls, national weights and rollout; original same-device source service remains incomplete without a separate backup/capacity choice",
+              "promising_next_lead": "Use the complete source-package after-cases in an explicitly justified population/service model; preserve original-case shortage and independent auxiliary residuals",
+              "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
