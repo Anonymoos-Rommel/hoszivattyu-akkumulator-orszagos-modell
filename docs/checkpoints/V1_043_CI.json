@@ -1,0 +1,25 @@
+{
+  "checkpoint": "V1-043",
+  "commit": "01364742c9cd85b4f03b3df503fd48ac72571122",
+  "tree": "345b94411fada314783ce09afb039d1de1ee8d36",
+  "run_id": 37043765513,
+  "run_number": 1105,
+  "job_id": 110959992531,
+  "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37043765513",
+  "conclusion": "success",
+  "tests": 3280,
+  "failures": 0,
+  "skips": 0,
+  "elapsed_seconds": 148.894,
+  "registry": "VALID",
+  "tested_merge": "b2b703e0527f153337cc7ba5aa8c9aadb929e1cc",
+  "tested_tree": "345b94411fada314783ce09afb039d1de1ee8d36",
+  "required_external_positive_log_lines": [
+    "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "hosted_log_sha256": "5137a3271725513804081fb71175c38ae69631e21495b1ddf530d9cdd690b193",
+  "verified_at": "2026-10-02T18:03:00.498580+00:00",
+  "boundary": "Civil-year device-energy tariff response under explicit allocations and connection ledger; 2026 nominal-price SCN; whole installed and household bill remain unknown"
+}

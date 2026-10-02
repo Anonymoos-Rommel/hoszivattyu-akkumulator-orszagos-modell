@@ -444,6 +444,18 @@
               "expected_decision_value": "A reproducible finite hourly thermal SCN and common prescribed-path capacity requirement distinguish insufficient capacity from reduced service",
               "decision": "CONTINUE_CORE_INFERENCE",
               "evidence": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact HungaroMet Budapest2002–2025 archive and P9 complete-winter statistics",
+                "Existing WM50 Vol5.3 source map; P26/P46 operating-envelope classification"
+              ],
+              "remaining_unknown": "Complete cold-event capacity and installed electricity, product/supply/backup configuration, population weights and programme choices; numeric noncoverage is not measured equipment failure",
+              "promising_next_lead": "Use required emitter supply and a source-supported product/backup design for a declared target, after target/service inputs are established",
+              "expected_decision_value": "Quantifies historical cold exposure of the current fixed-W55 reference without generalizing one product or inventing a cold performance extension",
+              "decision": "BOUNDED_SOURCE_DOMAIN_CHECK_COMPLETED_NO_NATIONAL_GATE_CLOSURE",
+              "evidence": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md"
             }
           ],
           "reviewed_commit": null
@@ -498,6 +510,18 @@
               "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
               "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
               "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact HungaroMet Budapest2002–2025 archive and P9 complete-winter statistics",
+                "Existing WM50 Vol5.3 source map; P26/P46 operating-envelope classification"
+              ],
+              "remaining_unknown": "Complete cold-event capacity and installed electricity, product/supply/backup configuration, population weights and programme choices; numeric noncoverage is not measured equipment failure",
+              "promising_next_lead": "Use required emitter supply and a source-supported product/backup design for a declared target, after target/service inputs are established",
+              "expected_decision_value": "Quantifies historical cold exposure of the current fixed-W55 reference without generalizing one product or inventing a cold performance extension",
+              "decision": "BOUNDED_SOURCE_DOMAIN_CHECK_COMPLETED_NO_NATIONAL_GATE_CLOSURE",
+              "evidence": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md"
             }
           ],
           "reviewed_commit": null

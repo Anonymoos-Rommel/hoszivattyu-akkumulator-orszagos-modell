@@ -346,3 +346,7 @@ P59 canonical artifacts:
 
 
 V1-039 adds an [annual E2 device reference](annual_device_reference.py): native TABULA annual useful heat plus effective distribution loss, normalized observed-weather timing, paired WM50 input power and an explicit minimum-stage on/off transfer. All 8,760 UTC 2025 hours are covered in the declared reference. Its historical comparison consumes the existing B08/B09 original-source producer on all 35,040 quarters. This method preserves the withdrawn exact Cdh/MIN joins and their readiness treatment. Outside-unit auxiliaries and complete household/national outcomes remain distinct from the available device profile.
+
+## Historical cold exposure of the WM50/W55 reference
+
+`cold_domain_reference.calculate_reference(archive_path=...)` reuses the exact external Budapest archive and P9 winter selection. It compares the observed coldest 72-hour episode with the 2025 reference episode against the admitted fixed-W55 numeric map. Numeric noncoverage is distinct from P26's approximate graphical applicability classification and from actual equipment failure. No replacement, lower supply temperature, backup size or national configuration is selected. See [V1-044](../../docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md).
