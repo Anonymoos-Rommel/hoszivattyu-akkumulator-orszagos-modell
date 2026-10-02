@@ -1053,12 +1053,42 @@
           "data": "HU központi/államháztartási kör, év: HUF bevétel/kiadás, GDP, adósság, kamat, energiaár-kompenzáció releváns tételei. Pénzforgalmi és eredményszemlélet nem keverhető.",
           "phase": "V",
           "slice_id": "B13-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B13-MAK-CLOSING-2025",
+            "SRC-B13-MAK-MONTHLY-202512",
+            "SRC-B13-KSH-GG-QUARTERLY-20261001",
+            "SRC-B13-KSH-EDP-20261001",
+            "SRC-B13-KSH-EDP-INVENTORY-2024",
+            "SRC-B13-NJT-1500-2025",
+            "SRC-B13-KSH-GDP0111-20261001",
+            "SRC-B13-KSH-GDP0004-20260930",
+            "SRC-B13-MVM-ESEF-2025",
+            "SRC-B13-MVM-AUDIT-2025",
+            "SRC-B13-NJT-1003-2025",
+            "SRC-B13-NJT-1114-2025",
+            "SRC-B13-NJT-1333-2025",
+            "SRC-B13-NJT-BUDGET-2025-ANNEX1"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Treasury closing and preliminary cash statements",
+                "KSH current ESA/EDP and annual GDP releases",
+                "Official MVM audited ESEF archive and opinion",
+                "NJT budget appropriation and quarterly payment orders"
+              ],
+              "remaining_unknown": "Programme fiscal response, compensation fuel/household/VAT/service-year attribution, complete recipient reconciliation and owner fiscal policy; no available-headroom inference",
+              "promising_next_lead": "Exact Energy Ministry final-account line and MVM Next separate activity/settlement reconciliation, followed by a source-bound programme ledger",
+              "expected_decision_value": "Establishes a reproducible dated baseline without mixing cash, accrual, planned appropriations, annual versus adjusted GDP, debt stocks or recipient cash",
+              "decision": "REVIEW_BOUNDED_EXTERNAL_STATISTIC_REFERENCE_ONLY",
+              "evidence": "docs/checkpoints/V1_026_B13_FISCAL_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
