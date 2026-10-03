@@ -402,7 +402,7 @@
           "data": "EUR/MWh vagy HUF/MWh órás/napi nagykereskedelmi sor, HU ajánlati zóna, as-of; külön a lakossági számlától. Dinamikus termék csak ha tényleges szerződési/elszámolási feltétel elérhető.",
           "phase": "A",
           "slice_id": "B04-D02",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B04-MVM-D-PRODUCT-2026",
             "SRC-B04-MVM-D-METHOD-2026",
@@ -467,9 +467,20 @@
               "expected_decision_value": "Supplies every original wholesale-price source field through a dated HU hourly reference, preserving source lineage, currency, physical time, signed prices and explicit valuation boundary without demanding a full licensed historical/forward package.",
               "decision": "QUALIFIED_SMARD_HU_WHOLESALE_HANDOFF_PREPARE_EXACT_CONSUMER_ACCEPTANCE",
               "evidence": "docs/checkpoints/V1_057_HU_WHOLESALE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Official SMARD HU publisher-hourly and original-resolution exports, source-specific rights/time/configuration evidence and five same-lineage JSON epoch witnesses"
+              ],
+              "remaining_unknown": "Retrospective retrieval is not original auction vintage; per-record revisions and publisher tie-rounding are unknown. Source end-label DST anomalies remain retained evidence with physical endpoints derived. Pre-transition repeated quarter display is not independent quarter-hour auction data. Actual retail, FX, uneven subhour procurement, operating permission, forecasts, programme effects and national readiness remain outside this handoff. Optional MVM D and broader licensed history/forward scope remain separate.",
+              "promising_next_lead": "Use the accepted explicit hourly reference within its source/time/valuation limits; consider a separately reviewed aligned B19 price handoff without inventing future probability or policy thresholds.",
+              "expected_decision_value": "Completes the original HU hourly wholesale currency, bidding-zone and dated source handoff with a genuine exact consumer and private materialization; no additional optional retail or national model gate is claimed.",
+              "decision": "ACCEPT_BOUNDED_SOURCE_QUALIFIED_B04_D02_HOURLY_WHOLESALE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_057_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "69d921c903c35c19e6dd34aa5aac562fa6a13082"
         },
         {
           "title": "Mérési topológia",
