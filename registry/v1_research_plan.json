@@ -1661,12 +1661,33 @@
           "data": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR, importarány, hozzáadottérték, foglalkoztatás/FTE. FIGARO-kód és hazai kiadási csomag közti híd.",
           "phase": "V",
           "slice_id": "B16-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
+            "SRC-B16-EUROSTAT-HU-IOT-METADATA-2026",
+            "SRC-B16-EUROSTAT-HU-IOT-COVERAGE-2026",
+            "SRC-B16-EUROSTAT-SUIOT-INFORMATION-2026",
+            "SRC-B16-EUROSTAT-REUSE-2026"
+          ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
+          "consumer_tests": [
+            "tests/test_b16_industry_structure_reference.py"
+          ],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "KSH compiled national industry-by-industry IO 2023, national data vintage 2025, officially disseminated by Eurostat",
+                "Same-family national metadata, coverage and valuation conventions; Eurostat statistical reuse conditions"
+              ],
+              "remaining_unknown": "Programme expenditure-to-industry mapping, purchaser/basic and 2026 price/currency bridges, matched employment/hours/FTE, displacement/alternative-use and capacity constraints; detailed cause of source-signed core adjustments. No programme multiplier or net GDP/jobs/fiscal admission.",
+              "promising_next_lead": "Reuse the dated 89-leaf domestic/import source structure with a separately qualified programme spending vector and employment attachment when upstream monetary outputs are available; investigate source-signed adjustments before positivity-based interpretation.",
+              "expected_decision_value": "Fills the first B16 numerical source gap with exact domestic/import/total matrices and accounting identities, preventing overlapping sector double-counting, absent-year substitution and deletion of signed or missing source cells.",
+              "decision": "INTEGRATE_DATED_HISTORICAL_STRUCTURE_ONLY_WITH_PROGRAMME_DEPENDENCIES_OPEN",
+              "evidence": "docs/checkpoints/V1_050_HUNGARIAN_INDUSTRY_STRUCTURE.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
