@@ -114,3 +114,22 @@ def test_p34_source_pack_is_explicitly_evidence_only_and_fail_closed():
     assert "NO_COMPLETE_NATIONAL_DSO_NODE_INVENTORY" in text
     assert "OFFICIAL CURRENT PAGE PINNED != SOURCE-NATIVE ROWS EXTRACTED" in text
     assert "readiness remains **15%**" in text
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_all_six_dso_rows_now_have_bounded_consumption_node_sources,
+            test_closure_audit_removes_only_the_eon_url_discovery_blockers,
+            test_eon_source_resolution_does_not_mint_inventory_completeness,
+            test_limiting_node_output_remains_q_after_source_resolution,
+            test_p34_does_not_materialize_eon_node_rows,
+            test_p34_pins_exact_current_eon_publication_for_all_three_dsos,
+            test_p34_source_pack_is_explicitly_evidence_only_and_fail_closed,
+        )
+    )
+    return tests

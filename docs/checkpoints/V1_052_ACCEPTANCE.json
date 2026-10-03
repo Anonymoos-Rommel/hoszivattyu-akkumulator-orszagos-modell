@@ -1,0 +1,169 @@
+{
+  "checkpoint": "V1-052",
+  "stage": "METADATA_ONLY_BOUNDED_D01_ACCEPTANCE",
+  "accepted_slice": "B07-D01",
+  "accepted_at": "2026-10-03T11:46:14.720304+00:00",
+  "reviewed_commit": "c11bf645a44b87d11f38e10fe20e9e24e514463f",
+  "reviewed_tree": "e694c8f722c6660858b05d04dda135f8047f40f3",
+  "condition_parent": "eee328cf7a86014f4635caeb0887940159ffffa3",
+  "accepted_scope": "Named SAX Power Home Plus2026:A1 firmwareV23.50 source-qualified E2 product/loss handoff",
+  "accepted_artifact_sha256": {
+    "data/processed/b07/sax_2026_converter_curves.csv": "87d1b6b91950792c429746f71770237afd227e26ff5afd3bc5eb4d2b943ebfd6",
+    "data/processed/b07/sax_2026_source_controls.json": "d299d057de95f4a5306400e6b201d18b4ef6d84f66e5f9fc2241eb93416728cf",
+    "registry/b07_sax_reference_manifest.json": "18cbcbf17665da04ebea0f213bc0eda8bcaabf9726f3506516267be63b0db4db",
+    "modules/B07/sax_source_reference.py": "c6f6cce1f0514784c20cf63d58bf4e22ad9dd2a8f12981536a086ea0054cc95c",
+    "modules/B07/discharge_equivalent_reference.py": "fc281dd3080fa508ebbe4d6889c706d264028487905de6ffab2f0295fd8efab4",
+    "docs/methodology/b07_discharge_equivalent_reference_contract.md": "4227f1972ed9e0a26cb39c143281ed3fb4bbd229cdd026fded53d7608b7802b7",
+    "modules/B07/README.md": "f4110d25a00a20922d2a0cbfa7b59cf538712e31fc035d42a5c2c756c93f8608",
+    "docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md": "02526b8e0d9814729b3344258880026b7aa5a1ddc4cb7f2f64e261e073890a33"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b07_sax_source_reference.py": "232cf268d9fe412b7e5116a9f876d1e5211b73876a78070cd921a646e20012ed",
+    "tests/test_b07_discharge_equivalent_reference.py": "7c9fc4ffc2a1ee98ed8be70f9898f25308680b2ffa3036da9a4c0813947e2fc1",
+    "tests/test_b07_source_conditions.py": "cd589fabee29ba10bc749627ef0da5e26020ca7aa8c3051e6af7c46eda4e44f9"
+  },
+  "accepted_artifacts_and_tests_unchanged_from_reviewed_condition_commit": true,
+  "original_sources": [
+    {
+      "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+      "original_url": "https://solar.htw-berlin.de/wp-content/uploads/HTW-aquu-Stromspeicher-Inspektion-2026.pdf",
+      "sha256": "97266383faf3a4257a6a521cd1ce04d02eac2628142716e548333fb0c46cbfc7",
+      "bytes": 6788458
+    },
+    {
+      "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+      "original_url": "https://solar.htw-berlin.de/stromspeicher-inspektor-2026/js/Daten.js",
+      "sha256": "3a843f5e1d3135112d714a274eb22a3ada2cffbec6dda9bb188d2a0d53c59528",
+      "bytes": 11077
+    },
+    {
+      "source_id": "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026",
+      "original_url": "https://sax-power.net/download/Datenblatt_SAX_Home_PLUS__5.8-7.7_EN.pdf",
+      "sha256": "b1d919cb6de7d714e2506c12a67e9a88f5716b79455ca6d1490976e84ffcd91e",
+      "bytes": 763846
+    }
+  ],
+  "source_qualification_receipt_sha256": "0d0096a13c017371b83aa72525c8e5296a606c709cb308fc39c41201b20c3343",
+  "condition_substantive_review_receipt_sha256": "8f481df75a07dd23513f80eecbe303b48586edae5f261946be5868d3f5db4e71",
+  "condition_final_metadata_receipt_sha256": "c1b0830130b3a2c650c0d6d70fd4a93aa0214d295b28e972093b3ee2a114de8f",
+  "condition_hosted_ci": {
+    "run_id": 37120300115,
+    "run_number": 1114,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37120300115",
+    "job_id": 111194943762,
+    "workflow_conclusion": "success",
+    "tests": 3475,
+    "passed": 3475,
+    "skips": 0,
+    "failures": 0,
+    "errors": 0,
+    "registry": "VALID",
+    "tested_merge_commit": "2c4981e4aef3822932bf6fc0553629c7f6d60395",
+    "tested_merge_tree": "e694c8f722c6660858b05d04dda135f8047f40f3",
+    "former_host_only_positive_tests_all_executed": true,
+    "log_sha256": "fee3ad286a4911d1f5465ad43a8ce7f8a684876d35a7fa89da0d81447ec5e633"
+  },
+  "condition_hosted_ci_receipt_sha256": "83ce0615593c8b4a7c86066fe7e70eda9d3cc73f10d9dbc367585176d6e63361",
+  "original_d01_criterion_mapping": {
+    "original_requirement": "Exact rendszerre AC-oldali használható kWh, töltés/kisütés kW, egyirányú vagy round-trip hatásfok, standby W, hőmérséklet °C; revízió és tesztterhelés.",
+    "original_requirement_unchanged": true,
+    "criterion_count": 7,
+    "criteria": [
+      {
+        "criterion": "Exact system and revision",
+        "result": "SATISFIED_VERIFIED_REUSE",
+        "evidence": [
+          "data/processed/b07/sax_2026_source_controls.json: edition2026, systemA1, SAX Power Home Plus, firmwareV23.50",
+          "registry/b07_sax_reference_manifest.json: original PDF/JS hashes",
+          "HTW printed/PDF p65 Tables10/11; source qualification exact original SHA97266383..."
+        ],
+        "limit": "The undated manufacturer datasheet is corroboration, not the tested firmware; 2023:A1 is not this product."
+      },
+      {
+        "criterion": "AC-side usable kWh",
+        "result": "SATISFIED_CONDITIONAL_DER_REUSE",
+        "evidence": [
+          "modules/B07/discharge_equivalent_reference.py: source_reference, step, run",
+          "tests/test_b07_discharge_equivalent_reference.py: genuine closed active cycle",
+          "Independent baseline/candidate probe complete-source-example: 7.455870673658136kWh AC from7.572kWh discharged DC at explicit2kW AC discharge"
+        ],
+        "limit": "Power, fit, reserve and profile are explicit SCN inputs; there is no universal AC-capacity/nameplate substitution."
+      },
+      {
+        "criterion": "Charge/discharge kW and one-way or round-trip efficiency",
+        "result": "SATISFIED_BOUNDED_E2_REUSE",
+        "evidence": [
+          "Existing1194vertices and all native numeric fields are byte/value unchanged",
+          "Source charge path DC output and discharge path AC output are preserved; clipping uses input/output boundaries",
+          "Closed source probe ACinput8.025323091108545, ACoutput7.455870673658136, conditional active ratio0.9290430539698372",
+          "Existing battery DCcycle eta0.958183 plus separate converter losses; no arbitrary sqrt one-way split"
+        ],
+        "limit": "Separate fits retain supported domains; no extrapolation, catalog-rating extension, low-load autojoin, annual ratio or SPI-as-energy substitution."
+      },
+      {
+        "criterion": "Standby W",
+        "result": "SATISFIED_EXISTING_E2_AGGREGATE_REUSE",
+        "evidence": [
+          "provisional_standby_ac_energy:4.07W times explicit hours",
+          "Existing HTW empty-state system-plus-sensor boundary; manufacturer approximately4W corroboration",
+          "Fresh standby result now carries qualified source_conditions;8authority adversaries preserve allocation limits"
+        ],
+        "limit": "No all-state/BMS inclusion proof, upper bound or inferred physical DC inventory loss. This is existing Q-B07-003 applicability debt, not a new component-E1 stop."
+      },
+      {
+        "criterion": "Temperature C",
+        "result": "SATISFIED_QUALIFIED_CONDITION_BINDING",
+        "evidence": [
+          "source_conditions.permitted_operation_temperature:5–35C, manufacturer specification for battery/inverter; printed/PDF p13 Table1",
+          "Exact manufacturer datasheet p1 permissible ambient corroboration, same manufacturer lineage",
+          "laboratory_ambient_temperature_c=null and Q_NOT_ESTABLISHED; printed/PDF p17 supports ambient influence only",
+          "Application flags and runtime command rejection prevent inferred temperature model/default/guarantee"
+        ],
+        "limit": "Actual laboratory ambient remains unknown; permitted range is not tested ambient or a validated performance envelope. The original requested temperature metadata is supplied at the already-authorized E2 source-handoff level; no criterion is dropped and no E1 experiment is invented."
+      },
+      {
+        "criterion": "Test load",
+        "result": "SATISFIED_QUALIFIED_CONDITION_BINDING",
+        "evidence": [
+          "HTW printed/PDF pp9/15 common guideline:100/50/25% nominal charge/discharge,3cycles each,first conditioning,six retained discharged-DC energies averaged",
+          "Fronius D1 illustration explicitly identified; exact SAX cycle watts and raw traces remain null/false",
+          "HTW printed/PDF pp21/22 additional low-load method:at least8supports up to10% nominal discharge; actual SAX point count unknown"
+        ],
+        "limit": "Published common method is not SAX raw telemetry; no catalog-rating multiplication, invented battery-efficiency pooling or fitted-vertex measurement count."
+      },
+      {
+        "criterion": "Relevant energy balance, SOC/power boundary and loss-once module acceptance behavior",
+        "result": "SATISFIED_RELEVANT_MECHANICAL_SCOPE_REUSE",
+        "evidence": [
+          "Full runtime AST identical after exactly2pin values+2metadata fields are normalized",
+          "248whole-result/error probes byte-identical to published baseline; existing source tests and legacy B08 aggregation bridge pass",
+          "Explicit initial/terminal inventory,reserve,clipping,cycle closure and idle Q retention remain unchanged"
+        ],
+        "limit": "Legacy B08 tests are reused separation evidence, not new reference-dispatch integration. Lifecycle replacement/residual values belong to D02; actual operating/legal availability belongs to D03; neither is accepted by D01."
+      }
+    ]
+  },
+  "retained_validation_debt_ids": [
+    "Q-B07-003"
+  ],
+  "evidence_tier": "E2",
+  "model_blocker": false,
+  "finalization_blocker": true,
+  "actual_laboratory_ambient_temperature_c": null,
+  "individual_laboratory_test_date": null,
+  "sax_individual_test_watts": null,
+  "whole_module_accepted": false,
+  "B07_D02_D03_accepted": false,
+  "national_default_added": false,
+  "requirement_or_dependency_changed": false,
+  "readiness_changed": false,
+  "original_source_bytes_published": false,
+  "approved_template_sha256": "e1117072fc9367a16fa19304f97de288333839bc3ff268eff3aad660a1899555",
+  "metadata_only_changed_paths": [
+    "registry/v1_research_plan.json",
+    "registry/module_status.csv",
+    "registry/b07_reference_validation_debt.json",
+    "docs/checkpoints/V1_052_ACCEPTANCE.json"
+  ],
+  "following_metadata_commit_hosted_ci": "NOT_YET_RUN_THIS_RECORD_BINDS_THE_ALREADY_VERIFIED_CONDITION_COMMIT"
+}

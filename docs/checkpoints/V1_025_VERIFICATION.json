@@ -1,0 +1,152 @@
+{
+  "checkpoint": "V1-025",
+  "revision": 3,
+  "base_commit": "6b8ef9da4946a0b7ec510732183a001d529a7908",
+  "independently_reviewed_tree": "08705d5aaad86dd28be3602684c96bc3c0acc961",
+  "independent_verdict": "PASS_BOUNDED_SYNTHETIC_ACCOUNTING_CONTRACT",
+  "independent_report_sha256": "8cf0ff56e4b904f047f52d78d873f3c943b59c409cf1af03e6f34acc851d2e25",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_024_CI.json",
+      "sha256": "6b3920ff6a42ae26f0e575f3906764e2fb406df6e57889a8221def6124283f3c",
+      "bytes": 805,
+      "git_blob": "bc67db816bc575c94f8f382c514ba1bdfa40e7b1"
+    },
+    {
+      "path": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md",
+      "sha256": "17b1bd1c21d3fa592bc4d26a3fbc6b36ec4bfaf28804120183441618c3a9cbf3",
+      "bytes": 8286,
+      "git_blob": "d9dc80e523803f7e90c66c31f2a1ed9ad2ef1667"
+    },
+    {
+      "path": "modules/B12/README.md",
+      "sha256": "d57cb10218356187553749d43dedfe8804d3de903448e2d0713f5d4cc3aeb147",
+      "bytes": 11096,
+      "git_blob": "9a67f205f963449ceb86a1dbb1f09e0ecc9e317c"
+    },
+    {
+      "path": "modules/B12/__init__.py",
+      "sha256": "939bd5e61739c6db9623e7db39571e885d5703b8ed19a3c9bd658f734d16e559",
+      "bytes": 370,
+      "git_blob": "577455e22c6beffee4354deeb30e5089eb9ccbbc"
+    },
+    {
+      "path": "modules/B12/input_accounting_contract.py",
+      "sha256": "b07d3fe7aa237ff11b5d38629b6316570398d575b5aa111e147d458059ec87b0",
+      "bytes": 62179,
+      "git_blob": "75c804cdc0f56e761e38688e57559f0d829352e9"
+    },
+    {
+      "path": "registry/b12_input_inventory.json",
+      "sha256": "4bf1d87af1bacfd80306b83588d4d8dc4085bfb0db7c042778235d2e6e08a698",
+      "bytes": 10181,
+      "git_blob": "2839f410f02d4f96cbd7c0a14cf1c7315623a6de"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "7d440456c37ba568dd5cb60038715710db9f2f548fe825bc6e6b4afebd1c4b7d",
+      "bytes": 53514,
+      "git_blob": "c65401dab28b9bfe8c334d59b42bdc8b497e0af4"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "1b6f2abd02d15d3f5579c92a788eb40b8e736e4d5302987c159b60146e345d13",
+      "bytes": 89230,
+      "git_blob": "658ca0999cb2a45a2b365917c640cd1f98cec147"
+    },
+    {
+      "path": "tests/test_b12_input_accounting_contract.py",
+      "sha256": "1a39331d9fdb159bf691fad1e0a7bb4c5c381f942432c2e18b8691f751645efb",
+      "bytes": 64498,
+      "git_blob": "d6192f1e0a16cbe47719f196f2c01f027531f9cb"
+    }
+  ],
+  "local_full_suite": {
+    "revision": 3,
+    "candidate_tree": "08705d5aaad86dd28be3602684c96bc3c0acc961",
+    "base_commit": "6b8ef9da4946a0b7ec510732183a001d529a7908",
+    "test_command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "test_summary": [
+      [
+        "2937",
+        "112.991"
+      ]
+    ],
+    "wall_seconds": 114.344,
+    "log_sha256": "e7b91e95722eb92b97fe08cd61615519eefb3b73b72b4547ee244c96c3a5c05f",
+    "frozen_file_hashes_rechecked": 9
+  },
+  "independent_final_checks": {
+    "b12_tests": 51,
+    "registry_tests": 15,
+    "plan_tests": 3,
+    "required_nonoptional_field_None_rejections": 134,
+    "debt_resource_replay_cases": 32,
+    "scalar_Q_sweep": {
+      "total": 65,
+      "valid_audits": 58,
+      "expected_contract_rejections": 7,
+      "raw_exceptions": 0,
+      "unavailable_numeric_leakage": 0
+    },
+    "additional_native_money_policy_future_scenario_cases": 13,
+    "overlapping_fee_replay": "Known-zero and explicit-Q preserve unavailable totals; known positive duplicate rejected",
+    "registry_validator": "VALID",
+    "diff_check": "PASS",
+    "git_tree_reconstructed": "PASS; isolated temporary index and objects, original index unchanged"
+  },
+  "previous_revision_scope_review": {
+    "revision2_count": 21,
+    "scope": "Fixed-meter identities/non-overlap, VAT unknown/aggregate caps, reciprocal terminal receipt identities, retirement cycle/chronology/prepayment/same-day, H season/load/cash-date boundaries",
+    "final_continuity": "Final focused 51 reruns these invariant families; separate final money/policy/fee and debt probes confirm neighboring changes did not reopen original findings"
+  },
+  "closed_findings": [
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8",
+    "R9",
+    "R10",
+    "R11",
+    "R12",
+    "R13",
+    "R14"
+  ],
+  "finding_closure": {
+    "R1": "One known payable fixed charge per meter/overlapping service interval, independent of mutable labels and cash date; non-overlap/other meter/other leg remain valid.",
+    "R2": "Unknown invoice VAT/tax authority keeps refund cash views Q; cumulative known refunds cannot exceed VAT; gross initial cost and independent budget survive.",
+    "R3": "Terminal CASH_SALE reciprocally binds same-leg SALE receipt, same generation and known same amount; unknown terminal amount leaves dependent cash Q.",
+    "R4": "Recursive concrete Section row/debt field shape validation catches missing required values as B12ContractError; explicit Q survives.",
+    "R5": "Recurring budget has independent dependencies and row assembly; capital-onlyQ no longer hides known budget.",
+    "R6": "Retirement chain is acyclic, nondecreasing in commissioning, and reciprocally linked to replacement cost schedule; same-day andprepayment allowed.",
+    "R7": "B04 producer replay binds charges/source IDs/revision/product/distributor/quantity/allocation/load scope/service period; settlement dates remain separate.",
+    "R8": "Net income and recurring receipt component coverage share one income domain; same WAGES cannot enter twice.",
+    "R9": "Noncash support identities are checked against all economic events in either instrument order; same logical identity in other leg remains legal.",
+    "R10": "Accrual rate uses nonnegative ratio in every interest branch; missing rate remains explicit Q.",
+    "R11": "In-window maturity residual needs actual dated treatment before cash views become available; after-horizon debt stays outstanding; genuine refinance cash/repayment reconciles.",
+    "R12": "Policy floor/reserve enforce case currency/basis; negative floor allowed, no default/sign/metric policy selected; reserve retains nonnegative stock domain.",
+    "R13": "Unknown fixed fee is not treated as proved duplication; dependent bill/cash columns remainQ.",
+    "R14": "Native B04 HUF/frozen2026 monetary anchor cannot be changed by whole-case retagging, old/future base-year labels or unrelated conversion rows; future service/evaluation remains explicit frozen nominal SCN."
+  },
+  "earlier_results": {
+    "revision1": "2917 configured tests passed, but independent review found material defects; superseded, preserved separately",
+    "revision2": "2933 configured tests passed and original11 defects closed, but neighboring monetary/Q checks remained; superseded, preserved separately",
+    "interim_revision3": "50-test freeze withdrawn before aggregate/publication to complete the native B04 price anchor"
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD_BEFORE_CHECKPOINT_CLOSURE",
+  "boundaries": [
+    "Synthetic arithmetic only; actual-source mode remainsQ with no numeric audit rows",
+    "No source-ID/evidence-tier/metadata string establishes real input admission",
+    "No owner floor, reserve, debt, discount, price escalation, adoption or service policy chosen",
+    "No affordability/NPV/IRR/DSCR/national uptake/support gap/B15 output admitted",
+    "B03 market-residential gas only; dynamic energy-only/wholesale/system values are not retail receipts; H price is not individual site permission",
+    "No implicit currency/rebase converter for native B04 bills in this slice",
+    "Overlap among focused suites and adversarial probes is not extra aggregate test credit",
+    "No main merge"
+  ]
+}

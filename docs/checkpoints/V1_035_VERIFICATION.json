@@ -1,0 +1,519 @@
+{
+  "checkpoint": "V1-035",
+  "base_commit": "249df54c15370c5fa2829f3159b9384d3076c4e7",
+  "independently_reviewed_tree": "f598d7c83aeef9ddd2f59934b6a36cc6de2e0a9a",
+  "independent_verdict": "PASS_NO_OPEN_FINDINGS_LOCAL_COMBINED_SCOPE",
+  "independent_final_report_sha256": "d71bad5dfc3b5d4652c2d110be5b53c0f1ac4d0084af46574f825dc32900c7ca",
+  "independent_source_code_report_sha256": "a5136e4d78b6f3ed35416e22a01e6a00854bba51d0a2977caf2c2a2ad8b1a8bb",
+  "independent_combined_scope_report_sha256": "c24e4a1ef40c0e2e030af5893e98a37d23b59cb7a26c8e184c6ede9f40d4949e",
+  "reviewed_files": [
+    {
+      "path": "data/processed/b05_p20_qualified_cycling_ready_point.csv",
+      "sha256": "40bcf29def56c1939ad479f344eb4b60a547fde97c0f988f8f6a295320614f26",
+      "bytes": 1402,
+      "git_blob": "e939f2cc9b5da485f03448c235a5d3569a16af93"
+    },
+    {
+      "path": "data/processed/b05_p22_mitsubishi_w35_cycling_bins.csv",
+      "sha256": "99e52393c7890d31a7a250f05de39e6a4daa5038a1b8a2380bb4833781f4353c",
+      "bytes": 3057,
+      "git_blob": "d277140149d72f68ee5ed83104b222665e779354"
+    },
+    {
+      "path": "data/processed/b05_p23_dimplex_w35_cycling_bins.csv",
+      "sha256": "5c34ef57a680128197f33db578a9cf60c11eb2aac9102ec8d601b56248e8d67a",
+      "bytes": 3416,
+      "git_blob": "e3531e1ab09157a7948bef362b03737a3ca8e1b0"
+    },
+    {
+      "path": "docs/checkpoints/V1_034_CI.json",
+      "sha256": "f628a80216ae2cb08015e85189f62ad7562f8e67e66f06e4ece5f2879967dd1b",
+      "bytes": 1343,
+      "git_blob": "e8abfa819b5db1b1d15b1ff3d4fb3cfedac9ae57"
+    },
+    {
+      "path": "docs/checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md",
+      "sha256": "13cc649e3c8f8df1eb1a099ac9cb0337cf87bccdc73ddc1bde500a8aefbddd6b",
+      "bytes": 8135,
+      "git_blob": "cf0fca1fe3d8efb312db80dd5e25df6d022936f3"
+    },
+    {
+      "path": "docs/source_packs/B05_P20_QUALIFIED_CYCLING_READY_POINT.md",
+      "sha256": "0ef3e88a4d6214c8d8b1a19115c55984ed66bf584242aff7b4fec11a50260c37",
+      "bytes": 5954,
+      "git_blob": "2ee061689bcad0a21f67d0f2e21561c883fa75c9"
+    },
+    {
+      "path": "docs/source_packs/B05_P22_MITSUBISHI_EXTENDED_MINIMUM_POINT_GRID.md",
+      "sha256": "cf1dbcf4d2e0c9100aaaedeb6cbc94466f4feedb8e4969699c3db057a5d79031",
+      "bytes": 7038,
+      "git_blob": "485b361da2a1ccce7bd373410151ebb7e1c15cf8"
+    },
+    {
+      "path": "docs/source_packs/B05_P23_DIMPLEX_SECOND_MODULATION_FLOOR_SURFACE.md",
+      "sha256": "7d5411e80f4a1769fef4e77110945b02e9e0751f02bb84ec91ce6652e55f1cd0",
+      "bytes": 4914,
+      "git_blob": "02ade2539ff4f82eb6889d45986a59a1d186ca1b"
+    },
+    {
+      "path": "docs/source_packs/B05_P27_QUESTION_LAYER_SEMANTIC_SPLIT.md",
+      "sha256": "db8eeb80609e91526bc3c19956b8e6c556f45d7af8be209451600c92c7c6166d",
+      "bytes": 4024,
+      "git_blob": "fcf83e135283ebe2c59ab3706f2b456eb9f5b946"
+    },
+    {
+      "path": "docs/source_packs/B05_P42_COORDINATE_GAP_CLOSURE.md",
+      "sha256": "150fe02e05b55d1c8a9a33004103c025ab7c810a7d15e35235491eeb39b74f4f",
+      "bytes": 5599,
+      "git_blob": "cd36470e418bba476f666981fed26a85d3e5158e"
+    },
+    {
+      "path": "docs/source_packs/B05_P59_PART_LOAD_READINESS_RECALIBRATION.md",
+      "sha256": "17a48c0de32625352dd001f6b045df141ceeade053de14d025cb47697b749204",
+      "bytes": 6414,
+      "git_blob": "0747cf7c4bc63d096aef8c9f4998681cabbbdfbd"
+    },
+    {
+      "path": "evidence/history/B05-CYCLING-ADMISSION-2026-10-02/manifest.json",
+      "sha256": "13e909898c72cb3a11dfa70b2dd649444cbe78d71ce4c4f34708e9825fed8247",
+      "bytes": 5342,
+      "git_blob": "8b376e04515af3e7e695be574dca596cf3f76a62"
+    },
+    {
+      "path": "modules/B05/README.md",
+      "sha256": "b454e7816f8212981322a9fed6834aadd0e18b58a1f3cdc89dbc706b60815335",
+      "bytes": 58792,
+      "git_blob": "251a8bb06e120b014e458196aad4ff1a60f6b36f"
+    },
+    {
+      "path": "modules/B05/part_load_readiness_recalibration.py",
+      "sha256": "3105ea7b337a5861fc116363f336870b6d8c4915147cb80dc3084bb3b210bf90",
+      "bytes": 6557,
+      "git_blob": "540de7a41ec37772a1f90cc69e487aa5c422b2c1"
+    },
+    {
+      "path": "modules/B05/qualified_cycling_point.py",
+      "sha256": "47096e0dc9590039baa38c84848544e34f6ffb37e4758ab78c87532d3aab30fd",
+      "bytes": 9643,
+      "git_blob": "663a0aa3b59c6144d3efbb945275d139484b99c6"
+    },
+    {
+      "path": "registry/b05_cycling_source_admission_manifest.json",
+      "sha256": "357f333fb057f79201d67986fab85b7a0da3c1daab15d99122c7f828f1f3a1b2",
+      "bytes": 14042,
+      "git_blob": "0110c5fada8a526da59936011052e8c54108eca6"
+    },
+    {
+      "path": "registry/b05_p20_qualified_cycling_ready_point.csv",
+      "sha256": "f69a6a2882c2c356e54ea2f1d73a9d813a2c78a3398e314e990d0f1d678db9c0",
+      "bytes": 3779,
+      "git_blob": "c66f530239625b31d2d42f1d8646347f5941e8f1"
+    },
+    {
+      "path": "registry/b05_p22_mitsubishi_extended_minimum_grid.csv",
+      "sha256": "de73c61f5dcab628186e785913203cf20128afe5d8b1623539c8b3490fc0905b",
+      "bytes": 4472,
+      "git_blob": "9f0bb88da6fc06fcdaecbe4cf7d960557e7733a1"
+    },
+    {
+      "path": "registry/b05_p23_dimplex_second_floor_surface.csv",
+      "sha256": "ec79d51f20b2ed0b59065bd64ff19ff1520c53785b23b9dfe7ea73e6ba234b60",
+      "bytes": 3873,
+      "git_blob": "1e8ca0deb191afb1955dd5f4cb04b9f37cb33165"
+    },
+    {
+      "path": "registry/b05_p27_question_layer_semantic_split.csv",
+      "sha256": "398ae779e3656de7b8d4653f1967ba8145dc5d4a52dadc2b7e4573ab2145c2da",
+      "bytes": 3768,
+      "git_blob": "ebe5fd6df74aee99970fde19f14e9580c4bf3b9e"
+    },
+    {
+      "path": "registry/b05_p42_coordinate_gap_closure.csv",
+      "sha256": "b09c5238d1b7afca09d91d2c8bb1d29e377a8d3cccc903c29cabfb35a3900c54",
+      "bytes": 3617,
+      "git_blob": "4c6c7685d9637d7f108cce056ca89eddf5362208"
+    },
+    {
+      "path": "registry/b05_p59_part_load_readiness_scorecard.csv",
+      "sha256": "4dfe7c1aa5467bc773d3766521f359421a9ff9ff8785d019c8d379edf59a2530",
+      "bytes": 4188,
+      "git_blob": "79cbaeceecef55206b4f64527c3c43710cde7776"
+    },
+    {
+      "path": "registry/heat_pump_readiness.csv",
+      "sha256": "283d13de7cc90f124a5c70c17c67adcee87fd6bbb18f946d360691d6bb9eb4a0",
+      "bytes": 21756,
+      "git_blob": "13f66eb0e212b73296fe6cf6418c3089a1bcbcdf"
+    },
+    {
+      "path": "registry/heat_pump_sources.csv",
+      "sha256": "9b625a89a001e96d097fbb9a67eb36af2c4060f80fb90050d6c600cb507548fa",
+      "bytes": 78446,
+      "git_blob": "f36dccf1caac78a43a0ff4091897f4aac299b6dd"
+    },
+    {
+      "path": "registry/heat_pump_variables.csv",
+      "sha256": "b6f6b48cf431b2cef710f8678f9fcc1f11051dc3e371ac82de3bb0dcb991c28b",
+      "bytes": 54630,
+      "git_blob": "42f4d028217f5f8824bfd65a91662c36e91b3be1"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "867022d0528a4f80633dbe0eade138ceda5131cb7ab9fc01314285b6fda63c9c",
+      "bytes": 58274,
+      "git_blob": "1dcdd5a560fed972956033c9d4975e0797fed988"
+    },
+    {
+      "path": "registry/open_questions.csv",
+      "sha256": "1f7cf5629458c62ce6eb1176b6b6852383d29633906ecb80809a6262c432ef0e",
+      "bytes": 135688,
+      "git_blob": "f1c73d2b4f57c813c1bf9c2390474f1de4ae903d"
+    },
+    {
+      "path": "registry/project_blocker_evidence_audit.csv",
+      "sha256": "b3e6f11733084cceee84afc007bae31c9469823740f557ec2898864686730eb7",
+      "bytes": 24514,
+      "git_blob": "c0697628ad5ad9188810779e76208d87b33c1512"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "79b8d54d134c016a7e0a0db747365f779ec0b1f5b1071fca7324b2d6805a8ae8",
+      "bytes": 257061,
+      "git_blob": "a6a3a0194d300cceb013363f9316d8f4a5b18d86"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "3fd1bc89d51e6cb33a77c87ddff6b6807deea1a834f59ab9d49ee4d7c3c4577e",
+      "bytes": 104229,
+      "git_blob": "c99e2f893618a2cbff54eb44a875cd20ae96e1d2"
+    },
+    {
+      "path": "registry/variables.csv",
+      "sha256": "f7928a57f2bf923477724ac1e6d60b70d0c136dd42c00b34a4e3fb61a94130b0",
+      "bytes": 35456,
+      "git_blob": "e124c7744d73bd262877421a10fd1d6833f961d0"
+    },
+    {
+      "path": "tests/b05_readiness_assertions.py",
+      "sha256": "19b30b208d67d1756326d1d87f86650864fc6855dd0f48dbfdfe54ba1a22f035",
+      "bytes": 1458,
+      "git_blob": "6ef237035cc770ae994b9ff585cbe930e1bb8560"
+    },
+    {
+      "path": "tests/test_b05_cycling_source_admission.py",
+      "sha256": "04523e86aa76b28f7931638f53b5af4ae7174c13093217b5a73bae160b2908d2",
+      "bytes": 14030,
+      "git_blob": "1dad94f786121481bf534bb213dabad07244455a"
+    },
+    {
+      "path": "tests/test_b05_p15_keymark_certified_cdh_partload.py",
+      "sha256": "50c967ee467ec07a56686eeac524906ac4f8671dcdc0f73d4ed568503cb475be",
+      "bytes": 5406,
+      "git_blob": "b1521fe156018ed14e46503d55a5a3a59d3bfde7"
+    },
+    {
+      "path": "tests/test_b05_p16_cross_manufacturer_runtime_gate.py",
+      "sha256": "1f2fb99d2aed8b26b50864691da43b03d143b581afe02732361d979fb6e5c31b",
+      "bytes": 6485,
+      "git_blob": "8d80a8aa4ae9dac7e58df251d8cd4e66ca9124bd"
+    },
+    {
+      "path": "tests/test_b05_p17_same_product_modulation_anchors.py",
+      "sha256": "176c135540f99d885117faa8d0d02f5cc127e3f5f53fc163015b60b78dfda513",
+      "bytes": 5496,
+      "git_blob": "8fa3ed9a5d7998309fa9ef0589d93b23d5e747ee"
+    },
+    {
+      "path": "tests/test_b05_p18_en14825_cycling_numeric_method.py",
+      "sha256": "1be2260b86b4f1ac77f47b214b4494e0779f7f1a24eb780cc6ca3ef83353ac6c",
+      "bytes": 4227,
+      "git_blob": "6268ba49d2a830fdc2870997138204b20d18addc"
+    },
+    {
+      "path": "tests/test_b05_p19_cycling_input_colocation_gate.py",
+      "sha256": "077f760aa2103cb708abed0d6ee8f6491382d1a42b033440f3af5b5cc98158d9",
+      "bytes": 4745,
+      "git_blob": "ce401fcad6b534ce01b51958092e09b9260a3660"
+    },
+    {
+      "path": "tests/test_b05_p20_qualified_cycling_ready_point.py",
+      "sha256": "6eeaf2d6a031235e013af40e70b7de501e72ff061a6ddf7002c05378aacacb8d",
+      "bytes": 6180,
+      "git_blob": "b654b3c0acc0a9e6d3a3f6272340ff4e03188123"
+    },
+    {
+      "path": "tests/test_b05_p21_bounded_modulation_floor_surface.py",
+      "sha256": "09c5c45c6a78c586b7f83ff63765ab48045e34e1b7cb80c532a9044c0862577c",
+      "bytes": 6012,
+      "git_blob": "f84cd97476dbe9ae0eac8428fbe8335769d17a31"
+    },
+    {
+      "path": "tests/test_b05_p22_mitsubishi_extended_minimum_grid.py",
+      "sha256": "dc9b97d443f93e34d19a1380947ded0be8aa2904e1f58fe234ec15564ec87985",
+      "bytes": 7202,
+      "git_blob": "2311bb6274001da84a69fa94fc1c844b3f7f6221"
+    },
+    {
+      "path": "tests/test_b05_p23_dimplex_second_floor_surface.py",
+      "sha256": "dc172e39ccc4fe6df897db7408e744fcf825e99779841f3de671865c0281caad",
+      "bytes": 6050,
+      "git_blob": "0fc868ef7e491cd908f7b7cd95b1e3b328770e33"
+    },
+    {
+      "path": "tests/test_b05_p24_hourly_cycling_method_separation.py",
+      "sha256": "90cbf0a88a44f730f825054ba2b32101c5a95dc40a18b5b710d79d6c2a016cfa",
+      "bytes": 5439,
+      "git_blob": "0435dd8d7754735124d77210f8e5920a6a92cdca"
+    },
+    {
+      "path": "tests/test_b05_p25_hem_transient_default_authority.py",
+      "sha256": "fa92bc12ea141768dffe6b5dc2008e42f8dec0d46665e6cdc74383f091cd8167",
+      "bytes": 6163,
+      "git_blob": "135533d4408ac8dd135089280e620c37618cbb44"
+    },
+    {
+      "path": "tests/test_b05_p26_mitsubishi_cold_high_supply_classification.py",
+      "sha256": "995037ddba92ac3e8e11e48c0b04a30c7b8daf3ce8793b28fbd5ee1df199952a",
+      "bytes": 3315,
+      "git_blob": "3b5fbca62005a294cddcc8a10695ee82a4e9feff"
+    },
+    {
+      "path": "tests/test_b05_p27_question_layer_semantic_split.py",
+      "sha256": "d5c30f5e60ee0c1e282ed0fc02f3fd3fc1e08fd7783850e528149e31cb0b8cd9",
+      "bytes": 3996,
+      "git_blob": "0011ee99bc70890f14704d305a1031018645ddde"
+    },
+    {
+      "path": "tests/test_b05_p28_product_tau_eq_evidence_path.py",
+      "sha256": "9bee6137913593c53046b6e0f836800c053ff06c9d0d166e5272fff7cb7f3da4",
+      "bytes": 4078,
+      "git_blob": "cf95d3b2ff67bce231335fd53ec1a209fb30dbd5"
+    },
+    {
+      "path": "tests/test_b05_p31_fancoil_authority_separation.py",
+      "sha256": "81168faa96ef03c76787b0e7a64beb85e151ae26dbf445417541e98ae7f06006",
+      "bytes": 8138,
+      "git_blob": "7a0fabf3c0eec226b5c776473a7231a7e82c2a2f"
+    },
+    {
+      "path": "tests/test_b05_p42_coordinate_gap_closure.py",
+      "sha256": "175654be42bcf73645a6cf4c05648201e9b44c81eb01197d7cc7de2c5c149578",
+      "bytes": 5771,
+      "git_blob": "1848098a7ee6fcdc21875eb1377542400e3fa677"
+    },
+    {
+      "path": "tests/test_b05_p43_transient_fidelity_admission.py",
+      "sha256": "7ec629d1d3c399ad8737ad615bbbb2c9e4bf52cc7f5a9fe3cbc9357978dca9ab",
+      "bytes": 4808,
+      "git_blob": "4109c6234641baac2bdc3ab0a32a41f51f5f70e3"
+    },
+    {
+      "path": "tests/test_b05_p44_transient_report_lineage.py",
+      "sha256": "c783040edb79b56424a051f16d331f70e77b0567ed49c6ccb84aecbd1f12e9e9",
+      "bytes": 5681,
+      "git_blob": "825992a4e047d048c18814c0abf6af0d60843449"
+    },
+    {
+      "path": "tests/test_b05_p45_dimplex_vde_report_recoverability.py",
+      "sha256": "b1a60fdac6f354bf3c59291b8e779484bc02b755e7f989aac587c609741ed36e",
+      "bytes": 4147,
+      "git_blob": "0ae991406364f3a77de2e466ca3a3a6e5e612af1"
+    },
+    {
+      "path": "tests/test_b05_p46_mitsubishi_a15_w50_domain_boundary.py",
+      "sha256": "c878c3f81dd91f2ba0496909dcc2c813e89283b14f86fbb489e0cdee864315ee",
+      "bytes": 4353,
+      "git_blob": "be01eaa1a326703e67212a00152c10367615400c"
+    },
+    {
+      "path": "tests/test_b05_p47_mitsubishi_szu_sampling_report_boundary.py",
+      "sha256": "a78e4e64882094dff473ffb6960db6dee4f79209261d6701fab71b1e7d644f25",
+      "bytes": 4824,
+      "git_blob": "bba9ad150baee809c74c0fa529c45c266a61168d"
+    },
+    {
+      "path": "tests/test_b05_p48_mitsubishi_szu_acquisition_package.py",
+      "sha256": "ffd20dcbb1d4bc369bc167c7149bb7fca341df5e09d6e124bdc45b1950924491",
+      "bytes": 4563,
+      "git_blob": "c91ea93ad84c54bc55f17635f6695f4e7f51b7bd"
+    },
+    {
+      "path": "tests/test_b05_p49_s2125_raw_field_evidence.py",
+      "sha256": "bdf7a253fbe1022df754da4d2a13ac5248f9f021d012aeef636183d80816eae9",
+      "bytes": 4779,
+      "git_blob": "28c68b7dcb46053fc5cc025f416f43ee70e32033"
+    },
+    {
+      "path": "tests/test_b05_p56_fcc06_state_dependent_response.py",
+      "sha256": "96e2702f7c38ec224823d1e0c07fc6630f61dd3d80eb8571dfee3278192c77fe",
+      "bytes": 4827,
+      "git_blob": "5e48a01dac539941183f8cd154856f292354d8c0"
+    },
+    {
+      "path": "tests/test_b05_p57_fcc06_direct_runtime.py",
+      "sha256": "9a1c14ed0fd3bd516707f6859c455116184290cb2a766ff31c43067ec884034a",
+      "bytes": 5243,
+      "git_blob": "19273fead90fca0e8761305fd3531f2bacdf9e2f"
+    },
+    {
+      "path": "tests/test_b05_p58_fcc06_mass_sensitivity.py",
+      "sha256": "7b1ef747ca1f6d7d9ea9809dfae028cf42b30f17690acc0c36bd0db5ad32ca2a",
+      "bytes": 5179,
+      "git_blob": "64f0b1c2be9027fc44788ab00071e6f80e322f32"
+    },
+    {
+      "path": "tests/test_b05_p59_part_load_readiness_recalibration.py",
+      "sha256": "f12b3b39b163853e9b5a6bf5c359f9bc9bd63f91185f24ca63a57e66a453430b",
+      "bytes": 11123,
+      "git_blob": "9b2aeb5c9358fa2358720b33e892911fc646e47c"
+    },
+    {
+      "path": "tools/validate_registry.py",
+      "sha256": "274d75d4e43b5b7578c3da7d879255cb18b6e84d554da7e2cbbd21684d37362c",
+      "bytes": 112607,
+      "git_blob": "2e1299a8a5b6adf247361218313620482eff17d6"
+    }
+  ],
+  "independent_checks": {
+    "focused_tests_rerun": 102,
+    "focused_result": "PASS",
+    "structured_source_code_and_adverse_checks": [
+      {
+        "check": "exact_identity",
+        "result": "PASS",
+        "detail": {
+          "tree": "4385f74a951edc61df55bc0484cd2f0da40d0b3f",
+          "changed_files": 59,
+          "protected_contracts": 17
+        }
+      },
+      {
+        "check": "shared_fields_exact_replay",
+        "result": "PASS",
+        "detail": {
+          "fields": 26,
+          "new_rows": 3,
+          "unrelated_fields_and_rows_preserved": true,
+          "umbrella_E2_and_module64_preserved": true
+        }
+      },
+      {
+        "check": "unchanged_substantive_test_AST",
+        "result": "PASS",
+        "detail": {
+          "readiness_only_test_files": 22,
+          "other_direct_admission_tests_reviewed_separately": true
+        }
+      },
+      {
+        "check": "unchanged_original_rubric_and_null_total",
+        "result": "PASS",
+        "detail": {
+          "historical_total": 75,
+          "current_total": null,
+          "unaffected_subtotal": 67,
+          "unassessed_weight": 8,
+          "unaffected_rows_identical": 11,
+          "no_numeric_substitute_accepted": true,
+          "source_coefficients_and_min_facts_preserved": true
+        }
+      },
+      {
+        "check": "both_families_all_observations",
+        "result": "PASS",
+        "detail": {
+          "current_observations": 11,
+          "physical_Q_and_asserted_water_Q": 22,
+          "conditional_decimal_oracles": 44
+        }
+      },
+      {
+        "check": "adversarial_two_family_evidence",
+        "result": "PASS",
+        "detail": {
+          "missing_mismatched_context_or_point_cases": 60,
+          "source_drift_or_partial_forgery_cases": 26,
+          "all_physical_outputs_Q_null": true,
+          "repository_evidence_edited": false
+        }
+      }
+    ],
+    "source_verification": "Exact standalone KEYMARK component/climate/application sections and original CALCM TableD1 verified; manufacturer fixed-water facts kept distinct from joined applicability",
+    "shared_proposal": "26 exact field changes and three linked audit rows independently replayed; unrelated fields retained",
+    "test_preservation": "22 readiness-only legacy test files preserve substantive ASTs after the obsolete score checks/helper replacements are separated; P20/P22/P23 update the directly corrected admission expectations; P42 adds two rejection assertions",
+    "full_suite": "Detailed log/hash/counts and terminal result corroborated; not independently rerun"
+  },
+  "integration": {
+    "author_tree": "4385f74a951edc61df55bc0484cd2f0da40d0b3f",
+    "author_paths_byte_identical": 57,
+    "author_exceptions": [
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md"
+    ],
+    "B04_acceptance_and_other_module_rows_preserved": true,
+    "other_57_plan_slices_preserved": true,
+    "B05_D03": "NOT_STARTED -> INTEGRATING; no accepted artifacts or completed-slice claim",
+    "protected_scientific_contracts": {
+      "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+      "modules/B05/engine.py": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+      "modules/B05/cycling_degradation_method.py": "dfe22cbb74e93c477a4758bcaf6a9b9ad19f8d4189c0a281e0a1b4e5354ff35d",
+      "modules/B05/hourly_cycling_method.py": "2ca503290f257ad605cd4f276a06288edeb42691dd36a7251289d4cb01ec8570",
+      "modules/B05/hourly_onoff_parameter_policy.py": "2c71884d74d12062e1fc551aa7b14c985ccfae6af0323b9ddea3872a2f36baea",
+      "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+      "data/processed/b05_p22_mitsubishi_minimum_point_grid.csv": "5b9ad4d3b0a326ad7ee2431aa53ced73d719f6796255b4b1697d44eccf1b577b",
+      "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+      "modules/B06/prospective_capacity_reference.py": "9bbc863ff40cf6b12162ce23980881d15c3056db65a434b4ce6a49dc97e62c45",
+      "modules/B06/tabula_seasonal_reference.py": "70d8d021a00e506627f30c0cb31176f7d009578278f62ea22814bf5014b5cb0b",
+      "data/processed/b05_p23_dimplex_modulation_floor_surface.csv": "9ec781a95c76fefc00f52d46ffdf9013632e3b2937e3c52fd1b977540abebe66",
+      "data/processed/b05_p42_coordinate_gap_closure.csv": "b6159a1f12f2802b9df649ca36e66b8997ea5a975d6c58114f6d59aa0713042e",
+      "modules/B05/coordinate_gap_closure.py": "53d4c643d315f7a1cc3d6368f25d3fbb7f7e30bdd6f47581557fc46002f7caa5",
+      "modules/B05/barrier_aware_modulation_floor_surface.py": "7289279781d4526c387162a908cef9c53f759d30fd18b0f302d9d8c454310a05",
+      "modules/B06/hourly_thermal_reference.py": "80d5879145a7574e91952f9407c972cb6fc4799c62f83aa033e052068ded17df",
+      "registry/b06_hourly_thermal_reference_manifest.json": "1e167ccef1a40cc916f72ab0b8d11edfde84ad61980e81bc45836aec4248f90d",
+      "tests/test_b06_hourly_thermal_reference.py": "406dd272ddde0e8c7de7991e642586122de0fb204ff3fa4073673c0d368464c5"
+    },
+    "prior_CI_receipt": "V1-034 head and CI1096 only; not current-head validation"
+  },
+  "current_claim_boundaries": {
+    "WM50_and_Dimplex_physical_join": "Q; source-qualified COP/input null",
+    "conditional_P18_mathematics": "Executable under explicit conditional scope",
+    "manufacturer_and_coefficient_facts": "Preserved in their own source scope; missing joined applicability does not invalidate the observations",
+    "historical_WM50_warmer_attribution": "Currently uncorroborated; original bytes were not retained, so historical cause and publisher update timing remain unresolved",
+    "current_part_load_readiness_total": null,
+    "supported_subtotal_not_a_new_score": 67,
+    "unassessed_original_gate_weight": 8,
+    "original_gate": "EN14825_STANDARD_BIN_CYCLING_METHOD",
+    "original_criterion_preserved": true,
+    "historical_P59_total": 75,
+    "B05_module_readiness_unchanged": 64,
+    "partial_credit_invented": false,
+    "actual_hourly_electricity_SPF_or_national_policy_admitted": false
+  },
+  "lead_focused_checks": {
+    "passed": 321,
+    "skipped": 0,
+    "scope": "Reviewed author-focused set plus plan integrity",
+    "registry_validation": "VALID",
+    "diff_check": "PASS",
+    "log_sha256": "71c5a603e00745c3c71e4509d643dbdd2bd1203b8dd8900db220827f3f504ce0"
+  },
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3101,
+    "passed": 3098,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "seconds": 116.658,
+    "frozen_tree": "f598d7c83aeef9ddd2f59934b6a36cc6de2e0a9a",
+    "all_hashes_unchanged": true,
+    "log_sha256": "cda6f6280910f2f29eb28dabb80207211117390ab394c7fc1d9c1069405b4b03",
+    "completed_at": "2026-10-02T07:06:12.477885+00:00"
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; zero skips and all three existing real external-directory positives must execute as ok",
+  "publication_scope": "Code, source/claim metadata, preserved historical evidence identities and tests only; no new raw-source/private-panel publication, settings change or main merge"
+}

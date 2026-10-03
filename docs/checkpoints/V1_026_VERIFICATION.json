@@ -1,0 +1,117 @@
+{
+  "checkpoint": "V1-026",
+  "base_commit": "7552e7cbaf003bfe519eb21e3ec4660a3b6491c3",
+  "independently_reviewed_tree": "e864af75ecbad961019d16af77f9039b2bf3ae5b",
+  "independent_verdict": "QUALIFIED_BOUNDED_REFERENCE_COMBINED_FULL_SUITE_VERIFIED",
+  "independent_report_sha256": "6803119d2c647085e7065546e99eaf0c1ee96906c4a3ec0f9acb0042ef473a50",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_025_CI.json",
+      "sha256": "447a0889ba440ea64202a5c14b5a8fa081dc86948120ee4e732456c97936035c",
+      "bytes": 832,
+      "git_blob": "7f015529d49abed2594ccb483717be8579185bb6"
+    },
+    {
+      "path": "docs/checkpoints/V1_026_B13_FISCAL_REFERENCE.md",
+      "sha256": "c8bb31a9a10696bff6821c9390ec969563275a4b38c2d4c41f5eba7e4e134aae",
+      "bytes": 8572,
+      "git_blob": "6ccae262650ca269e513fd6713571df6b71d123b"
+    },
+    {
+      "path": "modules/B13/__init__.py",
+      "sha256": "f9d6e6f8b2d47f7601142313b6603c601c28a008746a8d25fdf8e2764af6536d",
+      "bytes": 76,
+      "git_blob": "a076ab6932fbd217ae61962f8429ed87256a9d4a"
+    },
+    {
+      "path": "modules/B13/fiscal_reference.py",
+      "sha256": "174eeb3c328e1d7e2e52c86d053328ebe9e437471b6ffa09ffe523437a6771f2",
+      "bytes": 19708,
+      "git_blob": "ad31154bed6adde0dc337984c75811a8ec5f8767"
+    },
+    {
+      "path": "registry/b13_fiscal_reference_manifest.json",
+      "sha256": "ea2758707c05e9757b8efb8c5783c4081f06cda8bc9eb41900291e7303916cf2",
+      "bytes": 43337,
+      "git_blob": "a0f0c5848b700ed3b3d27edeb327beb7dae1fb15"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "fac8c289f2bf6e3825d607a47fa08e9759429660194dc293689433b7e524b411",
+      "bytes": 53840,
+      "git_blob": "587f4d0d436767450967e15578fa71141709a12d"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "bbd56d5a4046822b81d5f41506893a7c2f1d6f82eea1239057edbcc1b02c4595",
+      "bytes": 243313,
+      "git_blob": "8ba7bc4641616ae31c4c444e945d06554525383f"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "a53e71f62a5817770fb0f3df1be6aa106b2495a5964b187a98b571b435da2363",
+      "bytes": 90958,
+      "git_blob": "c14e0f827ec558a78cd89f87cb90a8e7d488a0ec"
+    },
+    {
+      "path": "tests/test_b13_fiscal_reference.py",
+      "sha256": "0b3ee06ce8eafff1d05dc59dd2e9779f14326794962aca4c5bd755a382ee8ec0",
+      "bytes": 21945,
+      "git_blob": "a053ea415355e5ee25b1b4525e05f2b172abf7b9"
+    },
+    {
+      "path": "tools/materialize_b13_fiscal_reference.py",
+      "sha256": "470dfbde2c00dee2bd4e473b9e6a6c1b8a85a5a5c9ebcd1aa323b676703cde44",
+      "bytes": 6280,
+      "git_blob": "ea8e5f119c828127e4c1b08ebb01ba7bc01805d9"
+    }
+  ],
+  "local_full_suite": {
+    "candidate_tree": "e864af75ecbad961019d16af77f9039b2bf3ae5b",
+    "base_commit": "7552e7cbaf003bfe519eb21e3ec4660a3b6491c3",
+    "test_command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "test_summary": [
+      [
+        "2970",
+        "113.867"
+      ]
+    ],
+    "wall_seconds": 115.227,
+    "log_sha256": "5ced50af3795220676d22ebe8758c1bc329cb0e56c1f983a6e233fecb5271981",
+    "frozen_file_hashes_rechecked": 10
+  },
+  "independent_checks": {
+    "b13_tests": 33,
+    "registry_tests": 15,
+    "fresh_original_source_rows": 51,
+    "numeric_rows": 50,
+    "blank_Q_rows": 1,
+    "selected_raw_source_hashes": 14,
+    "recomputed_controls": 32,
+    "native_versus_normalized_lexeme_differences_preserved": 4,
+    "adverse_input_checks": 68,
+    "original_storage_witness_cases": 12,
+    "additional_storage_cases": 8,
+    "prior_source_rows_byte_preserved": 369,
+    "full_suite": "Lead aggregate exact log/hash corroborated; not independently rerun"
+  },
+  "closed_storage_finding": "Nested Git directories and worktree Git files below ignored storage now reject, including nonexistent output ancestors. Intended ignored output remains valid; genuine output bytes unchanged.",
+  "documented_API_limit": "Use the strict pinned reader for source admission; reference_summary only serializes trusted reader results and does not authenticate caller-constructed dataclasses.",
+  "genuine_output_identity": {
+    "fiscal_reference_json_sha256": "31e830de7f89e326376aa71ab2822f8a9087233b1b73f32b4c8b1e30919a7da3",
+    "receipt_json_sha256": "75e98bc04b5c401f0e509fae3e506f890293599eec8d30cae6584353da6b4b1e",
+    "storage": "IGNORED_EXTERNAL_ONLY_NOT_PUBLIC"
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD_BEFORE_CHECKPOINT_CLOSURE",
+  "boundaries": [
+    "Dated published-statistic baseline reference only; 2025 half-finalized and 2026 planned remain distinct",
+    "Cash/ESA, appropriations/actuals, annual/adjusted GDP, stock/flow and recipient cash/accrual are not interchangeable",
+    "Approximate HUF4.593billion MVM/order residual remains unexplained; no fuel/household/VAT/service-year allocation",
+    "No programme fiscal engine, available headroom, policy default, award or B15 result",
+    "B13-D01 remains INTEGRATING, readiness0, no whole-slice acceptance",
+    "Raw source documents and full numeric panel remain external-only",
+    "Separate four-materializer repair is not included",
+    "No main merge"
+  ]
+}

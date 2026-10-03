@@ -1,0 +1,56 @@
+{
+  "slice_id": "B09-D01",
+  "status": "ACCEPTED",
+  "accepted_scope": "Complete native 2025 UTC generation source/recovery handoff: prior P5 A75/capacity and selected P6 MAVIR files through unchanged P7 signed recovery",
+  "reviewed_commit": "facd46bc4c4b6c26a7f54040103c0a2f611ec17d",
+  "review_date": "2026-10-01",
+  "record_evidence_status": "Q",
+  "evidence_tier": "E2_PROVISIONAL_BASE",
+  "model_use_status": "QUALIFIED_E2_MODEL_USE",
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "public_raw_reuse_status": "NOT_ESTABLISHED_FREE_REUSE",
+  "validation_debt_ids": [
+    "Q-B09-001"
+  ],
+  "independent_review": {
+    "result": "PASS_NO_BLOCKING_FINDING",
+    "source_oracle": "Separate original-XML parser; exact source hashes and all original numeric/recovery values compared",
+    "numeric_a75_cells": 485740,
+    "recovery_cells": 4820,
+    "recovery_decimal_lineage": "EXACT_MATCH",
+    "runtime_comparison": "Matches existing float MW-to-kW semantics; maximum representation difference 2e-13 MW",
+    "identical_overlap_timestamps": 26404,
+    "B09_tests": 105,
+    "shared_P5_tests": 8,
+    "targeted_tests_result": "PASS",
+    "private_output_digests": "Exact panel, lineage and receipt match",
+    "full_suite_readback": "2635 PASS; independent reviewer did not rerun full suite"
+  },
+  "exact_published_ci": {
+    "run_id": 36922007964,
+    "run_number": 1077,
+    "job_id": 110570094839,
+    "tests": 2635,
+    "registry": "PASS",
+    "result": "PASS"
+  },
+  "separate_remaining_work": [
+    "Missing 2024-12-31 23:00 UTC through 2025-01-01 00:00 UTC for later complete Budapest civil-year integration",
+    "No complete winter from current source bundle",
+    "B09-D02 future supply and B09-D03 monetizable system value",
+    "Regional, dispatch, network and programme adequacy claims",
+    "Public raw redistribution"
+  ],
+  "acceptance_rationale": "The approved B09-D01 criterion concerns the complete 2025 source panel and exact signed missing-cell recovery. Its native UTC source year is complete. A later local-year handoff is an explicit separate integration constraint, not an additional source-slice gate.",
+  "artifact_sha256": {
+    "modules/B09/gui_generation_reference.py": "ca6125d5186a882712ad00be33914120699b1e0ac875a2fb05cfee93cf3c888d",
+    "tools/materialize_b09_gui_generation_reference.py": "6285124e5ac0cf13b64a7a3ce44f2df983e3ff8255e62247401e3073f6ffdcf5",
+    "tests/test_b09_gui_generation_reference.py": "913df41031ad80f9ca6f5914249c9b07c171b562c36e24237b9774837793a40c",
+    "registry/b09_gui_reference_manifest.json": "01ca821878e87b84727a57dc702ba51add16e91ca800d752e0d0a2090aa70e27",
+    "docs/checkpoints/V1_017_B09_GUI_GENERATION_REFERENCE.md": "5ecb542cfb1ba64345e76d313f83bf7cd5970c98dbcc2248386e3e89a0a0083e",
+    "docs/checkpoints/V1_017_VERIFICATION.json": "ce1191c94b0b139a67e7a93295db8ce01cd731c7476d786457a8fdfb3bc0a2b5",
+    "modules/B09/signed_net_recovery_contract.py": "0b33d4b75399ad12b7e641e4aae08130b5ef603592b7e7845b323bf26b81bb66",
+    "modules/B09/observed_generation_contract.py": "9b7d9365a0647b3ea9a026423f2373ac98624e638aafcd497b8f88b769e21447",
+    "modules/B09/engine.py": "9ddc131fbf9b8a053d91d0b63928539c2e9fdaabea0fc7c3ff853d85112bf855"
+  }
+}

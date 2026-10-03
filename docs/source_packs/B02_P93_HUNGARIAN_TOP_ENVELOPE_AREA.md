@@ -54,7 +54,7 @@ construction-year classes and differentiated by size class.
 
 ### MFH
 
-`A_Roof / A_C_Ref = 0.35 m2/m2`
+`A_Roof / A_C_Ref = 0.36 m2/m2`
 
 ### AB
 
@@ -62,7 +62,17 @@ construction-year classes and differentiated by size class.
 
 Hungarian TH is absent.
 
-These published ratios are used directly.
+These published ratios are used directly from the **HU** column in Table 4,
+printed page 8 (PDF page index 7).
+
+V1-031 corrects the historical MFH transcription from `0.35` (the **Common**
+column) to the published HU value `0.36`. SFH `0.84` and AB `0.20` are unchanged.
+This is a source-column correction, not a revised source or a new estimator.
+The source hash, source-cell binding, previous artifact hashes and unchanged
+SFH-row fingerprints are recorded in
+[`b02_p93_top_ratio_source_precision.json`](../../registry/b02_p93_top_ratio_source_precision.json).
+The dated correction and downstream scope are recorded in
+[V1-031](../checkpoints/V1_031_MFH_ROOF_SOURCE_PRECISION.md).
 
 P93 deliberately does **not** recompute them as:
 
@@ -88,7 +98,7 @@ P21 does not identify MFH versus AB.
 
 Therefore P93 preserves:
 
-`0.20 .. 0.35`
+`0.20 .. 0.36`
 
 No MFH/AB prevalence or midpoint is invented.
 

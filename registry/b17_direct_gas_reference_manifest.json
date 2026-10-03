@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "reference_id": "B17-NAMED-TABULA-GAS-DIRECT-CO2-INVENTORY-REFERENCE-V1",
+  "scope": "NAMED_HISTORICAL_SOURCE_CASES_ONLY",
+  "repository_pins": {
+    "activity_consumer": {
+      "path": "modules/B11/calorific_reference.py",
+      "sha256": "ea8d6f98dc05a0e82d135d873b257698f705115cac4ad595c26ac3e2b627f17a"
+    },
+    "activity_convention": {
+      "path": "registry/b11_calorific_reference_manifest.json",
+      "sha256": "1ebd49b36328ffd0af2d8228f0a30cfed9cb2ced69effccd9ae2e11c6d48b6f0"
+    },
+    "source_family": {
+      "path": "registry/b11_annual_retrofit_reference_manifest.json",
+      "sha256": "192b6aa0b0547373fadbe362b89969a7828002bc04305a07dca912b405479791"
+    }
+  },
+  "factor": {
+    "source_id": "SRC-B17-IPCC-2006-STATIONARY",
+    "source_sha256": "a25d9f96d7672df391b328de79d4cfd812c07fe79d5cf4a30d23d82d8f02985b",
+    "source_coordinate": "Volume2 Chapter2 Table2.5, printed2.23/PDFpage23, Natural Gas CO2 row",
+    "fuel": "Natural Gas",
+    "pollutant": "CO2",
+    "sector": "1A4b residential stationary combustion; source table also covers agriculture/forestry/fishing/fish farms",
+    "unit": "kg_CO2_per_TJ_NCV_fuel_input",
+    "value": "56100",
+    "lower": "54300",
+    "upper": "58300",
+    "evidence_status": "ASS",
+    "admitted_application_tier": "E2",
+    "oxidation_factor_already_included": "1",
+    "interval_kind": "SOURCE_DEFAULT_95_PERCENT_CONFIDENCE_INTERVAL",
+    "interval_semantics": "Source-method 2.5/97.5 percentiles rounded to three significant digits; source factor uncertainty only, not hard physical limits or a confidence interval for the full target model",
+    "carbon_convention": "Tier1 total fuel carbon expressed as CO2, including the very small fraction emitted as non-CO2 species; not exact measured stack CO2",
+    "runtime_distribution": "NOT_SELECTED",
+    "record_id": "B17-EF-IPCC2006-T2_5-NATURAL_GAS-CO2",
+    "method_tier": 1,
+    "carbon_reporting": "FOSSIL_CO2",
+    "source_precision_significant_digits": 3,
+    "no_emission_controls_method_default": true,
+    "actual_device_controls_established": false
+  },
+  "sources": [
+    {
+      "source_id": "SRC-B17-IPCC-2006-STATIONARY",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_2_Ch2_Stationary_Combustion.pdf",
+      "retrieved_at": "2026-10-03T06:32:13.889132+00:00",
+      "sha256": "a25d9f96d7672df391b328de79d4cfd812c07fe79d5cf4a30d23d82d8f02985b",
+      "byte_count": 756401,
+      "acquisition_status": "SUCCESSFUL_DOCUMENT",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2006 IPCC Guidelines Volume2 Chapter2: Stationary Combustion",
+      "document_revision": "2006 Guidelines",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    },
+    {
+      "source_id": "SRC-B17-IPCC-2019-STATIONARY",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/2_Volume2/19R_V2_2_Ch02_Stationary_Combustion.pdf",
+      "retrieved_at": "2026-10-03T06:32:20.113463+00:00",
+      "sha256": "bc33ab277668a1b9343499aeef06c900e1d86180cab567129b83d0e084ba150e",
+      "byte_count": 42019,
+      "acquisition_status": "SUCCESSFUL_DOCUMENT",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2019 Refinement Volume2 Chapter2: Stationary Combustion",
+      "document_revision": "2019 Refinement",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    },
+    {
+      "source_id": "SRC-B17-IPCC-2006-ENERGY-INTRO",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_1_Ch1_Introduction.pdf",
+      "retrieved_at": "2026-10-03T06:34:17.430936+00:00",
+      "sha256": "e391cd4676d0891cd77f67d3bd76e0e6775386b468ce5ce7ebe2311a6ea1ac45",
+      "byte_count": 875553,
+      "acquisition_status": "SUCCESSFUL_DOCUMENT",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2006 IPCC Guidelines Volume2 Chapter1: Introduction",
+      "document_revision": "2006 Guidelines",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    },
+    {
+      "source_id": "SRC-B17-IPCC-2019-ENERGY-INTRO",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/2_Volume2/19R_V2_1_Ch01_Introduction.pdf",
+      "retrieved_at": "2026-10-03T06:34:28.740866+00:00",
+      "sha256": "51115deeebb9417e23f5e4ddfb31f9dd5806deb1aa35d3b3ac3a00f7db70be9b",
+      "byte_count": 187976,
+      "acquisition_status": "SUCCESSFUL_DOCUMENT",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2019 Refinement Volume2 Chapter1: Introduction",
+      "document_revision": "2019 Refinement",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    },
+    {
+      "source_id": "SRC-B17-IPCC-2019-ENERGY-MAPPING",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2019rf/pdf/2_Volume2/19R_V2_x_An2_Mapping.pdf",
+      "retrieved_at": "2026-10-03T06:37:15.536429+00:00",
+      "sha256": "0ddc958b9346a8815fd00c020204ea8df4066089a17b6d02a5ea5860e555fdb8",
+      "byte_count": 197450,
+      "acquisition_status": "SUCCESSFUL_DOCUMENT",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2019 Refinement Volume2 Annex2: Mapping Tables",
+      "document_revision": "2019 Refinement",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    },
+    {
+      "source_id": "SRC-B17-IPCC-2006-ENERGY-INDEX",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol2.html",
+      "retrieved_at": "2026-10-03T06:34:35.665142+00:00",
+      "sha256": "ebcb90a99eaa1dbd9492dedc3fb65317ae3d8bbd57b4e69baaf08fa6c13b3980",
+      "byte_count": 19688,
+      "acquisition_status": "SUCCESSFUL_REFERENCE_PAGE",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2006 IPCC Guidelines Volume2 Energy official index",
+      "document_revision": "2006 Guidelines",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    },
+    {
+      "source_id": "SRC-B17-IPCC-2019-ENERGY-INDEX",
+      "original_url": "https://www.ipcc-nggip.iges.or.jp/public/2019rf/vol2.html",
+      "retrieved_at": "2026-10-03T06:34:40.908808+00:00",
+      "sha256": "10f401a876988a2930f33fabce95437416171073cafbf5729b8bee3cbba850e3",
+      "byte_count": 19492,
+      "acquisition_status": "SUCCESSFUL_REFERENCE_PAGE",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "IPCC Task Force on National Greenhouse Gas Inventories",
+      "source_priority": "P1",
+      "repo_snapshot_path": null,
+      "title": "2019 Refinement Volume2 Energy official index",
+      "document_revision": "2019 Refinement",
+      "reference_period": "Method default and revision/uncertainty context; no Hungarian observation period"
+    }
+  ],
+  "source_fuel_identity": {
+    "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+    "sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+    "locator": "Tab.Const.EnergyCarrier!A13/B13/C13; Calc.Set.System rows3390/3391/3392",
+    "code": "Gas",
+    "source_name": "natural gas",
+    "source_description": "natural gas, type unknown"
+  },
+  "activity_validation_debt": [
+    {
+      "scope": "Existing V1-045 source-convention activity",
+      "status": "E2_VALIDATION_DEBT_RETAINED",
+      "reference": "registry/b11_calorific_reference_manifest.json",
+      "unknown": "Actual Hungarian fuel composition/calorimetry, measured annual heating activity, source-model target transfer and national allocation are not established; 0.92 is a source convention."
+    }
+  ],
+  "factor_validation_debt": [
+    {
+      "scope": "Natural-gas inventory-method default applicability",
+      "status": "E2_PROVISIONAL_BASE_FOR_NAMED_REFERENCE_ONLY",
+      "unknown": "No case-specific or Hungarian measured carbon-per-energy, actual oxidation/stack-species reconciliation or calibrated population emission distribution is established.",
+      "upgrade": "Compatible fuel/carbon/NCV evidence or an accepted claim-matched inventory-method calibration; no requirement for exhaustive household microdata."
+    }
+  ],
+  "shared_factor_comparison": "One common factor parameter multiplies the signed difference of two source-case NCV activities. No independent endpoint subtraction or Cartesian factor cases.",
+  "admission_criteria": {
+    "quantity": "Annual direct-combustion inventory-method CO2 mass for three named heating-only source gas cases.",
+    "boundary": "kgCO2 from TJ NCV fuel input; static historical TABULA variants, not current measured households.",
+    "authority": "IPCC2006 Volume2 Chapter2 Table2.5; preserved original and official2019 refinement context.",
+    "applicability": "Original workbook explicitly maps Gas to natural gas,type unknown. Existing V1-045 consumer supplies compatible source-convention NCV activity.",
+    "contradiction": "The scoped generic method does not replace country-specific factors or measured gas evidence; stronger target-specific evidence must supersede this default if that target is claimed.",
+    "derivation": "activity_MJ_NCV / 1000000 * source_kgCO2_per_TJ_NCV; oxidation1 already included.",
+    "debt": "Activity and factor applicability remain separately explicit; source-factor limits do not bound either full debt.",
+    "label": "Official method factor ASS; conditional calculated output DER/E2, never observed Hungarian emissions."
+  },
+  "exclusions": [
+    "No actual measured stack emission or Hungarian household/population factor",
+    "No heat-pump or electricity-offset calculation",
+    "No net climate saving or causal realised renovation saving",
+    "No CH4/N2O/GWP/CO2e, lifecycle, fuel-upstream or refrigerant calculation",
+    "No exposure, health, valuation, readiness uplift or whole-slice acceptance",
+    "No old full B17 factor-panel recovery claim",
+    "No original PDF or complete factor-table redistribution"
+  ],
+  "source_qualification_receipt_sha256": "edaf6b7d1489c38b5ac7d607990566fbc7ed34bbff4fef9c19fcdbb911e6276e",
+  "activity_application": "CONDITIONAL_SOURCE_MODEL_FUEL_THROUGHPUT_NOT_ACTUAL_METERED_COMBUSTION",
+  "currentness": {
+    "checked_on": "2026-10-03",
+    "2006_stationary_revision": "official index labels chapter corrected April 2007; live source bytes match prior retained pin",
+    "2019_ch2_factor_choice": "NO_REFINEMENT",
+    "2019_ch1_method_and_uncertainty": "NO_REFINEMENT",
+    "2019_mapping": "Annex2 A2.3: Ch1 equations/tables/boxes unchanged; Ch2 only biomass treatment text changed, equations/tables/figures/boxes unchanged",
+    "no_superseding_factor_found_in_checked_official_sources": true,
+    "scope": "CURRENTNESS_OF_DECLARED_IPCC_METHOD_NOT_CURRENT_HUNGARIAN_COMPOSITION_OR_EMISSION_FACTOR"
+  }
+}

@@ -7,6 +7,7 @@ import json
 import re
 import sys
 from datetime import date
+from decimal import Decimal, InvalidOperation, localcontext
 from pathlib import Path
 
 
@@ -187,6 +188,9 @@ EXPECTED_HEADERS = {
         "source_ids",
         "evidence_status",
         "status",
+        "status_date_basis",
+        "physical_operational_status",
+        "physical_in_service_date",
         "notes",
     ],
     "incremental_capex_attribution.csv": [
@@ -204,10 +208,45 @@ EXPECTED_HEADERS = {
         "notes",
     ],
     "project_delivery_timing.csv": [
-        "timing_id", "project_id", "network_operator", "target_claim_type", "target_date",
-        "target_snapshot_status", "actual_completion_date", "schedule_variance_days",
-        "schedule_variance_status", "completion_probability", "completion_probability_status",
-        "source_ids", "evidence_status", "status", "notes",
+        'timing_id',
+        'project_id',
+        'network_operator',
+        'target_claim_type',
+        'target_date',
+        'target_snapshot_status',
+        'actual_completion_date',
+        'schedule_variance_days',
+        'schedule_variance_status',
+        'completion_probability',
+        'completion_probability_status',
+        'source_ids',
+        'evidence_status',
+        'status',
+        'target_source_id',
+        'target_source_publication_date',
+        'target_milestone_type',
+        'target_scope_id',
+        'target_scope_source_id',
+        'target_date_relation',
+        'target_date_precision',
+        'target_date_authority',
+        'actual_source_id',
+        'actual_source_publication_date',
+        'actual_claimed_date',
+        'actual_milestone_type',
+        'actual_scope_id',
+        'actual_scope_source_id',
+        'actual_date_relation',
+        'actual_date_precision',
+        'actual_date_authority',
+        'actual_event_lower_bound',
+        'actual_event_upper_bound',
+        'pairing_status',
+        'physical_actual_completion_date',
+        'completion_report_source_id',
+        'completion_report_publication_date',
+        'completion_report_publication_source_id',
+        'notes',
     ],
     "fiscal_headroom.csv": [
         "fiscal_year",
@@ -377,6 +416,10 @@ EXPECTED_HEADERS = {
         "component_id", "module_id", "layer", "status", "readiness_percent",
         "source_ids", "notes",
     ],
+    "b05_p59_part_load_readiness_scorecard.csv": [
+        "gate_id", "weight", "earned", "historical_earned", "status",
+        "evidence_basis", "residual", "notes",
+    ],
     "retrofit_sources.csv": [
         "source_id", "module_id", "layer", "title", "institution", "url",
         "reference_period", "retrieved_at", "source_tier", "evidence_status",
@@ -493,6 +536,7 @@ PROCESSED_EXPECTED_HEADERS = {
         "gross_price_huf_per_mj", "gross_price_status",
         "reference_heating_value_mj_per_m3", "illustrative_gross_huf_per_m3",
         "illustrative_status", "annual_fixed_charge_huf", "fixed_charge_status",
+        "annual_fixed_charge_vat_basis", "gross_annual_fixed_charge_huf", "gross_fixed_charge_status",
         "status", "source_id", "notes",
     ],
     "gas_price_component_bridge.csv": [
@@ -528,6 +572,7 @@ PROCESSED_EXPECTED_HEADERS = {
         "tariff_id", "distributor_area", "period_type", "valid_from", "valid_to",
         "net_huf_per_kwh", "gross_huf_per_kwh", "separate_meter_required", "eligible_load_scope",
         "battery_charging_status", "export_status", "status", "source_id", "notes",
+        "price_boundary", "final_gross_huf_per_kwh", "fixed_gross_huf_per_month", "final_price_status",
     ],
     "electricity_price_component_bridge.csv": [
         "bridge_id", "reference_period", "tariff_id", "layer", "energy_net_huf_per_kwh",
@@ -745,16 +790,22 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append(f"B10-P4 row must remain at its canonical DSO_SERVICE_AREA grain: {project_id}")
         if row.get("region_grain") == "DSO_SUBSTATION" or row.get("region_id") == "NATIONAL":
             errors.append(f"B10-P4 row has forbidden headroom/national grain: {project_id}")
-        if row.get("status_taxonomy") != "OPERATING" or row.get("status_effective_date") != "2026-06-15":
-            errors.append(f"B10-P4 row must be OPERATING effective 2026-06-15: {project_id}")
+        if (row.get("status_taxonomy") != "PROJECT_COMPLETED_REPORTED"
+                or row.get("status_effective_date") != "2026-06-15"
+                or row.get("status_date_basis") != "REPORTING_AS_OF_DATE"):
+            errors.append(f"B10-P4 row must be PROJECT_COMPLETED_REPORTED as of 2026-06-15: {project_id}")
+        if row.get("physical_operational_status") != "Q" or row.get("physical_in_service_date"):
+            errors.append(f"B10-P4 physical operating status/date must remain Q: {project_id}")
         if row.get("evidence_status") != "OBS" or row.get("status") != "BASELINE":
             errors.append(f"B10-P4 row must be OBS BASELINE: {project_id}")
         refs = tuple(item for item in row.get("source_ids", "").split(";") if item)
         expected_refs = (expected["project_source"], expected["completion_source"])
+        if project_id == "RRF-6.1.1-21-2022-00001":
+            expected_refs += ("SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026",)
         if refs != expected_refs:
             errors.append(f"B10-P4 row must bind project/funding and completion authorities: {project_id}")
         if expected["completion_source"] not in refs:
-            errors.append(f"B10-P4 OPERATING requires exact completion authority: {project_id}")
+            errors.append(f"B10-P4 reported completion requires exact completion authority: {project_id}")
         for field in ("counterfactual_cost_huf", "program_incremental_cost_huf"):
             value = row.get(field, "")
             if value:
@@ -806,6 +857,7 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
         "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
         "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
         "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+        "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026",
     }
     for source_id in required_p4_sources:
         row = next((item for item in source_rows if item.get("source_id") == source_id), None)
@@ -833,24 +885,67 @@ def validate_b10_artifacts(errors: list[str], source_ids: set[str]) -> None:
     else:
         _, timing_rows = read_csv(timing_path)
         expected = {
-            "RRF-6.1.1-21-2022-00006": ("MVM DEMASZ", "PLANNED_COMPLETION", "2026-04-30", "CURRENT_PAGE_ONLY", "2026-06-15", "", "Q", ("SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026", "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026")),
-            "RRF-6.1.1-21-2022-00001": ("OPUS TITÁSZ", "EXPECTED_COMPLETION", "2026-04-03", "EX_ANTE_VERIFIED", "2026-06-15", "73", "DER", ("SRC-B10-OPUS-TITASZ-RRF-TIMING-2024", "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026")),
+            "RRF-6.1.1-21-2022-00006": (
+                "MVM DEMASZ", "PLANNED_COMPLETION", "2026-04-30", "CURRENT_PAGE_ONLY",
+                "SRC-B10-MVM-DEMASZ-RRF", "", "ON_OR_BEFORE",
+            ),
+            "RRF-6.1.1-21-2022-00001": (
+                "OPUS TITÁSZ", "EXPECTED_COMPLETION", "2026-04-03", "EX_ANTE_VERIFIED",
+                "SRC-B10-OPUS-TITASZ-RRF", "2026-06-15", "EXACT",
+            ),
         }
         seen = set()
         for row in timing_rows:
-            pid = row.get("project_id", ""); exp = expected.get(pid)
+            pid = row.get("project_id", "")
+            exp = expected.get(pid)
             if exp is None or pid in seen:
-                errors.append(f"unexpected/duplicate B10-P6 timing project: {pid!r}"); continue
+                errors.append(f"unexpected/duplicate B10-P6 timing project: {pid!r}")
+                continue
             seen.add(pid)
-            operator, claim, target, snapshot, actual, variance, variance_status, refs_expected = exp
-            if (row.get("network_operator"), row.get("target_claim_type"), row.get("target_date"), row.get("target_snapshot_status"), row.get("actual_completion_date"), row.get("schedule_variance_days"), row.get("schedule_variance_status")) != (operator, claim, target, snapshot, actual, variance, variance_status):
-                errors.append(f"B10-P6 timing truth mismatch: {pid}")
+            operator, claim, target, snapshot, prefix, actual, relation = exp
+            is_mvm = relation == "ON_OR_BEFORE"
+            target_source = prefix + ("-PROJECT-2026" if is_mvm else "-TIMING-2024")
+            actual_source = prefix + ("-COMPLETION-2026" if is_mvm else "-PROJECT-2026")
+            report_source = prefix + "-COMPLETION-2026"
+            expected_truth = {
+                "network_operator": operator, "target_claim_type": claim, "target_date": target,
+                "target_snapshot_status": snapshot, "actual_completion_date": actual,
+                "schedule_variance_days": "", "schedule_variance_status": "Q",
+                "target_source_id": target_source,
+                "target_source_publication_date": "" if is_mvm else "2024-09-30",
+                "target_milestone_type": "PROJECT_COMPLETION" if is_mvm else "CAPABILITY_TARGET",
+                "target_scope_id": pid + (":CURRENT_PAGE_PROJECT_SCOPE" if is_mvm else ":378MW_ADDITIONAL_TRANSFER_CAPABILITY"),
+                "target_scope_source_id": target_source,
+                "target_date_relation": "EXACT", "target_date_precision": "DAY",
+                "target_date_authority": "SOURCE_STATED_TARGET_DATE",
+                "actual_source_id": actual_source,
+                "actual_source_publication_date": "2026-06-15" if is_mvm else "",
+                "actual_claimed_date": "2026-06-15", "actual_milestone_type": "PROJECT_COMPLETION",
+                "actual_scope_id": pid + (":COMPLETION_REPORT_PROJECT_SCOPE" if is_mvm else ":PROJECT_SCOPE"),
+                "actual_scope_source_id": actual_source,
+                "actual_date_relation": relation, "actual_date_precision": "DAY",
+                "actual_date_authority": "PUBLICATION_REPORTING_BOUND" if is_mvm else "SOURCE_STATED_EVENT_DATE",
+                "actual_event_lower_bound": actual, "actual_event_upper_bound": "2026-06-15",
+                "pairing_status": "UNRESOLVED",
+                "physical_actual_completion_date": "",
+                "completion_report_source_id": report_source,
+                "completion_report_publication_date": "2026-06-15",
+                "completion_report_publication_source_id": report_source if is_mvm else "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026",
+            }
+            for field, value in expected_truth.items():
+                if row.get(field) != value:
+                    errors.append(f"B10-P6 timing truth mismatch: {pid}: {field}")
             if row.get("completion_probability") or row.get("completion_probability_status") != "Q_NO_CALIBRATED_DELIVERY_MODEL":
                 errors.append(f"B10-P6 probability gate mismatch: {pid}")
             refs = tuple(x for x in row.get("source_ids", "").split(";") if x)
-            if refs != refs_expected: errors.append(f"B10-P6 timing provenance mismatch: {pid}")
-            if row.get("evidence_status") != "DER" or row.get("status") != "PARTIALLY_BOUNDED": errors.append(f"B10-P6 timing row status mismatch: {pid}")
-        if seen != set(expected) or len(timing_rows) != 2: errors.append("B10-P6 must contain exactly the two bounded RRF timing projects")
+            publication_source = report_source if is_mvm else "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026"
+            refs_expected = tuple(dict.fromkeys((target_source, actual_source, report_source, publication_source)))
+            if refs != refs_expected:
+                errors.append(f"B10-P6 timing provenance mismatch: {pid}")
+            if row.get("evidence_status") != "DER" or row.get("status") != "PARTIALLY_BOUNDED":
+                errors.append(f"B10-P6 timing row status mismatch: {pid}")
+        if seen != set(expected) or len(timing_rows) != 2:
+            errors.append("B10-P6 must contain exactly the two bounded RRF timing projects")
 
 
 
@@ -984,6 +1079,33 @@ def validate_b01_artifacts(errors: list[str]) -> None:
             errors.append(f"B01 SCN candidate gate evidence mismatch: {candidate.get('intervention_id')!r}")
 
 
+def validate_b03_fixed_fee(row: dict[str, str], errors: list[str]) -> None:
+    """Keep source NET fees distinct from gross tariff arithmetic."""
+    net = row.get("annual_fixed_charge_huf", "")
+    gross = row.get("gross_annual_fixed_charge_huf", "")
+    if row.get("tariff_band") == "ABOVE_THRESHOLD_BAND" and (net or gross):
+        errors.append("B03 higher tariff band must not introduce a second fixed charge")
+        return
+    if not net:
+        if (gross or row.get("annual_fixed_charge_vat_basis") != "NOT_SEPARATE_FEE"
+                or row.get("gross_fixed_charge_status") != "Q"):
+            errors.append("B03 absent per-band fee must not create another gross charge")
+        return
+    try:
+        values = [Decimal(x) for x in (net, gross, row.get("vat_rate", ""))]
+        if any(not x.is_finite() or x < 0 for x in values):
+            raise ValueError("invalid fixed charge or VAT")
+        with localcontext() as context:
+            context.prec = 50
+            expected = values[0] * (1 + values[2])
+        if (row.get("annual_fixed_charge_vat_basis") != "NET"
+                or row.get("gross_fixed_charge_status") != "DER"
+                or values[1] != expected):
+            errors.append("B03 fixed charge requires explicit NET plus VAT equals gross DER")
+    except (InvalidOperation, ValueError, TypeError):
+        errors.append("B03 fixed charge and VAT must be explicit finite numbers")
+
+
 def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
     """Validate B03's layer/status/source invariants in addition to headers."""
     b03_registry = REGISTRY
@@ -1026,6 +1148,8 @@ def validate_b03_artifacts(errors: list[str], source_ids: set[str]) -> None:
             unknown = [item for item in refs if item not in source_ids]
             if unknown:
                 errors.append(f"unknown B03 processed source references in {filename}: {unknown!r}")
+            if filename == "residential_gas_tariff_schedule.csv":
+                validate_b03_fixed_fee(row, errors)
 
 
 def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
@@ -1083,6 +1207,52 @@ def validate_b04_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"H battery charging must remain Q: {row.get('tariff_id')!r}")
             if filename == "h_tariff_schedule.csv" and row.get("export_status") != "Q":
                 errors.append(f"H export must remain Q: {row.get('tariff_id')!r}")
+            if filename == "h_tariff_schedule.csv":
+                if row.get("price_boundary") != "ENERGY_COMPONENT_ONLY":
+                    errors.append(f"H legacy net/gross columns must be explicitly energy-only: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") not in {"OBS", "DER", "Q"}:
+                    errors.append(f"invalid H final price status: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") in {"OBS", "DER"} and (not row.get("final_gross_huf_per_kwh") or not row.get("fixed_gross_huf_per_month")):
+                    errors.append(f"H final price requires gross variable and fixed components: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") == "DER" and (
+                    row.get("period_type") != "outside season discounted energy"
+                    or "SRC-B04-MEKH-SYSTEM-FEES-2024" not in refs
+                    or "SRC-B04-MVM-M1-2026" not in refs
+                    or "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026" not in refs
+                ):
+                    errors.append(f"derived outside-H rate requires scoped legal/energy/network sources: {row.get('tariff_id')!r}")
+                if row.get("final_price_status") == "Q" and row.get("final_gross_huf_per_kwh"):
+                    errors.append(f"unadmitted H final price must remain blank: {row.get('tariff_id')!r}")
+
+
+
+def validate_b05_readiness_row(errors: list[str], row: dict[str, str]) -> None:
+    """Keep one explicitly unassessed component distinct from numeric readiness."""
+    component_id = row.get("component_id", "")
+    if row.get("status") not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
+        errors.append(f"invalid B05 readiness status: {component_id!r}")
+    if component_id == "PART_LOAD_MODULATION":
+        if row.get("status") != "Q" or row.get("readiness_percent") != "":
+            errors.append("PART_LOAD_MODULATION current readiness must be Q with a blank score")
+        required_markers = (
+            "CURRENT_SCORE_UNASSESSED",
+            "HISTORICAL_P59_SCORE=75",
+            "SUPPORTED_UNAFFECTED_SUBTOTAL=67",
+            "UNASSESSED_GATE_WEIGHT=8",
+            "UNASSESSED_GATE=EN14825_STANDARD_BIN_CYCLING_METHOD",
+        )
+        markers = {part.strip().rstrip(".") for part in row.get("notes", "").split(";")}
+        for marker in required_markers:
+            if marker not in markers:
+                errors.append(f"missing B05 unassessed readiness marker: {marker}")
+        return
+    try:
+        readiness = int(row.get("readiness_percent", ""))
+    except ValueError:
+        errors.append(f"non-numeric B05 readiness: {component_id!r}")
+    else:
+        if not 0 <= readiness <= 100:
+            errors.append(f"invalid B05 readiness percent: {component_id!r}")
 
 
 def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
@@ -1112,8 +1282,8 @@ def validate_b05_artifacts(errors: list[str], source_ids: set[str]) -> None:
                 errors.append(f"invalid B05 evidence status in {filename}: {row[id_field]!r}")
             if filename == "heat_pump_formulas.csv" and row["status"] not in {"DER", "ASS"}:
                 errors.append(f"invalid B05 formula status: {row['formula_id']!r}")
-            if filename == "heat_pump_readiness.csv" and row["status"] not in {"VALIDATED", "PARTIAL", "BLOCKED", "Q"}:
-                errors.append(f"invalid B05 readiness status: {row['component_id']!r}")
+            if filename == "heat_pump_readiness.csv":
+                validate_b05_readiness_row(errors, row)
 
     processed = ROOT / "data" / "processed"
     for filename in (

@@ -1,0 +1,228 @@
+{
+  "schema_version": "1.0.0",
+  "status": "INPUT_CONTRACT_ONLY",
+  "numerical_output_status": "Q",
+  "b15_gate": "BLOCKED",
+  "current_source_admissions": [
+    {
+      "admission_id": "B06-WM50-MODELED-LIFE-E2-001",
+      "owner_module": "B06",
+      "field": "assets.service_life",
+      "artifact": "registry/b06_cost_lifecycle_handoff.json",
+      "value": "17",
+      "unit": "year",
+      "truth": "ASS",
+      "evidence_tier": "E2",
+      "scope": "Named WM50 provisional modeled reference life only; full assets/costs remain Q",
+      "numerical_b12_output_admitted": false
+    }
+  ],
+  "derived_global_handoffs": [
+    "VAR-B12-ELIGIBLE-CAPEX",
+    "VAR-B12-AFFORDABLE-HOUSEHOLD-FINANCING"
+  ],
+  "execution_dependency": "Q-B12-001",
+  "execution_dependency_note": "Execution dependency, not evidence for absent empirical inputs or a new source-blocker closure.",
+  "ownership_boundary": "B06/B07 own technical cost/lifecycle handoffs; B03/B04 own energy price/bill authorities; B12 validates household full-payable accounting inputs; B14 owns funding/eligibility rule references; B13 owns fiscal consolidation; B15 owns the full financing mix and remains blocked.",
+  "admission_boundary": "This inventory and structural validation do not admit evidence. The current consumer computes SYNTHETIC_WITNESS only. Later canonical source/evidence review may qualify real inputs under existing E1/E2 policy without owner-per-datum approval. No source-ID string alone resolves that review.",
+  "inputs": [
+    {
+      "field": "costs",
+      "slice_id": "B12-D01",
+      "owner_modules": [
+        "B06",
+        "B07",
+        "B10"
+      ],
+      "unit_and_grain": "HUF/attributed household invoice; component × archetype × phase × dated event",
+      "upstream_authorities": [
+        "modules/B06",
+        "modules/B07",
+        "modules/B10/cost_reference.py"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "Realized full payable cost handoff, payer attribution, VAT decomposition/recovery and overlap remain unpopulated. Policy caps do not supply procurement prices.",
+      "acquisition_route": "Consume claim-appropriate reviewed upstream cost/lifecycle artifacts; preserve full and eligible scopes separately."
+    },
+    {
+      "field": "assets",
+      "slice_id": "B12-D01",
+      "owner_modules": [
+        "B06",
+        "B07"
+      ],
+      "unit_and_grain": "year/service-life definition; HUF/dates for replacement, O&M, insurance, disposal, terminal receipt",
+      "upstream_authorities": [
+        "modules/B06",
+        "modules/B07",
+        "registry/b06_cost_lifecycle_handoff.json"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "A scoped 17-year ASS/E2 WM50 modeled reference-life subinput is admitted with transfer debt. Complete asset-generation/evaluation-period coverage, monetary O&M, replacement scheduling/cost and terminal treatment remain unpopulated. Modeled reference life is not a survival curve.",
+      "acquisition_route": "Bind upstream technical/cost artifacts to each asset generation and explicit dated baseline/programme obligations."
+    },
+    {
+      "field": "eligible_gross",
+      "slice_id": "B12-D01",
+      "owner_modules": [
+        "B14"
+      ],
+      "unit_and_grain": "HUF/gross same-invoice subset; programme/revision and nested cap",
+      "upstream_authorities": [
+        "modules/B14/funding_reference.py",
+        "registry/b14_funding_reference_manifest.json"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "Dated B14 rules do not establish project eligibility, awarded support or a household procurement amount.",
+      "acquisition_route": "Apply reviewed rule/revision and record-level eligibility allocation to a separately supported payable cost."
+    },
+    {
+      "field": "bills",
+      "slice_id": "B12-D03",
+      "owner_modules": [
+        "B03",
+        "B04",
+        "B05",
+        "B07",
+        "B11"
+      ],
+      "unit_and_grain": "gross HUF/meter/interval and physical kWh or reference-state m3",
+      "upstream_authorities": [
+        "modules/B03/README.md",
+        "data/processed/gas_price_component_bridge.csv",
+        "modules/B04/engine.py",
+        "modules/B11"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "Complete matched baseline/programme retail handoffs remain Q. B03 MARKET_RESIDENTIAL_FINAL is the only authorized B12 gas layer; B04 frozen gross snapshots do not imply complete annual invoices or future forecasts.",
+      "acquisition_route": "Consume full gross upstream bills with preserved meter, allocation, end-use/service scope, physical reference and snapshot basis; acquire the missing market-residential bridge."
+    },
+    {
+      "field": "resources",
+      "slice_id": "B12-D02",
+      "owner_modules": [
+        "B12"
+      ],
+      "unit_and_grain": "net HUF/household/cash period; explicit person/equivalence bridge",
+      "upstream_authorities": [
+        "docs/methodology/population_inference_policy.md"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "Qualified aggregate income/asset controls exist; a coherent simultaneous household net-income, required-spending, spendable-liquidity, debt-service and dwelling linkage is not admitted here. Release, source-household-base and denominator reconciliation remain Q; a shared year label alone is not a valid join.",
+      "acquisition_route": "Review net-income component/period definitions, source release/denominator reconciliation, disjoint expenditure coverage and a defensible representative/calibrated joint estimator."
+    },
+    {
+      "field": "instruments",
+      "slice_id": "B12-D02",
+      "owner_modules": [
+        "B12",
+        "B14"
+      ],
+      "unit_and_grain": "nominal HUF/dated draw, liability, principal, interest and fee; exact borrower and product revision",
+      "upstream_authorities": [
+        "modules/B14/funding_reference.py"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "Applicable terms, complete charges, schedules and record-level access/commitment are unpopulated. B14 limits, original envelopes and maximum maturity are rule references only.",
+      "acquisition_route": "Admit exact terms and supplied schedules; keep availability/grace separate, APR distinct from coupon, and outstanding terminal debt explicit."
+    },
+    {
+      "field": "receipts",
+      "slice_id": "B12-D03",
+      "owner_modules": [
+        "B14",
+        "B13"
+      ],
+      "unit_and_grain": "nominal HUF/transfer/event/date with payer/beneficiary and invoice allocation",
+      "upstream_authorities": [
+        "modules/B14/funding_reference.py"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "No confirmed grant, loan disbursement, VAT recovery or other realized receipt is admitted. B14 snapshot is rule-only and its two inspected intakes were suspended.",
+      "acquisition_route": "Bind actual award/contract and dated receipt or explicitly conditional scenario; retain stable fiscal transfer identity and direct-supplier route."
+    },
+    {
+      "field": "liquid_assets",
+      "slice_id": "B12-D02",
+      "owner_modules": [
+        "B12"
+      ],
+      "unit_and_grain": "nominal HUF/household/stock date, separately accessible, encumbered and disposal amounts",
+      "upstream_authorities": [
+        "docs/methodology/population_inference_policy.md"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "Opening spendable cash at the evaluation date and its accessibility bridge remain Q; total wealth is not down-payment cash.",
+      "acquisition_route": "Admit component-specific accessibility, encumbrance and date reconciliation, or explicit scenario declarations."
+    },
+    {
+      "field": "population",
+      "slice_id": "B12-D02",
+      "owner_modules": [
+        "B01",
+        "B12"
+      ],
+      "unit_and_grain": "household/person/dwelling target and source grain; weights, uncertainty and scope bridge",
+      "upstream_authorities": [
+        "registry/household_state_model.json",
+        "docs/methodology/population_inference_policy.md",
+        "docs/methodology/evidence_tier_and_validation_debt_policy.md"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "No B12 representative/calibrated inference artifact has been admitted. Exhaustive household microdata is not a general prerequisite.",
+      "acquisition_route": "Use existing E1/E2 review: target, selection, missingness, weighting/calibration, estimator, diagnostics, uncertainty, structural sensitivity and explicit validation debt; never infer individual eligibility."
+    },
+    {
+      "field": "policy",
+      "slice_id": "B12-D02",
+      "owner_modules": [
+        "B01"
+      ],
+      "unit_and_grain": "owner-defined floor metric/actor/group/period; HUF reserve and debt constraint",
+      "upstream_authorities": [
+        "registry/household_state_model.json",
+        "docs/methodology/v12_portfolio_transition_contract.md"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "VAR-B01-CASH-FLOW-FLOOR numerical value and meaning, reserve and debt policy remain Q. Existing VAR-B01-HORIZON-YEARS rollout SCN is not a new missing default.",
+      "acquisition_route": "Bind existing policy IDs at the existing owner decision point; keep 12/15/20 reporting, asset life and evaluation horizon distinct."
+    },
+    {
+      "field": "valuation",
+      "slice_id": "B12-D03",
+      "owner_modules": [
+        "B01",
+        "B12"
+      ],
+      "unit_and_grain": "currency/nominal-real/source price date; conversion factors and explicit rate/time convention",
+      "upstream_authorities": [
+        "docs/methodology/v1_evidence_feasibility_execution.md"
+      ],
+      "consumer": "modules/B12/input_accounting_contract.py",
+      "value": null,
+      "status": "Q",
+      "reason": "No discount/valuation or future component escalation defaults are supplied; unbridged originals cannot be relabelled HUF2026.",
+      "acquisition_route": "Supply explicit valuation basis, date, component escalation and conversions; next consumer owns NPV/IRR/DSCR with perspective and failure semantics."
+    }
+  ]
+}

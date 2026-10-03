@@ -1,0 +1,38 @@
+{
+  "source_id": "SRC-B02-HU-REKK-TARKI-ENVELOPE-2022",
+  "source_alias_in_older_packs": "SRC-B02-TARKI-REKK-HOUSEHOLD-ENERGY-SURVEY-2022",
+  "original_url": "https://rekk.hu/downloads/projects/ECF_HU_Gas_phaseout_REKK_study_final.pdf",
+  "retrieved_at": "2026-10-01",
+  "document_year": 2023,
+  "reference_year": 2022,
+  "source_sha256": "894825793217142783553c768d1ffe405ec2097fec1e0e61a6997c6ddb6acc63",
+  "source_location": "Body Table1 printedp17 / PDF1-basedp41 in pinned revision. Body and table-of-contents numbering differ elsewhere; locate by title and pinned bytes.",
+  "curated_extract_sha256": "a06f8258ae4fce4cbcb4065bfb44b1a3650c32644b00e6211dc50c52e8a4d895",
+  "sample": {
+    "contacted_households": 1826,
+    "completed_interviews": 1013,
+    "fieldwork_start": "2022-10-15",
+    "fieldwork_end": "2022-11-02",
+    "design": "Multistage proportionally stratified probability sample",
+    "weighting": "KSH region and building type",
+    "item_specific_n": null,
+    "item_specific_uncertainty": null,
+    "missingness_note": "Overall N1013 is not evidence of complete response for each metric; table does not give item-specific N or covariance."
+  },
+  "measurement_scope": "Survey-reported usual heating/area/temperature; not metered full-calendar2022 heat, current2026 stock, or actual household trace.",
+  "denominator": "All survey households, including district heating in NO_GAS_HEATING. Not the non-district programme population.",
+  "mean_semantics": "Separate weighted means within the same gas-use group. Mean heated fraction is not a measured area-weighted energy factor; mean(area*heated_fraction) is not supplied.",
+  "independence": "Same TARKI-REKK source family as P25/P37/P101; repeated papers are not independent replications.",
+  "model_use": "Empirical diagnostic control only. No E2 type-heat allocation or building/participant input admission.",
+  "forbidden_promotions": [
+    "PRODUCT_OF_MEANS_AS_MEAN_HEATED_AREA",
+    "GROUP_MEAN_AS_ALL_HOUSEHOLDS_IDENTICAL",
+    "GAS_GROUP_AS_JRC_TECHNOLOGY_COHORT",
+    "NO_GAS_AS_NON_DISTRICT",
+    "SURVEY_TEMPERATURE_AS_DESIGN_TEMPERATURE",
+    "SURVEY_MEANS_AS_2026_OBSERVATIONS",
+    "UNIVERSAL_PREBOUND_SCALAR"
+  ],
+  "reuse_status": "Attributed factual numeric extract only; PDF/image redistribution not established. No original PDF/image is included.",
+  "original_snapshot_path": null
+}

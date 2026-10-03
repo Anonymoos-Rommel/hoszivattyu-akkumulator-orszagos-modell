@@ -51,14 +51,46 @@ def test_zalavar_effect_pair_is_exact_and_independent():
 
 
 def test_q_b06_011_is_resolved_but_transferability_and_completion_remain_open():
+    # P63/P64 close methodology contracts; the P62 example stays planned DER.
     q = {row["question_id"]: row for row in rows(QUESTIONS)}
     assert q["Q-B06-011"]["status"] == "RESOLVED"
     assert "132.35 -> 46.47 kW" in q["Q-B06-011"]["notes"]
     assert "PLANNED_DESIGN DER" in q["Q-B06-011"]["notes"]
-    assert q["Q-B06-007"]["status"] == "OPEN"
-    assert "one 19-dwelling case" in q["Q-B06-007"]["notes"]
-    assert q["Q-B06-009"]["status"] == "OPEN"
-    assert "does not prove realized completion" in q["Q-B06-009"]["notes"]
+    assert q["Q-B06-007"]["status"] == "RESOLVED"
+    assert "P63 resolves the transferable-effect methodology" in q["Q-B06-007"]["notes"]
+    assert "missing physical inputs remain Q" in q["Q-B06-007"]["notes"]
+    assert q["Q-B06-009"]["status"] == "RESOLVED"
+    assert "P64 contracts realized completion" in q["Q-B06-009"]["notes"]
+
+    surface = next(r for r in rows(ROOT / "registry" / "b06_p63_effect_surface_authority.csv")
+                   if r["claim_id"] == "TRANSFERABLE_RETROFIT_EFFECT_SURFACE")
+    assert surface["current_status"] == "CONTRACTED"
+    assert surface["authority_type"] == "PARAMETRIC_PHYSICAL_STATE_SURFACE"
+    assert surface["national_prevalence_claim"] == "NO"
+    assert "explicit physical-state inputs" in surface["annual_method"]
+    assert "Independent design heat load" in surface["peak_method"]
+    assert "same climate/service" in surface["applicability_contract"]
+    assert "overlapping keys require one combined state transition" in surface["double_count_contract"]
+
+    completion = next(r for r in rows(ROOT / "registry" / "b06_p64_realized_completion_authority.csv")
+                      if r["claim_id"] == "REALIZED_S1_COMPLETION")
+    assert completion["current_status"] == "CONTRACTED"
+    assert completion["authority_type"] == "DOCUMENT_LINKED_COMPLETION_PLUS_OUTCOME_GATE"
+    assert completion["national_completed_stock_claim"] == "NO"
+    assert completion["s1_rule"] == "REALIZED_COMPLETION_QUALIFIED AND S1_OUTCOME_READY"
+    assert "same record/site binding" in completion["required_completion_artifacts"]
+    assert "P60 linked before/after outcome on the same record/intervention" == completion["required_outcome_artifacts"]
+    assert set(completion["source_ids"].split(";")) == {
+        "SRC-B06-HU-OFP-KEHOP-2026", "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+    }
+    sources = {r["source_id"]: r for r in rows(ROOT / "registry" / "retrofit_sources.csv")}
+    for source_id in completion["source_ids"].split(";"):
+        assert sources[source_id]["evidence_status"] == "POL"
+    record = next(r for r in rows(EFFECTS) if r["record_id"] == "B06-P62-HU-ZALAVAR-2015")
+    assert record["post_state_kind"] == "PLANNED_DESIGN"
+    assert record["after_phase_id"] == "POST_RETROFIT_PLANNED"
+    assert record["evidence_status"] == "DER"
+    # Engine witnesses below and in test_b06_p64_engine_s1_handoff exercise the AND gate.
 
 
 def test_peak_readiness_records_real_calibration_without_national_uplift():
@@ -200,3 +232,20 @@ def test_engine_rejects_arbitrary_der_peak_fraction_even_with_valid_pair():
     result = evaluate_retrofit(baseline, [intervention])
     assert result.status == "Q"
     assert any("peak reduction fraction does not match P62 evidence" in gap for gap in result.remaining_readiness_gaps)
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_engine_accepts_exact_linked_zalavar_der_effect_but_does_not_complete_s1,
+            test_engine_rejects_arbitrary_der_peak_fraction_even_with_valid_pair,
+            test_peak_readiness_records_real_calibration_without_national_uplift,
+            test_q_b06_011_is_resolved_but_transferability_and_completion_remain_open,
+            test_zalavar_effect_pair_is_exact_and_independent,
+        )
+    )
+    return tests

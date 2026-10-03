@@ -1,0 +1,41 @@
+{
+  "source_id": "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
+  "original_url": "https://real-d.mtak.hu/1472/7/dc_2011_22_doktori_mu.pdf",
+  "retrieved_at": "2026-10-01",
+  "document_year": 2022,
+  "census_reference_year": 2011,
+  "source_sha256": "5048f51a0612e350ded419349d7502d7ab1119cb5d2c9576b6daf34e2e8ad2b9",
+  "source_location": "Table7.2 PDF/printed p40; census dwellings column, not surveyed buildings or national buildings",
+  "year_authority": "Chapter5 pp28-29; Chapter6.2 p31; Figure7.1 reference146 Hungarian census report2011",
+  "source_population": "Dwellings in the source 23-type residential-building stock, census2011-based; occupied and unoccupied included",
+  "source_total_dwellings": 4363754,
+  "source_group_totals": {
+    "FAMILY_HOUSE": 2688555,
+    "MULTI_DWELLING": 1675199
+  },
+  "unreconciled_universe": "Exact difference from all KSH2011 dwelling categories is not resolved; do not assert exclusion of holiday or non-residential-building units without evidence",
+  "curated_extract_sha256": "ede822e93dbcf3041692d8aa28d31910422d6ce25becf53a355ae7ab24501b1a",
+  "reuse_status": "Attributed factual numeric extract only; original PDF and table image redistribution not cleared and not published",
+  "original_snapshot_path": null,
+  "forbidden_promotions": [
+    "2011_TOTAL_TO_2022_OCCUPIED_COUNTS",
+    "SAMPLE2029_AS_STOCK_PRIOR",
+    "BUILDING2702183_AS_DWELLING_DENOMINATOR",
+    "NAIVE_FULL_TYPE_COUNTS_WITHOUT_AGE_BRIDGE",
+    "EXACT_HOUSEHOLD_TYPE_ASSIGNMENT",
+    "SYNTHETIC_TOTAL_FLOOR_AS_KSH_DWELLING_AREA",
+    "AUTHOR_FULL_HEATING_FACTOR_AS_OBSERVED_HEATED_FRACTION",
+    "2011_TYPE_MEAN_AS_2022_WBL_CELL_MEAN"
+  ],
+  "evidence_status": "DER",
+  "model_use": "Historical relative prior within admissible same-year type support. Any finite-band year distribution is ASS, not OBS or an admitted E2 weight.",
+  "independent_inspection": "Two focused readers checked numeric cells against original PDF page; same empirical source, not two independent population studies",
+  "source_total_dwelling_area_m2": 336839750,
+  "area_bridge": {
+    "source_location": "Table14.15-17 pp152-154; method Chapter10.1 p94",
+    "dwelling_area_semantics": "KSH2011 summed dwelling useful floor area, not whole synthetic-building total floor area",
+    "reference_heated_area": "KSH dwelling useful area times author-applied type correction; full useful area at20C through the heating season",
+    "factors": "Types1-12:1.00 derived from author text, no numeric table cell;13-18 and23:1.05;19-22:1.10 source-applied model factors",
+    "limitations": "Applied corrections are not purely observed common-area ratios. Partial heating is not deducted; prebound energy correction is not an area fraction. Table14.7 heated/total ratio must not be applied to KSH dwelling area."
+  }
+}

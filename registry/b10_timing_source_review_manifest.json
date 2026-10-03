@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "review_id": "B10-V1-021-TIMING-SOURCE-PRECISION",
+  "review_date": "2026-10-01",
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "sources": [
+    {
+      "source_id": "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+      "original_url": "https://mvmhalozat.hu/aram/oldalak/54325",
+      "retrieved_at": "2026-10-01T21:27:56.138752+00:00",
+      "sha256": "17c9d26b0f5cff54a8cd88d4278897c1f9b416016c722b5d4e002142f6072714",
+      "byte_count": 71945,
+      "retrieval_kind": "NEW_REACQUISITION_NOT_ORIGINAL_IN_MEMORY_BYTES",
+      "authority": "MVM Démász Áramhálózati Kft.",
+      "source_tier": "P4",
+      "document_date": "undated",
+      "document_date_semantics": "Source publication date where explicit; undated project pages do not become ex-ante snapshots",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "claim_scope": "V1-021 source precision: current project page binds identity, funding, scope and a planned 2026-04-30 finish; it reports completion but supplies no exact physical completion or energization date. Earlier OPERATING attribution from umbrella completion is withdrawn. Exact grant and support-rate authority are unchanged.",
+      "previous_registry_metadata": {
+        "retrieved_at": "2026-09-02",
+        "local_snapshot_sha256": "",
+        "notes": "Binds the exact project identifier, beneficiary and multi-asset service-area scope. This project page is the authority for exact grant 42,909,187,827 HUF and 50% support rate. OPERATING/completion and 782 MW realised renewable/PV integration capability are bound separately to the 2026-06-15 completion communication.",
+        "license": "Official MVM project page; exact project/grant facts are OBS; page is not completion authority"
+      },
+      "prior_in_memory_readback_sha256": "c9444552262b5da0c19533558372258ed2a2deb2e4da061fcfb6e5f619e3d9e0",
+      "historical_body_claim": "Current reacquisition does not prove byte-identical historical publication contents"
+    },
+    {
+      "source_id": "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+      "original_url": "https://www.mvmhalozat.hu/aram/aktualitasok/126245",
+      "retrieved_at": "2026-10-01T21:27:56.139290+00:00",
+      "sha256": "0719fcb1373fd99103d18fe6991c58c38e39ea061b83fae9329e8563cbe83ba0",
+      "byte_count": 64952,
+      "retrieval_kind": "NEW_REACQUISITION_NOT_ORIGINAL_IN_MEMORY_BYTES",
+      "authority": "MVM Démász Áramhálózati Kft.",
+      "source_tier": "P4",
+      "document_date": "2026-06-15",
+      "document_date_semantics": "Source publication date where explicit; undated project pages do not become ex-ante snapshots",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "claim_scope": "V1-021 source precision: publication on 2026-06-15 reports already completed umbrella works and aggregate integration capability. This establishes a completed-by reporting bound, not an exact event date or proof every underlying asset is operating. Rounded finance wording is not the exact grant/total-cost authority.",
+      "previous_registry_metadata": {
+        "retrieved_at": "2026-09-02",
+        "local_snapshot_sha256": "",
+        "notes": "Explicitly states successful completion of RRF-6.1.1-21-2022-00006, the beneficiary, realised network scope and 782 MW realised renewable/PV integration capability. Its support wording is rounded (more than 42.909 billion HUF), so it is not the authority for the exact 42,909,187,827 HUF grant. No exact total project cost is recorded or derived.",
+        "license": "Official completion communication; source-native OPERATING status and realised 782 MW capability are OBS; financial wording is rounded"
+      },
+      "prior_in_memory_readback_sha256": "974ccae4a4708230e36a061192c455971de4e3f13133345e067cf87ff2f80b99",
+      "historical_body_claim": "Current reacquisition does not prove byte-identical historical publication contents"
+    },
+    {
+      "source_id": "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+      "original_url": "https://www.opustitasz.hu/tarsasagunk/fejlesztesi-projektek/rrf-projekt",
+      "retrieved_at": "2026-10-01T21:27:56.139699+00:00",
+      "sha256": "b1bedcc2fe3d4c28ac8c520722eda0c871766c6aa965e71d7cc5c96f9883a492",
+      "byte_count": 72032,
+      "retrieval_kind": "NEW_REACQUISITION_NOT_ORIGINAL_IN_MEMORY_BYTES",
+      "authority": "OPUS TITÁSZ Áramhálózati Zrt.",
+      "source_tier": "P4",
+      "document_date": "undated",
+      "document_date_semantics": "Source publication date where explicit; undated project pages do not become ex-ante snapshots",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "claim_scope": "V1-021 source precision: project page explicitly states project completion 2026-06-15 and exact project/support amounts. This is project-level completion, not all-assets energization. The page retains a 378 MW capability figure; correspondence with the completion article's 261 MW is unresolved. Earlier OPERATING attribution is withdrawn.",
+      "previous_registry_metadata": {
+        "retrieved_at": "2026-09-02",
+        "local_snapshot_sha256": "",
+        "notes": "Binds the exact project identifier, operator and service-area scope. This project/funding page is the authority for exact total project cost 41,489,280,000 HUF and exact support 20,744,640,000 HUF. It separately states 378 MW project-page capability; this is not relabelled as realised completion capacity. OPERATING status is bound to the completion communication.",
+        "license": "Official OPUS project/funding page; exact project, support and total-cost facts are OBS; page is not OPERATING authority"
+      },
+      "prior_in_memory_readback_sha256": "e7929f8597b2da68eddc19433f5dece8d09164bca428473051a7d69dd81ab212",
+      "historical_body_claim": "Current reacquisition does not prove byte-identical historical publication contents"
+    },
+    {
+      "source_id": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+      "original_url": "https://www.opustitasz.hu/tarsasagunk/sajtokozlemenyek-hirek/sajtokozlemenyek/az-opus-titasz-tobb-mint-41-milliard-forint-ertekben-valositott-meg-halozatfejlesztest-az-rrf-program-kereteben",
+      "retrieved_at": "2026-10-01T21:27:56.140066+00:00",
+      "sha256": "ecbfab2868c43ed838830c4c58e6b5000be704235d9e979b0df99b086cec864f",
+      "byte_count": 72981,
+      "retrieval_kind": "NEW_REACQUISITION_NOT_ORIGINAL_IN_MEMORY_BYTES",
+      "authority": "OPUS TITÁSZ Áramhálózati Zrt.",
+      "source_tier": "P4",
+      "document_date": "2026-06-15",
+      "document_date_semantics": "Source publication date where explicit; undated project pages do not become ex-ante snapshots",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "claim_scope": "V1-021 source precision: reports project completion and 261 MW aggregate integration capability, but no separately stated exact event or energization date. News-index publication date is separately pinned. Exact 15 June project completion and higher-precision finance come from the project page. No like-for-like physical-delay inference is admitted.",
+      "previous_registry_metadata": {
+        "retrieved_at": "2026-09-02",
+        "local_snapshot_sha256": "",
+        "notes": "Explicitly states completion of RRF-6.1.1-21-2022-00001 and reports 261 MW realised additional weather-dependent integration capability. Its financial wording is rounded (41.489 billion HUF total; 20.744 billion HUF support), so it does not mint the higher-precision exact ledger cost. Exact financial values are bound to the separate project/funding page.",
+        "license": "Official completion communication; source-native OPERATING status and realised 261 MW capability are OBS; financial wording is rounded"
+      },
+      "prior_in_memory_readback_sha256": "e9efe4284e1101034ad0de9f1d458c96d94d23bb48c90b061c592e3ba7b8a699",
+      "historical_body_claim": "Current reacquisition does not prove byte-identical historical publication contents"
+    },
+    {
+      "source_id": "SRC-B10-OPUS-TITASZ-RRF-TIMING-2024",
+      "original_url": "https://www.opustitasz.hu/tarsasagunk/sajtokozlemenyek-hirek/sajtokozlemenyek/halozatfejlesztesekkel-teszi-lehetove-ujabb-napelemek-telepiteset-az-opus-titasz-zrt",
+      "retrieved_at": "2026-10-01T21:27:56.140481+00:00",
+      "sha256": "277f722bf89884ed714e42469f9805445bc1c696cf1deda6b2d2a0372698a55e",
+      "byte_count": 73129,
+      "retrieval_kind": "NEW_REACQUISITION_NOT_ORIGINAL_IN_MEMORY_BYTES",
+      "authority": "OPUS TITÁSZ Áramhálózati Zrt.",
+      "source_tier": "P4",
+      "document_date": "2024-09-30",
+      "document_date_semantics": "Source publication date where explicit; undated project pages do not become ex-ante snapshots",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "claim_scope": "V1-021 source precision: the dated 2024-09-30 communication binds 3 April 2026 to a 378 MW transfer-capability target and reports 376.409 MW already achieved. Pairing with 15 June administrative project completion or 261 MW later reporting is unresolved. Earlier 73-day performance variance is withdrawn; date subtraction alone cannot prove delay.",
+      "previous_registry_metadata": {
+        "retrieved_at": "2026-09-02",
+        "local_snapshot_sha256": "",
+        "notes": "Dated ex-ante timing authority for project RRF-6.1.1-21-2022-00001: 378 MW target by 2026-04-03 and expectation to meet/exceed it by that date. Not a generic delay model, completion probability, programme causality or CAPEX authority.",
+        "license": "Official OPUS public communication; raw content remains external"
+      },
+      "prior_in_memory_readback_sha256": "e48c7a0e1e0b56baf1dc2f5da83a3372a9c47821193cdf77a7a2c2b328b4cbdc",
+      "historical_body_claim": "Current reacquisition does not prove byte-identical historical publication contents"
+    },
+    {
+      "source_id": "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026",
+      "original_url": "https://www.opustitasz.hu/hirek/2026",
+      "retrieved_on": "2026-10-01",
+      "retrieval_precision": "day",
+      "sha256": "85813d4efc09e63384b6c8df883b3d830c892c6028c6976370a176fa5db08627",
+      "byte_count": 108401,
+      "claim_scope": "Publication-date context for the linked RRF completion news; not a physical completion or energization event",
+      "authority": "OPUS TITÁSZ Zrt.",
+      "source_tier": "P4",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date": null,
+      "linked_article_source_id": "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+      "linked_article_publication_date": "2026-06-15"
+    }
+  ],
+  "corrective_findings": {
+    "MVM_DEMASZ_RRF": {
+      "project_id": "RRF-6.1.1-21-2022-00006",
+      "source_reported_project_completion": "COMPLETED_BY_REPORT_DATE",
+      "completed_by_upper_bound": "2026-06-15",
+      "exact_project_completion_date": null,
+      "physical_operating_status": "Q_NOT_ESTABLISHED_FOR_ALL_ASSETS",
+      "physical_operating_date": null,
+      "schedule_variance_days": null
+    },
+    "OPUS_TITASZ_RRF": {
+      "project_id": "RRF-6.1.1-21-2022-00001",
+      "source_declared_project_completion_date": "2026-06-15",
+      "date_source_id": "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+      "physical_operating_status": "Q_NOT_ESTABLISHED_FOR_ALL_ASSETS",
+      "physical_operating_date": null,
+      "ex_ante_capability_target_date": "2026-04-03",
+      "target_quantity_scope_MW": "378",
+      "interim_source_reported_MW": "376.409",
+      "completion_news_reported_MW": "261",
+      "same_milestone_scope_pairing": "UNRESOLVED",
+      "schedule_variance_days": null
+    }
+  },
+  "interpretation_boundaries": [
+    "Reported umbrella-project completion is retained as positive evidence but does not establish every asset's physical operation",
+    "Unknown physical status is not evidence that the assets are unenergized or late",
+    "Exact project completion, report upper bounds and physical commissioning remain different event types",
+    "Calendar subtraction is not a comparable delivery-performance measure without milestone/scope linkage",
+    "Without-program baseline attribution and source-supported declared financial facts remain separate from physical status",
+    "Source-native aggregate integration capability is not household-consumption headroom or programme-caused capacity",
+    "No timing probability, national weighting, actual cashflow or readiness promotion follows"
+  ],
+  "review_method": "Exact current HTML hashes verified; source fields/wording read manually. Absence of an explicit event date is an interpretive source review, not an automated proof of non-completion."
+}

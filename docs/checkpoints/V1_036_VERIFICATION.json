@@ -1,0 +1,71 @@
+{
+  "checkpoint": "V1-036",
+  "base_commit": "a9b011d975adc235af9a7ecd808d40da1618a85b",
+  "reviewed_substantive_tree": "9911a15ab61af42a20eaea0ef606ff20c017ce2a",
+  "scope": "One pinned paired-power SCN component; no complete period electricity, SPF, payback, empirical validation or national result",
+  "source_contracts": "Existing manufacturer and thermal source/manifest contracts unchanged; full external radiation panel is not republished",
+  "independent_review": {
+    "verdict": "ACCEPT_EXACT_IMPLEMENTATION_NO_BLOCKING_FINDING",
+    "review_sha256": "a930d3eb447a019090a4b3d59f60ce610b26503d91f3a4108c4ec54b53571ec0",
+    "receipt_sha256": "7eb9225d179b03d43e9f4577cf5ad4f81355934c9508c343313684eca5bf850c",
+    "genuine_rows_independently_replayed": 72,
+    "thermal_result_unchanged": true,
+    "adverse_probes_passed": 17
+  },
+  "focused_tests": {
+    "new_component": 21,
+    "existing_thermal": 29,
+    "registry": "VALID"
+  },
+  "local_full": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3122,
+    "passed": 3119,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "seconds": 116.972,
+    "frozen_tree": "9911a15ab61af42a20eaea0ef606ff20c017ce2a",
+    "all_hashes_unchanged": true,
+    "log_sha256": "66ba9379ce6d35e4377cce00dffa3e9fb23c233d502acab8c021b5cf150dec84",
+    "completed_at": "2026-10-02T08:05:58.434633+00:00"
+  },
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_035_CI.json",
+      "bytes": 977,
+      "sha256": "25d9a769d3235725286f72ae57280a550535965ad334a3b2e70da8fcd95951c7",
+      "git_blob": "4a2060a4c9adf2e69d20ca6841b0b987c8b022c0"
+    },
+    {
+      "path": "docs/checkpoints/V1_036_PAIRED_POWER_COMPONENT_REFERENCE.md",
+      "bytes": 4186,
+      "sha256": "fb4cccc0c2207afa9c42a1a6dcf87f7305ecd6584adfc91728529b4ea07373e6",
+      "git_blob": "65885c401d8866745adf682167764385c8d7ad52"
+    },
+    {
+      "path": "modules/B05/hourly_power_component_reference.py",
+      "bytes": 13038,
+      "sha256": "e7e02e7e6ead697a66ec26e7631587086846f8e2fdab8a02ee78999e8417308b",
+      "git_blob": "e2a83ed149312658bdcbc5502065f1ad5bed915c"
+    },
+    {
+      "path": "tests/test_b05_hourly_power_component_reference.py",
+      "bytes": 13606,
+      "sha256": "658f1b719295aa79276781ddc0249e75134804ecd64b2544b1010ddba3c1b72f",
+      "git_blob": "c85446ae5b5943647763ea06ad11804326308076"
+    }
+  ],
+  "hosted_ci": "REQUIRED_ON_FINAL_PUBLICATION_HEAD",
+  "unchanged_boundaries": [
+    "No slice or readiness increase",
+    "Complete B08/B12 load remains unavailable",
+    "No national policy or method adoption",
+    "No backup or cycling/auxiliary/defrost amount invented",
+    "Source and software verification are not empirical validation"
+  ]
+}

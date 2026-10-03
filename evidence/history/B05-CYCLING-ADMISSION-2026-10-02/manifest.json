@@ -1,0 +1,52 @@
+{
+  "qualification_date": "2026-10-02",
+  "historical_base_commit": "365a28433f5eda976fa00936282a1565922de45a",
+  "historical_contracts": {
+    "data/processed/b05_p20_qualified_cycling_ready_point.csv": "7dc3f2874141ec739c57ff3aa4272dae8583dedea02f57a6ab718229595598e3",
+    "data/processed/b05_p22_mitsubishi_w35_cycling_bins.csv": "06ca12ab17af4b7ae903778b77a6cd893a494302d5a9edd01fce2de26083d2dc",
+    "registry/b05_p20_qualified_cycling_ready_point.csv": "dd93a7c16ebbfd0491fc8317cf4afccc088130f512ff1041d60574c54f4e9b43",
+    "registry/b05_p22_mitsubishi_extended_minimum_grid.csv": "deb0d5e70cd4d8faf5030932abb6583e17df830bceeaa54d4078f526f688ee24",
+    "registry/heat_pump_sources.csv": "e4ef1796d971ab6ed65eb4b7317ef4d24d153c1dc7cf330acb47fadd91d0a9bf",
+    "registry/sources.csv": "c2af7928cf14fb692f78cbd4f5ea6753b846e2babee8d2e454c6bcd92097c2e1",
+    "docs/source_packs/B05_P20_QUALIFIED_CYCLING_READY_POINT.md": "3163b44a44335047323d33c3d1a110e1a3222aea4b84f09f0f42a7fe318511b0",
+    "docs/source_packs/B05_P22_MITSUBISHI_EXTENDED_MINIMUM_POINT_GRID.md": "d269223fae9129e8ca44ebdc03fbf16ead1fef2dc972b8bf43e082a7fd9c0ff2",
+    "modules/B05/qualified_cycling_point.py": "b7e51ba81f013466de287c9b5dea79847359f50541f87299431b2463e9f535f4"
+  },
+  "historical_access": "Each exact project-authored predecessor remains available at historical_base_commit:path. These are contract-byte hashes, not original external-source hashes.",
+  "unchanged_independent_contracts": {
+    "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+    "modules/B05/engine.py": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+    "modules/B05/cycling_degradation_method.py": "dfe22cbb74e93c477a4758bcaf6a9b9ad19f8d4189c0a281e0a1b4e5354ff35d",
+    "modules/B05/hourly_cycling_method.py": "2ca503290f257ad605cd4f276a06288edeb42691dd36a7251289d4cb01ec8570",
+    "modules/B05/hourly_onoff_parameter_policy.py": "2c71884d74d12062e1fc551aa7b14c985ccfae6af0323b9ddea3872a2f36baea",
+    "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+    "data/processed/b05_p22_mitsubishi_minimum_point_grid.csv": "5b9ad4d3b0a326ad7ee2431aa53ced73d719f6796255b4b1697d44eccf1b577b",
+    "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+    "modules/B06/prospective_capacity_reference.py": "9bbc863ff40cf6b12162ce23980881d15c3056db65a434b4ce6a49dc97e62c45",
+    "modules/B06/tabula_seasonal_reference.py": "70d8d021a00e506627f30c0cb31176f7d009578278f62ea22814bf5014b5cb0b",
+    "data/processed/b05_p23_dimplex_modulation_floor_surface.csv": "9ec781a95c76fefc00f52d46ffdf9013632e3b2937e3c52fd1b977540abebe66",
+    "data/processed/b05_p42_coordinate_gap_closure.csv": "b6159a1f12f2802b9df649ca36e66b8997ea5a975d6c58114f6d59aa0713042e",
+    "modules/B05/coordinate_gap_closure.py": "53d4c643d315f7a1cc3d6368f25d3fbb7f7e30bdd6f47581557fc46002f7caa5",
+    "modules/B05/barrier_aware_modulation_floor_surface.py": "7289279781d4526c387162a908cef9c53f759d30fd18b0f302d9d8c454310a05",
+    "modules/B06/hourly_thermal_reference.py": "80d5879145a7574e91952f9407c972cb6fc4799c62f83aa033e052068ded17df",
+    "registry/b06_hourly_thermal_reference_manifest.json": "1e167ccef1a40cc916f72ab0b8d11edfde84ad61980e81bc45836aec4248f90d",
+    "tests/test_b06_hourly_thermal_reference.py": "406dd272ddde0e8c7de7991e642586122de0fb204ff3fa4073673c0d368464c5"
+  },
+  "historical_claim": "P20 .950 warmer and P20/P22 fixed-W35 cycling-ready admission are retained as prior claims, superseded for current use by the dated source-admission manifest.",
+  "current_scope": "Manufacturer fixed-coordinate performance for both families and conditional P18 algebra remain intact. Current physical Cdh/MIN joining is Q until source-bound authority exists. P59 original eight-point execution criterion remains unchanged but unassessed; current total null, supported subtotal 67, unresolved weight 8, historical 75. B05 module 64 unchanged.",
+  "source_byte_policy": "No raw PDF/HTML/panels or transformed source documents are included. No original-byte digest exists for the readable KEYMARK material; historical cause is unresolved.",
+  "revision_base_commit": "45758da67be7527423f06a0375c3dc858c7ea9ec",
+  "historical_p59_score": 75,
+  "current_p59_total": null,
+  "supported_unaffected_subtotal": 67,
+  "unassessed_gate_weight": 8,
+  "unassessed_gate": "EN14825_STANDARD_BIN_CYCLING_METHOD",
+  "original_p59_criterion": "The to-water standard-bin cycling equation is executable with same-point COP/capacity and exact certified Cdh.",
+  "historical_dimplex_contracts": {
+    "data/processed/b05_p23_dimplex_w35_cycling_bins.csv": "6234dfb436c9f572385dd4a765909e1ee5b3a490513fa285a8a4fb62672a17aa",
+    "registry/b05_p23_dimplex_second_floor_surface.csv": "081fc7651a5bba6414c8d1e93242336357ba348c86b267b588f3b80c3015febe",
+    "registry/b05_p42_coordinate_gap_closure.csv": "d16266f3b5fe866e07ba8b2d105fd49f70c044bf90c8a5e67f9321649803625d",
+    "registry/b05_p59_part_load_readiness_scorecard.csv": "b829867fb6993ba0f5deef74697bbc4fb328f6d2edd55fc7fbb9d75af9662705",
+    "modules/B05/part_load_readiness_recalibration.py": "38c3a136a1e4d7941ca1496abbce5ea1bd3e0d7ffc0bc4740facb44840121ede"
+  }
+}

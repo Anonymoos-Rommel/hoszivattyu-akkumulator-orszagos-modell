@@ -1,0 +1,25 @@
+{
+  "checkpoint": "V1-042",
+  "commit": "5ca625e1abdc8c6e387a85aa87655416ff1d3f8b",
+  "tree": "c33f2c42965c03e3b08d5e4632a7920d567477bc",
+  "run_id": 37034935005,
+  "run_number": 1104,
+  "job_id": 110930670042,
+  "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37034935005",
+  "conclusion": "success",
+  "tests": 3261,
+  "failures": 0,
+  "skips": 0,
+  "elapsed_seconds": 93.63,
+  "registry": "VALID",
+  "tested_merge": "5ef576b5515fccc23e607e0e2d8a4aa4db1609f5",
+  "tested_tree": "c33f2c42965c03e3b08d5e4632a7920d567477bc",
+  "required_external_positive_log_lines": [
+    "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "hosted_log_sha256": "5437f302a7779f6e48e9497a8ca6487f7589f59cc20caba46e7de918ab569a23",
+  "verified_at": "2026-10-02T16:40:05.261554+00:00",
+  "boundary": "Source-bound current-area E2 diagnostic; no heat, point weights, installed system or national programme admission"
+}

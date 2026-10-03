@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.transient_report_lineage import (
     ProductTransientReport,
     CrossBrandPlatformEvidence,
@@ -96,7 +98,7 @@ class B05P44TransientReportLineageTests(unittest.TestCase):
         self.assertEqual(variables["VAR-B05-ONOFF-TRANSIENT-TAU-EQ"]["status"], "Q")
         self.assertEqual(variables["VAR-B05-FANCOIL-OBS-EMITTER-RESPONSE-TIME"]["status"], "Q")
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
 
     def test_sources_inventory_and_boundaries(self):
         s = {r["source_id"]: r for r in rows(SOURCES)}

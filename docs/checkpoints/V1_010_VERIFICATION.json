@@ -1,0 +1,29 @@
+{
+  "checkpoint": "V1_010",
+  "reviewed_base_head": "e625ad9622307ec07771d9bd620ad2ca1bcb364c",
+  "actual_base_head": "e625ad9622307ec07771d9bd620ad2ca1bcb364c",
+  "targeted_tests": {
+    "command": "python -m unittest tests.test_b02_reported_service_controls -v",
+    "tests": 4,
+    "result": "PASS"
+  },
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2531,
+    "result": "PASS",
+    "duration_seconds": 117.911
+  },
+  "registry_validation": "PASS",
+  "source_extraction": "Pinned PDF Table1 extractor output is byte-identical to curated CSV",
+  "review_scope": "Focused independent code review only; author visually checked pinned source page. No full scientific validation or E2 heat allocation admission.",
+  "artifacts": {
+    "modules/B02/README.md": "dc722dd5e48d519ec012e2fbcfb05e0d232712e96d75dbdd2d6eaa34f04e1703",
+    "registry/v1_research_plan.json": "50c9acd82aa9ee1038e92e1af65a5d7370b5684bc6ebfa9659b087e76e3f6910",
+    "data/processed/b02/rekk_reported_service_2022.csv": "a06f8258ae4fce4cbcb4065bfb44b1a3650c32644b00e6211dc50c52e8a4d895",
+    "docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md": "3a291239839733f39e33524d81f220352bdcee83a60aa965b96b274854daaac6",
+    "modules/B02/reported_service_controls.py": "54a9545f4146892a2d92a4d4969e23a7676ae7f1258e07ffc95d0b471b6328bb",
+    "registry/b02_reported_service_manifest.json": "b87cd96042c3d0a6dba5de3b975440e263069a9310f73294bd8bfe33ffa496ac",
+    "tests/test_b02_reported_service_controls.py": "d0d4ceee0ee5601e77d2f51efe7cf7c1d6bb4d4f2eead3c86ef92f8bc06723dd",
+    "tools/extract_b02_reported_service.py": "87640bf67fd2f82c1a2afcef2bb05d5d461f299ea68ab59136a8afcf0c869a57"
+  }
+}

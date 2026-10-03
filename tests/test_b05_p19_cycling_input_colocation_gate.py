@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.cycling_input_colocation import (
     MEASUREMENT_DETERMINED,
     POINT_PAIRED_MINIMUM_CAPACITY_COP_REQUIRED,
@@ -58,7 +60,7 @@ class B05P19CyclingInputColocationTests(unittest.TestCase):
         v={r["variable_id"]:r for r in rows(VARIABLES)}
         self.assertEqual(v["VAR-B05-COP-AT-CYCLING-CAPACITY"]["status"],"Q")
         self.assertEqual(v["VAR-B05-CYCLING-INPUT-COLOCATION"]["status"],"Q")
-        self.assertGreaterEqual(int({r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, {r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"])
         s={r["source_id"]:r for r in rows(SOURCES)}
         self.assertEqual(s["SRC-B05-AMITIME-PAVH06-DISTRIBUTOR-RANGE-2026"]["source_tier"],"P3")
         self.assertIn("SRC-B05-HPKEYMARK-AMITIME-PAVH06-2026",s)

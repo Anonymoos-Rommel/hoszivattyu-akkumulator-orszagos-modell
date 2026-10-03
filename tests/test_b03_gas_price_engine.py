@@ -76,7 +76,10 @@ class B03GasPriceEngineTests(unittest.TestCase):
         threshold = Decimal(discounted["threshold_mj"])
         discounted_rate = Decimal(discounted["gross_price_huf_per_mj"])
         higher_rate = Decimal(higher["gross_price_huf_per_mj"])
-        fixed = Decimal(discounted["annual_fixed_charge_huf"])
+        self.assertEqual(discounted["annual_fixed_charge_vat_basis"], "NET")
+        fixed = Decimal(discounted["gross_annual_fixed_charge_huf"])
+        self.assertEqual(fixed, Decimal(discounted["annual_fixed_charge_huf"]) * (1 + Decimal(discounted["vat_rate"])))
+        self.assertEqual(fixed, Decimal("11673.84"))
 
         def bill(consumption_mj: Decimal) -> Decimal:
             return (

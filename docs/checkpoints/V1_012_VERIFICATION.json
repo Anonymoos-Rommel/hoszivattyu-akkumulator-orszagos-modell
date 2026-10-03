@@ -1,0 +1,35 @@
+{
+  "checkpoint": "V1_012",
+  "reviewed_base_head": "2e3bf40a0b0eb5668a89d816acdcaa9a3dc84f58",
+  "targeted_tests": {
+    "command": "python -m unittest tests.test_b06_tabula_seasonal_reference -v",
+    "tests": 6,
+    "result": "PASS"
+  },
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2542,
+    "result": "PASS",
+    "duration_seconds": 111.184
+  },
+  "registry_validation": "PASS",
+  "source_extraction": "Pinned workbook read-only extractor reproduces nine-row curated JSON byte-for-byte",
+  "independent_review": {
+    "scope": "Historical source equations, units, geometry checks and applicability; not current national calibration or complete B06 scientific validation",
+    "all_50_annual_results_reproduced": true,
+    "maximum_annual_residual_kwh_m2": 5.68e-14,
+    "selected_full_source_cells_compared": 2979,
+    "selected_source_rows": 9
+  },
+  "artifacts": {
+    "data/processed/b06/tabula_three_reference_cases.json": "9b946e1ecded543bff1540273417add5b975d9ddbe5ce8b48f0d528cad76bb93",
+    "docs/checkpoints/V1_012_TABULA_SEASONAL_REFERENCE.md": "f93fdd9fd85387b1ac90bbf5dd49029384f1261679aaf25ef3dcccf07bde04ca",
+    "modules/B06/tabula_seasonal_reference.py": "70d8d021a00e506627f30c0cb31176f7d009578278f62ea22814bf5014b5cb0b",
+    "registry/b06_tabula_reference_manifest.json": "bdb493ba9d37b14520d8464b4610194697c862d66dfcec6dbd93ad2f80c39085",
+    "tests/test_b06_tabula_seasonal_reference.py": "daee724a53d690791b3adb362ae25d869c295ab8e140bf84b3b33a7e36ec8e3a",
+    "tools/extract_b06_tabula_reference.py": "9325e17232866774d97d087c3b4d7435853cefc94b8cf7a2fc1213857a1e534b",
+    "modules/B06/README.md": "11a178c02c70a10da1880c6929ef948f171d24f276d480a4a0c61b3753e36692",
+    "registry/sources.csv": "b5fdaac8cc44c9fa362dd7cb5ec0846ce610d32520a6a61253a112a65ca1ec49",
+    "registry/v1_research_plan.json": "110804e70fb25991d34525edfdde20b60069bfbf384f8ceea2dbc789b27c1eda"
+  }
+}

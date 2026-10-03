@@ -1,0 +1,199 @@
+{
+  "reference_id": "B09-D01-P5-P6-P7-GUI-GENERATION-UTC-2025",
+  "reference_version": 1,
+  "reproduced_at_date": "2026-10-01",
+  "model_use_status": "QUALIFIED_E2_MODEL_USE",
+  "evidence_tier": "E2_PROVISIONAL_BASE",
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "public_raw_reuse_status": "NOT_ESTABLISHED_FREE_REUSE",
+  "record_evidence_status": "Q",
+  "source_semantics": "ENTSOE_PUBLISHED_ACTUAL_MAY_INCLUDE_PROVIDER_ESTIMATES",
+  "authority_records": [
+    "B09-P7-R01",
+    "B09-P7-R02",
+    "B09-P7-R03",
+    "B09-P7-R04",
+    "B09-P7-R05",
+    "B09-P7-R06",
+    "B09-P7-R07",
+    "Q-B09-001"
+  ],
+  "source_artifacts": [
+    {
+      "acquisition_record_id": "B08B09-P5-R03",
+      "source_id": "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+      "sha256": "c7b332bb63d927730a84082571ad8d1e2f143e10de7b497825d45ca74bbbc05d",
+      "bytes": 4737682
+    },
+    {
+      "acquisition_record_id": "B08B09-P5-R04",
+      "source_id": "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
+      "sha256": "f70c10756a400a1b663e6b20b17422941ecd6b2cc1e4e8b74571b69781936564",
+      "bytes": 7494
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP01",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "2c1bfd1f4fe9a0fc0b1262a86376037a5ae8c17bc2e6a412e4f996afaa46cb8f",
+      "bytes": 4367807
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP02",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "a47a8b7b923a5ed2418a6475c14dd0fd3ba7e3fd1ae0608e8b6756846e250563",
+      "bytes": 4343119
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP03",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "12571dc0993b48ad05b8a0d5c757360a8e81c22969c36d012bc2cad03e4f9547",
+      "bytes": 4289521
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP04",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "e768fe72e719a075eaac707b951af6be1854248dc4e7de1d530efdb1ecb946ad",
+      "bytes": 876284
+    }
+  ],
+  "source_definitions": [
+    {
+      "source_id": "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+      "authority": "ENTSO-E",
+      "source_product": "Aggregated Generation per Type [16.1.B&C]",
+      "original_url": "https://transparency.entsoe.eu/generation/r2/actualGenerationPerProductionType/show?name=",
+      "acquisition_date": "2026-09-27",
+      "acquisition_date_authority": "docs/source_packs/B08_B09_P5_ENTSOE_GUI_EXPORT_ACQUISITION.md",
+      "timestamp_precision": "DATE_ONLY",
+      "reuse_status": "EXTERNAL_ONLY",
+      "source_revision": "NOT_PROVIDED_BY_SOURCE"
+    },
+    {
+      "source_id": "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
+      "authority": "ENTSO-E",
+      "source_product": "Installed Generation Capacity Aggregated [14.1.A]",
+      "original_url": "https://transparency.entsoe.eu/",
+      "acquisition_date": "2026-09-27",
+      "timestamp_precision": "DATE_ONLY",
+      "reuse_status": "EXTERNAL_ONLY",
+      "source_revision": "NOT_PROVIDED_BY_SOURCE",
+      "claim_scope": "Numeric versus structural n/e expected-type manifest only; capacity is not used as generation"
+    },
+    {
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "authority": "MAVIR ZRt.",
+      "source_product": "Erőművi termelés tüzelőanyag szerinti bontásban - Nettó üzemirányítási mérés alapján",
+      "original_url": "https://rtdwweb.mavir.hu/rtdwweb/webuser/GenerateChartsServlet?hunLang=hu-hu&tabId=tab7679",
+      "acquisition_date": "2026-09-27",
+      "timestamp_precision": "DATE_ONLY",
+      "reuse_status": "EXTERNAL_ONLY",
+      "source_revision": "NOT_PROVIDED_BY_SOURCE"
+    },
+    {
+      "source_id": "SRC-B09-ENTSOE-PSR-TYPE-CODES-2024",
+      "authority": "ENTSO-E Transparency Platform",
+      "original_url": "https://transparencyplatform.zendesk.com/hc/en-us/articles/15856995130004-PsrType",
+      "document_date": "2024-10-11",
+      "retrieved_at_date": "2026-10-01",
+      "claim_scope": "Bxx code-to-meaning mapping only",
+      "repo_snapshot_path": null,
+      "sha256": null,
+      "reuse_status": "METADATA_ONLY_NO_SOURCE_SNAPSHOT"
+    }
+  ],
+  "request_start_utc": "2025-01-01T00:00:00Z",
+  "request_end_utc_exclusive": "2026-01-01T00:00:00Z",
+  "spatial_grain": "BZN|HU",
+  "timestep_hours": 0.25,
+  "source_power_unit": "MW",
+  "runtime_power_unit": "kW",
+  "active_production_type_codes": [
+    "B01",
+    "B02",
+    "B04",
+    "B05",
+    "B06",
+    "B09",
+    "B11",
+    "B12",
+    "B14",
+    "B15",
+    "B16",
+    "B17",
+    "B19",
+    "B20"
+  ],
+  "structural_ne_type_codes": [
+    "B03",
+    "B07",
+    "B08",
+    "B10",
+    "B13",
+    "B18",
+    "B25"
+  ],
+  "psr_codes": {
+    "Biomass": "B01",
+    "Fossil Brown coal/Lignite": "B02",
+    "Fossil Coal-derived gas": "B03",
+    "Fossil Gas": "B04",
+    "Fossil Hard coal": "B05",
+    "Fossil Oil": "B06",
+    "Fossil Oil shale": "B07",
+    "Fossil Peat": "B08",
+    "Geothermal": "B09",
+    "Hydro Pumped Storage": "B10",
+    "Hydro Run-of-river and pondage": "B11",
+    "Hydro Water Reservoir": "B12",
+    "Marine": "B13",
+    "Nuclear": "B14",
+    "Other renewable": "B15",
+    "Solar": "B16",
+    "Waste": "B17",
+    "Wind Offshore": "B18",
+    "Wind Onshore": "B19",
+    "Other": "B20",
+    "Energy storage": "B25"
+  },
+  "psr_label_normalization": {
+    "B11": "GUI pondage matches official PsrType page poundage spelling; explicit lexical normalization only"
+  },
+  "gui_business_type_binding": "A01 production-direction adapter binding from the generation-only GUI; not a claim that GUI supplies XML businessType metadata",
+  "mavir_interval_rule": "Explicit-offset local interval end -> UTC -> subtract PT15M; filter half-open UTC-2025 before numeric payload validation",
+  "overlap_rule": "All in-window numeric fields must match exactly as Decimal; deterministic first acquisition ID wins; retain every identical-copy cell locator",
+  "recovery_rule": "Call existing P7 consumer; recovery keys exactly equal A75 blanks; preserve numeric A75; v -> max(v,0) injection and max(-v,0) withdrawal",
+  "expected_reproduction": {
+    "utc_intervals": 35040,
+    "active_production_types": 14,
+    "structural_ne_types": 7,
+    "supply_records": 490560,
+    "numeric_a75_cells_preserved": 485740,
+    "recovered_cells": 4820,
+    "negative_recovery_cells": 4812,
+    "zero_recovery_cells": 6,
+    "positive_recovery_cells": 2,
+    "mavir_overlapped_timestamps": 26404,
+    "missing_a75_cells_by_code": {
+      "B04": 2,
+      "B06": 4817,
+      "B12": 1
+    }
+  },
+  "coverage_limits": {
+    "complete_2025_budapest_civil_year": false,
+    "complete_meteorological_winter": false,
+    "missing_local_year_boundary": "2024-12-31T23:00:00Z/2025-01-01T00:00:00Z generation unavailable in this bundle",
+    "reason": "No 2024 generation companion; do not borrow the B08 load companion as generation"
+  },
+  "output_policy": "Complete numeric panel and exact recovery lineage only under ignored data/interim; no workbook bytes or panel in public repository",
+  "excluded_claims": [
+    "OBS promotion",
+    "new reuse clearance",
+    "complete local civil year or winter",
+    "regional generation allocation",
+    "storage dispatch",
+    "network headroom",
+    "programme effects",
+    "tariff or monetary value"
+  ]
+}

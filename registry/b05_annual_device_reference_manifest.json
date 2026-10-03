@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "reference_id": "E2-ANNUAL-WM50-W55-TABULA-SFH01-UTC2025-001",
+  "scope": "ONE_ANNUAL_DEVICE_REFERENCE_NO_NATIONAL_OR_INSTALLED_SYSTEM_TOTAL",
+  "evidence_status": "DER",
+  "evidence_tier": "E2",
+  "base_status": "PROVISIONAL_BASE",
+  "repository_pins": {
+    "modules/B06/tabula_seasonal_reference.py": "70d8d021a00e506627f30c0cb31176f7d009578278f62ea22814bf5014b5cb0b",
+    "data/processed/b06/tabula_three_reference_cases.json": "9b946e1ecded543bff1540273417add5b975d9ddbe5ce8b48f0d528cad76bb93",
+    "registry/b06_tabula_reference_manifest.json": "bdb493ba9d37b14520d8464b4610194697c862d66dfcec6dbd93ad2f80c39085",
+    "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+    "modules/B05/engine.py": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+    "modules/B05/hourly_power_component_reference.py": "e7e02e7e6ead697a66ec26e7631587086846f8e2fdab8a02ee78999e8417308b",
+    "modules/B05/hourly_onoff_parameter_policy.py": "2c71884d74d12062e1fc551aa7b14c985ccfae6af0323b9ddea3872a2f36baea",
+    "modules/B05/hourly_cycling_method.py": "2ca503290f257ad605cd4f276a06288edeb42691dd36a7251289d4cb01ec8570",
+    "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+    "modules/B08/historical_source_balance.py": "466aba7d3f292a522612d97d686c0f24e0e27ad4389d79d874e944ecc253d145",
+    "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b"
+  },
+  "weather": {
+    "sha256": "a213df5a30b30360443681f81977c111145795d23f5c2a05e4eeeec6738c3f39",
+    "bytes": 964506,
+    "rows": 8760,
+    "start_utc": "2025-01-01T00:00:00+00:00",
+    "end_utc": "2026-01-01T00:00:00+00:00",
+    "station_id": "44527",
+    "history_source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "recent_source_id": "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+    "recent_endpoint_utc": "2026-01-01T00:00:00+00:00",
+    "history_rows": 8759,
+    "recent_rows": 1,
+    "history_panel_sha256": "bcc374a5592c72a3a24f43f065997d64b694215184df6f1889500fbd5dae425c",
+    "recent_zip_sha256": "86f57ea9b74b0b5c8e200f86e7a8e444d30105b021fb447983f1f702e1075fd9",
+    "recent_description_sha256": "c452a422515998764f56589f81517fc403601d41341575e941b98a0b62e55542",
+    "temperature_boundary": "preceding-hour mean Celsius, UTC half-open intervals",
+    "quality": "Primary checks; no climate homogenization; reserved Q fields are not quality-pass claims",
+    "raw_storage": "EXTERNAL_ONLY"
+  },
+  "thermal": {
+    "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.013",
+    "area_m2": 56,
+    "system_sheet": "Calc.Set.System",
+    "system_row": 3392,
+    "system_source_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+    "system_cells": [
+      {
+        "field": "Code_BuildingVariant",
+        "cell": "B3392",
+        "value": "HU.N.SFH.01.Bel80.ReEx.001.013"
+      },
+      {
+        "field": "Code_SysH_D",
+        "cell": "BK3392",
+        "value": "HU.C_Int.SUH.03"
+      },
+      {
+        "field": "Code_SysH_Aux",
+        "cell": "BL3392",
+        "value": "HU.C.SUH.03"
+      },
+      {
+        "field": "q_h_nd",
+        "cell": "BC3392",
+        "value": 102.64561485096266
+      },
+      {
+        "field": "q_h_nd_net",
+        "cell": "CG3392",
+        "value": 102.64561485096266
+      },
+      {
+        "field": "q_d_h",
+        "cell": "BV3392",
+        "value": 5.4
+      },
+      {
+        "field": "q_s_h",
+        "cell": "BU3392",
+        "value": 0
+      },
+      {
+        "field": "q_g_h_out",
+        "cell": "CH3392",
+        "value": 108.04561485096266
+      },
+      {
+        "field": "q_del_h_aux",
+        "cell": "BW3392",
+        "value": 2.8
+      }
+    ],
+    "effective_distribution_kwh_m2": 5.4,
+    "storage_kwh_m2": 0.0,
+    "source_generator_kwh_m2": 108.04561485096266,
+    "source_mixed_gas_aux_kwh_m2": 2.8,
+    "source_service": "source",
+    "annual_authority": "Historical TABULA method output; not observed or weather-corrected2025 consumption",
+    "time_allocation": "Annual-energy-preserving degree-hour shape around source-season equivalent balance temperature; no thermostat/comfort selection"
+  },
+  "heat_pump": {
+    "product": "PUZ-WM50VHA(-BS)",
+    "revision": "Mitsubishi Vol.5.3 December2020",
+    "supply_c": 55,
+    "modes": [
+      "MIN",
+      "MID",
+      "NOMINAL",
+      "MAX"
+    ],
+    "cycling_method": "EQUIVALENT_FIXED_CAPACITY_MINIMUM_STAGE",
+    "tau_eq_s": 140.0,
+    "emitter_response_s": 1370.0,
+    "nonactive_power_kw": 0.015,
+    "minimum_stage_ratio": 1.0,
+    "input_boundary": "Manufacturer Q/COP total-unit rating input; not a compressor submeter",
+    "nonactive_source": {
+      "source_id": "SRC-B05-HPKEYMARK-MITSUBISHI-WM50-2026",
+      "original_url": "https://www.heatpumpkeymark.com/en/nc/ps-keymark/certificate-holders/?cHash=0aecf6bcedcd369e5acf7a509916b562&tx_pskeymark_frontend%5Baction%5D=showSubtype&tx_pskeymark_frontend%5Bcontroller%5D=Frontend&tx_pskeymark_frontend%5Bsubtype%5D=4300",
+      "read_at": "2026-10-02",
+      "retrieval": "Public rendered source read; exact response byte hash unavailable",
+      "certificate": "037-0032-20 / rev.2; certification date19.12.2023",
+      "model": "Standalone Outdoor PUZ-WM50VHA(-BS)",
+      "application": "Average Climate; EN14825 medium",
+      "fields": {
+        "SCOP": 3.4,
+        "Poff_W": 15,
+        "PTO_W": 15,
+        "PSB_W": 15,
+        "PCK_W": 0,
+        "PSUP_kW": 0.81
+      },
+      "claim": "Product-native nonactive power and alternative seasonal boundary only; no fixed-W55 Cdh/MIN join",
+      "reuse_status": "EXTERNAL_ONLY_NO_ORIGINAL_BYTES_REPUBLISHED"
+    },
+    "defrost": "Retain every grey/unmarked source support; no universal correction or unmarked-as-frost-free claim"
+  },
+  "method": {
+    "cycling_formula": "Pmin*(d+(140/1370)*d*(1-d)) + .015*(1-d), d=q/Qmin",
+    "continuous": "Existing ordered adjacent paired-power interpolation",
+    "zero_heat": "Declared15W nonactive reference; Poff=PTO=PSB, PCK=0",
+    "quarter_hour": "Explicit hourly-mean hold over four physical quarters; no subhourly peak claim"
+  },
+  "validation_debt": [
+    {
+      "question_id": "Q-B05-004",
+      "quantity": "Minimum-stage control and transient/default transfer",
+      "evidence": "E2",
+      "upgrade": "Selected-product aggregate part-load energy or qualified calibration at the declared hydronic conditions; no certified-Cdh/MIN join is asserted"
+    },
+    {
+      "question_id": "Q-B05-003",
+      "quantity": "Source-rating defrost/temperature applicability",
+      "evidence": "E2",
+      "upgrade": "Matched product/weather aggregate or runtime validation; no universal event constant"
+    },
+    {
+      "question_id": null,
+      "quantity": "Historical annual heat timing and distribution transfer",
+      "evidence": "E2",
+      "upgrade": "Qualified target population/source calibration of annual demand and timing; no room-temperature or site-peak validation claimed",
+      "registry_link": "Existing reference-method scope; no new blocker or gate created",
+      "scope": "ANNUAL_REFERENCE_TIMING_AND_DISTRIBUTION"
+    },
+    {
+      "question_id": null,
+      "quantity": "Nonoverlapping outside-unit electricity",
+      "evidence": "Q",
+      "upgrade": "One compatible aggregate pump/controller/emitter base avoiding already-included unit input; separate components are not universally required",
+      "registry_link": "Installed-system output boundary; does not null the device reference",
+      "scope": "OUTSIDE_UNIT_AUXILIARY_BOUNDARY"
+    }
+  ],
+  "source_and_method_review": {
+    "proposal_manifest_sha256": "34e4e5a37027b07cf7ae7ae3c8b68981d3c3f8f27821e2b2ac474b764bc81afc",
+    "review_receipt_sha256": "65c2d75369a86bbe65d3d6c73c18f778d3c6908910113519cce8b69f6103bafb",
+    "verdict": "ADMIT_NAMED_E2_DEVICE_REFERENCE_FOR_BOUNDED_IMPLEMENTATION"
+  },
+  "limits": [
+    "No complete installed-system, household savings or observed SPF result",
+    "No national weight, programme adoption, legal permission, backup or comfort policy chosen",
+    "No revival or readiness credit for withdrawn exact Cdh/MIN joins",
+    "No source-original or complete external panel republication"
+  ]
+}

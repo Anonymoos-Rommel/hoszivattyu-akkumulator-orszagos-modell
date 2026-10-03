@@ -152,3 +152,22 @@ def test_missing_supply_temperature_keeps_b05_handoff_q():
     result = evaluate_retrofit(baseline, [intervention])
     assert result.b05_handoff.status == "Q"
     assert result.s1_gate == "BLOCKED"
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_annual_and_peak_effects_are_independent_fields,
+            test_applicability_mismatch_keeps_real_evidence_non_usable,
+            test_completion_gate_remains_separate_from_effect_evidence,
+            test_dhw_contaminated_source_fails_closed,
+            test_missing_supply_temperature_keeps_b05_handoff_q,
+            test_ranges_are_retained_without_midpoint_materialization,
+            test_weather_normalization_and_observation_status_are_preserved,
+        )
+    )
+    return tests

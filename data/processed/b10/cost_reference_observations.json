@@ -1,0 +1,757 @@
+{
+  "schema_version": 1,
+  "admission_status": "E1_REFERENCE_ONLY",
+  "slice_id": "B10-D02",
+  "observations": [
+    {
+      "observation_id": "B10-REF-TED-777208-2025-LOT-0001",
+      "source_id": "SRC-B10-V1-TED-777208-2025",
+      "source_locator": "5.1 lot 1; 6.1.2 lot 1; PDF pp. 2,4",
+      "document_revision": "777208-2025",
+      "procurement_family_id": "EKR001295922025",
+      "correlation_cluster_id": "EKR001295922025",
+      "lot_or_item_id": "LOT-0001",
+      "observation_kind": "AWARDED_TRANSFORMER_SUPPLY",
+      "currency": "EUR",
+      "vat_basis": "NET_PRICE_ELEMENT",
+      "price_basis": "2025-09_CONTRACT_PRICE_FIXATION_UNKNOWN",
+      "contract_date": "2025-09-10",
+      "amendment_date": null,
+      "publication_date": "2025-11-24",
+      "buyer_context": "MVM Émász",
+      "supplier_context": "Ganz Transzformátor- és Villamos Forgógépgyártó Zrt.",
+      "geography": "Miskolc warehouse",
+      "geography_semantics": "DELIVERY_WAREHOUSE_NOT_ELECTRICAL_NODE",
+      "source_nuts_label": null,
+      "geography_warning": null,
+      "technical_scope": "Three-phase 126/22 kV 40 MVA substation distribution-transformer supply to warehouse",
+      "scope_qualification": "Warehouse supply only; excludes installed substation inference",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "lot_amount": {
+          "value": "1119836.62",
+          "unit": "EUR",
+          "truth_status": "OBS"
+        },
+        "asset_count": {
+          "value": "1",
+          "unit": "transformer",
+          "truth_status": "OBS"
+        },
+        "nameplate_per_asset": {
+          "value": "40",
+          "unit": "MVA",
+          "truth_status": "OBS"
+        },
+        "planned_duration": {
+          "value": "20",
+          "unit": "month_planned",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "reserve_included": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted"
+      ]
+    },
+    {
+      "observation_id": "B10-REF-TED-777208-2025-LOT-0002",
+      "source_id": "SRC-B10-V1-TED-777208-2025",
+      "source_locator": "5.1 lot 2; 6.1.2 lot 2; PDF pp. 3,5,6",
+      "document_revision": "777208-2025",
+      "procurement_family_id": "EKR001295922025",
+      "correlation_cluster_id": "EKR001295922025",
+      "lot_or_item_id": "LOT-0002",
+      "observation_kind": "AWARDED_TRANSFORMER_SUPPLY",
+      "currency": "EUR",
+      "vat_basis": "NET_PRICE_ELEMENT",
+      "price_basis": "2025-09_CONTRACT_PRICE_FIXATION_UNKNOWN",
+      "contract_date": "2025-09-10",
+      "amendment_date": null,
+      "publication_date": "2025-11-24",
+      "buyer_context": "MVM Émász",
+      "supplier_context": "Ganz Transzformátor- és Villamos Forgógépgyártó Zrt.",
+      "geography": "Gyöngyös warehouse",
+      "geography_semantics": "DELIVERY_WAREHOUSE_NOT_ELECTRICAL_NODE",
+      "source_nuts_label": null,
+      "geography_warning": null,
+      "technical_scope": "Three-phase 126/22 kV 40 MVA substation distribution-transformer supply to warehouse",
+      "scope_qualification": "Warehouse supply only; excludes installed substation inference",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "lot_amount": {
+          "value": "2231873.24",
+          "unit": "EUR",
+          "truth_status": "OBS"
+        },
+        "asset_count": {
+          "value": "2",
+          "unit": "transformer",
+          "truth_status": "OBS"
+        },
+        "nameplate_per_asset": {
+          "value": "40",
+          "unit": "MVA",
+          "truth_status": "OBS"
+        },
+        "planned_duration": {
+          "value": "20",
+          "unit": "month_planned",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "reserve_included": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted"
+      ]
+    },
+    {
+      "observation_id": "B10-REF-TED-438132-2026-LOT-0001",
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "source_locator": "5.1 lot 1; 6.1.2 lot 1; PDF scope pp. 2; award p.8",
+      "document_revision": "438132-2026",
+      "procurement_family_id": "EKR001158812025",
+      "correlation_cluster_id": "EKR001158812025",
+      "lot_or_item_id": "LOT-0001",
+      "observation_kind": "AWARDED_STORAGE_CONNECTION_PACKAGE",
+      "currency": "HUF",
+      "vat_basis": "NET_EXCLUDING_VAT",
+      "price_basis": "2026-06_CONTRACT_NOMINAL",
+      "contract_date": "2026-06-10",
+      "amendment_date": null,
+      "publication_date": "2026-06-25",
+      "buyer_context": "MVM Démász",
+      "supplier_context": "Grid&Connect Hungary Kft.",
+      "geography": "Orgovány I piactér",
+      "geography_semantics": "NAMED_STORAGE_CONNECTION_SITE_NOT_RESOLVED_DSO_SUBSTATION",
+      "source_nuts_label": "Csongrád-Csanád (HU333)",
+      "geography_warning": "Source-native HU333 is not admitted for regional weighting; locality reconciliation required",
+      "technical_scope": "22/0.4 kV transformer installation, BHTR station, MV switching/control/metering/protection, LV board and MV cable",
+      "scope_qualification": "Network works scope; battery equipment is not part of the described network package. Additional hardware inclusion evidence is in the source-bound contract supplement; the complete purchaser/free-issue responsibility schedule remains unknown",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "lot_amount": {
+          "value": "59982087",
+          "unit": "HUF",
+          "truth_status": "OBS"
+        },
+        "contracted_storage_power": {
+          "value": "1",
+          "unit": "MW_storage",
+          "truth_status": "OBS"
+        },
+        "contracted_storage_energy": {
+          "value": "2",
+          "unit": "MWh_storage",
+          "truth_status": "OBS"
+        },
+        "transformer_count": {
+          "value": "1",
+          "unit": "transformer",
+          "truth_status": "OBS"
+        },
+        "transformer_per_asset": {
+          "value": "1600",
+          "unit": "kVA",
+          "truth_status": "OBS"
+        },
+        "mv_cable_length": {
+          "value": "148",
+          "unit": "m",
+          "truth_status": "OBS"
+        },
+        "mv_cable_cross_section": {
+          "value": "240",
+          "unit": "mm2",
+          "truth_status": "OBS"
+        },
+        "planned_duration": {
+          "value": "180",
+          "unit": "calendar_day_planned",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted",
+        "Signed-contract supplement applies only to Orgovány I; other lots retain unresolved reserve and equipment boundaries",
+        "Contract amount is nominal June 2026; observed BoQ cover date does not establish an economic price base",
+        "Source-native anyag/díj columns are not pure material/equipment/labour deflator buckets"
+      ],
+      "contract_supplement": {
+        "status": "ORGOVANY_I_ONLY_REVIEWED_AGGREGATES",
+        "facts": {
+          "contract_net_amount": {
+            "value": "59982087",
+            "unit": "HUF",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p4, IV.1",
+            "role": "BASE_LUMP_SUM_EXCLUDING_RESERVE"
+          },
+          "conditional_reserve_amount": {
+            "value": "5998208",
+            "unit": "HUF",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p5, IV.4; pp12–13, VIII.7",
+            "role": "CONDITIONAL_RESERVE_NOT_COST_OR_FORECAST"
+          },
+          "reserve_percentage_as_printed": {
+            "value": "10",
+            "unit": "percent",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p5, IV.4",
+            "role": "PRINTED_PERCENT_NOT_RECOMPUTED_AMOUNT"
+          },
+          "boq_anyag_total": {
+            "value": "42667980",
+            "unit": "HUF",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp1–3, summary; native anyag column",
+            "role": "SOURCE_NATIVE_ANYAG_COLUMN"
+          },
+          "boq_dij_total": {
+            "value": "17314107",
+            "unit": "HUF",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp1–3, summary; native díj column",
+            "role": "SOURCE_NATIVE_DIJ_COLUMN"
+          },
+          "boq_net_total": {
+            "value": "59982087",
+            "unit": "HUF",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp1–3, summary",
+            "role": "SAME_BASE_PACKAGE_NOT_ADDITIONAL_COST"
+          },
+          "route_a_header_length": {
+            "value": "147.62",
+            "unit": "m_route_header_A",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp4–5, section 250 header A",
+            "role": "DISTINCT_FROM_NOTICE_AND_CABLE_ITEM_LENGTHS"
+          },
+          "route_b_header_length": {
+            "value": "12",
+            "unit": "m_route_header_B",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "p6, section 251 header B",
+            "role": "DISTINCT_ROUTE_HEADER"
+          },
+          "maximum_duration_after_site_handover": {
+            "value": "180",
+            "unit": "calendar_day_planned",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p3, III.1; p9, VII.3",
+            "role": "CONDITIONAL_CONTRACT_SCHEDULE"
+          },
+          "site_handover_after_effectiveness": {
+            "value": "5",
+            "unit": "working_day_planned",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p9, VII.2",
+            "role": "CONDITIONAL_CONTRACT_SCHEDULE"
+          },
+          "telecontrol_before_final_deadline": {
+            "value": "30",
+            "unit": "calendar_day_before_planned_final",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p9, VII.3",
+            "role": "CONDITIONAL_CONTRACT_SCHEDULE"
+          },
+          "base_invoice_count": {
+            "value": "1",
+            "unit": "invoice_contractual",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p11, VIII.1",
+            "role": "AFTER_CERTIFIED_PERFORMANCE"
+          },
+          "invoice_issuance_after_certificate": {
+            "value": "8",
+            "unit": "calendar_day_contractual",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p11, VIII.4",
+            "role": "AFTER_SIGNED_PERFORMANCE_CERTIFICATE"
+          },
+          "advance_payment_after_request": {
+            "value": "30",
+            "unit": "calendar_day_contractual",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p11, VIII.3",
+            "role": "ONLY_IF_VALID_ADVANCE_REQUEST"
+          },
+          "payment_after_invoice_without_subcontractor": {
+            "value": "30",
+            "unit": "calendar_day_contractual",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p13, VIII.10; no-subcontractor branch only",
+            "role": "ONLY_WITHOUT_SUBCONTRACTOR"
+          }
+        },
+        "reserve_included": {
+          "value": false,
+          "truth_status": "OBS",
+          "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+          "source_locator": "p4, IV.1; p5, IV.4"
+        },
+        "dates": {
+          "latest_visible_signature": {
+            "value": "2026-06-10",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p27",
+            "semantics": "VISIBLE_SIGNING_DATE_CRYPTOGRAPHIC_VALIDITY_NOT_TESTED"
+          },
+          "boq_cover_date": {
+            "value": "2025-12-02",
+            "truth_status": "OBS",
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "p1, handwritten cover date",
+            "semantics": "OBSERVED_COVER_DATE_NOT_PROVEN_ECONOMIC_PRICE_BASE"
+          }
+        },
+        "conditions": {
+          "reserve_use": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p5, IV.4; pp12–13, VIII.7 and p12 footnote 3",
+            "summary": "Reserve excludes the base lump sum and requires necessary extra/variation work, technical-inspector proposal, detailed written justification and client consent; itemized settlement and separate invoice. Preserve the printed amount rather than recomputing it from the printed percentage. No actual use or expected use is established. The ministerial-opinion clause is marked inapplicable by footnote 3 and creates no additional admitted prerequisite."
+          },
+          "effectiveness": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "pp3–4, III.2 and footnote",
+            "summary": "Funding/notification or alternative contractual conditions govern effectiveness; signing alone does not establish all prerequisites. The ministerial-opinion requirement is marked inapplicable in the footnote and is not an additional prerequisite."
+          },
+          "planned_timing": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "p3, III.1; p9, VII.2–3",
+            "summary": "Site handover follows effectiveness; the final maximum duration runs from site handover. Telecontrol/protection/operational integration is due before the final deadline. These are contractual obligations, with no observed actual effectiveness, handover or completion date."
+          },
+          "payment": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "source_locator": "pp11–13, VIII.1–4, VIII.7 and VIII.10",
+            "summary": "One base invoice follows certified performance; base work is lump-sum settlement without later quantity/value remeasurement. A statutory advance may be requested after effectiveness and no later than site handover, is presumed unused without a request and reconciles in the final invoice; no numerical advance amount is admitted. Reserve work uses a separate certified invoice. The simple payment deadline applies only without subcontractors; the contract identifies subcontractors and invokes a separate statutory branch for that case. No actual payment or annual cashflow is established."
+          },
+          "native_columns": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp1–3, summary; p8, native anyag entries",
+            "summary": "Anyag and díj are source-native accounting columns. The anyag column also includes rental and supervision services. Do not map these totals to clean material/equipment/labour economic buckets or scalar deflators; their sum is the same base package, not additional cost."
+          },
+          "hardware_inclusion": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp7–8, section 310",
+            "summary": "Major transformer, station, switching, control, metering and LV-board hardware has positive contractor priced-bill allocations. This is not evidence that those items are purchaser-free-issued. Individual row fees do not represent full installed hardware costs. The incorporated technical specification was not acquired as a substantive document, so the complete purchase/free-issue responsibility schedule remains unknown."
+          },
+          "route_denominators": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp4–6 and p8, route headers and cable descriptions",
+            "summary": "Retain the A route header separately from the rounded TED cable length. Route length, single-core installation, cable pulling and equipment cable quantities have different denominators. The B header and separate equipment cable description cannot be merged without technical mapping; no automatic phase or route conversion is admitted."
+          },
+          "crosshatched_cells": {
+            "source_id": "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202",
+            "source_locator": "pp4–8, priced-bill cells",
+            "summary": "A crosshatched cell has no separately printed price. It does not establish zero cost, free-issued supply, omitted scope or an inapplicable item."
+          }
+        },
+        "boundaries": {
+          "reserve_addition_to_cost_or_forecast_allowed": false,
+          "pure_material_labour_deflator_buckets": false,
+          "contract_schedule_is_actual_cashflow": false,
+          "generic_unit_price_conversion_allowed": false,
+          "granular_component_prices_admitted": false,
+          "complete_free_issue_schedule_observed": false
+        },
+        "unknowns": {
+          "actual_advance_huf": null,
+          "actual_completion_date": null,
+          "actual_effectiveness_date": null,
+          "actual_paid_huf": null,
+          "actual_reserve_used_huf": null,
+          "actual_site_handover_date": null,
+          "annual_cashflow_huf": null,
+          "complete_purchaser_free_issue_schedule": null,
+          "economic_price_base_date": null,
+          "national_programme_attribution": null,
+          "normalized_2026_huf": null
+        }
+      }
+    },
+    {
+      "observation_id": "B10-REF-TED-438132-2026-LOT-0002",
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "source_locator": "5.1 lot 2; 6.1.2 lot 2; PDF scope pp. 4; award p.10",
+      "document_revision": "438132-2026",
+      "procurement_family_id": "EKR001158812025",
+      "correlation_cluster_id": "EKR001158812025",
+      "lot_or_item_id": "LOT-0002",
+      "observation_kind": "AWARDED_STORAGE_CONNECTION_PACKAGE",
+      "currency": "HUF",
+      "vat_basis": "NET_EXCLUDING_VAT",
+      "price_basis": "2026-06_CONTRACT_NOMINAL",
+      "contract_date": "2026-06-10",
+      "amendment_date": null,
+      "publication_date": "2026-06-25",
+      "buyer_context": "MVM Démász",
+      "supplier_context": "Grid&Connect Hungary Kft.",
+      "geography": "Orgovány II sportpálya",
+      "geography_semantics": "NAMED_STORAGE_CONNECTION_SITE_NOT_RESOLVED_DSO_SUBSTATION",
+      "source_nuts_label": "Csongrád-Csanád (HU333)",
+      "geography_warning": "Source-native HU333 is not admitted for regional weighting; locality reconciliation required",
+      "technical_scope": "22/0.4 kV transformer installation, BHTR station, MV switching/control/metering/protection, LV board, MV cable; exact purchase/free-issue split requires annex",
+      "scope_qualification": "Network works scope; battery equipment is not part of the described network package; exact purchased/free-issued equipment boundary unknown",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "lot_amount": {
+          "value": "121995641",
+          "unit": "HUF",
+          "truth_status": "OBS"
+        },
+        "contracted_storage_power": {
+          "value": "2",
+          "unit": "MW_storage",
+          "truth_status": "OBS"
+        },
+        "contracted_storage_energy": {
+          "value": "4",
+          "unit": "MWh_storage",
+          "truth_status": "OBS"
+        },
+        "transformer_count": {
+          "value": "2",
+          "unit": "transformer",
+          "truth_status": "OBS"
+        },
+        "transformer_per_asset": {
+          "value": "1600",
+          "unit": "kVA",
+          "truth_status": "OBS"
+        },
+        "mv_cable_length": {
+          "value": "187",
+          "unit": "m",
+          "truth_status": "OBS"
+        },
+        "mv_cable_cross_section": {
+          "value": "240",
+          "unit": "mm2",
+          "truth_status": "OBS"
+        },
+        "planned_duration": {
+          "value": "180",
+          "unit": "calendar_day_planned",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "reserve_included": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted"
+      ]
+    },
+    {
+      "observation_id": "B10-REF-TED-438132-2026-LOT-0003",
+      "source_id": "SRC-B10-V1-TED-438132-2026",
+      "source_locator": "5.1 lot 3; 6.1.2 lot 3; PDF scope pp. 5-6; award p.12",
+      "document_revision": "438132-2026",
+      "procurement_family_id": "EKR001158812025",
+      "correlation_cluster_id": "EKR001158812025",
+      "lot_or_item_id": "LOT-0003",
+      "observation_kind": "AWARDED_STORAGE_CONNECTION_PACKAGE",
+      "currency": "HUF",
+      "vat_basis": "NET_EXCLUDING_VAT",
+      "price_basis": "2026-06_CONTRACT_NOMINAL",
+      "contract_date": "2026-06-10",
+      "amendment_date": null,
+      "publication_date": "2026-06-25",
+      "buyer_context": "MVM Démász",
+      "supplier_context": "Grid&Connect Hungary Kft.",
+      "geography": "Bugac",
+      "geography_semantics": "NAMED_STORAGE_CONNECTION_SITE_NOT_RESOLVED_DSO_SUBSTATION",
+      "source_nuts_label": "Csongrád-Csanád (HU333)",
+      "geography_warning": "Source-native HU333 is not admitted for regional weighting; locality reconciliation required",
+      "technical_scope": "22/0.4 kV transformer installation, BHTR station, MV switching/control/metering/protection, LV board, MV cable; exact purchase/free-issue split requires annex",
+      "scope_qualification": "Network works scope; battery equipment is not part of the described network package; exact purchased/free-issued equipment boundary unknown",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "lot_amount": {
+          "value": "303985846",
+          "unit": "HUF",
+          "truth_status": "OBS"
+        },
+        "contracted_storage_power": {
+          "value": "2",
+          "unit": "MW_storage",
+          "truth_status": "OBS"
+        },
+        "contracted_storage_energy": {
+          "value": "4",
+          "unit": "MWh_storage",
+          "truth_status": "OBS"
+        },
+        "transformer_count": {
+          "value": "2",
+          "unit": "transformer",
+          "truth_status": "OBS"
+        },
+        "transformer_per_asset": {
+          "value": "1600",
+          "unit": "kVA",
+          "truth_status": "OBS"
+        },
+        "mv_cable_length": {
+          "value": "132.5",
+          "unit": "m",
+          "truth_status": "OBS"
+        },
+        "mv_cable_cross_section": {
+          "value": "240",
+          "unit": "mm2",
+          "truth_status": "OBS"
+        },
+        "planned_duration": {
+          "value": "180",
+          "unit": "calendar_day_planned",
+          "truth_status": "OBS"
+        },
+        "overhead_source_quantity": {
+          "value": "4.66",
+          "unit": "km_source_declared_1x3_conductor_scope",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "reserve_included": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted"
+      ]
+    },
+    {
+      "observation_id": "B10-REF-TED-761369-2025-LOT-0001",
+      "source_id": "SRC-B10-V1-TED-761369-2025",
+      "source_locator": "PDF pp.3-4 scope; pp.6-7 award",
+      "document_revision": "761369-2025",
+      "procurement_family_id": "EKR000003612025",
+      "correlation_cluster_id": "EKR000003612025",
+      "lot_or_item_id": "LOT-0001",
+      "observation_kind": "AWARDED_SUBSTATION_WORKS_PACKAGE",
+      "currency": "HUF",
+      "vat_basis": "NET_EXCLUDING_VAT",
+      "price_basis": "2025-11_CONTRACT_PRICE_FIXATION_UNKNOWN",
+      "contract_date": "2025-11-03",
+      "amendment_date": null,
+      "publication_date": "2025-11-17",
+      "buyer_context": "E.ON Észak-dunántúli",
+      "supplier_context": "STS Engineering & Construction Kft.",
+      "geography": "Mosonmagyaróvár, Alkotmány út, HRSZ 5833",
+      "geography_semantics": "NAMED_LOCAL_PROJECT_NOT_RESOLVED_ELECTRICAL_NODE",
+      "source_nuts_label": null,
+      "geography_warning": null,
+      "technical_scope": "132/22/11 kV substation extension/reconstruction; third transformer installation, busbar conversion, MV switchgear renewal, control building; equipment supply responsibility unresolved",
+      "scope_qualification": "Mixed existing-station works; equipment supply responsibility unresolved",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "lot_amount": {
+          "value": "1394532243",
+          "unit": "HUF",
+          "truth_status": "OBS"
+        },
+        "planned_duration": {
+          "value": "850",
+          "unit": "calendar_day_planned",
+          "truth_status": "OBS"
+        },
+        "notice_duration_display": {
+          "value": "29",
+          "unit": "month_planned",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "reserve_included": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted"
+      ]
+    },
+    {
+      "observation_id": "B10-REF-TED-373350-2026-122236",
+      "source_id": "SRC-B10-V1-TED-373350-2026",
+      "source_locator": "PDF pp.2-3, amended bill item 122236; p.7 modification date",
+      "document_revision": "373350-2026",
+      "procurement_family_id": "EKR000373342022",
+      "correlation_cluster_id": "EKR000373342022",
+      "lot_or_item_id": "122236",
+      "observation_kind": "AMENDED_BILL_ITEM_ALLOCATION",
+      "currency": "HUF",
+      "vat_basis": "NET_CONTRACT_ALLOCATION",
+      "price_basis": "2026-04_AMENDMENT_ECONOMIC_VINTAGE_UNKNOWN",
+      "contract_date": "2022-11-04",
+      "amendment_date": "2026-04-30",
+      "publication_date": "2026-06-01",
+      "buyer_context": "OPUS TITÁSZ utility crossing; buyer is Ministry of Construction and Transport",
+      "supplier_context": "Not materialized for this amended item",
+      "geography": "Debrecen rail infrastructure utility relocation at chainage 21+50",
+      "geography_semantics": "NAMED_LOCAL_PROJECT_NOT_RESOLVED_ELECTRICAL_NODE",
+      "source_nuts_label": null,
+      "geography_warning": null,
+      "technical_scope": "10 kV cable construction bill item; exact cable specification and ancillary scope unresolved",
+      "scope_qualification": "Redesigned utility crossing allocation at fixed aggregate budget; no independently repriced market claim",
+      "evidence_tier": "E1",
+      "permitted_use": "EXACT_REFERENCE_ONLY",
+      "national_input_status": "Q_INSUFFICIENT_APPLICABILITY_AND_COHORT",
+      "facts": {
+        "quantity": {
+          "value": "700",
+          "unit": "m_bill_item",
+          "truth_status": "OBS"
+        },
+        "unit_price": {
+          "value": "32640",
+          "unit": "HUF/m_bill_item",
+          "truth_status": "OBS"
+        },
+        "line_total": {
+          "value": "22848000",
+          "unit": "HUF",
+          "truth_status": "OBS"
+        }
+      },
+      "unknowns": {
+        "usable_capacity_increment_mw": null,
+        "programme_incremental_capex_huf": null,
+        "installed_project_total_huf": null,
+        "actual_paid_huf": null,
+        "actual_completion_date": null,
+        "annual_cashflow_huf": null,
+        "normalized_2026_huf": null,
+        "economic_price_base_date": null,
+        "equipment_supply_free_issue_split": null,
+        "reserve_included": null,
+        "exact_network_node": null,
+        "cohort_weight": null
+      },
+      "limitations": [
+        "Convenience-selected procurement; no representative cohort or weights",
+        "Correlated lots retain one procurement-family cluster",
+        "No programme attribution or actual cash-flow/delivery claim",
+        "No currency or inflation conversion admitted"
+      ]
+    }
+  ]
+}

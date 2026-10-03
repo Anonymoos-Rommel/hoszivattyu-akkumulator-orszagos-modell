@@ -1,0 +1,139 @@
+{
+  "checkpoint": "V1-023",
+  "base_commit": "16962c2f6e8313b68f2c0736718a03144c5b01b8",
+  "independently_reviewed_tree": "9ef4c8e3bac7ba7c049b865b3e3044c7378cdc12",
+  "independent_verdict": "PASS",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_022_CI.json",
+      "sha256": "ce717c347a99093ae5a3952dedfce4bd9a08e00148837c4b4e586c9890958670",
+      "byte_count": 681,
+      "git_blob": "26a89e819ef47a28f081f62cc574b82fe41148aa"
+    },
+    {
+      "path": "docs/checkpoints/V1_023_B11_REFERENCE_STATE_REPAIR.md",
+      "sha256": "2a001113a2fd52d6182a0a7b2bf88b4ed0b4bf091830a6863e0f265074913aa4",
+      "byte_count": 2137,
+      "git_blob": "7eb11bff6da576a85d1b0d9664d27c5f0289f546"
+    },
+    {
+      "path": "docs/source_packs/P7_B11_REFERENCE_STATE_CONTRACT.md",
+      "sha256": "3b090f4bf28ff70e88577f57f7c19a507a822482ba8fde5a65028e010aa63125",
+      "byte_count": 4138,
+      "git_blob": "a4efb1cbeb4d496bef864be78e3a7c180797e621"
+    },
+    {
+      "path": "modules/B11/README.md",
+      "sha256": "13bd2bd605f4da9e5bd700b5e3b9a17a44c57c85d5ea38c0d133b8cafc311bb8",
+      "byte_count": 1694,
+      "git_blob": "a44de62d6775b44926b2c63106de0c9306d8d44d"
+    },
+    {
+      "path": "modules/B11/gas_efficiency_authority.py",
+      "sha256": "93106b9574563a83f3c1783dc433da5ab7483a88be6f6e2249a6ca1dabc61005",
+      "byte_count": 4919,
+      "git_blob": "fbdc3c891a58bb1a59429dafa766cf2a231098fa"
+    },
+    {
+      "path": "modules/B11/gas_quality_snapshot_contract.py",
+      "sha256": "a8f61adfe3bdba53779726bfbc6f720d52ef447e93c9795b8c906423d3dd3348",
+      "byte_count": 3025,
+      "git_blob": "dc3a0b5eceacdc74ff9e5b1aaaee971f4045d0ca"
+    },
+    {
+      "path": "modules/B11/gas_reference_contract.py",
+      "sha256": "8164d1dd9209e1f2cc073501f3ad2cbd84629b1cddd00a4660e15a693c3677af",
+      "byte_count": 2627,
+      "git_blob": "b92312c9644555b31e2fe5f2b86e05eb916f9132"
+    },
+    {
+      "path": "modules/B11/gas_volume_bridge_contract.py",
+      "sha256": "4922098f5f01d9b03685bf4b3fefe23d956420ba3364fa3badfb8ae8d84abc46",
+      "byte_count": 4693,
+      "git_blob": "7806ddd3fbfde88b47c30922891f44d16a2a4663"
+    },
+    {
+      "path": "registry/b11_reference_state_source_manifest.json",
+      "sha256": "002d925b7297fc73f913024b74b1990a7308616969ac001b17437ced73e60ae3",
+      "byte_count": 4358,
+      "git_blob": "c47d7d26928858f698969882d3b4ca4247bf4f73"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "0495c459c23f6d8de971531eb167e013724083c3eb423cbafb0565c86a478ec7",
+      "byte_count": 53206,
+      "git_blob": "366e33f50b7e78f95a81acbdfaf79359f9344f7d"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "9205c8fc80e72b21d95bb64469803fca7bb15b80984aeaf8a034b0c98eb6096f",
+      "byte_count": 232635,
+      "git_blob": "8ca078ba5e50113301b6dbfd9c506dbd8b988508"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "f1206b11f58e2cf4d8666ef78fc073406bb2e0ff1a67c9f3bb46c48b0c68ee46",
+      "byte_count": 86119,
+      "git_blob": "d1944c1128ad778cd522e34e72e563fa38cf8556"
+    },
+    {
+      "path": "tests/test_b11_p3_gas_volume_bridge.py",
+      "sha256": "8e8ce87324f079a8853bfcbbf9f8fae4e11da6701d2da44d67f9498b1b3e10b5",
+      "byte_count": 3558,
+      "git_blob": "25a44e2f140ca3c98f2c3f8b1f5d05d5097797f7"
+    },
+    {
+      "path": "tests/test_b11_p4_gas_efficiency_authority.py",
+      "sha256": "a72537c74bef78aef9b37b1d78cf58e9a1091ee938cd513ccf5d920b1f659741",
+      "byte_count": 3055,
+      "git_blob": "704322f738928c09398c42d9d6ebccf944c846df"
+    },
+    {
+      "path": "tests/test_b11_p5_gas_quality_snapshot.py",
+      "sha256": "5e380af7e540e03da86d891d850174e88ec70d6faec144139108c4a479c7e279",
+      "byte_count": 4418,
+      "git_blob": "db6d8d5467ab81cff3c2a1823d0418a5343fc382"
+    },
+    {
+      "path": "tests/test_b11_reference_state_contract.py",
+      "sha256": "cdfe1af31872a8b0c999729b9effa239c97e208eb35f7d3411284d4abcdd40bb",
+      "byte_count": 10328,
+      "git_blob": "6d5c0f0d3ec3d2d437230a77e76725624a326ffd"
+    }
+  ],
+  "local_full_suite": {
+    "candidate_tree": "9ef4c8e3bac7ba7c049b865b3e3044c7378cdc12",
+    "base_commit": "16962c2f6e8313b68f2c0736718a03144c5b01b8",
+    "test_command": "python -m unittest discover -s tests",
+    "exit_code": 0,
+    "tests": 2776,
+    "seconds": 108.447,
+    "result": "OK",
+    "log_sha256": "97dcac6263df10250cff94b1af310d0ae423c9ddd0b2f185e857b403a573f376",
+    "frozen_file_hashes_rechecked": 16,
+    "discovered_B11_cases": 50,
+    "previous_plain_P3_P5_tests_now_discoverable": 15,
+    "new_reference_state_cases": 17
+  },
+  "independent_verification": {
+    "discovered_B11_tests": 50,
+    "registry_plan_tests": 18,
+    "composition_formula_cases": 81,
+    "negative_cases": 23,
+    "migrated_legacy_tests": 15,
+    "retained_original_assertions": 23,
+    "retained_failure_branches": 8,
+    "original_source_hashes_verified": 4,
+    "in_repo_production_callers": "No missed caller found",
+    "full_suite": "Exact lead log/hash corroborated, not rerun by independent reviewer"
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD_BEFORE_CHECKPOINT_CLOSURE",
+  "boundaries": [
+    "P3-P5 synthetic dimensional correctness only",
+    "P1/P2/P6 runtime unchanged; readiness remains30",
+    "No actual FGSZ point values or factors admitted",
+    "No source-use permission, national displacement result or seasonal population coefficient inferred",
+    "Separate109 dormant-test diagnostic and8 failures are not included in configured2776-test PASS",
+    "Source bytes remain external; no main merge"
+  ]
+}

@@ -116,3 +116,22 @@ def test_p23_document_remains_historical_and_preserves_original_boundaries():
     assert "Q_2026_MANDATORY_CONSUMPTION_PUBLICATION_URL_UNRESOLVED" in text
     assert "45 MVM Émász" in text
     assert "readiness remains **15**" in text
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_current_law_remains_separate_from_p34_operator_url_authority,
+            test_eon_trio_is_now_bounded_but_inventory_completeness_remains_q,
+            test_exact_45_emasz_public_node_identity_facts_are_materialized,
+            test_existing_demasz_and_opus_bounded_sources_are_unchanged,
+            test_mvm_emasz_consumption_node_source_is_now_bounded,
+            test_no_complete_inventory_is_minted,
+            test_p23_document_remains_historical_and_preserves_original_boundaries,
+        )
+    )
+    return tests

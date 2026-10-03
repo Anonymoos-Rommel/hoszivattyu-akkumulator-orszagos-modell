@@ -3,6 +3,8 @@ import math
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.fcu_state_dependent_response import (
     DER_STATE_TIME_CONSTANT,
     EXPERIMENT_STEP_DURATION_S,
@@ -110,7 +112,7 @@ class B05P56FCC06StateDependentResponseTests(unittest.TestCase):
 
     def test_no_mechanical_readiness_uplift(self):
         ready = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(ready["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, ready["PART_LOAD_MODULATION"])
         self.assertIn("P56", ready["PART_LOAD_MODULATION"]["notes"])
         modules = {r["module_id"]: r for r in rows(MODULES)}
         self.assertEqual("64", modules["B05"]["readiness_percent"])

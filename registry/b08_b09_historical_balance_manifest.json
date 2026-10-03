@@ -1,0 +1,210 @@
+{
+  "reference_id": "B08-B09-HISTORICAL-SOURCE-REFERENCE-UTC2025",
+  "reference_version": 1,
+  "evidence_status": "DER",
+  "evidence_tier": "E2_PROVISIONAL_BASE",
+  "source_model_use_status": "QUALIFIED_E2_MODEL_USE",
+  "model_use_status": "HISTORICAL_SOURCE_REFERENCE_ONLY",
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "public_raw_reuse_status": "NOT_ESTABLISHED_FREE_REUSE",
+  "start_utc": "2025-01-01T00:00:00+00:00",
+  "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+  "interval_convention": "INTERVAL_START_HALF_OPEN",
+  "resolution": "PT15M",
+  "spatial_grain": "BZN|HU",
+  "source_power_unit": "MW",
+  "runtime_power_unit": "kW",
+  "active_production_type_codes": [
+    "B01",
+    "B02",
+    "B04",
+    "B05",
+    "B06",
+    "B09",
+    "B11",
+    "B12",
+    "B14",
+    "B15",
+    "B16",
+    "B17",
+    "B19",
+    "B20"
+  ],
+  "structural_ne_type_codes": [
+    "B03",
+    "B07",
+    "B08",
+    "B10",
+    "B13",
+    "B18",
+    "B25"
+  ],
+  "source_artifacts": [
+    {
+      "acquisition_record_id": "B08B09-P5-R01",
+      "source_id": "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+      "sha256": "1712362093a2957a8870bff5c8758f53a3358587bc7fa9a54e8ee3ba6ecf301d",
+      "bytes": 1018033
+    },
+    {
+      "acquisition_record_id": "B08B09-P5-R02",
+      "source_id": "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+      "sha256": "66caeba6f85fdef5eecfa9efb2d5a3c0bc2003bf0a344faf2bce01f786b54228",
+      "bytes": 1007721
+    },
+    {
+      "acquisition_record_id": "B08B09-P5-R03",
+      "source_id": "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+      "sha256": "c7b332bb63d927730a84082571ad8d1e2f143e10de7b497825d45ca74bbbc05d",
+      "bytes": 4737682
+    },
+    {
+      "acquisition_record_id": "B08B09-P5-R04",
+      "source_id": "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
+      "sha256": "f70c10756a400a1b663e6b20b17422941ecd6b2cc1e4e8b74571b69781936564",
+      "bytes": 7494
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP01",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "2c1bfd1f4fe9a0fc0b1262a86376037a5ae8c17bc2e6a412e4f996afaa46cb8f",
+      "bytes": 4367807
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP02",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "a47a8b7b923a5ed2418a6475c14dd0fd3ba7e3fd1ae0608e8b6756846e250563",
+      "bytes": 4343119
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP03",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "12571dc0993b48ad05b8a0d5c757360a8e81c22969c36d012bc2cad03e4f9547",
+      "bytes": 4289521
+    },
+    {
+      "acquisition_record_id": "B09-P6-OP04",
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "sha256": "e768fe72e719a075eaac707b951af6be1854248dc4e7de1d530efdb1ecb946ad",
+      "bytes": 876284
+    }
+  ],
+  "handoffs": {
+    "civil_load": {
+      "sha256": "db1405233772e0a792d1fae3c80d6b35f7e619c096e0a97a97b1fac6c0d5b918",
+      "bytes": 7214812,
+      "storage_policy": "EXTERNAL_ONLY",
+      "acceptance": "V1_016"
+    },
+    "generation": {
+      "sha256": "88d23d3d4ea2d5e5d130106fc3d8c0801e93743759c3012f225d9b2bf3030bc3",
+      "bytes": 156451085,
+      "storage_policy": "EXTERNAL_ONLY",
+      "acceptance": "V1_017"
+    },
+    "recovery_lineage": {
+      "sha256": "07067299bd825b68da065aed1233939bc846afccc386c644b993dcd090f88019",
+      "bytes": 2106638,
+      "storage_policy": "EXTERNAL_ONLY",
+      "acceptance": "V1_017"
+    }
+  },
+  "authority_sha256": {
+    "modules/B08/gui_load_reference.py": "4a802fa46a3c6b9b2813c430841fcbfaacba8b52e55d1e8061c3fd85b5609f96",
+    "modules/B08/observed_load_contract.py": "2df246a7b0ae3a7a1db4a9e5b5e522c664ba1f58b0dbffc455c9500df2ff2831",
+    "modules/B09/gui_generation_reference.py": "ca6125d5186a882712ad00be33914120699b1e0ac875a2fb05cfee93cf3c888d",
+    "modules/B09/signed_net_recovery_contract.py": "0b33d4b75399ad12b7e641e4aae08130b5ef603592b7e7845b323bf26b81bb66",
+    "modules/B09/observed_generation_contract.py": "9b7d9365a0647b3ea9a026423f2373ac98624e638aafcd497b8f88b769e21447",
+    "modules/B09/engine.py": "9ddc131fbf9b8a053d91d0b63928539c2e9fdaabea0fc7c3ff853d85112bf855",
+    "registry/b08_b09_p5_entsoe_gui_export_acquisition.csv": "9b6bf02b4c2ddd123d28e8411181422bfc811b597140c799e444fd37ebdeb96d",
+    "registry/b09_gui_reference_manifest.json": "01ca821878e87b84727a57dc702ba51add16e91ca800d752e0d0a2090aa70e27",
+    "registry/b09_p6_mavir_operational_acquisition.csv": "97035f1318b2180344b45cd3ea9e0ef214db4cc02ae7670034341bcc07ab6e60",
+    "registry/b09_p7_signed_net_generation_semantics.csv": "6b17ee0de1c645b820948d763f6c4be5ef86219bc0d63e390702832f2e0f5222",
+    "docs/checkpoints/V1_016_ACCEPTANCE.json": "55820f51e98bfef1d791a3079f0f1a954f1817d0705fae2e5c1b2079c223f8ef",
+    "docs/checkpoints/V1_017_ACCEPTANCE.json": "373b1a13ef123dc5742486605ee37e416178478081ff24e100d050a0e25c795a",
+    "docs/checkpoints/V1_016_VERIFICATION.json": "8b35ec6c05139a8077858f91f0a624ecd3c241c4af1e32768129fe950f59a768",
+    "docs/checkpoints/V1_017_VERIFICATION.json": "ce1191c94b0b139a67e7a93295db8ce01cd731c7476d786457a8fdfb3bc0a2b5"
+  },
+  "source_evidence": {
+    "load": {
+      "evidence_status": "DER",
+      "evidence_tier": "E2_PROVISIONAL_BASE",
+      "validation_debt_id": "Q-B08-001",
+      "source_id": "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+      "source_product": "Actual Total Load [6.1.A]"
+    },
+    "generation": {
+      "record_evidence_status": "Q",
+      "evidence_tier": "E2_PROVISIONAL_BASE",
+      "validation_debt_id": "Q-B09-001",
+      "source_id": "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+      "source_product": "Aggregated Generation per Type [16.1.B&C]",
+      "source_semantics": "ENTSOE_PUBLISHED_ACTUAL_MAY_INCLUDE_PROVIDER_ESTIMATES"
+    },
+    "recovery": {
+      "source_id": "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+      "basis": "NET_OPERATIONAL",
+      "selection": "Only exact original A75 blank B04/B06/B12 cells; first acquisition ID wins; preserve all identical-copy locators"
+    },
+    "provenance_authority": [
+      "registry/b08_b09_p5_entsoe_gui_export_acquisition.csv",
+      "registry/b09_p6_mavir_operational_acquisition.csv",
+      "registry/b09_gui_reference_manifest.json"
+    ],
+    "acquisition_date": "2026-09-27",
+    "timestamp_precision": "DATE_ONLY",
+    "source_revision": "NOT_PROVIDED_BY_SOURCE",
+    "definition_reference": {
+      "source_ids": [
+        "SRC-B08-ENTSOE-DDD-2023",
+        "SRC-B09-ENTSOE-DDD-2023"
+      ],
+      "authority": "ENTSO-E",
+      "document": "Detailed Data Descriptions v3r4",
+      "document_date": "2023-12-15",
+      "original_url": "https://eepublicdownloads.entsoe.eu/clean-documents/Transparency/MoP_Ref2_DDD_v3r4.pdf",
+      "verified_at_date": "2026-10-02",
+      "timestamp_precision": "DATE_ONLY",
+      "printed_pages": [
+        18,
+        19,
+        74
+      ],
+      "sha256": null,
+      "repo_snapshot_path": null,
+      "reuse_status": "METADATA_ONLY_NO_SOURCE_SNAPSHOT",
+      "claim_scope": "Targeted published definitions only; no source-data permission or numeric-source acquisition"
+    }
+  },
+  "quantity_contract": {
+    "load": "Actual Total Load (MW), B08 R01 original actual column; forecast never substituted",
+    "signed_generation": "sum(max(v,0) - max(-v,0)) across the 14 active source types",
+    "source_reference_residual": "Actual Total Load minus signed generation",
+    "energy": "MWh = MW * 0.25 h; kW = MW * 1000; runtime floats cross-checked but excluded from arithmetic",
+    "source_withdrawal": "Signed B04/B06/B12 net-operational contribution, subtracted exactly once on generation side; not pumping or measured gross auxiliary consumption",
+    "structural_ne": "B03/B07/B08/B10/B13/B18/B25 retain source-native n/e and are excluded; no new measured zero",
+    "cross_product_limit": "Numerically aligned source products do not establish complete physical accounting. Actual load includes losses and excludes storage absorption; observed cross-border exchange and separate matching storage consumption are unavailable",
+    "numeric_method": "Original source Decimal MW and exact recovery lineage; precision 40; read-only streaming"
+  },
+  "coverage_limits": {
+    "complete_native_utc2025": true,
+    "complete_budapest_civil2025": false,
+    "complete_meteorological_winter": false,
+    "missing_generation_before_utc_window": "2024-12-31T23:00:00Z/2025-01-01T00:00:00Z",
+    "existing_csv_overlap_intervals": 35036,
+    "restored_from_original_load_intervals": 4,
+    "missingness": "No shift, interpolation, filling, source switching for numeric A75, or invented active/structural zero",
+    "operational_replay": "All 9965 retained recovery copies replayed from pinned originals; accepted full-field MAVIR overlap reconciliation inherited from V1_017"
+  },
+  "excluded_claims": [
+    "observed imports or exports",
+    "unmet demand",
+    "meter-only OBS promotion",
+    "public raw reuse permission",
+    "programme profile, target, effect or dispatch",
+    "battery runtime",
+    "future adequacy or LOLE",
+    "regional, health or national-programme inference",
+    "whole B08/B09 slice or programme acceptance"
+  ]
+}

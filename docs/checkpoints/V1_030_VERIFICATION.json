@@ -1,0 +1,132 @@
+{
+  "checkpoint": "V1-030",
+  "base_commit": "a2f2ec45ce6d2e9b17662ef9a4a868c6df7e1fb3",
+  "independently_reviewed_tree": "959f7002afe72a27ee22ba0d28bff9ab935481a0",
+  "independent_verdict": "PASS_EXACT_SEVEN_FILE_COMBINED_SCOPE_AND_LOCAL_INTEGRATION",
+  "independent_report_sha256": "6a47f061c912a266b58e7bb6d4655bed6e8244cc09656bb5b8da241e02f22d6b",
+  "independent_scientific_report_sha256": "c77775f4d23137248e44ece5a8bf11cc039ca8b41a70b0b6eb1dff82f736c3ff",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_029_CI.json",
+      "sha256": "ab0e10700f5553dc148af32e94aec31f2ab710168df92bca0de408577d75b676",
+      "bytes": 1242,
+      "git_blob": "39c61d2c11dd2dd5120377226f7f4774d3a760da"
+    },
+    {
+      "path": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md",
+      "sha256": "20daf1ac8ecf6afc0cc52e9266978a04be5ac3483031af188dc04818ee1ecbda",
+      "bytes": 9667,
+      "git_blob": "e8cd70a8c518afeb963ec10325a4feb0b9c015ab"
+    },
+    {
+      "path": "modules/B06/prospective_capacity_reference.py",
+      "sha256": "a0bfa50ce5ef85d5b8c352e88ca8605fec4f9845e76752677beb962e9a88b13d",
+      "bytes": 22220,
+      "git_blob": "e64f2a9734a5297413e01c8aea03d6f99a9a20fa"
+    },
+    {
+      "path": "registry/b06_prospective_capacity_reference_manifest.json",
+      "sha256": "fe462fa29d6b6ec6a0912246d9ff8bf3f47ce3aa30cd614e5ebf4723ddcab4c5",
+      "bytes": 11179,
+      "git_blob": "ce410380952ab92be7b3546367ee44c72f5297fb"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "f82b07b0b6f04fdb94cdbad3a666f27c3100127b0572a4267d99b293b7f46399",
+      "bytes": 55797,
+      "git_blob": "eeb58dc64d10901c2a7b63ccee4061f6ae1a92bf"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "b2f189f6539363bc2b7bab3764ec8c21e6913f0634b446d222c28ce0378dd442",
+      "bytes": 95904,
+      "git_blob": "91c5b93285bbed5f887d87dec58214e1b9060bbb"
+    },
+    {
+      "path": "tests/test_b06_prospective_capacity_reference.py",
+      "sha256": "97a94bbe3bddebba2495dc5ec744100f949773ca19a0e00c7ec89bc2a579f704",
+      "bytes": 17753,
+      "git_blob": "51a2d876bd8a067f65899fbf4ae131b103f6e40d"
+    }
+  ],
+  "identity_checks": {
+    "workingtree_blobs_verified": 1465,
+    "mismatches": 0,
+    "four_scientific_author_files_unchanged": true,
+    "planning_pins_matched": 26,
+    "all_seven_hashes_rechecked_after_aggregate": true
+  },
+  "metadata_scope": {
+    "module_status_changed_columns": {
+      "B02": [
+        "gate_note_append_only"
+      ],
+      "B05": [
+        "gate_note_append_only"
+      ],
+      "B06": [
+        "gate_note_append_only"
+      ]
+    },
+    "plan_changes": [
+      "B02-D02 NOT_STARTED to INTEGRATING",
+      "B02-D02 research_log appended",
+      "B05-D02 research_log appended",
+      "B06-D01 research_log appended"
+    ],
+    "readiness_changes": false,
+    "accepted_slice_promotion": false,
+    "unrelated_row_changes": false,
+    "source_registry_or_producer_changes": false
+  },
+  "independent_scientific_checks": {
+    "rerun_author_and_relevant": 78,
+    "independent_external": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "independent_Q_field_adversaries": 20
+  },
+  "scientific_test_reuse": {
+    "relevant_executed_passes": 78,
+    "external_independent_executed_passes": 8,
+    "rerun_for_integration": false,
+    "reason": "Exact reviewed scientific code/source bytes unchanged"
+  },
+  "genuine_output_sha256": "76f004a798d8f5265e448f0a01146b4a0dc16d0f1c03684fb33b8842b3b9c26f",
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3028,
+    "seconds": 107.674,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "passed": 3025,
+    "frozen_tree": "959f7002afe72a27ee22ba0d28bff9ab935481a0",
+    "all_hashes_unchanged": true,
+    "log_sha256": "595cb95aa5368a2d6f1d8a59df44fa4fe748d7deffadc98d3b726991e8484378",
+    "completed_at": "2026-10-02T04:06:37.748592+00:00"
+  },
+  "prior_CI_receipt_check": {
+    "checkpoint": "V1-029",
+    "run_number": 1091,
+    "log_hash_matched": true,
+    "executed_passes": 3007,
+    "skipped": 0,
+    "three_external_positives_verified_in_log": true,
+    "present_tree_hosted_verification": false
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; all three existing real external-directory positives must execute as ok without skips",
+  "boundaries": [
+    "One explicit source-bound prospective outer model-envelope stress case, not a jointly attained building or national probability distribution.",
+    "Physical inputs and composed result remain SCN; derived arithmetic does not promote scenario evidence. Numeric-but-Q inputs reject before the lower-level helper.",
+    "W35/W45/W55 are manufacturer-coordinate probes; W55 remains Q outside source domain. No P65-required flow, record eligibility or procurement authority.",
+    "Native TABULA annual pairs remain separate historical regressions; no invented hourly demand, omitted gains set to zero, annual electricity or complete SPF.",
+    "No programme size, national service policy, B07 runtime assumption, backup choice, national result, slice acceptance, readiness uplift or main merge.",
+    "The separate P93 MFH source-precision correction is outside this selected SFH checkpoint."
+  ]
+}

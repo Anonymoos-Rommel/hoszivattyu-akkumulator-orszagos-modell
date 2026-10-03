@@ -254,3 +254,17 @@ benne. Ez new-build design, ezért nem retrofit effect és nem országos default
 
 `Q-B06-008` authority szinten RESOLVED; a hiányos egyedi épület továbbra is
 `Q`, országos emitter-inventory lefedettséget P65 nem állít.
+
+## V1 historical seasonal reference
+
+[Three TABULA physical examples](../../docs/checkpoints/V1_012_TABULA_SEASONAL_REFERENCE.md) now have nine source-filled seasonal useful-space-heat calculations in `tabula_seasonal_reference.py`. Original geometry warnings, source-cell provenance and native unit harmonization remain explicit. The source-native DER and uniform-service SCN cases do not populate the separate monthly/design-peak effect-surface gate or represent current national usage.
+
+## V1 cost/lifecycle input
+
+[The WM50 lifecycle handoff](../../docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md)
+qualifies one 17-year ASS/E2 modeled reference-life subinput using the existing
+exact-product EPD. System, maintenance, Hungarian duty and heat-only transfer
+debt remain explicit in `registry/b06_cost_lifecycle_handoff.json`. It feeds the
+existing B12 asset-input structure without a new engine. Complete installed
+CAPEX, annual monetary O&M, replacement scheduling/cost and physical survival
+remain Q; annual maintenance cycles are not automatically paid supplier visits.

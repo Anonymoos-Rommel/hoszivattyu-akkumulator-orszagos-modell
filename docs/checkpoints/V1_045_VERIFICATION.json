@@ -1,0 +1,205 @@
+{
+  "checkpoint": "V1-045",
+  "base": "e3a46ddaff76610184797957c4a87b139b7443e8",
+  "substantive_tree": "662fcc5836dc8c197228349cad18883d2eaa3dd7",
+  "scope": "Three named TABULA gas source-convention references; explicit conditional regulated-tariff arithmetic and NET/GROSS fixed-fee correction; no household/import/national admission",
+  "local_verification": {
+    "checkpoint": "V1-045",
+    "substantive_tree": "662fcc5836dc8c197228349cad18883d2eaa3dd7",
+    "command": "python3 -m unittest discover -s tests -v",
+    "discovered": 3315,
+    "passed": 3312,
+    "skipped": 3,
+    "failed": 0,
+    "duration_seconds": 129.46,
+    "log_sha256": "aa649564e10668b9fb550bcd14f1f4a87790dadcf8e417cfe7d418f16cdc719f",
+    "skip_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "registry": "VALID",
+    "freeze_sha256": "07ad4269710976cf7389f2b65a1866fa5709b6705e089c6617ed130cc4a4e56d",
+    "preliminary_run": "Superseded; overlapped manifest edits and failed pin checks; final stable run above controls"
+  },
+  "independent_review": {
+    "schema_version": 1,
+    "checkpoint": "V1-045",
+    "reviewed_at_utc": "2026-10-02T19:24:55.318401+00:00",
+    "review_type": "INDEPENDENT_EXACT_CONTENT_SOURCE_AND_IMPLEMENTATION_REVIEW",
+    "verdict": "ACCEPT_BOUNDED_SOURCE_CONVENTION_AND_CONDITIONAL_REGULATED_REFERENCE",
+    "repository_base": "e3a46ddaff76610184797957c4a87b139b7443e8",
+    "reviewed_freeze_sha256": "07ad4269710976cf7389f2b65a1866fa5709b6705e089c6617ed130cc4a4e56d",
+    "binding": "Acceptance applies only to the exact fourteen candidate files below on the stated base. Later substantive changes require renewed review. No merge, release or wider model admission is implied.",
+    "frozen_files": [
+      {
+        "path": "data/processed/residential_gas_tariff_schedule.csv",
+        "sha256": "d31cfda4f3d45f4cabf7ca003a047aa06cde0e8e4fa400485fc74a672f0de777",
+        "bytes": 1417
+      },
+      {
+        "path": "registry/gas_price_formulas.csv",
+        "sha256": "2533c9fa4c13508aabcd39fec730c3e003e89d20dfe820f4b0d68c967a002e31",
+        "bytes": 3035
+      },
+      {
+        "path": "registry/gas_price_variables.csv",
+        "sha256": "b205bec654c9cca5743c4c96003760dd666551fd864ed415fd34f12f811036fa",
+        "bytes": 6968
+      },
+      {
+        "path": "registry/sources.csv",
+        "sha256": "bf1e1608fad0cabf044910ed32a04e9d9d71bf339c0c47f4b90832c589928bf1",
+        "bytes": 262758
+      },
+      {
+        "path": "registry/v1_research_plan.json",
+        "sha256": "9071ba1b6cc651e68bdb5b4893861c8cb12515f5afcb12d72d5ec08d934bb746",
+        "bytes": 118963
+      },
+      {
+        "path": "tests/test_b03_gas_price_engine.py",
+        "sha256": "7831d9c44bac329618194dba279acf688bd7d5171e0ecf16b7034e5e002abbc6",
+        "bytes": 5801
+      },
+      {
+        "path": "tools/validate_registry.py",
+        "sha256": "d69cf5ff42659362f796a64bee16a2ac20e35f250da3074bebbefff2b22cc129",
+        "bytes": 114319
+      },
+      {
+        "path": "docs/checkpoints/V1_045_GAS_ENERGY_AND_TARIFF_REFERENCE.md",
+        "sha256": "26a32c7252a29016f5cbc3d43e1acb837007bf51f48e55f776a8e0849db98ffa",
+        "bytes": 6728
+      },
+      {
+        "path": "modules/B03/regulated_reference.py",
+        "sha256": "a96b4dd160ed8fe84a0caba4db96316490ee7e5cd59ce55a79326b21efe23632",
+        "bytes": 7012
+      },
+      {
+        "path": "modules/B11/calorific_reference.py",
+        "sha256": "ea8d6f98dc05a0e82d135d873b257698f705115cac4ad595c26ac3e2b627f17a",
+        "bytes": 3971
+      },
+      {
+        "path": "registry/b03_regulated_reference_manifest.json",
+        "sha256": "755be5630297bb0f2eb662046fdfb2daa2d8e2d79737703b0b1b1007bd4648a2",
+        "bytes": 4467
+      },
+      {
+        "path": "registry/b11_calorific_reference_manifest.json",
+        "sha256": "1ebd49b36328ffd0af2d8228f0a30cfed9cb2ced69effccd9ae2e11c6d48b6f0",
+        "bytes": 5540
+      },
+      {
+        "path": "tests/test_b03_regulated_reference.py",
+        "sha256": "39033f5a128d3c7cd2cf1de89eb83dd875200186ed0c935b4e8f3ac94acf8aba",
+        "bytes": 7963
+      },
+      {
+        "path": "tests/test_b11_calorific_reference.py",
+        "sha256": "d439dfa96077c4a2f549f396d4beeadd0e01f00d52c7db50d6f266439cc395a0",
+        "bytes": 4571
+      }
+    ],
+    "source_verification": {
+      "source_qualification_freeze_sha256": "3c137400e1c1b131ceacbdfb6ded0a5e0b3c29c6e26af783816879e6aa3b2321",
+      "source_admission_review_sha256": "11cb06851fd414c5960334e9731e2cada31fe33e64e059a7166a12788540702a",
+      "all_eleven_source_files_bytes_and_hashes": "PASS",
+      "original_workbook_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+      "workbook_findings": "Direct original ZIP/XML inspection confirms Gas identity, area56m2, variant identity and heating CI separately from DHW AT and combined DQ for system rows3390/3391/3392. Generic natural-gas cellsII4/QI4/RM4 equal0.92; II12 with Net selection establishes conversion direction NCV=GCV*0.92.",
+      "three_case_extension": [
+        {
+          "package": "original",
+          "system_row": 3390,
+          "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.011",
+          "source_ci_kwh_gcv_per_m2": "376.52800472842142",
+          "admitted_serialized_ci_kwh_gcv_per_m2": "376.5280047284214",
+          "derived_source_convention_ncv_mj": "69835.4020929897739008"
+        },
+        {
+          "package": "standard",
+          "system_row": 3391,
+          "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.012",
+          "source_ci_kwh_gcv_per_m2": "158.77824781104275",
+          "admitted_serialized_ci_kwh_gcv_per_m2": "158.77824781104275",
+          "derived_source_convention_ncv_mj": "29448.91917800972092800"
+        },
+        {
+          "package": "ambitious",
+          "system_row": 3392,
+          "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.013",
+          "source_ci_kwh_gcv_per_m2": "113.44789559351081",
+          "admitted_serialized_ci_kwh_gcv_per_m2": "113.44789559351081",
+          "derived_source_convention_ncv_mj": "21041.40809151963695232"
+        }
+      ],
+      "serialization_boundary": "Original CI3390 source lexeme376.52800472842142 versus existing registry376.5280047284214 is a2e-14kWh_GCV/m2 serialization difference. The existing admitted registry is conserved. It is not physical uncertainty.",
+      "method_and_alternative": "TABULA method p17 establishes GCV delivered energy. IEA/Eurostat2004 TableA3.12 p183 supplies a distinct0.90 statistical convention, visually checked. Neither averaging nor a second canonical case nor an uncertainty bound is admitted.",
+      "mvm_tax_basis": "Retained2026-03-01 rulebook F.4 p154 A1 table visually confirms9192HUF/year and2.256HUF/MJ. Page40 excludes VAT from the stated universal-service price and p115 expressly identifies the base fee as net plus VAT. At declared27% VAT, unrounded gross annual fee is11673.84HUF."
+    },
+    "accepted_contract": {
+      "energy": "DER/E2 annual heating-only TABULA source-convention reference for original, standard and ambitious. Native GCV remains available; NCV conversion is the source convention only.",
+      "monetary": "SCN conditional reference at nominal frozen2026 regulated residential rates. Both source-energy equivalence and one abstract complete Aug-Jul settlement-year conditions are mandatory.",
+      "allocation": "Supplied discounted allocation is required and bounded by0..63645MJ; heating fuel does not imply other retained uses, actual eligibility or available household allowance.",
+      "single_connection_charge": "Connection identity and a supplied0..1 annual-fee fraction are mandatory. One separately declared gross charge is added; higher band cannot add a second fee. Attribution to heating and avoidability remain unknown.",
+      "net_gross": "Observed9192 net retained; gross11673.84 is separately DER. Canonical gross formula references the gross variable. No double VAT or invoice-rounding claim.",
+      "routing": "REGULATED_RESIDENTIAL_TARIFF to B13_BASELINE_REFERENCE_ONLY. No B12 cashflow, wholesale/import substitution or fiscal compensation admission.",
+      "alternatives": "The three packages are alternatives, not additive components. Original heat-pump incomplete-service limitation remains unaffected."
+    },
+    "verification": {
+      "registry_validation": "PASS: python tools/validate_registry.py",
+      "focused_tests": {
+        "b03_tests": 22,
+        "b11_calorific_tests": 8,
+        "total": 30,
+        "result": "PASS"
+      },
+      "independent_rational_oracle": {
+        "scenario_evaluations": 855,
+        "case_count": 3,
+        "checks": "Exact rational energy, discount/excess split, variable charge, one gross connection charge, total, output routing and unavailable-claim fields. Includes0, threshold and near-source-quantity allocations; five fee fractions; seeded interior allocations.",
+        "result": "PASS"
+      },
+      "independent_rejections": {
+        "invalid_argument_checks": 129,
+        "fully_populated_second_fee_registry_guard": "PASS",
+        "semantic_tariff_mutations": [
+          "Higher band full duplicate fee",
+          "Double VAT",
+          "Missing NET basis",
+          "Net fee passed as gross"
+        ],
+        "result": "PASS"
+      },
+      "dependency_guards": "Focused tests verify changed source-family, manifests and schedule fail closed. Final source/admission pins and all fourteen frozen hashes rechecked.",
+      "git_diff_check": "PASS",
+      "change_scope": "Exactly the fourteen frozen candidate files differ from the reviewed base; no private source originals or unrelated files added.",
+      "plan_integrity": "58 existing slices retained; accepted slices stay3. B03-D02 advances to INTEGRATING; no whole-slice or module-readiness closure.",
+      "full_aggregate_suite": "Not independently executed by this reviewer; configured aggregate verification must be recorded separately for the final stable candidate.",
+      "hosted_exact_head_ci": "Not part of this local review; final-head verification must be recorded separately."
+    },
+    "resolved_findings": [
+      {
+        "finding": "Registry validator previously allowed a fully populated second NET/DER fee on the higher band.",
+        "resolution": "Higher-band fee rejection and explicit regression test included in reviewed freeze; independent reproduction now rejects."
+      },
+      {
+        "finding": "Q appeared in an evidence_tier field for actual billing equivalence debt.",
+        "resolution": "Reviewed freeze uses evidence_status Q without inventing a tier."
+      }
+    ],
+    "unresolved_validation_debt": [
+      "Physical Hungarian gas NCV/GCV applicability, composition, population, period and complete calorimetric conventions are unvalidated. MVM15C is a normal-volume temperature, not proof of matching combustion/calorimetric reference temperature.",
+      "Actual MVM billing-energy equivalence remains unquantified and potentially material. No mismatch is assumed zero, negligible or bounded by the0.90-versus0.92 disagreement.",
+      "Actual household consumption, retained DHW/cooking, eligibility and discount allocation, settlement chronology, connection retention/avoidability and invoice rounding remain outside admission.",
+      "No gas volume, FGSZ numerical admission, hourly gas profile, actual household bill or savings, fiscal compensation, import value, national weighting or whole-slice completion follows from this reference."
+    ],
+    "open_implementation_defects": [],
+    "source_reuse_boundary": "Exact source documents remain externally retained research evidence; this receipt contains only technical validation metadata and limited attributed numeric facts. No source-document redistribution rights are asserted."
+  },
+  "independent_review_sha256": "d53fe4fd3263e9f116dea0b6155f5d26ad896c3958d370c3bc8ad6fc48fc3c27",
+  "hosted_ci": "PENDING_EXACT_FINAL_TREE; local environment skipped3real-external positives",
+  "publication": "Candidate receipt; requires exact reviewed final tree, remote ref readback and hosted CI"
+}

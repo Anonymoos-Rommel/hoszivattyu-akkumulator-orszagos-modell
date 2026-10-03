@@ -211,3 +211,24 @@ def test_supply_temperature_missing_keeps_b05_handoff_q():
     assert result.status == "SCN"
     assert result.b05_handoff.status == "Q"
     assert result.b05_handoff.space_heating_required_kw is None
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_conflicting_or_missing_applicability_is_not_promoted,
+            test_dhw_is_unchanged_by_envelope_intervention,
+            test_emitter_only_upgrade_changes_supply_not_envelope_demand,
+            test_missing_baseline_or_intervention_input_fails_closed,
+            test_no_retrofit_does_not_promote_s1,
+            test_realized_completion_and_linked_outcome_are_both_required_for_s1_gate,
+            test_sequential_interventions_apply_to_prior_state_not_original_baseline,
+            test_single_envelope_intervention_keeps_annual_and_peak_separate,
+            test_supply_temperature_missing_keeps_b05_handoff_q,
+        )
+    )
+    return tests

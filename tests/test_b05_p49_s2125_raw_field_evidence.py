@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 ROOT = Path(__file__).resolve().parents[1]
 REG = ROOT / "registry" / "b05_p49_s2125_raw_field_evidence.csv"
 READINESS = ROOT / "registry" / "heat_pump_readiness.csv"
@@ -35,7 +37,7 @@ class B05P49S2125RawFieldEvidenceTests(unittest.TestCase):
         ready = {row["component_id"]: row for row in rows(READINESS)}
         self.assertGreaterEqual(int(ready["DEFROST"]["readiness_percent"]), 20)
         self.assertIn("P54 performs the deferred successor-aware recalibration", ready["DEFROST"]["notes"])
-        self.assertGreaterEqual(int(ready["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, ready["PART_LOAD_MODULATION"])
         self.assertEqual("64", {row["module_id"]: row for row in rows(MODULES)}["B05"]["readiness_percent"])
         reg = {row["claim"]: row for row in rows(REG)}
         self.assertEqual("NO_MECHANICAL_UPLIFT", reg["DEFROST_READINESS"]["status"])

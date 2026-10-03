@@ -1,0 +1,113 @@
+{
+  "checkpoint": "V1-028",
+  "base_commit": "d7f9d1d8311b096d71ba08f015ed6aab8e23ad62",
+  "independently_reviewed_tree": "d00fdeb4aab7e02f629387e3eead525ffc934f75",
+  "independent_verdict": "PASS_BOUNDED_B13_REPAIR_HOSTED_CLOSURE_PENDING",
+  "independent_report_sha256": "017fb9e587d84bdff2b60ca65d0cab1967ff817306db7d891eb239cda2c1b233",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_027_CI.json",
+      "sha256": "a8d5ca15a1b82eecbf320b0b424307901cf15f0bc37fb7ed7b1112fdb8c535a1",
+      "bytes": 2715,
+      "git_blob": "c173ef248b43e0650a2d8a9f93a6cde2ca7cf0b5"
+    },
+    {
+      "path": "docs/checkpoints/V1_028_B13_INDEX_BOUNDARY.md",
+      "sha256": "7acba8c1d93e1e1c454a72118735b2c7b8933c34dfaa72150069e360eb0324da",
+      "bytes": 3852,
+      "git_blob": "7c6e782f3bc2fef5b1dcc4ec17fde2f16605009a"
+    },
+    {
+      "path": "tests/test_b13_fiscal_reference.py",
+      "sha256": "b40acad4dabbcdc8d03e821d3ae1f863ca4585f3e5d1eed4e9b653dd72205c8a",
+      "bytes": 29290,
+      "git_blob": "9e5a52150f973cc744c8dde7d927178d68bf82b0"
+    },
+    {
+      "path": "tools/materialize_b13_fiscal_reference.py",
+      "sha256": "139fc529572acbcb001e0d1edb8d9edf26656bda6ecfbbdb6bd366489e343d60",
+      "bytes": 6280,
+      "git_blob": "d586b1bc83dc410078f88e1245845ae0d0c645a1"
+    }
+  ],
+  "independent_checks": {
+    "production_bytes": "Entire materializer differs from base only by tracked.returncode == 0 becoming tracked.returncode != 1. No parser/source/writer/arithmetical change.",
+    "original_test_helper_ASTs_unchanged": 39,
+    "configured_discovery": 2986,
+    "b13_discovery": 37,
+    "four_new_methods_each_discovered_once": true,
+    "focused_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python -m unittest test_b13_fiscal_reference test_registry_contract -v",
+    "focused_discovered": 52,
+    "focused_passed": 51,
+    "focused_skipped": 1,
+    "focused_breakdown": "B13 37 discovered /36 passed /1 local host-marker skip; registry15 passed.",
+    "independent_witness_passed": 14,
+    "unsafe_admissions": 0,
+    "outputs_checked": [
+      "fiscal_reference.json",
+      "receipt.json"
+    ],
+    "index_cases": [
+      "valid_untracked",
+      "valid_tracked_deleted",
+      "unignored",
+      "corrupt_index",
+      "truncated_index",
+      "index_is_directory",
+      "valid_tracked_present"
+    ],
+    "witness_protection": "Candidate HEAD/source/index and original V1-027 witness unchanged; all fixture paths and bytes preserved; actual Git calls and first fiscal-reader sentinel.",
+    "original_negative_control": "Loaded exact original materializer from base without modifying a file; six real index-fault subcases fail as expected and eight valid neighbors pass. No errors/skips.",
+    "hosted_precondition": "GITHUB_ACTIONS=true runs the actual external-positive method on this constrained host and gives one expected failure, exit1, zero skips.",
+    "registry_validator": "VALID",
+    "git_diff_check": "PASS",
+    "count_note": "Method counts and subcases overlap; do not sum into distinct aggregate totals."
+  },
+  "closed_finding": {
+    "problem": "Fatal Git-index status128 was treated as proof of untracked target, admitting six corrupt/truncated/directory-index paths across both output names.",
+    "repair": "Only expected untracked exit1 plus check-ignore exit0 admits in-repository output. All other tracking-query statuses reject before first fiscal source read.",
+    "status": "CLOSED_ON_EXACT_REVIEWED_TREE"
+  },
+  "prior_CI_receipt_check": {
+    "public_private_bytes_equal": true,
+    "log_sha256": "e0f5c90fd5c66c90539e0a6e69c4cdaca01e6c012f5ee3b579fb9ef904a1d7b0",
+    "preserved_log_digest_checked": true,
+    "executed_passed": 2982,
+    "skipped": 0,
+    "required_lines_checked": 10,
+    "required_lines": "Two external positives, four storage matrices, four index-error methods all explicitly ok.",
+    "remote_metadata": "Run1089 identities and merge-tree match are carried by the previously verified lead receipt; not independently re-queried remotely in this review."
+  },
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 2986,
+    "seconds": 111.44,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "passed": 2983,
+    "frozen_tree": "d00fdeb4aab7e02f629387e3eead525ffc934f75",
+    "all_hashes_unchanged": true,
+    "log_sha256": "4c89a2e6705afb62c6bcdc147a9a2a3b981dfcc826f1fe8ea2fe3205d9428615",
+    "completed_at": "2026-10-02T03:11:27.176518+00:00"
+  },
+  "hosted_closure_requirement": {
+    "status": "PENDING",
+    "required_methods": [
+      "test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed",
+      "test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read",
+      "test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed"
+    ],
+    "criterion": "Final exact-head hosted log shows all three methods ok, no skips, complete configured success, and tested merge tree matches final publication tree."
+  },
+  "boundaries": [
+    "The controlled external positive masks only inherited host markers and does not establish unmocked external admission; actual hosted positive remains required.",
+    "No source/numeric/fiscal-model/registry/readiness/B15/configuration/permissions changes.",
+    "No assertion of transactional multi-file writes or concurrent ancestor-replacement containment.",
+    "No main merge."
+  ]
+}

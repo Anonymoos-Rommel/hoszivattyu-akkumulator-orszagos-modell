@@ -1,0 +1,112 @@
+{
+  "checkpoint": "V1-022",
+  "base_commit": "7ec927d3123d491a49f47d4ed6d13f45fb193b0c",
+  "independently_reviewed_tree": "daa96fb4853a48ff52c9827d5e77975579562558",
+  "review_verdict": "PASS",
+  "review_scope": "Bounded source-reference reader and workforce source qualification only",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md",
+      "sha256": "2db4910cf1d38e43ef17baea4c777baa29d820249e89bb55c47e44830f17a34a",
+      "byte_count": 4657,
+      "git_blob": "03ff29fd6d62cfda5ac9f9d6dd7a37913b9ddc7a"
+    },
+    {
+      "path": "modules/B18/README.md",
+      "sha256": "c4f7a7ef91e31a1bc34c033c14337173f7c70f81eb09287148b0eae1c7d7785c",
+      "byte_count": 3976,
+      "git_blob": "086b4770ed1552ccd52a8132cb7f373b97eb22f6"
+    },
+    {
+      "path": "modules/B18/__init__.py",
+      "sha256": "43d2f5405f4773cb4815ce0b04dc63e3bd8619cb3f125f0a0bb03715ebbae298",
+      "byte_count": 78,
+      "git_blob": "eff9b83622d29c37412fde0bf7f7c898e8ea7d29"
+    },
+    {
+      "path": "modules/B18/supply_source_reference.py",
+      "sha256": "afa8ed7e572abc930954aef744e850709bdf6034c8f574baa7131b45a6d491d5",
+      "byte_count": 13757,
+      "git_blob": "63e93aa344126172b94f7d8ceb9680a68a1b5537"
+    },
+    {
+      "path": "registry/b18_supply_source_reference_manifest.json",
+      "sha256": "ee86d5c4bb44a01479591ad1241c7a31d2e83323aeecabc259c3ef63f4c1c27f",
+      "byte_count": 8530,
+      "git_blob": "594c5dd2952d9947f05ea3a91e512318d99af7e0"
+    },
+    {
+      "path": "registry/b18_workforce_source_review_manifest.json",
+      "sha256": "b9f187a2a053f0e2ffad87eeaf91d6bb959787b9e6cb6d66b36de0b3e4e87912",
+      "byte_count": 6965,
+      "git_blob": "6a91a6667265febed5856a6cf137749cb5b22e47"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "1cc60c82a55483343412f99ba224835b151f93e19d874e81a79db6b18242b8ed",
+      "byte_count": 52981,
+      "git_blob": "553b76ed0dc48b2896519565c3ffb140ab191d8f"
+    },
+    {
+      "path": "registry/open_questions.csv",
+      "sha256": "8121f00285402bcc150499b215447bd5a4b329ae143953321ad7bc2651e96aa6",
+      "byte_count": 134238,
+      "git_blob": "59bbc4a113e4950b269fce706a26cc1cac1b0cd6"
+    },
+    {
+      "path": "registry/project_blocker_evidence_audit.csv",
+      "sha256": "1b6afa573074bd44c80149e35b6efb18b66c0a63ccd0eabef407fca6b64f645b",
+      "byte_count": 20657,
+      "git_blob": "126cdaeea79a533bb8716050cbe0226510f2d874"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "ffc549be5dcd357c73aea5f62192983cdc09d58461342234f07d3ca2d93d2850",
+      "byte_count": 230229,
+      "git_blob": "428d5eb28101369fd573ef1cdc88fad89376df20"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "8749bf6f5e162c8ec089898d11ea4734d32968ffb93aed33ad99ed62a1784bf1",
+      "byte_count": 85090,
+      "git_blob": "7b8ed30f37e61dfb09a9ee0ba560301a7c8bb730"
+    },
+    {
+      "path": "tests/test_b18_supply_source_reference.py",
+      "sha256": "39a6f1cf3257c4411b4c0f29d4192e9c82a53def7c9f4d7f35dc790a616c12a5",
+      "byte_count": 13347,
+      "git_blob": "093a2a478c947de300d4e4d04b9c3f5d3d2af7f1"
+    },
+    {
+      "path": "tools/materialize_b18_supply_source_reference.py",
+      "sha256": "e6194eefa2d211f9e4d67b952d8abac62c61e53cdf53afecc7163513c94b9f2a",
+      "byte_count": 4579,
+      "git_blob": "2af21061372c55830d6d6fd45039af9630dada65"
+    }
+  ],
+  "verification": {
+    "independent_B18_tests": 37,
+    "independent_registry_tests": 15,
+    "independent_plan_tests": 3,
+    "registry_validation": "VALID",
+    "diff_check": "PASS",
+    "independent_runtime_source_cells": 28,
+    "numeric_cells": 14,
+    "missing_or_flagged_cells": 14,
+    "independent_real_CLI_materializations": 7,
+    "admitted_source_hashes_verified": 16,
+    "full_local_suite": "NOT_RUN",
+    "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_CONTENT_BEFORE_CHECKPOINT_CLOSURE"
+  },
+  "review_fixes": [
+    "Corrected research-only Roadmap transcription; genuine historical SQA discrepancy retained",
+    "Bound source revision date to exact KSH companion HTML",
+    "Separated workforce SCN quantities from OBS source transcription and DER arithmetic"
+  ],
+  "boundaries": [
+    "B18 readiness remains0 and no slice accepted",
+    "No national rollout, import share, domestic capacity or device-count inference",
+    "Source bytes and normalized panels external-only",
+    "No main merge or release"
+  ]
+}

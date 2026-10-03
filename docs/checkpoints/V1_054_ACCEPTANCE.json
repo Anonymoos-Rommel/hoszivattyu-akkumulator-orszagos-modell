@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "slice_id": "B14-L01",
+  "status": "ACCEPTED",
+  "acceptance_date": "2026-10-03",
+  "accepted_at": "2026-10-03T14:52:40.735657+00:00",
+  "acceptance_scope": "TWO_NAMED_DATED_KEHOP_HOUSEHOLD_SOURCE_RULE_HANDOFFS",
+  "reviewed_commit": "4719fb26b6a9df475a28808c30e403c074ebb3fa",
+  "reviewed_tree": "5c28d644221e931f2c4826a424f006afe5d03e9f",
+  "implementation_sole_parent": "45b68941454325d3d7d8096e3552291551dc1763",
+  "programmes": [
+    "KEHOP Plusz-4.1.7-24",
+    "KEHOP Plusz-4.1.8-24"
+  ],
+  "as_of_dates": [
+    "2026-10-01",
+    "2026-10-03"
+  ],
+  "terms_revision": "2025-10-15",
+  "original_requirement": "Programazonosító, kiíró, hatály/verzió, ország/régió, jogosult/kizárt tevékenység, költség, intenzitás, saját erő, kumuláció, beadási/teljesítési határidő.",
+  "canonical_source_ids": [
+    "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+    "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+    "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+    "SRC-B14-MFB-KEHOP-PROCESSING-FAQ-202609",
+    "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+    "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+    "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261001",
+    "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
+    "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+    "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+    "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+    "SRC-B14-MFB-KEHOP-417-STATUS-20261003",
+    "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261003",
+    "SRC-B14-MFB-KEHOP-418-STATUS-20261003",
+    "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261003"
+  ],
+  "accepted_artifact_sha256": {
+    "registry/b14_funding_reference_manifest.json": "cc2619038b67c22d4c2c117a66e02e7b1b22872773431f7cf9ecc71f86c5646f",
+    "data/processed/b14/funding_reference_snapshot.json": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
+    "data/processed/b14/eligible_cost_caps_417.csv": "87ec275050a912a41065629def73589fb72199b8532813374951ed938ab8cd3a",
+    "modules/B14/funding_reference.py": "bed7fd9155cfb87641fe1c02e864b99e3abc0e56821dd904208a88fa392326ae",
+    "registry/b14_rule_completion_manifest.json": "a6a4fb661c517613917fb0c2984abc45f7db01da769e4ee6b696ef204d100370",
+    "data/processed/b14/rule_completion_20261003.json": "7b434267038e91afd66e54e4f82269f8a02668ccdb8be274aa4aacc333ba928a",
+    "data/processed/b14/eligible_cost_caps_418.csv": "a38368dde085780d4e1f3ad14cad77eb93dcde8e1fc58e1f15299735205d46e0"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b14_funding_reference.py": "28e08a13964cdfe58112bacb6cf83a40acafe645072647f788f3c76220642dd5",
+    "tests/test_b14_rule_completion.py": "9a9c138ab00812471f1e447cfe363d48dae1100c666858465d43da3ce940f7a8"
+  },
+  "original_field_mapping": [
+    {
+      "criterion": "Programme, issuer, revision and geography",
+      "authority": "Exact call sources, explicit MFB document/financing/submission roles, source-specific programme scopes and fresh official document-selection observations",
+      "consumer": "read_programme: programme_id/scope/as_of/terms_revision/rule_details.issuer/geography/currentness_observations"
+    },
+    {
+      "criterion": "Eligible and excluded activities",
+      "authority": "Exact call V/3 and source-bound activity/cost/property conditions, retaining record-level interpretation",
+      "consumer": "read_programme: activity/exclusion labels plus rule_details.eligible_activity_rules and property_rule"
+    },
+    {
+      "criterion": "Eligible costs",
+      "authority": "Separate39-row own-source appendices for4.1.7 and4.1.8; gross material/labour caps, units, cost classes and nested cost rules",
+      "consumer": "read_cap: exact programme/scope/as_of/unit/gross claim; read_programme: rule_details.cost_rule"
+    },
+    {
+      "criterion": "Intensity and own funds",
+      "authority": "Exact call facts; financing amount versus eligible project cost denominators; original finance ceiling is not total-cost ceiling",
+      "consumer": "read_fact with explicit native units; unchanged fact records and Q/null limits"
+    },
+    {
+      "criterion": "Cumulation",
+      "authority": "Exact II/1p6 named schemes and inclusive building/beneficiary OR; narrow PV-only exception; same-cost EU restriction; HEM terms; explicitly prior-reviewed procedure invoice endorsement",
+      "consumer": "read_programme: rule_details.cumulation/same_cost_funding/HEM/invoice_endorsement"
+    },
+    {
+      "criterion": "Submission and completion deadlines",
+      "authority": "Exact calls and prior-reviewed suspension notices; newly observed dated suspension/FAQ state; no clock-time or future-status extrapolation",
+      "consumer": "read_intake and read_programme dates, source qualifications and conditional extension labels"
+    }
+  ],
+  "source_review": {
+    "source_qualification_checks": 148,
+    "independent_visual_cap_rows": 39,
+    "independent_cap_component_values": 78,
+    "exact_historical_payloads_recovered": 5,
+    "fresh_dated_observations": 4,
+    "source_verdict_sha256": "edbe6ee6709116bbeaa7afa837aa424200ebd53a37dee016f046cdd053323327",
+    "exact_revised_review_sha256": "beecdc9f87af95a8759fd27ad126125fef46b46c694747eb97a4c1a6c570abca",
+    "readme_supplement_sha256": "42924149eb26871552e8f21326c6992b7aaa17193083fd452373c64454091d80",
+    "final_metadata_review_sha256": "642e84f394b4c3d0d6e4aad5741f7aeecb4227f88e012addbd44c0956d6a98c3",
+    "hosted_independent_receipt_sha256": "6ac6c830f12fd59bedf67976a8ceb64fe97a7f5aaaa3c110f057f4850befca77",
+    "historical_all_eleven_source_reverification": "NOT_RUN_INCOMPLETE_OLD_ORIGINAL_BINDINGS",
+    "prior_113_checks_claimed_as_new": false
+  },
+  "historical_reliance": [
+    {
+      "source_id": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+      "original_url": "https://www.palyazat.gov.hu/api/download/68ee54b3a98fefdd172249e0",
+      "sha256": "f99ddcdc275d0ce73f48cb0965b139a2c28146f5397cb4fb372ef891c2b2d2aa",
+      "bytes": 1025709,
+      "historical_retrieved_at": "2026-10-01T20:15:30.868803+00:00",
+      "evidence": "V1_018 independently reviewed source identity and selected claims",
+      "fresh_recovery": false,
+      "fresh_full_eleven_source_pass": false,
+      "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+    },
+    {
+      "source_id": "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+      "original_url": "https://www.palyazat.gov.hu/api/download/69de4454364ec6bb184ff0c2",
+      "sha256": "793c02f255d543b0136568cc426650ea4ff31abc267e68fa8d8c44d10aede93a",
+      "bytes": 117379,
+      "historical_retrieved_at": "2026-10-01T20:24:25.684099+00:00",
+      "evidence": "V1_018 independently reviewed source identity and selected claims",
+      "fresh_recovery": false,
+      "fresh_full_eleven_source_pass": false,
+      "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+    },
+    {
+      "source_id": "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+      "original_url": "https://www.palyazat.gov.hu/api/download/69e5e8dd57d6d132f8579756",
+      "sha256": "8605d46276c7013b9a790326f832a439f0a1612c05e933913cb831315f8dac92",
+      "bytes": 152675,
+      "historical_retrieved_at": "2026-10-01T20:24:20.883495+00:00",
+      "evidence": "V1_018 independently reviewed source identity and selected claims",
+      "fresh_recovery": false,
+      "fresh_full_eleven_source_pass": false,
+      "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+    },
+    {
+      "source_id": "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+      "original_url": "https://www.palyazat.gov.hu/api/download/69de44f872e48b668a6b473a",
+      "sha256": "f923607ce61daf8c9dc2c86ef7ebdec69015ba4f15c3ac95f4c639bca520d334",
+      "bytes": 114763,
+      "historical_retrieved_at": "2026-10-01T20:24:43.281842+00:00",
+      "evidence": "V1_018 independently reviewed source identity and selected claims",
+      "fresh_recovery": false,
+      "fresh_full_eleven_source_pass": false,
+      "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+    }
+  ],
+  "source_recovery_limits": [
+    "Historical common-procedure and three suspension-notice PDF bytes were not recovered in this pass; their selected prior independent V1-018 review is explicitly retained.",
+    "Two old MFB HTML payloads were not recovered. New2026-10-03 HTML observations have separate identities and are not relabelled old bytes.",
+    "Current index IDs/titles/sizes establish listed selection, not a new exact procedure PDF-byte proof.",
+    "Mirrors with exact official-pinned hashes are one document lineage, not independent corroboration."
+  ],
+  "source_truth_classification": {
+    "programme_rules": "POL",
+    "fresh_currentness": "OBS",
+    "combined_component_caps": "DER",
+    "unavailable_financial_amounts": "Q_NULL"
+  },
+  "historical_input_sha256": {
+    "data/processed/b14/funding_reference_snapshot.json": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
+    "data/processed/b14/eligible_cost_caps_417.csv": "87ec275050a912a41065629def73589fb72199b8532813374951ed938ab8cd3a",
+    "registry/b14_funding_reference_manifest.json": "cc2619038b67c22d4c2c117a66e02e7b1b22872773431f7cf9ecc71f86c5646f"
+  },
+  "resolved_defect": "Actual caller-supplied historical data/caps/manifest bytes are pinned; altered and re-bound alternatives reject; byte-identical relocated inputs remain supported.",
+  "previous_scope_interpretation": {
+    "prior_V1_018_accepted_whole_L01": false,
+    "prior_bounded_reference_and_research_logs_preserved": true,
+    "superseded_interpretation": "Unbounded broader-programme coverage, individual approval, remaining balances and research/pilot fit are not additional original L01 fields. This acceptance covers the two named dated rule handoffs only, not an exhaustive funding-programme census."
+  },
+  "hosted_verification": {
+    "run_id": 37130822373,
+    "run_number": 1117,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37130822373",
+    "job_id": 111225396372,
+    "workflow_conclusion": "success",
+    "tests": 3496,
+    "passed": 3496,
+    "skips": 0,
+    "failures": 0,
+    "errors": 0,
+    "registry": "VALID",
+    "tested_merge_commit": "9b9cfd45bd369d742790187901b45752f3fb19db",
+    "tested_merge_tree": "5c28d644221e931f2c4826a424f006afe5d03e9f",
+    "log_sha256": "b4b446de58809ed43c9ebc5eb59c1c85c64d9f62fe7a3d7a09d7b85323ff81f1"
+  },
+  "acceptance_template_sha256": "f83df6c2b00fb3414d59133e18ae67957175e3cebe0b787ee8e7af4daa98c0a3",
+  "retained_validation_debt_ids": [],
+  "limits": {
+    "individual_eligibility_decision": false,
+    "available_balance_or_project_award": false,
+    "future_status_or_unlisted_programmes": false,
+    "national_eligibility_fraction": false,
+    "whole_module_acceptance": false,
+    "module_readiness_increase": false,
+    "b15_gate_released": false,
+    "source_original_publication": false,
+    "b14_d01_balances_open": true,
+    "b14_d02_pilot_fit_open": true
+  },
+  "no_source_data_code_or_tests_changed_in_this_step": true
+}

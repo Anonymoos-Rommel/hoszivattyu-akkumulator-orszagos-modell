@@ -1,0 +1,147 @@
+{
+  "checkpoint": "V1-053",
+  "status": "LOCAL_REVIEWED_METADATA_ONLY_ACCEPTANCE_NOT_PUBLISHED",
+  "integration_base_commit": "ce641bea8082ce3e49d78f75b9f178232f91ec3b",
+  "reviewed_substantive_tree": "9168068730141babbe259fa0b145b27674014e94",
+  "substantive_patch_sha256": "5bfec60706b4989c13401d9c68a11c601b281dee0de724d34d63dda84d779e00",
+  "reviewed_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_053_ACCEPTANCE.json",
+      "bytes": 14886,
+      "sha256": "2f30e4ff7cf39b757743c67c081f8d59ca33aba2558269579e3ee2e746ed684b"
+    },
+    {
+      "path": "docs/checkpoints/V1_053_B05_PRODUCT_HANDOFF_ACCEPTANCE.md",
+      "bytes": 5328,
+      "sha256": "f60215d01b629cfc484c4c601a8c640115f13e1893cf767c1559c6de1ae45dbe"
+    },
+    {
+      "path": "modules/B05/README.md",
+      "bytes": 61001,
+      "sha256": "1a086f00f02b61e791ada2d022f1c21819c1843bb5a46c845b2b5764ca635173"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 61305,
+      "sha256": "e469287154567177c8ad94a4aef9737bbd394b3201cef716c46546162eb41e53"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 142602,
+      "sha256": "30f06c832991ce60a2fb1013fb1f362641daa01e6afed6f1295f1833ec1800bf"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-053",
+    "scope": "METADATA_ONLY_ACCEPTANCE_UNCHANGED_SCIENCE",
+    "command": "python -m unittest discover -s tests -v",
+    "status": "PASS_LOCAL_CANONICAL_WITH_THREE_DOCUMENTED_HOST_SKIPS",
+    "discovered": 3475,
+    "passed": 3472,
+    "skips": 3,
+    "errors": 0,
+    "failures": 0,
+    "exit_code": 0,
+    "seconds": 139.265,
+    "log_bytes": 663227,
+    "log_sha256": "d0cb38a46ba9a7447c32589694a5025d125214c94333aab74cde9f035fa37e64",
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "focused_tests": 122,
+    "focused_passed": 122,
+    "registry": "VALID",
+    "hosted_ci_run": false,
+    "source_scientific_code_and_controls_changed": false
+  },
+  "independent_review": {
+    "status": "PASS_EXACT_FIVE_FILE_METADATA_ONLY_B05_D02_ACCEPTANCE",
+    "receipt_sha256": "dc422dda602a7f2ef2eb78323e4a29bed23a58fd2d35895422373218a2e91861",
+    "original_criteria_met_at_named_source_product_handoff": true,
+    "all_other57_tasks_unchanged": true,
+    "accepted_scientific_and_test_bytes_unchanged_from_reviewed_commit": true,
+    "readiness_increase": false,
+    "focused": {
+      "status": "PASS",
+      "tests_run": 122,
+      "passed": 122,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 1.1260402202606201,
+      "paths": [
+        "tests/test_b05_manufacturer_wm50_reference.py",
+        "tests/test_b05_heat_pump_engine.py",
+        "tests/test_b05_interpolation_energy_consistency.py",
+        "tests/test_b05_annual_device_reference.py",
+        "tests/test_b05_cold_domain_reference.py",
+        "tests/test_b05_p26_mitsubishi_cold_high_supply_classification.py",
+        "tests/test_b05_p46_mitsubishi_a15_w50_domain_boundary.py",
+        "tests/test_b05_p47_mitsubishi_szu_sampling_report_boundary.py",
+        "tests/test_b11_annual_retrofit_reference.py",
+        "tests/test_v1_research_plan.py",
+        "tests/test_registry_contract.py"
+      ],
+      "log_sha256": "72ec99b0c5a611cda23ff5453280a94e9f7927b35418ac9aa92530459c5e8458"
+    },
+    "source_replay": {
+      "status": "PASS",
+      "verified_at": "2026-10-03T12:57:43.281232+00:00",
+      "frozen_source_files_verified": 26,
+      "manufacturer_sha256": "e7212300cb49ad561db56e974cc9945655943bfb0dd8309610a400fba65919ab",
+      "source_coordinate_count": 252,
+      "numeric_pairs": 208,
+      "blanks": 44,
+      "grey_pairs": 21,
+      "original_annual_cold_replay_byte_identical": true,
+      "replay_sha256": "09da472d713828223e3a7257b9ccd530aaf5d07580d6e79a59f5a0634912e931",
+      "annual_package_hours": 26280,
+      "cold_window_hours": [
+        72,
+        72
+      ],
+      "cold_window_supported_hours": [
+        27,
+        72
+      ],
+      "keymark_scope": "Previously independently inspected cached official rendering only; no new raw or live claim",
+      "producer_scope_flags_unchanged": true,
+      "selected_backup": null,
+      "inputs": {
+        "research/weather_recovery/budapest_44527_utc2025_hourly_private.csv": "a213df5a30b30360443681f81977c111145795d23f5c2a05e4eeeec6738c3f39",
+        "research/weather_recovery/HABP_1H_44527_20020101_20251231_hist.zip": "a28ec01c28358f9af0cf846ac69642e80b1f6f0972a138d84f9269c08d3fe417"
+      }
+    },
+    "full_suite_provenance": "Author canonical full log independently inspected; independent reviewer separately executed 122 focused tests and source/annual/cold replay."
+  },
+  "earlier_audit_reproduction": {
+    "later_created_script_and_fresh_rerun_not_original_log": true,
+    "tests": 142,
+    "skipped": 0,
+    "annual_cold_original_byte_identical": true,
+    "files": {
+      "research/next_closure_after_v1052/B05_REPRODUCE_EVIDENCE.py": "34b8eab67230f2ad1232be5b24fca5ad61ce148390578085a383132ecb47934e",
+      "research/next_closure_after_v1052/B05_FOCUSED_142_RERUN.log": "a368c9861279a0bb77e35887fe88bc56388c3a6e06797a47fbc57feef7b28663",
+      "research/next_closure_after_v1052/B05_REPLAY_SUMMARY_RERUN.json": "09da472d713828223e3a7257b9ccd530aaf5d07580d6e79a59f5a0634912e931",
+      "research/next_closure_after_v1052/B05_RECOVERY_REPRODUCTION_RECEIPT.json": "d4bfb643ddc65da44eda51b3e908946db602fb5957735878332b16242198e590"
+    }
+  },
+  "scope": {
+    "slice": "B05-D02",
+    "metadata_only": true,
+    "reviewed_commit": "ce641bea8082ce3e49d78f75b9f178232f91ec3b",
+    "whole_module_completion": false,
+    "national_admission": false,
+    "installed_backup_selected": false,
+    "source_originals_in_public_patch": false,
+    "keymark_raw_response_available": false,
+    "keymark_live_status_verified": false
+  },
+  "publication": {
+    "status": "NOT_RUN_REQUIRES_OWNER_APPROVAL",
+    "hosted_ci": "NOT_RUN_FOR_THIS_CANDIDATE",
+    "required_hosted_result": "All 3475 tests executed, zero skips, zero failures/errors, registry VALID at exact candidate tree."
+  }
+}

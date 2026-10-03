@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "case_id": "B05-WM50-W55-HISTORICAL-COLD-DOMAIN-REFERENCE",
+  "claim_scope": "DER_SOURCE_DOMAIN_EXPOSURE_NOT_PHYSICAL_FAILURE_COUNT",
+  "repository_pins": {
+    "weather_parser": {
+      "path": "modules/B05/weather.py",
+      "sha256": "e3e519f8f9693648b13b0da5109ff9d0d76a5be378349a408c09208c629de857"
+    },
+    "winter_selector": {
+      "path": "modules/B05/extreme_weather_return_period.py",
+      "sha256": "f044f129ef9bbcbbac9d1f0939f56e5ac9a199fb80a38ee84491934718b6dc76"
+    },
+    "manufacturer_loader": {
+      "path": "modules/B05/manufacturer_wm50_reference.py",
+      "sha256": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025"
+    },
+    "map_engine": {
+      "path": "modules/B05/engine.py",
+      "sha256": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767"
+    },
+    "manufacturer_grid": {
+      "path": "data/processed/b05/wm50_full_performance_v53.csv",
+      "sha256": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1"
+    },
+    "manufacturer_manifest": {
+      "path": "registry/b05_wm50_full_grid_manifest.json",
+      "sha256": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b"
+    },
+    "p9_winter_statistics": {
+      "path": "data/processed/b05_weather_winter_extremes.csv",
+      "sha256": "b593d4fd8f528cc3bc98ca84cc4406994b00528e9f73592ca96685f3869eec7c"
+    },
+    "p9_archive_identity": {
+      "path": "registry/b05_p9_hungaromet_raw_acquisition_manifest.csv",
+      "sha256": "7da61ebd75b427ca1d044e50afc0a777538280b2dd952ad0554c7f1e49808a82"
+    },
+    "p26": {
+      "path": "registry/b05_p26_mitsubishi_cold_high_supply_classification.csv",
+      "sha256": "638d347e5b8bd4643cd4246c04b7b93a6718861daa20ee86ce101d4458d3bdd1"
+    },
+    "p46": {
+      "path": "registry/b05_p46_mitsubishi_a15_w50_domain_boundary.csv",
+      "sha256": "b9f415e38e653f2488c86010dae7f292a088c263f7e5ae2e4bdb50569705fd04"
+    }
+  },
+  "archive": {
+    "source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "original_url": "https://odp.met.hu/climate/observations_hungary/hourly/historical/HABP_1H_44527_20020101_20251231_hist.zip",
+    "sha256": "a28ec01c28358f9af0cf846ac69642e80b1f6f0972a138d84f9269c08d3fe417",
+    "bytes": 10858509,
+    "rows": 210384,
+    "station_id": "44527",
+    "retrieved_at": "2026-10-02",
+    "source_revision": "2002–2025 endpoint archive; exact published P9 identity",
+    "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+  },
+  "complete_winter_labels": [
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009,
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "selection": "Reuse P9 complete endpoint-labelled winter blocks; lowest72-hour mean with earliest tie; explicit endpoint-to-physical-interval translation",
+  "operating_envelope_context": {
+    "source_id": "SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025",
+    "registry_authority": "B05-P26-R04; B05-P46-R04/R05 preserve classification-only precision",
+    "classification": "PRODUCT_NOT_APPLICABLE_AT_REQUIRED_SUPPLY_IN_COLD_W55_SECTOR",
+    "precision": "P26 describes a graphical boundary at approximately A-10; no new digitized curve, exact physical threshold or exact failed-hour count",
+    "numeric_source_boundary": "The Vol.5.3 W55 source map begins at A-10; numeric-map coverage is an exact separate calculation",
+    "source_recovery_status": "Earlier admitted source identity retained; original PDF not recovered after workspace incident; current read attempt returned403 on2026-10-02; no new source authority claimed",
+    "unresolved_neighbor": "A-15/W50 remains a separate Q in P46; not filled or used here"
+  },
+  "claim_limits": [
+    "Historical observed episode, not a return-period or future-climate assertion",
+    "One source product/revision at fixed55C; no general heat-pump limitation",
+    "No assumed replacement product, lower supply temperature, backup or national comfort",
+    "No new thermal or electricity replay; no cold-event capacity-deficit total",
+    "The existing2025 annual device and tariff reference remains unchanged",
+    "No population weights, participation, national readiness or new source-evidence gate"
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "checkpoint": "V1-053",
+  "status": "BOUNDED_B05_D02_ACCEPTANCE_BY_VERIFIED_REUSE",
+  "accepted_slice": "B05-D02",
+  "reviewed_commit": "ce641bea8082ce3e49d78f75b9f178232f91ec3b",
+  "reviewed_tree": "49ce7bb097b3df06dbb91f673f2fb57a684a33b0",
+  "record_prepared_at": "2026-10-03T12:47:24.146663+00:00",
+  "publication_status_at_preparation": "LOCAL_ONLY_NOT_PUBLISHED",
+  "accepted_scope": "Complete named WM50/Vol.5.3 source-product handoff and existing claim-specific controls; neither whole B05 nor installed/national/backup-enabled service outside supported reference cases",
+  "original_requirement": "Exact típus/revízió × T_kültér × T_víz: Qh, Pel [kW], COP, minimumteljesítmény, üzemhatár, rásegítés. EPREL/certifikáció/gyártó forrásokat eredet szerint összekötni.",
+  "original_criteria": [
+    {
+      "criterion": "Exact type/revision",
+      "status": "MET_BY_EXISTING_ARTIFACTS",
+      "artifacts": [
+        "registry/b05_wm50_full_grid_manifest.json",
+        "data/processed/b05/wm50_full_performance_v53.csv"
+      ],
+      "authority": "Exact original matches pinned SHA; PDF1/442 identifies Vol.5.3/Dec2020 and PDF60 names WM50."
+    },
+    {
+      "criterion": "Outdoor/water Qh/Pel/COP",
+      "status": "MET_BY_EXISTING_ARTIFACTS_AND_CONSUMER",
+      "artifacts": [
+        "data/processed/b05/wm50_full_performance_v53.csv",
+        "modules/B05/manufacturer_wm50_reference.py",
+        "modules/B05/engine.py"
+      ],
+      "authority": "All252 source coordinates match;208 Q/COP pairs,44blanks. Pel remains DER=Q/COP; paired Q/P interpolation and derived COP already implemented."
+    },
+    {
+      "criterion": "Minimum performance",
+      "status": "MET_BY_EXISTING_ARTIFACTS_AND_CONSUMER",
+      "artifacts": [
+        "data/processed/b05/wm50_full_performance_v53.csv",
+        "modules/B05/manufacturer_wm50_reference.py"
+      ],
+      "authority": "Same-product MIN values are source-native and runtime-bound; no Cdh/MIN certification transfer is needed."
+    },
+    {
+      "criterion": "Operating limits",
+      "status": "MET_FOR_NAMED_SOURCE_HANDOFF_WITH_RETAINED_Q",
+      "artifacts": [
+        "registry/b05_p26_mitsubishi_cold_high_supply_classification.csv",
+        "registry/b05_wm50_full_grid_manifest.json",
+        "modules/B05/manufacturer_wm50_reference.py",
+        "modules/B05/cold_domain_reference.py"
+      ],
+      "authority": "Exact source supports existing limit distinctions (PDF6/A-2,30/A-26,32/A-28). Domain refusal already enforces numerical support. A-15/W50 stays Q; no graph digitisation or scalar-limit composition. Hydraulic/site admission is not claimed."
+    },
+    {
+      "criterion": "Supplementary/backup heat",
+      "status": "MET_AS_EXISTING_CERTIFICATION_FACT_AND_EXPLICIT_CONSUMER_BOUNDARY",
+      "artifacts": [
+        "registry/b05_annual_device_reference_manifest.json",
+        "modules/B05/annual_device_reference.py",
+        "modules/B05/cold_domain_reference.py"
+      ],
+      "authority": "Existing hash-bound manifest already carries scoped PSUP0.81kW and exact certification context. It is not read as installed backup. Above-MAX path retains unserved heat and complete annual total is null if service is incomplete; cold output selected_backup is null. Standard/ambitious declared source cases are complete without selecting backup.",
+      "scope_caveat": "A real backup-enabled configuration is still missing for a claim requiring that configuration; this acceptance does not activate it or treat Q as a physical capacity."
+    },
+    {
+      "criterion": "Manufacturer/certification/EPREL origin join",
+      "status": "MET_BY_CLAIM_SPECIFIC_LINEAGE_REUSE",
+      "artifacts": [
+        "registry/b05_wm50_full_grid_manifest.json",
+        "registry/b05_annual_device_reference_manifest.json",
+        "registry/b05_p47_mitsubishi_szu_sampling_report_boundary.csv"
+      ],
+      "authority": "Manufacturer and certification record identify the named outdoor product but preserve different revisions/test bases and package/specimen boundaries. EPREL is not a compulsory independent extra source. KEYMARK stays rendered-only with no fabricated original hash."
+    },
+    {
+      "criterion": "Actual consumer and applicable acceptance checks",
+      "status": "MET_BY_VERIFIED_REUSE",
+      "artifacts": [
+        "modules/B05/annual_device_reference.py",
+        "modules/B05/cold_domain_reference.py",
+        "modules/B11/annual_retrofit_reference.py"
+      ],
+      "authority": "Fresh142focused passes and exact26280hour/cold replay already checked. The annual manifest and all repository inputs are hash-enforced; source-cell/blank/domain and incomplete-service behaviors are tested. DHW/combined system scope remains D01/D03."
+    }
+  ],
+  "accepted_artifact_sha256": {
+    "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+    "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+    "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+    "modules/B05/engine.py": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+    "modules/B05/hourly_power_component_reference.py": "e7e02e7e6ead697a66ec26e7631587086846f8e2fdab8a02ee78999e8417308b",
+    "registry/b05_annual_device_reference_manifest.json": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15",
+    "modules/B05/annual_device_reference.py": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+    "modules/B05/cold_domain_reference.py": "f7d8c6d446fb95fbc5fe2f271315f0a33ffcae32aad2d812502a9174081ece1f",
+    "registry/b05_cold_domain_reference_manifest.json": "9976768275bf15e6bb7707a10f051d7f3d81ba8a27a5d4bd89ffde4213c474b9",
+    "registry/b05_p26_mitsubishi_cold_high_supply_classification.csv": "638d347e5b8bd4643cd4246c04b7b93a6718861daa20ee86ce101d4458d3bdd1",
+    "registry/b05_p46_mitsubishi_a15_w50_domain_boundary.csv": "b9f415e38e653f2488c86010dae7f292a088c263f7e5ae2e4bdb50569705fd04",
+    "registry/b05_p47_mitsubishi_szu_sampling_report_boundary.csv": "695252235d134bb6ebded457eac484da1ef4cceab3709bc17b008d43da2929e8"
+  },
+  "reused_consumer_artifact_sha256": {
+    "modules/B11/annual_retrofit_reference.py": "e8852b6560b42e3754a110ebf54e01b4b0439da77b4146d5b0c1bd41428e41e6",
+    "registry/b11_annual_retrofit_reference_manifest.json": "192b6aa0b0547373fadbe362b89969a7828002bc04305a07dca912b405479791"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b05_manufacturer_wm50_reference.py": "d0b0c0d3ad9859befcadd0b9c97e5f8f843bc5e07e709abe681af61e721d36b1",
+    "tests/test_b05_heat_pump_engine.py": "2860f5b367451f5b4872ba2454790f3d7de2e1ac77de1446e19be8b73f463daa",
+    "tests/test_b05_interpolation_energy_consistency.py": "619af92a0f2c966122da3e930e3831516cdeb372475f227523dabe8e5dd7869f",
+    "tests/test_b05_annual_device_reference.py": "1b71ff60d2445af2c2ee271f26144243e387c724c53dac369091c30786b1ce09",
+    "tests/test_b05_cold_domain_reference.py": "1fcfe9383ef000015083414317f915ce86a6ffa3f62dd7052be293adf4477401",
+    "tests/test_b05_p26_mitsubishi_cold_high_supply_classification.py": "995037ddba92ac3e8e11e48c0b04a30c7b8daf3ce8793b28fbd5ee1df199952a",
+    "tests/test_b05_p46_mitsubishi_a15_w50_domain_boundary.py": "c878c3f81dd91f2ba0496909dcc2c813e89283b14f86fbb489e0cdee864315ee",
+    "tests/test_b05_p47_mitsubishi_szu_sampling_report_boundary.py": "a78e4e64882094dff473ffb6960db6dee4f79209261d6701fab71b1e7d644f25",
+    "tests/test_b11_annual_retrofit_reference.py": "a2c8c67007a405642565fddae65dc5839b7b6610219a8413398badfd98e73f92"
+  },
+  "all_accepted_source_code_and_test_bytes_unchanged_from_reviewed_commit": true,
+  "independent_source_recommendation_sha256": "6c2a655bed97d76e211f3a38b9a2d78e61820fe1c32a4ceb0e40fb38ff69d20c",
+  "source_qualification_freeze_sha256": "3e3ff4557516ebc8d8222fafcc880a50daa609b90f6029aad34313413efbf5ad",
+  "manufacturer": {
+    "source_id": "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+    "same_document_alias": "SRC-B05-MITSUBISHI-DATABOOK-WM50-MIN-GRID-2020",
+    "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4099",
+    "sha256": "e7212300cb49ad561db56e974cc9945655943bfb0dd8309610a400fba65919ab",
+    "bytes": 73771982,
+    "document_revision": "Vol.5.3; issued December2020 M-P0798C SIZ2008<MEE>",
+    "manufacturer_table": {
+      "pdf_page": 60,
+      "printed_page": "A-56",
+      "model": "PUZ-WM50VHA(-BS)",
+      "coordinates": 252,
+      "present_q_cop_pairs": 208,
+      "source_blank_pairs": 44,
+      "explicit_modes": [
+        "MAX",
+        "NOMINAL",
+        "MID",
+        "MIN"
+      ],
+      "grey_integrated_defrost_pairs": 21,
+      "all_existing_curated_q_cop_blanks_and_annotations_equal": true,
+      "derived_pel_max_abs_difference_kw": 0.0,
+      "new_numeric_input_or_interpolation": false
+    },
+    "visual_pages_independently_inspected": [
+      1,
+      6,
+      19,
+      30,
+      32,
+      57,
+      60,
+      442
+    ],
+    "qualified_boundaries": {
+      "performance_notes": "PDF57/A-53: four compressor modes, manufacturer EN14511-2013 boundary; grey integrated-defrost annotation; nominal DB/WB and5KdeltaT examples do not impose one universal condition on whole grid",
+      "pump": "PDF19/A-15 nominal W35 unit input/COP include standard pump allowance; WM50 nominal0.010kW is not a fixed whole-grid or installed-circuit debit",
+      "physical_envelope": "PDF30/A-26 is same pinned-source WM50 ambient-vs-maximum-outlet graph; visual unambiguous classification only, no threshold digitisation/interpolation",
+      "global_limits": "PDF6/A-2 scalar heating ambient, DHW ambient, outlet maximum and flow bounds remain distinct; do not compose one-dimensional limits into two-dimensional authority",
+      "hydraulic": "PDF32/A-28 return-water/flow/volume-dependent defrost admissibility is source context; no installed hydraulic design certified",
+      "a_minus15_w50": "SOURCE_BLANK_AND_EXISTING_PHYSICAL_CLASSIFICATION_Q_PRESERVED"
+    }
+  },
+  "keymark": {
+    "source_id": "SRC-B05-HPKEYMARK-MITSUBISHI-WM50-2026",
+    "source_url": "https://www.heatpumpkeymark.com/en/nc/ps-keymark/certificate-holders/?cHash=0aecf6bcedcd369e5acf7a509916b562&tx_pskeymark_frontend%5Baction%5D=showSubtype&tx_pskeymark_frontend%5Bcontroller%5D=Frontend&tx_pskeymark_frontend%5Bsubtype%5D=4300",
+    "selection": {
+      "subtype_id": 4300,
+      "registration": "037-0032-20 / rev.2",
+      "certificate_date": "2023-12-19",
+      "model_name": "PUZ-WM50VHA(-BS)",
+      "units": "Outdoor",
+      "application_label": "Heating (medium temp)",
+      "selected_table_section": "Average Climate / EN14825 / Medium temperature",
+      "standalone_is_reviewer_description_not_literal_model_name": true,
+      "indoor_package_rows_not_substituted": true
+    },
+    "existing_fields_reconfirmed": {
+      "SCOP": 3.4,
+      "Poff_W": 15,
+      "PTO_W": 15,
+      "PSB_W": 15,
+      "PCK_W": 0,
+      "PSUP_kW": 0.81
+    },
+    "supplementary_energy_input": "Electricity",
+    "evidence_kind": "OFFICIAL_RENDERED_CACHED_CONTENT_RAW_RESPONSE_UNAVAILABLE",
+    "independent_read_date": "2026-10-03",
+    "source_result_cache_label": "Crawled: last month",
+    "original_response_sha256": null,
+    "historical_byte_identity_verified": false,
+    "fresh_live_status_verified": false,
+    "raw_retrieval": "READ_TIMEOUT_NO_ORIGINAL_BYTES",
+    "browser_retrieval": "NAVIGATION_TIMEOUT_NO_CONTENT",
+    "manufacturer_and_certificate_test_bases_identical": false,
+    "certificate_pdf_original_sha256": null,
+    "certificate_standard_basis": "EN14511-2/-3/-4:2018; EN14825:2018; EN12102-1:2017; EN16147:2017; KEYMARK rev.6",
+    "manufacturer_grid_standard_basis": "EN14511-2013",
+    "source_review_sha256": "83e42e94f1950e053ceb2b7d90a29caaa24e5897fe2ac509832d038b99b4a5f7",
+    "not_admitted": [
+      "PSUP is retained as a reported supplementary-heater field in this certification calculation context. It is not qualified as the selected installed heater capacity or an hourly command.",
+      "No electrical-input/COP assumption for a real supplementary heater is inferred.",
+      "No exact fixed-W55 Cdh/MIN transfer, actual specimen identity, transient trace or annual field performance is proved."
+    ]
+  },
+  "claim_separation": {
+    "native_source_coordinates": 252,
+    "present_q_cop_pairs": 208,
+    "source_blanks": 44,
+    "grey_integrated_defrost_pairs": 21,
+    "electrical_input": "DER_Qh_DIVIDED_BY_COP_NOT_INDEPENDENT_OBS",
+    "interpolation": "EXISTING_PAIRED_Q_AND_P_WITH_DERIVED_COP",
+    "modes": "SOURCE_NATIVE_MIN_MID_NOMINAL_MAX_EXPLICIT_NOT_AUTOMATIC_POLICY",
+    "numerical_support_not_physical_failure": true,
+    "a_minus15_w50_exact_2d_status": "Q_RETAINED",
+    "scalar_limits_not_combined_into_joint_authority": true,
+    "graph_digitisation_or_extrapolation_added": false,
+    "reported_psup_kw": 0.81,
+    "psup_scope": "KEYMARK_AVERAGE_CLIMATE_MEDIUM_SUPPLEMENTARY_HEATER_FIELD",
+    "psup_is_installed_backup_rating": false,
+    "psup_drives_dispatch": false,
+    "selected_installed_backup": null,
+    "standard_and_ambitious_annual_source_cases": "COMPLETE_DECLARED_GENERATOR_SERVICE_WITHOUT_SELECTED_BACKUP",
+    "original_and_cold_incomplete_service": "REMAINS_EXPLICIT_NO_AUTOMATIC_BACKUP_OR_COMPLETE_TOTAL",
+    "runtime_whole_slice_complete_flags": "UNCHANGED_BROADER_ANNUAL_COLD_PRODUCER_SCOPE_NOT_REGISTRY_D02_COMPLETION",
+    "manufacturer_certificate_model_label_join": "CLAIM_SPECIFIC_NOT_IDENTICAL_TEST_CONDITIONS_OR_TESTED_SPECIMEN_PROOF",
+    "restored_cdh_min_join": false,
+    "independent_eprel_corroboration_required": false,
+    "national_product_mix_selected": false,
+    "new_helper_or_wrapper": false,
+    "new_numerical_control_or_arithmetic": false
+  },
+  "retained_validation_debt": [
+    "Q-B05-003 source-rating defrost/temperature applicability",
+    "Q-B05-004 accepted default/control/transient transfer; no withdrawn exact Cdh/MIN restoration",
+    "A-15/W50 exact2D evidence; no unsupported graph-derived threshold",
+    "Installed heat/electric/duty/hydraulic and genuinely excluded controls for claims needing them",
+    "Any activated backup-enabled or whole SH/DHW consumer requires its actual supported inputs"
+  ],
+  "validation_debt_ids": [
+    "Q-B05-003",
+    "Q-B05-004"
+  ],
+  "D01_D03_or_whole_B05_accepted": false,
+  "original_requirements_or_dependencies_changed": false,
+  "readiness_increased": false,
+  "source_originals_published": false,
+  "evidence_limit": "Exact manufacturer original fully reverified. KEYMARK is an independent reread of official cached rendering, with no preserved raw bytes, fabricated hash, historical byte identity or live-validity claim.",
+  "verification_record": "docs/checkpoints/V1_053_VERIFICATION.json"
+}

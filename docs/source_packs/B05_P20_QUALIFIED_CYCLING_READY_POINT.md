@@ -1,5 +1,38 @@
 # B05-P20 - first qualified cycling-ready exact product point
 
+## Current-use qualification — 2026-10-02
+
+The original account below is retained as historical claim lineage. Its WM50
+exact cycling-ready co-location conclusion is superseded for current use by
+`registry/b05_cycling_source_admission_manifest.json` and
+`docs/checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md` .
+
+The presently readable standalone KEYMARK `PUZ-WM50VHA(-BS)`, Units Outdoor,
+registration `037-0032-20 / rev.2`, certification date `19.12.2023`, reports
+warmer +7 C Cdh low/medium **0.980/0.980** and average **0.950/0.960**. The prior
+P20 warmer 0.950 attribution lacks current corroboration. Original September 24
+bytes were not retained; historical cause is unresolved. No old transcription
+error or publisher revision is asserted.
+
+The source-native manufacturer minimum Q/input/COP pairs remain qualified at
+their fixed water coordinates. Published Cdh remains an observation at its own
+climate/application/bin scope. CALCM:01 issue 1.2 Appendix D / Table D1 (page 62)
+distinguishes fixed and variable test-water branches; an application label does
+not identify the selected branch. P20/P22 exact fixed-W35 joining therefore
+remains Q pending source-bound test conditions or a named permissible transfer
+rule. Neither branch is assumed for WM50. Swapping 0.950 for 0.980 cannot close
+this gap.
+
+P18 arithmetic remains valid conditionally. `evaluate_conditional_cycling_point`
+returns `CONDITIONAL_STANDARD_METHOD_CALCULATION`; the existing source-qualified
+entry point returns Q and null COP/input while authority is absent. No actual
+hourly electricity/SPF or national policy follows. Manufacturer grids,
+interpolation and independent evidence gates are unchanged. The original P59
+eight-point exact execution gate is now unresolved for both product families;
+current total readiness is Q/null with 67 supported points and 8 unresolved
+weight. Historical 75 and independent B05 module 64 remain explicit.
+
+
 ## Purpose
 
 P19 narrowed Q-B05-004 to:

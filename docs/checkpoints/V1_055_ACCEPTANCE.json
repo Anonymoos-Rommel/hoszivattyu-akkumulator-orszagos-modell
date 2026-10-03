@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "slice_id": "B04-L01",
+  "status": "ACCEPTED",
+  "acceptance_date": "2026-10-03",
+  "accepted_at": "2026-10-03T17:26:40.922813+00:00",
+  "acceptance_scope": "DATED_RESEARCHED_OPEN_FOUR_OPERATION_SIX_REFERENCE_TOPOLOGY_SOURCE_HANDOFF",
+  "reviewed_commit": "13ddb607b86d99ff92e662d027d5c8ce85887186",
+  "reviewed_tree": "cf7d33ebc669c49915acb27e52d4c602a5fca0a9",
+  "implementation_sole_parent": "c9cec0fad286bb7bc6db87a09da067429f9b1121",
+  "research_as_of": "2026-10-03",
+  "original_requirement": "H-mérőn töltés/kisütés/export és VPP jogosultság igen/nem/nyitott, pontos kapcsolás és hatály. Jogi bizonyíték, nem statisztikai becslés.",
+  "canonical_source_ids": [
+    "SRC-B04-NJT-H-TARIFF-2026",
+    "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+    "SRC-B04-NJT-EM20-2025-H-EFFECTIVITY",
+    "SRC-B04-NJT-ITM17-2019-H-GRANDFATHER",
+    "SRC-B04-MVM-M1-2026",
+    "SRC-B04-MVM-ESZ-20260301",
+    "SRC-B04-MVM-ESZ-LISTING-20261003",
+    "SRC-B04-MVM-ESZ-ANNOUNCEMENT-20261003",
+    "SRC-B04-MEKH-MVM-ESZ-APPROVAL-2026",
+    "SRC-B04-NJT-VET-20261001",
+    "SRC-B04-NJT-VET-AMEND-2026-36",
+    "SRC-B04-NJT-VHR-20261001",
+    "SRC-B04-NJT-VHR-AMEND-2026-131",
+    "SRC-B04-DSO-ESZ29-LISTING-20261003",
+    "SRC-B04-DSO-ESZ29-20260707",
+    "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+    "SRC-B04-MEKH-DSO-ESZ29-APPROVAL-2026",
+    "SRC-B04-MVM-H-FAQ-2026",
+    "SRC-B04-MVM-HALOZAT-H-DATA-2026",
+    "SRC-B04-MEKH-HMKE-EXPORT-2026",
+    "SRC-B04-MVM-HMKE-REQUEST-FORM-20261003"
+  ],
+  "accepted_artifact_sha256": {
+    "registry/b04_topology_reference_manifest.json": "3afac7d2b29a51fc97abf3d1f7778a09b6a7478972db212374b825319f7ddfe2",
+    "data/processed/b04/topology_reference_20261003.json": "33a676768996fda0963d99fd893f52e0f8d7ee6fdafee968fdafc648d81d7300",
+    "modules/B04/topology_reference.py": "ec1a4e88009fa42f2830856f2c5e78419c5c058ec86f85d59341be1f3d9465e9"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b04_topology_reference.py": "7f25453a84f2fc491c310c992f0be676d86ba15a47c041e16736ac9ed083953a",
+    "tests/test_b04_h_battery_boundary.py": "8e996e5e48f8ddeed2a73b89ddbdda6e013f0e825d9491e330eb899d64be62ff"
+  },
+  "original_field_mapping": [
+    {
+      "criterion": "H battery charge/discharge/export and VPP eligibility YES/NO/OPEN",
+      "authority": "Current H/VET/Vhr supplier/DSO source families, source-specific scope and exact remaining actual evidence routes",
+      "consumer": "24 independent researched OPEN dispositions; operation() and fail-closed require_operation_permission()"
+    },
+    {
+      "criterion": "Exact wiring",
+      "authority": "Six existing explicit reference energy paths, with missing components/couplings and actual mapping debt distinguished",
+      "consumer": "reference_wiring plus applicability/execution state; reference-only SCN, never as-built proof"
+    },
+    {
+      "criterion": "Effectivity",
+      "authority": "Separate instrument commencement, clause amendment, consolidation, contract period and acquisition/as-of dates; exact grandfather wording retained",
+      "consumer": "Dated immutable claims and source provenance; no automatic future or site predicate"
+    },
+    {
+      "criterion": "Legal evidence, not statistical inference",
+      "authority": "21 exact official original identities, current/historical source separation, narrow conditional HMKE H/B exclusion and aggregation route",
+      "consumer": "No actual permission from capability, source silence, address/POD conflation, population inference or reference diagram"
+    }
+  ],
+  "source_review": {
+    "canonical_originals": 21,
+    "offline_source_checks": 125,
+    "critical_pages_visually_reviewed": 6,
+    "source_verdict_sha256": "8393df01528a8ebdce1e2d06b972e4e6cd9f1130e034a2c20d7e97ee638c1d79",
+    "exact_substantive_review_sha256": "6b87dd88abbb7b1c251829d8ce7b134edf5227717602ad0277bdc0f734d8b5ac",
+    "final_metadata_review_sha256": "9aa2fea25ae1179f14dfc887cc008bd0c407d271af090473c4c18362d5f60e93",
+    "hosted_independent_receipt_sha256": "619fd1f03459ec48e126be31d7c94ae976c48ceb561a7c669ebca7c1b978f525"
+  },
+  "source_truth_classification": {
+    "source_rule": "POL",
+    "reference_path": "SCN",
+    "actual_permission": "Q",
+    "foregone_benefit": "Q"
+  },
+  "resolved_findings": [
+    "Historical44/2008 identity remains historical/repealed; distinct current4/2011 source and correct clause/effective-date lineage used.",
+    "H eligibility/contract evidence applies only to actual H branches or H claims, not outside-H aggregation.",
+    "Immutable source manifest does not itself confer registry acceptance.",
+    "Existing SPF row and summary describe general3.4 provision with exact separately qualified grandfather route, not universal site threshold."
+  ],
+  "retained_operation_enabling_debt": [
+    "Actual as-built switching, coupling, isolation and device roles; connection-point to meter/POD mapping.",
+    "Claim-specific current H charging/discharging/export authority and relevant actual contracts/metering.",
+    "Selected aggregator/service consumer terms, compensation/responsibility, telemetry, registration and market admission.",
+    "Exact post-July-2026 operational protocol alignment and the current VET transition-body access limitation."
+  ],
+  "preserved_boundaries": {
+    "actual_permissions_open": 24,
+    "execution_authorized_count": 0,
+    "reference_wiring_not_as_built": true,
+    "absent_reference_path_not_legal_no": true,
+    "foregone_value": "UNKNOWN_NOT_ZERO",
+    "hmke_no": "CONDITIONAL_H_B_TARIFF_SELECTION_AT_EVIDENCED_SAME_CONTRACTUAL_CONNECTION_POINT_ONLY",
+    "vpp_export_required_by_default": false,
+    "supplier_or_BRP_permission_added": false,
+    "h_contract_required_for_outside_h_aggregation": false,
+    "site_permission_by_population_inference": false
+  },
+  "hosted_verification": {
+    "run_id": 37140037106,
+    "run_number": 1119,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37140037106",
+    "job_id": 111252374101,
+    "workflow_conclusion": "success",
+    "tests": 3523,
+    "passed": 3523,
+    "skips": 0,
+    "failures": 0,
+    "errors": 0,
+    "registry": "VALID",
+    "tested_merge_commit": "8b7df681218d136b76954984cbd4ab2a5ab8c251",
+    "tested_merge_tree": "cf7d33ebc669c49915acb27e52d4c602a5fca0a9",
+    "log_sha256": "d9d944f064e3b87fdd18f6643fe479f8710b9bea8a8e39c290b258d26c8b20e7"
+  },
+  "acceptance_template_sha256": "c5cae28b11ce30c2cb56db4ccf13f73aebb317930fd6b512c0fd5da53bf8fe46",
+  "retained_validation_debt_ids": [
+    "Q-B04-001"
+  ],
+  "limits": {
+    "q_b04_001": "OPEN_E3_FAIL_CLOSED",
+    "actual_site_permission": false,
+    "source_original_publication": false,
+    "numeric_tariff_or_physical_engine_change": false,
+    "national_default_or_savings": false,
+    "whole_module_acceptance": false,
+    "module_readiness_increase": false,
+    "b04_d02_still_separate": true,
+    "b15_gate_released": false
+  },
+  "no_source_data_code_or_tests_changed_in_this_step": true
+}

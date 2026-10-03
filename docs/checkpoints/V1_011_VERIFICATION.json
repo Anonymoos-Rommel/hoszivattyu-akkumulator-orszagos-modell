@@ -1,0 +1,30 @@
+{
+  "checkpoint": "V1_011",
+  "reviewed_base_head": "70a38054da7829362f28584ec69e5c8f2667e33a",
+  "targeted_tests": {
+    "command": "python -m unittest tests.test_b05_manufacturer_wm50_reference -v",
+    "tests": 5,
+    "result": "PASS"
+  },
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2536,
+    "result": "PASS",
+    "duration_seconds": 108.743
+  },
+  "registry_validation": "PASS",
+  "source_extraction": "Pinned PDF extractor reproduces curated252-row CSV byte-for-byte; all40 prior minimum points agree",
+  "review_scope": "Narrow independent consumer-code review; source-page checking and numeric extraction by author. Not full independent scientific validation or whole-slice completion.",
+  "artifacts": {
+    "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+    "docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md": "1c0390e5fa5372ff5afad21bc7b96dbf5f53ac8d070e31c3c3d89218e39d18c2",
+    "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+    "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+    "tests/test_b05_manufacturer_wm50_reference.py": "d0b0c0d3ad9859befcadd0b9c97e5f8f843bc5e07e709abe681af61e721d36b1",
+    "tools/extract_b05_wm50_reference.py": "ca5cffea040a42173c1149863062851b3cd471eb54a81aad82c305020301ba09",
+    "modules/B05/README.md": "e078b673de9ee28be48ab1e5e8534365a1c9cf80e7652f929a91e5cf7afb0135",
+    "registry/heat_pump_sources.csv": "e4ef1796d971ab6ed65eb4b7317ef4d24d153c1dc7cf330acb47fadd91d0a9bf",
+    "registry/sources.csv": "26f68afea81df3b0d23b308ff32992a3ac4e61c260f58727dfc0e607a948fc69",
+    "registry/v1_research_plan.json": "1d064b561950461c34c750903eb6e2d73265f667e531cd0d5291f969684c3b7e"
+  }
+}

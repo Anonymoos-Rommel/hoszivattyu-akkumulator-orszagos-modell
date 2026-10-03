@@ -5,8 +5,8 @@ canonical B10-P3 contract. It does not introduce another classifier, a
 headroom path, a national aggregate, or programme-incremental CAPEX model.
 
 Field-specific provenance is explicit: completion publications prove OBS
-OPERATING status, while exact financial values are accepted only from the
-referenced source that actually publishes that precision.
+PROJECT_COMPLETED_REPORTED at project grain, not physical OPERATING status.
+Exact financial values require the source that publishes that precision.
 """
 
 from __future__ import annotations
@@ -19,7 +19,8 @@ from .baseline_infrastructure_contract import (
     B10BaselineInfrastructureContractError,
     InfrastructureEvidence,
     InfrastructureRecord,
-    OPERATING,
+    PROJECT_COMPLETED_REPORTED,
+    REPORTING_AS_OF_DATE,
     classify_infrastructure,
 )
 
@@ -32,12 +33,13 @@ RRF_ASSET_TYPE = "MULTI_ASSET_DSO_NETWORK_DEVELOPMENT_PROGRAM"
 DSO_SERVICE_AREA = "DSO_SERVICE_AREA"
 MVM_DEMASZ_SERVICE_AREA = "MVM_DEMASZ:SERVICE_AREA"
 OPUS_TITASZ_SERVICE_AREA = "OPUS_TITASZ:SERVICE_AREA"
-RRF_COMPLETION_DATE = "2026-06-15"
+RRF_REPORTING_DATE = "2026-06-15"
 
 MVM_DEMASZ_RRF_PROJECT_SOURCE_ID = "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026"
 MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID = "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026"
 OPUS_TITASZ_RRF_PROJECT_SOURCE_ID = "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026"
 OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID = "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026"
+OPUS_TITASZ_NEWS_INDEX_SOURCE_ID = "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026"
 
 
 @dataclass(frozen=True)
@@ -52,6 +54,7 @@ class _RrfProjectSpec:
     project_source_id: str
     completion_source_id: str
     project_supports_exact_cost: bool
+    report_publication_source_id: str
 
 
 _SPECS = (
@@ -69,6 +72,7 @@ _SPECS = (
         project_source_id=MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,
         completion_source_id=MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,
         project_supports_exact_cost=False,
+        report_publication_source_id=MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,
     ),
     _RrfProjectSpec(
         baseline_id=OPUS_TITASZ_RRF_BASELINE_ID,
@@ -84,6 +88,7 @@ _SPECS = (
         project_source_id=OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,
         completion_source_id=OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID,
         project_supports_exact_cost=True,
+        report_publication_source_id=OPUS_TITASZ_NEWS_INDEX_SOURCE_ID,
     ),
 )
 
@@ -92,7 +97,7 @@ def _record(spec: _RrfProjectSpec) -> InfrastructureRecord:
     # The official project pages bind exact project/funding facts. For OPUS the
     # project page explicitly publishes the exact total project cost, therefore
     # it is represented as level-3 funding/cost evidence. It does NOT prove
-    # OPERATING status; that remains completion-source authority only.
+    # physical OPERATING status; completion notices support reported project closure only.
     project_supports = ["PROJECT_ID", "OPERATOR", "PROJECT_SCOPE"]
     project_authority_level = 4
     if spec.project_supports_exact_cost:
@@ -102,8 +107,8 @@ def _record(spec: _RrfProjectSpec) -> InfrastructureRecord:
         source_id=spec.project_source_id,
         authority_level=project_authority_level,
         truth_status="OBS",
-        effective_date=RRF_COMPLETION_DATE,
-        revision="PROJECT_PAGE_CURRENT_2026",
+        effective_date="2026-10-01",
+        revision="PROJECT_PAGE_RETRIEVED_2026-10-01",
         supports=tuple(project_supports),
     )
 
@@ -111,21 +116,30 @@ def _record(spec: _RrfProjectSpec) -> InfrastructureRecord:
         source_id=spec.completion_source_id,
         authority_level=3,
         truth_status="OBS",
-        effective_date=RRF_COMPLETION_DATE,
-        revision="COMPLETION_2026-06-15",
+        effective_date=RRF_REPORTING_DATE,
+        revision="COMPLETION_REPORT_PUBLISHED_2026-06-15",
         supports=(
             "PROJECT_ID",
             "OPERATOR",
-            "OPERATING",
+            "PROJECT_COMPLETED_REPORTED",
             "FUNDED_OR_ALLOCATED",
-            "REALISED_RENEWABLE_GENERATION_INTEGRATION_CAPABILITY_MW",
+            "REPORTED_AGGREGATE_CAPABILITY",
         ),
     )
 
-    # Reference every source required by published machine claims. MVM keeps
-    # both project and completion sources for project/grant context + status;
-    # OPUS additionally requires its project source for the exact cost value.
-    source_refs = (spec.project_source_id, spec.completion_source_id)
+    # The OPUS article has no publication date in its body. Its official news
+    # index independently dates that report; neither date is energization.
+    evidence = [project_evidence, completion_evidence]
+    if spec.report_publication_source_id != spec.completion_source_id:
+        evidence.append(InfrastructureEvidence(
+            source_id=spec.report_publication_source_id,
+            authority_level=4,
+            truth_status="OBS",
+            effective_date=RRF_REPORTING_DATE,
+            revision="NEWS_INDEX_2026_RETRIEVED_2026-10-01",
+            supports=("COMPLETION_REPORT_PUBLICATION_DATE",),
+        ))
+    source_refs = tuple(item.source_id for item in evidence)
 
     return InfrastructureRecord(
         project_id=spec.project_id,
@@ -134,10 +148,11 @@ def _record(spec: _RrfProjectSpec) -> InfrastructureRecord:
         region_id=spec.region_id,
         region_grain=DSO_SERVICE_AREA,
         infrastructure_type=RRF_ASSET_TYPE,
-        status_taxonomy=OPERATING,
-        status_effective_date=RRF_COMPLETION_DATE,
+        status_taxonomy=PROJECT_COMPLETED_REPORTED,
+        status_date_basis=REPORTING_AS_OF_DATE,
+        status_effective_date=RRF_REPORTING_DATE,
         source_refs=source_refs,
-        evidence=(project_evidence, completion_evidence),
+        evidence=tuple(evidence),
         evidence_status="OBS",
         contractual_or_funding_status="FUNDED_OR_ALLOCATED",
         without_program_required=True,
@@ -166,9 +181,13 @@ def validate_observed_baseline_record(record: InfrastructureRecord) -> None:
         raise B10BaselineInfrastructureContractError(
             "B10-P4 records must use the bounded multi-asset DSO project type"
         )
-    if record.status_taxonomy != OPERATING or record.status_effective_date != RRF_COMPLETION_DATE:
+    if (
+        record.status_taxonomy != PROJECT_COMPLETED_REPORTED
+        or record.status_effective_date != RRF_REPORTING_DATE
+        or record.status_date_basis != REPORTING_AS_OF_DATE
+    ):
         raise B10BaselineInfrastructureContractError(
-            "B10-P4 records require the official 2026-06-15 OPERATING completion date"
+            "B10-P4 requires PROJECT_COMPLETED_REPORTED as of 2026-06-15; physical operation remains Q"
         )
 
     referenced = {item.source_id for item in record.referenced_evidence}
@@ -178,12 +197,17 @@ def validate_observed_baseline_record(record: InfrastructureRecord) -> None:
         )
     if not any(
         item.source_id == spec.completion_source_id
-        and "OPERATING" in item.supports
+        and "PROJECT_COMPLETED_REPORTED" in item.supports
         and item.truth_status == "OBS"
         for item in record.referenced_evidence
     ):
         raise B10BaselineInfrastructureContractError(
-            "B10-P4 completion source must explicitly support OBS OPERATING"
+            "B10-P4 completion source must explicitly support OBS PROJECT_COMPLETED_REPORTED"
+        )
+
+    if any("OPERATING" in item.supports for item in record.referenced_evidence):
+        raise B10BaselineInfrastructureContractError(
+            "P4 umbrella completion cannot assert physical OPERATING evidence"
         )
 
     if record.total_project_cost_huf is not None:
@@ -205,6 +229,21 @@ def validate_observed_baseline_record(record: InfrastructureRecord) -> None:
             raise B10BaselineInfrastructureContractError(
                 "B10-P4 project/funding source must explicitly support exact OBS COST"
             )
+
+    if spec.report_publication_source_id not in referenced:
+        raise B10BaselineInfrastructureContractError(
+            "B10-P4 report publication date requires its exact publication source"
+        )
+    if spec.report_publication_source_id != spec.completion_source_id and not any(
+        item.source_id == spec.report_publication_source_id
+        and "COMPLETION_REPORT_PUBLICATION_DATE" in item.supports
+        and item.truth_status == "OBS"
+        and item.effective_date == RRF_REPORTING_DATE
+        for item in record.referenced_evidence
+    ):
+        raise B10BaselineInfrastructureContractError(
+            "B10-P4 report publication date must have source-native date authority"
+        )
 
 
 def classify_observed_baseline_projects(
@@ -233,12 +272,13 @@ __all__ = [
     "MVM_DEMASZ_SERVICE_AREA",
     "OPUS_TITASZ_RRF_BASELINE_ID",
     "OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID",
+    "OPUS_TITASZ_NEWS_INDEX_SOURCE_ID",
     "OPUS_TITASZ_RRF_PROJECT_ID",
     "OPUS_TITASZ_RRF_PROJECT_SOURCE_ID",
     "OPUS_TITASZ_SERVICE_AREA",
     "RRF_ASSET_TYPE",
     "RRF_BASELINE_RECORDS",
-    "RRF_COMPLETION_DATE",
+    "RRF_REPORTING_DATE",
     "classify_observed_baseline_projects",
     "validate_observed_baseline_record",
 ]

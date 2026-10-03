@@ -1,0 +1,1290 @@
+{
+  "reference_year": 2023,
+  "geo": "HU",
+  "employment_concept": "DOMESTIC",
+  "employment_source_vintage": "NOT_COUNTRY_SPECIFICALLY_ESTABLISHED",
+  "source_global_updated": "2026-10-02T23:00:00+0200",
+  "hu_metadata_content_updated": "2025-10-22",
+  "io_national_vintage": 2025,
+  "mixed_vintage_status": "EXPLICITLY_DISCLOSED_NO_MATCHED_COEFFICIENT_CLAIM",
+  "source_native_units": {
+    "THS_PER": "thousand persons, annual average employment",
+    "THS_HW": "thousand hours actually worked during year"
+  },
+  "evidence_family": "KSH_HUNGARIAN_NATIONAL_ACCOUNTS",
+  "forbidden_consumers": [
+    "FTE conversion",
+    "persons/output or hours/output labour intensities from mixed vintages",
+    "reverse employment allocation to IO89",
+    "capacity or installer cohort claims",
+    "programme effects or jobs created",
+    "multiplier or matrix inverse",
+    "B12 national default expansion",
+    "whole B16-D01 readiness"
+  ],
+  "schema_version": 1,
+  "reference_id": "B16-D01-HU-EMPLOYMENT-2023-REFERENCE-V1",
+  "status": "BOUNDED_MIXED_VINTAGE_DESCRIPTIVE_REFERENCE",
+  "source_id": "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023",
+  "source_tier": "P1",
+  "truth_status": "DER",
+  "evidence_tier": "E1",
+  "runtime_source_ids": [
+    "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023",
+    "SRC-B16-EUROSTAT-HU-EMPLOYMENT-A10-2023",
+    "SRC-B16-EUROSTAT-HU-POPULATION-EMPLOYMENT-2023",
+    "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-2023-CONTROL",
+    "SRC-B16-EUROSTAT-KSH-HU-IOT-2023"
+  ],
+  "source_artifacts": [
+    {
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_a64_e?lang=EN&geo=HU&time=2023",
+      "retrieved_at": "2026-10-03T09:12:39.952627+00:00",
+      "sha256": "82ee68b73566043430f9da3b3f29d25b28b565272fc00a2eba27d2567220e33c",
+      "source_id": "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023",
+      "byte_count": 22394,
+      "authority": "Eurostat; KSH national compilation",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "2026-10-02T23:00:00+0200"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_a10_e?lang=EN&geo=HU&time=2023",
+      "retrieved_at": "2026-10-03T09:12:39.953116+00:00",
+      "sha256": "689ec6395e0e394a17e0642cb4394e71ace1687a8358973b2d09cc992375bc25",
+      "source_id": "SRC-B16-EUROSTAT-HU-EMPLOYMENT-A10-2023",
+      "byte_count": 7840,
+      "authority": "Eurostat; KSH national compilation",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "2026-10-02T23:00:00+0200"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_pe?lang=EN&geo=HU&time=2023",
+      "retrieved_at": "2026-10-03T09:12:39.953564+00:00",
+      "sha256": "d71a4633649046c5a42f1db5780dec31dc43722e56a60fcc8c09f8bd339b4943",
+      "source_id": "SRC-B16-EUROSTAT-HU-POPULATION-EMPLOYMENT-2023",
+      "byte_count": 3373,
+      "authority": "Eurostat; KSH national compilation",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "2026-10-02T23:00:00+0200"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10_a64?lang=EN&geo=HU&time=2023&unit=CP_MNAC",
+      "retrieved_at": "2026-10-03T09:13:50.863867+00:00",
+      "sha256": "29b095b211db19adf1b9316594ba9fd1c9801ea2cf67ac30cc30321ae5ee8123",
+      "source_id": "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-2023-CONTROL",
+      "byte_count": 21374,
+      "authority": "Eurostat; KSH national compilation",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "2026-10-02T23:00:00+0200"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/en/nama_10_pe_esms.htm",
+      "retrieved_at": "2026-10-03T09:12:39.953957+00:00",
+      "sha256": "5949888e85f2ceae3af1cdca5c1e0b97ba967ce8d8a5727f6f2d8052ce99cc20",
+      "source_id": "SRC-B16-EUROSTAT-EMPLOYMENT-METADATA-2026",
+      "byte_count": 240692,
+      "authority": "Eurostat",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "Content update 2025-01-16"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/EN/nama_10_pe_esms_hu.htm",
+      "retrieved_at": "2026-10-03T09:13:50.863356+00:00",
+      "sha256": "ffe6b95679214bee79a0b38da0bfad18c2cdd80212e7237213d83ce6584860c2",
+      "source_id": "SRC-B16-EUROSTAT-HU-EMPLOYMENT-METADATA-2025",
+      "byte_count": 239040,
+      "authority": "Eurostat; KSH national compilation",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "Content update 2025-10-22"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/EN/na10_esms_hu.htm",
+      "retrieved_at": "2026-10-03T09:12:39.954539+00:00",
+      "sha256": "a1ed66a631296570a0703c830bd5acacb9254978dfbc043b2ddf0fbdaa05432c",
+      "source_id": "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-METADATA-2026",
+      "byte_count": 259336,
+      "authority": "Eurostat",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "Content update 2025-10-22"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/documents/3859598/5925693/KS-02-13-269-EN.PDF.pdf/44cd9d01-bc64-40e5-bd40-d17df0c69334?t=1414781932000",
+      "retrieved_at": "2026-10-03T09:18:58.824326+00:00",
+      "sha256": "9569393aefd24d7fed20e55f30e68850148004e45c70dd5af4eda73214349858",
+      "source_id": "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+      "byte_count": 6714448,
+      "authority": "Eurostat",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "ESA 2010; 2013 edition"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
+      "retrieved_at": "2026-10-03T09:12:48.466352+00:00",
+      "sha256": "0bb5e7b9f88f63aad32b32bb13b3845bde5e3d2c48ea34b530390226b782c533",
+      "source_id": "SRC-B16-EUROSTAT-REUSE-2026",
+      "byte_count": 178221,
+      "authority": "Eurostat",
+      "source_tier": "P1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "document_date_or_revision": "Retrieved 2026-10-03",
+      "previous_snapshots": [
+        {
+          "source_id": "SRC-B16-EUROSTAT-REUSE-2026",
+          "original_url": "https://ec.europa.eu/eurostat/help/copyright-notice",
+          "retrieved_at": "2026-10-03T07:37:18.522979+00:00",
+          "sha256": "0b2104bb6afcce5cb0c8faf24d77e8d1aad85a72e0248d57d6dd8a6999f0817a",
+          "byte_count": 178222,
+          "authority": "Eurostat",
+          "document_date_or_revision": "Retrieved 2026-10-03",
+          "repo_snapshot_path": null,
+          "reuse_status": "EXTERNAL_ONLY"
+        }
+      ]
+    },
+    {
+      "source_id": "SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/naio_10_cp1750?lang=EN&geo=HU&unit=MIO_NAC&time=2023",
+      "retrieved_at": "2026-10-03T07:37:18.521907+00:00",
+      "sha256": "157e5d50e13fb447b17e63d5298012f2038940320145cae419eebc4139e539b1",
+      "byte_count": 503908,
+      "authority": "Eurostat official dissemination; KSH compilation",
+      "document_date_or_revision": "2026-09-30T23:00:00+0200",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    }
+  ],
+  "parser_contracts": {
+    "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023": {
+      "id": [
+        "freq",
+        "unit",
+        "nace_r2",
+        "na_item",
+        "geo",
+        "time"
+      ],
+      "size": [
+        1,
+        6,
+        96,
+        3,
+        1,
+        1
+      ],
+      "version": "2.0",
+      "class": "dataset",
+      "source": "ESTAT",
+      "label": "Employment by detailed industry (NACE Rev.2) - national accounts",
+      "updated": "2026-10-02T23:00:00+0200",
+      "extension_id": "NAMA_10_A64_E",
+      "codes": {
+        "freq": [
+          "A"
+        ],
+        "unit": [
+          "THS_HW",
+          "THS_PER",
+          "THS_JOB",
+          "PCH_PRE_PER",
+          "PCH_PRE_HW",
+          "PCH_PRE_JOB"
+        ],
+        "nace_r2": [
+          "TOTAL",
+          "A",
+          "A01",
+          "A02",
+          "A03",
+          "B-E",
+          "B",
+          "C",
+          "C10-C12",
+          "C13-C15",
+          "C16-C18",
+          "C16",
+          "C17",
+          "C18",
+          "C19",
+          "C20",
+          "C21",
+          "C22_C23",
+          "C22",
+          "C23",
+          "C24_C25",
+          "C24",
+          "C25",
+          "C26",
+          "C27",
+          "C28",
+          "C29_C30",
+          "C29",
+          "C30",
+          "C31-C33",
+          "C31_C32",
+          "C33",
+          "D",
+          "D35",
+          "E",
+          "E36",
+          "E37-E39",
+          "F",
+          "G-I",
+          "G",
+          "G45",
+          "G46",
+          "G47",
+          "H",
+          "H49",
+          "H50",
+          "H51",
+          "H52",
+          "H53",
+          "I",
+          "J",
+          "J58-J60",
+          "J58",
+          "J59_J60",
+          "J61",
+          "J62_J63",
+          "K",
+          "K64",
+          "K65",
+          "K66",
+          "L",
+          "L68",
+          "L68A",
+          "M_N",
+          "M",
+          "M69-M71",
+          "M69_M70",
+          "M71",
+          "M72",
+          "M73-M75",
+          "M73",
+          "M74_M75",
+          "N",
+          "N77",
+          "N78",
+          "N79",
+          "N80-N82",
+          "O-Q",
+          "O",
+          "O84",
+          "P",
+          "P85",
+          "Q",
+          "Q86",
+          "Q87_Q88",
+          "R-U",
+          "R",
+          "R90-R92",
+          "R93",
+          "S",
+          "S94",
+          "S95",
+          "S96",
+          "T",
+          "U",
+          "U99"
+        ],
+        "na_item": [
+          "EMP_DC",
+          "SAL_DC",
+          "SELF_DC"
+        ],
+        "geo": [
+          "HU"
+        ],
+        "time": [
+          "2023"
+        ]
+      },
+      "numeric_count": 1028,
+      "status_count": 0
+    },
+    "SRC-B16-EUROSTAT-HU-EMPLOYMENT-A10-2023": {
+      "id": [
+        "freq",
+        "unit",
+        "nace_r2",
+        "na_item",
+        "geo",
+        "time"
+      ],
+      "size": [
+        1,
+        12,
+        12,
+        3,
+        1,
+        1
+      ],
+      "version": "2.0",
+      "class": "dataset",
+      "source": "ESTAT",
+      "label": "Employment by main industry (NACE Rev.2) - national accounts - annual data",
+      "updated": "2026-10-02T23:00:00+0200",
+      "extension_id": "NAMA_10_A10_E",
+      "codes": {
+        "freq": [
+          "A"
+        ],
+        "unit": [
+          "THS_HW",
+          "I15_PER",
+          "I15_HW",
+          "I15_JOB",
+          "THS_PER",
+          "THS_JOB",
+          "PC_TOT_PER",
+          "PC_TOT_HW",
+          "PC_TOT_JOB",
+          "PCH_PRE_PER",
+          "PCH_PRE_HW",
+          "PCH_PRE_JOB"
+        ],
+        "nace_r2": [
+          "TOTAL",
+          "A",
+          "B-E",
+          "C",
+          "F",
+          "G-I",
+          "J",
+          "K",
+          "L",
+          "M_N",
+          "O-Q",
+          "R-U"
+        ],
+        "na_item": [
+          "EMP_DC",
+          "SAL_DC",
+          "SELF_DC"
+        ],
+        "geo": [
+          "HU"
+        ],
+        "time": [
+          "2023"
+        ]
+      },
+      "numeric_count": 288,
+      "status_count": 0
+    },
+    "SRC-B16-EUROSTAT-HU-POPULATION-EMPLOYMENT-2023": {
+      "id": [
+        "freq",
+        "unit",
+        "na_item",
+        "geo",
+        "time"
+      ],
+      "size": [
+        1,
+        2,
+        7,
+        1,
+        1
+      ],
+      "version": "2.0",
+      "class": "dataset",
+      "source": "ESTAT",
+      "label": "Population and employment - national accounts - annual data",
+      "updated": "2026-10-02T23:00:00+0200",
+      "extension_id": "NAMA_10_PE",
+      "codes": {
+        "freq": [
+          "A"
+        ],
+        "unit": [
+          "THS_PER",
+          "PCH_PRE_PER"
+        ],
+        "na_item": [
+          "POP_NC",
+          "EMP_NC",
+          "EMP_DC",
+          "SAL_NC",
+          "SAL_DC",
+          "SELF_NC",
+          "SELF_DC"
+        ],
+        "geo": [
+          "HU"
+        ],
+        "time": [
+          "2023"
+        ]
+      },
+      "numeric_count": 14,
+      "status_count": 0
+    },
+    "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-2023-CONTROL": {
+      "id": [
+        "freq",
+        "unit",
+        "nace_r2",
+        "na_item",
+        "geo",
+        "time"
+      ],
+      "size": [
+        1,
+        1,
+        96,
+        8,
+        1,
+        1
+      ],
+      "version": "2.0",
+      "class": "dataset",
+      "source": "ESTAT",
+      "label": "Gross value added and income by detailed industry (NACE Rev.2 )",
+      "updated": "2026-10-02T23:00:00+0200",
+      "extension_id": "NAMA_10_A64",
+      "codes": {
+        "freq": [
+          "A"
+        ],
+        "unit": [
+          "CP_MNAC"
+        ],
+        "nace_r2": [
+          "TOTAL",
+          "A",
+          "A01",
+          "A02",
+          "A03",
+          "B-E",
+          "B",
+          "C",
+          "C10-C12",
+          "C13-C15",
+          "C16-C18",
+          "C16",
+          "C17",
+          "C18",
+          "C19",
+          "C20",
+          "C21",
+          "C22_C23",
+          "C22",
+          "C23",
+          "C24_C25",
+          "C24",
+          "C25",
+          "C26",
+          "C27",
+          "C28",
+          "C29_C30",
+          "C29",
+          "C30",
+          "C31-C33",
+          "C31_C32",
+          "C33",
+          "D",
+          "D35",
+          "E",
+          "E36",
+          "E37-E39",
+          "F",
+          "G-I",
+          "G",
+          "G45",
+          "G46",
+          "G47",
+          "H",
+          "H49",
+          "H50",
+          "H51",
+          "H52",
+          "H53",
+          "I",
+          "J",
+          "J58-J60",
+          "J58",
+          "J59_J60",
+          "J61",
+          "J62_J63",
+          "K",
+          "K64",
+          "K65",
+          "K66",
+          "L",
+          "L68",
+          "L68A",
+          "M_N",
+          "M",
+          "M69-M71",
+          "M69_M70",
+          "M71",
+          "M72",
+          "M73-M75",
+          "M73",
+          "M74_M75",
+          "N",
+          "N77",
+          "N78",
+          "N79",
+          "N80-N82",
+          "O-Q",
+          "O",
+          "O84",
+          "P",
+          "P85",
+          "Q",
+          "Q86",
+          "Q87_Q88",
+          "R-U",
+          "R",
+          "R90-R92",
+          "R93",
+          "S",
+          "S94",
+          "S95",
+          "S96",
+          "T",
+          "U",
+          "U99"
+        ],
+        "na_item": [
+          "B1G",
+          "B2A3N",
+          "P1",
+          "P2",
+          "P51C",
+          "D1",
+          "D11",
+          "D29X39"
+        ],
+        "geo": [
+          "HU"
+        ],
+        "time": [
+          "2023"
+        ]
+      },
+      "numeric_count": 750,
+      "status_count": 0
+    }
+  },
+  "io_manifest_sha256": "f0da3653a5ccccde6d88bab13afbd0cf5f1872035e7d6c9a38d56bd5cf036c7c",
+  "bridge": {
+    "direction": "SUM_IO89_TO_A64_ONLY",
+    "reverse_allocation": "PROHIBITED",
+    "basis_source_id": "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+    "basis_locator": "ESA 2010 chapter 23, printed pp. 530-532 / PDF pp. 562-564; paragraphs 11.04, 11.32-11.33 for annual-average employment and FTE boundary.",
+    "io_leaf_count": 89,
+    "a64_count": 64,
+    "mappings": [
+      {
+        "employment_nace_r2": "A01",
+        "io_leaf_codes": [
+          "A01"
+        ],
+        "official_a64_seq": 1,
+        "official_nace_divisions": "01"
+      },
+      {
+        "employment_nace_r2": "A02",
+        "io_leaf_codes": [
+          "A02"
+        ],
+        "official_a64_seq": 2,
+        "official_nace_divisions": "02"
+      },
+      {
+        "employment_nace_r2": "A03",
+        "io_leaf_codes": [
+          "A03"
+        ],
+        "official_a64_seq": 3,
+        "official_nace_divisions": "03"
+      },
+      {
+        "employment_nace_r2": "B",
+        "io_leaf_codes": [
+          "B05",
+          "B06",
+          "B07",
+          "B08",
+          "B09"
+        ],
+        "official_a64_seq": 4,
+        "official_nace_divisions": "05-09"
+      },
+      {
+        "employment_nace_r2": "C10-C12",
+        "io_leaf_codes": [
+          "C10",
+          "C11",
+          "C12"
+        ],
+        "official_a64_seq": 5,
+        "official_nace_divisions": "10-12"
+      },
+      {
+        "employment_nace_r2": "C13-C15",
+        "io_leaf_codes": [
+          "C13",
+          "C14",
+          "C15"
+        ],
+        "official_a64_seq": 6,
+        "official_nace_divisions": "13-15"
+      },
+      {
+        "employment_nace_r2": "C16",
+        "io_leaf_codes": [
+          "C16"
+        ],
+        "official_a64_seq": 7,
+        "official_nace_divisions": "16"
+      },
+      {
+        "employment_nace_r2": "C17",
+        "io_leaf_codes": [
+          "C17"
+        ],
+        "official_a64_seq": 8,
+        "official_nace_divisions": "17"
+      },
+      {
+        "employment_nace_r2": "C18",
+        "io_leaf_codes": [
+          "C18"
+        ],
+        "official_a64_seq": 9,
+        "official_nace_divisions": "18"
+      },
+      {
+        "employment_nace_r2": "C19",
+        "io_leaf_codes": [
+          "C19"
+        ],
+        "official_a64_seq": 10,
+        "official_nace_divisions": "19"
+      },
+      {
+        "employment_nace_r2": "C20",
+        "io_leaf_codes": [
+          "C20"
+        ],
+        "official_a64_seq": 11,
+        "official_nace_divisions": "20"
+      },
+      {
+        "employment_nace_r2": "C21",
+        "io_leaf_codes": [
+          "C21"
+        ],
+        "official_a64_seq": 12,
+        "official_nace_divisions": "21"
+      },
+      {
+        "employment_nace_r2": "C22",
+        "io_leaf_codes": [
+          "C22"
+        ],
+        "official_a64_seq": 13,
+        "official_nace_divisions": "22"
+      },
+      {
+        "employment_nace_r2": "C23",
+        "io_leaf_codes": [
+          "C23"
+        ],
+        "official_a64_seq": 14,
+        "official_nace_divisions": "23"
+      },
+      {
+        "employment_nace_r2": "C24",
+        "io_leaf_codes": [
+          "C24"
+        ],
+        "official_a64_seq": 15,
+        "official_nace_divisions": "24"
+      },
+      {
+        "employment_nace_r2": "C25",
+        "io_leaf_codes": [
+          "C25"
+        ],
+        "official_a64_seq": 16,
+        "official_nace_divisions": "25"
+      },
+      {
+        "employment_nace_r2": "C26",
+        "io_leaf_codes": [
+          "C26"
+        ],
+        "official_a64_seq": 17,
+        "official_nace_divisions": "26"
+      },
+      {
+        "employment_nace_r2": "C27",
+        "io_leaf_codes": [
+          "C27"
+        ],
+        "official_a64_seq": 18,
+        "official_nace_divisions": "27"
+      },
+      {
+        "employment_nace_r2": "C28",
+        "io_leaf_codes": [
+          "C28"
+        ],
+        "official_a64_seq": 19,
+        "official_nace_divisions": "28"
+      },
+      {
+        "employment_nace_r2": "C29",
+        "io_leaf_codes": [
+          "C29"
+        ],
+        "official_a64_seq": 20,
+        "official_nace_divisions": "29"
+      },
+      {
+        "employment_nace_r2": "C30",
+        "io_leaf_codes": [
+          "C30"
+        ],
+        "official_a64_seq": 21,
+        "official_nace_divisions": "30"
+      },
+      {
+        "employment_nace_r2": "C31_C32",
+        "io_leaf_codes": [
+          "C31",
+          "C32"
+        ],
+        "official_a64_seq": 22,
+        "official_nace_divisions": "31-32"
+      },
+      {
+        "employment_nace_r2": "C33",
+        "io_leaf_codes": [
+          "C33"
+        ],
+        "official_a64_seq": 23,
+        "official_nace_divisions": "33"
+      },
+      {
+        "employment_nace_r2": "D",
+        "io_leaf_codes": [
+          "D"
+        ],
+        "official_a64_seq": 24,
+        "official_nace_divisions": "35"
+      },
+      {
+        "employment_nace_r2": "E36",
+        "io_leaf_codes": [
+          "E36"
+        ],
+        "official_a64_seq": 25,
+        "official_nace_divisions": "36"
+      },
+      {
+        "employment_nace_r2": "E37-E39",
+        "io_leaf_codes": [
+          "E37",
+          "E38",
+          "E39"
+        ],
+        "official_a64_seq": 26,
+        "official_nace_divisions": "37-39"
+      },
+      {
+        "employment_nace_r2": "F",
+        "io_leaf_codes": [
+          "F41",
+          "F42",
+          "F43"
+        ],
+        "official_a64_seq": 27,
+        "official_nace_divisions": "41-43"
+      },
+      {
+        "employment_nace_r2": "G45",
+        "io_leaf_codes": [
+          "G45"
+        ],
+        "official_a64_seq": 28,
+        "official_nace_divisions": "45"
+      },
+      {
+        "employment_nace_r2": "G46",
+        "io_leaf_codes": [
+          "G46"
+        ],
+        "official_a64_seq": 29,
+        "official_nace_divisions": "46"
+      },
+      {
+        "employment_nace_r2": "G47",
+        "io_leaf_codes": [
+          "G47"
+        ],
+        "official_a64_seq": 30,
+        "official_nace_divisions": "47"
+      },
+      {
+        "employment_nace_r2": "H49",
+        "io_leaf_codes": [
+          "H49"
+        ],
+        "official_a64_seq": 31,
+        "official_nace_divisions": "49"
+      },
+      {
+        "employment_nace_r2": "H50",
+        "io_leaf_codes": [
+          "H50"
+        ],
+        "official_a64_seq": 32,
+        "official_nace_divisions": "50"
+      },
+      {
+        "employment_nace_r2": "H51",
+        "io_leaf_codes": [
+          "H51"
+        ],
+        "official_a64_seq": 33,
+        "official_nace_divisions": "51"
+      },
+      {
+        "employment_nace_r2": "H52",
+        "io_leaf_codes": [
+          "H52"
+        ],
+        "official_a64_seq": 34,
+        "official_nace_divisions": "52"
+      },
+      {
+        "employment_nace_r2": "H53",
+        "io_leaf_codes": [
+          "H53"
+        ],
+        "official_a64_seq": 35,
+        "official_nace_divisions": "53"
+      },
+      {
+        "employment_nace_r2": "I",
+        "io_leaf_codes": [
+          "I55",
+          "I56"
+        ],
+        "official_a64_seq": 36,
+        "official_nace_divisions": "55-56"
+      },
+      {
+        "employment_nace_r2": "J58",
+        "io_leaf_codes": [
+          "J58"
+        ],
+        "official_a64_seq": 37,
+        "official_nace_divisions": "58"
+      },
+      {
+        "employment_nace_r2": "J59_J60",
+        "io_leaf_codes": [
+          "J59",
+          "J60"
+        ],
+        "official_a64_seq": 38,
+        "official_nace_divisions": "59-60"
+      },
+      {
+        "employment_nace_r2": "J61",
+        "io_leaf_codes": [
+          "J61"
+        ],
+        "official_a64_seq": 39,
+        "official_nace_divisions": "61"
+      },
+      {
+        "employment_nace_r2": "J62_J63",
+        "io_leaf_codes": [
+          "J62",
+          "J63"
+        ],
+        "official_a64_seq": 40,
+        "official_nace_divisions": "62-63"
+      },
+      {
+        "employment_nace_r2": "K64",
+        "io_leaf_codes": [
+          "K64"
+        ],
+        "official_a64_seq": 41,
+        "official_nace_divisions": "64"
+      },
+      {
+        "employment_nace_r2": "K65",
+        "io_leaf_codes": [
+          "K65"
+        ],
+        "official_a64_seq": 42,
+        "official_nace_divisions": "65"
+      },
+      {
+        "employment_nace_r2": "K66",
+        "io_leaf_codes": [
+          "K66"
+        ],
+        "official_a64_seq": 43,
+        "official_nace_divisions": "66"
+      },
+      {
+        "employment_nace_r2": "L68",
+        "io_leaf_codes": [
+          "L68A",
+          "L68B"
+        ],
+        "official_a64_seq": 44,
+        "official_nace_divisions": "68"
+      },
+      {
+        "employment_nace_r2": "M69_M70",
+        "io_leaf_codes": [
+          "M69",
+          "M70"
+        ],
+        "official_a64_seq": 45,
+        "official_nace_divisions": "69-70"
+      },
+      {
+        "employment_nace_r2": "M71",
+        "io_leaf_codes": [
+          "M71"
+        ],
+        "official_a64_seq": 46,
+        "official_nace_divisions": "71"
+      },
+      {
+        "employment_nace_r2": "M72",
+        "io_leaf_codes": [
+          "M72"
+        ],
+        "official_a64_seq": 47,
+        "official_nace_divisions": "72"
+      },
+      {
+        "employment_nace_r2": "M73",
+        "io_leaf_codes": [
+          "M73"
+        ],
+        "official_a64_seq": 48,
+        "official_nace_divisions": "73"
+      },
+      {
+        "employment_nace_r2": "M74_M75",
+        "io_leaf_codes": [
+          "M74",
+          "M75"
+        ],
+        "official_a64_seq": 49,
+        "official_nace_divisions": "74-75"
+      },
+      {
+        "employment_nace_r2": "N77",
+        "io_leaf_codes": [
+          "N77"
+        ],
+        "official_a64_seq": 50,
+        "official_nace_divisions": "77"
+      },
+      {
+        "employment_nace_r2": "N78",
+        "io_leaf_codes": [
+          "N78"
+        ],
+        "official_a64_seq": 51,
+        "official_nace_divisions": "78"
+      },
+      {
+        "employment_nace_r2": "N79",
+        "io_leaf_codes": [
+          "N79"
+        ],
+        "official_a64_seq": 52,
+        "official_nace_divisions": "79"
+      },
+      {
+        "employment_nace_r2": "N80-N82",
+        "io_leaf_codes": [
+          "N80",
+          "N81",
+          "N82"
+        ],
+        "official_a64_seq": 53,
+        "official_nace_divisions": "80-82"
+      },
+      {
+        "employment_nace_r2": "O",
+        "io_leaf_codes": [
+          "O"
+        ],
+        "official_a64_seq": 54,
+        "official_nace_divisions": "84"
+      },
+      {
+        "employment_nace_r2": "P",
+        "io_leaf_codes": [
+          "P"
+        ],
+        "official_a64_seq": 55,
+        "official_nace_divisions": "85"
+      },
+      {
+        "employment_nace_r2": "Q86",
+        "io_leaf_codes": [
+          "Q86"
+        ],
+        "official_a64_seq": 56,
+        "official_nace_divisions": "86"
+      },
+      {
+        "employment_nace_r2": "Q87_Q88",
+        "io_leaf_codes": [
+          "Q87",
+          "Q88"
+        ],
+        "official_a64_seq": 57,
+        "official_nace_divisions": "87-88"
+      },
+      {
+        "employment_nace_r2": "R90-R92",
+        "io_leaf_codes": [
+          "R90",
+          "R91",
+          "R92"
+        ],
+        "official_a64_seq": 58,
+        "official_nace_divisions": "90-92"
+      },
+      {
+        "employment_nace_r2": "R93",
+        "io_leaf_codes": [
+          "R93"
+        ],
+        "official_a64_seq": 59,
+        "official_nace_divisions": "93"
+      },
+      {
+        "employment_nace_r2": "S94",
+        "io_leaf_codes": [
+          "S94"
+        ],
+        "official_a64_seq": 60,
+        "official_nace_divisions": "94"
+      },
+      {
+        "employment_nace_r2": "S95",
+        "io_leaf_codes": [
+          "S95"
+        ],
+        "official_a64_seq": 61,
+        "official_nace_divisions": "95"
+      },
+      {
+        "employment_nace_r2": "S96",
+        "io_leaf_codes": [
+          "S96"
+        ],
+        "official_a64_seq": 62,
+        "official_nace_divisions": "96"
+      },
+      {
+        "employment_nace_r2": "T",
+        "io_leaf_codes": [
+          "T97",
+          "T98"
+        ],
+        "official_a64_seq": 63,
+        "official_nace_divisions": "97-98"
+      },
+      {
+        "employment_nace_r2": "U",
+        "io_leaf_codes": [
+          "U"
+        ],
+        "official_a64_seq": 64,
+        "official_nace_divisions": "99"
+      }
+    ],
+    "excluded_aliases": {
+      "D35": "D",
+      "L": "L68",
+      "O84": "O",
+      "P85": "P",
+      "U99": "U"
+    },
+    "excluded_optional_subsector": "L68A",
+    "aggregation_boundary": "Source classification correspondence is not employment disaggregation, independent fine-grain measurement or an installer/occupation map."
+  },
+  "expected_full_cube": {
+    "slots": 1728,
+    "numeric": 1028,
+    "sparse_absent": 700,
+    "observation_status_count": 0
+  },
+  "expected_core_coverage": {
+    "THS_PER__EMP_DC": {
+      "present_count": 63,
+      "absent_count": 1,
+      "absent_codes": [
+        "U"
+      ],
+      "explicit_zero_count": 0,
+      "negative_count": 0
+    },
+    "THS_PER__SAL_DC": {
+      "present_count": 63,
+      "absent_count": 1,
+      "absent_codes": [
+        "U"
+      ],
+      "explicit_zero_count": 0,
+      "negative_count": 0
+    },
+    "THS_PER__SELF_DC": {
+      "present_count": 44,
+      "absent_count": 20,
+      "absent_codes": [
+        "A03",
+        "C17",
+        "C19",
+        "C20",
+        "C21",
+        "C27",
+        "C29",
+        "C30",
+        "D",
+        "E36",
+        "H50",
+        "H51",
+        "K64",
+        "K65",
+        "N78",
+        "O",
+        "Q87_Q88",
+        "S94",
+        "T",
+        "U"
+      ],
+      "explicit_zero_count": 0,
+      "negative_count": 0
+    },
+    "THS_HW__EMP_DC": {
+      "present_count": 63,
+      "absent_count": 1,
+      "absent_codes": [
+        "U"
+      ],
+      "explicit_zero_count": 0,
+      "negative_count": 0
+    },
+    "THS_HW__SAL_DC": {
+      "present_count": 63,
+      "absent_count": 1,
+      "absent_codes": [
+        "U"
+      ],
+      "explicit_zero_count": 0,
+      "negative_count": 0
+    },
+    "THS_HW__SELF_DC": {
+      "present_count": 44,
+      "absent_count": 20,
+      "absent_codes": [
+        "A03",
+        "C17",
+        "C19",
+        "C20",
+        "C21",
+        "C27",
+        "C29",
+        "C30",
+        "D",
+        "E36",
+        "H50",
+        "H51",
+        "K64",
+        "K65",
+        "N78",
+        "O",
+        "Q87_Q88",
+        "S94",
+        "T",
+        "U"
+      ],
+      "explicit_zero_count": 0,
+      "negative_count": 0
+    }
+  },
+  "expected_totals": {
+    "THS_PER__EMP_DC": "4784.37",
+    "THS_PER__SAL_DC": "4397.18",
+    "THS_PER__SELF_DC": "387.19",
+    "THS_HW__EMP_DC": "7984708",
+    "THS_HW__SAL_DC": "7201760",
+    "THS_HW__SELF_DC": "782948"
+  },
+  "expected_current_na_vs_io_mismatch_summary": {
+    "P1": {
+      "matched": 1,
+      "mismatched": 63,
+      "missing": 1
+    },
+    "B1G": {
+      "matched": 1,
+      "mismatched": 63,
+      "missing": 1
+    }
+  },
+  "method_semantics": "Official KSH national-accounts employment estimates using LFS-to-national-accounts bridges, administrative records, sole-proprietor registers and exhaustiveness adjustments. Actual hours combine employment and average actual hours from labour reports/LFS. Persons with multiple jobs are assigned to principal activity; market/non-market resident producing units are included. Not directly observed programme effects.",
+  "missingness_rule": "Omitted sparse values, explicit null values, numeric zero and status flags are distinct. No supplied status flag means only none supplied. Missing SELF is not inferred zero when EMP equals SAL; missing U remains null even when partial sums equal totals.",
+  "within_row_residual_rule": "Report EMP minus SAL minus SELF only for complete source triplets; do not force equality. Persons display residuals up to 0.01 are consistent with independently rounded published values, without a source-provided repair. Zero hour residual is not evidence that skipped cells equal zero.",
+  "shared_lineage": "Employment, A10/PE controls, production accounts and IO share KSH_HUNGARIAN_NATIONAL_ACCOUNTS compilation lineage. Agreement is an accounting consistency check, not independent corroboration.",
+  "price_unit_bridge": "Current nama_10_a64 CP_MNAC and frozen IO MIO_NAC are both current-price million HUF for 2023. The common unit/year permits difference diagnostics only; it does not establish vintage alignment, labour intensity or a currency/price conversion.",
+  "vintage_boundary": "Employment country-specific vintage remains unestablished. Current production accounts differ from frozen IO vintage 2025; vintage compatibility is not established. These are observed accounting-snapshot differences, not employment revision estimates or proof that every difference is exclusively a revision rather than another compilation distinction. Frozen IO is not replaced.",
+  "unsupported_claims": [
+    "FTE or invented full-time-hours denominator",
+    "persons/output or hours/output labour coefficients",
+    "reverse employment allocation to 89 IO leaves",
+    "complete 64-industry employment closure from partial observed sums",
+    "heat-pump installer, occupation cohort or spare capacity",
+    "jobs created, net jobs, programme shock, multiplier or inverse",
+    "programme GDP, fiscal effects, financing or national deployment defaults",
+    "current country-specific employment vintage inferred from global update",
+    "B15 readiness, B12 expansion or full B16-D01/B16 acceptance"
+  ],
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "public_raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+  "numeric_reuse_status": "NUMERICAL_REUSE_WITH_ATTRIBUTION_SUPPORTED",
+  "attribution": "Source: Eurostat national accounts nama_10_a64_e, nama_10_a10_e, nama_10_pe, nama_10_a64 and naio_10_cp1750; Hungary 2023, compiled by KSH. Retrieved 3 October 2026.",
+  "derived_output_notice": "Classification aggregation and diagnostics are project-derived. Eurostat is not responsible for the transformation or conclusions.",
+  "general_employment_metadata_content_updated": "2025-01-16",
+  "hu_general_national_accounts_metadata_content_updated": "2025-10-22"
+}

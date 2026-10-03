@@ -1,0 +1,131 @@
+{
+  "checkpoint": "V1-050",
+  "base_commit": "a06e6424a1517161f9c1ab09f97970ab6e927ab1",
+  "reviewed_substantive_tree": "56f55c534edf9d6bcb12a7c2108f0495f0677b39",
+  "status": "LOCAL_REVIEWED_CANDIDATE_NOT_PUBLISHED",
+  "public_change_scope": "Ten public code, test, documentation and provenance files; source-original JSON/HTML remain external-only.",
+  "reviewed_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_050_HUNGARIAN_INDUSTRY_STRUCTURE.md",
+      "bytes": 7138,
+      "sha256": "6313575d0386736a1608ddd9c775883d0b49747ddce0925bbb2ca7167b3215f8",
+      "git_blob": "490cb088516b27474089465bca3bcb85bfdff998"
+    },
+    {
+      "path": "modules/B16/__init__.py",
+      "bytes": 84,
+      "sha256": "c5cd9823f98bb3881984ab51e2e57b4d3015dfacc90211ca0848a0f7581b8f96",
+      "git_blob": "0cc840e3454382a8b50589827a6f1b407b030fe7"
+    },
+    {
+      "path": "modules/B16/README.md",
+      "bytes": 8130,
+      "sha256": "b813003de75cc5e964aff7624b1acfef1721729970f64bc9fccc56fe99cd6355",
+      "git_blob": "dfaf40f68f5d418bc73a042e9ae5a299420f2dfc"
+    },
+    {
+      "path": "modules/B16/industry_structure_reference.py",
+      "bytes": 18388,
+      "sha256": "503edd26d794a1da82f48b5411ab4b600e164fba47ca0a9809abdc2d4bd153de",
+      "git_blob": "10ad963a1e38c61a2caf12753d12bf3520f0e4d5"
+    },
+    {
+      "path": "registry/b16_industry_structure_reference_manifest.json",
+      "bytes": 17562,
+      "sha256": "f0da3653a5ccccde6d88bab13afbd0cf5f1872035e7d6c9a38d56bd5cf036c7c",
+      "git_blob": "a121380d8f26fe7ec7fc98ac0aab38a62a4d52f7"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 58660,
+      "sha256": "873593b38fd7e87c6401ecba8cbe9c2dba629d2a43a2576ed416d5ef08a5ecaf",
+      "git_blob": "93ee9243dbdfa499f352f900a4ee92b65ec7e58c"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 270536,
+      "sha256": "3bac3f9cccdebf05c6165316786c1c00ce4962eada294eff0cf5886ce4cff0f1",
+      "git_blob": "4f2152971139459a921f5839cf54a7b30b2b7f6c"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 129917,
+      "sha256": "f2288d19c558ef22378f37475e0ce08e4cebf7348522ea1d0f06ff912f093533",
+      "git_blob": "ae727b1501b43acf2e210b4a4380b4d2b588fe73"
+    },
+    {
+      "path": "tests/test_b16_industry_structure_reference.py",
+      "bytes": 18518,
+      "sha256": "8011cdc5a1a78783201c72cacac87cbb63aac4385c7740065deca22de4f68316",
+      "git_blob": "cc72a2203342e091fb6e32837860cc503acb808f"
+    }
+  ],
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3432,
+    "passed": 3429,
+    "skipped_count": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 137.262,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "substantive_tree": "56f55c534edf9d6bcb12a7c2108f0495f0677b39",
+    "all_hashes_unchanged": true,
+    "log_sha256": "0c00619d0e149fb23c26290eba3026d35f40c203ac7999590f71bb629dd04818",
+    "log_bytes": 654789,
+    "completed_at": "2026-10-03T08:04:09.004358+00:00"
+  },
+  "focused_tests": {
+    "command": "python -m unittest discover -s tests -p test_b16_industry_structure_reference.py -v",
+    "passed": 28,
+    "skipped": 0,
+    "failed": 0,
+    "log_sha256": "496078bb1e1256f0f43f0eb641ec24827c006274b8696d4c050fc01669e12040"
+  },
+  "registry_validation": "VALID",
+  "genuine_source_acceptance": {
+    "source_id": "SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
+    "source_sha256": "157e5d50e13fb447b17e63d5298012f2038940320145cae419eebc4139e539b1",
+    "source_bytes": 503908,
+    "reference_year": 2023,
+    "national_data_vintage": 2025,
+    "industry_leaf_slots": 89,
+    "identity_families": 16,
+    "exact_accounting_instances": 28613,
+    "unavailable_origin_use_positions_not_imputed": 180,
+    "complete_report_sha256": "2297b04403ce905a6690d2cebafb3ec0bd8414661b51fe28bd163b7ff6439cfa"
+  },
+  "independent_review": {
+    "verdict": "INDEPENDENT_EXACT_REVIEW_PASSED_FOR_BOUNDED_HISTORICAL_SOURCE_HANDOFF",
+    "receipt_sha256": "43cb983262aa8658a7a43bea8e919f4e9965fc0cb6fc338924cd65b2cc8b3420",
+    "source_review": "PASS",
+    "live_same_source_spotchecks": 4,
+    "focused_tests_passed": 28,
+    "interface_and_adversarial_checks_passed": 36,
+    "all_public_cells_compared": 44649,
+    "numeric_cells": 40390,
+    "missing_positions": 4259,
+    "exact_oracle_accounting_checks": 29084,
+    "oracle_unavailable_checks_not_imputed": 1217,
+    "scope": "Independent primary-source and exact-content review; oracle and focused/adverse checks are separate from the author canonical aggregate and must not be summed as distinct aggregate tests."
+  },
+  "hosted_validation": {
+    "status": "NOT_RUN",
+    "requirement": "After separately authorized publication, exact-head hosted logs must pass all configured tests, execute all three local host-only positives without skips, and test a merge tree equal to the published candidate tree."
+  },
+  "boundaries": [
+    "E1/P1/DER is scoped to the exact official compiled historical source, not observed programme effects.",
+    "2023 current-price million HUF, KSH 2025 vintage and dataset-global 2026 update remain separate.",
+    "NACE labels overlap outside the admitted 89-leaf partition; L68 split interpretation is explicit inference.",
+    "Signed source core cells and sparse account missingness remain intact; unexplained signed adjustment cause is validation debt.",
+    "National CIF imports are not silently converted to FIGARO FOB, purchaser prices, 2026 money or programme procurement.",
+    "Employment/FTE, programme expenditure mapping, multipliers, net GDP/jobs/fiscal effects and deployment defaults are not admitted.",
+    "B16-D01 stays INTEGRATING with no accepted whole-slice artifacts; B16-D02, B15 gate and readiness 0 are unchanged.",
+    "Original source files are excluded from the public patch; no main merge."
+  ]
+}

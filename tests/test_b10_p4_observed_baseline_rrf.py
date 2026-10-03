@@ -6,6 +6,9 @@ import unittest
 from modules.B10.baseline_infrastructure_contract import (
     B10BaselineInfrastructureContractError,
     BASELINE,
+    OPERATING,
+    PROJECT_COMPLETED_REPORTED,
+    REPORTING_AS_OF_DATE,
     CostAttribution,
     InfrastructureEvidence,
     classify_infrastructure,
@@ -16,6 +19,7 @@ from modules.B10.rrf_baseline_ledger import (
     MVM_DEMASZ_RRF_COMPLETION_SOURCE_ID,
     MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,
     OPUS_TITASZ_RRF_COMPLETION_SOURCE_ID,
+    OPUS_TITASZ_NEWS_INDEX_SOURCE_ID,
     OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,
     RRF_BASELINE_RECORDS,
     classify_observed_baseline_projects,
@@ -33,7 +37,7 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
         self.assertTrue(all(item.attribution_status == BASELINE for item in decisions))
         self.assertTrue(all(item.evidence_status == "OBS" for item in decisions))
 
-    def test_mvm_planning_page_without_completion_cannot_mint_operating(self):
+    def test_mvm_planning_page_without_completion_cannot_mint_reported_completion(self):
         record = replace(
             RRF_BASELINE_RECORDS[0],
             source_refs=(MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,),
@@ -42,7 +46,7 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
             validate_observed_baseline_record(record)
         self.assertEqual("Q", classify_infrastructure(record).attribution_status)
 
-    def test_opus_planning_page_without_completion_cannot_mint_operating(self):
+    def test_opus_planning_page_without_completion_cannot_mint_reported_completion(self):
         record = replace(
             RRF_BASELINE_RECORDS[1],
             source_refs=(OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,),
@@ -130,7 +134,10 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
             revision=project.revision,
             supports=tuple(item for item in project.supports if item != "COST"),
         )
-        record = replace(RRF_BASELINE_RECORDS[1], evidence=(weakened_project, completion))
+        record = replace(RRF_BASELINE_RECORDS[1], evidence=tuple(
+            weakened_project if item.source_id == project.source_id else item
+            for item in RRF_BASELINE_RECORDS[1].evidence
+        ))
         self.assertEqual("Q", classify_infrastructure(record).attribution_status)
         with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "support exact OBS COST"):
             validate_observed_baseline_record(record)
@@ -142,7 +149,7 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
         )
         self.assertNotIn("COST", completion.supports)
 
-    def test_opus_completion_remains_required_for_operating(self):
+    def test_opus_completion_remains_required_for_reported_completion(self):
         record = replace(
             RRF_BASELINE_RECORDS[1],
             source_refs=(OPUS_TITASZ_RRF_PROJECT_SOURCE_ID,),
@@ -213,6 +220,31 @@ class B10P4ObservedBaselineRrfTests(unittest.TestCase):
             source_refs=(MVM_DEMASZ_RRF_PROJECT_SOURCE_ID,),
         )
         self.assertEqual("Q", classify_infrastructure(record).attribution_status)
+
+
+    def test_completion_evidence_is_project_report_as_of_not_physical_operating(self):
+        for record in RRF_BASELINE_RECORDS:
+            self.assertEqual(PROJECT_COMPLETED_REPORTED, record.status_taxonomy)
+            self.assertEqual(REPORTING_AS_OF_DATE, record.status_date_basis)
+            self.assertEqual("2026-06-15", record.status_effective_date)
+            self.assertTrue(all("OPERATING" not in item.supports for item in record.evidence))
+            with self.assertRaises(B10BaselineInfrastructureContractError):
+                validate_observed_baseline_record(replace(record, status_taxonomy=OPERATING))
+            self.assertEqual("Q", classify_infrastructure(replace(record, status_taxonomy=OPERATING)).attribution_status)
+
+    def test_reported_completion_cannot_use_physical_transition_date_basis(self):
+        with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "REPORTING_AS_OF_DATE"):
+            replace(RRF_BASELINE_RECORDS[0], status_date_basis="STATUS_EFFECTIVE_DATE")
+
+
+    def test_opus_news_report_date_requires_separate_index_provenance(self):
+        record = RRF_BASELINE_RECORDS[1]
+        self.assertIn(OPUS_TITASZ_NEWS_INDEX_SOURCE_ID, record.source_refs)
+        with self.assertRaisesRegex(B10BaselineInfrastructureContractError, "publication source"):
+            validate_observed_baseline_record(replace(
+                record, source_refs=tuple(ref for ref in record.source_refs
+                                          if ref != OPUS_TITASZ_NEWS_INDEX_SOURCE_ID),
+            ))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-10-01T15:08:00Z",
+  "checkpoint": "V1_008",
+  "input_parent_commit": "be04e0acb4fc95d063c4c36d27be1c389912f8cd",
+  "artifact_sha256": {
+    "modules/B02/annual_heat_reference.py": "e654452609ebb33a8e73f66ea7c9a94f9fa7573d91e2ad7da020515e1fe74a58",
+    "tools/extract_b02_jrc_cohorts.py": "71a84147270e7c7d8d9f45eee2380edb5c06afe0c617d2bb8759afda5545e251",
+    "tests/test_b02_annual_heat_reference.py": "a3b79b2f2628cce8f7719fd1b561d8b9f488b3481d8c9fcd0109b8a435fd3c04",
+    "data/processed/b02/jrc_sh_dhw_cohorts_2022_2023.csv": "9bb56a5eb76b8b8d3c84607f454739368dfd2de99b532bb60685de70e238190a",
+    "registry/b02_v1_annual_heat_admission.json": "f5101315b825296463ebb7edcf29c0b108d5fef25ce4e10d5074155a92032d32"
+  },
+  "verification": [
+    {
+      "command": "python -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "tests": 2521,
+      "seconds": 112.407
+    },
+    {
+      "command": "python tools/validate_registry.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m unittest tests.test_b02_annual_heat_reference -q",
+      "exit_code": 0,
+      "tests": 7
+    },
+    {
+      "check": "Pinned workbook cohort re-extraction matches committed CSV byte-for-byte",
+      "result": "PASS"
+    }
+  ],
+  "independent_review": {
+    "scope": "Same-source paired-cohort extraction and consumer arithmetic; E2 eight-criterion scope and validation debt",
+    "result": "Scoped admission supported; no full B02/V1 validation claimed",
+    "finding_resolved": "H8000 stress explicitly identifies excluded district branch and cancellation from non-district ledger; separate non-H8000 cohort transfer conserves national energy"
+  }
+}

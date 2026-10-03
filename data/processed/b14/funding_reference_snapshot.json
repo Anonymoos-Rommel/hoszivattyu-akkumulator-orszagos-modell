@@ -1,0 +1,751 @@
+{
+  "schema_version": 1,
+  "slice_id": "B14-L01",
+  "status": "BOUNDED_DATED_RULE_REFERENCE",
+  "as_of": "2026-10-01",
+  "programmes": [
+    {
+      "programme_id": "KEHOP Plusz-4.1.7-24",
+      "scope": "HU_EXCLUDING_BUDAPEST_FAMILY_HOUSE_RULES",
+      "as_of": "2026-10-01",
+      "evidence_tier": "E1_REFERENCE_ONLY",
+      "terms_revision": "2025-10-15",
+      "currency": "HUF",
+      "finance_form": "COMBINED_GRANT_AND_INTEREST_FREE_LOAN",
+      "call_source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+      "current_status_source_id": "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+      "document_list_source_id": "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261001",
+      "facts": {
+        "original_envelope": {
+          "value": "66820000000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "I/1 p5"
+        },
+        "finance_min": {
+          "value": "2500000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "III/1 p8"
+        },
+        "finance_max": {
+          "value": "10000000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "III/1 p8"
+        },
+        "grant_share": {
+          "value": "0.5",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "III/1 p8",
+          "denominator": "FINANCING_AMOUNT"
+        },
+        "own_source_min_share": {
+          "value": "0.05",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/3 p9",
+          "denominator": "ELIGIBLE_PROJECT_COST"
+        },
+        "own_source_example_at_max_finance": {
+          "value": "526316",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "Summary p3"
+        },
+        "loan_interest": {
+          "value": "0",
+          "unit": "percent_per_year",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p8"
+        },
+        "loan_maturity_max": {
+          "value": "15",
+          "unit": "year",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p8"
+        },
+        "availability_min": {
+          "value": "12",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p8"
+        },
+        "availability_max": {
+          "value": "24",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p8"
+        },
+        "availability_extension_max": {
+          "value": "6",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p8"
+        },
+        "grace_after_availability": {
+          "value": "3",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p8"
+        },
+        "execution_max": {
+          "value": "24",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p9; V/2"
+        },
+        "execution_extension_max": {
+          "value": "6",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p9; V/2"
+        },
+        "execution_extension_count_max": {
+          "value": "1",
+          "unit": "count",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p9; V/2"
+        },
+        "supplier_advance_max_share": {
+          "value": "0.75",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/4 pp9-10",
+          "denominator": "SUPPLIER_AND_TOTAL_FINANCING_LIMITS"
+        },
+        "primary_energy_saving_min_share": {
+          "value": "0.3",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "II/2 p6",
+          "denominator": "BASELINE_HET_ANNUAL_PRIMARY_ENERGY"
+        },
+        "original_envelope_reserved_regional_share": {
+          "value": "0.65",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "I/1 p5",
+          "denominator": "ORIGINAL_PROGRAMME_ENVELOPE"
+        },
+        "preparation_total_cap": {
+          "value": "450000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "opening_HET_and_plan_cap": {
+          "value": "115000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "other_costs_total_cap": {
+          "value": "300000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "closing_HET_cap": {
+          "value": "65000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "HET_total_cap": {
+          "value": "180000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "cash_advice_cap": {
+          "value": "140000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "V/4 pp14-15"
+        }
+      },
+      "dates": {
+        "nominal_submission_start": {
+          "value": "2025-01-20",
+          "precision": "day",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "II/4 p7"
+        },
+        "nominal_submission_end": {
+          "value": "2027-03-30",
+          "precision": "day",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "II/4 p7"
+        },
+        "last_programme_payment_date": {
+          "value": "2029-11-30",
+          "precision": "day",
+          "truth_status": "POL",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+          "locator": "IV/1 p9"
+        }
+      },
+      "intake": {
+        "status": "SUSPENDED_FOR_ENVELOPE_EXHAUSTION",
+        "truth_status": "OBS",
+        "checked_at": "2026-10-01",
+        "source_id": "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+        "locator": "programme title and suspension paragraphs",
+        "windows": [
+          {
+            "regions": [
+              "Central Hungary (Pest)",
+              "Central Transdanubia",
+              "Western Transdanubia"
+            ],
+            "announcement_date": "2026-04-14",
+            "last_submission_day": "2026-04-17",
+            "precision": "day",
+            "cutoff": "BRANCH_CLOSING_TIME_NOT_OBSERVED_AS_CLOCK_TIME",
+            "source_id": "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+            "locator": "PDF p1 body paragraph",
+            "truth_status": "POL"
+          },
+          {
+            "regions": [
+              "Southern Great Plain",
+              "Southern Transdanubia",
+              "Northern Great Plain",
+              "Northern Hungary"
+            ],
+            "announcement_date": "2026-04-20",
+            "last_submission_day": "2026-04-23",
+            "precision": "day",
+            "cutoff": "BRANCH_CLOSING_TIME_NOT_OBSERVED_AS_CLOCK_TIME",
+            "source_id": "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+            "locator": "PDF p1 body paragraph",
+            "truth_status": "POL"
+          }
+        ]
+      },
+      "unknowns": {
+        "remaining_funds": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "reserved_application_amount": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "committed_amount": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "paid_amount": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "confirmed_project_grant": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "university_pilot_funding": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "national_programme_allocation": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        }
+      },
+      "eligible_total_hard_cap": {
+        "value": null,
+        "unit": "HUF",
+        "truth_status": "Q",
+        "reason": "FINANCE_CEILING_IS_NOT_ELIGIBLE_TOTAL_COST_CAP",
+        "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+        "locator": "IV/3 p9"
+      },
+      "gates": {
+        "applicant": "RECORD_LEVEL_NATURAL_PERSON_CITIZENSHIP_RESIDENCE_RIGHTS_CREDIT_AND_LEGAL_CHECKS",
+        "property": "RECORD_LEVEL_OCCUPIED_PRE2007_FAMILY_HOUSE_DEFINITION_AND_LOCATION",
+        "technical": "RECORD_LEVEL_HET_PRIMARY_ENERGY_PRODUCTS_AND_DELIVERED_SCOPE",
+        "cumulation": "RECORD_AND_COST_LINE_PRIOR_SUPPORT_HEM_CHECKS",
+        "university_or_pilot": "NOT_ESTABLISHED_BY_HOUSEHOLD_CALL",
+        "national_programme": "NO_ALLOCATION_ESTABLISHED"
+      },
+      "scope_labels": [
+        "OCCUPIED_FAMILY_HOUSE_SOURCE_DEFINITION",
+        "PRE_2007_01_01_OCCUPANCY_PERMISSION",
+        "INDIVIDUAL_APPLICANT_AND_BUILDING_CHECKS_REQUIRED"
+      ],
+      "activity_labels": [
+        "ENVELOPE_INSULATION",
+        "EXTERNAL_OPENINGS",
+        "SHADING_ONLY_WITH_SPECIFIED_ENVELOPE_WORK",
+        "STANDALONE_DHW_MODERNISATION",
+        "STANDALONE_AIR_WATER_HP_AND_PERMITTED_ADAPTATION"
+      ],
+      "exclusion_labels": [
+        "FOSSIL_AND_WOOD_HEATING_OR_DHW_MODERNISATION",
+        "FOSSIL_LINKED_EMITTER_TANK_FLOOR_WORK",
+        "SPLIT_OR_WINDOW_AC",
+        "HEATING_FILM",
+        "GENERATION_SAVINGS_FROM_REQUIRED_HET_REDUCTION"
+      ],
+      "cumulation_labels": [
+        "ONE_BORROWER_APPLICATION",
+        "CROSS_SCHEME_BUILDING_OR_BENEFICIARY_RESTRICTION_WITH_STATED_PV_ONLY_EXCEPTION",
+        "NO_OTHER_EU_AID_ON_SAME_FINANCED_COST_LINE",
+        "INVOICE_ENDORSEMENT_NO_REPEAT_CLAIM",
+        "OPTIONAL_WRITTEN_HEM_AGREEMENT",
+        "NO_CASH_AND_HEM_FOR_SAME_ADVICE",
+        "MAX_ONE_HEM_GENERATION_AGREEMENT"
+      ],
+      "cost_cap_source_status": "MATERIALIZED_39_RULE_ROWS",
+      "limitations": [
+        "NO_FRESH_AVAILABILITY_OR_HOUSEHOLD_APPROVAL",
+        "ORIGINAL_ENVELOPE_NOT_RESIDUAL",
+        "NO_EXPECTED_CAPEX_FROM_POLICY_CEILINGS",
+        "NO_LIVE_OR_FUTURE_STATUS_EXTRAPOLATION",
+        "NO_UNIVERSITY_PILOT_OR_NEW_NATIONAL_ALLOCATION",
+        "NO_FINANCING_RESULT_OR_POLICY_DEFAULT"
+      ],
+      "financing_constraint_labels": [
+        "GRANT_SHARE_OF_COMBINED_FINANCING",
+        "OWN_SOURCE_SHARE_OF_ELIGIBLE_PROJECT_COST",
+        "OWN_SOURCE_USE_PROVEN_BEFORE_FIRST_DISBURSEMENT",
+        "ADDITIONAL_ELIGIBLE_COSTS_CAN_REQUIRE_EXTRA_OWN_FUNDS",
+        "LOAN_MATURITY_INCLUDES_AVAILABILITY_AND_GRACE",
+        "EXECUTION_EXTENSION_ONCE_JUSTIFIED_NOT_AUTOMATIC",
+        "AVAILABILITY_EXTENSION_JUSTIFIED_NOT_AUTOMATIC",
+        "NO_STANDALONE_GRANT",
+        "TERMS_NOMINAL_DEADLINE_SUBORDINATE_TO_CURRENT_SUSPENSION"
+      ],
+      "cost_constraint_labels": [
+        "PREPARATION_INCLUDES_OPENING_HET_PLAN_AND_ADVICE",
+        "OTHER_COSTS_INCLUDE_CLOSING_HET",
+        "HET_TOTAL_OVERLAPS_OPENING_AND_CLOSING_CAPS",
+        "CAPS_ARE_NOT_ADDITIVE_ENTITLEMENTS",
+        "ABOVE_UNIT_CAP_IS_EXTRA_NON_ELIGIBLE_OWN_FUNDS",
+        "FINANCING_MAX_IS_NOT_ELIGIBLE_TOTAL_CAP"
+      ],
+      "scope_rule_locators": {
+        "applicant": "Call II/1-3 pp5-8",
+        "property": "Call V/1 pp11-12",
+        "technical": "Call II/2 p6; V/3 pp12-13; V/6.1 pp16-17",
+        "cumulation": "Call II/1 p6; V/4 p15; V/6.1 p17; Annex 3 p25",
+        "invoice_endorsement": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015 section 10.8.2 PDF p40 / printed p39"
+      }
+    },
+    {
+      "programme_id": "KEHOP Plusz-4.1.8-24",
+      "scope": "BUDAPEST_FAMILY_HOUSE_RULES",
+      "as_of": "2026-10-01",
+      "evidence_tier": "E1_REFERENCE_ONLY",
+      "terms_revision": "2025-10-15",
+      "currency": "HUF",
+      "finance_form": "COMBINED_GRANT_AND_INTEREST_FREE_LOAN",
+      "call_source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+      "current_status_source_id": "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+      "document_list_source_id": "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
+      "facts": {
+        "original_envelope": {
+          "value": "6190000000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "I/1 p5"
+        },
+        "finance_min": {
+          "value": "2500000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "III/1 p8"
+        },
+        "finance_max": {
+          "value": "10000000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "III/1 p8"
+        },
+        "grant_share": {
+          "value": "0.5",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "III/1 p8",
+          "denominator": "FINANCING_AMOUNT"
+        },
+        "own_source_min_share": {
+          "value": "0.05",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/3 p9",
+          "denominator": "ELIGIBLE_PROJECT_COST"
+        },
+        "own_source_example_at_max_finance": {
+          "value": "526316",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "Summary p3"
+        },
+        "loan_interest": {
+          "value": "0",
+          "unit": "percent_per_year",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p8"
+        },
+        "loan_maturity_max": {
+          "value": "15",
+          "unit": "year",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p8"
+        },
+        "availability_min": {
+          "value": "12",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9"
+        },
+        "availability_max": {
+          "value": "24",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9"
+        },
+        "availability_extension_max": {
+          "value": "6",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9"
+        },
+        "grace_after_availability": {
+          "value": "3",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9"
+        },
+        "execution_max": {
+          "value": "24",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9; V/2"
+        },
+        "execution_extension_max": {
+          "value": "6",
+          "unit": "month",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9; V/2"
+        },
+        "execution_extension_count_max": {
+          "value": "1",
+          "unit": "count",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9; V/2"
+        },
+        "supplier_advance_max_share": {
+          "value": "0.75",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/4 pp9-10",
+          "denominator": "SUPPLIER_AND_TOTAL_FINANCING_LIMITS"
+        },
+        "primary_energy_saving_min_share": {
+          "value": "0.3",
+          "unit": "ratio",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "II/2 p6",
+          "denominator": "BASELINE_HET_ANNUAL_PRIMARY_ENERGY"
+        },
+        "preparation_total_cap": {
+          "value": "450000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "opening_HET_and_plan_cap": {
+          "value": "115000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "other_costs_total_cap": {
+          "value": "300000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "closing_HET_cap": {
+          "value": "65000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "HET_total_cap": {
+          "value": "180000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "V/4 pp14-15"
+        },
+        "cash_advice_cap": {
+          "value": "140000",
+          "unit": "HUF",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "V/4 pp14-15"
+        }
+      },
+      "dates": {
+        "nominal_submission_start": {
+          "value": "2025-01-20",
+          "precision": "day",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "II/4 p8"
+        },
+        "nominal_submission_end": {
+          "value": "2027-03-30",
+          "precision": "day",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "II/4 p8"
+        },
+        "last_programme_payment_date": {
+          "value": "2029-11-30",
+          "precision": "day",
+          "truth_status": "POL",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+          "locator": "IV/1 p9"
+        }
+      },
+      "intake": {
+        "status": "SUSPENDED_FOR_ENVELOPE_EXHAUSTION",
+        "truth_status": "OBS",
+        "checked_at": "2026-10-01",
+        "source_id": "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+        "locator": "programme title and suspension paragraphs",
+        "windows": [
+          {
+            "regions": [
+              "Budapest"
+            ],
+            "announcement_date": "2026-04-14",
+            "last_submission_day": "2026-04-17",
+            "precision": "day",
+            "cutoff": "BRANCH_CLOSING_TIME_NOT_OBSERVED_AS_CLOCK_TIME",
+            "source_id": "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+            "locator": "PDF p1 body paragraph",
+            "truth_status": "POL"
+          }
+        ]
+      },
+      "unknowns": {
+        "remaining_funds": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "reserved_application_amount": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "committed_amount": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "paid_amount": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "confirmed_project_grant": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "university_pilot_funding": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        },
+        "national_programme_allocation": {
+          "value": null,
+          "unit": "HUF",
+          "truth_status": "Q",
+          "reason": "NO_CURRENT_SOURCE_AMOUNT_ESTABLISHED"
+        }
+      },
+      "eligible_total_hard_cap": {
+        "value": null,
+        "unit": "HUF",
+        "truth_status": "Q",
+        "reason": "FINANCE_CEILING_IS_NOT_ELIGIBLE_TOTAL_COST_CAP",
+        "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+        "locator": "IV/3 p9"
+      },
+      "gates": {
+        "applicant": "RECORD_LEVEL_NATURAL_PERSON_CITIZENSHIP_RESIDENCE_RIGHTS_CREDIT_AND_LEGAL_CHECKS",
+        "property": "RECORD_LEVEL_OCCUPIED_PRE2007_FAMILY_HOUSE_DEFINITION_AND_LOCATION",
+        "technical": "RECORD_LEVEL_HET_PRIMARY_ENERGY_PRODUCTS_AND_DELIVERED_SCOPE",
+        "cumulation": "RECORD_AND_COST_LINE_PRIOR_SUPPORT_HEM_CHECKS",
+        "university_or_pilot": "NOT_ESTABLISHED_BY_HOUSEHOLD_CALL",
+        "national_programme": "NO_ALLOCATION_ESTABLISHED"
+      },
+      "scope_labels": [
+        "OCCUPIED_FAMILY_HOUSE_SOURCE_DEFINITION",
+        "PRE_2007_01_01_OCCUPANCY_PERMISSION",
+        "INDIVIDUAL_APPLICANT_AND_BUILDING_CHECKS_REQUIRED"
+      ],
+      "activity_labels": [
+        "ENVELOPE_INSULATION",
+        "EXTERNAL_OPENINGS",
+        "SHADING_ONLY_WITH_SPECIFIED_ENVELOPE_WORK",
+        "STANDALONE_DHW_MODERNISATION",
+        "STANDALONE_AIR_WATER_HP_AND_PERMITTED_ADAPTATION"
+      ],
+      "exclusion_labels": [
+        "FOSSIL_AND_WOOD_HEATING_OR_DHW_MODERNISATION",
+        "FOSSIL_LINKED_EMITTER_TANK_FLOOR_WORK",
+        "SPLIT_OR_WINDOW_AC",
+        "HEATING_FILM",
+        "GENERATION_SAVINGS_FROM_REQUIRED_HET_REDUCTION"
+      ],
+      "cumulation_labels": [
+        "ONE_BORROWER_APPLICATION",
+        "CROSS_SCHEME_BUILDING_OR_BENEFICIARY_RESTRICTION_WITH_STATED_PV_ONLY_EXCEPTION",
+        "NO_OTHER_EU_AID_ON_SAME_FINANCED_COST_LINE",
+        "INVOICE_ENDORSEMENT_NO_REPEAT_CLAIM",
+        "OPTIONAL_WRITTEN_HEM_AGREEMENT",
+        "NO_CASH_AND_HEM_FOR_SAME_ADVICE",
+        "MAX_ONE_HEM_GENERATION_AGREEMENT"
+      ],
+      "cost_cap_source_status": "NOT_MATERIALIZED_DO_NOT_TRANSFER_417_TABLE",
+      "limitations": [
+        "NO_FRESH_AVAILABILITY_OR_HOUSEHOLD_APPROVAL",
+        "ORIGINAL_ENVELOPE_NOT_RESIDUAL",
+        "NO_EXPECTED_CAPEX_FROM_POLICY_CEILINGS",
+        "NO_LIVE_OR_FUTURE_STATUS_EXTRAPOLATION",
+        "NO_UNIVERSITY_PILOT_OR_NEW_NATIONAL_ALLOCATION",
+        "NO_FINANCING_RESULT_OR_POLICY_DEFAULT"
+      ],
+      "financing_constraint_labels": [
+        "GRANT_SHARE_OF_COMBINED_FINANCING",
+        "OWN_SOURCE_SHARE_OF_ELIGIBLE_PROJECT_COST",
+        "OWN_SOURCE_USE_PROVEN_BEFORE_FIRST_DISBURSEMENT",
+        "ADDITIONAL_ELIGIBLE_COSTS_CAN_REQUIRE_EXTRA_OWN_FUNDS",
+        "LOAN_MATURITY_INCLUDES_AVAILABILITY_AND_GRACE",
+        "EXECUTION_EXTENSION_ONCE_JUSTIFIED_NOT_AUTOMATIC",
+        "AVAILABILITY_EXTENSION_JUSTIFIED_NOT_AUTOMATIC",
+        "NO_STANDALONE_GRANT",
+        "TERMS_NOMINAL_DEADLINE_SUBORDINATE_TO_CURRENT_SUSPENSION"
+      ],
+      "cost_constraint_labels": [
+        "PREPARATION_INCLUDES_OPENING_HET_PLAN_AND_ADVICE",
+        "OTHER_COSTS_INCLUDE_CLOSING_HET",
+        "HET_TOTAL_OVERLAPS_OPENING_AND_CLOSING_CAPS",
+        "CAPS_ARE_NOT_ADDITIVE_ENTITLEMENTS",
+        "ABOVE_UNIT_CAP_IS_EXTRA_NON_ELIGIBLE_OWN_FUNDS",
+        "FINANCING_MAX_IS_NOT_ELIGIBLE_TOTAL_CAP"
+      ],
+      "scope_rule_locators": {
+        "applicant": "Call II/1-3 pp5-8",
+        "property": "Call V/1 p12",
+        "technical": "Call II/2 p6; V/3 p13; V/6.1 pp16-17",
+        "cumulation": "Call II/1 p6; V/4 p15; V/6.1 p17; Annex 3 p26",
+        "invoice_endorsement": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015 section 10.8.2 PDF p40 / printed p39"
+      }
+    }
+  ],
+  "operational_observations": {
+    "source_id": "SRC-B14-MFB-KEHOP-PROCESSING-FAQ-202609",
+    "document_revision": "2026-09",
+    "date_precision": "month",
+    "filename_date_not_effective_day": true,
+    "checked_at": "2026-10-01",
+    "claims": {
+      "pre_suspension_application": "APPROVAL_WAITLIST_OR_REJECTION_DEPENDING_ON_RULES_AND_RESOURCES",
+      "waitlist": "ELIGIBLE_BUT_NO_RESOURCE_AT_DECISION_TIME",
+      "envelope_expansion_information": "DATED_UNKNOWN_NOT_ZERO_OR_REFUSAL",
+      "successor_programme_information": "DATED_UNKNOWN_NOT_ABSENCE_OF_FUTURE_PROGRAMME",
+      "normal_processing_deadline": "REPORTED_EXCEEDED_NOT_GUARANTEED_TIMING"
+    },
+    "locators": {
+      "waitlist": "pp1-2",
+      "envelope_expansion_information": "p3",
+      "successor_programme_information": "p3",
+      "normal_processing_deadline": "p1"
+    }
+  },
+  "unresolved": [
+    "NUMERICAL_CURRENT_REMAINING_RESERVED_COMMITTED_PAID_BALANCES",
+    "PROJECT_AWARD_CONTRACT_AND_PAYMENT_EVIDENCE",
+    "RECORD_LEVEL_ELIGIBILITY_AND_CUMULATION",
+    "SEPARATE_UNIVERSITY_PILOT_AND_NATIONAL_FINANCE_AUTHORITY"
+  ]
+}

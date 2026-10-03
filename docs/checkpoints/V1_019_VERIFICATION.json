@@ -1,0 +1,72 @@
+{
+  "checkpoint": "V1_019",
+  "reviewed_base_head": "fdbddafc19582780c190753cbe3c6bf170eb885f",
+  "focused_tests": {
+    "tests": 31,
+    "result": "PASS"
+  },
+  "module_regression_tests": {
+    "command": "python -B -m unittest discover -s tests -p 'test_b10*.py'",
+    "tests": 681,
+    "duration_seconds": 0.709,
+    "result": "PASS"
+  },
+  "plan_tests": {
+    "tests": 3,
+    "result": "PASS"
+  },
+  "registry_validation": "PASS",
+  "independent_review": {
+    "six_file_candidate": "PASS_NO_BLOCKING_FINDING",
+    "original_source_review": "PASS_NUMERIC_SCOPE_DATE_PAYMENT_AND_NARROW_PUBLICATION_BOUNDARY",
+    "focused_tests": 31,
+    "all_numeric_supplement_consumers": 15,
+    "source_hashes": 7,
+    "numeric_source_checks": 15,
+    "archive_member_lineage": "PASS",
+    "other_six_observations_and_original_TED_sources": "UNCHANGED",
+    "full_suite_rerun": false,
+    "shared_integration": "PASS; exact three added source rows, bounded plan entries, README and B14 CI record reviewed without status promotion"
+  },
+  "canonical_public_bytes": "LF_EQUALS_GIT_FILTERED_BYTES",
+  "source_review_precision": [
+    "Scanned BoQ aggregates verified visually, not automated numeric OCR extraction",
+    "Signature cryptographic validity not tested",
+    "Cover date observed; economic price-base date unknown",
+    "Advance-payment wording corrected to the 30th day after request issuance, as stated in the reviewed clause",
+    "Concise aggregate/contract facts supported; granular offer-annex price table remains excluded"
+  ],
+  "local_full_suite": {
+    "result": "NOT_RUN_AFTER_RECENT_RESOURCE_INTERRUPTION",
+    "reason": "Full hosted suite is required on exact publication head; prior B14 local resource-killed attempts are not asserted as tests passing or failing for this candidate"
+  },
+  "required_followthrough": "Exact published-head hosted full-suite CI must PASS before checkpoint completion",
+  "artifact_sha256": {
+    "modules/B10/cost_reference.py": "a62b88dca94c329ec0e8389655179585505ce48f5fc89bf6a7a1ee36eebddcd9",
+    "data/processed/b10/cost_reference_observations.json": "6a3b4433e56d459174cd43503d8f213919c0adffddae4c28b5969d5a9c4b148d",
+    "registry/b10_cost_reference_manifest.json": "ba3224669520b5da46c52538cdd27906415242fd3bc4173d7e81503b38e08129",
+    "tests/test_b10_cost_reference.py": "e64079541c111b1d9a67ade8e885101251eed7db26ec172b116b758ab75d984b",
+    "tools/verify_b10_cost_reference.py": "55ce87cf354169260facb058cd29c1ceffda3c33ff3ed5af16cd540500c5ab63",
+    "docs/checkpoints/V1_019_ORGOVANY_CONTRACT_REFINEMENT.md": "4401e2b3744be99776f8e2c048413c5b8a116e0978d05ed4a1eb88cfd1045d95",
+    "registry/sources.csv": "9a3a1182888c78a95e7cbf8622d22281e0624089f094094a993aac294927fdac",
+    "registry/v1_research_plan.json": "89f034a281357e04500ee3e6cbc3bb5f3eaf0c5d3b1aa086b5c7076bba253a21",
+    "modules/B10/README.md": "5e2282ad8f6f1472702e7d2d844df4ecc72a41dc7918276bfb169429fb83dd99",
+    "docs/checkpoints/V1_018_CI.json": "c08c9e67564af736de71173b4f6e3754d447f8a3f6fc1b8a4dcae7732e5a2055"
+  },
+  "boundaries": [
+    "Seven observations and four procurement clusters unchanged",
+    "Orgovány I supplement only; original TED and contract/BoQ sources remain separate",
+    "Conditional reserve is not a cost forecast; unknown actuals remain null",
+    "No national cost base, programme attribution or generic unit-price conversion",
+    "No source PDF/ZIP, granular annex price table, signatures, contacts or bank details published",
+    "B10-D02 remains INTEGRATING; Q-B10-001/Q-B10-002 and the existing representative E2 route are unchanged"
+  ],
+  "included_prior_ci_confirmation": {
+    "checkpoint": "V1_018",
+    "head": "fdbddafc19582780c190753cbe3c6bf170eb885f",
+    "tested_pr_merge_commit": "9074e84a7b4e14c45b9ca5c7d1c576f18117d84f",
+    "tested_tree": "b1a55074b6b4bc4839ea89c3c821997f8b1a3b47",
+    "head_tree_identical": true,
+    "verification": "Independent GitHub job/commit readback confirms exact content identity"
+  }
+}

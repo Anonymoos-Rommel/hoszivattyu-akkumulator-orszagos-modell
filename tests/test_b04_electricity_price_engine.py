@@ -7,12 +7,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+from modules.B04.engine import h_is_in_season, price_a1
+
+
 def annual_bill(consumption_kwh, threshold, discounted, higher, fixed=0):
-    return min(consumption_kwh, threshold) * discounted + max(consumption_kwh - threshold, 0) * higher + fixed
-
-
-def h_is_in_season(day):
-    return (day.month > 10 or (day.month == 10 and day.day >= 15)) or (day.month < 4 or (day.month == 4 and day.day <= 15))
+    # Existing fixture uses Demasz rates; test the actual canonical-data consumer.
+    if discounted != 36.386 or higher != 70.104 or fixed not in (0, 1836.42):
+        raise ValueError("unsupported legacy fixture")
+    return float(price_a1(consumption_kwh, threshold, 12 if fixed else 0, "MVM Démász").total_huf)
 
 
 class B04ElectricityPriceEngineTests(unittest.TestCase):
@@ -24,9 +26,9 @@ class B04ElectricityPriceEngineTests(unittest.TestCase):
         self.assertNotIn("70.104", {row.get("eur_per_mwh") for row in rows})
 
     def test_threshold_boundaries_only_excess_is_higher(self):
-        self.assertEqual(2522 * 36.386, annual_bill(2522, 2523, 36.386, 70.104))
-        self.assertEqual(2523 * 36.386, annual_bill(2523, 2523, 36.386, 70.104))
-        self.assertEqual(2523 * 36.386 + 70.104, annual_bill(2524, 2523, 36.386, 70.104))
+        self.assertAlmostEqual(2522 * 36.386, annual_bill(2522, 2523, 36.386, 70.104))
+        self.assertAlmostEqual(2523 * 36.386, annual_bill(2523, 2523, 36.386, 70.104))
+        self.assertAlmostEqual(2523 * 36.386 + 70.104, annual_bill(2524, 2523, 36.386, 70.104))
 
     def test_h_boundaries_and_outside_fallback(self):
         self.assertTrue(h_is_in_season(date(2026, 10, 15)))
@@ -45,7 +47,7 @@ class B04ElectricityPriceEngineTests(unittest.TestCase):
 
     def test_vat_and_fixed_charge_once(self):
         self.assertAlmostEqual(5.25 * 1.27, 6.6675, places=4)
-        self.assertEqual(annual_bill(2523, 2523, 36.386, 70.104, 1836.42), 2523 * 36.386 + 1836.42)
+        self.assertAlmostEqual(annual_bill(2523, 2523, 36.386, 70.104, 1836.42), 2523 * 36.386 + 1836.42)
 
     def test_wholesale_conversion_is_dimensional(self):
         self.assertAlmostEqual(103.52 * 400 / 1000, 41.408)

@@ -1,0 +1,32 @@
+{
+  "checkpoint": "V1_013",
+  "reviewed_base_head": "2391a43bfd02540272477c50667df27c777aef30",
+  "targeted_tests": {
+    "command": "python -m unittest tests.test_b07_sax_source_reference -v",
+    "tests": 8,
+    "result": "PASS"
+  },
+  "full_tests": {
+    "command": "python -m unittest discover -s tests",
+    "tests": 2550,
+    "result": "PASS",
+    "duration_seconds": 117.875
+  },
+  "registry_validation": "PASS",
+  "source_extraction": "Both artifacts reproduced byte-for-byte from pinned PDF and literal-only official data asset; no JS execution",
+  "review_scope": "Independent source-point code and all1194vertex finiteness/monotonicity inspection, coordinate mathematics and boundary review. Author checked PDF figures and identity. No independent full laboratory/annual-system validation. Contract remains PROPOSED; no state runtime added.",
+  "artifacts": {
+    "data/processed/b07/sax_2026_converter_curves.csv": "87d1b6b91950792c429746f71770237afd227e26ff5afd3bc5eb4d2b943ebfd6",
+    "data/processed/b07/sax_2026_source_controls.json": "bed133fe134b6559f074ca85ee55cf2043c26bf0792903b04b86866cc582b5de",
+    "docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md": "df3893d1515f57d9000a13ff1944c498ab4b9050eba30721723c296f84d3d37f",
+    "docs/methodology/b07_discharge_equivalent_reference_contract.md": "6cc75923cd0db81515e78ffc198523c4557dc0843455551ecc3ff8504a1e2a04",
+    "modules/B07/sax_source_reference.py": "c6f6cce1f0514784c20cf63d58bf4e22ad9dd2a8f12981536a086ea0054cc95c",
+    "registry/b07_sax_reference_manifest.json": "76ab8d0558622e095cd9093725c5a4a9f174422739a5f2291f2314f9c439d7ba",
+    "tests/test_b07_sax_source_reference.py": "232cf268d9fe412b7e5116a9f876d1e5211b73876a78070cd921a646e20012ed",
+    "tools/extract_b07_sax_reference.py": "672827e5bb3950beee2c7e6f6264fcbf4d16785d77bd6b959c7ba0dcaa210394",
+    "modules/B07/README.md": "0df7599a754bae6fdb929c90f9f03aaca8d2bf3e2881f2e8db84afd435fd5f50",
+    "registry/battery_sources.csv": "e2ccf61eb599f16955010cbf31d14736e988cd0c8f27e117bee7df8a26106820",
+    "registry/sources.csv": "19aabf973c3e0ee57b0b2e4896386533b651065fd02b91d3a2ab0bdd469aef62",
+    "registry/v1_research_plan.json": "a3ec6c89411bc0f5a08cc6fd3ee78d0e070ebe296680a2ae7826e77e3fde8bfb"
+  }
+}

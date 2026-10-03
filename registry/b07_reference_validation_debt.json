@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "method": "B07_DISCHARGE_EQUIVALENT_CONDITIONAL_REFERENCE",
+  "method_status": "OWNER_ADOPTED_BOUNDED_REFERENCE_2026-10-02",
+  "method_evidence_status": "DER",
+  "question_id": "Q-B07-003",
+  "evidence_tier": "E2",
+  "blocker_class": "VALIDATION_BLOCKER",
+  "model_blocker": false,
+  "canonical_use": "MODEL_CONTINUE",
+  "finalization_blocker": true,
+  "source_observation_scope": "E1 only within the reported tested product/firmware, quantity and source boundary; fitted vertices are not independent laboratory observations",
+  "reference_product": "2026:A1 SAX Power Home Plus firmware V23.50",
+  "single_bases": {
+    "usable_capacity": {
+      "value": 7.572,
+      "unit": "kWh_DC_discharged_usable",
+      "source_status": "OBS",
+      "use_status": "E2_PROVISIONAL_CONSTANT_REFERENCE",
+      "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026"
+    },
+    "battery_cycle_efficiency": {
+      "value": 0.958183,
+      "unit": "ratio_battery_DC_cycle",
+      "source_status": "OBS",
+      "use_status": "E2_PROVISIONAL_CONSTANT_REFERENCE",
+      "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+      "included_loss": "Measured cycle already includes active-test battery/BMS contributions; do not add a second active BMS loss"
+    },
+    "aggregate_idle_power": {
+      "value": 4.07,
+      "unit": "W_AC_equivalent_accounting_debit",
+      "source_status": "OBS_TESTED_EMPTY_AC_SYSTEM_PLUS_SENSOR",
+      "use_status": "E2_PROVISIONAL_AGGREGATE_IDLE_PROXY",
+      "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+      "corroboration_source_id": "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026",
+      "application": "Multiply by explicitly supplied idle exposure; never add during already-modelled active converter paths",
+      "allocation": "Aggregate AC-energy accounting only; no observed DC/cell inventory allocation",
+      "is_upper_bound": false,
+      "all_state_measurement": false,
+      "cell_powered_idle_bms_inclusion_verified": false
+    }
+  },
+  "applicability": [
+    "One tested-product reference, no national product/fleet selection",
+    "Constant C and battery cycle efficiency are provisional outside their test profile, not observed one-way chemistry",
+    "Manufacturer approximately4W system standby and exact-system4.07W empty-state result support one provisional aggregate; revision/state transfer and omitted cell-powered idle loss remain debt",
+    "Known source curves retain explicit fit selection and supported power intervals",
+    "Synthetic Reference objects remain SCN/E3 and are not promoted by adoption of this method",
+    "A provisional aggregate idle-energy component may be calculated over supplied finite or annual exposure without resolving every component",
+    "The aggregate AC proxy does not alone determine physical hourly inventory, DC drain, peak flexibility or a complete annual system result"
+  ],
+  "validation_debt": [
+    {
+      "id": "B07-VD-CYCLE-APPLICABILITY",
+      "missing": "Test-to-target power/state/temperature/capacity applicability of constant C and cycle eta",
+      "e1_upgrade": "Selected-product boundary-consistent aggregate cycle/energy observations over the declared target duty and conditions, or a validated transfer/calibration; individual chemical one-way measurements are not mandatory"
+    },
+    {
+      "id": "B07-VD-IDLE-AGGREGATE",
+      "missing": "State/revision applicability and whether aggregate standby includes cell-powered BMS/self-discharge",
+      "e1_upgrade": "Boundary-complete aggregate idle-energy evidence at the selected product/firmware and relevant states/durations, with included/excluded terms explicit; component measurements only where needed to close that aggregate"
+    },
+    {
+      "id": "B07-VD-IDLE-ALLOCATION",
+      "missing": "AC/DC loss-allocation convention for physical inventory/peak dispatch",
+      "e1_upgrade": "Measured or otherwise qualified allocation and state-transition validation if that physical claim is activated; not a prerequisite for an AC aggregate energy debit"
+    }
+  ],
+  "materiality": {
+    "purpose": "Claim-specific relevance and prioritization, not an additional universal E2 gate",
+    "known_proxy_formula": "E_idle_proxy_kWh = 4.07 * explicit_idle_hours / 1000",
+    "source_generic_empty_hours": [
+      1250,
+      3500
+    ],
+    "conditional_proxy_kwh": [
+      5.0875,
+      14.245
+    ],
+    "all_8760_hours_illustration_kwh": 35.6532,
+    "not_claimed": [
+      "Hungarian idle-hour base",
+      "upper bound on unmeasured cell loss",
+      "demonstrably negligible total loss",
+      "annual system round-trip ratio"
+    ],
+    "unresolved_loss_relation": "For a separately established additional power p W over h idle hours, direct energy is p*h/1000 kWh before any required replenishment conversion. No p, exposure or decision threshold is selected here."
+  },
+  "spi_boundary": "Native SAX SPI93.1713% is a profile/tariff-dependent annual simulated cost-saving index, not an energy round-trip efficiency. It may support validation within its reference setup, never replace eta.",
+  "policy": "docs/methodology/evidence_tier_and_validation_debt_policy.md",
+  "e1_component_campaign_required_for_e2": false,
+  "raw_source_publication": false,
+  "legacy_contract_replaced": false,
+  "national_admission": false,
+  "whole_module_acceptance": false,
+  "accepted_slice_ids": [
+    "B07-D01"
+  ],
+  "slice_acceptance_scope": "Named SAX source-qualified E2 product/loss handoff; not whole B07, lifecycle, legal access, national selection or completed E1 applicability validation"
+}

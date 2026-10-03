@@ -92,3 +92,21 @@ def test_readiness_percentages_are_not_artificially_uplifted():
     assert r["PEAK_LOAD_EFFECT"]["readiness_percent"] == "50"
     assert r["INTERVENTION_APPLICABILITY"]["readiness_percent"] == "25"
     assert "intentionally unchanged" in r["ENVELOPE_PHYSICS"]["notes"]
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_domains_do_not_mint_default_factors_or_national_prevalence,
+            test_p63_authority_is_parametric_not_percentage_lookup,
+            test_q_b06_007_is_resolved_without_claiming_national_input_coverage,
+            test_readiness_percentages_are_not_artificially_uplifted,
+            test_tabula_rows_are_validation_only_never_engine_defaults,
+            test_tabula_validation_has_three_distinct_hungarian_type_state_responses,
+        )
+    )
+    return tests

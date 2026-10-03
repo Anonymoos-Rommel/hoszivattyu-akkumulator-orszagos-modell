@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/"data"/"processed"/"b05_p26_mitsubishi_cold_high_supply_classification.csv"
 REG=ROOT/"registry"/"b05_p26_mitsubishi_cold_high_supply_classification.csv"
@@ -61,7 +63,7 @@ class B05P26MitsubishiColdHighSupplyClassificationTests(unittest.TestCase):
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-MITSUBISHI-WM50-OUTLET-ENVELOPE-2025",sources)
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
 
     def test_document_forbids_graph_digitization_and_keeps_b05_64(self):
         text=PACK.read_text(encoding="utf-8")

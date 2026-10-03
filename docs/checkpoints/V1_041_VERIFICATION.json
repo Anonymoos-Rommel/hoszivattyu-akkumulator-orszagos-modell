@@ -1,0 +1,143 @@
+{
+  "checkpoint": "V1-041",
+  "revision": 2,
+  "scope": "Annual source-package comparison plus signed rating-to-installed reconciliation metadata; no numerical installed-system base admitted",
+  "base_commit": "271fce8d526d09e3a4c2b20a9ccbce2aa468c5b9",
+  "reviewed_substantive_tree": "e156592a5d30530f64d426a102da3403725da0d7",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_040_CI.json",
+      "bytes": 1472,
+      "sha256": "f1cdd9ef2b36d94605f44ca952462742af1f3387cea38a001dcb8ff41d5ee91e",
+      "git_blob": "caa0e21616cae0ca1fe184f291fed58d7a3505b3"
+    },
+    {
+      "path": "docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md",
+      "bytes": 5433,
+      "sha256": "5d71bcd72fd2fe8b3e41d5b91f293c125942b36f1193ba404cd712d10b34149c",
+      "git_blob": "fc0a3fad9869a3d3d2a028e2b95d195957f31f7b"
+    },
+    {
+      "path": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md",
+      "bytes": 6811,
+      "sha256": "ce0224ab16595de73a1d8c3ebb8c8fa4b0ba8c909b1dca4057f915707fe0420a",
+      "git_blob": "4386790950f5eed441f4036ee9685dee68d6b436"
+    },
+    {
+      "path": "modules/B11/README.md",
+      "bytes": 3306,
+      "sha256": "37fe1962f3674ddf3d95b33218caf7f1f9b21a8561a51331507a35d72e6033b4",
+      "git_blob": "c9c7a343423d9de2a67614c17a2a5a03bb19b81b"
+    },
+    {
+      "path": "modules/B11/annual_same_service_reference.py",
+      "bytes": 7721,
+      "sha256": "595ffa907e0da7a62fa827c6d77a67841d64457887a317888c21df8ebbe0d9cd",
+      "git_blob": "1b21cfaf1773c4c39c671bba237b8393da1d6a1c"
+    },
+    {
+      "path": "modules/B11/annual_retrofit_reference.py",
+      "bytes": 9949,
+      "sha256": "e8852b6560b42e3754a110ebf54e01b4b0439da77b4146d5b0c1bd41428e41e6",
+      "git_blob": "c13fe0ab45c4673a7dd87b32cae20eee18b3cfec"
+    },
+    {
+      "path": "registry/b11_annual_same_service_reference_manifest.json",
+      "bytes": 9496,
+      "sha256": "830363647476b66dfa141bac791c89fc3098aec85cd45d3a684fd378537c9adc",
+      "git_blob": "b1d7b75a67e9d1f14a728cc28b8d7b916f60b182"
+    },
+    {
+      "path": "registry/b11_annual_retrofit_reference_manifest.json",
+      "bytes": 14908,
+      "sha256": "192b6aa0b0547373fadbe362b89969a7828002bc04305a07dca912b405479791",
+      "git_blob": "98a354d5ad9ac7acbb3ea61758a5bbe910298271"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 260027,
+      "sha256": "a4fe89d5fe8bb7e3912409b7612d4790c2540d3acda1880d837a15605f4c93e5",
+      "git_blob": "79bc2ab23786f332ead15490b8cb6d41eef4c6ae"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 112578,
+      "sha256": "65f9d512d593fb3d00371503f07245af85cd03cf32ceddd8f3100d607754aa08",
+      "git_blob": "3efcd201a1a38788a40f46541cd86ea4ae1b96d5"
+    },
+    {
+      "path": "tests/test_b11_annual_same_service_reference.py",
+      "bytes": 10994,
+      "sha256": "c0db26d0c2323e46763c049dc6acc65029786cb58f956fbad513ec7802447877",
+      "git_blob": "adcf9cae8e353215c4c4b1392811ba5e0139b9d6"
+    },
+    {
+      "path": "tests/test_b11_annual_retrofit_reference.py",
+      "bytes": 12576,
+      "sha256": "a2c8c67007a405642565fddae65dc5839b7b6610219a8413398badfd98e73f92",
+      "git_blob": "19dbf2f97e3ad6c5bbaab88e0fb47f83002ba571"
+    }
+  ],
+  "independent_review": {
+    "verdict": "ACCEPTED_EXACT_SIGNED_BOUNDARY_REVISION2",
+    "report_sha256": "2d8a1d8ec137a864a9cafe4b6149f4ed2da3466a025b154d9e20ae96987e6b03",
+    "focused_tests": 40,
+    "independent_rejection_checks": 54,
+    "family_profile_rows_preserved": 26280,
+    "same_service_profile_rows_preserved": 8760,
+    "numeric_family_fields_preserved": 155,
+    "numeric_same_service_fields_preserved": 31,
+    "source_method_receipt_sha256": "471be88b1a22c42262d7a21049a4c05881e7c3ea88bf4286ee1d6839d133821a",
+    "boundary_source_finding_sha256": "3d4c603c6c2cf2790793dba41b049b3f01d20f34798c0e6ea43aff5626e7b613",
+    "findings_remaining": []
+  },
+  "configured_local_aggregate": {
+    "checkpoint": "V1-041",
+    "revision": 2,
+    "tree": "e156592a5d30530f64d426a102da3403725da0d7",
+    "discovered": 3247,
+    "passed": 3244,
+    "skipped": 3,
+    "failures": 0,
+    "elapsed_seconds": 120.257,
+    "log_sha256": "9b9bfc9b926aa932ccc40e6a15f793b4566740eb0b6813fd80c8fdd332630943",
+    "frozen_hashes_unchanged": true,
+    "verified_at": "2026-10-02T14:51:01.279942+00:00"
+  },
+  "other_checks": {
+    "all_b11_tests": 90,
+    "registry_tests": 15,
+    "plan_tests": 3,
+    "registry_validator": "VALID",
+    "diff_check": "PASS"
+  },
+  "preserved_initial_revision": {
+    "substantive_tree": "2e5e2843b9b222e9e719f8409c08868fda3231de",
+    "receipt_added_tree": "01ecb513b2866fec748a56870985f4159de92cbc",
+    "review_sha256": "07198b197e7ed7c1746eaf27e7696d42aa48b560947a3d70ca20b4d6751cb664",
+    "aggregate_discovered": 3245,
+    "aggregate_passed": 3242,
+    "aggregate_skipped": 3,
+    "disposition": "Preserved, not published; superseded after source-supported signed-boundary clarification. No numerical result was withdrawn."
+  },
+  "source_history": "All prior sources.csv bytes are preserved before exactly two exact-edition standard metadata rows; raw documents and profiles remain external",
+  "numerical_preservation": "Both consumers numerical-function ASTs are unchanged after excluding only new metadata/docstrings; all18 original family test bodies remain unchanged",
+  "hosted_ci": {
+    "status": "REQUIRED_ON_PUBLISHED_FINAL_HEAD",
+    "expected_tests": 3247,
+    "required_skips": 0,
+    "required_external_positive_tests": [
+      "test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed",
+      "test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read",
+      "test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed"
+    ]
+  },
+  "local_skip_reason": "Three existing external-storage positives cannot run under protected inherited Git host markers; no marker or permission changed",
+  "limits": [
+    "Source-convention package comparison, not pure insulation or identical measured comfort",
+    "Original device shortage remains incomplete; no backup or larger device selected",
+    "Residuals are signed installed-minus-rating reconciliations including heat-delivery/duty effects; no blanket extra rated-control term",
+    "Installed heat/service and complete totals remain unknown; existing source-rating values remain valid E2 references",
+    "No DHW displacement, hourly boiler profile, gas volume, import value, household savings, national weights, readiness promotion or main merge"
+  ]
+}

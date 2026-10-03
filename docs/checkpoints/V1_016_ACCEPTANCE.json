@@ -1,0 +1,49 @@
+{
+  "slice_id": "B08-D01",
+  "status": "ACCEPTED",
+  "accepted_scope": "Existing qualified E2 historical Actual Total Load reference: full 2025 UTC source plus 2024 companion, exact Budapest 2025 civil-year and complete winter-2025 handoff",
+  "reviewed_commit": "1906d9709d4b6f8810b8b054c4eef6a9eceb5a7e",
+  "review_date": "2026-10-01",
+  "evidence_tier": "E2_PROVISIONAL_BASE",
+  "validation_debt_ids": [
+    "Q-B08-001"
+  ],
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "public_raw_reuse_status": "NOT_ESTABLISHED_FREE_REUSE",
+  "independent_review": {
+    "code_and_contract_review": "PASS",
+    "module_tests": 71,
+    "module_test_result": "PASS",
+    "independent_reader": "openpyxl read_only, data_only=False, reset_dimensions; every actual-load cell compared with adapter",
+    "source_cells_compared": 70176,
+    "stitched_cells_compared": 35040,
+    "exact_source_hashes_verified": [
+      "1712362093a2957a8870bff5c8758f53a3358587bc7fa9a54e8ee3ba6ecf301d",
+      "66caeba6f85fdef5eecfa9efb2d5a3c0bc2003bf0a344faf2bce01f786b54228"
+    ],
+    "energy_and_peak_reconciled": true,
+    "dst_intervals_spring_autumn": [
+      92,
+      100
+    ],
+    "complete_winter_2025": "PASS",
+    "incomplete_winter_2026": "REJECTED_AS_REQUIRED",
+    "public_repository_raw_safety": "Raw files and full panels untracked; normalized output under ignored data/interim"
+  },
+  "not_accepted": [
+    "B08-D02 programme aggregation and population weights",
+    "B08-D03 regional mapping",
+    "Whole B08 module or programme result",
+    "Public raw redistribution",
+    "Source permission or XML/OBS gate expansion"
+  ],
+  "artifact_sha256": {
+    "modules/B08/gui_load_reference.py": "4a802fa46a3c6b9b2813c430841fcbfaacba8b52e55d1e8061c3fd85b5609f96",
+    "tools/materialize_b08_gui_load_reference.py": "8dc0510143a3b4d71dbaf1dd3d49c5a8376184cc0f0d7c8c6ed9e9406cb84d4d",
+    "tests/test_b08_gui_load_reference.py": "92fb5717fda88956b8914224b8ad1a90813971c547ce880bb67470ef4b6db0b6",
+    "modules/B08/seasonal_reporting_contract.py": "44fc9d1a9c9e0f892f4af142ac5bac578b28fdb79c03d6b06fe0447e0744a47a",
+    "registry/b08_b09_p5_entsoe_gui_export_acquisition.csv": "9b6bf02b4c2ddd123d28e8411181422bfc811b597140c799e444fd37ebdeb96d",
+    "docs/checkpoints/V1_016_B08_QUALIFIED_LOAD_REFERENCE.md": "d82452e033c6de0c8d32de6d0f74f74d6c1ce89dbb1a2cc69dc36d04008f15cd",
+    "docs/checkpoints/V1_016_VERIFICATION.json": "8b35ec6c05139a8077858f91f0a624ecd3c241c4af1e32768129fe950f59a768"
+  }
+}

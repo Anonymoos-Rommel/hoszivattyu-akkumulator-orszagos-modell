@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.part_load_degradation_contract import (
     EXACT_DEFAULT,
     NONDEFAULT,
@@ -100,9 +102,7 @@ class B05P15KeymarkCertifiedCdhPartLoadTests(unittest.TestCase):
 
     def test_readiness_not_minted_and_live_question_stays_open(self):
         readiness = {row["component_id"]: row for row in rows(READINESS)}
-        self.assertGreaterEqual(
-            int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45
-        )
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         questions = {row["question_id"]: row for row in rows(QUESTIONS)}
         self.assertEqual(questions["Q-B05-004"]["status"], "OPEN")
         self.assertIn("B05-P15", questions["Q-B05-004"]["notes"])

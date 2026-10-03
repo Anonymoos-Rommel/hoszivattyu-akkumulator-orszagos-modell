@@ -1,0 +1,36 @@
+{
+  "recorded_at": "2026-10-01T15:43:00Z",
+  "checkpoint": "V1_009",
+  "input_parent_commit": "2ea68a3b7a029e04419e6fec7aa93a751d9894e9",
+  "artifact_sha256": {
+    "modules/B02/keop_prior_calibration.py": "0b670e92067b778390d2849c43d6b061d1607c1db5ecd13f30b7c51ca3378845",
+    "tools/run_b02_prior_calibration.py": "87e5a6d69d3416cc5da2afc7e05935d69eea2d52e7c3531567f004ef5fc9f0f8",
+    "tests/test_b02_keop_prior_calibration.py": "9dcb2e66f2ae90d520c71ff724502c9c89cbb51fa42734807428ccae0517adc6",
+    "data/processed/b02/keop23_dwelling_prior_2011.csv": "ede822e93dbcf3041692d8aa28d31910422d6ce25becf53a355ae7ab24501b1a",
+    "registry/b02_keop23_prior_manifest.json": "ecc2f29d25c18095a7d9b30bfcc0abf23d3a445ae51526dfd389ba4c99b422ac",
+    "docs/checkpoints/V1_009_CALIBRATION_DIAGNOSTICS.json": "2a788c954ba282bc81f4b9bfd52b69ccb420d3a09ca761e403e6b6b0aa9fdc0b"
+  },
+  "verification": [
+    {
+      "command": "python -m unittest discover -s tests -q",
+      "exit_code": 0,
+      "tests": 2527,
+      "seconds": 119.61
+    },
+    {
+      "command": "python tools/validate_registry.py",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m unittest tests.test_b02_keop_prior_calibration -q",
+      "exit_code": 0,
+      "tests": 6
+    },
+    {
+      "check": "Four cases over116452 actual WBL cells; row mass and P21 controls conserved",
+      "result": "PASS"
+    }
+  ],
+  "review_scope": "Independent focused source inspection and experimental method review. Historical area source bridge reviewed separately. No E2 type-weight admission, no complete V1 validation.",
+  "known_limitation": "Historical type/area transfer and conditional independence from unused WBL fields remain explicit ASS/SCN; prototype and census-area bases are not interchangeable"
+}

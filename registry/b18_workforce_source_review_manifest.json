@@ -1,0 +1,161 @@
+{
+  "reference_id": "B18-D01-WORKFORCE-SOURCE-REVIEW-V1",
+  "research_date": "2026-10-01",
+  "scope": "Source qualification only; no FTE capacity consumer or national baseline",
+  "source_artifacts": [
+    {
+      "source_id": "SRC-B18-HU-CS4L-SQA-2023",
+      "original_url": "https://build-up.ec.europa.eu/system/files/2025-02/pZnrtMhXkC_10_02_2025_115846.pdf",
+      "retrieved_at": "2026-10-01T22:45:55.646439+00:00",
+      "sha256": "f90f4827299247eaee62f9db58be1bd195b53fa2557ddef8d965bf2794481a7c",
+      "authority": "ConstructSkills4LIFE consortium; European Commission BUILD UP host",
+      "claim_scope": "Historical study/education-scenario evidence only; no installer capacity",
+      "document_date": "2023-06",
+      "revision": "04; document closed2023-06-29",
+      "byte_count": 6128914,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-HU-CS4L-ROADMAP-2024",
+      "original_url": "https://www.emi.hu/EMI/web.nsf/pub/Z6LSQO/%24FILE/CONSTRUCT_SKILLS_UTITERV_online.pdf",
+      "retrieved_at": "2026-10-01T22:46:09.805002+00:00",
+      "sha256": "c107dcbf187971c1dba3810cc50873b073afbd13d0596ef35ead4383e7fbbd3a",
+      "authority": "ConstructSkills4LIFE consortium; European Commission BUILD UP host",
+      "claim_scope": "Historical study/education-scenario evidence only; no installer capacity",
+      "document_date": "2024-06",
+      "revision": "04; final print approved2024-06-19",
+      "byte_count": 4948986,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-MUN0009-2026",
+      "original_url": "https://www.ksh.hu/stadat_files/mun/hu/mun0009.csv",
+      "retrieved_at": "2026-10-01T22:49:06.707265+00:00",
+      "sha256": "12c123fac0ea5404e76511f5fd9cd63c80dd14215e3e8f01ce3e40f535c603d9",
+      "authority": "KSH",
+      "claim_scope": "Broad sector employed-person control or survey methodology; no installer capacity",
+      "document_date": "2026-02-20 last updated on companion HTML",
+      "byte_count": 8611,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-MUN-METHOD-2026",
+      "original_url": "https://www.ksh.hu/docs/hun/modsz/mun_modsz.html",
+      "retrieved_at": "2026-10-01T22:49:06.689511+00:00",
+      "sha256": "3fc5807ec5ddb8350c788b8d9b8100c086cde649e500b3bf8c7c897db0ba9c03",
+      "authority": "KSH",
+      "claim_scope": "Broad sector employed-person control or survey methodology; no installer capacity",
+      "byte_count": 49399,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B18-KSH-MUN0009-HTML-2026",
+      "original_url": "https://www.ksh.hu/stadat_files/mun/hu/mun0009.html",
+      "retrieved_at": "2026-10-01T23:03:01.846844+00:00",
+      "sha256": "e43ff7893a3c7dc7ce2590e3f8942d45275737bba2a82c9ff72cf238939ef19a",
+      "authority": "KSH",
+      "claim_scope": "Companion HTML for20.1.1.8 sector employment table and last-updated metadata",
+      "document_date": "2026-02-20",
+      "byte_count": 110712,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "exact_locator": "li.last-update; original declared ISO-8859-2 encoding"
+    }
+  ],
+  "source_family_policy": "SQA and roadmap share one consortium and scenario lineage; KSH references are not independent corroborating studies",
+  "reviewed_controls": {
+    "industry_survey": {
+      "evidence_status": "OBS",
+      "meaning": "Observed source-method facts only",
+      "responses": 53,
+      "fieldwork_start": "2023-02-23",
+      "fieldwork_end": "2023-05-21",
+      "representative": false,
+      "weights": null,
+      "locator": "English SQA printed pp18-24"
+    },
+    "training_projection": {
+      "evidence_status": "SCN",
+      "annual_required_entrants": 13600,
+      "annual_additional_trainees": 4800,
+      "assumptions": [
+        "Renovation rate rises from1% to3%",
+        "30% of construction tasks/work assumed residential, not a monetary-output measure",
+        "60% of that work is renovation",
+        "70% of entrants assigned to renovation",
+        "Retirees continue working"
+      ],
+      "locator": "English SQA printed pp173-174",
+      "authority": "External study scenario; not adopted programme policy",
+      "scenario_reference_horizon": "Historical2020-2030 calculation cited in2023 study",
+      "base_renovation_rate_reference_year": 2010
+    },
+    "sqa_table35": {
+      "evidence_status": "SCN",
+      "printed_total": 4800,
+      "printed_parts": [
+        2600,
+        1200
+      ],
+      "arithmetic_status": "DOES_NOT_RECONCILE",
+      "locator": "English SQA printed p174/PDF175",
+      "source_transcription_status": "OBS",
+      "arithmetic_check_status": "DER",
+      "claim_boundary": "Printed scenario quantities remain SCN; observing their transcription/arithmetic does not establish actual labour demand or capacity."
+    },
+    "roadmap_table4": {
+      "evidence_status": "SCN",
+      "printed_total": 4800,
+      "printed_parts": [
+        3200,
+        1600
+      ],
+      "arithmetic_status": "RECONCILES",
+      "locator": "Hungarian roadmap printed p21/PDF11",
+      "history_rule": "Later source is retained separately; does not silently rewrite SQA",
+      "source_transcription_status": "OBS",
+      "arithmetic_check_status": "DER",
+      "claim_boundary": "Printed scenario quantities remain SCN; observing their transcription/arithmetic does not establish actual labour demand or capacity."
+    },
+    "ksh_headcount": {
+      "evidence_status": "DER",
+      "reference_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "source_values_thousand_persons": [
+        "381.5",
+        "390.8",
+        "388.4",
+        "372.0"
+      ],
+      "scope": "Construction sector F; sexes together; employed people age15-74 in private households, not active installation FTE",
+      "vintage": "Companion KSH table last updated2026-02-20",
+      "historical_sqa_2022_thousand_persons": "380.4",
+      "history_rule": "Retain source vintages; do not overwrite historical publication",
+      "method_cautions": [
+        "Census2022 reweighting",
+        "Industry activity reclassification back to2018",
+        "Qualifying work absences included"
+      ],
+      "date_source_id": "SRC-B18-KSH-MUN0009-HTML-2026"
+    }
+  },
+  "unknowns": {
+    "active_installer_fte": null,
+    "regional_available_work_hours": null,
+    "completed_job_labour_hours": null,
+    "competing_workload_fraction": null,
+    "measured_rework_rate": null,
+    "incremental_rollout_capacity": null
+  },
+  "reuse_status": "EXTERNAL_ONLY",
+  "model_use_status": "NO_NATIONAL_CAPACITY_ADMISSION",
+  "next_acquisition": "Trade/region active FTE and completed-job labour/quality sample with work-package mapping, nonresponse/weights and competing workload; no repeated broad headcount search"
+}

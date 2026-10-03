@@ -1,5 +1,20 @@
 # B05-P23 - Dimplex second-manufacturer modulation-floor surface
 
+## Current-use qualification — 2026-10-02
+
+Dimplex LA 2030CP exact fixed-W35 cycling joining is Q. The current KEYMARK
+Outdoor record (registration 40060852, certification date 2025-08-29) separately
+corroborates average/low Cdh at -7/+2/+7/+12 C: .990/.970/.953/.912. It does
+not identify the fixed/variable test-water branch or authorize Cdh transfer to
+manufacturer MIN points. The unchanged current P42 System C 03/2026 W35
+minimum Q/P/COP facts remain source-native; P23 values remain historical and
+are not mixed into the current revision. The exact-bin closure in the original
+account below is retained as history and is superseded for physical admission.
+See the [V1-035 current qualification](../checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md)
+and `registry/b05_cycling_source_admission_manifest.json`. No runtime method,
+actual hourly electricity/SPF or national policy is selected.
+
+
 ## Purpose
 
 P22 left:

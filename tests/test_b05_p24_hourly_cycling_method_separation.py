@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.hourly_cycling_method import (
     HOURLY_ONOFF_TRANSIENT_PARAMETER_AUTHORITY_REQUIRED,
     NO_EXACT_CDH_BIN,
@@ -100,7 +102,7 @@ class B05P24HourlyCyclingMethodSeparationTests(unittest.TestCase):
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-UK-HEM-TP12-HOURLY-ONOFF-2026",sources)
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         text=PACK.read_text(encoding="utf-8")
         self.assertIn("Cdh is not an input to this hourly equation",text)
         self.assertIn("B05 remains **64%**",text)

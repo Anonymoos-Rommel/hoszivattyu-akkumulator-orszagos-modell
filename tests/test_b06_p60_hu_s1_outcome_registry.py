@@ -63,3 +63,19 @@ def test_hungarian_cases_are_bounded_and_not_engine_factors():
     assert family["annual_reduction_fraction"] == "0.56"
     assert family["annual_before_kwh_m2a"] == ""
     assert family["annual_after_kwh_m2a"] == ""
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_authority_refuses_national_effect_claim,
+            test_hungarian_cases_are_bounded_and_not_engine_factors,
+            test_readiness_bridge_points_to_executable_record_gate,
+            test_s1_source_semantics_blocker_is_contracted_not_blanket_pass,
+        )
+    )
+    return tests

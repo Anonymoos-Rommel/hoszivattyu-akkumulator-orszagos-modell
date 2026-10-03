@@ -128,3 +128,17 @@ aktív target/default szemantikát a globális variable registryből. A canonica
 programme target továbbra is `Q`; a Q-B01-001 célháztartás-definíció, a B02
 national eligible stock, a valós éves capacity path, valamint a tényleges
 regional/settlement household allocation továbbra sincs lezárva.
+
+## V1 public stock-flow controls
+
+The [public KSH stock-flow handoff](../../docs/checkpoints/V1_004_B01_PUBLIC_STOCK_FLOW.md) reconciles total county stock across 2023–2025. It does not replace the 2022 occupied/non-district programme denominator or infer eligibility. The 2022 source reference is October 1; later stock dates are January 1.
+
+## V1 conditional national accounting screens
+
+[National count and source-accounting bounds](../../docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md)
+combine native 2022 census group counts and the admitted JRC ledger in a
+parametric necessary-condition screen. Above-cap requirements are excluded
+within their stated boundaries; other requirements remain INCONCLUSIVE.
+The gas ledger includes natural gas and biogas. Nonempty selected groups
+retain the whole ledger cap, with no proportional heat assignment. Central
+heat allocation, eligibility and national feasibility remain unresolved.

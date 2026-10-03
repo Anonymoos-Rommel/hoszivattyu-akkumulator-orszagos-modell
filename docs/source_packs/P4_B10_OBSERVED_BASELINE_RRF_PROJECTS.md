@@ -18,27 +18,43 @@ programme-incremental CAPEX is claimed.
 The official MVM project page identifies the exact project and beneficiary and
 publishes the exact grant `42,909,187,827 HUF` and 50% support rate. The official
 MVM completion communication dated 2026-06-15 explicitly states successful
-completion, reports the realised network scope and 782 MW realised renewable/PV
+completion by that publication date, reports the realised network scope and 782 MW realised renewable/PV
 integration capability. The completion communication uses rounded financial
 wording; it is not the authority for the exact grant precision.
 
 The official OPUS project/funding page identifies the exact project/operator and
 publishes exact total project cost `41,489,280,000 HUF`, exact support
 `20,744,640,000 HUF`, and a 378 MW project-page capability statement. The
-official OPUS completion communication dated 2026-06-15 is the OPERATING status
-authority and reports 261 MW realised additional weather-dependent integration
-capability. Its financial wording is rounded (`41.489` / `20.744` billion HUF),
+official OPUS project page explicitly declares project completion on 2026-06-15.
+The separate completion communication, dated 2026-06-15 in the official news index,
+reports 261 MW realised additional weather-dependent integration capability.
+`SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026` separately binds that report's publication
+date; the article body itself is undated. Its financial wording is rounded (`41.489` / `20.744` billion HUF),
 so it cannot mint the higher-precision exact ledger cost.
 
 Every ledger row references each source needed for its machine claims. The
-completion source must explicitly support `OPERATING` with `OBS` truth. For the
+completion source must explicitly support `PROJECT_COMPLETED_REPORTED` with `OBS` truth. For the
 OPUS exact cost, the separately referenced project/funding source must explicitly
 support `COST`; completion-only provenance is insufficient. A planning/project
 page, generic company page, headroom publication or unrelated source cannot mint
-the operating status. The runtime records are materialised by
+physical operating status. The runtime records are materialised by
 `rrf_baseline_ledger.py` and classified by the existing P3
 `classify_infrastructure()` function; no second classifier is introduced and the
 P3 cost gate is not weakened.
+
+`PROJECT_COMPLETED_REPORTED` is a project-lifecycle fact. Neither umbrella
+completion source explicitly proves the last asset's energization, commissioning
+acceptance, or continuous operating coverage of every component. Physical
+operational status and in-service date therefore remain `Q`. This is not a claim
+that the projects remain under construction or merely budgeted.
+
+The preserved `status_effective_date=2026-06-15` column has the explicit basis
+`REPORTING_AS_OF_DATE`; it is not a physical transition date. Runtime code uses
+`RRF_REPORTING_DATE`, replacing the misleading common `RRF_COMPLETION_DATE` name.
+MVM has only a completed-by bound; OPUS has an exact source-declared project
+completion date from its project page. The P6 timing ledger carries those
+separate date authorities and relations. `WITHOUT_PROGRAM` attribution and
+source-supported cost remain independent of physical operation.
 
 ## Grain and asset type
 
@@ -60,7 +76,7 @@ non-overlapping component-cost authority.
 | Project | Baseline cost | Programme-incremental cost | Evidence verdict |
 |---|---:|---:|---|
 | MVM Démász `RRF-6.1.1-21-2022-00006` | blank | blank | Project page publishes exact grant `42,909,187,827 HUF` and 50% rate; no official source in this slice directly states an exact total project cost, so grant ÷ 50% is not recorded. |
-| OPUS TITÁSZ `RRF-6.1.1-21-2022-00001` | `41,489,280,000 HUF` | blank | Referenced official project/funding page explicitly states the exact total and support. Completion evidence is separately required for OPERATING and only gives rounded financial wording. |
+| OPUS TITÁSZ `RRF-6.1.1-21-2022-00001` | `41,489,280,000 HUF` | blank | Referenced official project/funding page explicitly states the exact total and support. Completion reporting is separately required for the project-lifecycle fact and only gives rounded financial wording. |
 
 Blank is not zero. The incremental registry remains header-only because this
 slice attributes no heat-pump/battery programme cost.
@@ -71,6 +87,8 @@ The MVM completion communication reports 782 MW realised additional renewable/PV
 generation integration capability. The OPUS project page reports 378 MW as its
 project-page capability statement, while the OPUS completion communication
 reports 261 MW realised additional weather-dependent integration capability.
+`SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026` separately binds that report's publication
+date; the article body itself is undated.
 These source claims are preserved rather than collapsed or relabelled. The 378
 MW figure is not called realised completion capacity.
 

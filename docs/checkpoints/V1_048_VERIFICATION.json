@@ -1,0 +1,103 @@
+{
+  "checkpoint": "V1-048",
+  "base": "159a85c9740cf01ca7db60d9687f8abe8f3237e9",
+  "substantive_tree": "15678fcbdb32c759f185118cca84bbed96e4fbab",
+  "scope": "B19-D01 single-metric-selected co-occurring historical windows; no policy horizon, probabilities, national weather/heat scaling, imports, adequacy or financial/feasibility admission",
+  "local_verification": {
+    "checkpoint": "V1-048",
+    "base": "159a85c9740cf01ca7db60d9687f8abe8f3237e9",
+    "substantive_tree": "15678fcbdb32c759f185118cca84bbed96e4fbab",
+    "command": "python -m unittest discover -s tests -v",
+    "discovered": 3388,
+    "passed": 3385,
+    "skipped": 3,
+    "failed": 0,
+    "duration_seconds": 130.112,
+    "log_sha256": "6a6cbf20b2db7da5e5c856ea61da7288ea1afc27feb6153c19b32c34d5201eb2",
+    "skip_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "registry": "VALID",
+    "registry_log_sha256": "f73cb74b0a67a90e027cf5b8495fdf8999378abcb4735a070e8113f62cc7329f",
+    "freeze_sha256": "bcfb35d9538f527bb3bff307d277a24482ae02d25b635e95f95bd1b5324fb3b1",
+    "frozen_files_unchanged_after_tests": true,
+    "genuine_72h_result_sha256": "5b0896c3cc561b14625a1d9c3ef3c5be711abac968744b352b2cc1d56aca69aa",
+    "genuine_replay_hours": 8760,
+    "genuine_replay_quarter_intervals": 35040,
+    "genuine_replay_candidate_windows": 8689,
+    "hosted_ci": "NOT_RUN_UNPUBLISHED_LOCAL_CANDIDATE"
+  },
+  "independent_review": {
+    "verdict": "PASS_FOR_BOUNDED_LOCAL_IMPLEMENTATION",
+    "reviewed_files": [
+      {
+        "path": "docs/checkpoints/V1_048_HISTORICAL_JOINT_STRESS.md",
+        "bytes": 8785,
+        "sha256": "ae232426da172cf72035ae79b9f19dded4bf97b278c459056e84169923a5ebd2",
+        "git_blob": "25da95634f23db576a2b293ac87486fe1fd3f7aa"
+      },
+      {
+        "path": "modules/B19/README.md",
+        "bytes": 1199,
+        "sha256": "4943ea20e4b9df2fba1265988f521977d0d96d4e1661d81560f3c32b4292c7b8",
+        "git_blob": "60df9639e031c3f331a489c1e5cdb0521f2728dd"
+      },
+      {
+        "path": "modules/B19/__init__.py",
+        "bytes": 79,
+        "sha256": "b4e03b00eb11ab42117c820fdd943316739d331cb85caea5d6fa0fcbf0e9c313",
+        "git_blob": "e68411f224eb518e14f27b883fa0b0306d5e6eb8"
+      },
+      {
+        "path": "modules/B19/historical_joint_stress.py",
+        "bytes": 13341,
+        "sha256": "3f9035a03ed8fe5217624eeca763f61e9cae52599c0ebfccafb0e8667363c63d",
+        "git_blob": "dc0718f08314b0a40f49e7f559e4014bfe38044d"
+      },
+      {
+        "path": "registry/b19_historical_joint_stress_manifest.json",
+        "bytes": 3561,
+        "sha256": "0466a0ed61cdab5110a41c42a29e3fefe0a4a4197bc2ad36b42a91cdb7af5036",
+        "git_blob": "5784c2b910bd0af0f5ae58a388df645d268c4809"
+      },
+      {
+        "path": "registry/v1_research_plan.json",
+        "bytes": 126533,
+        "sha256": "646f2de20468744961eaa88be6853f6d07d75fe315fec3dea9a4dfb7dba7cf10",
+        "git_blob": "7def1abb479330bf01beaf4ff8fe373bef7a7cef"
+      },
+      {
+        "path": "tests/test_b19_historical_joint_stress.py",
+        "bytes": 18256,
+        "sha256": "73885107a325eabda3fec56089fc14e4809ab47c679389e6c6e7cd5fd2a7aab5",
+        "git_blob": "a27fb5d845583c34bbbd481801cd22fc930cf5e7"
+      }
+    ],
+    "receipt_sha256": "3ac78d8deaba6a8e8b4d3be8e2a9dd40d48bef23a773f945b2e5541e08415131",
+    "adversarial_checks_passed": 141,
+    "focused_tests_passed": 34,
+    "registry": "VALID",
+    "genuine_original_source_replay": "35040 quarters, 9965 recovery copies, 8759 historical plus 1 recent weather intervals independently reproduced",
+    "genuine_public_api_window_hours": [
+      1,
+      24,
+      72,
+      168,
+      8760
+    ],
+    "comparison": "Every timestamp, selected mean/energy rational, annual total and tie count matches independent original-source arithmetic",
+    "resolved_findings": [
+      "Whole-manifest self-pin prevents exported evidence, debt, spatial scope and exclusion metadata from silently drifting."
+    ],
+    "remaining_blockers": []
+  },
+  "unchanged_validation_debt": [
+    "Q-B08-001",
+    "Q-B09-001",
+    "Source quality, station-only weather and restricted year; no national heat debt closed"
+  ],
+  "hosted_ci": "NOT_RUN_UNPUBLISHED_LOCAL_CANDIDATE; three real-external-directory positive tests require clean hosted CI",
+  "publication": "NOT_PUBLISHED; separately scoped authorization and exact remote/CI verification required"
+}
