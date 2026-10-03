@@ -1707,7 +1707,12 @@
             "SRC-B17-HU-IIR-2026",
             "SRC-B17-EEA-ELECTRICITY-INTENSITY",
             "SRC-B17-AIB-RESIDUAL-2025-REPORT",
-            "SRC-B17-AIB-RESIDUAL-MIX-FAQ"
+            "SRC-B17-AIB-RESIDUAL-MIX-FAQ",
+            "SRC-B17-IPCC-2006-ENERGY-INTRO",
+            "SRC-B17-IPCC-2019-ENERGY-INTRO",
+            "SRC-B17-IPCC-2019-ENERGY-MAPPING",
+            "SRC-B17-IPCC-2006-ENERGY-INDEX",
+            "SRC-B17-IPCC-2019-ENERGY-INDEX"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
@@ -1725,6 +1730,18 @@
               "expected_decision_value": "Prevents fuel-energy, pollutant, PM-boundary, source-vintage and electricity-accounting substitutions in later environmental consumers.",
               "decision": "CONTINUE_SCOPED_ACTIVITY_AND_APPLICABILITY_BRIDGE",
               "evidence": "docs/checkpoints/V1_029_B17_EMISSION_FACTOR_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Reacquired exact IPCC2006 stationary-combustion default and official2019 unchanged-method/refinement context",
+                "Original TABULA workbook fuel mapping and existing V1-045 source-convention NCV activities"
+              ],
+              "remaining_unknown": "Actual Hungarian fuel-carbon/calorimetry, measured combustion activity and population transfer; electricity response, upstream/refrigerant/non-CO2, net climate, exposure/health and valuation remain separate. Factor-only native limits do not cover full model uncertainty.",
+              "promising_next_lead": "Use separately qualified target activity and coherent electricity/lifecycle boundaries for a broader environmental claim; retain the generic source-method reference and its validation debt.",
+              "expected_decision_value": "First compatible B11-to-B17 numerical activity handoff for three named natural-gas source cases, with source-native uncertainty semantics and common-factor case differences rather than independent endpoint combinations.",
+              "decision": "ADMIT_NARROW_DIRECT_GAS_INVENTORY_METHOD_REFERENCE_CONTINUE_TARGET_APPLICABILITY",
+              "evidence": "docs/checkpoints/V1_049_DIRECT_GAS_CO2_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
