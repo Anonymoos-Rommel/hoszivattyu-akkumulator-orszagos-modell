@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from modules.B13.fiscal_reference import (
     FiscalReferenceError, read_fiscal_reference, reference_summary, source_manifest,
+    LEGACY_REFERENCE_ID, SUPPORTED_REFERENCE_IDS,
 )
 
 OUTPUT_NAMES = ('fiscal_reference.json', 'receipt.json')
@@ -70,7 +71,7 @@ def guard_private_output(output_dir, *, root=ROOT):
     return output
 
 
-def source_map(path):
+def source_map(path, *, reference_id=LEGACY_REFERENCE_ID):
     def unique(pairs):
         result = {}
         for key, value in pairs:
@@ -81,7 +82,7 @@ def source_map(path):
 
     entries = json.loads(Path(path).read_text(encoding='utf-8'), object_pairs_hook=unique)
     if isinstance(entries, list):
-        selected = {s['source_id'] for s in source_manifest()['source_artifacts']}
+        selected = {s['source_id'] for s in source_manifest(reference_id)['source_artifacts']}
         result = {}
         for entry in entries:
             sid = entry['source_id']
@@ -101,9 +102,12 @@ def _json_default(value):
     raise TypeError(f'unsupported output type: {type(value).__name__}')
 
 
-def materialize(panel_path, source_files, output_dir):
+def materialize(panel_path, source_files, output_dir, *, reference_id=LEGACY_REFERENCE_ID):
     output = guard_private_output(output_dir)
-    reference = read_fiscal_reference(panel_path, source_files)
+    if reference_id == LEGACY_REFERENCE_ID:
+        reference = read_fiscal_reference(panel_path, source_files)
+    else:
+        reference = read_fiscal_reference(panel_path, source_files, reference_id=reference_id)
     summary = reference_summary(reference)
     output.mkdir(parents=True, exist_ok=True)
     target = output / OUTPUT_NAMES[0]
@@ -126,9 +130,13 @@ def main(argv=None):
     parser.add_argument('--panel', required=True, type=Path)
     parser.add_argument('--source-map', required=True, type=Path)
     parser.add_argument('--output-dir', required=True, type=Path)
+    parser.add_argument('--reference-id', choices=SUPPORTED_REFERENCE_IDS,
+                        default=LEGACY_REFERENCE_ID,
+                        help='Explicit pinned revision; omission preserves legacy V1')
     args = parser.parse_args(argv)
     try:
-        result = materialize(args.panel, source_map(args.source_map), args.output_dir)
+        result = materialize(args.panel, source_map(args.source_map, reference_id=args.reference_id),
+                             args.output_dir, reference_id=args.reference_id)
     except (FiscalReferenceError, OSError, ValueError, KeyError, TypeError) as exc:
         parser.error(str(exc))
     print(json.dumps(result, ensure_ascii=False, indent=2))

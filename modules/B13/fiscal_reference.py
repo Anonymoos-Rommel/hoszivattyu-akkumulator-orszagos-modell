@@ -21,6 +21,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = ROOT / 'registry/b13_fiscal_reference_manifest.json'
 MANIFEST_SHA256 = 'ea2758707c05e9757b8efb8c5783c4081f06cda8bc9eb41900291e7303916cf2'
+LEGACY_REFERENCE_ID = 'B13-D01-FISCAL-BASELINE-REFERENCE-V1'
+SOURCE_LED_REFERENCE_ID = 'B13-D01-FISCAL-BASELINE-REFERENCE-SOURCE-LED-20261003'
+SOURCE_LED_MANIFEST_PATH = ROOT / 'registry/b13_fiscal_source_led_reference_manifest.json'
+SOURCE_LED_MANIFEST_SHA256 = '9c9842239e80ffb0e064eb66c4bc4cf0d4bd447aa1c26d71b8348a25e6a58bcb'
+SUPPORTED_REFERENCE_IDS = (LEGACY_REFERENCE_ID, SOURCE_LED_REFERENCE_ID)
 EDP = 'SRC-B13-KSH-EDP-20261001'
 MONTHLY = 'SRC-B13-MAK-MONTHLY-202512'
 QUARTERLY = 'SRC-B13-KSH-GDP0111-20261001'
@@ -92,6 +97,7 @@ class FiscalReference:
     source_cell_flags: tuple[tuple[str, str, str], ...]
     panel_sha256: str
     verified_source_ids: tuple[str, ...]
+    reference_id: str = LEGACY_REFERENCE_ID
 
 
 def _unique_pairs(pairs):
@@ -113,11 +119,19 @@ def _json(data):
         raise FiscalReferenceError('invalid JSON') from exc
 
 
-def source_manifest():
-    data = MANIFEST_PATH.read_bytes()
-    if hashlib.sha256(data).hexdigest() != MANIFEST_SHA256:
+def source_manifest(reference_id=LEGACY_REFERENCE_ID):
+    if not isinstance(reference_id, str) or reference_id not in SUPPORTED_REFERENCE_IDS:
+        raise FiscalReferenceError('explicit supported fiscal reference identity required')
+    if reference_id == LEGACY_REFERENCE_ID:
+        path, expected = MANIFEST_PATH, MANIFEST_SHA256
+    else:
+        path, expected = SOURCE_LED_MANIFEST_PATH, SOURCE_LED_MANIFEST_SHA256
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != expected:
         raise FiscalReferenceError('public provenance/interpretation manifest changed')
     manifest = _json(data)
+    if manifest.get('reference_id') != reference_id:
+        raise FiscalReferenceError('reference identity does not match its pinned manifest')
     if any(manifest.get(key) != value for key, value in POLICY.items()):
         raise FiscalReferenceError('reference-only policy changed')
     return manifest
@@ -232,6 +246,8 @@ def _decode_panel(data, manifest, workbooks):
             native = _decimal(workbooks[row['source_id']][sheet][cell])
             if normalized is None or abs(native - normalized) > Decimal('0.00000001'):
                 raise FiscalReferenceError('native workbook/panel disagreement beyond serialization precision')
+            if manifest.get('reference_id') == SOURCE_LED_REFERENCE_ID and native != normalized:
+                raise FiscalReferenceError('source-led workbook values must equal native Decimal values')
         sids = tuple(row['source_id'].split(';'))
         records.append(FiscalRecord(
             rid, row['quantity'], native, normalized,
@@ -341,9 +357,13 @@ def _reconcile(records, sources, edp):
     return tuple(checks), tuple(flags)
 
 
-def read_fiscal_reference(panel_path, source_files):
-    """Require the exact panel and source-ID/path map; never download or repin."""
-    manifest = source_manifest()
+def read_fiscal_reference(panel_path, source_files, *, reference_id=LEGACY_REFERENCE_ID):
+    """Read one explicitly selected pinned reference; never download or repin.
+
+    Omission retains the legacy contract. The separately qualified source-led
+    revision never silently replaces or claims recovery of the legacy panel.
+    """
+    manifest = source_manifest(reference_id)
     pins = {s['source_id']: s for s in manifest['source_artifacts']}
     if not isinstance(source_files, dict) or set(source_files) != set(pins):
         raise FiscalReferenceError('exact explicit source-ID/path map required')
@@ -357,7 +377,7 @@ def read_fiscal_reference(panel_path, source_files):
             records = _decode_panel(data, manifest, workbooks)
             reconciliations, flags = _reconcile(records, sources, workbooks[EDP])
         return FiscalReference(records, reconciliations, flags,
-                               manifest['external_panel']['sha256'], tuple(sorted(sources)))
+                               manifest['external_panel']['sha256'], tuple(sorted(sources)), reference_id)
     except (KeyError, TypeError, IndexError, InvalidOperation) as exc:
         raise FiscalReferenceError('invalid source-native panel or control') from exc
 
@@ -365,7 +385,9 @@ def read_fiscal_reference(panel_path, source_files):
 def reference_summary(reference):
     if not isinstance(reference, FiscalReference):
         raise FiscalReferenceError('verified fiscal reference required')
-    return {'reference_id': 'B13-D01-FISCAL-BASELINE-REFERENCE-V1', **POLICY,
+    if not isinstance(reference.reference_id, str) or reference.reference_id not in SUPPORTED_REFERENCE_IDS:
+        raise FiscalReferenceError('unsupported fiscal reference identity')
+    result = {'reference_id': reference.reference_id, **POLICY,
             'panel_sha256': reference.panel_sha256,
             'verified_source_ids': list(reference.verified_source_ids),
             'record_count': len(reference.records),
@@ -378,3 +400,9 @@ def reference_summary(reference):
                                   for s,c,f in reference.source_cell_flags],
             'programme_fiscal_result': None,
             'mvm_order_gap_explanation': None}
+    if reference.reference_id == SOURCE_LED_REFERENCE_ID:
+        result.update(qualification='NEW_SOURCE_LED_REFERENCE_NOT_LEGACY_PANEL_RECOVERY',
+                      qualification_date='2026-10-03', legacy_panel_recovered=False,
+                      legacy_reference_id=LEGACY_REFERENCE_ID,
+                      budget_annex_legal_effectivity='UNVERIFIED_PINNED_DOCUMENT_CONTEXT_ONLY')
+    return result

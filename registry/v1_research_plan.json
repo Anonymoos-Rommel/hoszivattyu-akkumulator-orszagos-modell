@@ -1617,7 +1617,7 @@
           "data": "HU központi/államháztartási kör, év: HUF bevétel/kiadás, GDP, adósság, kamat, energiaár-kompenzáció releváns tételei. Pénzforgalmi és eredményszemlélet nem keverhető.",
           "phase": "V",
           "slice_id": "B13-D01",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B13-MAK-CLOSING-2025",
             "SRC-B13-MAK-MONTHLY-202512",
@@ -1634,8 +1634,15 @@
             "SRC-B13-NJT-1333-2025",
             "SRC-B13-NJT-BUDGET-2025-ANNEX1"
           ],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
+          "accepted_artifacts": [
+            "registry/b13_fiscal_source_led_reference_manifest.json",
+            "modules/B13/fiscal_reference.py",
+            "tools/materialize_b13_fiscal_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b13_fiscal_reference.py",
+            "tests/test_b13_source_led_reference.py"
+          ],
           "validation_debt_ids": [],
           "research_log": [
             {
@@ -1651,6 +1658,18 @@
               "expected_decision_value": "Establishes a reproducible dated baseline without mixing cash, accrual, planned appropriations, annual versus adjusted GDP, debt stocks or recipient cash",
               "decision": "REVIEW_BOUNDED_EXTERNAL_STATISTIC_REFERENCE_ONLY",
               "evidence": "docs/checkpoints/V1_026_B13_FISCAL_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "All14 selected Treasury, KSH, MVM and NJT originals reacquired with exact legacy byte identities",
+                "New direct-source Decimal normalization, record witnesses and independent original-source review"
+              ],
+              "remaining_unknown": "Legacy JSON, its private normalizer and its exact serialized values/text remain unrecovered. The new dated source-led reference is separately qualified. Institutional reserve actual stays blank; recipient/order difference, fuel/household/VAT/service-year allocation, historical annex legal effectivity, programme response, owner fiscal policy and available headroom remain explicit.",
+              "promising_next_lead": "Verify this exact executable new reference on hosted CI, then bind bounded D01 acceptance to the actual reviewed implementation; continue D02/P01 separately.",
+              "expected_decision_value": "Restores an executable provenance-backed handoff for all original D01 fields while retaining legacy behavior and distinct cash/ESA, actual/appropriation, stock/flow and vintage roles. No recovered legacy panel or unchanged legacy serialized values are claimed.",
+              "decision": "NEW_SOURCE_LED_D01_HANDOFF_AWAIT_EXACT_IMPLEMENTATION_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_056_B13_SOURCE_LED_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
