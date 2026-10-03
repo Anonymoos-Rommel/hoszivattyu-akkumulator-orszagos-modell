@@ -433,7 +433,7 @@
           "data": "H-mérőn töltés/kisütés/export és VPP jogosultság igen/nem/nyitott, pontos kapcsolás és hatály. Jogi bizonyíték, nem statisztikai becslés.",
           "phase": "A",
           "slice_id": "B04-L01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B04-NJT-H-TARIFF-2026",
             "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
@@ -483,9 +483,20 @@
               "expected_decision_value": "Completes four separate researched operation dispositions across six explicit reference paths, corrects repealed authority, preserves source/contract effectivity, disabled operation and unknown foregone benefit.",
               "decision": "PREPARE_RESEARCHED_OPEN_L01_HANDOFF_AWAIT_REVIEW_AND_HOSTED_ACCEPTANCE",
               "evidence": "docs/checkpoints/V1_055_H_TOPOLOGY_AUTHORITY.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "21 qualified official current/historical legal, supplier and DSO sources; source lineage, exact effectivity and procedural context"
+              ],
+              "remaining_unknown": "Actual-site H battery charge, discharge, export and VPP rights remain OPEN/E3 under Q-B04-001. Reference wiring is not as-built evidence. Selected consumer/market-service terms and exact post-July-2026 operational protocol alignment remain operation-enabling debt. No site or national permission, savings, numerical tariff result or readiness increase.",
+              "promising_next_lead": "Use the accepted dated researched-OPEN reference; obtain actual topology, mapping, operation-specific authority and selected-service evidence before any operation-enabling decision.",
+              "expected_decision_value": "Closes the original four-operation YES/NO/OPEN, explicit reference-wiring and effectivity handoff without inventing blanket prohibitions, outside-H contract requirements, supplier/BRP consent or universal export prerequisites.",
+              "decision": "ACCEPT_DATED_B04_L01_RESEARCHED_OPEN_SOURCE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_055_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "13ddb607b86d99ff92e662d027d5c8ce85887186"
         }
       ],
       "e2": "Árhoz a hivatalos hatályos tábla lehet E1; hiányos komponenshez csak dokumentált E2. Fizikai akkumulátorképesség nem jogi engedély. HUPX hiánya nem állítja meg külön a háztartási tarifaszámítást.",
