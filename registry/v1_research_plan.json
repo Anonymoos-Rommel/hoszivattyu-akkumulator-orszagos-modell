@@ -240,12 +240,28 @@
           "data": "TTF EUR/MWh nap/hónap, megfigyelési ablak és forward as-of dátum; HU importértékhez nem automatikusan azonos. ACER táblából exact érték és eredet, frissességi/használati ellenőrzés.",
           "phase": "A",
           "slice_id": "B03-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "RESEARCHING",
+          "canonical_source_ids": [
+            "SRC-B03-ACER-TTF-2026"
+          ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
+          "consumer_tests": [
+            "tests/test_b03_forward_placeholder_truth.py"
+          ],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Existing ACER/ICIS official source-page and report lead; exact original curve not acquired"
+              ],
+              "remaining_unknown": "Exact lawful export, assessment date/timezone, instrument tenors, calorific basis and intended-use rights remain unqualified. Historical retrieval is not curve as-of.",
+              "promising_next_lead": "Resume the access-blocked ACER route only when exact lawful source export and use qualification are available; other wholesale sources still require their own qualification.",
+              "expected_decision_value": "Corrects unsupported August dates and an unselected BASE label on an entirely empty Q placeholder without admitting a price or bypassing access restrictions.",
+              "decision": "RECONCILE_SOURCE_TRUTH_KEEP_WHOLESALE_NUMERIC_GAP_OPEN",
+              "evidence": "docs/checkpoints/V1_051_EMPLOYMENT_AND_PLAN_RECONCILIATION.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -774,11 +790,17 @@
           "slice_id": "B07-D01",
           "status": "INTEGRATING",
           "canonical_source_ids": [
-            "SRC-B07-HTW-SAX-REFERENCE-2026"
+            "SRC-B07-HTW-SAX-REFERENCE-2026",
+            "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026"
           ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
+          "consumer_tests": [
+            "tests/test_b07_sax_source_reference.py",
+            "tests/test_b07_discharge_equivalent_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B07-003"
+          ],
           "research_log": [
             {
               "date": "2026-10-01",
@@ -790,6 +812,17 @@
               "expected_decision_value": "Avoids non-identifiable chemical-loss measurement demand while preserving measured capacity/cycle energy and material low-load converter losses",
               "decision": "CONTINUE_REFERENCE_RUNTIME",
               "evidence": "docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Published V1-038 conditional discharged-energy runtime and source-qualified SAX E2 aggregate idle proxy"
+              ],
+              "remaining_unknown": "Original temperature and test-condition metadata still needs exact source-to-handoff mapping before a whole-task acceptance decision; operating range and laboratory ambient are distinct. Exact BMS components and national or annual results are not new D01 gates.",
+              "promising_next_lead": "Qualify existing source passages and map original D01 criteria for acceptance by verified reuse; keep later physical-state allocation and E2-to-E1 debt separate.",
+              "expected_decision_value": "Records already available E2 model continuation and tested AC/DC accounting instead of incorrectly treating the V1-013 proposed runtime as current.",
+              "decision": "RECONCILE_EXISTING_RUNTIME_CONTINUE_BOUNDED_ACCEPTANCE_REVIEW",
+              "evidence": "docs/checkpoints/V1_038_B07_DISCHARGE_EQUIVALENT_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -812,12 +845,31 @@
           "data": "SOC-kezdő/végfeltétel, órás kW parancs, tartalék és rendelkezésre állás; jogszerű mérőkör. VPP-bevételhez külön piaci/szerződési adat.",
           "phase": "A",
           "slice_id": "B07-D03",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B07-HTW-SAX-REFERENCE-2026",
+            "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026"
+          ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "consumer_tests": [
+            "tests/test_b07_discharge_equivalent_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B07-003"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Published V1-038 explicit command, reserve and endpoint inventory mechanics; no source for a national operating policy"
+              ],
+              "remaining_unknown": "Actual duty profile, physical idle allocation when that claim is activated, legal metering/export access, fleet availability and VPP revenue remain separate inputs.",
+              "promising_next_lead": "Use existing mechanics only with explicitly supported operating profiles and exact relevant permissions; no new runtime is needed merely to record its existence.",
+              "expected_decision_value": "Credits implemented conditional mechanics without selecting dispatch, guaranteeing available capacity or treating a commanded synthetic profile as an observed strategy.",
+              "decision": "RECONCILE_CONDITIONAL_MECHANICS_NOT_OPERATING_POLICY",
+              "evidence": "docs/checkpoints/V1_038_B07_DISCHARGE_EQUIVALENT_REFERENCE.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
@@ -1574,12 +1626,29 @@
           "data": "HUF/EUR keret, valóban rendelkezésre álló maradvány, kötelezettségvállalás, kifizetés, programhoz rendelhetőség és folyósítás időpontja; állapot külön mező.",
           "phase": "V",
           "slice_id": "B14-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+            "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025"
+          ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
+          "consumer_tests": [
+            "tests/test_b14_funding_reference.py"
+          ],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Published V1-018 dated KEHOP 4.1.7/4.1.8 original programme-envelope controls, same official call family"
+              ],
+              "remaining_unknown": "Current available balances, reservations, commitments, disbursements, cancellations, programme attribution and payment timing remain absent. Original envelope is not remaining money or project award.",
+              "promising_next_lead": "Acquire a dated scope-matched reconciliation of commitments and cash before admitting available finance; unchanged suspension pages are not new balance evidence.",
+              "expected_decision_value": "Credits an existing envelope subinput while preserving the full remaining-finance and payment gap.",
+              "decision": "RECONCILE_ORIGINAL_ENVELOPE_SUBINPUT_ONLY",
+              "evidence": "docs/checkpoints/V1_018_CI.json"
+            }
+          ],
           "reviewed_commit": null
         },
         {
@@ -1667,11 +1736,20 @@
             "SRC-B16-EUROSTAT-HU-IOT-METADATA-2026",
             "SRC-B16-EUROSTAT-HU-IOT-COVERAGE-2026",
             "SRC-B16-EUROSTAT-SUIOT-INFORMATION-2026",
-            "SRC-B16-EUROSTAT-REUSE-2026"
+            "SRC-B16-EUROSTAT-REUSE-2026",
+            "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023",
+            "SRC-B16-EUROSTAT-HU-EMPLOYMENT-A10-2023",
+            "SRC-B16-EUROSTAT-HU-POPULATION-EMPLOYMENT-2023",
+            "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-2023-CONTROL",
+            "SRC-B16-EUROSTAT-EMPLOYMENT-METADATA-2026",
+            "SRC-B16-EUROSTAT-HU-EMPLOYMENT-METADATA-2025",
+            "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-METADATA-2026",
+            "SRC-B16-EUROSTAT-ESA2010-MANUAL"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [
-            "tests/test_b16_industry_structure_reference.py"
+            "tests/test_b16_industry_structure_reference.py",
+            "tests/test_b16_employment_structure_reference.py"
           ],
           "validation_debt_ids": [],
           "research_log": [
@@ -1686,6 +1764,18 @@
               "expected_decision_value": "Fills the first B16 numerical source gap with exact domestic/import/total matrices and accounting identities, preventing overlapping sector double-counting, absent-year substitution and deletion of signed or missing source cells.",
               "decision": "INTEGRATE_DATED_HISTORICAL_STRUCTURE_ONLY_WITH_PROGRAMME_DEPENDENCIES_OPEN",
               "evidence": "docs/checkpoints/V1_050_HUNGARIAN_INDUSTRY_STRUCTURE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "KSH/Eurostat official HU 2023 domestic-concept persons and actual hours with same-family A10 and concept controls",
+                "Original ESA2010 A64 classification and current-versus-frozen national-account compatibility controls"
+              ],
+              "remaining_unknown": "Exact employment revision vintage and coherent IO compatibility; FTE denominator, occupation/installation capacity, programme expenditure, counterfactual and displacement. Absent self-employment or U remains null; no labour coefficients or jobs effects.",
+              "promising_next_lead": "Use the descriptive one-way 89-to-64 attachment only within its dated source scope; qualify aligned snapshots or a revision bridge before joint intensities, and acquire programme-specific spending/capacity before effects.",
+              "expected_decision_value": "Adds the previously missing quantitative labour dimension while detecting current-versus-frozen account differences and preventing false complete-sector closure, reverse allocation or FTE conversion.",
+              "decision": "INTEGRATE_DESCRIPTIVE_LABOUR_ATTACHMENT_WITH_COMPATIBILITY_DIAGNOSTICS",
+              "evidence": "docs/checkpoints/V1_051_EMPLOYMENT_AND_PLAN_RECONCILIATION.md"
             }
           ],
           "reviewed_commit": null
@@ -1736,7 +1826,10 @@
             "SRC-B17-IPCC-2019-ENERGY-INDEX"
           ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
+          "consumer_tests": [
+            "tests/test_b17_emission_factor_reference.py",
+            "tests/test_b17_direct_gas_reference.py"
+          ],
           "validation_debt_ids": [],
           "research_log": [
             {
@@ -1934,7 +2027,9 @@
             "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026"
           ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
+          "consumer_tests": [
+            "tests/test_b19_historical_joint_stress.py"
+          ],
           "validation_debt_ids": [
             "Q-B08-001",
             "Q-B09-001"

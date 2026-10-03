@@ -147,3 +147,132 @@ Source: Eurostat, `naio_10_cp1750`, Hungary 2023, compiled by KSH; retrieved
 3 October 2026. Accounting checks and summaries are project-derived. Eurostat is
 not responsible for the transformation or conclusions. Numerical reuse with
 attribution is qualified; source-original republication is not authorized here.
+
+## Employment extension: V1-051 descriptive persons/hours attachment
+
+The preceding V1-050 sections describe the industry-only reader, which remains
+unchanged. The separate `employment_structure_reference.py` now adds a **2023
+mixed-vintage descriptive attachment**. It does not establish a matched-vintage
+labour satellite or complete B16-D01/B16.
+
+The [employment manifest](../../registry/b16_employment_structure_reference_manifest.json)
+pins four operative numerical sources, the existing IO original and five
+methodology/classification/reuse originals. All originals remain external-only;
+only the five numerical originals are required at runtime. The new retrieval of
+the existing Eurostat reuse notice preserves both exact snapshot hashes and
+retrieval identities. Secondary discovery documents are not extra independent
+support. The existing industry reader owns IO loading and reconciliation.
+
+### Concepts and availability
+
+The source is Eurostat `nama_10_a64_e`, compiled by KSH, HU 2023 domestic employment
+in resident producing units. `EMP_DC`, `SAL_DC` and `SELF_DC` mean total employed
+persons, employees and self-employed people. `THS_PER` is thousand persons
+(annual average); `THS_HW` is thousand hours actually worked during the year.
+Neither is FTE or jobs created. Persons with multiple jobs are classified by
+principal activity; paid/contractual hours are not substituted for actual hours.
+
+KSH national accounts combine LFS-to-national-accounts bridges, administrative
+records, sole-proprietor registers and estimation/exhaustiveness adjustments.
+Actual hours combine employment estimates with average actual hours from labour
+reports/LFS. Evidence labels are **P1 / E1 / DER**, historical compiled statistics.
+A64 employment, A10/PE controls, production accounts and IO share the KSH national
+accounts family; agreement is not independent corroboration.
+
+There are **64 disjoint employment groups**. The selected two-unit × three-item
+core has 384 positions: 340 numeric and 44 absent. For each unit, EMP and SAL have
+63 observations and missing U; SELF has 44 observations and 20 missing groups.
+A missing SELF value remains null when EMP equals SAL. U remains null even when
+frozen IO output is zero or observed employment rows happen to sum to the total.
+Source numeric zero, signed values, sparse absence, explicit null and status flags
+remain distinguishable. The acquired original has no observation-status flags;
+this is not a guarantee of finality or error-free data. Source-native unsupported
+job/growth units remain source metadata and are rejected by the public read API.
+
+Native economy totals are 4,784.37 / 4,397.18 / 387.19 thousand persons and
+7,984,708 / 7,201,760 / 782,948 thousand actual hours, respectively EMP / SAL / SELF.
+The six A10 totals and three PE person totals agree exactly. The national-concept
+EMP comparator is 4,783.9 thousand persons and is never substituted for domestic
+employment. Partial observed person sums minus reported totals are −0.01 / +0.03 /
++0.01 thousand persons; partial hour sums have zero residual. These are partial
+observed-sum diagnostics, not complete-partition closure. Within-row EMP−SAL−SELF
+residuals are reported for complete triplets, including small ±0.01 thousand-person display
+residuals. No balancing adjustment or missing-value imputation is applied.
+
+### One-way classification and accounting-snapshot differences
+
+The ESA 2010 A*64 classification supports aggregation of all 89 IO leaves into
+64 groups exactly once. L68A/L68B reunite as L68; T97/T98 as T. Source aliases
+D35/D, L/L68, O84/O, P85/P and U99/U are not extra groups. The mapping preserves
+both frozen IO P1 and B1G totals. Employment is never allocated back to IO leaves.
+A classification group is not a heat-pump installer or occupation cohort.
+
+The current `nama_10_a64` P1/GVA control snapshot differs from frozen IO:
+
+- P1: 149,847,348 versus 149,793,419 million HUF, difference +53,929
+- B1G: 65,082,720 versus 65,157,153 million HUF, difference −74,433
+
+All **130** group-plus-total comparisons are reported. For each indicator, 63
+positions differ, T agrees and U is unavailable in the current control. Absent U
+has a null difference despite frozen IO U being zero. Common year/current-price
+million-HUF units permit descriptive differences; they do not prove compatible
+compilation vintages. Differences establish accounting-snapshot incompatibility,
+not the exact employment vintage or that every difference is solely a revision.
+The employment dataset-global 2026-10-02 update is not a country-specific vintage.
+The Hungarian employment metadata content date is 2025-10-22; general employment
+metadata is dated 2025-01-16 and HU general accounts metadata 2025-10-22. IO
+national vintage is 2025.
+
+### Explicit loading, immutable output and verification
+
+```python
+from modules.B16.employment_structure_reference import (
+    HISTORICAL_EMPLOYMENT_ATTACHMENT, load_employment_structure_reference,
+)
+
+reference = load_employment_structure_reference(
+    {
+        "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023": "/private/a64-employment.json",
+        "SRC-B16-EUROSTAT-HU-EMPLOYMENT-A10-2023": "/private/a10-employment.json",
+        "SRC-B16-EUROSTAT-HU-POPULATION-EMPLOYMENT-2023": "/private/population-employment.json",
+        "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-2023-CONTROL": "/private/current-accounts.json",
+        "SRC-B16-EUROSTAT-KSH-HU-IOT-2023": "/private/frozen-io.json",
+    },
+    reference_year=2023,
+    units=("THS_PER", "THS_HW"),
+    claim=HISTORICAL_EMPLOYMENT_ATTACHMENT,
+)
+cell = reference.read_cell(industry_code="A03", indicator="SELF_DC", unit="THS_PER")
+# cell.value is None; source absence is retained, not inferred zero
+report = reference.report()
+```
+
+Source paths, year, units and claim are mandatory. Changed original/manifest bytes
+fail closed. No runtime fetching, automatic source selection, caller-supplied hash
+or trusted-manifest override is provided. Source decimal lexemes are retained
+without binary-float conversion. Sums/differences use integer coefficients and
+base-ten exponents, independent of ambient Decimal precision, rounding and traps.
+Cells, source dimensions, manifest metadata and reports are deeply immutable.
+
+The CLI accepts five repeated `--source SOURCE_ID=/explicit/path` arguments,
+`--reference-year 2023 --units THS_PER THS_HW`, and
+`--claim HISTORICAL_EMPLOYMENT_ATTACHMENT`. It prints a structured report only;
+there is no storage writer. Public reads allow the 64 groups plus TOTAL and only
+the three domestic employment indicators in persons/actual-hours units.
+
+```sh
+python -m unittest discover -s tests -p 'test_b16_employment_structure_reference.py'
+```
+
+Hermetic tests use a small authored economy with incomplete self-employment,
+rounding residuals, status/missing distinctions and mismatched accounting controls.
+They do not embed the original panel. Genuine-source acceptance separately checks
+all 384 core positions, controls, residuals and 130 differences against qualified
+originals; ordinary CI does not require private source files.
+
+No labour/output or labour/GVA coefficients, invented FTE denominators, reverse
+allocation, installer/spare capacity, jobs effects, shocks, multipliers, inverse,
+programme GDP/fiscal/financing result, national default or B15 readiness is admitted.
+A matched snapshot or qualified compatibility bridge and further claim-specific
+evidence are still required. Eurostat/KSH attribution and Eurostat non-responsibility
+for project-derived aggregation/diagnostics accompany the report.
