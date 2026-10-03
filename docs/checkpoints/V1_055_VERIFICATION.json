@@ -1,0 +1,167 @@
+{
+  "checkpoint": "V1-055",
+  "status": "LOCAL_REVIEWED_RESEARCHED_OPEN_HANDOFF_NOT_PUBLISHED",
+  "integration_base_commit": "c9cec0fad286bb7bc6db87a09da067429f9b1121",
+  "reviewed_substantive_tree": "96500a8e27bc53e6f285f7a270b697ba99d091b4",
+  "substantive_patch_sha256": "cadb7e4be8eac1e9d354697083d0b7be21205b3f18790fe88df514df04a76961",
+  "reviewed_substantive_files": [
+    {
+      "path": "data/processed/b04/topology_reference_20261003.json",
+      "bytes": 56360,
+      "sha256": "33a676768996fda0963d99fd893f52e0f8d7ee6fdafee968fdafc648d81d7300"
+    },
+    {
+      "path": "docs/checkpoints/V1_055_H_TOPOLOGY_AUTHORITY.md",
+      "bytes": 7793,
+      "sha256": "9c38556a92e410c3a6c998172daf68fc4cb5349ae5df975173e2b4914906769d"
+    },
+    {
+      "path": "docs/source_packs/B04_ELECTRICITY_PRICE_AND_TARIFFS.md",
+      "bytes": 8592,
+      "sha256": "ef5df225629b0a1bca092c5b353e3f3725910f9fc7287be6a996b67638a48479"
+    },
+    {
+      "path": "modules/B04/README.md",
+      "bytes": 5109,
+      "sha256": "4902361f26cb332aa5fd9c85a781b743596cbb8e1aed48ccccb2a621857277d3"
+    },
+    {
+      "path": "modules/B04/topology_reference.py",
+      "bytes": 6240,
+      "sha256": "ec1a4e88009fa42f2830856f2c5e78419c5c058ec86f85d59341be1f3d9465e9"
+    },
+    {
+      "path": "registry/b04_topology_reference_manifest.json",
+      "bytes": 26690,
+      "sha256": "3afac7d2b29a51fc97abf3d1f7778a09b6a7478972db212374b825319f7ddfe2"
+    },
+    {
+      "path": "registry/battery_readiness.csv",
+      "bytes": 2980,
+      "sha256": "ceb6689fb8120eb6e81b43b1301ba71fd511f24e1ea2f842d510b8ae6054d2ed"
+    },
+    {
+      "path": "registry/battery_variables.csv",
+      "bytes": 4054,
+      "sha256": "626fd8ece72059dc48eb95eee27d800935d96fe9a02026083640a82109b66db9"
+    },
+    {
+      "path": "registry/electricity_price_sources.csv",
+      "bytes": 16535,
+      "sha256": "8eee34b1ef880faa543c064a4a1f96a9eee735e302acc16aec7761a6ee26463a"
+    },
+    {
+      "path": "registry/electricity_price_variables.csv",
+      "bytes": 6923,
+      "sha256": "259463e6b307084c5aecce26e92c00d3f399232454c5e5b1569748be442cd433"
+    },
+    {
+      "path": "registry/electricity_readiness.csv",
+      "bytes": 1355,
+      "sha256": "68563257f5ca38e8b5cd5bc19c7f013f4bc4f82d1f5788ee217cb588351631c4"
+    },
+    {
+      "path": "registry/electricity_tariff_rules.csv",
+      "bytes": 7434,
+      "sha256": "d80e82fe2e1167d2aa09466eb983c51491400d0f418df80f920897b110ed70dd"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 62108,
+      "sha256": "b9a40580cf9e1d47b58b94a4ed7d76a5401874a21a329a447afce6ce9e4bf56a"
+    },
+    {
+      "path": "registry/project_blocker_evidence_audit.csv",
+      "bytes": 27856,
+      "sha256": "1d553f415c53edfb471914e2c66627779bb334650062067a43ebfe4654e53bff"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 289863,
+      "sha256": "bac4fefaf44ab7163be74e5ffb5dc1ffcd217485e3b33e922c4f54e2eeedfdcc"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 148441,
+      "sha256": "302bd63ae24c1c3fa435d306252c16eadc116e77c303bb0614de3bf6f5c48dd6"
+    },
+    {
+      "path": "registry/variables.csv",
+      "bytes": 36277,
+      "sha256": "29ae831ea9a4abedbe9934d2318acd42361e631c4e3f512220c9fc741cfdd6fa"
+    },
+    {
+      "path": "tests/test_b04_h_battery_boundary.py",
+      "bytes": 4836,
+      "sha256": "8e996e5e48f8ddeed2a73b89ddbdda6e013f0e825d9491e330eb899d64be62ff"
+    },
+    {
+      "path": "tests/test_b04_topology_reference.py",
+      "bytes": 12717,
+      "sha256": "7f25453a84f2fc491c310c992f0be676d86ba15a47c041e16736ac9ed083953a"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-055",
+    "status": "LOCAL_CANONICAL_PASS_WITH_THREE_DOCUMENTED_HOST_ONLY_SKIPS",
+    "tests_discovered": 3523,
+    "passed": 3520,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 146.194,
+    "registry": "VALID",
+    "log_bytes": 671124,
+    "log_sha256": "eae32a1d0e55741dbca4f0e4e945d73deda12db69f6e60d82f84cdb3287cfdf7",
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "substantive_tree": "96500a8e27bc53e6f285f7a270b697ba99d091b4",
+    "all_nineteen_frozen_files_unchanged": true,
+    "hosted_ci": "NOT_RUN_NOT_YET_AUTHORIZED"
+  },
+  "independent_review": {
+    "receipt_sha256": "6b87dd88abbb7b1c251829d8ce7b134edf5227717602ad0277bdc0f734d8b5ac",
+    "verdict": "PASS_EXACT_REVISED_SUBSTANTIVE_PACKET",
+    "focused_tests_passed": 107,
+    "skips": 0
+  },
+  "independent_source_review": {
+    "receipt_sha256": "8393df01528a8ebdce1e2d06b972e4e6cd9f1130e034a2c20d7e97ee638c1d79",
+    "canonical_private_originals": 21,
+    "offline_checks": 125,
+    "critical_pages_visually_reviewed": 6
+  },
+  "original_task_status_at_first_stage": "REVIEW_REQUIRED",
+  "actual_legal_blocker": "Q-B04-001 OPEN/E3/FAIL_CLOSED",
+  "conditional_acceptance_template": {
+    "sha256": "c5cae28b11ce30c2cb56db4ccf13f73aebb317930fd6b512c0fd5da53bf8fe46",
+    "executed": false,
+    "allowed_changed_paths": [
+      "registry/v1_research_plan.json",
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_055_ACCEPTANCE.json"
+    ],
+    "requires": "Exact owner approval and actual implementation3523PASS0skip hosted validation plus independent review"
+  },
+  "scientific_boundaries": {
+    "topology_references": 6,
+    "independent_operations_each": 4,
+    "actual_operation_permissions_open": 24,
+    "execution_authorized": 0,
+    "reference_wiring_not_as_built": true,
+    "foregone_benefit": "UNKNOWN_NOT_ZERO",
+    "current_4_2011_separate_from_repealed_44_2008": true,
+    "general_spf_and_grandfather_distinct": true,
+    "hmke_exclusion": "CONDITIONAL_SAME_CONTRACTUAL_CONNECTION_POINT_H_B_TARIFF_SELECTION_ONLY",
+    "vpp_export_always_required": false,
+    "supplier_or_BRP_permission_added": false,
+    "h_contract_required_for_outside_h_aggregation": false,
+    "selected_service_and_transition_protocol_debt_retained": true,
+    "numeric_tariff_physics_readiness_national_defaults_unchanged": true,
+    "source_originals_in_public_patch": false
+  },
+  "publication": "Not performed; exact public20-file approval required; no main merge"
+}

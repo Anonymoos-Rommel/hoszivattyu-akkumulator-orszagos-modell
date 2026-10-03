@@ -12,7 +12,7 @@ def rows(path):
 
 
 class B04HTariffBatteryBoundaryTests(unittest.TestCase):
-    def test_three_canonical_gates_are_independent_and_fail_closed(self):
+    def test_four_canonical_gates_are_independent_and_fail_closed(self):
         variables = rows(ROOT / "registry" / "electricity_price_variables.csv")
         gates = {
             row["name"]: row
@@ -23,11 +23,12 @@ class B04HTariffBatteryBoundaryTests(unittest.TestCase):
             "H_TARIFF_BATTERY_CHARGE_ALLOWED",
             "H_TARIFF_BATTERY_DISCHARGE_ALLOWED",
             "H_TARIFF_EXPORT_ALLOWED",
+            "H_TARIFF_VPP_CONTROL_ALLOWED",
         }
         self.assertEqual(expected, set(gates))
         for row in gates.values():
             self.assertEqual("Q", row["status"])
-            self.assertIn("2026-08-24", row["notes"])
+            self.assertIn("2026-10-03" if row["name"] == "H_TARIFF_VPP_CONTROL_ALLOWED" else "2026-08-24", row["notes"])
             self.assertIn("fail closed", row["notes"])
             self.assertTrue(row["source_ids"])
         self.assertNotEqual(gates["H_TARIFF_BATTERY_CHARGE_ALLOWED"]["variable_id"], gates["H_TARIFF_BATTERY_DISCHARGE_ALLOWED"]["variable_id"])

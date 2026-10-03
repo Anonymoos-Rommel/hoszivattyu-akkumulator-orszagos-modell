@@ -1,0 +1,848 @@
+{
+  "contract_id": "B04-L01-RESEARCHED-TOPOLOGY-AUTHORITY-20261003",
+  "schema_version": 1,
+  "status": "SOURCE_QUALIFIED_REFERENCE_ONLY",
+  "base_head": "c9cec0fad286bb7bc6db87a09da067429f9b1121",
+  "scope": "Six pre-existing topology categories; independent H charge, discharge, export and VPP/aggregation-control dispositions. Legal evidence only; no statistical promotion.",
+  "operation_status_enum": [
+    "YES",
+    "NO",
+    "OPEN"
+  ],
+  "compatibility_mapping": {
+    "Q": "OPEN"
+  },
+  "status_semantics": {
+    "YES": "Current claim-specific authority and all stated applicability/actual topology/contract predicates established; no promotion from capability or reference diagram.",
+    "NO": "An affirmative applicable prohibition/exclusion established for precisely the stated operation and entity boundary; not an absence of proof.",
+    "OPEN": "Insufficient claim-specific authority/applicability evidence after identified primary-source research; operation disabled and exact acquisition route retained."
+  },
+  "separate_dimensions": [
+    "legal_status",
+    "operation_applicability",
+    "physical_capability",
+    "actual_topology_evidence",
+    "contract_applicability",
+    "execution_authorized"
+  ],
+  "boundaries": {
+    "csatlakozasi_pont": "VET§3(5) ownership boundary; preserve exact source term",
+    "meresi_pont_POD": "Identified measurement/settlement point in DSO and supplier contracts",
+    "felhasznalasi_hely": "Use location; not interchangeable with the previous identifiers",
+    "mapping": "Require source-backed explicit mapping; never infer from address, common bus or tariff label"
+  },
+  "conditional_source_exclusion": {
+    "claim_id": "HMKE_SAME_CONNECTION_H_TARIFF",
+    "status": "NO",
+    "only_if": "Same contractual connection point hosting HMKE is evidenced",
+    "applies_to": "H/B tariff selection for consumption at that connection point",
+    "does_not_blanket_classify": "All H households, battery discharge, export, or VPP control"
+  },
+  "topologies": [
+    {
+      "topology_id": "H-ONLY-DEDICATED",
+      "existing_rule_id": "RULE-B04-H-TOPOLOGY-H-ONLY-DEDICATED",
+      "schematic_type": "REFERENCE_ONLY_NOT_AS_BUILT_NOT_INSTALLATION_APPROVAL",
+      "reference_wiring": "GRID -> H_METER -> H_BUS -> ELIGIBLE_HEAT_AND_DIRECT_AUXILIARIES; no storage, generator or downstream normal/H coupler represented.",
+      "reference_note": "H eligible scope is conditional source fact; actual eligibility remains OPEN. VPP demand response can target the heat load even with no battery or export.",
+      "actual_topology_status": "OPEN",
+      "connection_point_to_pod_mapping_status": "OPEN",
+      "research_as_of": "2026-10-03",
+      "operations": {
+        "BATTERY_CHARGE_FROM_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. H scope is source-proven for eligible heat/direct auxiliaries, but the inspected primary sources do not classify this battery charging path as eligible. No affirmative permission or blanket legal ban is inferred.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Battery/inverter model and precise charging-energy path",
+            "Claim-specific current authority classifying this device/operation within H eligible scope, plus applicable DSO connection/network-use conditions",
+            "Applicable storage notification and manufacturer control-capability records"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "ABSENT_REFERENCE_PATH",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "BATTERY_DISCHARGE_INTO_OR_THROUGH_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. H billing scope does not establish the battery inverter discharge/cross-meter arrangement. Physical capability and charge approval are insufficient.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Inverter discharge destinations and all switching/bypass/interlock modes",
+            "Current DSO-approved metering/connection scheme and contract terms covering the stated discharge path",
+            "H eligible-load and cross-meter accounting treatment; charge permission cannot substitute"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "ABSENT_REFERENCE_PATH",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "EXPORT_FROM_H_OR_H_CHARGED_STORAGE": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. Export requires a distinct actual DSO/contract path; the HMKE same-connection H tariff exclusion is conditional and narrower than all export/storage configurations.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "HMKE/storage legal category, actual grid export path, DSO MGT/connection and export allowance",
+            "Supplier purchase/settlement arrangement and energy-origin allocation for any H-charged storage",
+            "Evidence whether the HMKE and H consumption are at the same csatlakozási pont; apply conditional H tariff exclusion only if established"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "ABSENT_REFERENCE_PATH",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "VPP_AGGREGATION_CONTROL": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Primary law establishes a general aggregation route including changed import without export, but actual H load/storage topology, metering, selected service and consumer/settlement contracts are unproven.",
+          "source_ids": [
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Specify aggregation mode: consumption response, storage control, export service, DSO flexibility, TSO balancing, or data service; do not equate these",
+            "MEKH registration of actual aggregator and consumer aggregation contract with exact point, equipment, duration, compensation and risk allocation",
+            "Remotely readable/time-series or approved separate-meter route; POD/OBIS/EIC and DSO assignment acceptance",
+            "Notifications to supplier/BRP/network operator under the current applicable regime; do not demand supplier/BRP permission",
+            "Current market-specific control, telemetry, accreditation and settlement arrangements; current post-July2026 transitional protocol alignment",
+            "If the service actually exports, independent export permission evidence as an additional operation-specific gate"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        }
+      }
+    },
+    {
+      "topology_id": "NORMAL-A1",
+      "existing_rule_id": "RULE-B04-H-TOPOLOGY-NORMAL-A1",
+      "schematic_type": "REFERENCE_ONLY_NOT_AS_BUILT_NOT_INSTALLATION_APPROVAL",
+      "reference_wiring": "GRID -> NORMAL_METER -> NORMAL_BUS -> HOUSEHOLD_LOAD; no H circuit represented.",
+      "reference_note": "Ordinary A1 reference is outside H scope. Do not transfer H entitlement. A1 battery/export/VPP terms are separate unresolved inputs.",
+      "actual_topology_status": "OPEN",
+      "connection_point_to_pod_mapping_status": "OPEN",
+      "research_as_of": "2026-10-03",
+      "operations": {
+        "BATTERY_CHARGE_FROM_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. H scope is source-proven for eligible heat/direct auxiliaries, but the inspected primary sources do not classify this battery charging path as eligible. No affirmative permission or blanket legal ban is inferred.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Battery/inverter model and precise charging-energy path",
+            "Claim-specific current authority classifying this device/operation within H eligible scope, plus applicable DSO connection/network-use conditions",
+            "Applicable storage notification and manufacturer control-capability records"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "OUTSIDE_H_REFERENCE",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "BATTERY_DISCHARGE_INTO_OR_THROUGH_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. H billing scope does not establish the battery inverter discharge/cross-meter arrangement. Physical capability and charge approval are insufficient.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Inverter discharge destinations and all switching/bypass/interlock modes",
+            "Current DSO-approved metering/connection scheme and contract terms covering the stated discharge path",
+            "H eligible-load and cross-meter accounting treatment; charge permission cannot substitute"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "OUTSIDE_H_REFERENCE",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "EXPORT_FROM_H_OR_H_CHARGED_STORAGE": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. Export requires a distinct actual DSO/contract path; the HMKE same-connection H tariff exclusion is conditional and narrower than all export/storage configurations.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "HMKE/storage legal category, actual grid export path, DSO MGT/connection and export allowance",
+            "Supplier purchase/settlement arrangement and energy-origin allocation for any H-charged storage",
+            "Evidence whether the HMKE and H consumption are at the same csatlakozási pont; apply conditional H tariff exclusion only if established"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "OUTSIDE_H_REFERENCE",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "VPP_AGGREGATION_CONTROL": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Primary law establishes a general aggregation route including changed import without export, but actual H load/storage topology, metering, selected service and consumer/settlement contracts are unproven.",
+          "source_ids": [
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Specify aggregation mode: consumption response, storage control, export service, DSO flexibility, TSO balancing, or data service; do not equate these",
+            "MEKH registration of actual aggregator and consumer aggregation contract with exact point, equipment, duration, compensation and risk allocation",
+            "Remotely readable/time-series or approved separate-meter route; POD/OBIS/EIC and DSO assignment acceptance",
+            "Notifications to supplier/BRP/network operator under the current applicable regime; do not demand supplier/BRP permission",
+            "Current market-specific control, telemetry, accreditation and settlement arrangements; current post-July2026 transitional protocol alignment",
+            "If the service actually exports, independent export permission evidence as an additional operation-specific gate"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        }
+      }
+    },
+    {
+      "topology_id": "BATTERY-NORMAL-ONLY",
+      "existing_rule_id": "RULE-B04-H-TOPOLOGY-BATTERY-NORMAL-ONLY",
+      "schematic_type": "REFERENCE_ONLY_NOT_AS_BUILT_NOT_INSTALLATION_APPROVAL",
+      "reference_wiring": "GRID <-> NORMAL_METER <-> NORMAL_BUS; NORMAL_BUS <-> BATTERY_INVERTER <-> BATTERY; NORMAL_BUS -> NORMAL_LOAD; a separate H_METER -> H_LOAD has no downstream electrical coupling to NORMAL_BUS.",
+      "reference_note": "Bidirectional arrows denote candidate physical capability, not permitted export. No H charging/discharge path exists in this reference.",
+      "actual_topology_status": "OPEN",
+      "connection_point_to_pod_mapping_status": "OPEN",
+      "research_as_of": "2026-10-03",
+      "operations": {
+        "BATTERY_CHARGE_FROM_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. H scope is source-proven for eligible heat/direct auxiliaries, but the inspected primary sources do not classify this battery charging path as eligible. No affirmative permission or blanket legal ban is inferred.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Battery/inverter model and precise charging-energy path",
+            "Claim-specific current authority classifying this device/operation within H eligible scope, plus applicable DSO connection/network-use conditions",
+            "Applicable storage notification and manufacturer control-capability records"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "OUTSIDE_H_REFERENCE",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "BATTERY_DISCHARGE_INTO_OR_THROUGH_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. H billing scope does not establish the battery inverter discharge/cross-meter arrangement. Physical capability and charge approval are insufficient.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Inverter discharge destinations and all switching/bypass/interlock modes",
+            "Current DSO-approved metering/connection scheme and contract terms covering the stated discharge path",
+            "H eligible-load and cross-meter accounting treatment; charge permission cannot substitute"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "OUTSIDE_H_REFERENCE",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "EXPORT_FROM_H_OR_H_CHARGED_STORAGE": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "The stated reference has no relevant H operation path; this is topology non-applicability, not a legal NO. Export requires a distinct actual DSO/contract path; the HMKE same-connection H tariff exclusion is conditional and narrower than all export/storage configurations.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "HMKE/storage legal category, actual grid export path, DSO MGT/connection and export allowance",
+            "Supplier purchase/settlement arrangement and energy-origin allocation for any H-charged storage",
+            "Evidence whether the HMKE and H consumption are at the same csatlakozási pont; apply conditional H tariff exclusion only if established"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "OUTSIDE_H_REFERENCE",
+          "execution_state": "DISABLED_REFERENCE_HAS_NO_H_PATH"
+        },
+        "VPP_AGGREGATION_CONTROL": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Primary law establishes a general aggregation route including changed import without export, but actual H load/storage topology, metering, selected service and consumer/settlement contracts are unproven.",
+          "source_ids": [
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Specify aggregation mode: consumption response, storage control, export service, DSO flexibility, TSO balancing, or data service; do not equate these",
+            "MEKH registration of actual aggregator and consumer aggregation contract with exact point, equipment, duration, compensation and risk allocation",
+            "Remotely readable/time-series or approved separate-meter route; POD/OBIS/EIC and DSO assignment acceptance",
+            "Notifications to supplier/BRP/network operator under the current applicable regime; do not demand supplier/BRP permission",
+            "Current market-specific control, telemetry, accreditation and settlement arrangements; current post-July2026 transitional protocol alignment",
+            "If the service actually exports, independent export permission evidence as an additional operation-specific gate"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        }
+      }
+    },
+    {
+      "topology_id": "BATTERY-H-SIDE",
+      "existing_rule_id": "RULE-B04-H-TOPOLOGY-BATTERY-H-SIDE",
+      "schematic_type": "REFERENCE_ONLY_NOT_AS_BUILT_NOT_INSTALLATION_APPROVAL",
+      "reference_wiring": "GRID <-> H_METER <-> H_BUS; H_BUS -> HEAT_LOAD; H_BUS <-> BATTERY_INVERTER <-> BATTERY; no normal-side coupling represented.",
+      "reference_note": "The battery classification and H input/output energy treatment require explicit claim-specific authority and actual approved wiring.",
+      "actual_topology_status": "OPEN",
+      "connection_point_to_pod_mapping_status": "OPEN",
+      "research_as_of": "2026-10-03",
+      "operations": {
+        "BATTERY_CHARGE_FROM_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "H scope is source-proven for eligible heat/direct auxiliaries, but the inspected primary sources do not classify this battery charging path as eligible. No affirmative permission or blanket legal ban is inferred.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Battery/inverter model and precise charging-energy path",
+            "Claim-specific current authority classifying this device/operation within H eligible scope, plus applicable DSO connection/network-use conditions",
+            "Applicable storage notification and manufacturer control-capability records"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "BATTERY_DISCHARGE_INTO_OR_THROUGH_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "H billing scope does not establish the battery inverter discharge/cross-meter arrangement. Physical capability and charge approval are insufficient.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Inverter discharge destinations and all switching/bypass/interlock modes",
+            "Current DSO-approved metering/connection scheme and contract terms covering the stated discharge path",
+            "H eligible-load and cross-meter accounting treatment; charge permission cannot substitute"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "EXPORT_FROM_H_OR_H_CHARGED_STORAGE": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Export requires a distinct actual DSO/contract path; the HMKE same-connection H tariff exclusion is conditional and narrower than all export/storage configurations.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "HMKE/storage legal category, actual grid export path, DSO MGT/connection and export allowance",
+            "Supplier purchase/settlement arrangement and energy-origin allocation for any H-charged storage",
+            "Evidence whether the HMKE and H consumption are at the same csatlakozási pont; apply conditional H tariff exclusion only if established"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "VPP_AGGREGATION_CONTROL": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Primary law establishes a general aggregation route including changed import without export, but actual H load/storage topology, metering, selected service and consumer/settlement contracts are unproven.",
+          "source_ids": [
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Specify aggregation mode: consumption response, storage control, export service, DSO flexibility, TSO balancing, or data service; do not equate these",
+            "MEKH registration of actual aggregator and consumer aggregation contract with exact point, equipment, duration, compensation and risk allocation",
+            "Remotely readable/time-series or approved separate-meter route; POD/OBIS/EIC and DSO assignment acceptance",
+            "Notifications to supplier/BRP/network operator under the current applicable regime; do not demand supplier/BRP permission",
+            "Current market-specific control, telemetry, accreditation and settlement arrangements; current post-July2026 transitional protocol alignment",
+            "If the service actually exports, independent export permission evidence as an additional operation-specific gate"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        }
+      }
+    },
+    {
+      "topology_id": "HYBRID-COMMON-BUS",
+      "existing_rule_id": "RULE-B04-H-TOPOLOGY-HYBRID-COMMON-BUS",
+      "schematic_type": "REFERENCE_ONLY_NOT_AS_BUILT_NOT_INSTALLATION_APPROVAL",
+      "reference_wiring": "GRID -> NORMAL_METER -> NORMAL_BUS; GRID -> H_METER -> H_BUS; NORMAL_BUS <-> COUPLER_OR_HYBRID <-> H_BUS; BATTERY <-> COUPLER_OR_HYBRID. All transfer/bypass/islanding states must be separately specified.",
+      "reference_note": "Quarantined hypothetical risk schematic, never an installation recommendation. A common bus does not prove contractually identical connection/POD or authorize transfers.",
+      "actual_topology_status": "OPEN",
+      "connection_point_to_pod_mapping_status": "OPEN",
+      "research_as_of": "2026-10-03",
+      "operations": {
+        "BATTERY_CHARGE_FROM_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "H scope is source-proven for eligible heat/direct auxiliaries, but the inspected primary sources do not classify this battery charging path as eligible. No affirmative permission or blanket legal ban is inferred.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Battery/inverter model and precise charging-energy path",
+            "Claim-specific current authority classifying this device/operation within H eligible scope, plus applicable DSO connection/network-use conditions",
+            "Applicable storage notification and manufacturer control-capability records"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "BATTERY_DISCHARGE_INTO_OR_THROUGH_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "H billing scope does not establish the battery inverter discharge/cross-meter arrangement. Physical capability and charge approval are insufficient.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Inverter discharge destinations and all switching/bypass/interlock modes",
+            "Current DSO-approved metering/connection scheme and contract terms covering the stated discharge path",
+            "H eligible-load and cross-meter accounting treatment; charge permission cannot substitute"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "EXPORT_FROM_H_OR_H_CHARGED_STORAGE": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Export requires a distinct actual DSO/contract path; the HMKE same-connection H tariff exclusion is conditional and narrower than all export/storage configurations.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "HMKE/storage legal category, actual grid export path, DSO MGT/connection and export allowance",
+            "Supplier purchase/settlement arrangement and energy-origin allocation for any H-charged storage",
+            "Evidence whether the HMKE and H consumption are at the same csatlakozási pont; apply conditional H tariff exclusion only if established"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "VPP_AGGREGATION_CONTROL": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Primary law establishes a general aggregation route including changed import without export, but actual H load/storage topology, metering, selected service and consumer/settlement contracts are unproven.",
+          "source_ids": [
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Specify aggregation mode: consumption response, storage control, export service, DSO flexibility, TSO balancing, or data service; do not equate these",
+            "MEKH registration of actual aggregator and consumer aggregation contract with exact point, equipment, duration, compensation and risk allocation",
+            "Remotely readable/time-series or approved separate-meter route; POD/OBIS/EIC and DSO assignment acceptance",
+            "Notifications to supplier/BRP/network operator under the current applicable regime; do not demand supplier/BRP permission",
+            "Current market-specific control, telemetry, accreditation and settlement arrangements; current post-July2026 transitional protocol alignment",
+            "If the service actually exports, independent export permission evidence as an additional operation-specific gate"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        }
+      }
+    },
+    {
+      "topology_id": "HMKE-EXPORT",
+      "existing_rule_id": "RULE-B04-H-TOPOLOGY-HMKE-EXPORT",
+      "schematic_type": "REFERENCE_ONLY_NOT_AS_BUILT_NOT_INSTALLATION_APPROVAL",
+      "reference_wiring": "GRID <-> IMPORT_EXPORT_METER <-> HMKE_BUS; PV_INVERTER -> HMKE_BUS -> LOCAL_LOAD; BATTERY path optional and unresolved; any H_METER -> H_LOAD branch is separately identified, with contractual connection-point relationship UNKNOWN.",
+      "reference_note": "Same-point H tariff exclusion is applied only to an evidenced csatlakozási pont hosting HMKE. Export rights and separate H branch eligibility remain separate.",
+      "actual_topology_status": "OPEN",
+      "connection_point_to_pod_mapping_status": "OPEN",
+      "research_as_of": "2026-10-03",
+      "operations": {
+        "BATTERY_CHARGE_FROM_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "H scope is source-proven for eligible heat/direct auxiliaries, but the inspected primary sources do not classify this battery charging path as eligible. No affirmative permission or blanket legal ban is inferred.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Battery/inverter model and precise charging-energy path",
+            "Claim-specific current authority classifying this device/operation within H eligible scope, plus applicable DSO connection/network-use conditions",
+            "Applicable storage notification and manufacturer control-capability records"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "BATTERY_DISCHARGE_INTO_OR_THROUGH_H": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "H billing scope does not establish the battery inverter discharge/cross-meter arrangement. Physical capability and charge approval are insufficient.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-NJT-VHR-20261001"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Inverter discharge destinations and all switching/bypass/interlock modes",
+            "Current DSO-approved metering/connection scheme and contract terms covering the stated discharge path",
+            "H eligible-load and cross-meter accounting treatment; charge permission cannot substitute"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "EXPORT_FROM_H_OR_H_CHARGED_STORAGE": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Export requires a distinct actual DSO/contract path; the HMKE same-connection H tariff exclusion is conditional and narrower than all export/storage configurations.",
+          "source_ids": [
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "HMKE/storage legal category, actual grid export path, DSO MGT/connection and export allowance",
+            "Supplier purchase/settlement arrangement and energy-origin allocation for any H-charged storage",
+            "Evidence whether the HMKE and H consumption are at the same csatlakozási pont; apply conditional H tariff exclusion only if established"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        },
+        "VPP_AGGREGATION_CONTROL": {
+          "legal_status": "OPEN",
+          "compatibility_registry_status": "Q",
+          "execution_authorized": false,
+          "reason": "Primary law establishes a general aggregation route including changed import without export, but actual H load/storage topology, metering, selected service and consumer/settlement contracts are unproven.",
+          "source_ids": [
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-MVM-M1-2026"
+          ],
+          "evidence_route": [
+            "Actual as-built single-line diagram and all operating/switching modes",
+            "Contractual connection-point IDs, settlement/POD/meter IDs and source-backed mapping, not address equality",
+            "Meter registers/directions/interval capability and DSO metering acceptance",
+            "For an actual H branch or H-tariff claim only: device heat/direct-auxiliary role, eligibility, commissioning evidence, H supply contract and effective period; not a prerequisite for outside-H aggregation",
+            "Specify aggregation mode: consumption response, storage control, export service, DSO flexibility, TSO balancing, or data service; do not equate these",
+            "MEKH registration of actual aggregator and consumer aggregation contract with exact point, equipment, duration, compensation and risk allocation",
+            "Remotely readable/time-series or approved separate-meter route; POD/OBIS/EIC and DSO assignment acceptance",
+            "Notifications to supplier/BRP/network operator under the current applicable regime; do not demand supplier/BRP permission",
+            "Current market-specific control, telemetry, accreditation and settlement arrangements; current post-July2026 transitional protocol alignment",
+            "If the service actually exports, independent export permission evidence as an additional operation-specific gate"
+          ],
+          "value_of_foregone_benefit": null,
+          "foregone_benefit_status": "UNKNOWN_NOT_ZERO",
+          "operation_applicability": "POSSIBLE_OR_UNRESOLVED",
+          "execution_state": "DISABLED_OPEN_AUTHORITY"
+        }
+      }
+    }
+  ],
+  "dispatch_contract": {
+    "no_new_optimizer": true,
+    "open_or_no_allows_dispatch": false,
+    "vpp_requires_export_by_default": false,
+    "vpp_with_actual_export_requires_separate_export_gate": true,
+    "supplier_or_BRP_approval_added_gate": false,
+    "source_date_is_legal_effective_date": false,
+    "site_permission_default": "OPEN",
+    "foregone_benefit_default": null,
+    "all_permission_values_are_non_numeric": true
+  },
+  "legal_effectivity": "Claim-specific dates are in claims. Research, consolidation, instrument commencement, clause effectivity and contract effectivity are separate. Grandfather wording is preserved without a strict-before or clock predicate.",
+  "research_as_of": "2026-10-03",
+  "original_requirement": "H-mérőn töltés/kisütés/export és VPP jogosultság igen/nem/nyitott, pontos kapcsolás és hatály. Jogi bizonyíték, nem statisztikai becslés.",
+  "claims": [
+    {
+      "claim_id": "H_CURRENT_SCOPE",
+      "source_ids": [
+        "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+        "SRC-B04-MVM-M1-2026"
+      ],
+      "legal_effective_from": "2025-08-01",
+      "contract_effective_from": "2026-03-01",
+      "predicate": "Eligible heat/direct-auxiliary device on separate permanently connected nonplugged circuit; general seasonal factor3.4 subject to grandfather exception.",
+      "site_status": "OPEN",
+      "forbids_inference": [
+        "battery is automatically an auxiliary",
+        "general household load getsH",
+        "every actual device eligible"
+      ]
+    },
+    {
+      "claim_id": "H_GRANDFATHER",
+      "source_ids": [
+        "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+        "SRC-B04-NJT-ITM17-2019-H-GRANDFATHER"
+      ],
+      "legal_effective_from": "2020-01-01",
+      "source_boundary_text": "2020. január 1-ig",
+      "date_grain": "calendar-date source wording; preserve exact",
+      "threshold": "at least3 seasonal heating factor",
+      "automatic_site_classification": false
+    },
+    {
+      "claim_id": "H_SEASON",
+      "source_ids": [
+        "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+        "SRC-B04-MVM-M1-2026"
+      ],
+      "legal_effective_from": "2025-08-01",
+      "predicate": "October15–April15 source heating-season price; existing inclusive cost consumer remains unchanged."
+    },
+    {
+      "claim_id": "HMKE_SAME_CONNECTION_H_TARIFF",
+      "source_ids": [
+        "SRC-B04-MVM-ESZ-20260301",
+        "SRC-B04-MVM-M1-2026"
+      ],
+      "contract_effective_from": "2026-03-01",
+      "conditional_status": "NO",
+      "target": "Selection ofH/B tariff for consumption at the csatlakozási pont hosting HMKE",
+      "condition": "Same contractual csatlakozási pont is affirmatively evidenced. A household address,POD label,or shared bus alone does not prove this.",
+      "does_not_decide": [
+        "every battery connection",
+        "separate householdH branch",
+        "general export eligibility",
+        "VPP load control"
+      ]
+    },
+    {
+      "claim_id": "VPP_GENERAL_ROUTE",
+      "source_ids": [
+        "SRC-B04-NJT-VET-20261001",
+        "SRC-B04-NJT-VET-AMEND-2026-36"
+      ],
+      "clause_effective_from": "2026-07-31",
+      "general_right_status": "YES_CONDITIONAL_STATUTORY_ROUTE",
+      "actual_site_status": "OPEN",
+      "route": "Remotely-readable settlement point; registered aggregator; contract disclosure; notification and settlement terms. Supplier/BRP permission is not an added gate.",
+      "export_is_necessary": false
+    },
+    {
+      "claim_id": "VPP_DSO_IMPLEMENTATION_ROUTE",
+      "source_ids": [
+        "SRC-B04-DSO-ESZ29-20260707",
+        "SRC-B04-DSO-ESZ29-ANNEX-20260707"
+      ],
+      "current_version_from": "2026-07-07",
+      "current_version_to": "2026-12-31",
+      "route": "Identify settlement point/POD/OBIS or approved separate metering, interval data,EIC,purpose,existing commercial/network agreements and accepted assignment. Selected market accreditation/TSO arrangement is separate.",
+      "site_status": "OPEN",
+      "remaining": "Post2026-07-31 VET transitional protocol/current product alignment and executed consumer terms are not established."
+    },
+    {
+      "claim_id": "STORAGE_NOTIFICATION",
+      "source_ids": [
+        "SRC-B04-NJT-VHR-20261001",
+        "SRC-B04-NJT-VHR-AMEND-2026-131"
+      ],
+      "clause_effective_from": "2026-08-29",
+      "route": "§13/K registration and remote-control capability documentation for stationary storage>2kWh;§128/D(4) pre-effectivity installation deadline2027-06-30.",
+      "site_status": "OPEN",
+      "does_not_create": [
+        "H tariff entitlement",
+        "export right",
+        "VPP enrollment"
+      ]
+    }
+  ],
+  "evidence_markers": {
+    "source_rule": "POL",
+    "reference_path": "SCN",
+    "actual_permission": "Q",
+    "foregone_benefit": "Q"
+  }
+}

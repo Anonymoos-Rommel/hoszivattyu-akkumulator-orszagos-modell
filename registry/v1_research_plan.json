@@ -433,12 +433,58 @@
           "data": "H-mérőn töltés/kisütés/export és VPP jogosultság igen/nem/nyitott, pontos kapcsolás és hatály. Jogi bizonyíték, nem statisztikai becslés.",
           "phase": "A",
           "slice_id": "B04-L01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "status": "REVIEW_REQUIRED",
+          "canonical_source_ids": [
+            "SRC-B04-NJT-H-TARIFF-2026",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-NJT-EM20-2025-H-EFFECTIVITY",
+            "SRC-B04-NJT-ITM17-2019-H-GRANDFATHER",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MVM-ESZ-LISTING-20261003",
+            "SRC-B04-MVM-ESZ-ANNOUNCEMENT-20261003",
+            "SRC-B04-MEKH-MVM-ESZ-APPROVAL-2026",
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-NJT-VET-AMEND-2026-36",
+            "SRC-B04-NJT-VHR-20261001",
+            "SRC-B04-NJT-VHR-AMEND-2026-131",
+            "SRC-B04-DSO-ESZ29-LISTING-20261003",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-MEKH-DSO-ESZ29-APPROVAL-2026",
+            "SRC-B04-MVM-H-FAQ-2026",
+            "SRC-B04-MVM-HALOZAT-H-DATA-2026",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026",
+            "SRC-B04-MVM-HMKE-REQUEST-FORM-20261003"
+          ],
+          "accepted_artifacts": [
+            "registry/b04_topology_reference_manifest.json",
+            "data/processed/b04/topology_reference_20261003.json",
+            "modules/B04/topology_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b04_topology_reference.py",
+            "tests/test_b04_h_battery_boundary.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B04-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "NJT current H/VET/Vhr instruments and amendment lineage",
+                "Current MVM ESZ/M.1 approval/listing",
+                "National DSO code revision 29, annexes and approval",
+                "H device/FAQ and HMKE procedural context"
+              ],
+              "remaining_unknown": "Actual-site permissions, as-built switching paths and connection/POD mapping, selected consumer aggregation terms and exact post-July-2026 operational protocol alignment remain OPEN. No national permission or savings estimate.",
+              "promising_next_lead": "Independently review the exact source-to-consumer handoff, then hosted verification before conditional acceptance. Acquire actual operation evidence only for a selected site/service.",
+              "expected_decision_value": "Completes four separate researched operation dispositions across six explicit reference paths, corrects repealed authority, preserves source/contract effectivity, disabled operation and unknown foregone benefit.",
+              "decision": "PREPARE_RESEARCHED_OPEN_L01_HANDOFF_AWAIT_REVIEW_AND_HOSTED_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_055_H_TOPOLOGY_AUTHORITY.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
