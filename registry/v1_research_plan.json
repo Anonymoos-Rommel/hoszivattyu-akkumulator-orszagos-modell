@@ -1887,12 +1887,34 @@
           "data": "Időjárás/ár/terhelés/ellátás/timing együttes, dátumozott történeti ablakok; HU/EU kapcsolódás. Külön statisztikai bizonytalanság, strukturális ismerethiány és POL stressz.",
           "phase": "V",
           "slice_id": "B19-D01",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+            "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+            "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+            "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "validation_debt_ids": [
+            "Q-B08-001",
+            "Q-B09-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Accepted native UTC2025 ENTSO-E actual load/generation and exact MAVIR signed-recovery originals",
+                "Accepted HungaroMet Budapest44527 preceding-hour temperature handoff, with exact recent endpoint closing UTC2025"
+              ],
+              "remaining_unknown": "National weather representation, complete meteorological winter, future joint probabilities and causal response, physical exchange/storage reconciliation, programme profile and economic thresholds are not established",
+              "promising_next_lead": "Use these dated co-occurring reference windows with separately qualified programme activity or additional matched historical series when the next scoped decision requires them; preserve observed dependence and explicit analysis duration",
+              "expected_decision_value": "Prevents independently selected cold/load/residual maxima from being combined into an invented historical event; supplies reproducible contemporaneous conditions on one verified physical time grid",
+              "decision": "CONTINUE_BOUNDED_HISTORICAL_JOINT_CONDITIONS_WITHOUT_POLICY_OR_PROBABILITY_DEFAULTS",
+              "evidence": "docs/checkpoints/V1_048_HISTORICAL_JOINT_STRESS.md"
+            }
+          ],
           "reviewed_commit": null
         },
         {
