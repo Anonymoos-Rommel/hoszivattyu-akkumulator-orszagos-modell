@@ -58,3 +58,19 @@ The optional D-tariff source intake and net-energy-only backcast consumer are do
 ## Dated topology authority reference
 
 `topology_reference.py` reads the explicit 2026-10-03 source-qualified H reference: six wiring categories and four independent charge/discharge/export/VPP-control dispositions. Actual-site permissions remain OPEN/Q; all execution is disabled. Reference-path absence differs from legal NO; foregone value is unknown, not zero. The current-law correction preserves the repealed historical source identity. Current aggregation law includes import-side response without export or supplier/BRP permission, while actual contracts, metering and protocol applicability remain open. See [V1-055](../../docs/checkpoints/V1_055_H_TOPOLOGY_AUTHORITY.md). No tariff numeric output, B07 physical operation or readiness value changes.
+
+## Separately selected Hungarian wholesale reference
+
+`wholesale_reference.py` reads the exact, source-qualified SMARD Hungarian
+publisher-hourly price reference for an explicit UTC2025 or civil2025 window.
+It preserves negative prices, source lexemes, retrospective as-of, calculated
+hourly resolution and the identified DST display-end anomalies. Physical UTC
+ends are derived from validated starts and durations. Explicit caller-supplied
+MWh may be valued only under the hourly-flat wholesale energy-only convention;
+this supplies neither a household bill nor actual uneven quarter-hour
+procurement/dispatch value. Original CSV/JSON/documents and detailed outputs
+remain private. See [V1-057](../../docs/checkpoints/V1_057_HU_WHOLESALE_REFERENCE.md).
+
+This bounded reference does not select a national default or close the broader
+licensed-history/forward, retail, actual-site permission or national readiness
+gaps. Existing tariffs and the optional MVM D backcast remain unchanged.

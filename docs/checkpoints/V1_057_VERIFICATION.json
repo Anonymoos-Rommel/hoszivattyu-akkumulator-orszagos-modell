@@ -1,0 +1,153 @@
+{
+  "checkpoint": "V1-057",
+  "status": "LOCAL_REVIEWED_HU_HOURLY_WHOLESALE_REFERENCE_NOT_PUBLISHED",
+  "integration_base_commit": "f12e1dd812d0b536a01e6f0de43467fe41c89550",
+  "reviewed_substantive_tree": "727777bbc8eaaf29708070e545688bf1b26066aa",
+  "substantive_patch_sha256": "33e729c31f2cfedea7d3ddecc7afb6b971e8cad07816a6e8210f5bb63f8440e0",
+  "reviewed_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_057_HU_WHOLESALE_REFERENCE.md",
+      "bytes": 8618,
+      "sha256": "2971472c10c2e58612e88f8cb1a79338d99029ea16f82fc23a46e9e7ed451957"
+    },
+    {
+      "path": "modules/B04/README.md",
+      "bytes": 6096,
+      "sha256": "fa71894309904bbd751c0f0dee95e083dae6da4f7ce9bd0aabcaed63a4f07c01"
+    },
+    {
+      "path": "modules/B04/wholesale_reference.py",
+      "bytes": 18993,
+      "sha256": "4c917df56b251b192a5f50014b8d7274b235ebc8fdd9f08eaf741dc4cabe3cfa"
+    },
+    {
+      "path": "registry/b04_wholesale_reference_manifest.json",
+      "bytes": 13657,
+      "sha256": "e7363f2593717bfe65353fc1e1cdf93aa675743f2c0702ffbaccd5adb4df9a90"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 63519,
+      "sha256": "739928108331f16261595579454d7cde358e1f0c46521ccfddf5ba00870a6ab5"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 314348,
+      "sha256": "e559740e8fc3496403ba7d085e6bf62b98a205cb7e87c6c02c528b4d4e145fc5"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 156268,
+      "sha256": "eb9014476019ad22c222708fe110420f8b0b5b7f79f4debbc85e86703b5858ab"
+    },
+    {
+      "path": "tests/test_b04_wholesale_reference.py",
+      "bytes": 23058,
+      "sha256": "410f4fd153409ef2577e9abd3167cba95c8b039cd44d46c09644cdcbbee97e72"
+    },
+    {
+      "path": "tools/materialize_b04_wholesale_reference.py",
+      "bytes": 4205,
+      "sha256": "d9f08c19c22e730828ccdaf4c045b848553e524da282b5b0436ae40192b43e9c"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-057",
+    "status": "LOCAL_CANONICAL_PASS_WITH_THREE_DOCUMENTED_HOST_ONLY_SKIPS",
+    "tests_discovered": 3572,
+    "passed": 3569,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 135.257,
+    "registry": "VALID",
+    "log_bytes": 679404,
+    "log_sha256": "c3e02b1bbae74b4d5e8a6a2ba80a20d2c28b1ff810fd7dfef6863d8d2a8ee0a3",
+    "substantive_tree": "727777bbc8eaaf29708070e545688bf1b26066aa",
+    "all_nine_frozen_files_unchanged": true,
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "hosted_ci": "NOT_RUN_NOT_AUTHORIZED_YET"
+  },
+  "independent_review": {
+    "receipt_sha256": "fa4e0d3b60a18c024de680697a02071e80bfa43da3660ba4815e847a1deed24e",
+    "verdict": "PASS_EXACT_NINE_FILE_SUBSTANTIVE_PACKET",
+    "focused_discovered": 198,
+    "focused_passed": 197,
+    "known_host_skips": 1,
+    "genuine_hourly_row_comparisons": 17520,
+    "adverse_cases_rejected": 38,
+    "original_criteria_satisfied_at_bounded_handoff": true
+  },
+  "source_review": {
+    "source_freeze_sha256": "a278aadb2d15bdc1bafdb8de47075ad4f85a029f41a491438ab38db0bedd3294",
+    "source_verdict_sha256": "b89e6ceb477a523a31493b98958f2e2435b635551bb1e9fe59ae4624f0a0afc6",
+    "original_criterion_map_sha256": "421aa7746e99096087ac0066f86102ed4d3e3451a160339c3eead49b69b2962b",
+    "frozen_files": 52,
+    "source_artifacts": 25,
+    "runtime_originals": 11,
+    "same_lineage_epoch_witness_points": 2976,
+    "operative_announcement_displayed_date": "2025-10-10",
+    "article_UTC_instant": "2025-10-09T22:00:00Z",
+    "frozen_ID_and_author_source_bytes_retained": true,
+    "guide_edition": "September 2021; exact publication day unknown, registry published_at undated"
+  },
+  "genuine_private_proof": {
+    "author_receipt_sha256": "90ae320f003ef09715377d2e764db2af5a9543990d65d82424e563ed07525437",
+    "implementation_freeze_sha256": "7a00c3315dcb15d00cec5d6a907270d7d63e957197b501519470d6414f4e12b4",
+    "windows": {
+      "utc2025": {
+        "start_utc": "2025-01-01T00:00:00+00:00",
+        "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+        "hours": 8760,
+        "declared_varying_profile_materialization_sha256": "be8765522393f58df88bb30e38dedc2a6c2c17cb7dd9707f82a118e897fb0fe9"
+      },
+      "civil2025": {
+        "start_utc": "2024-12-31T23:00:00+00:00",
+        "end_utc_exclusive": "2025-12-31T23:00:00+00:00",
+        "hours": 8760,
+        "declared_varying_profile_materialization_sha256": "8bbc6dbc29b23180f4cf8ef687c638631fac98b79458e0aec772a3e33b245b5d"
+      }
+    },
+    "caller_scenarios_not_defaults": true,
+    "real_storage_guard_not_mocked": true,
+    "private_valuation_amounts_not_republished": true
+  },
+  "original_task_status_at_first_stage": "REVIEW_REQUIRED",
+  "conditional_acceptance_template": {
+    "sha256": "23ba509b1c3667da3498141f6bd034c838c2b316a778be611e77ca18419ab183",
+    "review_receipt_sha256": "8b374f4bc85a7802df427a8fb1eef628fa7d54cf83e89e07261c9f84991b6f29",
+    "executed": false,
+    "allowed_changed_paths": [
+      "registry/v1_research_plan.json",
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_057_ACCEPTANCE.json"
+    ],
+    "requires": "Exact owner approval, actual implementation tree/parent identity, 3572 hosted passes with zero skips and independent private-preservation/metadata review"
+  },
+  "scientific_boundaries": {
+    "reference_id": "B04-HU-SMARD-WHOLESALE-REFERENCE-20261003-V1",
+    "bidding_zone": "HU",
+    "display_region_not_price_geography": "DE-LU",
+    "currency_unit": "EUR/MWh",
+    "window_and_energy_defaults": null,
+    "source_vintage": "RETROSPECTIVE_RETRIEVAL_ONLY; original auction/per-record revisions unknown",
+    "hourly_price": "PUBLISHER_CALCULATED_ROUNDED_TO_CENTS",
+    "native_quarter_display_before_transition": "REPEATED_NATIVE_HOURLY_PRICES",
+    "source_end_labels": "RETAINED_WITH_TWO_DST_ANOMALIES_PER_CSV; physical UTC ends DER",
+    "maximum_observed_quarter_mean_discrepancy_eur_mwh": "0.005; not full model uncertainty or recovered unrounded value",
+    "negative_prices_retained": true,
+    "publisher_tie_rounding": "UNKNOWN",
+    "valuation": "CALLER_DECLARED_HOURLY_FLAT_WHOLESALE_ENERGY_ONLY_REFERENCE",
+    "uneven_subhour_procurement_retail_FX_dispatch_forecast_programme_result": "NOT_ESTABLISHED",
+    "source_licence": "Source-specific SMARD numerical market-data representation with Bundesnetzagentur | SMARD.de attribution; no direct HUPX/ENTSO-E relicensing",
+    "raw_sources_and_numeric_panels_public": false,
+    "other57_tasks_criteria_dependencies_readiness_unchanged": true,
+    "national_gate_or_B15_admission": false
+  },
+  "recovery_verification_method": "Every prior archive payload stream-verified; fresh repository plus required exact sources selectively materialized, without full baseline extraction",
+  "publication": "Not performed; exact ten-file approval and conditional three-file acceptance approval required; no main merge"
+}

@@ -402,15 +402,46 @@
           "data": "EUR/MWh vagy HUF/MWh órás/napi nagykereskedelmi sor, HU ajánlati zóna, as-of; külön a lakossági számlától. Dinamikus termék csak ha tényleges szerződési/elszámolási feltétel elérhető.",
           "phase": "A",
           "slice_id": "B04-D02",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B04-MVM-D-PRODUCT-2026",
             "SRC-B04-MVM-D-METHOD-2026",
             "SRC-B04-MVM-D-FEE-20260910",
-            "SRC-B04-MVM-D-HISTORY-2026-09"
+            "SRC-B04-MVM-D-HISTORY-2026-09",
+            "SRC-B04-ENTSOE-TERMS-LISTING-20261003",
+            "SRC-B04-ENTSOE-PRICE-DEFINITION-20261003",
+            "SRC-B04-ENTSOE-FREE-REUSE-20231018",
+            "SRC-B04-ENTSOE-TERMS-20230329",
+            "SRC-B04-HUPX-ACCESS-20261003",
+            "SRC-B04-HUPX-TERMS-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+            "SRC-B04-SMARD-HU-QUARTERHOUR-INDEX-20261003",
+            "SRC-B04-SMARD-DATA-USE-20261003",
+            "SRC-B04-SMARD-PUBLIC-EXPORT-CODE-20261003",
+            "SRC-B04-SMARD-DOWNLOAD-20261003",
+            "SRC-B04-SMARD-GUIDE-202109",
+            "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+            "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+            "SRC-B04-SMARD-CONFIG-20261003",
+            "SRC-B04-SMARD-PUBLIC-CHART-CODE-20261003",
+            "SRC-B04-SMARD-SMARD-MOD-CSV-20261003",
+            "SRC-B04-SMARD-SMARD-MOD-URLS-20261003",
+            "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+            "SRC-B04-SMARD-REGIONS-20261003",
+            "SRC-B04-SMARD-GUIDE-LISTING-20261003"
           ],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
+          "accepted_artifacts": [
+            "registry/b04_wholesale_reference_manifest.json",
+            "modules/B04/wholesale_reference.py",
+            "tools/materialize_b04_wholesale_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b04_wholesale_reference.py"
+          ],
           "validation_debt_ids": [],
           "research_log": [
             {
@@ -424,6 +455,18 @@
               "expected_decision_value": "Replaces hypothetical dynamic-product assumption with source-native product terms and an acquired price panel",
               "decision": "CONTINUE_WHEN_SCENARIO_CONSUMER_READY",
               "evidence": "docs/checkpoints/V1_003_B04_DYNAMIC_SOURCE_INTAKE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Official Bundesnetzagentur | SMARD.de HU numerical market-data exports and current source-specific usage terms",
+                "Native configuration, time/price guide, resolution-transition notice and five matching JSON epoch witnesses"
+              ],
+              "remaining_unknown": "Original auction-publication vintage and per-record revisions are absent. Hourly values are publisher calculated and rounded; tie-rounding remains unknown. Quarter display before October repeats native hourly prices. Original end-label DST anomalies are retained with physical endpoints derived. Wholesale energy-only reference valuation does not establish actual quarter-hour procurement, household retail, FX, dispatch entitlement, forecasts, programme benefits or national readiness. Optional MVM D evidence remains separate, not recovered or inverted.",
+              "promising_next_lead": "Verify the exact consumer and source-preserving private materialization, then hosted no-skip CI and separately approved actual-commit-bound D02 acceptance; matched B19 price integration is a later distinct slice.",
+              "expected_decision_value": "Supplies every original wholesale-price source field through a dated HU hourly reference, preserving source lineage, currency, physical time, signed prices and explicit valuation boundary without demanding a full licensed historical/forward package.",
+              "decision": "QUALIFIED_SMARD_HU_WHOLESALE_HANDOFF_PREPARE_EXACT_CONSUMER_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_057_HU_WHOLESALE_REFERENCE.md"
             }
           ],
           "reviewed_commit": null
