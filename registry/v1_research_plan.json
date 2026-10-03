@@ -1640,7 +1640,7 @@
           "data": "Programazonosító, kiíró, hatály/verzió, ország/régió, jogosult/kizárt tevékenység, költség, intenzitás, saját erő, kumuláció, beadási/teljesítési határidő.",
           "phase": "V",
           "slice_id": "B14-L01",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
             "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
@@ -1652,16 +1652,24 @@
             "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
             "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
             "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
-            "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414"
+            "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+            "SRC-B14-MFB-KEHOP-417-STATUS-20261003",
+            "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261003",
+            "SRC-B14-MFB-KEHOP-418-STATUS-20261003",
+            "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261003"
           ],
           "accepted_artifacts": [
             "registry/b14_funding_reference_manifest.json",
             "data/processed/b14/funding_reference_snapshot.json",
             "data/processed/b14/eligible_cost_caps_417.csv",
-            "modules/B14/funding_reference.py"
+            "modules/B14/funding_reference.py",
+            "registry/b14_rule_completion_manifest.json",
+            "data/processed/b14/rule_completion_20261003.json",
+            "data/processed/b14/eligible_cost_caps_418.csv"
           ],
           "consumer_tests": [
-            "tests/test_b14_funding_reference.py"
+            "tests/test_b14_funding_reference.py",
+            "tests/test_b14_rule_completion.py"
           ],
           "validation_debt_ids": [],
           "research_log": [
@@ -1688,9 +1696,20 @@
               "expected_decision_value": "Confirms canonical LF input identity,25focusedchecks and2660hostedtests without misreporting the resource-blocked local aggregate",
               "decision": "VERIFY_BOUNDED_REFERENCE_IMPLEMENTATION_ONLY",
               "evidence": "docs/checkpoints/V1_018_CI.json"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact already-pinned4.1.7/4.1.8 calls recovered through recorded identical mirrors; SeptemberFAQ and two exactFAIR index payloads; new MFB status/index observations; explicit prior V1-018 procedure/notice review"
+              ],
+              "remaining_unknown": "Individual eligibility, all unlisted programme coverage, available/committed/paid/project funds, university/pilot fit and B15 outputs remain outside this named rule handoff. Common-procedure, three historical notices and old HTML originals remain archive-recovery limits; prior review is not relabelled a fresh full11source pass.",
+              "promising_next_lead": "Verify this exact two-date consumer on hosted CI, then bind bounded L01 acceptance to the actual reviewed implementation commit. D01 balances and D02 pilot fit remain separate.",
+              "expected_decision_value": "Completes original programme/issuer/version/geography, activity/cost/intensity/own-funds/cumulation/deadline fields for both named household calls. Supersedes the prior unbounded broader-programme/record-level/balance/pilot interpretation as L01 gates without asserting a programme census or individual approval.",
+              "decision": "SOURCE_CONTRACT_COMPLETE_AWAIT_EXACT_IMPLEMENTATION_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_054_B14_RULE_COMPLETION.md"
             }
           ],
-          "reviewed_commit": "fdbddafc19582780c190753cbe3c6bf170eb885f"
+          "reviewed_commit": null
         },
         {
           "title": "Összeg és pénzbeérkezés",

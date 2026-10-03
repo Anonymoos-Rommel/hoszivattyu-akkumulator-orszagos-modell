@@ -1,0 +1,908 @@
+{
+  "schema_version": 1,
+  "status": "BOUNDED_DATED_RULE_COMPLETION_REFERENCE",
+  "as_of": "2026-10-03",
+  "historical_as_of": "2026-10-01",
+  "terms_revision": "2025-10-15",
+  "claim_scope": "EXACT_NAMED_PROGRAMME_RULE_REFERENCE_ONLY",
+  "programme_rules_truth_status": "POL",
+  "not_a_household_eligibility_decision": true,
+  "programmes": [
+    {
+      "programme_id": "KEHOP Plusz-4.1.7-24",
+      "scope": "HU_EXCLUDING_BUDAPEST_FAMILY_HOUSE_RULES",
+      "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+      "issuer": {
+        "name": "MFB Zrt.",
+        "role": "CALL_DOCUMENT_ISSUER_AND_PROGRAMME_FINANCING_INSTITUTION",
+        "evidence_basis": "MFB Zrt. is explicitly printed in the call running header; II/4 names its Lakossági MFB Pont Plusz branch network as submission channel, and III/1 names MFB as credit assessor. Identity is not inferred from URL host.",
+        "locator": "Call running header e.g. printed/PDF p5; II/4 submission channel p7 and nominal dates p7; III/1 credit assessment p8",
+        "not_asserted": [
+          "Identity of a separate managing authority",
+          "Current government portfolio holder"
+        ]
+      },
+      "geography": {
+        "country": "HU",
+        "included": "HUNGARY_EXCLUDING_BUDAPEST",
+        "basis": "PROJECT_IMPLEMENTATION_LOCATION",
+        "max_implementation_locations_per_application": {
+          "value": "1",
+          "unit": "count",
+          "truth_status": "POL"
+        },
+        "locator": "V/1 printed/PDF p11"
+      },
+      "applicant_and_consent": {
+        "locator": "II/1 printed/PDF pp5-6 and footnotes1-5",
+        "borrower_entity": "NATURAL_PERSON",
+        "adult_and_legally_capable_required": true,
+        "hungarian_tax_identifier_required": true,
+        "nationality_residence_alternatives": [
+          {
+            "nationality": "HUNGARIAN"
+          },
+          {
+            "nationality": "OTHER_EEA_MEMBER_STATE",
+            "documented_hungarian_permanent_or_temporary_residence_min": {
+              "value": "1",
+              "unit": "year",
+              "truth_status": "POL"
+            }
+          }
+        ],
+        "property_right_alternatives": [
+          "OWNERSHIP_SHARE",
+          "FIXED_TERM_USUFRUCT_AT_LEAST_PLANNED_LOAN_TERM",
+          "LIFELONG_USUFRUCT_OR_WIDOW_RIGHT"
+        ],
+        "residence_requirement": {
+          "person": "BORROWER_OR_CLOSE_RELATIVE",
+          "status": "REGISTERED_PERMANENT_OR_TEMPORARY_RESIDENCE_AT_OCCUPIED_PROJECT_PROPERTY",
+          "normal_deadline": "BEFORE_APPLICATION",
+          "pending_property_acquisition_case_deadline": "NO_LATER_THAN_DISBURSEMENT_PRECONDITIONS",
+          "pending_case_requirements": [
+            "Eligible property-right transfer document dated before application",
+            "Submitted and marginally registered at Land Registry at application",
+            "Registration proven by decision at disbursement preconditions"
+          ]
+        },
+        "consents": [
+          {
+            "trigger": "BORROWER_NOT_SOLE_OWNER",
+            "required_from": "ALL_OTHER_PROPERTY_OWNERS"
+          },
+          {
+            "trigger": "USUFRUCT_BORROWER",
+            "required_from": "ALL_PROPERTY_OWNERS"
+          },
+          {
+            "trigger": "MINOR_PROPERTY_OWNER_ACTS",
+            "actor": "LEGAL_REPRESENTATIVE",
+            "additional_approval": "GUARDIANSHIP_AUTHORITY_FOR_INVESTMENT_CONSENT",
+            "does_not_override_adult_borrower_requirement": true
+          }
+        ],
+        "co_borrower": [
+          {
+            "trigger": "SPOUSE_OR_COHABITING_PARTNER",
+            "rule": "INVOLVED_AS_CO_BORROWER_UNDER_COMMON_PROCEDURE"
+          },
+          {
+            "trigger": "BORROWER_HAS_REACHED_OR_WILL_REACH_75_BY_LOAN_MATURITY",
+            "required_co_borrower": "MEETS_BOTH_AGE_LIMIT_AND_INCOME_EXPECTATIONS",
+            "age_value": "75",
+            "age_unit": "year",
+            "truth_status": "POL"
+          }
+        ]
+      },
+      "property_rule": {
+        "locator": "V/1 printed/PDF pp11-12",
+        "occupied": true,
+        "occupancy_permission_before": "2007-01-01",
+        "eligible_types": [
+          "ONE_OR_MULTI_DWELLING_FAMILY_HOUSE",
+          "DETACHED_FAMILY_HOUSE",
+          "DEFINED_TERRACED_FAMILY_HOUSE_UNIT",
+          "DEFINED_SEMI_DETACHED_FAMILY_HOUSE_UNIT"
+        ],
+        "land_registry_classification": "RESIDENTIAL_HOUSE_IN_URBAN_OR_OUTLYING_OR_EXEMPT_AREA_AS_SOURCE_DEFINED",
+        "original_building_date_for_extensions": true,
+        "construction_year_initial_HET_accepted_reference": "If clarification is required use final occupancy permit date from responsible government office",
+        "economic_use": {
+          "company_registered_seat_possible": true,
+          "company_site_or_branch_permitted": false,
+          "condition": "Declaration ML118U of business activity, or actual business/economic use including rental energy (for carriers in which residential savings occur) supported by separate meter AND utility invoices shown at application",
+          "eligible_work_scope": "RESIDENTIAL_USE_PARTS_ONLY",
+          "unseparated_actual_economic_use_consequence": "IRREGULARITY_AND_FULL_FINANCING_RECLAIM"
+        },
+        "standalone_building_unit_definition": {
+          "locator": "II/1 p6 footnote7 and V/1",
+          "meaning": "Independently and habitually inhabited unit that also meets V/1 property conditions",
+          "same_land_registry_number_not_automatically_single_unit": true,
+          "included_unit_arrangements": "Undivided joint ownership or separately registered condominium/cooperative semi-detached, terraced or multi-dwelling property can contain multiple independent use units"
+        }
+      },
+      "cumulation": {
+        "locator": "II/1 printed/PDF p6 and footnotes5-7",
+        "in_current_programme": {
+          "person_role": "BORROWER_FINAL_BENEFICIARY",
+          "max_supported_applications": {
+            "value": "1",
+            "unit": "count",
+            "truth_status": "POL"
+          },
+          "application_state": "SUPPORTED_NOT_MERELY_SUBMITTED"
+        },
+        "cross_scheme": {
+          "scheme_set": [
+            {
+              "identifier": "KEHOP Plusz-4.1.7-24",
+              "role": "THIS_CALL"
+            },
+            {
+              "identifier": "RRF-REP-10.13.1-24",
+              "name": "Otthonfelújítási Program"
+            },
+            {
+              "identifier": "RRF-6.2.1",
+              "name": "Lakossági napelemes rendszerek támogatása és fűtési rendszerek elektrifikálása napelemes rendszerekkel kombinálva",
+              "identifier_precision": "EXACT_SHORT_CODE_AS_IN_CALL"
+            },
+            {
+              "identifier": null,
+              "class": "ALL_EU_FUNDED_ENERGY_PURPOSE_PROGRAMMES_ANNOUNCED_FOR_ENTERPRISES_FOR_2021_2027_PROGRAMMING_PERIOD"
+            }
+          ],
+          "matching_scope_operator": "SAME_INDEPENDENT_BUILDING_UNIT_OR_SAME_FINAL_BENEFICIARY_OR_BOTH",
+          "max_supported_applications": {
+            "value": "1",
+            "unit": "count",
+            "truth_status": "POL"
+          },
+          "no_requirement_that_both_scopes_match": true,
+          "pv_only_exception": {
+            "locator": "II/1 p6 footnote6",
+            "qualifying_investment_scope": "EXCLUSIVELY_PV_SYSTEM_INSTALLATION",
+            "not_sufficient": "A_PV_COMPONENT_INSIDE_A_HEATING_MODERNISATION_PACKAGE",
+            "footnote_context": "The examples name RRF-REP-10.13.1-24 and RRF-6.2.1-supported heating modernisation, then except investments exclusively for PV installation.",
+            "limited_effect": "EXCEPTION_TO_THIS_CROSS_SCHEME_SUPPORTED_APPLICATION_LIMIT_ONLY",
+            "does_not_waive": [
+              "same-cost EU double funding prohibition",
+              "own-programme one-borrower limit",
+              "property/applicant/technical rules",
+              "30percent primary-energy test excluding electricity-generation savings",
+              "current intake suspension"
+            ],
+            "machine_decision_use": "REFERENCE_ONLY_REQUIRES_EXACT_PRIOR_AWARD_SCOPE_NO_AUTOMATIC_APPROVAL",
+            "unlisted_scheme_extension": "NOT_INFERRED"
+          }
+        }
+      },
+      "same_cost_funding": {
+        "locator": "V/4 printed/PDF p15",
+        "cost_scope": "COST_ITEMS_ACCOUNTED_FOR_AGAINST_THE_PROGRAMME_FINANCING",
+        "other_EU_funded_grant_prohibited": true,
+        "other_EU_funded_repayable_aid_prohibited": true,
+        "legal_title_does_not_remove_prohibition": true
+      },
+      "HEM": {
+        "locator": "Annex3 printed/PDF p25; V/6.1 printed/PDF p17; V/4 p15",
+        "mandatory_to_use_HEM": false,
+        "payment_alternatives": [
+          "CASH_FEE",
+          "TRANSFER_OF_CERTIFIED_ENERGY_SAVINGS_HEM"
+        ],
+        "cash_plus_HEM_for_same_advice_or_subactivity_allowed": false,
+        "written_agreement_required_for_HEM_transfer_or_intention": true,
+        "agreement_parties": [
+          "BORROWER",
+          "ADVISER"
+        ],
+        "max_generation_agreements_in_programme": {
+          "value": "1",
+          "unit": "count",
+          "truth_status": "POL"
+        },
+        "adviser_extra_fee_in_HEM_agreement_allowed": false,
+        "advance_fee_also_prohibited": true,
+        "proportional_market_value_service_required": true,
+        "borrower_may_select_all_or_subset_of_services": true,
+        "adviser_may_offer_additional_compensation": true,
+        "eligible_consideration_services": [
+          "Programme energy advice/information materials free online/digital/in_person",
+          "Pay or reimburse initial HET and planned-state calculation",
+          "Pay or reimburse closing HET",
+          "Bear HEM certification cost",
+          "Recommend contractors and assist contact",
+          "Explain programme technical requirements"
+        ],
+        "HEM_transfer_recipient_class": "EKR_OBLIGATED_PARTY",
+        "obligated_parties_as_listed": [
+          "ELECTRICITY_TRADERS",
+          "ELECTRICITY_UNIVERSAL_SERVICE_PROVIDERS",
+          "NATURAL_GAS_TRADERS",
+          "NATURAL_GAS_UNIVERSAL_SERVICE_PROVIDERS",
+          "TRANSPORT_FUEL_SELLERS_TO_FINAL_USERS"
+        ],
+        "no_HEM_cash_fee_ceiling": {
+          "value": "140000",
+          "unit": "HUF",
+          "vat_basis": "GROSS",
+          "truth_status": "POL"
+        }
+      },
+      "invoice_endorsement": {
+        "source_id": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+        "locator": "Section10.8.2 PDFp40/printedp39",
+        "claim": "INVOICE_ENDORSEMENT_NO_REPEAT_CLAIM",
+        "evidence_state": "PRIOR_VERIFIED_V1_018_REVIEW_NOT_FRESHLY_REREAD",
+        "fresh_bytes_recovered": false,
+        "old_reported_checks_not_repeated_here": true
+      },
+      "eligible_activity_rules": {
+        "locator": "V/3 printed/PDF pp12-13",
+        "independently_supported": [
+          "SYSTEM_LEVEL_COMPLETE_THERMAL_INSULATION_OF_HEATED_UNHEATED_ENVELOPE_BOUNDARY",
+          "ENERGY_SAVING_REPLACEMENT_OR_MODERNISATION_OF_EXTERNAL_OPENINGS",
+          "DHW_MODERNISATION",
+          "AIR_WATER_HP_HEATING_MODERNISATION_WITH_ASSOCIATED_SECONDARY_CIRCUIT_EMITTERS_HYDRONIC_FLOOR_CEILING_AND_CONTROLS"
+        ],
+        "conditional": [
+          {
+            "activity": "EXTERNAL_SHADING_SHUTTERS",
+            "requires_any": [
+              "FULL_INSULATION_UNDER_V3_1",
+              "OPENING_REPLACEMENT_UNDER_V3_2"
+            ],
+            "standalone": false
+          },
+          {
+            "activity": "DIRECT_REPAIR_RESTORATION",
+            "budget_rule": "INCLUDED_IN_ACTIVITY_UNIT_CAP_NOT_SEPARATE_ADDITIVE_LINE"
+          },
+          {
+            "activity": "FLAT_ROOF_WATERPROOFING",
+            "requires": "FLAT_ROOF_INSULATION",
+            "cost_basis": "OTHER_OWN_FUNDS_OUTSIDE_ELIGIBLE_COST"
+          }
+        ],
+        "excluded": [
+          "FOSSIL_FUEL_BASED_HEATING_OR_DHW_UPGRADE",
+          "WOOD_BRIQUETTE_PELLET_HEATING_OR_DHW_UPGRADE",
+          "SPLIT_OR_WINDOW_AIR_CONDITIONER",
+          "HEATING_FILM"
+        ],
+        "PV_and_storage_as_eligible_activities": "NOT_LISTED_IN_V3_DO_NOT_INFER_ELIGIBILITY_FROM_PV_EXCEPTION"
+      },
+      "cost_rule": {
+        "locator": "V/4 starts p13, cost classes p13, price-proof and nested caps pp13-14, HET/cumulation p15; V/5 exclusions pp15-16; Annex1 printed/PDF pp21-23",
+        "eligible_cost_classes": [
+          "NEW_COMMERCIALLY_PURCHASED_MATERIAL_EQUIPMENT",
+          "LABOUR",
+          "PROJECT_PREPARATION",
+          "INDISPENSABLE_OTHER_WORK_AND_CLOSING_HET"
+        ],
+        "unit_cap_basis": "GROSS_SEPARATE_MATERIAL_AND_LABOUR_LIMITS",
+        "above_unit_cap": "EXTRA_NON_ELIGIBLE_OWN_FUNDS",
+        "no_published_unit_cap_rule": "THREE_QUOTES_REQUIRED_TO_SUPPORT_MARKET_PRICE",
+        "market_price_proof_exceptions": [
+          "NOTARY_FEE",
+          "TITLE_DEED_RETRIEVAL",
+          "STATIC_STRUCTURAL_EXPERT_OPINION"
+        ],
+        "pre_application_invoice_exception": "PROJECT_PREPARATION_ONLY_NO_PHYSICAL_WORK_STARTED",
+        "nested_preparation_HET_advice_caps": "RETAIN_EXISTING_VERIFIED_FACTS_AND_DENOMINATORS",
+        "finance_ceiling_is_total_eligible_cost_ceiling": false,
+        "excluded_cost_classes": [
+          "INTEREST_DEBT_SETTLEMENT",
+          "LOAN_INTEREST",
+          "OVERDRAFT_OR_OTHER_PAYMENT_COST",
+          "FX_CONVERSION_COMMISSION",
+          "FINANCIAL_TRANSACTION_FX_LOSS",
+          "FINES_PENALTIES_LITIGATION_COSTS",
+          "COSTS_UNRELATED_TO_SUPPORT_PURPOSE_OR_ENERGY_SAVINGS",
+          "ROOF_WATERPROOFING",
+          "SELF_PERFORMED_WORK",
+          "DELIVERY_OR_TRAVEL_TO_SITE_FEES",
+          "PUBLIC_AREA_OCCUPATION_OR_SITE_SECURITY",
+          "PALLET_RENT_STORAGE",
+          "TEMPORARY_TOILET_OR_OUTBUILDINGS",
+          "SITE_ORGANISATION_TREE_EARTH_ROCK_WORK",
+          "SCAFFOLDING_MATERIAL",
+          "INSECT_SCREEN",
+          "INTERNAL_OPENINGS_BETWEEN_HEATED_ROOMS",
+          "INSULATION_BETWEEN_HEATED_ROOMS",
+          "INTERNAL_PAINT_FINISH",
+          "NEW_ANTENNA",
+          "NEW_CHIMNEY",
+          "DRINKING_WATER_PIPE_REPLACEMENT",
+          "FUEL_STORAGE_BUILDING",
+          "FUEL_TRANSPORT",
+          "ROOF_STRUCTURAL_STRENGTHENING",
+          "UNINSULATED_PLINTH_PAINT_REPAIR",
+          "OPERATING_OVERHEAD",
+          "TRAVEL_ACCOMMODATION",
+          "TRANSPORT_INSURANCE_CUSTOMS_CLEARANCE",
+          "MOBILE_MATERIAL_HANDLING_OR_WORK_MACHINES"
+        ],
+        "building_expansion_conversion_rebuild": {
+          "eligible_activity": false,
+          "must_be_above_eligible_cost": true,
+          "parallel_energy_upgrade_conditions": [
+            "Whole resulting property meets programme conditions including30percent savings",
+            "Energy-upgrade invoices separate from expansion/conversion/rebuild invoices",
+            "Expanded floor area requires occupancy permission under procedure"
+          ]
+        }
+      }
+    },
+    {
+      "programme_id": "KEHOP Plusz-4.1.8-24",
+      "scope": "BUDAPEST_FAMILY_HOUSE_RULES",
+      "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+      "issuer": {
+        "name": "MFB Zrt.",
+        "role": "CALL_DOCUMENT_ISSUER_AND_PROGRAMME_FINANCING_INSTITUTION",
+        "evidence_basis": "MFB Zrt. is explicitly printed in the call running header; II/4 names its Lakossági MFB Pont Plusz branch network as submission channel, and III/1 names MFB as credit assessor. Identity is not inferred from URL host.",
+        "locator": "Call running header e.g. printed/PDF p5; II/4 submission channel p7 and nominal dates p8; III/1 credit assessment p8",
+        "not_asserted": [
+          "Identity of a separate managing authority",
+          "Current government portfolio holder"
+        ]
+      },
+      "geography": {
+        "country": "HU",
+        "included": "BUDAPEST",
+        "basis": "PROJECT_IMPLEMENTATION_LOCATION",
+        "max_implementation_locations_per_application": {
+          "value": "1",
+          "unit": "count",
+          "truth_status": "POL"
+        },
+        "locator": "V/1 printed/PDF p12"
+      },
+      "applicant_and_consent": {
+        "locator": "II/1 printed/PDF pp5-6 and footnotes1-5",
+        "borrower_entity": "NATURAL_PERSON",
+        "adult_and_legally_capable_required": true,
+        "hungarian_tax_identifier_required": true,
+        "nationality_residence_alternatives": [
+          {
+            "nationality": "HUNGARIAN"
+          },
+          {
+            "nationality": "OTHER_EEA_MEMBER_STATE",
+            "documented_hungarian_permanent_or_temporary_residence_min": {
+              "value": "1",
+              "unit": "year",
+              "truth_status": "POL"
+            }
+          }
+        ],
+        "property_right_alternatives": [
+          "OWNERSHIP_SHARE",
+          "FIXED_TERM_USUFRUCT_AT_LEAST_PLANNED_LOAN_TERM",
+          "LIFELONG_USUFRUCT_OR_WIDOW_RIGHT"
+        ],
+        "residence_requirement": {
+          "person": "BORROWER_OR_CLOSE_RELATIVE",
+          "status": "REGISTERED_PERMANENT_OR_TEMPORARY_RESIDENCE_AT_OCCUPIED_PROJECT_PROPERTY",
+          "normal_deadline": "BEFORE_APPLICATION",
+          "pending_property_acquisition_case_deadline": "NO_LATER_THAN_DISBURSEMENT_PRECONDITIONS",
+          "pending_case_requirements": [
+            "Eligible property-right transfer document dated before application",
+            "Submitted and marginally registered at Land Registry at application",
+            "Registration proven by decision at disbursement preconditions"
+          ]
+        },
+        "consents": [
+          {
+            "trigger": "BORROWER_NOT_SOLE_OWNER",
+            "required_from": "ALL_OTHER_PROPERTY_OWNERS"
+          },
+          {
+            "trigger": "USUFRUCT_BORROWER",
+            "required_from": "ALL_PROPERTY_OWNERS"
+          },
+          {
+            "trigger": "MINOR_PROPERTY_OWNER_ACTS",
+            "actor": "LEGAL_REPRESENTATIVE",
+            "additional_approval": "GUARDIANSHIP_AUTHORITY_FOR_INVESTMENT_CONSENT",
+            "does_not_override_adult_borrower_requirement": true
+          }
+        ],
+        "co_borrower": [
+          {
+            "trigger": "SPOUSE_OR_COHABITING_PARTNER",
+            "rule": "INVOLVED_AS_CO_BORROWER_UNDER_COMMON_PROCEDURE"
+          },
+          {
+            "trigger": "BORROWER_HAS_REACHED_OR_WILL_REACH_75_BY_LOAN_MATURITY",
+            "required_co_borrower": "MEETS_BOTH_AGE_LIMIT_AND_INCOME_EXPECTATIONS",
+            "age_value": "75",
+            "age_unit": "year",
+            "truth_status": "POL"
+          }
+        ]
+      },
+      "property_rule": {
+        "locator": "V/1 printed/PDF p12",
+        "occupied": true,
+        "occupancy_permission_before": "2007-01-01",
+        "eligible_types": [
+          "ONE_OR_MULTI_DWELLING_FAMILY_HOUSE",
+          "DETACHED_FAMILY_HOUSE",
+          "DEFINED_TERRACED_FAMILY_HOUSE_UNIT",
+          "DEFINED_SEMI_DETACHED_FAMILY_HOUSE_UNIT"
+        ],
+        "land_registry_classification": "RESIDENTIAL_HOUSE_IN_URBAN_OR_OUTLYING_OR_EXEMPT_AREA_AS_SOURCE_DEFINED",
+        "original_building_date_for_extensions": true,
+        "construction_year_initial_HET_accepted_reference": "If clarification is required use final occupancy permit date from responsible government office",
+        "economic_use": {
+          "company_registered_seat_possible": true,
+          "company_site_or_branch_permitted": false,
+          "condition": "Declaration ML118U of business activity, or actual business/economic use including rental energy (for carriers in which residential savings occur) supported by separate meter AND utility invoices shown at application",
+          "eligible_work_scope": "RESIDENTIAL_USE_PARTS_ONLY",
+          "unseparated_actual_economic_use_consequence": "IRREGULARITY_AND_FULL_FINANCING_RECLAIM"
+        },
+        "standalone_building_unit_definition": {
+          "locator": "II/1 p6 footnote7 and V/1",
+          "meaning": "Independently and habitually inhabited unit that also meets V/1 property conditions",
+          "same_land_registry_number_not_automatically_single_unit": true,
+          "included_unit_arrangements": "Undivided joint ownership or separately registered condominium/cooperative semi-detached, terraced or multi-dwelling property can contain multiple independent use units"
+        }
+      },
+      "cumulation": {
+        "locator": "II/1 printed/PDF p6 and footnotes5-7",
+        "in_current_programme": {
+          "person_role": "BORROWER_FINAL_BENEFICIARY",
+          "max_supported_applications": {
+            "value": "1",
+            "unit": "count",
+            "truth_status": "POL"
+          },
+          "application_state": "SUPPORTED_NOT_MERELY_SUBMITTED"
+        },
+        "cross_scheme": {
+          "scheme_set": [
+            {
+              "identifier": "KEHOP Plusz-4.1.8-24",
+              "role": "THIS_CALL"
+            },
+            {
+              "identifier": "RRF-REP-10.13.1-24",
+              "name": "Otthonfelújítási Program"
+            },
+            {
+              "identifier": "RRF-6.2.1",
+              "name": "Lakossági napelemes rendszerek támogatása és fűtési rendszerek elektrifikálása napelemes rendszerekkel kombinálva",
+              "identifier_precision": "EXACT_SHORT_CODE_AS_IN_CALL"
+            },
+            {
+              "identifier": null,
+              "class": "ALL_EU_FUNDED_ENERGY_PURPOSE_PROGRAMMES_ANNOUNCED_FOR_ENTERPRISES_FOR_2021_2027_PROGRAMMING_PERIOD"
+            }
+          ],
+          "matching_scope_operator": "SAME_INDEPENDENT_BUILDING_UNIT_OR_SAME_FINAL_BENEFICIARY_OR_BOTH",
+          "max_supported_applications": {
+            "value": "1",
+            "unit": "count",
+            "truth_status": "POL"
+          },
+          "no_requirement_that_both_scopes_match": true,
+          "pv_only_exception": {
+            "locator": "II/1 p6 footnote6",
+            "qualifying_investment_scope": "EXCLUSIVELY_PV_SYSTEM_INSTALLATION",
+            "not_sufficient": "A_PV_COMPONENT_INSIDE_A_HEATING_MODERNISATION_PACKAGE",
+            "footnote_context": "The examples name RRF-REP-10.13.1-24 and RRF-6.2.1-supported heating modernisation, then except investments exclusively for PV installation.",
+            "limited_effect": "EXCEPTION_TO_THIS_CROSS_SCHEME_SUPPORTED_APPLICATION_LIMIT_ONLY",
+            "does_not_waive": [
+              "same-cost EU double funding prohibition",
+              "own-programme one-borrower limit",
+              "property/applicant/technical rules",
+              "30percent primary-energy test excluding electricity-generation savings",
+              "current intake suspension"
+            ],
+            "machine_decision_use": "REFERENCE_ONLY_REQUIRES_EXACT_PRIOR_AWARD_SCOPE_NO_AUTOMATIC_APPROVAL",
+            "unlisted_scheme_extension": "NOT_INFERRED"
+          }
+        }
+      },
+      "same_cost_funding": {
+        "locator": "V/4 printed/PDF p15",
+        "cost_scope": "COST_ITEMS_ACCOUNTED_FOR_AGAINST_THE_PROGRAMME_FINANCING",
+        "other_EU_funded_grant_prohibited": true,
+        "other_EU_funded_repayable_aid_prohibited": true,
+        "legal_title_does_not_remove_prohibition": true
+      },
+      "HEM": {
+        "locator": "Annex3 printed/PDF p26; V/6.1 printed/PDF p17; V/4 p15",
+        "mandatory_to_use_HEM": false,
+        "payment_alternatives": [
+          "CASH_FEE",
+          "TRANSFER_OF_CERTIFIED_ENERGY_SAVINGS_HEM"
+        ],
+        "cash_plus_HEM_for_same_advice_or_subactivity_allowed": false,
+        "written_agreement_required_for_HEM_transfer_or_intention": true,
+        "agreement_parties": [
+          "BORROWER",
+          "ADVISER"
+        ],
+        "max_generation_agreements_in_programme": {
+          "value": "1",
+          "unit": "count",
+          "truth_status": "POL"
+        },
+        "adviser_extra_fee_in_HEM_agreement_allowed": false,
+        "advance_fee_also_prohibited": true,
+        "proportional_market_value_service_required": true,
+        "borrower_may_select_all_or_subset_of_services": true,
+        "adviser_may_offer_additional_compensation": true,
+        "eligible_consideration_services": [
+          "Programme energy advice/information materials free online/digital/in_person",
+          "Pay or reimburse initial HET and planned-state calculation",
+          "Pay or reimburse closing HET",
+          "Bear HEM certification cost",
+          "Recommend contractors and assist contact",
+          "Explain programme technical requirements"
+        ],
+        "HEM_transfer_recipient_class": "EKR_OBLIGATED_PARTY",
+        "obligated_parties_as_listed": [
+          "ELECTRICITY_TRADERS",
+          "ELECTRICITY_UNIVERSAL_SERVICE_PROVIDERS",
+          "NATURAL_GAS_TRADERS",
+          "NATURAL_GAS_UNIVERSAL_SERVICE_PROVIDERS",
+          "TRANSPORT_FUEL_SELLERS_TO_FINAL_USERS"
+        ],
+        "no_HEM_cash_fee_ceiling": {
+          "value": "140000",
+          "unit": "HUF",
+          "vat_basis": "GROSS",
+          "truth_status": "POL"
+        }
+      },
+      "invoice_endorsement": {
+        "source_id": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+        "locator": "Section10.8.2 PDFp40/printedp39",
+        "claim": "INVOICE_ENDORSEMENT_NO_REPEAT_CLAIM",
+        "evidence_state": "PRIOR_VERIFIED_V1_018_REVIEW_NOT_FRESHLY_REREAD",
+        "fresh_bytes_recovered": false,
+        "old_reported_checks_not_repeated_here": true
+      },
+      "eligible_activity_rules": {
+        "locator": "V/3 printed/PDF p13",
+        "independently_supported": [
+          "SYSTEM_LEVEL_COMPLETE_THERMAL_INSULATION_OF_HEATED_UNHEATED_ENVELOPE_BOUNDARY",
+          "ENERGY_SAVING_REPLACEMENT_OR_MODERNISATION_OF_EXTERNAL_OPENINGS",
+          "DHW_MODERNISATION",
+          "AIR_WATER_HP_HEATING_MODERNISATION_WITH_ASSOCIATED_SECONDARY_CIRCUIT_EMITTERS_HYDRONIC_FLOOR_CEILING_AND_CONTROLS"
+        ],
+        "conditional": [
+          {
+            "activity": "EXTERNAL_SHADING_SHUTTERS",
+            "requires_any": [
+              "FULL_INSULATION_UNDER_V3_1",
+              "OPENING_REPLACEMENT_UNDER_V3_2"
+            ],
+            "standalone": false
+          },
+          {
+            "activity": "DIRECT_REPAIR_RESTORATION",
+            "budget_rule": "INCLUDED_IN_ACTIVITY_UNIT_CAP_NOT_SEPARATE_ADDITIVE_LINE"
+          },
+          {
+            "activity": "FLAT_ROOF_WATERPROOFING",
+            "requires": "FLAT_ROOF_INSULATION",
+            "cost_basis": "OTHER_OWN_FUNDS_OUTSIDE_ELIGIBLE_COST"
+          }
+        ],
+        "excluded": [
+          "FOSSIL_FUEL_BASED_HEATING_OR_DHW_UPGRADE",
+          "WOOD_BRIQUETTE_PELLET_HEATING_OR_DHW_UPGRADE",
+          "SPLIT_OR_WINDOW_AIR_CONDITIONER",
+          "HEATING_FILM"
+        ],
+        "PV_and_storage_as_eligible_activities": "NOT_LISTED_IN_V3_DO_NOT_INFER_ELIGIBILITY_FROM_PV_EXCEPTION"
+      },
+      "cost_rule": {
+        "locator": "V/4 starts p13, cost classes and price-proof/nested caps p14, HET/cumulation p15; V/5 exclusions pp15-16; Annex1 printed/PDF pp21-24",
+        "eligible_cost_classes": [
+          "NEW_COMMERCIALLY_PURCHASED_MATERIAL_EQUIPMENT",
+          "LABOUR",
+          "PROJECT_PREPARATION",
+          "INDISPENSABLE_OTHER_WORK_AND_CLOSING_HET"
+        ],
+        "unit_cap_basis": "GROSS_SEPARATE_MATERIAL_AND_LABOUR_LIMITS",
+        "above_unit_cap": "EXTRA_NON_ELIGIBLE_OWN_FUNDS",
+        "no_published_unit_cap_rule": "THREE_QUOTES_REQUIRED_TO_SUPPORT_MARKET_PRICE",
+        "market_price_proof_exceptions": [
+          "NOTARY_FEE",
+          "TITLE_DEED_RETRIEVAL",
+          "STATIC_STRUCTURAL_EXPERT_OPINION"
+        ],
+        "pre_application_invoice_exception": "PROJECT_PREPARATION_ONLY_NO_PHYSICAL_WORK_STARTED",
+        "nested_preparation_HET_advice_caps": "RETAIN_EXISTING_VERIFIED_FACTS_AND_DENOMINATORS",
+        "finance_ceiling_is_total_eligible_cost_ceiling": false,
+        "excluded_cost_classes": [
+          "INTEREST_DEBT_SETTLEMENT",
+          "LOAN_INTEREST",
+          "OVERDRAFT_OR_OTHER_PAYMENT_COST",
+          "FX_CONVERSION_COMMISSION",
+          "FINANCIAL_TRANSACTION_FX_LOSS",
+          "FINES_PENALTIES_LITIGATION_COSTS",
+          "COSTS_UNRELATED_TO_SUPPORT_PURPOSE_OR_ENERGY_SAVINGS",
+          "ROOF_WATERPROOFING",
+          "SELF_PERFORMED_WORK",
+          "DELIVERY_OR_TRAVEL_TO_SITE_FEES",
+          "PUBLIC_AREA_OCCUPATION_OR_SITE_SECURITY",
+          "PALLET_RENT_STORAGE",
+          "TEMPORARY_TOILET_OR_OUTBUILDINGS",
+          "SITE_ORGANISATION_TREE_EARTH_ROCK_WORK",
+          "SCAFFOLDING_MATERIAL",
+          "INSECT_SCREEN",
+          "INTERNAL_OPENINGS_BETWEEN_HEATED_ROOMS",
+          "INSULATION_BETWEEN_HEATED_ROOMS",
+          "INTERNAL_PAINT_FINISH",
+          "NEW_ANTENNA",
+          "NEW_CHIMNEY",
+          "DRINKING_WATER_PIPE_REPLACEMENT",
+          "FUEL_STORAGE_BUILDING",
+          "FUEL_TRANSPORT",
+          "ROOF_STRUCTURAL_STRENGTHENING",
+          "UNINSULATED_PLINTH_PAINT_REPAIR",
+          "OPERATING_OVERHEAD",
+          "TRAVEL_ACCOMMODATION",
+          "TRANSPORT_INSURANCE_CUSTOMS_CLEARANCE",
+          "MOBILE_MATERIAL_HANDLING_OR_WORK_MACHINES"
+        ],
+        "building_expansion_conversion_rebuild": {
+          "eligible_activity": false,
+          "must_be_above_eligible_cost": true,
+          "parallel_energy_upgrade_conditions": [
+            "Whole resulting property meets programme conditions including30percent savings",
+            "Energy-upgrade invoices separate from expansion/conversion/rebuild invoices",
+            "Expanded floor area requires occupancy permission under procedure"
+          ]
+        }
+      }
+    }
+  ],
+  "currentness": {
+    "schema_version": 1,
+    "status": "CANDIDATE_FRESH_DATED_OBSERVATION_MAP",
+    "as_of": "2026-10-03",
+    "historical_as_of_unchanged": "2026-10-01",
+    "claims_allowed": [
+      "EXACT_SELECTED_RULE_REFERENCE",
+      "DATED_INTAKE_STATUS"
+    ],
+    "claims_excluded": [
+      "HOUSEHOLD_APPROVAL",
+      "CURRENT_AVAILABLE_BALANCE",
+      "PROJECT_AWARD",
+      "FUTURE_OR_LIVE_STATUS_EXTRAPOLATION"
+    ],
+    "observations": [
+      {
+        "source_id": "SRC-B14-MFB-KEHOP-417-STATUS-20261003",
+        "observation_type": "FRESH_CURRENT_STATUS_DOCUMENT_LINKS",
+        "lineage_historical_source_id": "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+        "original_url": "https://cms.mfb.hu/maganszemelyek/kehop-plusz-417-24-otthonfelujitasi-program-2025--budapesten-kivuli-ingatlanokhoz-t240-p240",
+        "retrieved_at": "2026-10-03T13:38:24.710169+00:00",
+        "sha256": "c86fceb02d3cbe3e23d8c2bfbc75863988dc59ec4a1f933e0aa36840cdc2a1fd",
+        "bytes": 500701,
+        "truth_status": "OBS",
+        "claims": {
+          "intake": "SUSPENDED_FOR_ENVELOPE_EXHAUSTION",
+          "dates": [
+            "2026-04-17",
+            "2026-04-23"
+          ],
+          "current_processing_FAQ_url": "https://www.mfb.hu/backend/documents/KEHOP-PLUSZ-Otthonfelujitasi-Program-GYIK-20260901.pdf",
+          "FAQ_link_present": true
+        },
+        "source_locator": "Programme title and suspension paragraphs; linked operational FAQ under customer information",
+        "restriction": "DATED_INTAKE_OBSERVATION_NOT_AVAILABLE_BALANCE_OR_ELIGIBILITY",
+        "authority": "MFB Zrt.",
+        "source_tier": "P1",
+        "reuse_status": "EXTERNAL_ONLY",
+        "repo_snapshot_path": null
+      },
+      {
+        "source_id": "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261003",
+        "observation_type": "FRESH_SELECTED_DOCUMENT_INDEX",
+        "lineage_historical_source_id": "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261001",
+        "original_url": "https://ginapp-api.fair.gov.hu/document/document-list?slug=kehop_plusz-4.1.7-24&type=tender",
+        "retrieved_at": "2026-10-03T13:38:31.254958+00:00",
+        "sha256": "4e8dcd209eeb24b7322f2f9e003a8500d0261e82cef841adce04a0a9ca4c9db3",
+        "bytes": 5044,
+        "truth_status": "OBS",
+        "historical_byte_identity": true,
+        "selected_call": {
+          "_id": "68ee54b32d31a0de426eb2d3",
+          "title": "kehop-plusz-417-24-felhivas-hatalyos-20251015-tol.pdf",
+          "size": 516820,
+          "createDate": "2025-10-14T13:48:35.055Z",
+          "validFrom": null,
+          "validTo": null,
+          "official_download_url": "https://www.palyazat.gov.hu/api/download/68ee54b32d31a0de426eb2d3",
+          "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025"
+        },
+        "selected_common_procedure": {
+          "_id": "68ee54b3a98fefdd172249e0",
+          "title": "europai-unios-forrasu-lakossagi-hitelprogramok-eljarasi-rendje-20251015.pdf",
+          "size": 1025709,
+          "createDate": "2025-10-14T13:48:35.156Z",
+          "validFrom": null,
+          "validTo": null,
+          "official_download_url": "https://www.palyazat.gov.hu/api/download/68ee54b3a98fefdd172249e0",
+          "byte_recovery_this_pass": "NOT_RECOVERED",
+          "scope_of_index_proof": "CURRENT_SELECTION_ID_TITLE_SIZE_NOT_NEW_EXACT_BYTE_CHECK"
+        },
+        "restriction": "Index identity/title/size proves currently listed revision; does not itself verify referenced PDF bytes or individual eligibility. validFrom/validTo null are not effective dates; effective date comes from PDF/title.",
+        "authority": "Official Pályázati Portál / FAIR public API",
+        "source_tier": "P1",
+        "reuse_status": "EXTERNAL_ONLY",
+        "repo_snapshot_path": null
+      },
+      {
+        "source_id": "SRC-B14-MFB-KEHOP-418-STATUS-20261003",
+        "observation_type": "FRESH_CURRENT_STATUS_DOCUMENT_LINKS",
+        "lineage_historical_source_id": "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+        "original_url": "https://mfb.hu/maganszemelyek/kehop-plusz-418-24-otthonfelujitasi-program-2025--budapesti-ingatlanokhoz-t241-p241",
+        "retrieved_at": "2026-10-03T13:38:24.710585+00:00",
+        "sha256": "ec50f90c2dd3fe1e0be215823897b7c2147d3761c44166068a36182bd9ab8b24",
+        "bytes": 498564,
+        "truth_status": "OBS",
+        "claims": {
+          "intake": "SUSPENDED_FOR_ENVELOPE_EXHAUSTION",
+          "dates": [
+            "2026-04-17"
+          ],
+          "current_processing_FAQ_url": "https://www.mfb.hu/backend/documents/KEHOP-PLUSZ-Otthonfelujitasi-Program-GYIK-20260901.pdf",
+          "FAQ_link_present": true
+        },
+        "source_locator": "Programme title and suspension paragraphs; linked operational FAQ under customer information",
+        "restriction": "DATED_INTAKE_OBSERVATION_NOT_AVAILABLE_BALANCE_OR_ELIGIBILITY",
+        "authority": "MFB Zrt.",
+        "source_tier": "P1",
+        "reuse_status": "EXTERNAL_ONLY",
+        "repo_snapshot_path": null
+      },
+      {
+        "source_id": "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261003",
+        "observation_type": "FRESH_SELECTED_DOCUMENT_INDEX",
+        "lineage_historical_source_id": "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
+        "original_url": "https://ginapp-api.fair.gov.hu/document/document-list?slug=kehop_plusz-4.1.8-24&type=tender",
+        "retrieved_at": "2026-10-03T13:38:35.218723+00:00",
+        "sha256": "1f210cab9cf01f704f6004473731533f5b68ec1193f491cbb2824b541cb82df5",
+        "bytes": 5045,
+        "truth_status": "OBS",
+        "historical_byte_identity": true,
+        "selected_call": {
+          "_id": "68ee51cc26c1f4c8b489352d",
+          "title": "kehop-plusz-418-24-felhivas-hatalyos-20251015-tol.pdf",
+          "size": 516878,
+          "createDate": "2025-10-14T13:36:12.303Z",
+          "validFrom": null,
+          "validTo": null,
+          "official_download_url": "https://www.palyazat.gov.hu/api/download/68ee51cc26c1f4c8b489352d",
+          "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025"
+        },
+        "selected_common_procedure": {
+          "_id": "68ee521893d1e6cdf0836014",
+          "title": "europai-unios-forrasu-lakossagi-hitelprogramok-eljarasi-rendje-20251015.pdf",
+          "size": 1025709,
+          "createDate": "2025-10-14T13:37:28.199Z",
+          "validFrom": null,
+          "validTo": null,
+          "official_download_url": "https://www.palyazat.gov.hu/api/download/68ee521893d1e6cdf0836014",
+          "byte_recovery_this_pass": "NOT_RECOVERED",
+          "scope_of_index_proof": "CURRENT_SELECTION_ID_TITLE_SIZE_NOT_NEW_EXACT_BYTE_CHECK"
+        },
+        "restriction": "Index identity/title/size proves currently listed revision; does not itself verify referenced PDF bytes or individual eligibility. validFrom/validTo null are not effective dates; effective date comes from PDF/title.",
+        "authority": "Official Pályázati Portál / FAIR public API",
+        "source_tier": "P1",
+        "reuse_status": "EXTERNAL_ONLY",
+        "repo_snapshot_path": null
+      }
+    ],
+    "fresh_exact_call_recovery": [
+      {
+        "source_id": "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+        "original_url": "https://www.palyazat.gov.hu/api/download/68ee54b32d31a0de426eb2d3",
+        "retrieved_at": "2026-10-03T13:40:09.415545+00:00",
+        "sha256": "d78d8f1bf3651531b9f86e8f32330ab0222f9da35d7973c2490ee56508b9af3c",
+        "bytes": 516820,
+        "actual_retrieval_url": "https://epito.turszol.hu/wp-content/uploads/2025/10/kehop-plusz-417-24-felhivas-hatalyos-20251015-tol.pdf",
+        "historical_retrieved_at": "2026-10-01T20:15:28.119321+00:00",
+        "exact_historical_byte_identity": true,
+        "repo_snapshot_path": null,
+        "reuse_status": "EXTERNAL_ONLY",
+        "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME"
+      },
+      {
+        "source_id": "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+        "original_url": "https://www.palyazat.gov.hu/api/download/68ee51cc26c1f4c8b489352d",
+        "retrieved_at": "2026-10-03T13:40:09.416165+00:00",
+        "sha256": "359af1ee779eb13f64e266c79e6f91b9fae37164e69e55da9b308a7a1d178804",
+        "bytes": 516878,
+        "actual_retrieval_url": "https://siholding.hu/wp-content/uploads/2025/11/kehop-plusz-418-24-felhivas-hatalyos-20251015-tol.pdf",
+        "historical_retrieved_at": "2026-10-01T20:15:27.855350+00:00",
+        "exact_historical_byte_identity": true,
+        "repo_snapshot_path": null,
+        "reuse_status": "EXTERNAL_ONLY",
+        "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME"
+      }
+    ],
+    "prior_review_reliance": [
+      {
+        "source_id": "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+        "original_url": "https://www.palyazat.gov.hu/api/download/68ee54b3a98fefdd172249e0",
+        "sha256": "f99ddcdc275d0ce73f48cb0965b139a2c28146f5397cb4fb372ef891c2b2d2aa",
+        "bytes": 1025709,
+        "historical_retrieved_at": "2026-10-01T20:15:30.868803+00:00",
+        "evidence": "V1_018 independently reviewed source identity and selected claims",
+        "fresh_recovery": false,
+        "fresh_full_eleven_source_pass": false,
+        "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+      },
+      {
+        "source_id": "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+        "original_url": "https://www.palyazat.gov.hu/api/download/69de4454364ec6bb184ff0c2",
+        "sha256": "793c02f255d543b0136568cc426650ea4ff31abc267e68fa8d8c44d10aede93a",
+        "bytes": 117379,
+        "historical_retrieved_at": "2026-10-01T20:24:25.684099+00:00",
+        "evidence": "V1_018 independently reviewed source identity and selected claims",
+        "fresh_recovery": false,
+        "fresh_full_eleven_source_pass": false,
+        "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+      },
+      {
+        "source_id": "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+        "original_url": "https://www.palyazat.gov.hu/api/download/69e5e8dd57d6d132f8579756",
+        "sha256": "8605d46276c7013b9a790326f832a439f0a1612c05e933913cb831315f8dac92",
+        "bytes": 152675,
+        "historical_retrieved_at": "2026-10-01T20:24:20.883495+00:00",
+        "evidence": "V1_018 independently reviewed source identity and selected claims",
+        "fresh_recovery": false,
+        "fresh_full_eleven_source_pass": false,
+        "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+      },
+      {
+        "source_id": "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+        "original_url": "https://www.palyazat.gov.hu/api/download/69de44f872e48b668a6b473a",
+        "sha256": "f923607ce61daf8c9dc2c86ef7ebdec69015ba4f15c3ac95f4c639bca520d334",
+        "bytes": 114763,
+        "historical_retrieved_at": "2026-10-01T20:24:43.281842+00:00",
+        "evidence": "V1_018 independently reviewed source identity and selected claims",
+        "fresh_recovery": false,
+        "fresh_full_eleven_source_pass": false,
+        "restriction": "Retain historical identity and review status; do not relabel historical113 checks as a new run."
+      }
+    ],
+    "fresh_processing_FAQ_recovery": {
+      "source_id": "SRC-B14-MFB-KEHOP-PROCESSING-FAQ-202609",
+      "original_url": "https://www.mfb.hu/backend/documents/KEHOP-PLUSZ-Otthonfelujitasi-Program-GYIK-20260901.pdf",
+      "retrieved_at": "2026-10-03T13:38:24.709693+00:00",
+      "sha256": "7bf0f95404033e49a7b207eb5ece226e529b2baea948c4cabd1c3fa9e59589f3",
+      "bytes": 161581,
+      "actual_retrieval_url": "https://www.mfb.hu/backend/documents/KEHOP-PLUSZ-Otthonfelujitasi-Program-GYIK-20260901.pdf",
+      "historical_retrieved_at": "2026-10-01T20:14:15.430155+00:00",
+      "exact_historical_byte_identity": true,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "evidence_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME"
+    },
+    "currentness_verdict": {
+      "calls": "BOTH_CURRENT_OFFICIAL_INDEXES_SELECT_EXACT_RECOVERED_20251015_CALLS",
+      "common_procedure": "BOTH_INDEXES_LIST_20251015_PROCEDURE_TITLE_AND1025709_BYTES;417_ID_MATCHES_HISTORICAL_PIN;418_HAS_SEPARATE_DOCUMENT_ID;NO_FRESH_PDF_BYTES",
+      "processing_FAQ": "BOTH_FRESH_MFB_STATUS_PAGES_LINK_SAME_SEPTEMBER2026_FAQ;EXACT_PINNED_BYTES_RECOVERED",
+      "intake": "BOTH_CURRENT_MFB_PAGES_SHOW_SUSPENSION_FOR_ENVELOPE_EXHAUSTION",
+      "coverage": "NAMED_CALLS_COMMON_PROCEDURE_AND_PROCESSING_FAQ_SELECTION_ONLY_NOT_A_CENSUS_OF_ALL_PROGRAMMES_OR_ALL_LINKED_FORMS",
+      "admission_recommendation": "A_NEW2026_10_03_ASOF_READ_ONLY_RULE_REFERENCE_IS_SOURCE_SUPPORTED_WITH_EXPLICIT_PRIOR_REVIEW_RELIANCE;NOT_CURRENT_ELIGIBILITY"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-"""Read-only 2026-10-01 KEHOP rules/status snapshot, never funding availability.
+"""Read-only dated KEHOP rules/status snapshots, never funding availability.
 
 Explicit programme, structural-rule scope and as-of are required on every read.
 No household approval, cash-flow result, policy default or cost estimation is
@@ -21,6 +21,10 @@ DATA_PATH = ROOT / "data/processed/b14/funding_reference_snapshot.json"
 CAPS_PATH = ROOT / "data/processed/b14/eligible_cost_caps_417.csv"
 MANIFEST_PATH = ROOT / "registry/b14_funding_reference_manifest.json"
 AS_OF = "2026-10-01"
+COMPLETION_AS_OF = "2026-10-03"
+COMPLETION_PATH = ROOT / "data/processed/b14/rule_completion_20261003.json"
+CAPS_418_PATH = ROOT / "data/processed/b14/eligible_cost_caps_418.csv"
+COMPLETION_MANIFEST_PATH = ROOT / "registry/b14_rule_completion_manifest.json"
 TERMS_REVISION = "2025-10-15"
 PROGRAMME_417 = "KEHOP Plusz-4.1.7-24"
 PROGRAMME_418 = "KEHOP Plusz-4.1.8-24"
@@ -281,12 +285,15 @@ class FundingReference:
     caps: Mapping[str, Mapping[str, object]]
     sources: Mapping[str, Mapping[str, object]]
     operational_observations: Mapping[str, object]
+    completed_programmes: Mapping[str, Mapping[str, object]]
+    completed_caps: Mapping[str, Mapping[str, object]]
 
     def _programme(self, programme_id, scope, as_of):
         _require(programme_id in self.programmes, "programme not admitted")
-        _require(as_of == AS_OF, "only exact 2026-10-01 snapshot; current/future extrapolation refused")
+        _require(as_of in (AS_OF, COMPLETION_AS_OF),
+                 "only exact reviewed dates; current/future extrapolation refused")
         _require(scope == SCOPES[programme_id], "explicit source structural-rule scope required")
-        return self.programmes[programme_id]
+        return (self.programmes if as_of == AS_OF else self.completed_programmes)[programme_id]
 
     def read_programme(self, programme_id, *, scope, as_of, claim):
         _require(claim == DATED_RULE_REFERENCE, "only dated rule reference, never award/availability")
@@ -307,14 +314,18 @@ class FundingReference:
     def read_cap(self, cap_id, *, programme_id, scope, as_of, unit, vat_basis, claim):
         _require(claim == GROSS_POLICY_UNIT_CAP, "cap-as-price, expected CAPEX and financing claims refused")
         self._programme(programme_id, scope, as_of)
-        _require(programme_id == PROGRAMME_417 and cap_id in self.caps,
-                 "only reviewed 4.1.7 cap rows; Budapest transfer not admitted")
-        row = self.caps[cap_id]
+        caps = self.caps if as_of == AS_OF else self.completed_caps
+        _require(cap_id in caps and caps[cap_id]["programme_id"] == programme_id and
+                 caps[cap_id]["scope"] == scope,
+                 "exact reviewed programme cap required; no geographic or date transfer")
+        row = caps[cap_id]
         _require(unit == row["unit"] and vat_basis == "GROSS", "source unit and gross VAT basis required")
         return row
 
 
-def load_funding_reference(data_path=DATA_PATH, caps_path=CAPS_PATH, manifest_path=MANIFEST_PATH):
+def load_funding_reference(data_path=DATA_PATH, caps_path=CAPS_PATH, manifest_path=MANIFEST_PATH,
+                           completion_path=COMPLETION_PATH, caps_418_path=CAPS_418_PATH,
+                           completion_manifest_path=COMPLETION_MANIFEST_PATH):
     """Load only the exact manifest-pinned fact snapshot; performs no network I/O."""
     try:
         manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
@@ -325,6 +336,9 @@ def load_funding_reference(data_path=DATA_PATH, caps_path=CAPS_PATH, manifest_pa
         with Path(caps_path).open(encoding="utf-8", newline="") as stream:
             caps = list(csv.DictReader(stream))
         validate_snapshot(data, caps, manifest)
+        completed, completed_caps = _load_rule_completion(
+            data, caps, manifest, completion_path, caps_418_path, completion_manifest_path,
+            historical_paths=(data_path, caps_path, manifest_path))
     except FundingReferenceError:
         raise
     except (OSError, KeyError, TypeError, ValueError) as exc:
@@ -332,4 +346,252 @@ def load_funding_reference(data_path=DATA_PATH, caps_path=CAPS_PATH, manifest_pa
     return FundingReference(_freeze({p["programme_id"]: p for p in data["programmes"]}),
                             _freeze({c["cap_id"]: c for c in caps}),
                             _freeze({s["source_id"]: s for s in manifest["sources"]}),
-                            _freeze(data["operational_observations"]))
+                            _freeze(data["operational_observations"]),
+                            _freeze(completed), _freeze(completed_caps))
+
+
+def validate_rule_completion(data, caps, manifest, historical_data, historical_manifest):
+    """Validate the independently sourced extension without rewriting old evidence.
+
+    The programme references remain informational. These invariants deliberately
+    do not implement eligibility, a legal decision engine or grant accounting.
+    """
+    _require(set(data) == {"schema_version", "status", "as_of", "historical_as_of",
+                          "terms_revision", "claim_scope", "programme_rules_truth_status",
+                          "not_a_household_eligibility_decision",
+                          "programmes", "currentness"}, "unexpected completion fields")
+    _require(type(data["schema_version"]) is int and data["schema_version"] == 1 and
+             type(manifest.get("schema_version")) is int and manifest["schema_version"] == 1,
+             "unsupported completion schema")
+    _require(data["status"] == manifest.get("status") == "BOUNDED_DATED_RULE_COMPLETION_REFERENCE"
+             and data["as_of"] == manifest.get("as_of") == COMPLETION_AS_OF
+             and data["historical_as_of"] == manifest.get("historical_as_of") == AS_OF
+             and data["terms_revision"] == TERMS_REVISION, "separate exact dated references required")
+    _require(data["claim_scope"] == "EXACT_NAMED_PROGRAMME_RULE_REFERENCE_ONLY" and
+             data["not_a_household_eligibility_decision"] is True and
+             data["programme_rules_truth_status"] == "POL" and
+             manifest.get("source_original_publication") == "EXTERNAL_ONLY" and
+             manifest.get("source_family") == "MFB_KEHOP_HOUSEHOLD_PROGRAMME" and
+             manifest.get("full_old_eleven_source_reverification") is False and
+             manifest.get("confers_registry_acceptance") is False,
+             "source references cannot imply eligibility, new full source pass or acceptance")
+    _require(manifest.get("data_path") == str(COMPLETION_PATH.relative_to(ROOT)) and
+             manifest.get("caps_path") == str(CAPS_418_PATH.relative_to(ROOT)),
+             "completion file identity mismatch")
+    rows = data["programmes"]
+    _require(len(rows) == 2 and {x["programme_id"] for x in rows} == set(SCOPES),
+             "exact named programme pair required")
+    bindings = manifest.get("programme_bindings", [])
+    _require(len(bindings) == 2 and {x["programme_id"] for x in bindings} == set(SCOPES),
+             "programme rule bindings required")
+    bindings = {x["programme_id"]: x["sha256"] for x in bindings}
+    for row in rows:
+        pid = row["programme_id"]
+        _require(row["scope"] == SCOPES[pid] and row["source_id"] == CALL_SOURCES[pid],
+                 "rule geography/source mismatch")
+        _require(row["issuer"]["name"] == "MFB Zrt." and
+                 row["issuer"]["role"] == "CALL_DOCUMENT_ISSUER_AND_PROGRAMME_FINANCING_INSTITUTION"
+                 and row["issuer"]["locator"] and row["issuer"]["evidence_basis"],
+                 "source-stated issuer role required")
+        _require(row["geography"]["country"] == "HU" and
+                 row["geography"]["included"] == ("BUDAPEST" if pid == PROGRAMME_418 else
+                                                   "HUNGARY_EXCLUDING_BUDAPEST") and
+                 row["geography"]["basis"] == "PROJECT_IMPLEMENTATION_LOCATION",
+                 "geographic rule cannot become population eligibility")
+        for fact in [row["geography"]["max_implementation_locations_per_application"],
+                     row["cumulation"]["in_current_programme"]["max_supported_applications"],
+                     row["cumulation"]["cross_scheme"]["max_supported_applications"],
+                     row["HEM"]["max_generation_agreements_in_programme"]]:
+            _require(fact == {"value": "1", "unit": "count", "truth_status": "POL"},
+                     "source-native one-count limit required")
+        current = row["cumulation"]["in_current_programme"]
+        cross = row["cumulation"]["cross_scheme"]
+        _require(current["person_role"] == "BORROWER_FINAL_BENEFICIARY" and
+                 current["application_state"] == "SUPPORTED_NOT_MERELY_SUBMITTED" and
+                 cross["matching_scope_operator"] ==
+                 "SAME_INDEPENDENT_BUILDING_UNIT_OR_SAME_FINAL_BENEFICIARY_OR_BOTH" and
+                 cross["no_requirement_that_both_scopes_match"] is True,
+                 "supported application and borrower/building OR scope must remain")
+        schemes = cross["scheme_set"]
+        _require(len(schemes) == 4 and {x["identifier"] for x in schemes} ==
+                 {pid, "RRF-REP-10.13.1-24", "RRF-6.2.1", None} and
+                 next(x for x in schemes if x["identifier"] is None).get("class") ==
+                 "ALL_EU_FUNDED_ENERGY_PURPOSE_PROGRAMMES_ANNOUNCED_FOR_ENTERPRISES_FOR_2021_2027_PROGRAMMING_PERIOD",
+                 "exact named cross-scheme scope required")
+        pv = cross["pv_only_exception"]
+        _require(pv["qualifying_investment_scope"] == "EXCLUSIVELY_PV_SYSTEM_INSTALLATION" and
+                 pv["limited_effect"] == "EXCEPTION_TO_THIS_CROSS_SCHEME_SUPPORTED_APPLICATION_LIMIT_ONLY"
+                 and pv["machine_decision_use"] ==
+                 "REFERENCE_ONLY_REQUIRES_EXACT_PRIOR_AWARD_SCOPE_NO_AUTOMATIC_APPROVAL" and
+                 pv["unlisted_scheme_extension"] == "NOT_INFERRED" and
+                 set(pv["does_not_waive"]) == {"same-cost EU double funding prohibition",
+                 "own-programme one-borrower limit", "property/applicant/technical rules",
+                 "30percent primary-energy test excluding electricity-generation savings",
+                 "current intake suspension"}, "PV exception cannot become broad eligibility or double funding")
+        same = row["same_cost_funding"]
+        _require(same["other_EU_funded_grant_prohibited"] is True and
+                 same["other_EU_funded_repayable_aid_prohibited"] is True and
+                 same["legal_title_does_not_remove_prohibition"] is True and
+                 same["cost_scope"] == "COST_ITEMS_ACCOUNTED_FOR_AGAINST_THE_PROGRAMME_FINANCING",
+                 "same-cost grant and repayable-aid prohibition required")
+        hem = row["HEM"]
+        _require(hem["mandatory_to_use_HEM"] is False and
+                 hem["cash_plus_HEM_for_same_advice_or_subactivity_allowed"] is False and
+                 hem["written_agreement_required_for_HEM_transfer_or_intention"] is True and
+                 hem["adviser_extra_fee_in_HEM_agreement_allowed"] is False and
+                 hem["advance_fee_also_prohibited"] is True and
+                 hem["proportional_market_value_service_required"] is True and
+                 hem["HEM_transfer_recipient_class"] == "EKR_OBLIGATED_PARTY" and
+                 hem["no_HEM_cash_fee_ceiling"] == dict(value="140000", unit="HUF",
+                                                        vat_basis="GROSS", truth_status="POL"),
+                 "HEM optionality, fee, consideration and recipient restrictions required")
+        invoice = row["invoice_endorsement"]
+        _require(invoice["source_id"] == PROCEDURE_SOURCE and
+                 invoice["evidence_state"] == "PRIOR_VERIFIED_V1_018_REVIEW_NOT_FRESHLY_REREAD" and
+                 invoice["fresh_bytes_recovered"] is False and
+                 invoice["old_reported_checks_not_repeated_here"] is True,
+                 "historical source review must not become a fresh byte check")
+        _require(row["cost_rule"]["finance_ceiling_is_total_eligible_cost_ceiling"] is False and
+                 row["cost_rule"]["unit_cap_basis"] == "GROSS_SEPARATE_MATERIAL_AND_LABOUR_LIMITS"
+                 and row["cost_rule"]["above_unit_cap"] == "EXTRA_NON_ELIGIBLE_OWN_FUNDS"
+                 and row["eligible_activity_rules"]["PV_and_storage_as_eligible_activities"] ==
+                 "NOT_LISTED_IN_V3_DO_NOT_INFER_ELIGIBILITY_FROM_PV_EXCEPTION",
+                 "cost and activity scope must remain source-specific")
+        _require(bindings[pid] == _digest(row), "completed rule content binding mismatch")
+    expected_caps = {f"KEHOP418-CAP-{i:02}" for i in range(1, 40)}
+    cap_bindings = manifest.get("cap_bindings", [])
+    _require(len(caps) == len(cap_bindings) == 39 and
+             {x["cap_id"] for x in caps} == {x["cap_id"] for x in cap_bindings} == expected_caps,
+             "39 own-source Budapest caps required")
+    cap_bindings = {x["cap_id"]: x["sha256"] for x in cap_bindings}
+    for row in caps:
+        _require(set(row) == _CAP_FIELDS and row["programme_id"] == PROGRAMME_418 and
+                 row["scope"] == SCOPES[PROGRAMME_418] and row["source_id"] == CALL_SOURCES[PROGRAMME_418]
+                 and row["terms_revision"] == TERMS_REVISION and row["currency"] == "HUF"
+                 and row["vat_basis"] == "GROSS" and row["unit"] in {"HUF/m2", "HUF/set"}
+                 and row["truth_status"] == "POL" and row["combined_truth_status"] == "DER"
+                 and row["meaning"] == "MAX_ELIGIBLE_UNIT_COST_NOT_MARKET_PRICE"
+                 and all(row[k] for k in ("source_locator", "category", "variant")),
+                 "Budapest cap source, unit, meaning and locator required")
+        with localcontext() as context:
+            context.prec = 40
+            material, labour, combined = (_number(row[k]) for k in
+                                          ("material_cap", "labour_cap", "combined_cap"))
+            _require(material > 0 and labour > 0 and material + labour == combined,
+                     "source component cap sum mismatch")
+        _require(cap_bindings[row["cap_id"]] == _digest(row), "Budapest cap binding mismatch")
+    fresh = data["currentness"]
+    _require(fresh["as_of"] == COMPLETION_AS_OF and fresh["historical_as_of_unchanged"] == AS_OF
+             and manifest["currentness_sha256"] == _digest(fresh), "currentness binding/date mismatch")
+    observations = fresh["observations"]
+    expected = {f"SRC-B14-{provider}-KEHOP-{pid}-{kind}-20261003"
+                for pid in ("417", "418") for provider, kind in
+                (("MFB", "STATUS"), ("FAIR", "DOCUMENT-LIST"))}
+    _require(len(observations) == 4 and {x["source_id"] for x in observations} == expected,
+             "four distinct fresh observation identities required")
+    sources = {x["source_id"]: x for x in historical_manifest["sources"]}
+    obs = {x["source_id"]: x for x in observations}
+    for observation in observations:
+        _require(observation["retrieved_at"].startswith(COMPLETION_AS_OF + "T") and
+                 observation["truth_status"] == "OBS" and observation["source_tier"] == "P1"
+                 and observation["reuse_status"] == "EXTERNAL_ONLY" and
+                 observation["repo_snapshot_path"] is None and
+                 type(observation["bytes"]) is int and observation["bytes"] > 0 and
+                 re.fullmatch(r"[0-9a-f]{64}", observation["sha256"]),
+                 "fresh source timestamp/hash/rights required")
+    for pid, number in ((PROGRAMME_417, "417"), (PROGRAMME_418, "418")):
+        index = obs[f"SRC-B14-FAIR-KEHOP-{number}-DOCUMENT-LIST-20261003"]
+        status = obs[f"SRC-B14-MFB-KEHOP-{number}-STATUS-20261003"]
+        source = sources[CALL_SOURCES[pid]]
+        _require(index["original_url"] == sources[index["lineage_historical_source_id"]]["original_url"]
+                 and status["original_url"] == sources[status["lineage_historical_source_id"]]["original_url"],
+                 "official source lineage required")
+        selected = index["selected_call"]
+        _require(selected["source_id"] == CALL_SOURCES[pid] and
+                 selected["official_download_url"] == source["original_url"] and
+                 selected["_id"] == source["original_url"].rsplit("/", 1)[-1] and
+                 selected["size"] == source["bytes"] and "20251015" in selected["title"],
+                 "new selected call cannot silently inherit old facts")
+        procedure = index["selected_common_procedure"]
+        _require(procedure["byte_recovery_this_pass"] == "NOT_RECOVERED" and
+                 procedure["scope_of_index_proof"] == "CURRENT_SELECTION_ID_TITLE_SIZE_NOT_NEW_EXACT_BYTE_CHECK"
+                 and "20251015" in procedure["title"] and
+                 procedure["size"] == sources[PROCEDURE_SOURCE]["bytes"],
+                 "procedure index is not a new PDF identity proof")
+        expected_days = {"2026-04-17", "2026-04-23"} if pid == PROGRAMME_417 else {"2026-04-17"}
+        _require(status["claims"]["intake"] == "SUSPENDED_FOR_ENVELOPE_EXHAUSTION" and
+                 set(status["claims"]["dates"]) == expected_days and
+                 status["claims"]["FAQ_link_present"] is True and
+                 status["claims"]["current_processing_FAQ_url"] == sources[FAQ_SOURCE]["original_url"],
+                 "dated new suspension/FAQ observation required")
+    _require(set(fresh["claims_allowed"]) == {"EXACT_SELECTED_RULE_REFERENCE", "DATED_INTAKE_STATUS"}
+             and set(fresh["claims_excluded"]) == {"HOUSEHOLD_APPROVAL", "CURRENT_AVAILABLE_BALANCE",
+                 "PROJECT_AWARD", "FUTURE_OR_LIVE_STATUS_EXTRAPOLATION"},
+             "dated observations cannot admit funding or eligibility")
+    reliance = fresh["prior_review_reliance"]
+    prior_ids = {PROCEDURE_SOURCE} | {sid for sid in sources if "SUSPENSION" in sid}
+    _require(len(reliance) == 4 and {x["source_id"] for x in reliance} == prior_ids,
+             "explicit prior-review source set required")
+    for item in reliance:
+        old = sources[item["source_id"]]
+        _require(item["sha256"] == old["sha256"] and item["bytes"] == old["bytes"] and
+                 item["original_url"] == old["original_url"] and
+                 item["historical_retrieved_at"] == old["retrieved_at"] and
+                 item["fresh_recovery"] is False and item["fresh_full_eleven_source_pass"] is False,
+                 "prior review reliance cannot be relabelled fresh evidence")
+    recovered = fresh["fresh_exact_call_recovery"] + [fresh["fresh_processing_FAQ_recovery"]]
+    _require(len(recovered) == 3 and {x["source_id"] for x in recovered} ==
+             set(CALL_SOURCES.values()) | {FAQ_SOURCE}, "exact recovered call/FAQ set required")
+    for item in recovered:
+        old = sources[item["source_id"]]
+        _require(item["sha256"] == old["sha256"] and item["bytes"] == old["bytes"] and
+                 item["original_url"] == old["original_url"] and
+                 item["exact_historical_byte_identity"] is True and
+                 item["historical_retrieved_at"] == old["retrieved_at"] and
+                 item["retrieved_at"].startswith(COMPLETION_AS_OF + "T"),
+                 "source recovery must retain exact old identity and separate new retrieval")
+
+
+def _load_rule_completion(historical, old_caps, old_manifest, data_path, caps_path, manifest_path,
+                          *, historical_paths):
+    import copy
+    manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+    for path, key in ((data_path, "data_sha256"), (caps_path, "caps_sha256")):
+        _require(hashlib.sha256(Path(path).read_bytes()).hexdigest() == manifest.get(key),
+                 f"completion file revision mismatch: {key}")
+    pins = manifest.get("historical_input_sha256", {})
+    _require(set(pins) == {str(p.relative_to(ROOT)) for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH)},
+             "exact historical input identity set required")
+    # Bind the bytes actually consumed, including supported caller overrides.
+    # Checking ROOT here would let a re-bound alternative historical dataset
+    # inherit the authority of an unchanged default completion manifest.
+    names = (str(p.relative_to(ROOT)) for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH))
+    for name, actual_path in zip(names, historical_paths):
+        _require(hashlib.sha256(Path(actual_path).read_bytes()).hexdigest() == pins[name],
+                 "consumed historical dated evidence changed")
+    data = json.loads(Path(data_path).read_text(encoding="utf-8"))
+    with Path(caps_path).open(encoding="utf-8", newline="") as stream:
+        caps = list(csv.DictReader(stream))
+    validate_rule_completion(data, caps, manifest, historical, old_manifest)
+    details = {x["programme_id"]: x for x in data["programmes"]}
+    observations = {x["source_id"]: x for x in data["currentness"]["observations"]}
+    completed = {}
+    for old in historical["programmes"]:
+        row = copy.deepcopy(old)
+        pid = row["programme_id"]
+        number = "417" if pid == PROGRAMME_417 else "418"
+        status_id = f"SRC-B14-MFB-KEHOP-{number}-STATUS-20261003"
+        index_id = f"SRC-B14-FAIR-KEHOP-{number}-DOCUMENT-LIST-20261003"
+        row.update(as_of=COMPLETION_AS_OF, current_status_source_id=status_id,
+                   document_list_source_id=index_id, rule_details=details[pid],
+                   rule_details_truth_status=data["programme_rules_truth_status"],
+                   cost_cap_source_status="MATERIALIZED_39_OWN_PROGRAMME_RULE_ROWS",
+                   historical_reference_as_of=AS_OF,
+                   currentness_observations={k: observations[k] for k in (status_id, index_id)},
+                   prior_review_reliance=data["currentness"]["prior_review_reliance"],
+                   processing_FAQ_recovery=data["currentness"]["fresh_processing_FAQ_recovery"])
+        row["intake"].update(checked_at=COMPLETION_AS_OF, source_id=status_id,
+                            locator=observations[status_id]["source_locator"],
+                            historical_window_notices="PRIOR_REVIEWED_NOTICE_BYTES_NOT_FRESHLY_RECOVERED")
+        completed[pid] = row
+    return completed, {x["cap_id"]: x for x in old_caps + caps}
