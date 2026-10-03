@@ -1617,7 +1617,7 @@
           "data": "HU központi/államháztartási kör, év: HUF bevétel/kiadás, GDP, adósság, kamat, energiaár-kompenzáció releváns tételei. Pénzforgalmi és eredményszemlélet nem keverhető.",
           "phase": "V",
           "slice_id": "B13-D01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B13-MAK-CLOSING-2025",
             "SRC-B13-MAK-MONTHLY-202512",
@@ -1670,9 +1670,20 @@
               "expected_decision_value": "Restores an executable provenance-backed handoff for all original D01 fields while retaining legacy behavior and distinct cash/ESA, actual/appropriation, stock/flow and vintage roles. No recovered legacy panel or unchanged legacy serialized values are claimed.",
               "decision": "NEW_SOURCE_LED_D01_HANDOFF_AWAIT_EXACT_IMPLEMENTATION_ACCEPTANCE",
               "evidence": "docs/checkpoints/V1_056_B13_SOURCE_LED_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Fourteen exact recovered Treasury/KSH/MVM/NJT originals and independently re-extracted native witnesses; new source-led Decimal normalization and unchanged accounting controls"
+              ],
+              "remaining_unknown": "Legacy private JSON/normalizer/text/serialized lexemes remain unrecovered. The accepted new reference is explicitly separate. Institutional reserve actual stays blank; MVM/order difference and recipient/fuel/household/VAT/service-year attribution remain unresolved. Annex legal-effective/original-enacted authority is not admitted. D02 programme response, P01 policy and headroom/B15 remain separate.",
+              "promising_next_lead": "Use the accepted explicit source-led reference within its dated accounting and source-role limits; qualify programme ledger and owner policy separately.",
+              "expected_decision_value": "Completes the original central/general-government revenue/expenditure/GDP/debt/interest/relevant energy-compensation handoff with executable private inputs, preserving cash/accrual, actual/appropriation, stock/flow, vintage and source precision distinctions.",
+              "decision": "ACCEPT_SEPARATELY_QUALIFIED_B13_D01_SOURCE_LED_BASELINE",
+              "evidence": "docs/checkpoints/V1_056_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "40788c476f2833c69d4c30f0c5d935d952a7af52"
         },
         {
           "title": "Program pénzáramai",
