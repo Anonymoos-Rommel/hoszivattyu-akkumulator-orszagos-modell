@@ -1640,7 +1640,7 @@
           "data": "Programazonosító, kiíró, hatály/verzió, ország/régió, jogosult/kizárt tevékenység, költség, intenzitás, saját erő, kumuláció, beadási/teljesítési határidő.",
           "phase": "V",
           "slice_id": "B14-L01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
             "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
@@ -1707,9 +1707,20 @@
               "expected_decision_value": "Completes original programme/issuer/version/geography, activity/cost/intensity/own-funds/cumulation/deadline fields for both named household calls. Supersedes the prior unbounded broader-programme/record-level/balance/pilot interpretation as L01 gates without asserting a programme census or individual approval.",
               "decision": "SOURCE_CONTRACT_COMPLETE_AWAIT_EXACT_IMPLEMENTATION_ACCEPTANCE",
               "evidence": "docs/checkpoints/V1_054_B14_RULE_COMPLETION.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Two exact pinned KEHOP calls and own-programme cost tables; separately dated official document/status observations and exact SeptemberFAQ; explicit prior V1-018 procedure/notice review"
+              ],
+              "remaining_unknown": "Only the two named dated rule handoffs are accepted. Unlisted programmes, individual eligibility, later revisions, D01 remaining/committed/paid/project funding, D02 research/pilot fit, whole B14 and B15 remain outside this acceptance. Historical procedure/notices/oldHTML archive gaps remain explicit; no new full11source pass is asserted.",
+              "promising_next_lead": "Use the accepted dated source-rule reference within exact scope; obtain separately qualified finance balances or pilot-fit evidence for D01/D02.",
+              "expected_decision_value": "Closes all original L01 programme/issuer/version/geography/activity/cost/intensity/own-source/cumulation/deadline fields for the two named calls while preserving historical reads, currentness and record-level boundaries.",
+              "decision": "ACCEPT_TWO_NAMED_DATED_B14_L01_SOURCE_RULE_HANDOFFS",
+              "evidence": "docs/checkpoints/V1_054_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "4719fb26b6a9df475a28808c30e403c074ebb3fa"
         },
         {
           "title": "Összeg és pénzbeérkezés",
