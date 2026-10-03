@@ -94,3 +94,38 @@ universal E2 gate. The known4.07W component corresponds to5.0875–14.245kWh ove
 the report's generic1,250–3,500empty hours, or35.6532kWh over8,760explicit hours.
 Those are conditional exposure calculations, not Hungarian operating assumptions
 or bounds on unmeasured losses. No claim of negligible total error is made.
+
+
+## Qualified temperature and test-condition handoff (V1-052)
+
+The curated SAX controls now carry `source_conditions`, and genuine source-labelled
+`run()` and provisional aggregate-idle results expose that same hash-bound metadata.
+Synthetic mathematical references return no source-condition authority. No numerical
+source value, fitted vertex, clipping formula, cycle calculation or idle base changes.
+
+HTW/aquu report version 1.0, declared March 2026, Table 1 on printed/PDF page 13
+reports a manufacturer-specified 5–35 °C permissible range for the SAX battery and
+inverter. The exact undated manufacturer datasheet corroborates that specification;
+it is the same manufacturer lineage, not an independent temperature experiment.
+The range is neither measured test ambient nor a validated capacity/efficiency envelope.
+Actual SAX laboratory ambient and individual test date remain null/Q. Page 17 notes
+ambient influence without supplying a numeric SAX test temperature. No midpoint,
+generic guideline temperature, site default, thermal correction or derating law is selected.
+
+The report's common capacity procedure (pages 9 and 15) uses 100%, 50% and 25% of
+nominal charging/discharging power, three cycles at each level, discards the first
+conditioning cycle, and averages discharged DC energy over the six retained cycles.
+Its numerical power illustration is Fronius D1, not SAX A1. Exact SAX cycle wattages
+and raw traces remain unknown; no multiplication of catalog ratings supplies them.
+Battery efficiency retains the reported eta_BAT summary without inventing a pooling
+formula. The additional low-load procedure on pages 21–22 is separate, with at least
+eight measured supports up to 10% nominal discharge power. The SAX measurement count
+is not established, and fitted-vector vertex counts are not measurement counts.
+
+These conditions complete the missing D01 source-to-consumer metadata at the existing
+bounded E2 level. Test-to-target applicability remains Q-B07-003 debt. They do not
+admit site operation, whole-year physical inventory, a national product mix, lifecycle
+returns, legal access, or a new B08 reference-dispatch path. Unsupported temperature
+fields are rejected by the existing explicit command schema. D01 acceptance requires
+review of this exact condition handoff and a truthful reviewed-commit binding; it does
+not require a new measurement campaign merely to use the adopted E2 reference.

@@ -8,7 +8,7 @@
   "reference_period": "2026 comparison edition; individual laboratory test date not established",
   "identity": "2026:A1 SAX Power Home Plus firmware V23.50; report AppendixA4 page65",
   "curve_sha256": "87d1b6b91950792c429746f71770237afd227e26ff5afd3bc5eb4d2b943ebfd6",
-  "control_sha256": "bed133fe134b6559f074ca85ee55cf2043c26bf0792903b04b86866cc582b5de",
+  "control_sha256": "d299d057de95f4a5306400e6b201d18b4ef6d84f66e5f9fc2241eb93416728cf",
   "repo_snapshot_path": null,
   "reuse_status": "Attributed factual numeric and plotted-fit extract; original PDF/JavaScript redistribution not cleared and neither is published",
   "source_locations": {
@@ -50,5 +50,25 @@
     "interpretation": "Cumulative total and AC cumulative bar geometries coincide exactly for A1: graph depicts zero DC standby component. All reported4.07W can be assigned to AC only for this tested empty-state system boundary; cell/BMS draw is outside the test total."
   },
   "extractor_runtime": "PyMuPDF 1.26.6",
-  "review_scope": "Independent read-only inspection of1194vertices, monotone output/input mappings and boundary semantics; mathematical coordinate review. Not full independent laboratory-data or annual-system validation."
+  "review_scope": "Independent read-only inspection of1194vertices, monotone output/input mappings and boundary semantics; mathematical coordinate review. Not full independent laboratory-data or annual-system validation.",
+  "source_conditions": {
+    "contract_id": "B07-SAX-2026-A1-SOURCE-CONDITIONS",
+    "reverified_at": "2026-10-03",
+    "original_pins_unchanged": true,
+    "report_declared_version": "1.0",
+    "report_declared_month": "2026-03",
+    "source_conditions_sha256": "78add5c3c65f587598596d7e006081b0a2f96de41cbdddd92f12e7581fd9f8af",
+    "condition_public_locations": "Curated source controls source_conditions; genuine run and provisional standby results",
+    "temperature": "Manufacturer permitted operation, not measured ambient or performance envelope; exact laboratory ambient remains Q",
+    "test_load": "Common guideline capacity protocol; Fronius D1 illustration is not SAX telemetry; separate additional low-load method",
+    "source_locations": {
+      "permitted_temperature": "PDF/printed page13 Table1",
+      "capacity_protocol": "PDF/printed pages9 and15",
+      "ambient_influence": "PDF/printed page17",
+      "additional_low_load": "PDF/printed pages21-22",
+      "identity": "PDF/printed page65 Tables10-11"
+    },
+    "datasheet_sha256": "b1d919cb6de7d714e2506c12a67e9a88f5716b79455ca6d1490976e84ffcd91e",
+    "source_originals_publication": false
+  }
 }

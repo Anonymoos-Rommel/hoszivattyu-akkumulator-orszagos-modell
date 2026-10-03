@@ -88,3 +88,22 @@ foreign-dependence assumption.
 
 
 V1-038 adopts the separately named [discharge-equivalent reference](discharge_equivalent_reference.py) with explicit initial/terminal inventory, converter boundaries and cycle-eligibility checks. Its constant tested-product applicability and separately supplied idle-exposure aggregate use E2/PROVISIONAL_BASE; calculated balances are DER. [Validation debt](../../registry/b07_reference_validation_debt.json) preserves the E1 upgrade path. Exact component measurements are not required merely to continue the E2 aggregate model. The existing engine remains unchanged; the idle AC proxy does not invent a DC state transition, a national product choice or a complete annual-system efficiency.
+
+
+## Source temperature and test conditions (V1-052)
+
+The SAX source controls and genuine source-labelled run/aggregate-idle results now
+include `source_conditions`. The 5–35 °C manufacturer operating specification is
+separate from the unknown measured laboratory ambient. The published common capacity
+protocol retains its 100/50/25% nominal-power levels and six retained cycles; its
+Fronius D1 example does not become SAX test wattages. The additional low-load method
+also retains its own scope. All existing numerical controls, curves and calculations
+are unchanged. Synthetic references receive no source-condition authority.
+
+See the [condition handoff checkpoint](../../docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md)
+and the [reference contract](../../docs/methodology/b07_discharge_equivalent_reference_contract.md).
+The exact report, official data asset and datasheet were recovered against their
+existing hashes; originals remain private. Q-B07-003 E2 applicability debt, D02
+lifecycle and D03 operating/legal availability remain open. This prepares the original
+D01 handoff for whole-slice acceptance review; a real reviewed condition commit must
+exist before its acceptance metadata can reference it.

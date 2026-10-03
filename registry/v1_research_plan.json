@@ -788,7 +788,7 @@
           "data": "Exact rendszerre AC-oldali használható kWh, töltés/kisütés kW, egyirányú vagy round-trip hatásfok, standby W, hőmérséklet °C; revízió és tesztterhelés.",
           "phase": "A",
           "slice_id": "B07-D01",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B07-HTW-SAX-REFERENCE-2026",
             "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026"
@@ -796,7 +796,8 @@
           "accepted_artifacts": [],
           "consumer_tests": [
             "tests/test_b07_sax_source_reference.py",
-            "tests/test_b07_discharge_equivalent_reference.py"
+            "tests/test_b07_discharge_equivalent_reference.py",
+            "tests/test_b07_source_conditions.py"
           ],
           "validation_debt_ids": [
             "Q-B07-003"
@@ -823,6 +824,17 @@
               "expected_decision_value": "Records already available E2 model continuation and tested AC/DC accounting instead of incorrectly treating the V1-013 proposed runtime as current.",
               "decision": "RECONCILE_EXISTING_RUNTIME_CONTINUE_BOUNDED_ACCEPTANCE_REVIEW",
               "evidence": "docs/checkpoints/V1_038_B07_DISCHARGE_EQUIVALENT_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact hash-matched HTW/aquu 2026 report and official data asset; manufacturer SAX datasheet corroboration shares manufacturer lineage"
+              ],
+              "remaining_unknown": "Actual laboratory ambient/date and SAX individual cycle wattages remain Q; constant-parameter and idle applicability remain existing Q-B07-003 E2 debt. D02 lifecycle and D03 operating/legal availability stay separate.",
+              "promising_next_lead": "Review exact integrated source conditions and unchanged numerical handoff; after a real reviewed condition commit exists, record bounded whole-D01 acceptance against that commit.",
+              "expected_decision_value": "Completes original temperature/test-load metadata by verified source reuse rather than accumulating another partial numerical input or inventing measured ambient.",
+              "decision": "REVIEW_COMPLETE_D01_CONDITION_HANDOFF_BEFORE_COMMIT_BOUND_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md"
             }
           ],
           "reviewed_commit": null

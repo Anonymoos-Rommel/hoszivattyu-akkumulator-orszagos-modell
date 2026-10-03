@@ -25,5 +25,81 @@
     "eta_BAT": "percent",
     "P_BAT2AC_out": "kW_AC_output",
     "P_SYS_SOC0": "W"
+  },
+  "source_conditions": {
+    "contract_id": "B07-SAX-2026-A1-SOURCE-CONDITIONS",
+    "source_id": "SRC-B07-HTW-SAX-REFERENCE-2026",
+    "report_declared_version": "1.0",
+    "report_declared_month": "2026-03",
+    "permitted_operation_temperature": {
+      "min_c": 5,
+      "max_c": 35,
+      "evidence_status": "OBS",
+      "quantity_scope": "REPORTED_MANUFACTURER_PERMITTED_OPERATION",
+      "applies_to": [
+        "battery",
+        "inverter"
+      ],
+      "report_pdf_page": 13,
+      "report_table": 1,
+      "corroborating_source_id": "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026",
+      "corroborating_pdf_page": 1,
+      "independent_measurement": false,
+      "is_laboratory_ambient": false,
+      "is_capacity_or_efficiency_validation_envelope": false
+    },
+    "laboratory_ambient_temperature_c": null,
+    "laboratory_ambient_status": "Q_NOT_ESTABLISHED",
+    "ambient_influence_report_pdf_page": 17,
+    "individual_laboratory_test_date": null,
+    "capacity_cycle_protocol": {
+      "evidence_status": "OBS",
+      "scope": "PUBLISHED_COMMON_GUIDELINE_METHOD_NOT_SAX_RAW_TELEMETRY",
+      "method_lineage_report_pdf_page": 9,
+      "protocol_report_pdf_page": 15,
+      "nominal_charge_and_discharge_fractions": [
+        1,
+        0.5,
+        0.25
+      ],
+      "cycles_per_power_level": 3,
+      "conditioning_cycle_excluded": 1,
+      "included_cycle_numbers": [
+        2,
+        3
+      ],
+      "included_discharge_energy_cycles_total": 6,
+      "usable_capacity_aggregation": "ARITHMETIC_MEAN_RETAINED_DISCHARGED_DC_ENERGY",
+      "battery_efficiency_aggregation": "RETAIN_REPORTED_ETA_BAT_NO_INVENTED_POOLING",
+      "illustrated_system": "FRONIUS_D1_NOT_SAX_A1",
+      "sax_individual_test_charge_kw": null,
+      "sax_individual_test_discharge_kw": null,
+      "sax_raw_cycle_values_recovered": false,
+      "catalog_rating_multiplication_admitted": false
+    },
+    "additional_low_load_protocol": {
+      "scope": "ADDITIONAL_TO_COMMON_GUIDELINE_DISCHARGE_TEST",
+      "report_pdf_pages": [
+        21,
+        22
+      ],
+      "sax_figure": 20,
+      "minimum_measured_supports": 8,
+      "upper_nominal_discharge_fraction": 0.1,
+      "actual_sax_measurement_count": null,
+      "fitted_vertices_are_measurement_count": false,
+      "automatic_fit_join": false
+    },
+    "application_boundary": {
+      "evidence_tier": "E2",
+      "validation_debt_id": "Q-B07-003",
+      "temperature_selected": false,
+      "temperature_adjustment_applied": false,
+      "performance_guaranteed_across_permitted_range": false,
+      "actual_site_operating_conditions_admitted": false,
+      "constant_parameter_transfer_remains_debt": true,
+      "measured_dc_capacity_or_cycle_eta_changed": false,
+      "catalog_rating_replaces_tested_summary": false
+    }
   }
 }

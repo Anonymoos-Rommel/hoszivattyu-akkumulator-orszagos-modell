@@ -21,9 +21,9 @@ from modules.B07 import sax_source_reference as source
 ENERGY_TOL = 1e-9
 PINS = {
     'modules/B07/sax_source_reference.py': 'c6f6cce1f0514784c20cf63d58bf4e22ad9dd2a8f12981536a086ea0054cc95c',
-    'registry/b07_sax_reference_manifest.json': '76ab8d0558622e095cd9093725c5a4a9f174422739a5f2291f2314f9c439d7ba',
+    'registry/b07_sax_reference_manifest.json': '18cbcbf17665da04ebea0f213bc0eda8bcaabf9726f3506516267be63b0db4db',
     'data/processed/b07/sax_2026_converter_curves.csv': '87d1b6b91950792c429746f71770237afd227e26ff5afd3bc5eb4d2b943ebfd6',
-    'data/processed/b07/sax_2026_source_controls.json': 'bed133fe134b6559f074ca85ee55cf2043c26bf0792903b04b86866cc582b5de',
+    'data/processed/b07/sax_2026_source_controls.json': 'd299d057de95f4a5306400e6b201d18b4ef6d84f66e5f9fc2241eb93416728cf',
 }
 
 
@@ -323,6 +323,7 @@ def run(ref,*,initial_dc_output_equiv_kwh,commands):
                 input_scenario_status='SCN',applicability_evidence_tier=tier,
                 applicability_status=applicability,
                 validation_debt_id='Q-B07-003',
+                source_conditions=(source.source_controls()['source_conditions'] if tier=='E2' else None),
                 declared_reference_identity=ref.identity,explicit_discharge_curve=ref.discharge.identity,
                 capacity_dc_output_equiv_kwh=ref.capacity_dc_output_equiv_kwh,
                 battery_dc_cycle_efficiency=ref.battery_dc_cycle_efficiency,
@@ -367,6 +368,7 @@ def provisional_standby_ac_energy(*,idle_hours):
     number(energy_kwh,'provisional idle energy')
     return dict(scope='SAX_REFERENCE_AGGREGATE_AC_IDLE_ENERGY_ONLY',
                 evidence_status='DER',evidence_tier='E2',base_status='PROVISIONAL_BASE',
+                source_conditions=controls['source_conditions'],
                 base_power_w=power_w,idle_hours=idle_hours,ac_energy_debit_kwh=energy_kwh,
                 source_id='SRC-B07-HTW-SAX-REFERENCE-2026',
                 corroboration_source_id='SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026',
