@@ -788,12 +788,21 @@
           "data": "Exact rendszerre AC-oldali használható kWh, töltés/kisütés kW, egyirányú vagy round-trip hatásfok, standby W, hőmérséklet °C; revízió és tesztterhelés.",
           "phase": "A",
           "slice_id": "B07-D01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B07-HTW-SAX-REFERENCE-2026",
             "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026"
           ],
-          "accepted_artifacts": [],
+          "accepted_artifacts": [
+            "data/processed/b07/sax_2026_converter_curves.csv",
+            "data/processed/b07/sax_2026_source_controls.json",
+            "registry/b07_sax_reference_manifest.json",
+            "modules/B07/sax_source_reference.py",
+            "modules/B07/discharge_equivalent_reference.py",
+            "docs/methodology/b07_discharge_equivalent_reference_contract.md",
+            "modules/B07/README.md",
+            "docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md"
+          ],
           "consumer_tests": [
             "tests/test_b07_sax_source_reference.py",
             "tests/test_b07_discharge_equivalent_reference.py",
@@ -835,9 +844,20 @@
               "expected_decision_value": "Completes original temperature/test-load metadata by verified source reuse rather than accumulating another partial numerical input or inventing measured ambient.",
               "decision": "REVIEW_COMPLETE_D01_CONDITION_HANDOFF_BEFORE_COMMIT_BOUND_ACCEPTANCE",
               "evidence": "docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact pinned HTW/aquu 2026 report and official data asset; exact manufacturer SAX datasheet; unchanged existing numerical reference and reviewed condition handoff"
+              ],
+              "remaining_unknown": "Actual laboratory ambient/date and SAX individual cycle wattages remain explicit Q; test-to-target constant parameters and aggregate-idle applicability remain Q-B07-003 E2 debt. D02 lifecycle and D03 operating/legal availability are not accepted.",
+              "promising_next_lead": "Use the accepted named-product E2 handoff within its source/condition boundary; acquire separately justified downstream lifecycle, dispatch or permission evidence.",
+              "expected_decision_value": "Closes the original whole D01 product/loss source handoff by verified reuse plus exact condition integration without inventing laboratory ambient or adding a new E1 campaign gate.",
+              "decision": "ACCEPT_BOUNDED_D01_SOURCE_HANDOFF_WITH_RETAINED_E2_VALIDATION_DEBT",
+              "evidence": "docs/checkpoints/V1_052_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "c11bf645a44b87d11f38e10fe20e9e24e514463f"
         },
         {
           "title": "Életciklus és költség",

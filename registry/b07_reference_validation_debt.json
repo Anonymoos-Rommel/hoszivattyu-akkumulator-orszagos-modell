@@ -93,5 +93,9 @@
   "raw_source_publication": false,
   "legacy_contract_replaced": false,
   "national_admission": false,
-  "whole_module_or_slice_acceptance": false
+  "whole_module_acceptance": false,
+  "accepted_slice_ids": [
+    "B07-D01"
+  ],
+  "slice_acceptance_scope": "Named SAX source-qualified E2 product/loss handoff; not whole B07, lifecycle, legal access, national selection or completed E1 applicability validation"
 }
