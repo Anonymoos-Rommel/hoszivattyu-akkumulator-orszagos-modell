@@ -1,5 +1,21 @@
 # B05 – Hőszivattyú fizikai és teljesítménymodell
 
+## B05-D02 product handoff acceptance — V1-053
+
+The named WM50/Vol.5.3 source-product handoff is accepted by verified reuse of
+commit `ce641bea8082ce3e49d78f75b9f178232f91ec3b`. Existing maps, numerical
+controls, scientific code and tests are unchanged. The acceptance record binds
+source domains, supplementary-heat meaning, manufacturer/certification lineage
+and actual consumers without a new wrapper or runtime default.
+
+This completes the D02 source-product task only. D01/D03, combined SH/DHW service,
+installed or national performance and backup-enabled cases requiring a real
+configuration remain separate. Existing annual/cold `whole_slice_complete=false`
+flags and the cycling qualification below remain unchanged. KEYMARK is
+rendered-source evidence; no raw-response hash or fresh-live validity is invented.
+See [the acceptance](../../docs/checkpoints/V1_053_B05_PRODUCT_HANDOFF_ACCEPTANCE.md)
+and [exact criterion bindings](../../docs/checkpoints/V1_053_ACCEPTANCE.json).
+
 ## Current cycling qualification — 2026-10-02
 
 P20/P22 WM50 and P23/P42 Dimplex exact fixed-W35 Cdh/MIN joining are Q.

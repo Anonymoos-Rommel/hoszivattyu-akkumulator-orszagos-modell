@@ -519,15 +519,42 @@
           "data": "Exact típus/revízió × T_kültér × T_víz: Qh, Pel [kW], COP, minimumteljesítmény, üzemhatár, rásegítés. EPREL/certifikáció/gyártó forrásokat eredet szerint összekötni.",
           "phase": "A",
           "slice_id": "B05-D02",
-          "status": "INTEGRATING",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B05-JRC-COP-2023",
             "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022",
-            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+            "SRC-B05-HPKEYMARK-MITSUBISHI-WM50-2026"
           ],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
-          "validation_debt_ids": [],
+          "accepted_artifacts": [
+            "registry/b05_wm50_full_grid_manifest.json",
+            "data/processed/b05/wm50_full_performance_v53.csv",
+            "modules/B05/manufacturer_wm50_reference.py",
+            "modules/B05/engine.py",
+            "modules/B05/hourly_power_component_reference.py",
+            "registry/b05_annual_device_reference_manifest.json",
+            "modules/B05/annual_device_reference.py",
+            "modules/B05/cold_domain_reference.py",
+            "registry/b05_cold_domain_reference_manifest.json",
+            "registry/b05_p26_mitsubishi_cold_high_supply_classification.csv",
+            "registry/b05_p46_mitsubishi_a15_w50_domain_boundary.csv",
+            "registry/b05_p47_mitsubishi_szu_sampling_report_boundary.csv"
+          ],
+          "consumer_tests": [
+            "tests/test_b05_manufacturer_wm50_reference.py",
+            "tests/test_b05_heat_pump_engine.py",
+            "tests/test_b05_interpolation_energy_consistency.py",
+            "tests/test_b05_annual_device_reference.py",
+            "tests/test_b05_cold_domain_reference.py",
+            "tests/test_b05_p26_mitsubishi_cold_high_supply_classification.py",
+            "tests/test_b05_p46_mitsubishi_a15_w50_domain_boundary.py",
+            "tests/test_b05_p47_mitsubishi_szu_sampling_report_boundary.py",
+            "tests/test_b11_annual_retrofit_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B05-003",
+            "Q-B05-004"
+          ],
           "research_log": [
             {
               "date": "2026-10-01",
@@ -576,9 +603,21 @@
               "expected_decision_value": "Quantifies historical cold exposure of the current fixed-W55 reference without generalizing one product or inventing a cold performance extension",
               "decision": "BOUNDED_SOURCE_DOMAIN_CHECK_COMPLETED_NO_NATIONAL_GATE_CLOSURE",
               "evidence": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact pinned Mitsubishi Ecodan Vol.5.3 manufacturer original and unchanged full WM50 source grid",
+                "Existing claim-specific KEYMARK Outdoor record, independently reread official cached rendering; manufacturer/certification conditions remain separate"
+              ],
+              "remaining_unknown": "A-15/W50 exact joint evidence, installed hydraulic/electric/backup applicability, Q-B05-003/004 and withdrawn exact Cdh/MIN transfer remain open. D01/D03 combined SH/DHW service and national product/rollout selection are separate. KEYMARK raw bytes and fresh live validity are not established.",
+              "promising_next_lead": "Reuse this accepted named-product handoff for supported declared cases; complete actual combined SH/DHW or backup-enabled inputs only when those downstream claims are activated.",
+              "expected_decision_value": "Closes all original D02 source-product criteria by exact-source and consumer reuse without adding a duplicate helper, new performance point, scientific default or numerical method.",
+              "decision": "ACCEPT_BOUNDED_WM50_D02_PRODUCT_HANDOFF_BY_VERIFIED_REUSE",
+              "evidence": "docs/checkpoints/V1_053_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "ce641bea8082ce3e49d78f75b9f178232f91ec3b"
         },
         {
           "title": "Korrekció és validáció",
