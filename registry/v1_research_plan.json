@@ -2260,7 +2260,7 @@
           "data": "Időjárás/ár/terhelés/ellátás/timing együttes, dátumozott történeti ablakok; HU/EU kapcsolódás. Külön statisztikai bizonytalanság, strukturális ismerethiány és POL stressz.",
           "phase": "V",
           "slice_id": "B19-D01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B05-HUNGARY-HOURLY-HIST-2026",
             "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
@@ -2287,7 +2287,14 @@
             "SRC-B19-SMARD-AT-DAM-ORIGINAL-20261003",
             "SRC-B19-SMARD-AT-QUARTERHOUR-INDEX-20261003"
           ],
-          "accepted_artifacts": [],
+          "accepted_artifacts": [
+            "modules/B19/historical_joint_stress.py",
+            "registry/b19_historical_joint_stress_manifest.json",
+            "modules/B19/austrian_price_reference.py",
+            "modules/B19/historical_joint_market.py",
+            "registry/b19_joint_market_reference_manifest.json",
+            "tools/materialize_b19_joint_market.py"
+          ],
           "consumer_tests": [
             "tests/test_b19_historical_joint_stress.py",
             "tests/test_b19_austrian_price_reference.py",
@@ -2321,9 +2328,20 @@
               "expected_decision_value": "Completes the previously absent contemporaneous price and bounded regional-market fields while preserving weather/load/domestic-source supply/timing, exact co-occurrence and separate statistical/structural/POL categories; prevents synthetic all-extrema events or inferred imports.",
               "decision": "QUALIFIED_HU_AT_JOINT_HISTORICAL_HANDOFF_PREPARE_EXACT_CONSUMER_REVIEW",
               "evidence": "docs/checkpoints/V1_058_JOINT_MARKET_WINDOWS.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Accepted Budapest44527 weather and native HU load/signed-generation originals; accepted HU and independently qualified AT SMARD publisher-hourly observations with exact rights/time/configuration and epoch evidence"
+              ],
+              "remaining_unknown": "Station weather and adopted E2/Q load/generation retain their limits; source residual is not measured imports or complete physical accounting. Separate retrospective price snapshots, revisions and quantization/resolution remain explicit. No EU-wide representation, physical support, congestion causality, future probability, policy stress/default, programme driver ranking, threshold or national readiness is supplied.",
+              "promising_next_lead": "Use the accepted bounded historical co-occurrence reference within its explicit source limits. B19-D02 owner thresholds and B19-D03 decision-value priorities require their own integrated programme evidence; do not substitute observed-domain ranks for programme drivers.",
+              "expected_decision_value": "Completes original dated weather/price/load/domestic-source supply/timing and bounded regional-market handoff with actual same-window vectors and distinct statistical/structural/POL categories, without fabricating combined extremes or stronger physical outcomes.",
+              "decision": "ACCEPT_BOUNDED_B19_D01_HU_AT_HISTORICAL_JOINT_HANDOFF",
+              "evidence": "docs/checkpoints/V1_058_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "3631f80be6ab2a34a7b4d64cdf3ad64754a87509"
         },
         {
           "title": "Döntési küszöbök",
