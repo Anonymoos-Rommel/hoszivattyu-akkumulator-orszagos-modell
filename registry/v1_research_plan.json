@@ -1501,7 +1501,7 @@
           "data": "MJ/m³, referencia-hőmérséklet/nyomás és tér-időeloszlás; éves magyar lakossági eladás és végfelhasználási kontroll [TJ/GWh/bcm]. Nem kell minden fogyasztó FGSZ-pontja aggregált becsléshez.",
           "phase": "A",
           "slice_id": "B11-D02",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B11-FGSZ-MER-INDEX-2026",
             "SRC-B11-FGSZ-MER-2026-REV1-PDF",
@@ -1522,9 +1522,21 @@
             "SRC-B11-EUROSTAT-HOUSEHOLD-REPORTING-2026",
             "SRC-B11-EUROSTAT-ENERGY-BALANCE-GUIDE-2019"
           ],
-          "accepted_artifacts": [],
+          "accepted_artifacts": [
+            "modules/B11/gas_quality_reference.py",
+            "registry/b11_gas_quality_reference_manifest.json",
+            "tools/materialize_b11_gas_quality_reference.py",
+            "modules/B11/county_baseline_contract.py",
+            "registry/b11_county_gas_baseline_2024.csv",
+            "modules/B02/household_energy_controls.py",
+            "registry/b02_eurostat_household_manifest.json",
+            "data/processed/b02/eurostat_household_enduse_hu_2022_2024.csv",
+            "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/2026-10-01.json"
+          ],
           "consumer_tests": [
-            "tests/test_b11_gas_quality_reference.py"
+            "tests/test_b11_gas_quality_reference.py",
+            "tests/test_b11_p2_county_gas_baseline.py",
+            "tests/test_b02_household_energy_controls.py"
           ],
           "validation_debt_ids": [],
           "research_log": [
@@ -1564,9 +1576,21 @@
               "expected_decision_value": "Supplies the missing dated source-native gas-quality inventory and explicit annual controls without turning point rows into residential weights, mixing calendar/gas years or replacing TABULA and billing conventions.",
               "decision": "QUALIFIED_BOUNDED_B11_D02_NATIVE_SOURCE_CONTROL_HANDOFF_PREPARE_CONSUMER_REVIEW",
               "evidence": "docs/checkpoints/V1_059_GAS_QUALITY_HANDOFF.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Exact FGSZ dated native exit-point inventory and personal-use qualification, with distinct calendar years and revision applicability",
+                "Original KSH household utility controls and exact Eurostat end-use/balance/commodity snapshots with inherited qualified consumers"
+              ],
+              "remaining_unknown": "Residential weights/coverage and full compatible reference states, actual billing and sales calibration, physical gas displacement/uncertainty and broader FGSZ content reuse remain unresolved. Native discrepancies, source defects and informative NCV remain visible; no default coefficient or physical ratio is adopted.",
+              "promising_next_lead": "Use this accepted bounded inventory within its exact personal/source scope. Any national gas estimate requires a compatible population/state/weighting and uncertainty bridge, not an exhaustive household census or automatic point averaging.",
+              "expected_decision_value": "Completes the original dated gas-quality and annual-control handoff with actual source-validated consumer output while preventing mixed-state, mixed-population and source-validity substitutions.",
+              "decision": "ACCEPT_BOUNDED_B11_D02_NATIVE_GAS_QUALITY_CONTROL_HANDOFF",
+              "evidence": "docs/checkpoints/V1_059_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "acc4908ddb6ab09ea0b49c1b0f46c90a532ea935"
         },
         {
           "title": "Érték átadása",
