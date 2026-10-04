@@ -804,3 +804,14 @@ def run_capability_fixture(path: str | Path):
     if snapshot.identity.truth_context != "SCN":
         raise CapabilityContractError("fixture cannot certify real household evidence")
     return assess_household_capabilities(snapshot)
+
+
+def create_annual_plan(**explicit_inputs):
+    """Create the owned SCN annual bundle ledger; every budget/input is explicit.
+
+    The session retains prior reservations and checks current revision tokens.
+    It does not call the compatibility selector or infer real funding, physical
+    completion, network permission, population weights or priority scores.
+    """
+    from modules.B01.annual_bundle_ledger import AnnualPlanSession
+    return AnnualPlanSession(**explicit_inputs)

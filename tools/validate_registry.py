@@ -2224,6 +2224,7 @@ def validate() -> list[str]:
 
     validate_b01_artifacts(errors)
     validate_b01_capability_artifacts(errors)
+    validate_b01_annual_artifacts(errors)
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
@@ -2262,6 +2263,24 @@ def validate_b01_capability_artifacts(errors: list[str]) -> None:
             errors.append("B01 battery-first fixture cannot imply a complete programme or subsidy exit")
     except (ValueError, TypeError, KeyError, OSError) as exc:
         errors.append(f"invalid B01 capability contract: {exc}")
+
+
+def validate_b01_annual_artifacts(errors: list[str]) -> None:
+    """Check annual planning authority/boundaries without creating numerical inputs."""
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    try:
+        from modules.B01.annual_bundle_ledger import load_annual_contract
+        contract = load_annual_contract()
+        if contract["numeric_policy_defaults"] or contract["original_task_acceptance_changed"]:
+            errors.append("B01 annual planning cannot introduce policy defaults or accept original tasks")
+        for source in contract["source_bindings"]:
+            if not (ROOT / source["path"]).is_file():
+                errors.append(f"B01 annual planning source binding is missing: {source['path']}")
+        if set(contract["opening_uses_states"]) != {"NONE", "USES", "Q"}:
+            errors.append("B01 annual opening commitments must preserve Q versus explicit absence")
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        errors.append(f"invalid B01 annual bundle contract: {exc}")
 
 
 def main() -> int:

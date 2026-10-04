@@ -91,6 +91,62 @@ S1, S4 or S5. New claim-specific evidence must be supplied independently.
 
 See [V1-062 boundaries and migration](../../docs/checkpoints/V1_062_B01_CAPABILITY_CONTRACT.md).
 
+## Canonical annual bundle planning
+
+`engine.create_annual_plan(...)` creates an `AnnualPlanSession` governed by
+`registry/b01_annual_bundle_contract.json`. The session owns its current ledger;
+each `reserve(..., expected_revision=..., order_ref=...)` call includes existing
+reservations and checks the revision against the session, not a caller's old
+snapshot. Explicit order is a scenario input, not a new priority score.
+
+An annual household bundle may contain several independent, parallel or
+genuinely dependent component actions. It is reserved atomically only with
+matching joint household cashflow/eligibility qualification, all action-specific
+prerequisites and resource fit. This prevents a partial selection from reusing
+financial proof for a different full package. At most one bundle is reserved
+per household in that annual ledger; it need not finish the entire triple in
+that year. No planned action becomes an observed completion or subsidy exit.
+
+Annual non-reusable flow, concurrent occupied capacity and dated public cash
+have different rules. The cash check uses payment/debit due dates and an
+explicit January 1 opening balance before all declared in-year commitments.
+Later receipts cannot pay earlier obligations. National and regional ceilings
+are views of one unique use event. Units, price/reference basis, geography,
+resource holder and stable source-event/work/asset identities are preserved.
+Unknown requirements or ceilings do not become zero or unlimited capacity.
+
+Every explicitly bounded resource pool has one total view plus any local
+subviews. The total can itself be regional; no national capacity is invented.
+Omitted geographic tags or uncovered locations cannot bypass a view. One
+funding-event identity cannot supply two independent pools, while nested views
+of the same pool remain views of one receipt. Cash-pool fungibility and
+non-additive access ceilings require explicit qualification. Each view binds
+its original pool-total receipt; it can only restrict amount/availability with
+separate derived/scenario provenance, never increase or advance the root.
+Source-exclusive regional earmarks need a separate allocation contract.
+
+A qualified, versioned requirement catalogue is bound into each bundle's
+fingerprint. Every action declares each domain required, explicitly not required
+or unknown, with provenance. The code does not discover that complete inventory.
+A labour-only list cannot silently omit cash/equipment needs, and a qualified
+not-required domain does not create an artificial positive use. Known excesses
+or cash gaps remain failures when other quantities or opening commitments are unknown; a known lower
+bound is never reported as the full resource total.
+
+Identical retries do not charge again. Changes/cancellations of an existing
+reservation require whole-plan requalification; this bounded contract does not
+refund, release actual obligations or deploy a shared database. Calendar-date
+arithmetic does not certify intraday settlement or physical dispatch.
+
+The resulting reservations remain conditional `SCN`. Joint network assessment
+is separate and bound to the whole active set including opening knowledge and
+provenance; a stale or absent result is
+unknown. B18 supply/workforce references still do not supply actual programme
+capacity, and B10 indicative headroom does not grant a connection. The caller
+must supply qualified data or explicit scenarios, with no numerical defaults.
+
+See [V1-063 annual planning boundaries](../../docs/checkpoints/V1_063_B01_ANNUAL_BUNDLE_LEDGER.md).
+
 ## Executable B01-P1 compatibility contract
 
 `registry/household_state_model.json` a történeti S0–S5 state-record,
@@ -98,8 +154,9 @@ transition-, policy- és capacity-contract kompatibilitási változata. A régi
 `modules/B01/engine.py` függvények ezt töltik be, változatlan eredményekkel.
 A lineáris állapotcímkék nem a fenti komponens-, támogatáskilépési vagy
 jogosultsági állítások bizonyítékai. A régi éves kiválasztás háztartásonként
-egyetlen szomszédos átmenetet kezel; az éven belüli többfázisú ütemezés és
-közös éves erőforráskeret külön, még nyitott auditfeladat.
+egyetlen szomszédos átmenetet kezel. Az éven belüli többfázisú tervezés és a
+közös éves erőforráskeret a fenti, külön annual bundle szerződést használja;
+a régi selector többszöri hívása nem helyettesíti ezt a nyilvántartást.
 
 - `HouseholdStateRecord` csak explicit state-as-of, owner, next gate,
   eligibility és transition evidence mellett értékelhető.

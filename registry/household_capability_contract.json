@@ -181,5 +181,9 @@
     "SUBSIDY_EXIT"
   ],
   "subject_scope_boundary": "Shared eligibility and household cashflow assertions require an explicit applies_to list of action/operation/exit subjects. Qualification for one action never widens to another. Package-wide evidence must name every covered subject explicitly. No ALL wildcard or implicit coverage.",
-  "operation_result_boundary": "permission_conditions report only supplied physical and operation-right evidence; programme_preconditions additionally require subject-matched programme eligibility and household cashflow protection. Neither result is a dispatch schedule, new permission, selected work or funding."
+  "operation_result_boundary": "permission_conditions report only supplied physical and operation-right evidence; programme_preconditions additionally require subject-matched programme eligibility and household cashflow protection. Neither result is a dispatch schedule, new permission, selected work or funding.",
+  "deferred_scope": "Outside this component-assessment interface; see related contracts for separate implementation status.",
+  "related_contracts": {
+    "annual_bundle_planning": "registry/b01_annual_bundle_contract.json"
+  }
 }
