@@ -1501,15 +1501,31 @@
           "data": "MJ/m³, referencia-hőmérséklet/nyomás és tér-időeloszlás; éves magyar lakossági eladás és végfelhasználási kontroll [TJ/GWh/bcm]. Nem kell minden fogyasztó FGSZ-pontja aggregált becsléshez.",
           "phase": "A",
           "slice_id": "B11-D02",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B11-FGSZ-MER-INDEX-2026",
             "SRC-B11-FGSZ-MER-2026-REV1-PDF",
             "SRC-B11-FGSZ-MER-2026-REV1-XLSX",
-            "SRC-B11-FGSZ-COPYRIGHT-NOTICE-2026"
+            "SRC-B11-FGSZ-COPYRIGHT-NOTICE-2026",
+            "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-PDF",
+            "SRC-B11-FGSZ-EXIT-QUALITY-GASYEAR-2024-2025-EN-PDF",
+            "SRC-B11-FGSZ-COPYRIGHT-EN-20261004",
+            "SRC-B11-FGSZ-QAR-LISTING-EN-20261004",
+            "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-XLSX",
+            "SRC-B11-FGSZ-GAS-QUALITY-RULES-2025-2026",
+            "SRC-B11-FGSZ-QAR-2025-2026-REV4-EN-XLSX",
+            "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+            "SRC-B11-EUROSTAT-HU-GAS-BALANCE-2024",
+            "SRC-B11-KSH-TERSTAT-610-2024",
+            "SRC-B11-KSH-KOR0043-2024",
+            "SRC-B11-EUROSTAT-HU-GAS-COMMODITY-2024",
+            "SRC-B11-EUROSTAT-HOUSEHOLD-REPORTING-2026",
+            "SRC-B11-EUROSTAT-ENERGY-BALANCE-GUIDE-2019"
           ],
           "accepted_artifacts": [],
-          "consumer_tests": [],
+          "consumer_tests": [
+            "tests/test_b11_gas_quality_reference.py"
+          ],
           "validation_debt_ids": [],
           "research_log": [
             {
@@ -1535,6 +1551,19 @@
               "expected_decision_value": "Prevents mixing GCV with NCV tariff energy and NET fixed charges with GROSS rates; makes bounded source/reference arithmetic reproducible without invented gas chronology",
               "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
               "evidence": "docs/checkpoints/V1_045_GAS_ENERGY_AND_TARIFF_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Exact FGSZ English QAR originals and matching exit workbooks for calendar 2024/2025; actual revision applicability and personal-use notice",
+                "Existing KSH county/household sales consumer and freshly qualified yearbook/annual-average scope controls",
+                "Existing Eurostat household end-use consumer and exact fresh HHQ/balance/commodity snapshots with reporting-method context"
+              ],
+              "remaining_unknown": "Residential weights, compatible full reference states/moisture and target coverage, actual billing, sales calibration and physical gas displacement. KSH/Eurostat scope and revision differences and source QC defects remain unresolved; no general FGSZ content redistribution licence is supplied.",
+              "promising_next_lead": "Independently verify the actual native source/control reader against the frozen preimplementation oracle; after separately approved publication and zero-skip hosted validation, assess exact-commit-bound B11-D02 handoff acceptance. Keep activated national estimates and B11 module gates separate.",
+              "expected_decision_value": "Supplies the missing dated source-native gas-quality inventory and explicit annual controls without turning point rows into residential weights, mixing calendar/gas years or replacing TABULA and billing conventions.",
+              "decision": "QUALIFIED_BOUNDED_B11_D02_NATIVE_SOURCE_CONTROL_HANDOFF_PREPARE_CONSUMER_REVIEW",
+              "evidence": "docs/checkpoints/V1_059_GAS_QUALITY_HANDOFF.md"
             }
           ],
           "reviewed_commit": null

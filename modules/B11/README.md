@@ -25,9 +25,10 @@ context ID. It can represent defensible weighted population evidence without
 requiring a point record for every household. Source-specific permission,
 seasonal efficiency calibration and national weights remain independent.
 
-See [P7](../../docs/source_packs/P7_B11_REFERENCE_STATE_CONTRACT.md). The
-FGSZ material remains external and numerically unadmitted. No source-specific
-conversion coefficient or default efficiency is embedded.
+See [P7](../../docs/source_packs/P7_B11_REFERENCE_STATE_CONTRACT.md). P7 itself
+admits no FGSZ numerical physical-conversion input. The separate native source
+inventory below does not supply that authority. No source-specific conversion
+coefficient or default efficiency is embedded in P7.
 
 Run `python -m unittest discover -s tests -p 'test_b11*.py'` for the discovered
 B11 tests and `python tools/validate_registry.py` for registry contracts.
@@ -67,3 +68,21 @@ within their stated boundaries; other requirements remain INCONCLUSIVE.
 The gas ledger includes natural gas and biogas. Nonempty selected groups
 retain the whole ledger cap, with no proportional heat assignment. Central
 heat allocation, eligibility and national feasibility remain unresolved.
+
+## Dated gas-quality and household-control inventory
+
+`gas_quality_reference` reads the qualified external exit-point sources for
+calendar 2024 and 2025 and retains each source's observation period separately
+from its document revision and applicability interval. It connects the existing
+county sales control with the separately scoped KSH and Eurostat observations.
+Missing values, source consistency flags, overlapping group/child rows, source
+precision and unresolved control differences remain explicit.
+
+This is a personal, private source-reference handoff. FGSZ originals and detailed
+numeric outputs remain external-only; the source notice does not grant general
+redistribution or broader deployment rights. The NCV column is publisher-labelled
+informative data. GCV25/0 and NCV15/15 are different native references, and missing
+moisture metadata is not filled. No national weighted heating value, physical
+conversion, billing equivalence, gas saving or TABULA-convention replacement is
+produced. See [V1-059](../../docs/checkpoints/V1_059_GAS_QUALITY_HANDOFF.md) for the
+source and acceptance boundaries.
