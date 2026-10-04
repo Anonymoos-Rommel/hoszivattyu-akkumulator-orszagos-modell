@@ -2260,17 +2260,38 @@
           "data": "Időjárás/ár/terhelés/ellátás/timing együttes, dátumozott történeti ablakok; HU/EU kapcsolódás. Külön statisztikai bizonytalanság, strukturális ismerethiány és POL stressz.",
           "phase": "V",
           "slice_id": "B19-D01",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B05-HUNGARY-HOURLY-HIST-2026",
             "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
             "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
             "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
-            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026"
+            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+            "SRC-B04-SMARD-CONFIG-20261003",
+            "SRC-B04-SMARD-DATA-USE-20261003",
+            "SRC-B04-SMARD-GUIDE-202109",
+            "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+            "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+            "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1735513200000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1742770800000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1759096800000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1760911200000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1766962800000-20261003",
+            "SRC-B19-SMARD-AT-DAM-HOURLY-20261003",
+            "SRC-B19-SMARD-AT-DAM-ORIGINAL-20261003",
+            "SRC-B19-SMARD-AT-QUARTERHOUR-INDEX-20261003"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [
-            "tests/test_b19_historical_joint_stress.py"
+            "tests/test_b19_historical_joint_stress.py",
+            "tests/test_b19_austrian_price_reference.py",
+            "tests/test_b19_joint_market.py"
           ],
           "validation_debt_ids": [
             "Q-B08-001",
@@ -2288,6 +2309,18 @@
               "expected_decision_value": "Prevents independently selected cold/load/residual maxima from being combined into an invented historical event; supplies reproducible contemporaneous conditions on one verified physical time grid",
               "decision": "CONTINUE_BOUNDED_HISTORICAL_JOINT_CONDITIONS_WITHOUT_POLICY_OR_PROBABILITY_DEFAULTS",
               "evidence": "docs/checkpoints/V1_048_HISTORICAL_JOINT_STRESS.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Accepted Budapest44527 hourly temperature and exact native HU load/signed-generation handoff",
+                "Accepted official SMARD HU hourly prices and separately independently qualified Austrian bidding-zone prices, exact configuration/rights/time evidence and epoch witnesses"
+              ],
+              "remaining_unknown": "Station weather is not national weather; source estimates/revisions and separate HU/AT retrieval vintages remain explicit. One EU comparator is not EU-wide representation; prices do not establish physical exchange, import support, congestion causality or adequacy. Statistical uncertainty for future/generalized claims is unestimated; no adopted POL shock, programme driver ranking, decision threshold or national readiness is supplied.",
+              "promising_next_lead": "Verify the exact joint consumer and all original D01 clauses against an independent preimplementation oracle; after separately approved publication and zero-skip hosted verification, consider actual-commit-bound D01 acceptance. D02/D03 and module/programme gates remain separate.",
+              "expected_decision_value": "Completes the previously absent contemporaneous price and bounded regional-market fields while preserving weather/load/domestic-source supply/timing, exact co-occurrence and separate statistical/structural/POL categories; prevents synthetic all-extrema events or inferred imports.",
+              "decision": "QUALIFIED_HU_AT_JOINT_HISTORICAL_HANDOFF_PREPARE_EXACT_CONSUMER_REVIEW",
+              "evidence": "docs/checkpoints/V1_058_JOINT_MARKET_WINDOWS.md"
             }
           ],
           "reviewed_commit": null

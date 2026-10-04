@@ -1,0 +1,165 @@
+{
+  "checkpoint": "V1-058",
+  "status": "LOCAL_REVIEWED_B19_JOINT_HU_AT_REFERENCE_NOT_PUBLISHED",
+  "integration_base_commit": "7ca1f1e497465a10b776dc9b80f9fcf218205157",
+  "reviewed_substantive_tree": "a399dd77ccba1dda84dc9b05373e7de8ba615469",
+  "substantive_patch_sha256": "35f50d73810540a933b5756aa5749bfa5eb79b2f8e3e5c29f57a618d9d8e77ea",
+  "reviewed_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_058_JOINT_MARKET_WINDOWS.md",
+      "bytes": 11241,
+      "sha256": "debadc2facd092b4bd1038990ca9beadc962d9fc826f95ca15a2b0b6219441f8"
+    },
+    {
+      "path": "modules/B19/README.md",
+      "bytes": 2617,
+      "sha256": "235eea6233374d707cc8ecedcf27bd7e30fc635c3031cc8004a83fd1de81f130"
+    },
+    {
+      "path": "modules/B19/austrian_price_reference.py",
+      "bytes": 13158,
+      "sha256": "df2163b6a91edd517695a397443a18b0c942aca0b660b6b10630967050f8aacf"
+    },
+    {
+      "path": "modules/B19/historical_joint_market.py",
+      "bytes": 12156,
+      "sha256": "65e7fe1675e1a08eff726179d9c05a579a454b57f4c183ca73a4e2e4e8ce9870"
+    },
+    {
+      "path": "registry/b19_joint_market_reference_manifest.json",
+      "bytes": 15719,
+      "sha256": "01f7fc2d00722be7a4e99770eda81efaf140df4b3a0fcc45ce4e99aea9b1645a"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 64176,
+      "sha256": "c968bdb66f0acd1e0d58670c4b81f9f458e7c7857fa17688eb1d2160855622d0"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 325549,
+      "sha256": "77d0a548e59888462de70abdd872ef1d50af26191861a4fcf55e6724e58c9e08"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 160840,
+      "sha256": "7815f9ef7574401eca51301971f10b446555da47449cdf1c73f4f4383f0fa42b"
+    },
+    {
+      "path": "tests/test_b19_austrian_price_reference.py",
+      "bytes": 10814,
+      "sha256": "9b39e06ad7dceb24cabe63a5bdba4a6d94398823bc4ef63d52871a8489bee84a"
+    },
+    {
+      "path": "tests/test_b19_joint_market.py",
+      "bytes": 15555,
+      "sha256": "702c3a0940baf99f5c3b7a1b4cb488f10329367ec641123afd42bc36af0811dd"
+    },
+    {
+      "path": "tools/materialize_b19_joint_market.py",
+      "bytes": 2999,
+      "sha256": "382ead98c31b3c476c3d540f4e373b712642e46fd61dea30221413bdfecc234f"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-058",
+    "status": "LOCAL_CANONICAL_PASS_WITH_THREE_DOCUMENTED_HOST_ONLY_SKIPS",
+    "tests_discovered": 3602,
+    "passed": 3599,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 136.825,
+    "registry": "VALID",
+    "log_bytes": 684494,
+    "log_sha256": "ba97083cfb14acf42912eb655cae2f5ed0c77588ddeb9bbe4faad1911f0a766c",
+    "substantive_tree": "a399dd77ccba1dda84dc9b05373e7de8ba615469",
+    "all_eleven_frozen_files_unchanged": true,
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "hosted_ci": "NOT_RUN_NOT_AUTHORIZED_YET"
+  },
+  "independent_review": {
+    "receipt_sha256": "262192536ea5967283711f6aa395c11094f7c0672043101d62292c54382bee1a",
+    "verdict": "PASS_EXACT_ELEVEN_FILE_SUBSTANTIVE_PACKET",
+    "focused_discovered": 150,
+    "focused_passed": 149,
+    "known_host_skips": 1,
+    "genuine_hours_compared": 8760,
+    "genuine_complete_72h_windows_compared": 8689,
+    "window_rank_records_compared": 78201,
+    "window_price_ranges_compared": 26067,
+    "coverage_union_intersections_compared": 10,
+    "additional_adverse_cases_passed": 56,
+    "overlapping_checks_not_additive_independent_evidence": true,
+    "completed_original_criterion_consumer_map_sha256": "ef19eef45b8ce6333c2d030441e46fc207527a884100c4d7947426d7084f5c3e",
+    "all_ten_original_clauses_satisfied_at_bounded_handoff": true,
+    "registry_acceptance_executed": false
+  },
+  "source_review": {
+    "new_AT_source_freeze_sha256": "412f27143c66edf4299de1f25d237c1b7ed49ad5a54d7c1ee701695bdd27e9c7",
+    "independent_source_verdict_sha256": "62dea018772d6ad5ab5592669d5b8b3b1e96e537f3635e2f96e0b083b7649160",
+    "private_preimplementation_oracle_freeze_sha256": "e109e9a17ed96486d6cfcc4e1bd46a43cd631a4cd30ca665b3568d5101abdc09",
+    "source_files_frozen": 25,
+    "reused_evidence_pins": 18,
+    "new_original_bodies": 8,
+    "runtime_AT_source_pins": 12,
+    "runtime_HU_source_pins": 11,
+    "padded_hours_each_zone": 8808,
+    "selected_UTC2025_hours_each_zone": 8760,
+    "same_lineage_epoch_overlap_each_zone": 2976,
+    "new_source_review_did_not_read_new_implementation_before_oracle_freeze": true,
+    "shared_SMARD_ENTSOE_lineage_not_independent_exchange_validation": true
+  },
+  "genuine_private_replay": {
+    "implementation_freeze_sha256": "9ab09cad79c016e25daf002376b6c953b4a5b30b5c2d1089abe6a42dbb348bfa",
+    "author_proof_sha256": "237cb0b14f1255742275203f0180cb215b0b918a13809e1b88850c2a321d1449",
+    "receipt_bytes": 78605365,
+    "receipt_sha256": "f9e9815afc6895b030f5bdcec30bf6251ef867af3d6f47cd828d418accd42d41",
+    "independent_guarded_output_byte_identical": true,
+    "real_storage_guard_or_authority_not_mocked": true,
+    "original_B19_selectors_ties_windows_and_annual_quantities_unchanged": true,
+    "detailed_numeric_outputs_public": false,
+    "valuation_performed": false
+  },
+  "resolved_review_finding": {
+    "scope": "R1 test-fixture setup only: explicitly create allowed ignored private parent in fresh checkout",
+    "initial_substantive_tree": "401f55918d7fc56211a73154c5f8fd79f4d24e7b",
+    "final_substantive_tree": "a399dd77ccba1dda84dc9b05373e7de8ba615469",
+    "independent_absent_parent_test": "PASS",
+    "production_source_manifest_and_numeric_output_changed": false,
+    "historical_first_attempt_evidence_preserved": true
+  },
+  "original_task_status_at_first_stage": "REVIEW_REQUIRED",
+  "conditional_acceptance_template": {
+    "sha256": "b501d98eca6b6f8ea270371fa49c2824770d784d10cd7d636c807c5c76b426ad",
+    "review_receipt_sha256": "cef7ada70766aa2322e3b3d0bf1ee5315baf4cbb0ea336d0afd2055e8769387c",
+    "executed": false,
+    "allowed_changed_paths": [
+      "registry/v1_research_plan.json",
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_058_ACCEPTANCE.json"
+    ],
+    "requires": "Exact owner approval, actual implementation tree/sole-parent binding, 3602 actual hosted passes with zero skips and independent private-preservation/metadata review; use completed consumer map"
+  },
+  "scientific_boundaries": {
+    "reference_id": "B19-HU-AT-JOINT-MARKET-UTC2025-V1",
+    "domain": "Physical UTC2025, one Budapest station and Hungarian source load/signed domestic generation, with one Austrian EU bidding-zone market comparator",
+    "duration_default": null,
+    "statistical": "Exact observed-domain descriptive ranks and ties; overlapping windows dependent, future/generalized statistical uncertainty not estimated",
+    "structural": "Station/zone mismatch, adopted E2/Q source estimates and debt, absent exchange/storage, separate retrospective price snapshots and unobserved revisions, one-year support, cent quantization and native-resolution transition",
+    "POL": "No adopted stress, shock, threshold, tolerance or policy/default; any future POL/SCN intervention remains separate",
+    "time": "Retain source lexemes and anomalous end labels; derive physical UTC ends; civil2025 is incompatible with this joint domain",
+    "regional": "HU–AT market-price comparison only, not physical imports/support, EU-wide representation, congestion causality or adequacy",
+    "overlap": "Exact intersection of unions of all tied-selector physical-hour coverage, not pairwise event totals",
+    "retail_procurement_FX_programme_driver_ranks_thresholds_national_results": "NOT_ESTABLISHED",
+    "raw_sources_and_detailed_numeric_outputs_public": false,
+    "other_57_tasks_original_criteria_dependencies_readiness_unchanged": true,
+    "B19_D02_D03_and_national_gates_unchanged": true
+  },
+  "recovery_verification_method": "Verified full V21 preserves the exact originals; stream all baseline and candidate member hashes, reconstruct only a fresh repository and required sources, regenerate exact grid handoffs and replay once; bind Library readback by complete byte identity",
+  "publication": "Not performed; exact twelve-file publication and conditional three-file metadata approval required; no main merge"
+}
