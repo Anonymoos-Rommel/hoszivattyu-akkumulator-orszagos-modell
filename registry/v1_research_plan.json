@@ -2122,7 +2122,7 @@
           "data": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR, importarány, hozzáadottérték, foglalkoztatás/FTE. FIGARO-kód és hazai kiadási csomag közti híd.",
           "phase": "V",
           "slice_id": "B16-D01",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
             "SRC-B16-EUROSTAT-HU-IOT-METADATA-2026",
@@ -2144,7 +2144,16 @@
             "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
             "SRC-B16-FIGARO-DESCRIPTION-2026"
           ],
-          "accepted_artifacts": [],
+          "accepted_artifacts": [
+            "registry/b16_industry_structure_reference_manifest.json",
+            "modules/B16/industry_structure_reference.py",
+            "registry/b16_spending_classification_manifest.json",
+            "modules/B16/spending_classification_reference.py",
+            "registry/b16_employment_structure_reference_manifest.json",
+            "modules/B16/employment_structure_reference.py",
+            "tests/test_b16_spending_classification_reference.py",
+            "docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md"
+          ],
           "consumer_tests": [
             "tests/test_b16_industry_structure_reference.py",
             "tests/test_b16_employment_structure_reference.py",
@@ -2187,9 +2196,20 @@
               "expected_decision_value": "Closes the original missing classification and import-denominator fields while preventing product/industry/version confusion, installed-work double counting and conversion of signed accounts into programme import propensities.",
               "decision": "PREPARE_WHOLE_DESCRIPTIVE_DATA_HANDOFF_FOR_EXACT_REVIEW",
               "evidence": "docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Exact qualified HU2023 national structure/persons/hours plus official versioned classification authorities"
+              ],
+              "remaining_unknown": "Actual supplier and programme monetary allocation, purchaser/basic and price/currency conversion, matched labour/output coefficients, net additionality/displacement and all programme GDP/jobs remain separate.",
+              "promising_next_lead": "Use the accepted descriptive handoff only within its historical and conditional classification scope; qualify the required monetary/counterfactual inputs for B16-D02.",
+              "expected_decision_value": "Accepts the original five-clause B16-D01 data handoff with exact source origin ratios, explicit undefined/signed cases and conditional expenditure code correspondence.",
+              "decision": "ACCEPT_BOUNDED_DESCRIPTIVE_STRUCTURE_CLASSIFICATION_HANDOFF",
+              "evidence": "docs/checkpoints/V1_061_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "4de371437a70ad36d3ff80ab7a6382212f2c4703"
         },
         {
           "title": "Nettó többlethatás",
