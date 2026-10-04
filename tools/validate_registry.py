@@ -974,7 +974,7 @@ def duplicate_values(values: list[str]) -> list[str]:
 
 
 def validate_b01_artifacts(errors: list[str]) -> None:
-    """Validate the single canonical B01 state/portfolio contract and SCN fixture."""
+    """Validate the retained S0-S5 compatibility contract and historical fixture."""
     model_path = REGISTRY / "household_state_model.json"
     if not model_path.is_file():
         errors.append("missing B01 household state model")
@@ -2223,6 +2223,7 @@ def validate() -> list[str]:
                 errors.append(f"invalid question status for {question_id}: {row['status']!r}")
 
     validate_b01_artifacts(errors)
+    validate_b01_capability_artifacts(errors)
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
@@ -2233,6 +2234,34 @@ def validate() -> list[str]:
     validate_b10_artifacts(errors, source_ids)
 
     return errors
+
+
+def validate_b01_capability_artifacts(errors: list[str]) -> None:
+    """Validate the canonical component contract and its bounded SCN entry point."""
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    try:
+        from modules.B01.capability_contract import load_contract
+        from modules.B01.engine import run_capability_fixture
+        contract = load_contract()
+        policy = json.loads((REGISTRY / "owner_policy_decisions.json").read_text(encoding="utf-8"))
+        required = policy["decisions"]["completed_cohort_subsidy_exit"]["completion_required"]
+        if set(contract["components"]) != set(required):
+            errors.append("B01 capability components differ from the explicit complete-package policy")
+        if set(contract["programme_action_claims"]) != {"PROGRAMME_ELIGIBILITY", "HOUSEHOLD_CASHFLOW_PROTECTED"}:
+            errors.append("B01 programme action must retain eligibility and first-day/interim household protection")
+        if set(contract["exit_claims"]) != {"PROGRAMME_ELIGIBILITY", "UNSUBSIDIZED_TOTAL_BILL_LOWER", "HOUSEHOLD_CASHFLOW_PROTECTED", "SUBSIDY_EXIT_APPLICABLE"}:
+            errors.append("B01 subsidy exit must retain the distinct policy conditions")
+        for source in contract["source_bindings"]:
+            if not (ROOT / source["path"]).is_file():
+                errors.append(f"B01 capability source binding is missing: {source['path']}")
+        result = run_capability_fixture(ROOT / "data/fixtures/b01_capability_scn.json")
+        if result.identity.truth_context != "SCN" or result.selected_or_funded:
+            errors.append("B01 capability fixture must remain an unfunded scenario assessment")
+        if result.complete_triple.status != "UNKNOWN" or result.subsidy_exit_conditions.status != "UNKNOWN":
+            errors.append("B01 battery-first fixture cannot imply a complete programme or subsidy exit")
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        errors.append(f"invalid B01 capability contract: {exc}")
 
 
 def main() -> int:

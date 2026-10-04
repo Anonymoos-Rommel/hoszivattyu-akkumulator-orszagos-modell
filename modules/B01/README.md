@@ -36,12 +36,70 @@
 - egyetlen éves kiválasztási súly vagy hard minimum sem lehet rejtett konstans;
 - az országos portfólió kiválasztott darabszáma nem haladhatja meg az éves pénz-, FTE-, beszállítói-, engedélyezési- vagy hálózati korlátot.
 
-## Executable B01-P1 contract
+## Canonical component assessment
 
-`registry/household_state_model.json` az egyetlen canonical state-record,
-transition-, policy- és capacity-contract. A `modules/B01/engine.py` ezt a
-contractot tölti be; nem tart fenn második állapotgépet és nem ad rejtett
-országos optimumot.
+`engine.assess_household_capabilities(CapabilitySnapshot(...))` evaluates the
+versioned `registry/household_capability_contract.json` contract. Installation
+order is not evidence of a physical component. A battery, qualified existing
+insulation/envelope or heat pump may be recorded independently; a proposed heat
+pump still needs its own building-specific sizing, emitter, hydraulic,
+electrical and site prerequisites.
+
+The returned assessment separates:
+
+- historical accepted component completion and current dated availability;
+- technical prerequisites and programme preconditions for proposed actions;
+- the technically accepted complete heat-pump + battery + insulation package;
+- subsidy-exit conditions, including the separate total-bill, full household
+  cashflow, programme eligibility and exact applicable subsidy/timing claims;
+- grid charge, household discharge, export and state/aggregator-service
+  permission conditions and separate programme-operation preconditions. One
+  operation's permission does not imply another's; a valid right cannot bypass
+  the household floor when programme operation is assessed.
+
+`PASS` is an assessment of supplied qualified record evidence. It does not
+verify the underlying source, calculate B12 cashflows, grant a permission,
+select an intervention, spend money or schedule work. Passed action
+prerequisites do not create completed equipment and do not imply a need to
+repeat an already completed action. No own PV is required.
+
+Every fact has a household, site, comparison/configuration basis, truth
+context and evidence lineage. Current assertions use explicit half-open date
+intervals; expiry or withdrawal can disable current capability/rights while
+retaining completion history. Population estimates cannot certify an individual
+record. `SCN` remains a scenario, missing facts remain `UNKNOWN`, and an explicit
+negative condition remains `FAIL`. A missing financial condition does not erase
+an observed installed asset.
+
+Shared programme-eligibility and cashflow assertions carry an explicit
+`applies_to` set of action, operation or subsidy-exit subjects. HP-only evidence
+cannot qualify a battery action. Package-wide evidence must name every covered
+subject; an omitted scope or an `ALL` wildcard cannot widen it. For state
+service, the full household comparison includes foregone arbitrage, losses,
+wear and assigned replacement costs. The strict JSON decoder rejects unknown
+fields instead of silently dropping a conflicting scope or legacy record.
+
+The executable demonstration is
+`engine.run_capability_fixture("data/fixtures/b01_capability_scn.json")`.
+It shows a synthetic battery-first record with unknown HP/envelope, programme
+completion, subsidy exit and operation rights. It contains no real household,
+price, national weight, dispatch quantity or funded selection.
+
+`engine.migrate_legacy_capability_record(...)` preserves a valid legacy record
+as versioned provenance. It creates no component or condition assertion from
+S1, S4 or S5. New claim-specific evidence must be supplied independently.
+
+See [V1-062 boundaries and migration](../../docs/checkpoints/V1_062_B01_CAPABILITY_CONTRACT.md).
+
+## Executable B01-P1 compatibility contract
+
+`registry/household_state_model.json` a történeti S0–S5 state-record,
+transition-, policy- és capacity-contract kompatibilitási változata. A régi
+`modules/B01/engine.py` függvények ezt töltik be, változatlan eredményekkel.
+A lineáris állapotcímkék nem a fenti komponens-, támogatáskilépési vagy
+jogosultsági állítások bizonyítékai. A régi éves kiválasztás háztartásonként
+egyetlen szomszédos átmenetet kezel; az éven belüli többfázisú ütemezés és
+közös éves erőforráskeret külön, még nyitott auditfeladat.
 
 - `HouseholdStateRecord` csak explicit state-as-of, owner, next gate,
   eligibility és transition evidence mellett értékelhető.
