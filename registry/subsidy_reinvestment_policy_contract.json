@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "contract_id": "POLICY-COHORT-SUBSIDY-REINVESTMENT-20261004",
+  "status": "PREPARED_FUNCTIONAL_AND_ACCOUNTING_CONTRACT_NO_NUMERICAL_PROGRAMME_RESULT",
+  "decision_ref": "POL-OWNER-20261004",
+  "evidence_class": "POL_SCN_INTERFACE_WITH_EVIDENCE_GATED_INPUTS",
+  "implementation_boundary": "Parameter and accounting contract only. No new household evaluator, macro model, policy enforcement, source default or user interface is claimed.",
+  "cohort_identity": {
+    "required_keys": [
+      "cohort_id",
+      "household_membership_scope",
+      "completion_dates_by_component",
+      "subsidy_exit_date",
+      "reference_population_and_period"
+    ],
+    "required_completed_components": [
+      "HEAT_PUMP",
+      "BATTERY",
+      "INSULATION"
+    ],
+    "no_double_household_counting": true,
+    "partial_completion_does_not_trigger_exit": true,
+    "insulation_component_scope": "Declared envelope work includes windows/doors where required by the assessed building condition; no unconditional replacement of adequate components."
+  },
+  "exit_gates": [
+    {
+      "id": "COMPLETE_TRIPLE",
+      "required": "All three named components completed and technically accepted."
+    },
+    {
+      "id": "UNSUBSIDIZED_BILL",
+      "required": "Unsubsidized total household energy bill is below the prior subsidized comparison baseline on the declared compatible service/time/price basis."
+    },
+    {
+      "id": "HOUSEHOLD_CASHFLOW",
+      "required": "Full programme versus without-programme household cashflow does not worsen from the first day; include initial and all payment/settlement periods."
+    },
+    {
+      "id": "SUBSIDY_SCOPE",
+      "required": "Exact subsidy channel, beneficiary, state payer, amount basis, applicability and exit timing are supplied; policy scenario is distinct from current law."
+    }
+  ],
+  "ledgers": {
+    "physical": "Envelope changes useful heat first. Heat-pump electricity then uses post-retrofit heat and qualified seasonal performance; storage losses and service deficits remain explicit. Never add independent savings percentages.",
+    "household": "Energy bills plus financing, operation, maintenance and replacement at household cash dates; not automatically government money.",
+    "state": "Attributable avoided subsidy and other source-qualified programme fiscal flows by period and payer; import spending is not automatically fiscal subsidy.",
+    "programme_finance": "Carryover plus evidenced seed/external finance and allocated net available release, less only obligations and cohort/training expenditure not already deducted in that net-release amount. Each dated cash movement is counted once; future release cannot fund past cash dates.",
+    "macro": "Investment/work/training, household extra spending/saving/debt repayment and net fiscal/employment effects require an explicit baseline, imports, displacement and capacity treatment. Do not add gross GDP/turnover/tax/household benefit measures."
+  },
+  "period_accounting": {
+    "unit": "HUF_cash_by_explicit_period_and_date",
+    "price_basis": "Declared nominal currency/year or explicit deflator; no implicit2028price.",
+    "cohort_release": "For each eligible cohort and period, compute state subsidy without programme minus remaining state subsidy with programme, within the same legal/beneficiary/accounting scope.",
+    "annual_recurrence": "Count that period’s avoided subsidy once for each still-applicable exited cohort. Do not re-add cumulative prior cash or capitalization as current inflow.",
+    "net_available_release": "Reconcile attributable release with dated public costs, reserves, compensation, obligations and cash availability. Negative net balance is an explicit financing gap, not erased by a zero floor.",
+    "retained_release": "rho[t] times nonnegative available released cash after obligations; unallocated share is state withdrawal. rho is never applied to household savings or a broad unqualified national budget line.",
+    "timing": "Use actual receipt/release dates; borrowing or a bridge is a separate sourced financing flow with cost and debt, not a renamed future saving.",
+    "acceleration": "Completed cohorts and financing/capacity interactions determine rollout; no preselected exponential/logistic acceleration from reinvestment alone.",
+    "single_deduction_rule": "Each dated cash movement has one ledger/attribution identity. A public cost, reserve or obligation already deducted to derive net available release must not be deducted again from programme cash. Other programme expenditure is deducted separately exactly once."
+  },
+  "parameters": [
+    {
+      "id": "planned_start_date",
+      "unit": "ISO_date",
+      "canonical_value": "2028-01-01",
+      "kind": "POL",
+      "user_scenario_adjustable": true
+    },
+    {
+      "id": "horizon_years",
+      "unit": "year",
+      "canonical_value": null,
+      "kind": "SCN_REQUIRED",
+      "allowed_by_existing_rollout_contract": [
+        8,
+        25
+      ],
+      "owner_discussed_possible_range": [
+        10,
+        20
+      ]
+    },
+    {
+      "id": "reinvestment_share_by_period",
+      "unit": "ratio",
+      "canonical_value": null,
+      "kind": "POL_SCN",
+      "minimum": 0,
+      "maximum": 1,
+      "time_varying": true
+    },
+    {
+      "id": "state_withdrawal_share_by_period",
+      "unit": "ratio",
+      "kind": "DER",
+      "expression": "1 - reinvestment_share_by_period",
+      "independent_control": false
+    },
+    {
+      "id": "seed_and_external_finance",
+      "unit": "HUF_cash_by_date",
+      "canonical_value": null,
+      "kind": "EVIDENCE_OR_EXPLICIT_SCN"
+    },
+    {
+      "id": "annual_public_ceiling",
+      "unit": "HUF_by_year",
+      "canonical_value": null,
+      "kind": "POL_UNSET",
+      "unset_means_unlimited": false
+    },
+    {
+      "id": "installation_capacity",
+      "unit": "completed_qualified_bundles_by_period",
+      "canonical_value": null,
+      "kind": "EVIDENCE_OR_EXPLICIT_SCN",
+      "derived_from": [
+        "trade_specific_FTE_hours",
+        "work_content",
+        "training_lag",
+        "other_market_work",
+        "equipment",
+        "network"
+      ]
+    },
+    {
+      "id": "training_cost_and_capacity",
+      "unit": "HUF_cash_by_date_and_qualified_FTE_by_date",
+      "canonical_value": null,
+      "kind": "EVIDENCE_OR_EXPLICIT_SCN"
+    },
+    {
+      "id": "household_energy_prices",
+      "unit": "HUF_per_declared_energy_unit_plus_fixed_HUF_by_period",
+      "canonical_value": null,
+      "kind": "EVIDENCE_OR_EXPLICIT_SCN",
+      "distinctions": [
+        "subsidized_without_programme",
+        "unsubsidized_with_programme",
+        "wholesale_import_valuation"
+      ]
+    },
+    {
+      "id": "capital_operating_replacement_costs",
+      "unit": "HUF_cash_by_actor_and_date",
+      "canonical_value": null,
+      "kind": "EVIDENCE_OR_EXPLICIT_SCN",
+      "scope": "Existing building typology, size, condition, heat loss, component sizing and required work content; no uniform household price or unnecessary new independent controls."
+    },
+    {
+      "id": "subsidy_rule",
+      "unit": "named_policy_rule_and_applicability",
+      "canonical_value": null,
+      "kind": "LAW_EVIDENCE_OR_EXPLICIT_POLICY_SCN"
+    },
+    {
+      "id": "benefit_per_public_huf_metric",
+      "unit": "explicit_compatible_benefit_per_HUF",
+      "canonical_value": null,
+      "kind": "METHOD_AND_POL_REQUIRED"
+    }
+  ],
+  "scenario_examples": {
+    "rho_zero": "Removes this fiscal funding feedback only; quantify delay or other funding need from the full financing/capacity ledger. It does not erase household physical savings or necessarily halt a programme with other funds.",
+    "rho_one": "Retains all net actually available eligible release; not proof that initial costs or all later expenditure are financed.",
+    "illustrative_owner_amounts": "900bn/100bnsteps,500k/250khousehold amounts andSPF3 remain illustrations, not populated inputs."
+  },
+  "infeasibility_reporting": [
+    "missing_source_or_scope",
+    "incomplete_triple",
+    "bill_threshold_not_met",
+    "household_cashflow_shortfall",
+    "cash_timing_gap",
+    "capacity_bottleneck",
+    "unqualified_current_law_or_site_gate"
+  ],
+  "protected_constraints": [
+    "mandatory_household_first_day_protection",
+    "source_scope_and_no_double_counting",
+    "no_population_estimate_passes_individual_record_gate"
+  ],
+  "future_ui": "Every control shows units, period, source versus owner scenario, changed assumptions and effects/constraints. No immediate UI implementation."
+}

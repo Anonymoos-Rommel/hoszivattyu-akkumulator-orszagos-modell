@@ -79,3 +79,20 @@ panel and its annual/winter receipt only into ignored `data/interim`. Raw XLSX
 and complete source series are not published. The historical control-area
 baseline is not a programme result or a regional mapping. See
 [checkpoint 016](../../docs/checkpoints/V1_016_B08_QUALIFIED_LOAD_REFERENCE.md).
+
+## Dated regional-key handoff
+
+The source-bound DSO key catalogue in
+`registry/b08_dated_regional_key_handoff.json` reuses the existing B10 P63
+callable and P64 residual accounting. It supplies 3,052 whole-settlement
+mappings and one exact partial usage-location mapping from the named
+published snapshot, with source lineage and exclusions retained.
+
+The offered scheme is `DSO_SERVICE_AREA`, not a regional split of the
+control-area load. The generic `GridBoundaryRecord` region strings do not
+validate this mapping. Exact upstream keys and a matching source snapshot
+are required; absent or ambiguous keys remain Q/refused and do not acquire
+zero load, default membership or a proved residual identity. Tass code 20525
+alone cannot establish its named subset. See
+[checkpoint 060](../../docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md)
+for the original-task acceptance scope and dated-source limits.

@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "decision_id": "POL-OWNER-20261004",
+  "decision_date": "2026-10-04",
+  "status": "PARTIALLY_SPECIFIED_OWNER_POLICY",
+  "evidence_status": "POL",
+  "source_kind": "DIRECT_PROJECT_OWNER_DECISION",
+  "source_scope": "Bounded digest of the three initial owner decisions and later same-day financing, completed-cohort, capacity and interactive-scenario clarifications. Exact private conversation retained separately. These are POL intentions and functional requirements, not empirical results.",
+  "private_original_published": false,
+  "decisions": {
+    "household_cashflow_protection": {
+      "actor": "HOUSEHOLD",
+      "bindingness": "MANDATORY",
+      "starts": "FIRST_DAY_OF_HOUSEHOLD_PROGRAMME_CASHFLOW",
+      "direction": "NON_WORSENING_DUE_TO_PROGRAMME",
+      "absolute_household_income_floor": null
+    },
+    "state_cashflow": {
+      "first_day_nonnegative_requirement_imposed": false,
+      "long_term_investment_allowed_as_policy_direction": true,
+      "available_funding_or_spending_authorized": false,
+      "unlimited_budget_selected": false
+    },
+    "selection_priority": {
+      "direction": "MAXIMIZE_BENEFIT_PER_PUBLIC_HUF",
+      "conflict_priority_over": "SOCIAL_NEED_FIRST",
+      "subject_to": "MANDATORY_HOUSEHOLD_CASHFLOW_PROTECTION",
+      "benefit_metric_definition": null,
+      "public_cost_denominator": null,
+      "normalization_and_weights": null
+    },
+    "planning_start": {
+      "date": "2028-01-01",
+      "year": 2028,
+      "actual_execution_proven": false
+    },
+    "completed_cohort_subsidy_exit": {
+      "completion_required": [
+        "HEAT_PUMP",
+        "BATTERY",
+        "INSULATION"
+      ],
+      "completion_semantics": "Verified completion of all three named components; enrolment or work underway is insufficient.",
+      "energy_bill_test": "UNSUBSIDIZED_TOTAL_ENERGY_BILL_BELOW_PRIOR_SUBSIDIZED_BASELINE",
+      "household_full_cashflow_test": "MANDATORY_NON_WORSENING_FROM_FIRST_DAY_SEPARATELY_REQUIRED",
+      "policy_effect": "Completed qualifying household leaves the replaced energy-subsidy channel. Attribute only support actually replaced by that household or cohort.",
+      "current_law_or_eligibility_asserted": false,
+      "generic_partial_asset_or_in_progress_exit_allowed": false,
+      "comparison_source_and_calendar": "Explicit qualified baseline, prices, service, billing periods and subsidy rule required; missing evidence is not a pass."
+    },
+    "fiscal_reinvestment_mechanism": {
+      "recurrence": "Each completed qualifying cohort can release avoided state subsidy again in each subsequent applicable period; later cohorts add their own attributable release.",
+      "release_basis": "Actual attributable counterfactual state-subsidy cash avoided, net of separately assigned public costs and obligations, at available cash dates.",
+      "funding_feedback": "Available released cash retained for the programme can fund subsequent cohorts; household savings are a separate ledger.",
+      "seed_financing": "Initial investment, training and timing bridges require separately evidenced funding; future savings are not cash already available.",
+      "reinvestment_share": "Explicit time-varying0..1 parameter; no canonical numeric share selected.",
+      "withdrawal_case": "At0 all released cash is withdrawn by the state. Household physical/bill benefits may remain; rollout depends on other sources and constraints.",
+      "growth": "Acceleration is a possible endogenous outcome, bounded by finance, workforce, equipment and network constraints; no fixed growth rate selected.",
+      "no_duplicate_capitalization_or_annual_counting": true,
+      "full_self_finance_proven": false
+    },
+    "delivery_capacity_and_formality": {
+      "training": "Upfront vocational capacity for heat-pump installation, insulation and electrical work is a programme option/requirement to size with rollout.",
+      "training_lags_and_costs": "Explicit inputs; no instant conversion of training spend to qualified installer output.",
+      "formal_delivery": [
+        "verified_qualified_firms_and_workers",
+        "invoiced_work",
+        "registered_employment",
+        "independent_technical_acceptance"
+      ],
+      "state_programme_alone_proves_formality": false
+    },
+    "horizon_discussion": {
+      "possible_years": [
+        10,
+        20
+      ],
+      "meaning": "Discussed approximate10–20year project range; no single horizon or uniform distribution selected.",
+      "canonical_horizon_years": null,
+      "existing_technical_horizon_range_unchanged": [
+        8,
+        25
+      ]
+    },
+    "interactive_scenarios": {
+      "required": true,
+      "scope": "Eventual model interface with explicit parameter changes around one checked canonical baseline. No immediate website build or giant uncertainty Cartesian grid.",
+      "reinvestment_control": {
+        "unit": "ratio_by_period",
+        "minimum": 0,
+        "maximum": 1,
+        "display_percent_range": [
+          0,
+          100
+        ],
+        "canonical_value": null
+      },
+      "other_controls": [
+        "seed_finance",
+        "training_and_installation_capacity",
+        "equipment_supply",
+        "network_constraints",
+        "energy_price_paths",
+        "capital_and_operating_costs",
+        "subsidy_rules"
+      ],
+      "infeasible_combination": "Show missing evidence, financing shortfall or violated constraints explicitly; do not force a feasible result."
+    },
+    "cost_scope": "Building size, type, heat loss, condition and required work scope affect sizing and cost; use existing typology evidence, no single uniform package price.",
+    "envelope_package_scope": "Condition-appropriate window/door replacement is included in the building-specific envelope assessment and required works. Already adequate openings are not automatically replaced. Combined envelope/heat-pump effects must not double count savings."
+  },
+  "unset": {
+    "target_unique_households": null,
+    "horizon_years": null,
+    "annual_public_budget_huf": null,
+    "reinvestment_share": null,
+    "debt_ceiling_ratio": null,
+    "priority_weights": null,
+    "output_tolerances": null
+  },
+  "technical_application_status": "METHOD_PREPARATION_ONLY_NO_HOUSEHOLD_PASS_OR_NATIONAL_RESULT",
+  "technical_application": "docs/methodology/owner_policy_20261004.md",
+  "original_tasks": {
+    "B01-P01": "PARTIALLY_SPECIFIED",
+    "B13-P01": "PARTIALLY_SPECIFIED",
+    "B19-D02": "UNCHANGED_NOT_ACCEPTED"
+  },
+  "scenario_creation": "Explicit target, horizon, profile and all required evidence still required; no fallback to historical 15-year default or 2M exact target.",
+  "last_clarification_date": "2026-10-04",
+  "illustrative_or_unverified_numbers": {
+    "900bn_then100bn_annual_reduction": "Illustration only; not forecast, target or input.",
+    "500k_annual_bill_and250k_saving": "Illustration only; not measured household mean.",
+    "1000bn_annual_subsidy": "Order-of-magnitude claim under separate official source check; never fully programme-reinvestable by default.",
+    "SPF3_or_one_third_energy": "Conditional physical illustration; not an observed WM50 annual result or a bill ratio.",
+    "near_zero_operating_cost": "Insulation intuition must not zero electricity, maintenance, batteries or heat-pump replacements.",
+    "energy_price_growth": "No monotonic future price path selected.",
+    "20_to_25million_HUF_package": "Explicitly clarified by owner as illustration only; not an estimate, model assumption or SCN parameter."
+  },
+  "parameter_contract": "registry/subsidy_reinvestment_policy_contract.json"
+}

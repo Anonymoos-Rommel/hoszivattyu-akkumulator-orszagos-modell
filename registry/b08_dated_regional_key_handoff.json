@@ -1,0 +1,480 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B08-D03-DATED-DSO-KEYS-20261004",
+  "status": "DATED_SOURCE_SNAPSHOT_HANDOFF",
+  "original_slice_id": "B08-D03",
+  "original_requirement": "DSO/réteg vagy vármegye kulcs, bizonyított megfeleltetés és fennmaradó lefedetlenség; országos control-area tény nem alállomási tény.",
+  "snapshot": {
+    "repository_commit": "b7cabc95c181135bbdf02239015e3e0a9f26484a",
+    "review_date": "2026-10-04",
+    "claim": "PUBLISHED_CURATED_SPATIAL_SNAPSHOT_REUSE",
+    "fresh_external_source_observation": false,
+    "operational_validity_for_2025_or_future_years_proven": false,
+    "date_semantics": "Review date identifies reuse qualification, not source retrieval or legal effective-from date."
+  },
+  "callable_handoff": {
+    "module": "modules.B10.effective_service_area_projection",
+    "function": "build_effective_service_area_projection",
+    "repository_path": "modules/B10/effective_service_area_projection.py",
+    "region_scheme": "DSO_SERVICE_AREA",
+    "region_id_field": "service_area_id",
+    "whole_key": [
+      "ksh_settlement_code"
+    ],
+    "partial_key": [
+      "ksh_settlement_code",
+      "usage_location_id"
+    ],
+    "returns": "All resolved-only EffectiveServiceAreaProjectionRow records with source_ids/evidence_status/coverage_scope/lineage",
+    "new_resolver_implemented": false,
+    "generic_B08_region_strings_validate_mapping": false,
+    "requires_matching_snapshot_artifacts": true
+  },
+  "source_authorities": {
+    "SRC-B10-ELMU-M1-CANDIDATE-2025": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-ELMU-M1-CANDIDATE-2025",
+          "authority_owner": "ELMŰ Hálózati Kft.",
+          "source_url": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/pest-megyei-halozat/tarsasagunkrol/%C3%BCzletszab%C3%A1lyzatok/2025/0617/ELMu_elo_usz_melleklet_20250410.pdf",
+          "source_kind": "OFFICIAL_APPROVED_PACKAGE_M1_ATTACHMENT",
+          "reference_period": "2025",
+          "currentness_status": "CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE",
+          "authorizes": "WHOLE_SETTLEMENT_DSO_MEMBERSHIP_DER_ONLY",
+          "notes": "Exact M1 package revision 2025-04-10 precedes the H1728/2025 submission by one day; the H1728 package was approved with attachments indefinitely, the ELMŰ main body binds territorial units to M1, and the official H1728 content summary explicitly identifies territorial-jurisdiction modification in M1. Current use is DER rather than direct OBS because the live landing does not expose a machine-readable exact-file selector."
+        }
+      },
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-ELMU-M1-CANDIDATE-2025",
+          "authority_owner": "ELMŰ Hálózati Kft.",
+          "source_url": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/pest-megyei-halozat/tarsasagunkrol/%C3%BCzletszab%C3%A1lyzatok/2025/0617/ELMu_elo_usz_melleklet_20250410.pdf",
+          "source_kind": "OFFICIAL_APPROVED_PACKAGE_M1_ATTACHMENT",
+          "currentness_status": "CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE",
+          "authority_use": "CURRENT_ELMU_TERRITORIAL_JURISDICTION",
+          "p61_status": "CURRENT_COUNTERPART_AUTHORITY",
+          "notes": "Current ELMŰ M1 explicitly includes Dabas, Péteri, Újhartyán and the named territorial unit `Tass üdülőterület`."
+        }
+      }
+    ],
+    "SRC-B10-ELMU-OPERATING-LICENCE-805-2006": [
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-ELMU-OPERATING-LICENCE-805-2006",
+          "authority_owner": "Magyar Energia Hivatal / ELMŰ DSO Kft.",
+          "source_url": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/pest-megyei-halozat/tarsasagunkrol/engedelyek-szabalyzatok/villamos-energia-elosztoi-mukodesi-engedely.pdf",
+          "source_kind": "OFFICIAL_DISTRIBUTION_OPERATING_LICENCE",
+          "currentness_status": "2006_HISTORICAL_REGULATORY_AUTHORITY",
+          "authority_use": "NAMED_TERRITORIAL_JURISDICTION_SEMANTICS",
+          "p61_status": "HISTORICAL_BOUNDARY_SEMANTICS_AUTHORITY",
+          "notes": "Operating-licence annex 2 lists `Tass üdülőterület` in the Dél-pesti region territorial jurisdiction. P61 uses this only to establish that the exact source form is a named territorial jurisdiction unit; current membership is separately anchored by the current ELMŰ M1."
+        }
+      }
+    ],
+    "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025",
+          "authority_owner": "E.ON Dél-dunántúli Áramhálózati Zrt.",
+          "source_url": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/hatarozatok-szabalyzatok-aram/EDE/2025/EDE_elo_usz_melleklet_20241209%20%28v1%29.pdf",
+          "source_kind": "OFFICIAL_APPROVED_PACKAGE_M1_ATTACHMENT",
+          "reference_period": "2025",
+          "currentness_status": "CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE",
+          "authorizes": "WHOLE_SETTLEMENT_DSO_MEMBERSHIP_DER_ONLY",
+          "notes": "Exact M1 revision 20241209 equals the approved EÜSZ main-body revision; the main body explicitly binds territorial units to M1; the MEKH application was received 2024-12-11 and H442/2025 approved the package with attachments indefinitely. Current use is DER because the operator page is current but its dynamic document selector is not auditable as a direct file edge."
+        }
+      },
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025",
+          "authority_owner": "E.ON Dél-dunántúli Áramhálózati Zrt.",
+          "source_url": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/hatarozatok-szabalyzatok-aram/EDE/2025/EDE_elo_usz_melleklet_20241209%20%28v1%29.pdf",
+          "source_kind": "OFFICIAL_APPROVED_PACKAGE_M1_ATTACHMENT",
+          "currentness_status": "CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE",
+          "authority_use": "CURRENT_DDASZ_TERRITORIAL_JURISDICTION",
+          "p61_status": "CURRENT_COUNTERPART_AUTHORITY",
+          "notes": "Current DDÁSZ M1 contains Mohács as an administrative-unit source token. That overlap does not by itself resolve the internal MVM Démász/DDÁSZ usage-location boundary."
+        }
+      }
+    ],
+    "SRC-B10-EON-EDASZ-M1-CANDIDATE-2025": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-EON-EDASZ-M1-CANDIDATE-2025",
+          "authority_owner": "E.ON Észak-dunántúli Áramhálózati Zrt.",
+          "source_url": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/hatarozatok-szabalyzatok-aram/EED/2025/EED_elo_usz_melleklet_20241209%20%28v1%29.pdf",
+          "source_kind": "OFFICIAL_APPROVED_PACKAGE_M1_ATTACHMENT",
+          "reference_period": "2025",
+          "currentness_status": "CURRENT_2026_DER_APPROVED_PACKAGE_REVISION_LINEAGE",
+          "authorizes": "WHOLE_SETTLEMENT_DSO_MEMBERSHIP_DER_ONLY",
+          "notes": "Exact M1 revision 20241209 equals the approved EÜSZ main-body revision; the main body explicitly binds territorial units to M1; the MEKH application was received 2024-12-11 and H440/2025 approved the package with attachments indefinitely. Current use is DER because the operator page is current but its dynamic document selector is not auditable as a direct file edge."
+        }
+      }
+    ],
+    "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+          "authority_owner": "Központi Statisztikai Hivatal",
+          "source_url": "https://www.ksh.hu/docs/hun/hnk/hnk_2019.pdf",
+          "source_kind": "OFFICIAL_KSH_GAZETTEER_SETTLEMENT_ID_REGISTRY",
+          "reference_period": "2019",
+          "currentness_status": "IDENTIFIER_IMMUTABLE_BY_CURRENT_TSZJ_METHOD",
+          "authorizes": "SETTLEMENT_NAME_TO_FIVE_DIGIT_KSH_SETTLEMENT_ID",
+          "notes": "Official KSH gazetteer section IV publishes the five-digit településazonosító törzsszám. Current KSH TSZJ methodology states the identifier is unchanged from settlement creation until dissolution and is never reassigned."
+        }
+      },
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+          "authority_owner": "Központi Statisztikai Hivatal",
+          "source_url": "https://www.ksh.hu/docs/hun/hnk/hnk_2019.pdf",
+          "source_kind": "OFFICIAL_KSH_GAZETTEER_SETTLEMENT_ID_REGISTRY",
+          "currentness_status": "IDENTIFIER_IMMUTABLE_BY_CURRENT_TSZJ_METHOD",
+          "authority_use": "TASS_KSH_SETTLEMENT_IDENTITY",
+          "p61_status": "CURRENT_IDENTITY_AUTHORITY",
+          "notes": "P61 binds Tass to immutable five-digit KSH settlement identifier 20525; this administrative identity does not itself identify a DSO boundary."
+        }
+      }
+    ],
+    "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026",
+          "authority_owner": "ferenci-tamas / IrszHnk",
+          "source_url": "https://github.com/ferenci-tamas/IrszHnk/blob/master/IrszHnk.csv",
+          "source_kind": "REPRODUCIBLE_DERIVED_KSH_GAZETTEER_CSV",
+          "reference_period": "2026-02-09",
+          "currentness_status": "DERIVED_FROM_KSH_HNT_2025",
+          "authorizes": "DERIVED_MACHINE_READABLE_SETTLEMENT_ID_LOCATOR_ONLY",
+          "notes": "Public reproducible derivative whose documented upstream is the official KSH hnt_letoltes_2025.xlsx. Used only to locate exact name/code pairs in this slice; it cannot replace KSH authority, so rows relying on this machine-readable edge remain DER."
+        }
+      }
+    ],
+    "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS",
+          "authority_owner": "Központi Statisztikai Hivatal",
+          "source_url": "https://www.ksh.hu/docs/helysegnevtar/hnt_letoltes_2025.xlsx",
+          "source_kind": "OFFICIAL_CURRENT_KSH_DETAILED_GAZETTEER_XLSX",
+          "reference_period": "2025",
+          "currentness_status": "CURRENT_2026_SOURCE_LOCATOR_CONFIRMED",
+          "authorizes": "SETTLEMENT_NAME_TO_FIVE_DIGIT_KSH_SETTLEMENT_ID",
+          "notes": "Current KSH Detailed Gazetteer download for the 2025 reference set. The binary XLSX is the primary authority for settlement identity; this workflow pins the official source locator but does not claim direct row extraction from the XLSX."
+        }
+      }
+    ],
+    "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+          "authority_owner": "MVM Démász Áramhálózati Kft.",
+          "source_url": "https://mvmhalozat.hu/aram/oldalak/6454",
+          "source_kind": "OFFICIAL_SERVICE_AREA_HTML",
+          "reference_period": "2026",
+          "currentness_status": "CURRENT_2026",
+          "authorizes": "WHOLE_AND_PARTIAL_SETTLEMENT_DSO_MEMBERSHIP",
+          "notes": "Current official service-area page lists whole-settlement coverage by county and separately enumerates partial settlements."
+        }
+      },
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+          "authority_owner": "MVM Démász Áramhálózati Kft.",
+          "source_url": "https://mvmhalozat.hu/aram/oldalak/6454",
+          "source_kind": "OFFICIAL_SERVICE_AREA_HTML",
+          "currentness_status": "CURRENT_PAGE_LIVE",
+          "authority_use": "LEGACY_PUBLIC_SERVICE_AREA_LOCATOR",
+          "p61_status": "NOT_CANONICAL_FOR_P61_PARTIAL_POPULATION",
+          "notes": "The live HTML remains useful context but currently exposes only 15 partial-settlement labels, while the current MEKH-approved M1 exposes 20. P61 therefore does not use this HTML as the canonical source for the exact current partial population."
+        }
+      }
+    ],
+    "SRC-B10-MVM-EMASZ-M1-2026": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-MVM-EMASZ-M1-2026",
+          "authority_owner": "MVM Émász Áramhálózati Kft.",
+          "source_url": "https://mvmemaszhalozat.hu/-/media/emaszhalozat/emasz-halozat-uzletszabalyzat-szabalyzatok/uzletszabalyzat-20260526/msz_uzletszabalyzat_melleklet_2025_i_md_2025_1022.ashx?hash=EB463FF2F46DD05995991DD2B7C06AEA4AAC0195&la=hu-hu",
+          "source_kind": "OFFICIAL_CURRENT_M1_ATTACHMENT",
+          "reference_period": "2026",
+          "currentness_status": "CURRENT_ON_2026_BUSINESS_RULE_PACKAGE",
+          "authorizes": "WHOLE_AND_NAMED_SUBSETTLEMENT_DSO_MEMBERSHIP",
+          "notes": "Official current MVM Émász M1 territorial-jurisdiction attachment exposed from the 2026.05.26 business-rule package. P21 preserves five historical OBS rows; P36 materializes additional whole-settlement DER rows while named settlement-parts in parentheses remain outside whole-settlement promotion."
+        }
+      }
+    ],
+    "SRC-B10-OPUS-TITASZ-M1-2026": [
+      {
+        "registry": "registry/dso_service_area_crosswalk_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-OPUS-TITASZ-M1-2026",
+          "authority_owner": "OPUS TITÁSZ Áramhálózati Zrt.",
+          "source_url": "https://www.opustitasz.hu/storage/documents/tarsasagunk/szabalyzatok/uzletszabalyzat/hatalyban-levo/OPUS%20TITASZ_%C3%9Czletszab%C3%A1lyzat%20mell%C3%A9klet.pdf",
+          "source_kind": "OFFICIAL_CURRENT_M1_ATTACHMENT",
+          "reference_period": "2026",
+          "currentness_status": "CURRENT_EFFECTIVE_2026-06-03",
+          "authorizes": "WHOLE_SETTLEMENT_DSO_MEMBERSHIP",
+          "notes": "Current M1 territorial-jurisdiction attachment; settlement membership facts are used with attribution, not as document republication."
+        }
+      },
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-OPUS-TITASZ-M1-2026",
+          "authority_owner": "OPUS TITÁSZ Áramhálózati Zrt.",
+          "source_url": "https://www.opustitasz.hu/storage/documents/tarsasagunk/szabalyzatok/uzletszabalyzat/hatalyban-levo/OPUS%20TITASZ_%C3%9Czletszab%C3%A1lyzat%20mell%C3%A9klet.pdf",
+          "source_kind": "OFFICIAL_CURRENT_M1_ATTACHMENT",
+          "currentness_status": "CURRENT_EFFECTIVE_2026-06-03",
+          "authority_use": "CURRENT_OPUS_TERRITORIAL_JURISDICTION",
+          "p61_status": "CURRENT_COUNTERPART_AUTHORITY",
+          "notes": "Current OPUS TITÁSZ M1 supplies administrative-unit overlap evidence for nine MVM Démász partial-settlement labels. Administrative-unit overlap is not an exact usage-location boundary."
+        }
+      }
+    ],
+    "SRC-B10-MVM-DEMASZ-M1-2026": [
+      {
+        "registry": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+        "row": {
+          "source_id": "SRC-B10-MVM-DEMASZ-M1-2026",
+          "authority_owner": "MVM Démász Áramhálózati Kft.",
+          "source_url": "https://mvmhalozat.hu/attachments/41985",
+          "source_kind": "OFFICIAL_CURRENT_M1_ATTACHMENT",
+          "currentness_status": "CURRENT_2026_MEKH_APPROVED_PACKAGE",
+          "authority_use": "CURRENT_20_PARTIAL_SETTLEMENT_GRAIN",
+          "p61_status": "CANONICAL_P61_MVM_PARTIAL_AUTHORITY",
+          "notes": "The 2026-05-26 MEKH-approved MVM Démász business-rule landing exposes this M1 territorial-jurisdiction attachment. M1 explicitly lists the exact 20 administrative settlements whose territory is only partly served by MVM Démász."
+        }
+      }
+    ]
+  },
+  "positive_lineage_source_ids": [
+    "SRC-B10-ELMU-M1-CANDIDATE-2025",
+    "SRC-B10-ELMU-OPERATING-LICENCE-805-2006",
+    "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025",
+    "SRC-B10-EON-EDASZ-M1-CANDIDATE-2025",
+    "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+    "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026",
+    "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS",
+    "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+    "SRC-B10-MVM-EMASZ-M1-2026",
+    "SRC-B10-OPUS-TITASZ-M1-2026"
+  ],
+  "supersession_authority_source_ids": [
+    "SRC-B10-MVM-DEMASZ-M1-2026"
+  ],
+  "source_vintage_context": {
+    "KSH": "2025 gazetteer locator/denominator, 2026-02-09 public derivative used as DER; identity-specific 2019 KSH exceptions retain official immutable-ID method lineage. No newly read 2025 XLSX cells claimed.",
+    "EON_ELMU": "P22 2026-09-03 derives current package identity from 2024/2025 exact revision, regulator approval and 2026 publication context. DER, not direct observed dynamic-selector attachment identity.",
+    "MVM_DEMASZ": "P61 2026-09-05 uses 2026-05-26 package M1 for exact 20 partial cases. Older official HTML remains historical whole-source lineage, but its 15 partial labels are not the current partial population.",
+    "Tass": "Historical 805/2006 jurisdiction semantics plus repeated named current M1 unit and KSH code; exact named usage-location only.",
+    "OPUS": "Retained M1 authority records effective 2026-06-03.",
+    "MVM_EMASZ": "Retained M1 on 2026-05-26 business-rule package."
+  },
+  "source_currentness_policy": [
+    "Do not label the October snapshot/review date as a fresh source retrieval or legal effective-from date.",
+    "Do not claim the 2026 territorial surface establishes assignment throughout the 2025 load reference or future programme years.",
+    "A fresh/live operational territory claim would need its own applicable source check; it is not required to admit this historical source-bound data handoff."
+  ],
+  "protected_producer_artifacts": [
+    {
+      "path": "modules/B10/effective_service_area_membership_contract.py",
+      "bytes": 6372,
+      "sha256": "45f2de5249e59b0b57a0d3ff6d760141af8d55debbcd1ea5a03070eba879d105"
+    },
+    {
+      "path": "modules/B10/effective_service_area_projection.py",
+      "bytes": 8807,
+      "sha256": "8cdeaf421e6621e58f2591e137ad88232c03071f33ff084125eb11e2fb45e034"
+    },
+    {
+      "path": "modules/B10/operational_spatial_coverage_contract.py",
+      "bytes": 4679,
+      "sha256": "c953917d4bab68ba948b21f67db8fbe79a057e22ffa377eaa2e48e793767b912"
+    },
+    {
+      "path": "registry/dso_service_area_crosswalk_authorities.csv",
+      "bytes": 12338,
+      "sha256": "3d7e9c6d01c41e530ed178949866800d4daf96cd74b816d4b477bc4a285b82e7"
+    },
+    {
+      "path": "registry/dso_service_area_membership_crosswalk_demasz_p45.csv",
+      "bytes": 80931,
+      "sha256": "e9c072a9772f1e06a8393ff31cf01313b7993b861037a4fe8d5396d50f38143c"
+    },
+    {
+      "path": "registry/dso_service_area_membership_crosswalk_elmu_p46.csv",
+      "bytes": 24984,
+      "sha256": "a77e739e01ffaa3f46b0befb7ec6dab86f981c8b4ab7595b5d906b62fe21593e"
+    },
+    {
+      "path": "registry/dso_service_area_membership_crosswalk_opus_p44.csv",
+      "bytes": 71685,
+      "sha256": "e145dee16f0d2021c749ebcbe12b08910c92b4fb0cede735510eea8f27b3f667"
+    },
+    {
+      "path": "registry/dso_service_area_membership_crosswalk_tranche.csv",
+      "bytes": 151955,
+      "sha256": "4a0b945081cb1390037a0f9f41a2b2cad3995067ab94cf1d817af485663e5a39"
+    },
+    {
+      "path": "registry/dso_service_area_membership_ddasz_p48_exceptions.csv",
+      "bytes": 2577,
+      "sha256": "708baebfa279a992fb2bc85a09a19fe0125517c2c2ea8e9320299242e01833d5"
+    },
+    {
+      "path": "registry/dso_service_area_membership_ddasz_p48_manifest.csv",
+      "bytes": 846,
+      "sha256": "202f28a3968d51aa9064654318dee2eadc86992ad9684e09504f5a3392c26791"
+    },
+    {
+      "path": "registry/dso_service_area_membership_ddasz_p48_pairs.csv",
+      "bytes": 12688,
+      "sha256": "a9355107f3dc1e91f1c03c647f4e2b395cda9ac114dd2ed366c8a37889436581"
+    },
+    {
+      "path": "registry/dso_service_area_membership_demasz_p61_source_authorities.csv",
+      "bytes": 3729,
+      "sha256": "83ae33d52983a5e3483f576bef83cbf89dcc05f8a96c6e1b484280bf27361070"
+    },
+    {
+      "path": "registry/dso_service_area_membership_edasz_p49_exceptions.csv",
+      "bytes": 3078,
+      "sha256": "9d85ac41955154e83db364e523247548c440c1e5369962f9d0e92a8101472a7a"
+    },
+    {
+      "path": "registry/dso_service_area_membership_edasz_p49_manifest.csv",
+      "bytes": 940,
+      "sha256": "913315cf38f421b2bf77244001b6dd3a9b0c41c6cfba08cb0729205f6039c249"
+    },
+    {
+      "path": "registry/dso_service_area_membership_edasz_p49_pairs.csv",
+      "bytes": 12759,
+      "sha256": "b85ee747f25da9e6b089664eb055a4b0257847416d291e694330607e415bba62"
+    },
+    {
+      "path": "registry/dso_service_area_membership_elmu_p61_usage_location.csv",
+      "bytes": 879,
+      "sha256": "b6891c8bbce713008983d999167d72ae23600969071ae8fa4f15dbff46e86f1c"
+    },
+    {
+      "path": "registry/dso_service_area_membership_emasz_p47_exceptions.csv",
+      "bytes": 1636,
+      "sha256": "ed9cc49737f65fb22c88652c2d469c0add94f039d691b5959068166a560cecb8"
+    },
+    {
+      "path": "registry/dso_service_area_membership_emasz_p47_manifest.csv",
+      "bytes": 507,
+      "sha256": "3fdd78a36fa78cef84fef30a5450aa96b5674a8253642390d3db80c1d5b57e83"
+    },
+    {
+      "path": "registry/dso_service_area_membership_emasz_p47_pairs.csv",
+      "bytes": 10120,
+      "sha256": "25260ab6c96373ab9732f2efbd82ff8ebdac686ce64fecb471aae71cf75f69d1"
+    },
+    {
+      "path": "registry/dso_service_area_membership_p62_effective_supersessions.csv",
+      "bytes": 5673,
+      "sha256": "adb6ee1c3a5785e01314b0ad2d7f987b49c489bdcc191dc6a8648e3baf702667"
+    },
+    {
+      "path": "registry/dso_service_area_membership_p63_effective_projection_summary.csv",
+      "bytes": 1311,
+      "sha256": "a0ab4d762239769fa355765291d817bc3f8826d505c5d08bf7a3fc7311abca62"
+    },
+    {
+      "path": "registry/dso_service_area_membership_p64_operational_coverage.csv",
+      "bytes": 887,
+      "sha256": "12f2a5dc3dec5c2c3c5bd235549bb41e83277e6cf7265ceb39f339b7e24fb810"
+    },
+    {
+      "path": "registry/dso_service_area_membership_sources.csv",
+      "bytes": 8067,
+      "sha256": "5cb227f96154e00971b38c8952b923855450d225ab285d8947662992c20a0a98"
+    }
+  ],
+  "projection": {
+    "rows": 3053,
+    "whole_settlements": 3052,
+    "exact_partial_only_settlements": 1,
+    "operator_whole_counts": {
+      "MVM_EMASZ": 650,
+      "EON_EDASZ": 814,
+      "EON_DDASZ": 819,
+      "OPUS_TITASZ": 386,
+      "MVM_DEMASZ": 256,
+      "ELMU": 127
+    },
+    "evidence_status_counts": {
+      "DER": 2652,
+      "OBS": 401
+    },
+    "superseded_whole_rows": 13,
+    "serialization": "json.dumps(dataclasses.asdict per row, ensure_ascii=False, sort_keys=True, separators=(comma,colon)) UTF-8",
+    "sha256": "1c7e1dcbac4a67a8db6543add7c8f1907104e662199f531eab8c8ee6ac4716e3"
+  },
+  "residual_accounting": {
+    "reference_date": "2025-01-01",
+    "unit": "settlement",
+    "denominator": 3155,
+    "whole_proven": 3052,
+    "whole_unproven": 103,
+    "exact_partial_only": 1,
+    "no_effective_resolution": 102,
+    "whole_unproven_includes_partial_only": true,
+    "residual_identities_enumerated": false,
+    "household_population_or_load_coverage": false,
+    "source": "docs/source_packs/P64_B10_OPERATIONAL_SPATIAL_COVERAGE_ACCEPTANCE.md"
+  },
+  "matching_boundaries": [
+    "Name this exact inherited snapshot; preserve source-native revision/currentness metadata separately.",
+    "Whole row: exact five-digit KSH code, no fuzzy/spelling/parent/complement inference.",
+    "Tass: exact ELMU:TASS:UDULOTERULET identity or independently proved upstream location mapping; code20525 alone cannot identify that subset.",
+    "Unknown/absent/ambiguous key: explicit Q/unmapped or refusal, never zero, nearest match, DSO default or a proved member of the residual set.",
+    "Return/preserve source_ids, evidence_status, coverage_scope and supersession provenance.",
+    "Expose residual counts and denominator as settlement accounting; no household/population/load weighting.",
+    "Keep DSO_SERVICE_AREA distinct from HU_CONTROL_AREA, county and exact electrical nodes."
+  ],
+  "excluded_claims": [
+    "Regional/control-area load disaggregation",
+    "Exact electrical node or headroom",
+    "Programme eligibility or connection permission",
+    "2025 or future operational territory validity",
+    "Complete national crosswalk",
+    "Population/load weights or nationally ready programme"
+  ],
+  "rights": [
+    "P65 is narrow operating-licence geographic-data permission, not blanket all-M1 republication or proof of source truth.",
+    "P66 confirms public-data status for the MVM territory family, not unrestricted reuse or technical authority.",
+    "Reuse already published facts/provenance with attribution; do not copy originals or private correspondence in a new public packet."
+  ],
+  "consumer_tests": [
+    "tests/test_b10_p62_cross_operator_partial_whole_membership_supersession.py",
+    "tests/test_b10_p63_effective_partial_service_area_projection.py",
+    "tests/test_b10_p64_operational_spatial_coverage_acceptance.py",
+    "tests/test_b08_p3_seasonal_reporting_contract.py"
+  ],
+  "independent_reuse_review": {
+    "receipt_sha256": "37b44c39c4f7f0b35d90a79a53ea51509dd414bb7ede010cf52f4a791ff5df51",
+    "focused_passed": 33,
+    "skips": 0,
+    "all_rows_reconstructed": 3053,
+    "raw_source_originals_newly_reviewed": false
+  },
+  "confers_registry_acceptance": false,
+  "acceptance_lifecycle": "This artifact supplies the qualified data handoff. Acceptance is recorded separately against the actual reviewed implementation and skip-free hosted verification; this artifact does not itself change task status."
+}

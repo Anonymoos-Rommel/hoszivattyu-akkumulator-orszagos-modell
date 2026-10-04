@@ -914,7 +914,8 @@ class B12InputAccountingTests(unittest.TestCase):
         for variable in inventory["derived_global_handoffs"]:
             self.assertEqual(variables[variable]["status"], "Q")
             self.assertEqual(variables[variable]["default_value"], "")
-        self.assertEqual(variables["VAR-B01-HORIZON-YEARS"]["default_value"], "15")
+        # Owner 2026-10-04 selected a start date but no horizon; historical 15 is not a default.
+        self.assertEqual(variables["VAR-B01-HORIZON-YEARS"]["default_value"], "")
         self.assertEqual(variables["VAR-B01-CASH-FLOW-FLOOR"]["default_value"], "")
         for row in inventory["inputs"]:
             self.assertTrue(all((ROOT / path).exists() for path in row["upstream_authorities"]))

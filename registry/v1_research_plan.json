@@ -59,12 +59,35 @@
           "data": "Célszám, horizont, éves keret [HUF/év], cash-flow minimum, súlyok és társadalmi minimum: POL/SCN döntés, nem három publikációból becsült tény.",
           "phase": "A",
           "slice_id": "B01-P01",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner policy decisions, bounded digest; original private"
+              ],
+              "remaining_unknown": "Exact target, horizon, annual public budget, reinvestment/debt bounds, benefit metric/denominator and numeric weights remain unset; technical cashflow comparison and scientific inputs still required.",
+              "promising_next_lead": "Implement and qualify household-only first-day non-worsening on complete dated cashflows; preserve selected benefit/public-HUF direction and 2028-01-01 planning start.",
+              "expected_decision_value": "Resolves actor/bindingness and conflict-priority direction plus planning date without hidden policy defaults.",
+              "decision": "RECORD_PARTIAL_OWNER_POLICY_WITH_OPEN_PARAMETERS",
+              "evidence": "registry/owner_policy_decisions.json"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner completed-cohort financing and deliberate user-scenario requirements"
+              ],
+              "remaining_unknown": "Actual cohort thresholds and fiscal attribution/cash dates, seed finance, capacity, exact horizon/ceiling/share, benefit definition and weights remain to be qualified; illustrative amounts are not inputs.",
+              "promising_next_lead": "Apply the declared triple-completion and household-protection gates, dated fiscal-release ledger and explicit parameter contract to qualified upstream inputs.",
+              "expected_decision_value": "Specifies intended cohort subsidy exit, recurring released-cash reinvestment, capacity/formality and scenario controls without assuming unlimited budget or acceleration.",
+              "decision": "CONTINUE_PARTIALLY_SPECIFIED_POLICY_AND_METHOD_PREPARATION",
+              "evidence": "docs/methodology/owner_policy_20261004.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
@@ -1166,12 +1189,37 @@
           "data": "DSO/réteg vagy vármegye kulcs, bizonyított megfeleltetés és fennmaradó lefedetlenség; országos control-area tény nem alállomási tény.",
           "phase": "A",
           "slice_id": "B08-D03",
-          "status": "NOT_STARTED",
-          "canonical_source_ids": [],
+          "status": "REVIEW_REQUIRED",
+          "canonical_source_ids": [
+            "SRC-B10-ELMU-M1-CANDIDATE-2025",
+            "SRC-B10-ELMU-OPERATING-LICENCE-805-2006",
+            "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025",
+            "SRC-B10-EON-EDASZ-M1-CANDIDATE-2025",
+            "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+            "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026",
+            "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS",
+            "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+            "SRC-B10-MVM-EMASZ-M1-2026",
+            "SRC-B10-OPUS-TITASZ-M1-2026",
+            "SRC-B10-MVM-DEMASZ-M1-2026"
+          ],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Existing published P63 resolved-only DSO projection and P62 supersessions",
+                "Existing P64 explicit settlement residual; P22/P61 inherited source currentness"
+              ],
+              "remaining_unknown": "No 2025/future operational territory guarantee, regional load, exact nodes, population/load weighting or complete residual identity list is claimed. Broader regional-policy and source-use questions remain separate.",
+              "promising_next_lead": "Accept original dated regional-key data handoff after exact packet review and hosted verification; no wrapper is required for the existing callable enumeration.",
+              "expected_decision_value": "Completes the original key/mapping/noncoverage fields by reuse without imposing regional numerical data as a new gate.",
+              "decision": "DATED_REUSE_HANDOFF_READY_FOR_CONDITIONAL_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
@@ -1810,12 +1858,35 @@
           "data": "Éves keret, reinvesztálható arány és adósság/floor POL/SCN; nem a teljes importmegtakarítás kerül az állam kasszájába.",
           "phase": "V",
           "slice_id": "B13-P01",
-          "status": "NOT_STARTED",
+          "status": "INTEGRATING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
           "validation_debt_ids": [],
-          "research_log": [],
+          "research_log": [
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner policy decisions, bounded digest; original private"
+              ],
+              "remaining_unknown": "Exact target, horizon, annual public budget, reinvestment/debt bounds, benefit metric/denominator and numeric weights remain unset; technical cashflow comparison and scientific inputs still required.",
+              "promising_next_lead": "Implement and qualify household-only first-day non-worsening on complete dated cashflows; preserve selected benefit/public-HUF direction and 2028-01-01 planning start.",
+              "expected_decision_value": "Resolves actor/bindingness and conflict-priority direction plus planning date without hidden policy defaults.",
+              "decision": "RECORD_PARTIAL_OWNER_POLICY_WITH_OPEN_PARAMETERS",
+              "evidence": "registry/owner_policy_decisions.json"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner completed-cohort financing and deliberate user-scenario requirements"
+              ],
+              "remaining_unknown": "Actual cohort thresholds and fiscal attribution/cash dates, seed finance, capacity, exact horizon/ceiling/share, benefit definition and weights remain to be qualified; illustrative amounts are not inputs.",
+              "promising_next_lead": "Apply the declared triple-completion and household-protection gates, dated fiscal-release ledger and explicit parameter contract to qualified upstream inputs.",
+              "expected_decision_value": "Specifies intended cohort subsidy exit, recurring released-cash reinvestment, capacity/formality and scenario controls without assuming unlimited budget or acceleration.",
+              "decision": "CONTINUE_PARTIALLY_SPECIFIED_POLICY_AND_METHOD_PREPARATION",
+              "evidence": "docs/methodology/owner_policy_20261004.md"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
