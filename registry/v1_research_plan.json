@@ -2122,7 +2122,7 @@
           "data": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR, importarány, hozzáadottérték, foglalkoztatás/FTE. FIGARO-kód és hazai kiadási csomag közti híd.",
           "phase": "V",
           "slice_id": "B16-D01",
-          "status": "INTEGRATING",
+          "status": "REVIEW_REQUIRED",
           "canonical_source_ids": [
             "SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
             "SRC-B16-EUROSTAT-HU-IOT-METADATA-2026",
@@ -2136,12 +2136,19 @@
             "SRC-B16-EUROSTAT-EMPLOYMENT-METADATA-2026",
             "SRC-B16-EUROSTAT-HU-EMPLOYMENT-METADATA-2025",
             "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-METADATA-2026",
-            "SRC-B16-EUROSTAT-ESA2010-MANUAL"
+            "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+            "SRC-B16-FIGARO-CLASSIFICATION-2026",
+            "SRC-B16-FIGARO-METADATA-2026",
+            "SRC-B16-EUROSTAT-REFURBISHMENT-GUIDE-2020",
+            "SRC-B16-NACE-REV2-MANUAL",
+            "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+            "SRC-B16-FIGARO-DESCRIPTION-2026"
           ],
           "accepted_artifacts": [],
           "consumer_tests": [
             "tests/test_b16_industry_structure_reference.py",
-            "tests/test_b16_employment_structure_reference.py"
+            "tests/test_b16_employment_structure_reference.py",
+            "tests/test_b16_spending_classification_reference.py"
           ],
           "validation_debt_ids": [],
           "research_log": [
@@ -2168,6 +2175,18 @@
               "expected_decision_value": "Adds the previously missing quantitative labour dimension while detecting current-versus-frozen account differences and preventing false complete-sector closure, reverse allocation or FTE conversion.",
               "decision": "INTEGRATE_DESCRIPTIVE_LABOUR_ATTACHMENT_WITH_COMPATIBILITY_DIAGNOSTICS",
               "evidence": "docs/checkpoints/V1_051_EMPLOYMENT_AND_PLAN_RECONCILIATION.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Eurostat CPA2.1–CPA2.2 correspondence, NACE Rev.2 explanatory notes and FIGARO July2026 exact code description",
+                "Retained HU2023 national IO, descriptive native persons/hours and ESA2010 classification/valuation authority"
+              ],
+              "remaining_unknown": "Programme monetary vector, actual suppliers and mixed-invoice allocation, purchaser/basic and price/currency bridge, coherent labour/output coefficients, net additionality/displacement/capacity and all programme effects remain downstream conditions. They are not inferred from this descriptive handoff.",
+              "promising_next_lead": "Review the complete original B16-D01 data handoff: native accounts/GVA/persons/hours plus explicit historical origin ratios and the conditional versioned expenditure-classification bridge.",
+              "expected_decision_value": "Closes the original missing classification and import-denominator fields while preventing product/industry/version confusion, installed-work double counting and conversion of signed accounts into programme import propensities.",
+              "decision": "PREPARE_WHOLE_DESCRIPTIVE_DATA_HANDOFF_FOR_EXACT_REVIEW",
+              "evidence": "docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md"
             }
           ],
           "reviewed_commit": null

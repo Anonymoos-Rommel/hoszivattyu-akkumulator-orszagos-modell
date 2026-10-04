@@ -1,8 +1,10 @@
 # B16 — Hungarian historical industry-structure reference
 
-Status: **bounded B16-D01 source handoff only**. This package reads and reconciles
-one exact official 2023 Hungarian industry-by-industry input-output table. It
-neither completes B16-D01/B16 nor releases the B15 dependency gate.
+Status: **B16-D01 complete descriptive handoff prepared for review**. The
+V1-050 industry reader, V1-051 persons/hours attachment and V1-061 versioned
+classification/import-ratio handoff are separate, source-bound interfaces.
+Registry acceptance requires the separately recorded exact review and hosted
+verification. B16 effects and the B15 dependency gate remain open.
 
 ## Source and permitted meaning
 
@@ -136,11 +138,12 @@ Private parser/reconciler helpers are test mechanisms, not source admission APIs
 
 ## Not supplied
 
-No programme shock, inverse, multiplier, technical coefficient, expenditure map,
-current/national deployment default, jobs/employment/FTE, net GDP, fiscal effect,
-financing result or currency/price conversion. Employment inputs do not exist in
-this handoff. Separate sources and explicit applicability contracts would be
-required, including price year, counterfactual, crowding-out and capacity limits.
+The original V1-050 reader supplies no programme shock, inverse, multiplier,
+technical coefficient, spending allocation, deployment default, jobs/FTE effect,
+net GDP, fiscal effect, financing result or currency/price conversion. The
+separate V1-051 interface below supplies descriptive persons/hours. Programme
+effects still need explicit price year, counterfactual, crowding-out and capacity
+inputs.
 B16-D02 and wider B16 acceptance remain open.
 
 Source: Eurostat, `naio_10_cp1750`, Hungary 2023, compiled by KSH; retrieved
@@ -276,3 +279,37 @@ programme GDP/fiscal/financing result, national default or B15 readiness is admi
 A matched snapshot or qualified compatibility bridge and further claim-specific
 evidence are still required. Eurostat/KSH attribution and Eurostat non-responsibility
 for project-derived aggregation/diagnostics accompany the report.
+
+## V1-061 classification and origin ratios
+
+See [the exact scope and original-criterion map](../../docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md).
+`spending_classification_reference.py` adds a fixed source-qualified catalogue
+and exact historical origin ratios. It does not alter the preceding readers.
+
+```python
+from modules.B16.spending_classification_reference import (
+    CLASSIFICATION_CLAIM, IMPORT_CLAIM,
+    load_spending_classification_reference, load_historical_import_reference,
+)
+
+catalogue = load_spending_classification_reference(claim=CLASSIFICATION_CLAIM)
+routes = catalogue.read_package(
+    package_group="window_door_goods",
+    product_classification="CPA2.1", activity_classification="NACE Rev.2",
+)
+# Conditional material routes; no selected route, supplier or monetary allocation.
+origins = load_historical_import_reference(
+    "/explicit/private/path/to/reviewed-original.json",
+    source_id="SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
+    reference_year=2023, unit="MIO_NAC", claim=IMPORT_CLAIM,
+)
+ratio = origins.read_import_ratio(row="C28", column="P51G")
+# Historical machinery-origin ratio in gross fixed capital formation.
+# It is not a household heat-pump import share or future programme parameter.
+```
+
+The exact ratio is a numerator/denominator pair. Missing/zero-denominator
+positions return null/Q; signed positions remain signed accounting ratios, even
+when their quotient lies between zero and one. Reports and routes are immutable.
+The official FIGARO codes describe the classification bridge only; no FIGARO
+numerical panel is loaded and no source-vintage compatibility is implied.
