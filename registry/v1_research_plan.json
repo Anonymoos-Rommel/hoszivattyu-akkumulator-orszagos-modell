@@ -1189,7 +1189,7 @@
           "data": "DSO/réteg vagy vármegye kulcs, bizonyított megfeleltetés és fennmaradó lefedetlenség; országos control-area tény nem alállomási tény.",
           "phase": "A",
           "slice_id": "B08-D03",
-          "status": "REVIEW_REQUIRED",
+          "status": "ACCEPTED",
           "canonical_source_ids": [
             "SRC-B10-ELMU-M1-CANDIDATE-2025",
             "SRC-B10-ELMU-OPERATING-LICENCE-805-2006",
@@ -1203,8 +1203,22 @@
             "SRC-B10-OPUS-TITASZ-M1-2026",
             "SRC-B10-MVM-DEMASZ-M1-2026"
           ],
-          "accepted_artifacts": [],
-          "consumer_tests": [],
+          "accepted_artifacts": [
+            "registry/b08_dated_regional_key_handoff.json",
+            "modules/B10/effective_service_area_projection.py",
+            "modules/B10/effective_service_area_membership_contract.py",
+            "modules/B10/operational_spatial_coverage_contract.py",
+            "registry/dso_service_area_membership_p63_effective_projection_summary.csv",
+            "registry/dso_service_area_membership_p64_operational_coverage.csv",
+            "modules/B08/seasonal_reporting_contract.py",
+            "docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md"
+          ],
+          "consumer_tests": [
+            "tests/test_b08_p3_seasonal_reporting_contract.py",
+            "tests/test_b10_p62_cross_operator_partial_whole_membership_supersession.py",
+            "tests/test_b10_p63_effective_partial_service_area_projection.py",
+            "tests/test_b10_p64_operational_spatial_coverage_acceptance.py"
+          ],
           "validation_debt_ids": [],
           "research_log": [
             {
@@ -1218,9 +1232,21 @@
               "expected_decision_value": "Completes the original key/mapping/noncoverage fields by reuse without imposing regional numerical data as a new gate.",
               "decision": "DATED_REUSE_HANDOFF_READY_FOR_CONDITIONAL_ACCEPTANCE",
               "evidence": "docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Published curated P63/P64 DSO key projection with P62 supersessions",
+                "Inherited P22/P61 authority/currentness and exact KSH identity lineage"
+              ],
+              "remaining_unknown": "Snapshot-specific regional keys do not establish2025/future territory validity, regional MW, node/headroom, individual permissions, programme weights/demand or complete residual identities. The national load is not regionally disaggregated.",
+              "promising_next_lead": "Consume qualified keys at their exact whole/usage-location grain; retain missing or ambiguous mappings as Q without imputing unknown locations. Continue separate B08-D02 programme inputs and claim-specific temporal qualification.",
+              "expected_decision_value": "Accepts all original B08-D03 regional-key/mapping/noncoverage clauses by verified reuse, without a new wrapper or regional numerical series as an invented gate.",
+              "decision": "ACCEPT_BOUNDED_B08_D03_DATED_REGIONAL_KEY_HANDOFF",
+              "evidence": "docs/checkpoints/V1_060_ACCEPTANCE.json"
             }
           ],
-          "reviewed_commit": null
+          "reviewed_commit": "551e57e135d24266be49b9ba49e2ddebc8c402ea"
         }
       ],
       "e2": "Az országos alapterhelést nem kell három másodközléssel kiváltani. E2-ben megengedett model-use és proveniencia kell; raw újraközlés más jogkérdés.",

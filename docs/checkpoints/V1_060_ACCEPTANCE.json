@@ -1,0 +1,211 @@
+{
+  "checkpoint": "V1-060",
+  "status": "ACCEPTED_BOUNDED_B08_D03_DATED_REGIONAL_KEY_HANDOFF",
+  "accepted_slice": "B08-D03",
+  "accepted_scope": "Metadata-only acceptance of original B08-D03 as the dated resolved-only DSO regional-key data handoff. Owner-policy tasks remain partial.",
+  "record_prepared_at": "2026-10-04T15:08:32.667200+00:00",
+  "reviewed_commit": "551e57e135d24266be49b9ba49e2ddebc8c402ea",
+  "reviewed_tree": "c4cb0929ebc45082c4542761b714633d37da4d1f",
+  "reviewed_parent": "b7cabc95c181135bbdf02239015e3e0a9f26484a",
+  "original_requirement": "DSO/réteg vagy vármegye kulcs, bizonyított megfeleltetés és fennmaradó lefedetlenség; országos control-area tény nem alállomási tény.",
+  "original_criteria": [
+    {
+      "original_clause": "DSO/réteg vagy vármegye kulcs",
+      "verdict": "SATISFIED_BY_EXISTING_DSO_SERVICE_AREA_OPTION",
+      "evidence": [
+        "modules/B10/effective_service_area_projection.py:30",
+        "modules/B10/effective_service_area_projection.py:130",
+        "docs/source_packs/P15_B10_DSO_SERVICE_AREA_MEMBERSHIP.md:1"
+      ],
+      "binding": "Five-digit KSH settlement code and service_area_id at DSO_SERVICE_AREA grain. All six operators are represented; a county mapping is an alternative, not an additional mandatory field. For B08 use region_id=service_area_id and region_scheme=DSO_SERVICE_AREA, preserving source and coverage fields."
+    },
+    {
+      "original_clause": "bizonyított megfeleltetés",
+      "verdict": "SATISFIED_FOR_DECLARED_RESOLVED_ONLY_SNAPSHOT_WITH_INHERITED_AUTHORITY",
+      "evidence": [
+        "modules/B10/effective_service_area_projection.py:138",
+        "modules/B10/effective_service_area_projection.py:156",
+        "modules/B10/effective_service_area_membership_contract.py:90",
+        "registry/dso_service_area_crosswalk_authorities.csv:1",
+        "registry/dso_service_area_membership_p62_effective_supersessions.csv:1"
+      ],
+      "binding": "All 3,052 whole records match independent reconstruction from published tranches, compact pairs, manifests and identity-specific exceptions after exactly 13 source-bound supersessions. Retain ten emitted positive source IDs plus the MVM Démász M1 conflict authority. Existing OBS/DER labels are preserved, not upgraded by this audit."
+    },
+    {
+      "original_clause": "fennmaradó lefedetlenség",
+      "verdict": "SATISFIED_BY_EXPLICIT_NUMERICAL_RESIDUAL_AND_FAIL_CLOSED_RULE",
+      "evidence": [
+        "docs/source_packs/P64_B10_OPERATIONAL_SPATIAL_COVERAGE_ACCEPTANCE.md:13",
+        "docs/source_packs/P64_B10_OPERATIONAL_SPATIAL_COVERAGE_ACCEPTANCE.md:29",
+        "docs/source_packs/P64_B10_OPERATIONAL_SPATIAL_COVERAGE_ACCEPTANCE.md:63",
+        "registry/dso_service_area_membership_p64_operational_coverage.csv:1"
+      ],
+      "binding": "2025-01-01 KSH denominator 3,155; 3,052 whole, Tass one partial-only, 103 whole-unproven including Tass and 102 with no effective resolution. These are settlement counts, not households/load share or an enumerated residual identity set. Unknown key must remain Q/unmapped, not automatically asserted to belong to the 102."
+    },
+    {
+      "original_clause": "országos control-area tény nem alállomási tény",
+      "verdict": "SATISFIED_BY_EXISTING_GRAIN_BOUNDARIES",
+      "evidence": [
+        "modules/B08/seasonal_reporting_contract.py:150",
+        "modules/B08/seasonal_reporting_contract.py:185",
+        "docs/source_packs/P63_B10_EFFECTIVE_PARTIAL_SERVICE_AREA_PROJECTION.md:1",
+        "docs/source_packs/P61_B10_DEMASZ_PARTIAL_USAGE_LOCATION_AUTHORITY_ACQUISITION.md:126"
+      ],
+      "binding": "No ENTSO-E load is disaggregated. DSO service-area key supplies neither regional MW nor node/feeder, headroom, permission, population weights or programme demand. One Tass usage-location never proves whole Tass or its complement."
+    }
+  ],
+  "callable_handoff": {
+    "module": "modules.B10.effective_service_area_projection",
+    "function": "build_effective_service_area_projection",
+    "repository_path": "modules/B10/effective_service_area_projection.py",
+    "region_scheme": "DSO_SERVICE_AREA",
+    "region_id_field": "service_area_id",
+    "whole_key": [
+      "ksh_settlement_code"
+    ],
+    "partial_key": [
+      "ksh_settlement_code",
+      "usage_location_id"
+    ],
+    "returns": "All resolved-only EffectiveServiceAreaProjectionRow records with source_ids/evidence_status/coverage_scope/lineage",
+    "new_resolver_implemented": false,
+    "generic_B08_region_strings_validate_mapping": false,
+    "requires_matching_snapshot_artifacts": true
+  },
+  "source_snapshot": {
+    "repository_commit": "b7cabc95c181135bbdf02239015e3e0a9f26484a",
+    "claim": "PUBLISHED_CURATED_SPATIAL_SNAPSHOT_REUSE",
+    "new_raw_source_review": false,
+    "current_or2025_future_operational_validity_inferred": false
+  },
+  "counts": {
+    "whole_settlement_keys": 3052,
+    "exact_partial_usage_location_keys": 1,
+    "records": 3053,
+    "operators": 6,
+    "superseded_whole_claims": 13,
+    "OBS": 401,
+    "DER": 2652,
+    "national_settlement_denominator_2025_01_01": 3155,
+    "whole_unproven_including_Tass": 103,
+    "no_effective_resolution": 102
+  },
+  "source_ids": [
+    "SRC-B10-ELMU-M1-CANDIDATE-2025",
+    "SRC-B10-ELMU-OPERATING-LICENCE-805-2006",
+    "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025",
+    "SRC-B10-EON-EDASZ-M1-CANDIDATE-2025",
+    "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+    "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026",
+    "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS",
+    "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+    "SRC-B10-MVM-EMASZ-M1-2026",
+    "SRC-B10-OPUS-TITASZ-M1-2026",
+    "SRC-B10-MVM-DEMASZ-M1-2026"
+  ],
+  "artifacts": [
+    {
+      "path": "registry/b08_dated_regional_key_handoff.json",
+      "bytes": 26470,
+      "sha256": "a5c0adb48243ce7c30baa7aad82dbbed34232a0a1ae18da845805eda6c1456f0"
+    },
+    {
+      "path": "modules/B10/effective_service_area_projection.py",
+      "bytes": 8807,
+      "sha256": "8cdeaf421e6621e58f2591e137ad88232c03071f33ff084125eb11e2fb45e034"
+    },
+    {
+      "path": "modules/B10/effective_service_area_membership_contract.py",
+      "bytes": 6372,
+      "sha256": "45f2de5249e59b0b57a0d3ff6d760141af8d55debbcd1ea5a03070eba879d105"
+    },
+    {
+      "path": "modules/B10/operational_spatial_coverage_contract.py",
+      "bytes": 4679,
+      "sha256": "c953917d4bab68ba948b21f67db8fbe79a057e22ffa377eaa2e48e793767b912"
+    },
+    {
+      "path": "registry/dso_service_area_membership_p63_effective_projection_summary.csv",
+      "bytes": 1311,
+      "sha256": "a0ab4d762239769fa355765291d817bc3f8826d505c5d08bf7a3fc7311abca62"
+    },
+    {
+      "path": "registry/dso_service_area_membership_p64_operational_coverage.csv",
+      "bytes": 887,
+      "sha256": "12f2a5dc3dec5c2c3c5bd235549bb41e83277e6cf7265ceb39f339b7e24fb810"
+    },
+    {
+      "path": "modules/B08/seasonal_reporting_contract.py",
+      "bytes": 6483,
+      "sha256": "44fc9d1a9c9e0f892f4af142ac5bac578b28fdb79c03d6b06fe0447e0744a47a"
+    },
+    {
+      "path": "docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md",
+      "bytes": 5820,
+      "sha256": "69a97875ef9672a01a2d78aeff711aa2e325fa72a7ded7c52dd7494d0e0bfa01"
+    },
+    {
+      "path": "tests/test_b08_p3_seasonal_reporting_contract.py",
+      "bytes": 4681,
+      "sha256": "cfb4193d1db4b93aa16c86e9140ce2aa3b345dbfd741c515dc4be9825bc07d27"
+    },
+    {
+      "path": "tests/test_b10_p62_cross_operator_partial_whole_membership_supersession.py",
+      "bytes": 11519,
+      "sha256": "cd8f76d6e0792490ff7367e4b65a9f194a4c0741f52733bac3e24a871bd0d6cb"
+    },
+    {
+      "path": "tests/test_b10_p63_effective_partial_service_area_projection.py",
+      "bytes": 7191,
+      "sha256": "9ae25f93959c322c4959d3d3148c03a92de1bb1d13e7b8fb92a7f2601db7b511"
+    },
+    {
+      "path": "tests/test_b10_p64_operational_spatial_coverage_acceptance.py",
+      "bytes": 4689,
+      "sha256": "464db989d38a73721b5ddf2032e7a9932acdcb47e03d8c65adb2c72ccba59d3d"
+    }
+  ],
+  "hosted_ci": {
+    "run_id": 37211314556,
+    "run_number": 1129,
+    "run_attempt": 1,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37211314556",
+    "job_id": 111462926560,
+    "tested_merge_commit": "04675fa0a104c945384d938e5cf78bcd85fcc893",
+    "tested_merge_tree": "c4cb0929ebc45082c4542761b714633d37da4d1f",
+    "tested_merge_parents": [
+      "144c0d96cee674fbea4bf951826e68f000b45705",
+      "551e57e135d24266be49b9ba49e2ddebc8c402ea"
+    ],
+    "workflow_status": "completed",
+    "workflow_conclusion": "success",
+    "job_status": "completed",
+    "job_conclusion": "success",
+    "tests": 3633,
+    "passed": 3633,
+    "skips": 0,
+    "errors": 0,
+    "failures": 0,
+    "registry": "VALID",
+    "log_bytes": 812748,
+    "log_sha256": "7e6d2e8d46eeb12e09b05f90ee1b34cf17213380286e504ce2900a84ec79ca68"
+  },
+  "independent_verification": {
+    "published_CI_receipt_sha256": "9a1f48713c0332eab41f049edc816db4b650012161edc898d3d9cfa3043770f8",
+    "exact_packet_review_sha256": "11f760343f24f0cc9eb469e95dae9a7550b42b8989f886d07b60434a15f31d4c",
+    "source_criterion_map_sha256": "55d51e0d90b0f2ac6221964c2fdb04bc4fc4ae46197884791a047967f43be1ba",
+    "template_sha256": "b3ae45f880fcebdb0ea6202386115ad44e3cc8b3c65626e366c8962ef4e6c8ef",
+    "private_custody_receipt_sha256": "5f07069e31506b773359865fedf24a2119508f0f907c0cc89dda43f095878d51"
+  },
+  "limits": [
+    "Settlement counts are not household, population or load coverage; residual identities are not fully enumerated.",
+    "Exact Tass usage-location does not establish whole Tass or its complement. An absent key is Q/unmapped, not automatically a known residual member.",
+    "No national observed load is split into regions. Keys do not establish regional MW, nodes, headroom, reinforcement, permissions, programme demand or population weights.",
+    "Source revisions/currentness remain inherited and dated. No live original-source reacquisition or blanket republication permission is claimed.",
+    "Owner policy and parameter requirements are partially specified, not a numerical subsidy saving, household PASS, GDP result or self-financing proof.",
+    "Other57 tasks remain as implemented; all readiness, dependencies, source/code/data/tests and model gates are unchanged by this acceptance step."
+  ],
+  "original_sources_and_private_messages_published": false,
+  "main_merge_authorized": false,
+  "acceptance_step_code_data_tests_changed": false
+}
