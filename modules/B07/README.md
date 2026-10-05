@@ -107,3 +107,32 @@ existing hashes; originals remain private. Q-B07-003 E2 applicability debt, D02
 lifecycle and D03 operating/legal availability remain open. This prepares the original
 D01 handoff for whole-slice acceptance review; a real reviewed condition commit must
 exist before its acceptance metadata can reference it.
+
+## Supplied shared-use schedules (V1-066)
+
+[`shared_use_schedule_contract.evaluate_shared_use`](shared_use_schedule_contract.py)
+audits household and state/aggregator use of one physical battery across two
+explicit generation-free schedules. It executes each native B07 engine once per
+leg and interval, then reconciles supplied actor allocations and independent
+energy, power, duration, budget and service-window rights. Shared-capacity access
+and a protected inventory pool are separate modes; neither creates charged energy.
+
+Activation under an existing reservation and agreement-versus-household-only
+comparisons have distinct baseline bindings. Raw signed connection response,
+physical clipping, actor shortages, recharge and terminal inventory stay visible.
+Reference idle keeps the DC path and total-connection response unknown while
+preserving qualified active-converter component arithmetic and a separately
+supplied E2 aggregate AC debit. Contract availability respects the unsplit retained
+inventory floor; missing actor rows cannot erase established local violations.
+Known-use lower bounds retain whole-window energy/duration and non-replenishing
+budget contradictions across earlier allocation gaps while exact ledgers remain
+Q. Possible recharge never becomes a fixed initial-budget cap.
+Unqualified household correspondence retains upstream protection failures only
+as diagnostics for their original subjects. No source, rights split,
+dispatch priority, monetary value or permission is chosen by this consumer.
+
+See the [versioned input/status registry](../../registry/b07_shared_use_schedule_contract.json)
+and [checkpoint with usage and acceptance coverage](../../docs/checkpoints/V1_066_B07_SHARED_USE_SCHEDULE.md).
+Actual site permission, commercial delivery, household economics and national or
+network consequences keep their separate gates. Existing B07 APIs, numerical
+behavior and readiness declarations are unchanged.

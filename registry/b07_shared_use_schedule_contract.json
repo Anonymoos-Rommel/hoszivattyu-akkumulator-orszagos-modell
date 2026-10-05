@@ -1,0 +1,338 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "B07-SHARED-USE-SCHEDULE",
+  "canonical_entrypoint": "modules.B07.shared_use_schedule_contract.evaluate_shared_use",
+  "run_context": "SCN",
+  "coordinates": [
+    "STORED_USABLE_KWH_SCN",
+    "DC_DISCHARGE_EQUIVALENT_REFERENCE"
+  ],
+  "comparison_scopes": [
+    "ACTIVATION_WITH_EXISTING_RESERVATION",
+    "RIGHTS_AGREEMENT_VS_HOUSEHOLD_ONLY"
+  ],
+  "rights_modes": [
+    "SHARED_CAPACITY_ACCESS",
+    "PROTECTED_INVENTORY_POOL"
+  ],
+  "numeric_defaults": {},
+  "automatic_b10_projection": false,
+  "financial_engine": false,
+  "original_task_acceptance_changed": false,
+  "input_contracts": [
+    "SharedUseCase",
+    "Identity",
+    "Leg",
+    "Baseline",
+    "Interval",
+    "Request",
+    "Allocation",
+    "Agreement",
+    "RightsWindow",
+    "Budget",
+    "Transfer",
+    "IdleAccounting",
+    "ResponseClaim",
+    "Permission",
+    "FinancialInputs",
+    "QualifiedProtection",
+    "Term",
+    "Unknown"
+  ],
+  "identity": "Case and agreement content SHA256 exclude only their own digest field. Both legs and every interval bind exact device/connection/actors/coordinate/capacity denominator/executor bytes. Baseline and comparison hashes bind the supplied schedules and distinct purposes. Digests prove identity, never factual or legal qualification.",
+  "numeric_boundary": "Finite nonnegative int/float physical magnitudes; bool, null, negative, NaN and infinity rejected. Monetary supplied components can be signed. Q and NOT_APPLICABLE require explicit Term and reason; neither is numeric zero or unlimited. No rights fraction shorthand or inferred denominator is supported.",
+  "time": "Nonempty contiguous half-open UTC intervals with exact positive hours. Idle gaps and sequential opposing use require explicit subintervals. Each leg starts once. Cumulative stored-engine counters continue across explicit duration changes; no inventory reset can appear in an interval.",
+  "execution": "Sum same-direction requests then run unchanged native B07 once per leg/interval. Stored SCN retains explicit omitted-standing-loss condition. Reference retains native coordinate/curves/source applicability/idle-Q and E2 evidence. No per-actor converter execution.",
+  "allocation": "Explicit absolute actor AC flows, coordinate credit/debit and three active loss components; one row per actor/event. Unknown or partial allocation remains Q; any known contradiction is FAIL. Per-actor directed balances and device sums use declared bounded flow-scale tolerances, never stock/national totals. The absolute tolerance is scaled down below one kWh, so zero/small flow cannot borrow slack from initial stock or a fixed large epsilon. Each actor row has a local reconciliation status. Locally established use is checked against its known right/budget/pool before global allocation Q propagates; missing rows and uncertain full ledgers are never filled or numerically advanced.",
+  "rights": "One continuous identified draw budget per actor, shared across adjacent rights revisions; no alias/split/reset budget. Budget, effective rights, service time, charge/discharge power, maximum draw and callable duration remain independent. Replenishment only NONE, explicit ATTRIBUTED_CHARGE_CREDIT or Q. Raw negative balances/shortages remain visible. Nonmatching expired windows grant zero availability, no renewed promise. Exact cumulative draw, budget and admitted-duration ledgers remain Q after unreconciled allocation. Separate nonnegative known-use lower bounds survive chronology gaps and yield conservative remaining upper bounds for each whole-window draw right, callable duration and only NONE-replenishment budgets. Later known use or accumulated known use can therefore establish FAIL without filling a missing allocation. Replenishing or Q-replenishment budgets receive no fixed initial-budget upper bound; unknown recharge remains possible. Bounds are diagnostics, not exact available inventory or dispatch guarantees.",
+  "protected_pool": "R and F sum to one native inventory. Household draws F and state draws R. Explicit chronological unique boundary transfers conserve inventory; no same-time cycles, future-credit borrowing or cross-pool borrowing. Initial target above stock is an unmet target. Any unknown physical drain or unreconciled actor allocation makes both pools Q. Minimum total retained inventory is separate.",
+  "availability": "Before-use coordinate inventory and remaining coordinate inventory after both actors are distinct. Independent power/duration/service/budget windows remain in each rights record. End-of-window availability is zero; positive kWh does not guarantee AC kW or sustained service. Both before/after contract ceilings respect max(native physical reserve, agreement minimum-total-retained inventory). A Q retained floor keeps affected contract availability Q; raw physical drawable inventory stays separate. Actor ceilings share the same unsplit headroom and cannot be summed as independent guarantees.",
+  "response": "Generation-free total matched exogenous loads plus admitted charge minus admitted discharge. Signed baseline-minus-actual response includes downward/recharge effects and charge reductions. Raw import/export are conserved with unchanged household helper and no export clipping. Explicit envelope failure remains visible without altering discharge. Native reference idle or declined active requests leave the included total AC boundary Q even when active-flow fields are known zero. Total connection values/response then remain null/Q, while a separately labelled active-converter component response remains inspectable. All-active reference and explicitly conditional stored-engine results retain their own admitted boundary.",
+  "idle": "One source-qualified E2 AC proxy for explicitly identified idle exposure; no DC subtraction or actor DC assignment. Optional explicit actor AC accounting must reconcile. Native conditional empty-state component remains diagnostic and cannot be added again for the same exposure. The E2 aggregate is not automatically assigned to interval power or a DC transition and cannot repair unknown total connection response.",
+  "status_separation": [
+    "input identity",
+    "native physical trajectory",
+    "requested schedule fulfillment",
+    "actor allocation",
+    "contract rights",
+    "connection envelope",
+    "conditional response",
+    "inventory/rebound",
+    "four actual permissions",
+    "commercial commitment",
+    "activation authority",
+    "actual delivery",
+    "financial allocation",
+    "complete household protection",
+    "national/network value"
+  ],
+  "downstream_B10": "No projection, evidence token, REAL promotion or study result. Existing B10 fixture establishes only at-most-positive-programme-import application for exact matched entity/node/time/step. Total-connection response cannot be retagged as programme import.",
+  "financial_boundary": "No tariff acquisition, pricing, cashflow, wear, valuation or benefit calculation. Supplied components stay separate. Optional exact native V65 Candidate/ComparisonFrame/period inventory and qualified correspondence preserve an upstream protection assessment by unchanged native validation. Known initial/interim FAIL dominates Q; PASS needs qualified full-agreement-effect coverage. No full B12 Case is required for a physical case. Native protection status, subject and hashes remain a separate upstream diagnostic. Q or EXTERNAL_ADMISSION-only correspondence leaves this household claim Q even for native FAIL; qualified SCN/admitted correspondence preserves known local FAIL despite unrelated completeness Q.",
+  "validation_integration": "Canonical tools/validate_registry.py invokes load_shared_use_contract, including exact native dependency hashes and the twenty-group map. Canonical unittest discovery executes all behavioral witnesses. The hook is additive and existing registry gates retain their behavior.",
+  "excluded": [
+    "optimisation",
+    "dispatch priority",
+    "default allocation",
+    "default rights percentage",
+    "free recharge",
+    "new sources",
+    "new policy values",
+    "real-site approval",
+    "B10 adapter",
+    "financial engine",
+    "original-task closure"
+  ],
+  "source_bindings": [
+    {
+      "path": "modules/B07/engine.py",
+      "sha256": "4534c94ceef913f141f430a8e5854dd87d5af5df15ed103eccf81767fc878fe8"
+    },
+    {
+      "path": "modules/B07/discharge_equivalent_reference.py",
+      "sha256": "fc281dd3080fa508ebbe4d6889c706d264028487905de6ffab2f0295fd8efab4"
+    },
+    {
+      "path": "modules/B07/sax_source_reference.py",
+      "sha256": "c6f6cce1f0514784c20cf63d58bf4e22ad9dd2a8f12981536a086ea0054cc95c"
+    },
+    {
+      "path": "registry/b07_sax_reference_manifest.json",
+      "sha256": "18cbcbf17665da04ebea0f213bc0eda8bcaabf9726f3506516267be63b0db4db"
+    },
+    {
+      "path": "data/processed/b07/sax_2026_converter_curves.csv",
+      "sha256": "87d1b6b91950792c429746f71770237afd227e26ff5afd3bc5eb4d2b943ebfd6"
+    },
+    {
+      "path": "data/processed/b07/sax_2026_source_controls.json",
+      "sha256": "d299d057de95f4a5306400e6b201d18b4ef6d84f66e5f9fc2241eb93416728cf"
+    },
+    {
+      "path": "modules/B01/benefit_metric_contract.py",
+      "sha256": "8c9601fb8c0e5441fc7bd6ec7e7cae8982ed33c5ea8b67734bac371ee22e0290"
+    },
+    {
+      "path": "modules/B04/dynamic_tariff.py",
+      "sha256": "89e602fab1c5c874f332ac869c77f9eaea5be828af442f5a24cb074c5d554f29"
+    },
+    {
+      "path": "modules/B04/topology_reference.py",
+      "sha256": "ec1a4e88009fa42f2830856f2c5e78419c5c058ec86f85d59341be1f3d9465e9"
+    },
+    {
+      "path": "modules/B10/managed_flex_survivability_contract.py",
+      "sha256": "f91ef2892d85538dfbe2c02755d3e8b0825e4af370dc4713883c1375df60a737"
+    }
+  ],
+  "acceptance_map": [
+    {
+      "group": 1,
+      "title": "One device and reconciled actor energy",
+      "tests": [
+        "test_g01_unconflicted_one_device_and_actor_conservation",
+        "test_g01_duplicate_actor_service_and_double_claim_fail"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 2,
+      "title": "Power clipping and explicit shortage allocation",
+      "tests": [
+        "test_g02_overbooked_power_explicit_shortage"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 3,
+      "title": "Energy exhaustion independent of power",
+      "tests": [
+        "test_g03_energy_exhaustion_is_not_power_availability",
+        "test_g03_fulfillment_failure_survives_later_reference_unknown"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 4,
+      "title": "Independent power energy duration and windows",
+      "tests": [
+        "test_g04_independent_power_energy_duration_service_window",
+        "test_g04_budget_window_independent_of_service_window"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 5,
+      "title": "Opposing commands and explicit ordered subintervals",
+      "tests": [
+        "test_g05_opposing_before_netting_and_explicit_subintervals"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 6,
+      "title": "Nonlinear source aggregate and clipped losses",
+      "tests": [
+        "test_g06_nonlinear_reference_once_and_clipped_efficiency",
+        "test_g06_reference_charge_keeps_three_loss_components"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 7,
+      "title": "Access versus protected inventory and retained minimum",
+      "tests": [
+        "test_g07_access_vs_pool_and_unmet_target",
+        "test_g07_remaining_access_uses_both_actors_and_separate_minimum",
+        "test_g07_r1_retained_floor_bounds_access_and_protected_availability",
+        "test_g07_r1_retained_floor_and_native_reserve_are_not_added"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 8,
+      "title": "Pool transfers recharge and cumulative budget chronology",
+      "tests": [
+        "test_g08_pool_transfers_recharge_and_budget_are_separate",
+        "test_g08_split_alias_overlap_and_future_transfer_fail",
+        "test_g08_adjacent_right_revisions_share_depleted_budget",
+        "test_g08_known_budget_deficit_dominates_unknown_replenishment",
+        "test_g08_r2_partial_allocation_retains_known_actor_energy_budget_failure",
+        "test_g08_r3_later_known_use_exceeds_absolute_caps_after_unknown",
+        "test_g08_r3_known_draw_accumulates_across_unknown_positions",
+        "test_g08_r3_partial_known_rows_accumulate_without_filling_missing_actor",
+        "test_g08_r3_unknown_recharge_never_creates_fixed_replenishing_cap",
+        "test_g08_r3_nonreplenishing_draw_bound_survives_unknown_charge",
+        "test_g08_r3_shared_budget_bound_survives_adjacent_right_revision"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 9,
+      "title": "Dynamic availability depletion and expiry",
+      "tests": [
+        "test_g09_dynamic_depletion_and_window_expiry",
+        "test_g09_missing_allocation_propagates_unknown_callable_duration",
+        "test_g09_r1_unknown_floor_preserves_physical_values_only",
+        "test_g09_r2_partial_allocation_retains_known_pool_failure_without_advancing_pool",
+        "test_g09_r3_known_duration_exceeds_whole_window_after_unknown",
+        "test_g09_r3_known_duration_accumulates_around_unknown",
+        "test_g09_r3_known_request_duration_survives_unknown_admission",
+        "test_g09_r3_unserved_request_does_not_consume_admitted_duration_bound"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 10,
+      "title": "Charge reduction response without discharge",
+      "tests": [
+        "test_g10_reduced_charge_is_response_without_discharge"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 11,
+      "title": "Activation scope retains existing reservation",
+      "tests": [
+        "test_g11_activation_retains_reservation"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 12,
+      "title": "Agreement scope includes unactivated foregone use",
+      "tests": [
+        "test_g12_agreement_foregone_use_without_activation"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 13,
+      "title": "Scope and baseline identity binding",
+      "tests": [
+        "test_g13_scope_hash_and_meaning_cannot_be_reused"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 14,
+      "title": "Supplied rebound and visible terminal inventory",
+      "tests": [
+        "test_g14_rebound_terminal_stock_and_truncation"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 15,
+      "title": "Reference idle Q and separate E2 aggregate AC debit",
+      "tests": [
+        "test_g15_reference_idle_unknown_continuity_and_E2_proxy",
+        "test_g15_idle_double_count_and_wrong_exposure_rejected",
+        "test_g15_r3_idle_boundary_keeps_only_active_component_response",
+        "test_g15_r3_E2_idle_aggregate_is_retained_without_interval_or_DC_imputation"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 16,
+      "title": "Physical SCN independent of actual permission",
+      "tests": [
+        "test_g16_physics_survives_unknown_permission_and_known_exclusion",
+        "test_g16_known_contract_failure_dominates_unrelated_contract_q",
+        "test_g16_r2_genuinely_missing_actor_use_stays_unknown",
+        "test_g16_r3_unknown_past_within_or_at_caps_stays_unknown",
+        "test_g16_r3_unknown_caps_do_not_gain_numeric_upper_bounds",
+        "test_g16_r3_malformed_use_does_not_advance_known_lower_bounds"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 17,
+      "title": "Raw connection conservation and explicit envelopes",
+      "tests": [
+        "test_g17_raw_connection_conservation_and_unknown_envelope",
+        "test_g17_connection_views_preserve_native_floating_operation_order",
+        "test_g17_r3_all_active_reference_and_stored_conditional_response_remain_known"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 18,
+      "title": "Existing B10 boundary witness and non-admission",
+      "tests": [
+        "test_g18_existing_B10_positive_import_boundary_and_no_new_bridge",
+        "test_g18_automatic_projection_programme_scope_real_claim_rejected"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 19,
+      "title": "Qualified financial input handling and non-admission",
+      "tests": [
+        "test_g19_tariff_component_never_complete_benefit",
+        "test_g19_qualified_native_protection_preserved_and_deficit_dominates",
+        "test_g19_qualified_actor_counterfactual_period_binding_rejected",
+        "test_g19_r4_unknown_or_pointer_correspondence_retains_native_failure_only",
+        "test_g19_r4_qualified_local_failure_dominates_unrelated_completeness_Q"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    },
+    {
+      "group": 20,
+      "title": "Malformed identity numerical and source boundaries",
+      "tests": [
+        "test_g20_identity_hash_denominator_coordinate_and_events",
+        "test_g20_malformed_numbers_q_na_and_unknowns_are_distinct",
+        "test_g20_reference_source_hash_and_unsupported_point_native_q",
+        "test_g20_nonfinite_aggregate_and_boolean_executor_fail"
+      ],
+      "status": "AUTHOR_IMPLEMENTED_PENDING_INDEPENDENT_REVIEW"
+    }
+  ],
+  "status_correction_coverage": {
+    "retained_floor_availability": "Known zero/positive and Q retained floors, access/protected modes and independent native reserve.",
+    "partial_actor_allocation": "Known per-actor energy/budget/protected/free failures persist; missing use and complete ledger stay unknown.",
+    "reference_idle_ac_boundary": "Total AC response Q; qualified active component and separate E2 aggregate remain usable at their own scopes.",
+    "upstream_subject_correspondence": "Native failure diagnostic is distinct from qualified mapped household failure.",
+    "chronological_known_use_bounds": "Whole-window draw/duration and non-replenishing budget violations survive earlier allocation Q, including accumulated known use, partial actor rows and adjacent rights; exact ledgers remain Q and possible recharge never becomes a fixed cap."
+  }
+}

@@ -2232,6 +2232,7 @@ def validate() -> list[str]:
     validate_b05_artifacts(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
+    validate_b07_shared_use_artifacts(errors)
     validate_b08_artifacts(errors, source_ids)
     validate_b09_artifacts(errors, source_ids)
     validate_b10_artifacts(errors, source_ids)
@@ -2335,6 +2336,17 @@ def validate_b01_benefit_metric_artifacts(errors: list[str], source_ids: set[str
     except (ValueError, TypeError, KeyError, OSError) as exc:
         errors.append(f"invalid B01 benefit metric contract: {exc}")
 
+
+
+def validate_b07_shared_use_artifacts(errors: list[str]) -> None:
+    """Validate the conditional shared schedule contract without changing gates."""
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    try:
+        from modules.B07.shared_use_schedule_contract import load_shared_use_contract
+        load_shared_use_contract()
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        errors.append(f"invalid B07 shared-use schedule contract: {exc}")
 
 def main() -> int:
     errors = validate()
