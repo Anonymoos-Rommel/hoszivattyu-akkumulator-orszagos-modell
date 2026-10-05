@@ -1451,7 +1451,7 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
     _, effect_rows = read_csv(effect_path)
     allowed_classes = {
         "MEASURED_BEFORE_AFTER", "MODELLED_BEFORE_AFTER", "STANDARD_CALCULATION",
-        "ARCHETYPE_ESTIMATE", "POLICY_TARGET",
+        "ARCHETYPE_ESTIMATE", "POLICY_TARGET", "MATCHED_METERED_SAVINGS",
     }
     numeric_fields = {
         "annual_before_kwh_m2a", "annual_after_kwh_m2a",
@@ -1485,6 +1485,13 @@ def validate_b06_artifacts(errors: list[str], source_ids: set[str]) -> None:
             errors.append(f"unknown B06 effect evidence source: {evidence_id!r}")
         for field in numeric_fields:
             as_float(row, field)
+        if row["evidence_class"] == "MATCHED_METERED_SAVINGS":
+            # Whole-meter matched statistics belong in their typed source manifest,
+            # never in the existing space-heat/m2 or design-peak numeric interface.
+            if any(row.get(field, "").strip() for field in numeric_fields):
+                errors.append(f"matched meter savings cannot populate B06 physical-effect fields: {evidence_id!r}")
+            if row["usable_for_engine"] != "NO" or row["status"] != "Q":
+                errors.append(f"matched meter savings retain Q target authority and no engine admission: {evidence_id!r}")
 
         before = as_float(row, "annual_before_kwh_m2a")
         after = as_float(row, "annual_after_kwh_m2a")

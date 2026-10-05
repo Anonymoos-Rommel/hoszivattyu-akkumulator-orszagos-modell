@@ -1,0 +1,682 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B06-PAIRED-RETROFIT-REFERENCE-2026",
+  "status": "QUALIFIED_SOURCE_REFERENCES_ONLY",
+  "owner_module": "B06",
+  "research_slice_id": "B06-D03",
+  "sources": [
+    {
+      "source_id": "SRC-B06-SOLANOVA-TREES-CASE",
+      "family_id": "SOLANOVA",
+      "original_url": "https://direns.minesparis.psl.eu/Sites/TREES/Material/TREES_3.2_Dunaujvaros_text_261007.pdf",
+      "resolved_url": "https://direns.minesparis.psl.eu/Sites/TREES/Material/TREES_3.2_Dunaujvaros_text_261007.pdf",
+      "retrieved_at": "2026-10-05T09:46:21.099791+00:00",
+      "document_date": null,
+      "document_date_precision": "unknown",
+      "document_date_basis": "Unknown formal publication date; filename encodes 2007-10-26; PDF creation 2008-01-02",
+      "reference_period": "2004-05 separate baseline; two-pre-season average and 2005-06 monitored outcome",
+      "authority": "TREES case author; observed narrative pp8-9, separate baseline p4, comfort p12; historical cost p16",
+      "source_tier": "P2",
+      "sha256": "7372de1a8b8950d7c713648e8fb1a3b8613cf13c6142094955cda54ab94e6ceb",
+      "bytes": 954422,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "No explicit TREES redistribution licence established"
+    },
+    {
+      "source_id": "SRC-B06-SOLANOVA-TREES-SLIDES",
+      "family_id": "SOLANOVA",
+      "original_url": "https://direns.minesparis.psl.eu/Sites/TREES/Material/TREES_3.2-Dunaujvaros_slides-211207.pdf",
+      "resolved_url": "https://direns.minesparis.psl.eu/Sites/TREES/Material/TREES_3.2-Dunaujvaros_slides-211207.pdf",
+      "retrieved_at": "2026-10-05T09:46:20.927965+00:00",
+      "document_date": null,
+      "document_date_precision": "unknown",
+      "document_date_basis": "Unknown formal publication date; filename encodes 2007-12-21; PDF creation 2007-12-26",
+      "reference_period": "Historical 2005 retrofit and 2005-06 results",
+      "authority": "Same family companion, not independent corroboration; district heating PDF p6 and heating changes p25",
+      "source_tier": "P2",
+      "sha256": "22168c00366fadae8e5f17a60ed6fc398c265c9f5a3e1f162104a50baab83d6c",
+      "bytes": 3057096,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "No explicit TREES redistribution licence established"
+    },
+    {
+      "source_id": "SRC-B06-SOLANOVA-ACEEE-2006",
+      "family_id": "SOLANOVA",
+      "original_url": "https://www.aceee.org/files/proceedings/2006/data/papers/SS06_Panel7_Paper10.pdf",
+      "resolved_url": "https://www.aceee.org/wp-content/uploads/proceedings-1980-2020/2006/SS06_Panel7_Paper10.pdf",
+      "retrieved_at": "2026-10-05T09:49:26.637851+00:00",
+      "document_date": "2006",
+      "document_date_precision": "year",
+      "document_date_basis": "2006 proceedings; day/month not established",
+      "reference_period": "2005 retrofit; planned after-values reported in 2006",
+      "authority": "Original coordinator; area PDF p6; Table3 planned after-values p7; social survey p9; historical net costs p12",
+      "source_tier": "P2",
+      "sha256": "ac3e3984cc3445d8c1086f53afd60ff0b8546ea0e089533f4244b52291a056dd",
+      "bytes": 593850,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "ACEEE copyright 2006; republication permission not established"
+    },
+    {
+      "source_id": "SRC-B06-DESNZ-NEED-HEADLINE-EW-2026",
+      "family_id": "NEED-EW-2026",
+      "original_url": "https://assets.publishing.service.gov.uk/media/6a28277b3b15d05a7ce31fa3/Impact_of_measures_headline_EW_2023.xlsx",
+      "resolved_url": "https://assets.publishing.service.gov.uk/media/6a28277b3b15d05a7ce31fa3/Impact_of_measures_headline_EW_2023.xlsx",
+      "retrieved_at": "2026-10-05T09:52:41.701249+00:00",
+      "document_date": "2026-06-11",
+      "document_date_precision": "date",
+      "document_date_basis": "Release publication date printed in Cover sheet A9",
+      "reference_period": "2023 installation gas year; 2022 pre and 2024 post gas years",
+      "authority": "Original published static result cells; Table1/Table2 counts and matched savings, Notes and Cover",
+      "source_tier": "P1",
+      "sha256": "bde31f1752cf75b0f696eef95dcc3cedd96ec13c7036f8b09b8a429052be1600",
+      "bytes": 227150,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "OGL v3.0 with exceptions; original workbook external-only by scope"
+    },
+    {
+      "source_id": "SRC-B06-DESNZ-NEED-ANNEX-A-2026",
+      "family_id": "NEED-EW-2026",
+      "original_url": "https://assets.publishing.service.gov.uk/media/6a281fd4ade52dc08822181f/annex-a-what-is-need-2026.pdf",
+      "resolved_url": "https://assets.publishing.service.gov.uk/media/6a281fd4ade52dc08822181f/annex-a-what-is-need-2026.pdf",
+      "retrieved_at": "2026-10-05T09:46:19.991215+00:00",
+      "document_date": "2026-06-11",
+      "document_date_precision": "date",
+      "document_date_basis": "2026 release; publication date is release date, not server Last-Modified",
+      "reference_period": "2026 methodology; annualised gas AQ inputs and gas years",
+      "authority": "Official input method pp10-11: dated gas windows, meter-derived AQ and Xoserve weather correction",
+      "source_tier": "P1",
+      "sha256": "b4a6398a78c5acbe145f175903ec2269c6d598296ea6fd0178fdff7bb70c53f0",
+      "bytes": 308673,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "OGL v3.0 except third-party copyright; original external-only by scope"
+    },
+    {
+      "source_id": "SRC-B06-DESNZ-NEED-ANNEX-D-2026",
+      "family_id": "NEED-EW-2026",
+      "original_url": "https://assets.publishing.service.gov.uk/media/6a2824696d178a6fb7e31f9c/annex-d-domestic-need-methodology-2026.pdf",
+      "resolved_url": "https://assets.publishing.service.gov.uk/media/6a2824696d178a6fb7e31f9c/annex-d-domestic-need-methodology-2026.pdf",
+      "retrieved_at": "2026-10-05T09:46:18.915392+00:00",
+      "document_date": "2026-06-11",
+      "document_date_precision": "date",
+      "document_date_basis": "2026 release; publication date is release date, not server Last-Modified",
+      "reference_period": "2023 gas installations with 2022/2024 consumption comparison",
+      "authority": "Official selection, matching, weighting and estimator method pp9-16",
+      "source_tier": "P1",
+      "sha256": "3a573a68dbf7287d279ad5e761f661c712d2347dc82a30f81bbbc83b64680dde",
+      "bytes": 567995,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "OGL v3.0 except third-party copyright; original external-only by scope"
+    },
+    {
+      "source_id": "SRC-B06-DESNZ-NEED-REPORT-2026",
+      "family_id": "NEED-EW-2026",
+      "original_url": "https://assets.publishing.service.gov.uk/media/6a2925376d178a6fb7e31fe8/NEED-report-june-2026.pdf",
+      "resolved_url": "https://assets.publishing.service.gov.uk/media/6a2925376d178a6fb7e31fe8/NEED-report-june-2026.pdf",
+      "retrieved_at": "2026-10-05T09:46:20.149120+00:00",
+      "document_date": "2026-06-11",
+      "document_date_precision": "date",
+      "document_date_basis": "2026 release; publication date is release date, not server Last-Modified",
+      "reference_period": "2023 installations; outcome gas year 2024",
+      "authority": "Official release context and measure coverage p20; published impact results",
+      "source_tier": "P1",
+      "sha256": "1f47d838cf5bd68c7039b5a9e212ebd95929c90e2c993e49dc703d64d7c403d8",
+      "bytes": 1118290,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "OGL v3.0 except third-party copyright; original external-only by scope"
+    }
+  ],
+  "source_fact_policy": "OBS denotes a qualified reported observation within its source boundary; DER denotes a source-derived statistic or normalized baseline. Neither grants target-effect or outcome authority.",
+  "target_authority": {
+    "applicability_status": "Q",
+    "outcome_authority_status": "Q",
+    "usable_for_engine": false,
+    "model_default_admitted": false,
+    "national_factor_admitted": false,
+    "task_accepted": false
+  },
+  "csv_handoff": {
+    "path": "data/processed/retrofit_effect_evidence.csv",
+    "status_semantics": "Target-effect authority, not a blanket judgement that qualified source facts are unknown",
+    "annual_fields_scope": "Space-heating consumption per square metre per year; not whole-property gas",
+    "source_fact_authority": "This source-specific manifest",
+    "need_numeric_csv_fields": "EMPTY_NOT_APPLICABLE"
+  },
+  "families": {
+    "SOLANOVA": {
+      "source_ids": [
+        "SRC-B06-SOLANOVA-TREES-CASE",
+        "SRC-B06-SOLANOVA-TREES-SLIDES",
+        "SRC-B06-SOLANOVA-ACEEE-2006"
+      ],
+      "evidence_id": "B06-EFF-SOLANOVA-MONITORED",
+      "qualification": "HISTORICAL_HUNGARIAN_PACKAGE_REFERENCE",
+      "source_observation_status": "OBS",
+      "geography": "Hungary: Dunaujvaros",
+      "selection": "One purpose-selected panel demonstration building, not a probability sample",
+      "buildings": {
+        "value": 1,
+        "unit": "building",
+        "truth": "OBS",
+        "locator": "TREES pp3-5"
+      },
+      "flats": {
+        "value": 42,
+        "unit": "flat",
+        "truth": "OBS",
+        "locator": "TREES pp3-5; ACEEE p6"
+      },
+      "heat_source": "DISTRICT_HEATING",
+      "service_scope": "Whole building including ground-floor shops; heating reported separately from DHW; not proven delivered-room useful heat",
+      "construction_period": "1970s (ACEEE p6)",
+      "retrofit_completed": "2005-10 (TREES p3)",
+      "package": "Facade/roof/cellar insulation; windows/shading; smaller radiators and two-pipe roomwise controls; apartment heat-recovery ventilation excluding shops; solar-supported DHW/water savings",
+      "component_effects_identified": false,
+      "heat_pump_effect_identified": false,
+      "monitored_aggregate": {
+        "source_id": "SRC-B06-SOLANOVA-TREES-CASE",
+        "before": {
+          "value": 2100,
+          "unit": "GJ per reported seasonal aggregate",
+          "truth": "OBS",
+          "locator": "p8 section5.1"
+        },
+        "after": {
+          "value": 394,
+          "unit": "GJ per reported seasonal aggregate",
+          "truth": "OBS",
+          "locator": "p8 section5.1"
+        },
+        "published_saving": {
+          "value": 81.3,
+          "unit": "percent",
+          "truth": "DER",
+          "locator": "p8 section5.1",
+          "statistic": "PUBLISHER_REPORTED_ROUNDED_REDUCTION"
+        },
+        "before_period": "Average of two seasons preceding renovation; exact season names not printed in the cited paragraph",
+        "after_period": "2005-2006 heating season",
+        "normalization": "NOT_DOCUMENTED_FOR_THIS_PAIR",
+        "rounding_policy": "Keep totals and published percent separately; no forced algebra or denominator reconciliation"
+      },
+      "monitored_intensity": {
+        "source_id": "SRC-B06-SOLANOVA-TREES-CASE",
+        "before": {
+          "value": 213,
+          "unit": "kWh/m2a heating",
+          "truth": "OBS",
+          "locator": "p8 and p9 Fig10"
+        },
+        "after": {
+          "value": 39,
+          "unit": "kWh/m2a heating",
+          "truth": "OBS",
+          "locator": "p8 and p9 Fig10"
+        },
+        "after_flats": {
+          "value": 35,
+          "unit": "kWh/m2a heating",
+          "truth": "OBS",
+          "locator": "p9 Fig10"
+        },
+        "after_shops": {
+          "value": 71,
+          "unit": "kWh/m2a heating",
+          "truth": "OBS",
+          "locator": "p9 Fig10"
+        },
+        "before_period": "Pre-renovation; adjacent two-season baseline context",
+        "after_period": "2005-2006",
+        "normalization": "NOT_DOCUMENTED_FOR_THIS_PAIR",
+        "floor_denominator_reconciled": false
+      },
+      "separate_normalized_baseline": {
+        "source_id": "SRC-B06-SOLANOVA-TREES-CASE",
+        "before": {
+          "value": 210,
+          "unit": "kWh/m2a heating",
+          "truth": "DER",
+          "locator": "p4",
+          "method": "Measured baseline corrected to mean winter"
+        },
+        "before_period": "2004-2005 heating season",
+        "after": null,
+        "normalization_method_and_reference_weather": "NOT_DISCLOSED",
+        "matching_post_normalization": "NOT_DOCUMENTED",
+        "joined_to_monitored_pair": false
+      },
+      "area_context": {
+        "source_id": "SRC-B06-SOLANOVA-ACEEE-2006",
+        "residential": {
+          "value": 2350,
+          "unit": "m2 residential area",
+          "truth": "OBS",
+          "locator": "PDF p6 / printed7-120"
+        },
+        "shops": {
+          "value": 300,
+          "unit": "m2 shops area",
+          "truth": "OBS",
+          "locator": "PDF p6 / printed7-120"
+        },
+        "treated": {
+          "value": 2650,
+          "unit": "m2 treated floor area",
+          "truth": "OBS",
+          "locator": "PDF p6 / printed7-120"
+        },
+        "used_to_recalculate_later_intensities": false
+      },
+      "service_change": {
+        "source_id": "SRC-B06-SOLANOVA-TREES-CASE",
+        "february_mean": {
+          "value": 24.7,
+          "unit": "degC",
+          "truth": "OBS",
+          "locator": "p12",
+          "period": "February 2006",
+          "boundary": "Includes unheated stairs; excludes ground floor and cellar"
+        },
+        "annual_setpoint": null,
+        "rebound_factor": null,
+        "limitations": "Changed comfort/use; heat meter placement, distribution-loss boundary, heat-series completeness and isolated rebound unknown. Social-survey comparator/counts are not paired-energy/control-trial evidence."
+      },
+      "excluded_claims": [
+        {
+          "source_id": "SRC-B06-SOLANOVA-ACEEE-2006",
+          "locator": "PDF p7 Table3",
+          "quantity": {
+            "value": 29.4,
+            "unit": "kWh/m2a space heat",
+            "truth": "SCN",
+            "locator": "PDF p7 Table3"
+          },
+          "kind": "PLANNED_AFTER",
+          "observed_outcome": false
+        },
+        {
+          "source_id": "SRC-B06-SOLANOVA-ACEEE-2006",
+          "locator": "PDF p7 Table3",
+          "quantity": {
+            "value": 87,
+            "unit": "percent space-heat saving",
+            "truth": "SCN",
+            "locator": "PDF p7 Table3"
+          },
+          "kind": "PLANNED_SAVING",
+          "observed_outcome": false
+        },
+        {
+          "source_id": "SRC-B06-SOLANOVA-TREES-CASE",
+          "locator": "p10 Sankey",
+          "quantity": {
+            "value": 78,
+            "unit": "MWh post heating",
+            "truth": "Q",
+            "locator": "p10 Sankey"
+          },
+          "kind": "MEASUREMENT_STATUS_UNRESOLVED",
+          "observed_outcome": false
+        }
+      ],
+      "companion_policy": "Same family, not independent corroboration; preserve disagreements in headline saving, roof/window/collector specifications. No reconciliation into an as-built product certificate.",
+      "historical_cost_policy": "Reported historical package costs have differing area/tax bases; no current CAPEX, tariff, payback or lifetime admission",
+      "applicability_status": "Q",
+      "outcome_authority_status": "Q",
+      "usable_for_engine": false
+    },
+    "NEED-EW-2026": {
+      "source_ids": [
+        "SRC-B06-DESNZ-NEED-HEADLINE-EW-2026",
+        "SRC-B06-DESNZ-NEED-ANNEX-A-2026",
+        "SRC-B06-DESNZ-NEED-ANNEX-D-2026",
+        "SRC-B06-DESNZ-NEED-REPORT-2026"
+      ],
+      "evidence_id": "B06-EFF-NEED-EW-MATCHED-2026",
+      "qualification": "FOREIGN_METER_BASED_MATCHED_REFERENCE",
+      "published_estimate_status": "DER",
+      "publication_date": "2026-06-11",
+      "geography": "England and Wales",
+      "gas_windows": {
+        "before": "mid-May 2022 to mid-May 2023",
+        "installation": "mid-May 2023 to mid-May 2024",
+        "after": "mid-May 2024 to mid-May 2025",
+        "locator": "Annex D p12; Annex A p10"
+      },
+      "input_basis": {
+        "truth": "DER",
+        "method": "Annualised AQ based on meter readings at least six months apart; Xoserve seasonal-normal weather correction",
+        "empirical_input": "Meter readings; not EPC energy baseline",
+        "source_id": "SRC-B06-DESNZ-NEED-ANNEX-A-2026",
+        "locator": "pp10-11"
+      },
+      "service_boundary": "WHOLE_PROPERTY_GAS_NOT_SPACE_HEAT_OR_USEFUL_HEAT",
+      "floor_area_denominator": null,
+      "pv_context": "Solar PV electricity row is retained for source-table integrity only; outside fabric/heating scope. February 2023-January 2024 installs use separate electricity-year windows.",
+      "estimator": {
+        "truth": "DER",
+        "method": "Matched comparison difference-in-differences; weighted summaries averaged over repeated random matching",
+        "source_id": "SRC-B06-DESNZ-NEED-ANNEX-D-2026",
+        "locator": "pp13-16",
+        "repeats": {
+          "value": 50,
+          "unit": "matching/statistic runs",
+          "truth": "DER",
+          "locator": "Annex D pp15-16"
+        },
+        "tail_trim_each": {
+          "value": 2.5,
+          "unit": "percent of paired percentage savings",
+          "truth": "DER",
+          "locator": "Annex D pp15-16"
+        },
+        "randomized_intervention": false,
+        "percent_and_kwh_are_separate_estimators": true,
+        "individual_household_pairs_published": false,
+        "cohort_effects_additive": false
+      },
+      "selection": {
+        "source_id": "SRC-B06-DESNZ-NEED-ANNEX-D-2026",
+        "locator": "pp12-16",
+        "gas_plausibility_kwh": {
+          "min": 2500,
+          "max": 50000,
+          "truth": "DER",
+          "role": "SOURCE_FILTER_NOT_MODEL_THRESHOLD"
+        },
+        "previous_year_change_filter_percent": {
+          "min": -50,
+          "max": 80,
+          "truth": "DER",
+          "role": "SOURCE_FILTER_NOT_MODEL_THRESHOLD"
+        },
+        "excludes": "Flats, caravans, annexes, cluster houses; missing type/age/bedrooms/adults/income/tenure; suspected imputation and distribution spikes; smart-meter installation from pre through savings year; insulation buildings after 1999",
+        "measure_scope": "Named recorded single measure only, or named recorded combination; other recorded measures excluded over relevant window; off-scheme/hidden measures can remain",
+        "matching": "Consumption band/type, then age, adults, EPC, region at highest feasible level covering at least 99.9%; separate matching/weighting feasibility; not floor-area matching",
+        "weights": "Source England/Wales housing stock with impact-analysis exclusions; not Hungarian stock or owner planning weights",
+        "attribute_limit": "Some household attributes modeled; EPC used for matching, not measured energy baseline",
+        "attrition_funnel_published": false,
+        "residuals": "Unmeasured measures, occupant/use changes, price response, comfort taking, installation detail and estimator sensitivity"
+      },
+      "published_table": {
+        "source_id": "SRC-B06-DESNZ-NEED-HEADLINE-EW-2026",
+        "numeric_storage": "Exact original XML numeric strings, not rounded display values or reconstructed quantities",
+        "columns": {
+          "sample_n": {
+            "column": "D",
+            "truth": "OBS",
+            "statistic": "PUBLISHED_NUMBER_IN_SAMPLE",
+            "unit": "properties",
+            "not_recruitment_or_attrition_denominator": true
+          },
+          "median_saving_fraction": {
+            "column": "E",
+            "truth": "DER",
+            "statistic": "WEIGHTED_MEDIAN_SAVING_FRACTION",
+            "unit": "fraction"
+          },
+          "mean_saving_fraction": {
+            "column": "F",
+            "truth": "DER",
+            "statistic": "WEIGHTED_MEAN_SAVING_FRACTION",
+            "unit": "fraction"
+          },
+          "median_saving_kwh": {
+            "column": "G",
+            "truth": "DER",
+            "statistic": "WEIGHTED_MEDIAN_SAVING_KWH",
+            "unit": "kWh/annualised source year"
+          },
+          "mean_saving_kwh": {
+            "column": "H",
+            "truth": "DER",
+            "statistic": "WEIGHTED_MEAN_SAVING_KWH",
+            "unit": "kWh/annualised source year"
+          }
+        },
+        "rows": [
+          {
+            "sheet": "Table 1",
+            "row": 5,
+            "measure": "Condensing Boiler",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "354312",
+              "median_saving_fraction": "2.27979167756901E-2",
+              "mean_saving_fraction": "9.4189993566782208E-3",
+              "median_saving_kwh": "236.028135345029",
+              "mean_saving_kwh": "259.60201915825297"
+            }
+          },
+          {
+            "sheet": "Table 1",
+            "row": 6,
+            "measure": "Solid Wall Insulation",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "2411",
+              "median_saving_fraction": "0.172758601491735",
+              "mean_saving_fraction": "0.16850789401101601",
+              "median_saving_kwh": "1857.04531661942",
+              "mean_saving_kwh": "2009.07724265826"
+            }
+          },
+          {
+            "sheet": "Table 1",
+            "row": 7,
+            "measure": "Cavity Wall Insulation",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "2191",
+              "median_saving_fraction": "0.119819792291204",
+              "mean_saving_fraction": "0.111381983330503",
+              "median_saving_kwh": "1207.5184549826299",
+              "mean_saving_kwh": "1428.4002673444199"
+            }
+          },
+          {
+            "sheet": "Table 1",
+            "row": 8,
+            "measure": "Loft Insulation",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "1486",
+              "median_saving_fraction": "3.21169156666163E-2",
+              "mean_saving_fraction": "2.89229885628914E-2",
+              "median_saving_kwh": "323.615262313838",
+              "mean_saving_kwh": "390.93592338961503"
+            }
+          },
+          {
+            "sheet": "Table 1",
+            "row": 9,
+            "measure": "Solar PV",
+            "fuel_saving": "Electricity savings",
+            "use_in_this_handoff": "context_only_outside_fabric_heating_scope",
+            "numeric_cells": {
+              "sample_n": "25199",
+              "median_saving_fraction": "0.12228015322168199",
+              "mean_saving_fraction": "9.3464484576783205E-2",
+              "median_saving_kwh": "303.70800000000003",
+              "mean_saving_kwh": "314.81882906045098"
+            }
+          },
+          {
+            "sheet": "Table 2",
+            "row": 5,
+            "measure": "Solid Wall Insulation and Loft Insulation",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "1609",
+              "median_saving_fraction": "0.143121750351656",
+              "mean_saving_fraction": "0.13251670997637699",
+              "median_saving_kwh": "1550.5716632973499",
+              "mean_saving_kwh": "1723.98127889336"
+            }
+          },
+          {
+            "sheet": "Table 2",
+            "row": 6,
+            "measure": "Solid Wall Insulation and Heat Controls",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "2192",
+              "median_saving_fraction": "9.1493813843610203E-2",
+              "mean_saving_fraction": "8.0731686165707195E-2",
+              "median_saving_kwh": "999.87883682181098",
+              "mean_saving_kwh": "1214.82816979375"
+            }
+          },
+          {
+            "sheet": "Table 2",
+            "row": 7,
+            "measure": "Solid Wall Insulation, Loft Insulation and Heat Controls ",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "4841",
+              "median_saving_fraction": "0.10274181212828",
+              "mean_saving_fraction": "8.73139861568311E-2",
+              "median_saving_kwh": "1082.4791881650899",
+              "mean_saving_kwh": "1387.21760293899"
+            }
+          },
+          {
+            "sheet": "Table 2",
+            "row": 8,
+            "measure": "Cavity Wall Insulation and Loft Insulation",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "2297",
+              "median_saving_fraction": "8.3764844805140098E-2",
+              "mean_saving_fraction": "7.7794480912676198E-2",
+              "median_saving_kwh": "878.86102079933596",
+              "mean_saving_kwh": "809.37448758824496"
+            }
+          },
+          {
+            "sheet": "Table 2",
+            "row": 9,
+            "measure": "Condensing Boiler and Heat Controls",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "5191",
+              "median_saving_fraction": "0.11522675364865401",
+              "mean_saving_fraction": "8.8662496481891603E-2",
+              "median_saving_kwh": "1218.1495644454899",
+              "mean_saving_kwh": "1328.4561977383"
+            }
+          },
+          {
+            "sheet": "Table 2",
+            "row": 10,
+            "measure": "Condensing Boiler, Loft Insulation and Heat Controls",
+            "fuel_saving": "Gas savings",
+            "use_in_this_handoff": "foreign_reference_estimate",
+            "numeric_cells": {
+              "sample_n": "7044",
+              "median_saving_fraction": "9.6326239917874104E-2",
+              "mean_saving_fraction": "7.0830598697160602E-2",
+              "median_saving_kwh": "1009.10048027497",
+              "mean_saving_kwh": "1162.2279943860501"
+            }
+          }
+        ]
+      },
+      "quantile_policy": {
+        "truth": "DER",
+        "statistic": "PUBLISHED_WEIGHTED_QUANTILES_AVERAGED_OVER_MATCHING_RUNS",
+        "locator": "Workbook Table3; Annex D pp15-16",
+        "confidence_intervals": false,
+        "raw_single_cohort_distribution": false,
+        "numeric_quantiles_in_this_handoff": false
+      },
+      "sign_policy": {
+        "status": "UNRESOLVED_RAW_CHANGE_SIGN_CONVENTION",
+        "locator": "Workbook Table3; Annex D p15; Cover A20",
+        "handling": "Use explicitly labelled positive savings only. Do not reconstruct or repair raw signed pre/post deltas. This ambiguity does not prevent retaining published savings references."
+      },
+      "year_label_policy": "Annex D p15 pre-intervention Year 0 wording differs from dated Year 0 minus 1 example p12; retain explicit gas windows without repairing source text",
+      "heat_pump_effect_identified": false,
+      "control_or_emitter_physical_effect_identified": false,
+      "applicability_status": "Q",
+      "outcome_authority_status": "Q",
+      "usable_for_engine": false,
+      "measure_label_scope": {
+        "source_id": "SRC-B06-DESNZ-NEED-HEADLINE-EW-2026",
+        "locator": "Notes!B4",
+        "label": "Loft Insulation",
+        "included_measures": [
+          "loft insulation",
+          "roof insulation",
+          "room-in-roof insulation"
+        ],
+        "applies_to": "Single-measure and combination labels containing Loft Insulation"
+      },
+      "observation_horizon": {
+        "source_id": "SRC-B06-DESNZ-NEED-HEADLINE-EW-2026",
+        "locator": "Cover sheet!A3",
+        "truth": "DER",
+        "value": 1,
+        "unit": "year after installation",
+        "persistent_lifetime_savings_demonstrated": false
+      },
+      "uncertainty_assessment": {
+        "source_id": "SRC-B06-DESNZ-NEED-ANNEX-D-2026",
+        "locator": "p16, Variations in estimated savings between years",
+        "full_assessment_completed": false,
+        "estimates_are_indicative_not_precise": true,
+        "exact_numeric_storage_meaning": "Exact XML strings preserve the published cells; decimal length does not establish statistical precision"
+      },
+      "release_comparability": {
+        "source_id": "SRC-B06-DESNZ-NEED-HEADLINE-EW-2026",
+        "locator": "Cover sheet!A4",
+        "direct_comparability_with_previous_releases_assumed": false,
+        "reason": "Methodological changes can prevent direct comparison with figures in previous releases",
+        "later_time_series_use": "Use source-coherent Impact of Measures by year of installation: England and Wales tables for that claim"
+      }
+    }
+  },
+  "validation_debt": [
+    {
+      "id": "B06-REF-SOLANOVA-NORMALIZATION",
+      "status": "Q",
+      "scope": "Normalized before/after effect claim only",
+      "required": "Identify both-period weather/operation normalization and quantify uncertainty; separate baseline remains usable as a reference"
+    },
+    {
+      "id": "B06-REF-SOLANOVA-HEAT-BOUNDARY",
+      "status": "Q",
+      "scope": "Useful-heat/system calibration only",
+      "required": "Resolve relevant meter/loss/floor-area/as-built boundaries; do not force rounded source quantities to reconcile"
+    },
+    {
+      "id": "B06-REF-TARGET-TRANSFER",
+      "status": "Q",
+      "scope": "Hungarian target or population effect",
+      "required": "Justify target building, service, climate, installation and source-selection differences with representative inference/uncertainty; source weights are not target weights"
+    },
+    {
+      "id": "B06-REF-NEED-SIGNED-DELTAS",
+      "status": "Q",
+      "scope": "Raw signed change reconstruction only",
+      "required": "Resolve Table3/AnnexD sign convention before raw-delta reconstruction; not a gate on quoted published savings"
+    }
+  ],
+  "allowed_next_use": "Explicit claim-matched calibration or transfer with uncertainty; credible aggregate/reference evidence does not universally require private household bills or exhaustive census data",
+  "still_open": "Canonical benefit/weights/cost, heat-pump installed-duty reconciliation, household and national economics, and original B06-D03 acceptance"
+}

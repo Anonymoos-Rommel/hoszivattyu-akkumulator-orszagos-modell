@@ -937,12 +937,30 @@
           "data": "Párosított előtte/utána megfigyelés, időjáráskorrekció, használat/rebound; mintavétel, hiány és magyar súlyok. Külföldi EoH csak kontrollált transzfer.",
           "phase": "A",
           "slice_id": "B06-D03",
-          "status": "NOT_STARTED",
+          "status": "RESEARCHING",
           "canonical_source_ids": [],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
-          "research_log": [],
+          "validation_debt_ids": [
+            "B06-REF-SOLANOVA-NORMALIZATION",
+            "B06-REF-SOLANOVA-HEAT-BOUNDARY",
+            "B06-REF-TARGET-TRANSFER",
+            "B06-REF-NEED-SIGNED-DELTAS"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-05",
+              "source_families": [
+                "SOLANOVA participating-author TREES report/companion and original ACEEE coordinator paper",
+                "DESNZ NEED 2026 original England/Wales headline workbook, report and Annexes A/D"
+              ],
+              "remaining_unknown": "Target transfer, normalization/service and meter/area boundaries, source-selection uncertainty and Hungarian weights remain unresolved; raw NEED signed-change reconstruction is separately unresolved. Current cost, HP duty and original task acceptance remain open.",
+              "promising_next_lead": "Use the admitted source references in a separately justified target calibration or representative inference with uncertainty; no universal household-bill or full-census gate.",
+              "expected_decision_value": "Retains historical Hungarian OBS package evidence and foreign DER matched meter-based savings with exact source identity and separate Q target-effect authority.",
+              "decision": "QUALIFY_BOUNDED_REFERENCES_CONTINUE_TARGET_TRANSFER",
+              "evidence": "docs/source_packs/B06_RETROFIT_PHYSICAL_MODEL.md#v1-067-paired-primary-references"
+            }
+          ],
           "reviewed_commit": null
         }
       ],
