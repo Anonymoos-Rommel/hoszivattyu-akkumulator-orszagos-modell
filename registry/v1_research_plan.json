@@ -1,0 +1,2636 @@
+{
+  "schema_version": 1,
+  "plan_id": "V1-EVIDENCE-FEASIBILITY-2026-10-01",
+  "baseline_commit": "144c0d96cee674fbea4bf951826e68f000b45705",
+  "purpose": "Conditional national feasibility calculation; no site permission or guaranteed funding claim",
+  "status": "AUTHORIZED_EXECUTION_PLAN",
+  "evidence_policy": "docs/methodology/evidence_tier_and_validation_debt_policy.md",
+  "execution_contract": "docs/methodology/v1_evidence_feasibility_execution.md",
+  "modules": [
+    {
+      "id": "B01",
+      "title": "Programterjedelem és penetráció",
+      "dependencies": "B02 állomány; később B10, B12–B15 és B18 visszacsatolás.",
+      "slices": [
+        {
+          "title": "Célpopuláció és átmenetek",
+          "data": "Lakás/év és arány, HU vármegye × archetípus × S0–S5; 2022 állomány és kiválasztott induló év közti építés/megszűnés/felújítás híd. Részvétel, kiesés, várakozás és alkalmas állomány külön.",
+          "phase": "A",
+          "slice_id": "B01-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B02-KSH-CENSUS-API-2022",
+            "SRC-B01-KSH-STADAT-STOCK-2026",
+            "SRC-B01-KSH-STADAT-FLOW-2025"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "KSH census-derived STADAT total stock",
+                "KSH administrative completions/removals; same institutional lineage, not independent surveys"
+              ],
+              "remaining_unknown": "Occupied/non-district cohort transitions, renovation, participation and technical eligibility; total-stock bridge does not identify them",
+              "promising_next_lead": "Reuse original occupied KSH frame while acquiring claim-appropriate occupancy/renovation transition evidence",
+              "expected_decision_value": "Adds exact public county/time stock accounting without silently changing target denominator",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_004_B01_PUBLIC_STOCK_FLOW.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing KSH 2022 WBL011 V67 full observed joint; no new synthetic join",
+                "Existing scoped JRC 2022 SH service and final-energy model ledgers; natural gas and biogas source boundary"
+              ],
+              "remaining_unknown": "Central and selected-stock heat allocation, actual-population ledger applicability, positive saving floor, eligibility, rollout and complete national feasibility remain unresolved",
+              "promising_next_lead": "Use explicit policy/scenario thresholds and compatible heat/selection constraints when stronger decisions require tighter bounds; continue independent accepted-input modules",
+              "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
+              "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
+              "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Tulajdonosi forgatókönyv",
+          "data": "Célszám, horizont, éves keret [HUF/év], cash-flow minimum, súlyok és társadalmi minimum: POL/SCN döntés, nem három publikációból becsült tény.",
+          "phase": "A",
+          "slice_id": "B01-P01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner policy decisions, bounded digest; original private"
+              ],
+              "remaining_unknown": "Exact target, horizon, annual public budget, reinvestment/debt bounds, benefit metric/denominator and numeric weights remain unset; technical cashflow comparison and scientific inputs still required.",
+              "promising_next_lead": "Implement and qualify household-only first-day non-worsening on complete dated cashflows; preserve selected benefit/public-HUF direction and 2028-01-01 planning start.",
+              "expected_decision_value": "Resolves actor/bindingness and conflict-priority direction plus planning date without hidden policy defaults.",
+              "decision": "RECORD_PARTIAL_OWNER_POLICY_WITH_OPEN_PARAMETERS",
+              "evidence": "registry/owner_policy_decisions.json"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner completed-cohort financing and deliberate user-scenario requirements"
+              ],
+              "remaining_unknown": "Actual cohort thresholds and fiscal attribution/cash dates, seed finance, capacity, exact horizon/ceiling/share, benefit definition and weights remain to be qualified; illustrative amounts are not inputs.",
+              "promising_next_lead": "Apply the declared triple-completion and household-protection gates, dated fiscal-release ledger and explicit parameter contract to qualified upstream inputs.",
+              "expected_decision_value": "Specifies intended cohort subsidy exit, recurring released-cash reinvestment, capacity/formality and scenario controls without assuming unlimited budget or acceleration.",
+              "decision": "CONTINUE_PARTIALLY_SPECIFIED_POLICY_AND_METHOD_PREPARATION",
+              "evidence": "docs/methodology/owner_policy_20261004.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "A központi célszámhoz populációhoz illesztett minta/kalibráció kell; az explicit 2M SCN futtatható, de nem jogosultsági bizonyíték. Meglévő jó KSH-kontrollt nem kell újra beszerezni.",
+      "accept": "Állománymegmaradás, fázisduplázás tilalma, kapacitás miatti elmaradás látható; a B18/B13/B10 visszacsatolás után ismételt futás. Előbb SCN pálya, utána végrehajthatóság.",
+      "stop": "Ha csak állománydarabszám van, technikai jogosultsági becslés nem zárható. A döntési súlyokra forráskeresés helyett tulajdonosi döntés kell.",
+      "existing_at_base": "SCN rollout és állapotgép van; a fizikai nem távfűtött univerzum 3 389 817 lakás. A tényleges technikai/final jogosultsági szám Q; célérték nem bizonyított részvétel."
+    },
+    {
+      "id": "B02",
+      "title": "Épületállomány és archetípusok",
+      "dependencies": "B01 nevező; B06 beavatkozási csomag; átadás B05/B11/B12.",
+      "slices": [
+        {
+          "title": "Állomány és hőigény",
+          "data": "m²/lakás, hasznos kWh_th/év és kW_th design-csúcs; HU típus × kor × térség, 2022 állományból dokumentált frissítés. KSH primerenergia → hasznos hő átalakítás külön, végfelhasználási bontással.",
+          "phase": "A",
+          "slice_id": "B02-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+            "SRC-B02-JRC-IDEES-HU-2023",
+            "SRC-B02-HU-CSOKNYAI-HOUSING-STOCK-DISSERTATION-2022",
+            "SRC-B02-HU-REKK-TARKI-ENVELOPE-2022"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "VD-B02-V1-HEAT-UNIVERSE",
+            "VD-B02-V1-HEAT-ENDUSE",
+            "VD-B02-V1-HEAT-EFFICIENCY",
+            "VD-B02-V1-HEAT-ALLOCATION",
+            "VD-B02-V1-HEAT-WEATHER"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Eurostat national energy reporting; MEKH administrative and KSH household survey lineage",
+                "TU Wien Invert primary model release; current full physical import tooling-blocked"
+              ],
+              "remaining_unknown": "Useful-heat/device boundary and target-cohort mapping; no measured heating need or design peak inferred from national final energy",
+              "promising_next_lead": "Claim-matched physical stock inputs and conversion assumptions with national final-energy calibration",
+              "expected_decision_value": "Separates heating and hot water from cooking/appliances before gas or electricity programme comparison",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "JRC-IDEES official model; dependent on Eurostat and EU Ecodesign"
+              ],
+              "remaining_unknown": "End-use revision/decomposition discrepancy and Hungarian equipment/target-cohort applicability",
+              "promising_next_lead": "Use native paired final/useful controls for coherent same-year calibration sensitivity",
+              "expected_decision_value": "Provides sourced useful-energy ratios while exposing household/dwelling and final/useful boundary errors",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing pinned JRC paired SH/DHW detail; dependent Eurostat controls; KSH occupied-dwelling normalization"
+              ],
+              "remaining_unknown": "Physical population/energy universe, programme allocation and annual-to-hourly calibration",
+              "promising_next_lead": "Use existing admitted physical surfaces and this scoped annual reference in a controlled calibration estimator",
+              "expected_decision_value": "Admits a real E2 annual calibration base without rescaling national heat by mismatched counts or repeating general source searches",
+              "decision": "SCOPED_E2_ADMITTED_CONTINUE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing dissertation census2011-based type counts/area and author-applied area bridge",
+                "Existing KSH2022 full joint and P21 linkage"
+              ],
+              "remaining_unknown": "Historical area/type transfer and omitted within-cell physical conditioning; weights remain SCN experiment not E2",
+              "promising_next_lead": "Use true census dwelling-area exposure with source-defined full-heating bridge, not synthetic prototype size as current dwelling area",
+              "expected_decision_value": "Real116452-cell mass-conserving run locates area-basis mismatch and prevents spurious national heat/cost scaling",
+              "decision": "CONTINUE_TARGETED_CALIBRATION",
+              "evidence": "docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "TARKI-REKK2022 household survey; existing KEOP/Csoknyai and related Hungarian usage studies"
+              ],
+              "remaining_unknown": "Within-group area/use cross-moment, type-level actual heat allocation and source-matched annual/peak physical states",
+              "promising_next_lead": "Reuse populated same-service physical cases and published low-dimensional usage controls before requiring more granular measurement",
+              "expected_decision_value": "Prevents national-total calibration from hiding service, weather and stock-year differences",
+              "decision": "PUBLIC_SERVICE_CONTROL_INTEGRATED_NOT_HEAT_ADMISSION",
+              "evidence": "docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Current KSH occupied-area publication and same-year occupied denominator",
+                "Existing observed full joint and preserved historical area-transfer diagnostics"
+              ],
+              "remaining_unknown": "Unrounded publication mean/rounding metadata remain E1 upgrade debt; area-service-physical cross-moments and aggregate heat-universe bridge remain unresolved",
+              "promising_next_lead": "Use the source-bound current-area feasible set before a qualified coarse-group heat contrast; no automatic historical-weight rescaling",
+              "expected_decision_value": "Rejects unchanged historical area exposures even under the wider rounding sensitivity and bounds subgroup area without midpoint or independence assumptions",
+              "decision": "CONTINUE_SCOPED_E2_AREA_CALIBRATION",
+              "evidence": "docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing KSH 2022 WBL011 V67 full observed joint; no new synthetic join",
+                "Existing scoped JRC 2022 SH service and final-energy model ledgers; natural gas and biogas source boundary"
+              ],
+              "remaining_unknown": "Central and selected-stock heat allocation, actual-population ledger applicability, positive saving floor, eligibility, rollout and complete national feasibility remain unresolved",
+              "promising_next_lead": "Use explicit policy/scenario thresholds and compatible heat/selection constraints when stronger decisions require tighter bounds; continue independent accepted-input modules",
+              "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
+              "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
+              "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Burok és hőleadó",
+          "data": "U [W/m²K], felületek [m²], légcsere [1/h], hőhidak [W/K], méretezési hőfok [°C], műszaki beavatkozás. Meglévő E2 felületek materializálása; ismeretlen közös eloszlás részleges azonosítással.",
+          "phase": "A",
+          "slice_id": "B02-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing P90/P91/P94/P95/P96/P97/P98 prospective physical contracts and source surfaces",
+                "Pinned Mitsubishi WM50 manufacturer-coordinate consumer",
+                "Separate native TABULA annual reference"
+              ],
+              "remaining_unknown": "Hourly demand/gains/time/supply/controller and source-specific runtime penalties; actual-record P65 emitter authority; population allocation and national service choices. No annual/SPF or national programme result.",
+              "promising_next_lead": "Use this bounded design/capacity balance as a reference before an explicitly justified hourly same-service consumer and defensible population inference.",
+              "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
+              "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Magyar átvihetőség",
+          "data": "Lakás- és háztartásnevező egyeztetése; megfigyelt baseline/felújított állapot és terminal kimenet; a brit technikai válasz nem magyar prevalencia.",
+          "phase": "A",
+          "slice_id": "B02-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "KSH+REKK+TABULA nem automatikusan három független minta: közös BME/KEOP eredetet jelölni. E2-höz hazai kontroll, reprezentativitás és termikus konzisztencia szükséges.",
+      "accept": "Súlyok a céluniverzumra zárnak; hasznos hő és primerenergia külön; hiányzó cella nem nulla; függőségi stressz és országos fogyasztási kontroll. Egyedi lakás PASS nem származik arányból.",
+      "stop": "Csak ténylegesen nyilvános, költségmentes adatbeszerzés használható. Ha a nyilvános felület nem azonosít egy pontot, a védhető halmazt továbbvinni; pont-E2 csak valódi alátámasztással.",
+      "existing_at_base": "KSH joint és jóváhagyott kalibrált típuskapcsolás, számos fizikai korlát van. A primerenergia nem hasznos hő, az egyedi alkalmasság és a teljes nemzeti fizikai input még hiányos."
+    },
+    {
+      "id": "B03",
+      "title": "Gázár és földgáz-kitettség",
+      "dependencies": "Árforráskutatás önálló; B11 fizikai mennyiségével értékké kapcsolódik; átadás B12/B13/B15.",
+      "slices": [
+        {
+          "title": "Nagykereskedelmi bázis",
+          "data": "TTF EUR/MWh nap/hónap, megfigyelési ablak és forward as-of dátum; HU importértékhez nem automatikusan azonos. ACER táblából exact érték és eredet, frissességi/használati ellenőrzés.",
+          "phase": "A",
+          "slice_id": "B03-D01",
+          "status": "RESEARCHING",
+          "canonical_source_ids": [
+            "SRC-B03-ACER-TTF-2026"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [
+            "tests/test_b03_forward_placeholder_truth.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Existing ACER/ICIS official source-page and report lead; exact original curve not acquired"
+              ],
+              "remaining_unknown": "Exact lawful export, assessment date/timezone, instrument tenors, calorific basis and intended-use rights remain unqualified. Historical retrieval is not curve as-of.",
+              "promising_next_lead": "Resume the access-blocked ACER route only when exact lawful source export and use qualification are available; other wholesale sources still require their own qualification.",
+              "expected_decision_value": "Corrects unsupported August dates and an unselected BASE label on an entirely empty Q placeholder without admitting a price or bypassing access restrictions.",
+              "decision": "RECONCILE_SOURCE_TRUTH_KEEP_WHOLESALE_NUMERIC_GAP_OPEN",
+              "evidence": "docs/checkpoints/V1_051_EMPLOYMENT_AND_PLAN_RECONCILIATION.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Lakossági árhíd",
+          "data": "HUF/MJ vagy HUF/kWh, fix HUF/év, fogyasztási sáv és hatálynap; adó, hálózat, tárolás/margin, kedvezmény. Szabályozott és piaci csatorna külön.",
+          "phase": "A",
+          "slice_id": "B03-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Original TABULA workbook and method",
+                "IEA/Eurostat2004 general energy convention",
+                "MVM2026 gas rulebook and current listing"
+              ],
+              "remaining_unknown": "Physical Hungarian NCV/GCV and actual billing-energy compatibility; retained other uses and allowance; actual connection attribution/avoidability; wholesale/import valuation remain separate",
+              "promising_next_lead": "Integrate named source-only gas convention and explicitly conditional regulated reference; preserve actual billing and national inference debt",
+              "expected_decision_value": "Prevents mixing GCV with NCV tariff energy and NET fixed charges with GROSS rates; makes bounded source/reference arithmetic reproducible without invented gas chronology",
+              "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_045_GAS_ENERGY_AND_TARIFF_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Értékelési egységek és jövő",
+          "data": "HUF/EUR azonos időablak; LHV/GCV, MJ/m³ referenciaállapot; hosszú távú árpálya SCN és forrásolt kiindulás, nem a 2027-ig látott görbe önkényes hosszabbítása.",
+          "phase": "A",
+          "slice_id": "B03-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Az ACER numerikus nyilvános jelölt, de ICIS-alapú és 2026.04.21-i; EC-riport azonos eredet esetén nem független. Más időfelbontású nyilvános helyettesítő új V1 input-szerződést igényel, nem csendes átnevezést.",
+      "accept": "Deviza/idő/energiahatár teszt; adó és fix díj egyszer; fogyasztási sávhatár; üres forward/nulla jelentés; spot és határidős ár nem összekeverve.",
+      "stop": "Ha friss, ingyenes, megengedett forward nincs, ne ígérjünk ilyet. Dátumozott alap + explicit hosszú távú SCN csak jóváhagyott scope-pal; érintett canonical E3 addig nyitott.",
+      "existing_at_base": "Szabályozott tarifa-snapshot és számítási szabály van. A friss hosszú távú piaci sor, árhíd és jogszerű numerikus export több jelenlegi E3 kérdés."
+    },
+    {
+      "id": "B04",
+      "title": "Villamosenergia-ár és tarifák",
+      "dependencies": "B05/B07 mérőkör és órás profil; átadás B12/B13.",
+      "slices": [
+        {
+          "title": "Háztartási számlázási tábla",
+          "data": "HUF/kWh és HUF/év, nettó/bruttó, DSO-terület, H/A1/B mérőkör, hatálynap, szezon és fogyasztási küszöb; jelenlegi hivatalos mellékletből.",
+          "phase": "A",
+          "slice_id": "B04-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+            "SRC-B04-MEKH-SYSTEM-FEES-2024"
+          ],
+          "accepted_artifacts": [
+            "data/processed/residential_electricity_tariff_schedule.csv",
+            "data/processed/h_tariff_schedule.csv",
+            "data/processed/electricity_price_component_bridge.csv",
+            "registry/b04_tariff_source_verification.json",
+            "registry/electricity_price_sources.csv",
+            "registry/electricity_tariff_rules.csv",
+            "modules/B04/engine.py",
+            "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md"
+          ],
+          "consumer_tests": [
+            "tests/test_b04_canonical_tariff_consumer.py",
+            "tests/test_b04_outside_h_and_b.py",
+            "tests/test_b04_tariff_source_verifier.py",
+            "tests/test_b04_electricity_price_engine.py",
+            "tests/test_b04_h_battery_boundary.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B04-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "MVM current price page and linked residential tariff table",
+                "MVM M.1 sections 2.2.4-2.2.5 and 3.1"
+              ],
+              "remaining_unknown": "Exact H outside-season full-rate/network and period allocation; downstream annual billing integration",
+              "promising_next_lead": "Current tariff authority and actual invoice-period allocation contract",
+              "expected_decision_value": "Prevent energy-component/final-price confusion and incorrect universal high-rate H fallback",
+              "decision": "CONTINUE",
+              "evidence": "docs/checkpoints/V1_002_B04_TARIFF_BOUNDARY.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing MVM current tariff table/M.1/M.2.2 and official MEKH consolidated network rule"
+              ],
+              "remaining_unknown": "Exact H settlement entitlement/carryover and seasonal billed-month allocation; aligned annual load/billing handoff and individual legal eligibility remain separate",
+              "promising_next_lead": "Supplier/distributor authoritative worked H settlement or explicit billing-period input for conditional V1 costs; avoid arbitrary full 2523-kWh or half-year quota assumption",
+              "expected_decision_value": "Closes profiled outside-H rate mapping and B Alap cost consumer without manufacturing an annual invoice",
+              "decision": "CONTINUE_BILLING_PERIOD_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_014_B04_OUTSIDE_H_AND_B.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Pinned MVM M.1 and residential tariff annexes, snapshot 2026-10-01",
+                "Official consolidated MEKH system-fee mapping, reread 2026-10-02"
+              ],
+              "remaining_unknown": "Q-B04-002 full effective-date component/tax bridge remains E2 debt; household annual allocation and B04-L01 topology/eligibility are separate downstream scopes",
+              "promising_next_lead": "Use the accepted bounded tariff consumer with evidenced circuit, seasonal allocation and connection-period inputs; acquire only missing downstream facts",
+              "expected_decision_value": "Closes the actual D01 source-table criterion by verified reuse without requiring household records or national annual billing as a new table gate",
+              "decision": "ACCEPT_BOUNDED_REUSED_TARIFF_HANDOFF_WITH_VALIDATION_DEBT",
+              "evidence": "docs/checkpoints/V1_034_B04_TARIFF_HANDOFF_ACCEPTANCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing accepted B04 regulated tariff schedules and exact reacquired MVM source PDFs",
+                "Existing annual source-rating device method with exact Budapest civil2025 weather"
+              ],
+              "remaining_unknown": "Actual entitlement, invoice allocation, connection/end-use attribution, installed electricity and household baseline; no actual bill or B12 cashflow admission",
+              "promising_next_lead": "Use the explicit conditional charge function with qualified meter/account inputs when that downstream claim is needed",
+              "expected_decision_value": "Connects complete annual reference energy to tariff response while preventing whole-year H pricing, repeated A1 headroom, invented H August reset and double connection fees",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_TARIFF_CONSUMER",
+              "evidence": "docs/checkpoints/V1_043_ANNUAL_TARIFF_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": "365a28433f5eda976fa00936282a1565922de45a"
+        },
+        {
+          "title": "Rendszerértékelési ár",
+          "data": "EUR/MWh vagy HUF/MWh órás/napi nagykereskedelmi sor, HU ajánlati zóna, as-of; külön a lakossági számlától. Dinamikus termék csak ha tényleges szerződési/elszámolási feltétel elérhető.",
+          "phase": "A",
+          "slice_id": "B04-D02",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B04-MVM-D-PRODUCT-2026",
+            "SRC-B04-MVM-D-METHOD-2026",
+            "SRC-B04-MVM-D-FEE-20260910",
+            "SRC-B04-MVM-D-HISTORY-2026-09",
+            "SRC-B04-ENTSOE-TERMS-LISTING-20261003",
+            "SRC-B04-ENTSOE-PRICE-DEFINITION-20261003",
+            "SRC-B04-ENTSOE-FREE-REUSE-20231018",
+            "SRC-B04-ENTSOE-TERMS-20230329",
+            "SRC-B04-HUPX-ACCESS-20261003",
+            "SRC-B04-HUPX-TERMS-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+            "SRC-B04-SMARD-HU-QUARTERHOUR-INDEX-20261003",
+            "SRC-B04-SMARD-DATA-USE-20261003",
+            "SRC-B04-SMARD-PUBLIC-EXPORT-CODE-20261003",
+            "SRC-B04-SMARD-DOWNLOAD-20261003",
+            "SRC-B04-SMARD-GUIDE-202109",
+            "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+            "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+            "SRC-B04-SMARD-CONFIG-20261003",
+            "SRC-B04-SMARD-PUBLIC-CHART-CODE-20261003",
+            "SRC-B04-SMARD-SMARD-MOD-CSV-20261003",
+            "SRC-B04-SMARD-SMARD-MOD-URLS-20261003",
+            "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+            "SRC-B04-SMARD-REGIONS-20261003",
+            "SRC-B04-SMARD-GUIDE-LISTING-20261003"
+          ],
+          "accepted_artifacts": [
+            "registry/b04_wholesale_reference_manifest.json",
+            "modules/B04/wholesale_reference.py",
+            "tools/materialize_b04_wholesale_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b04_wholesale_reference.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "MVM supplier contract/method/notice",
+                "MVM HUPX-derived retrospective price table; not independent of HUPX"
+              ],
+              "remaining_unknown": "Aligned household loads/weather; network/fixed/tax and entitlement; actual future contract eligibility; public full-series reuse rights",
+              "promising_next_lead": "Use the materialized panel only for a justified optional D scenario with matching physical time window",
+              "expected_decision_value": "Replaces hypothetical dynamic-product assumption with source-native product terms and an acquired price panel",
+              "decision": "CONTINUE_WHEN_SCENARIO_CONSUMER_READY",
+              "evidence": "docs/checkpoints/V1_003_B04_DYNAMIC_SOURCE_INTAKE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Official Bundesnetzagentur | SMARD.de HU numerical market-data exports and current source-specific usage terms",
+                "Native configuration, time/price guide, resolution-transition notice and five matching JSON epoch witnesses"
+              ],
+              "remaining_unknown": "Original auction-publication vintage and per-record revisions are absent. Hourly values are publisher calculated and rounded; tie-rounding remains unknown. Quarter display before October repeats native hourly prices. Original end-label DST anomalies are retained with physical endpoints derived. Wholesale energy-only reference valuation does not establish actual quarter-hour procurement, household retail, FX, dispatch entitlement, forecasts, programme benefits or national readiness. Optional MVM D evidence remains separate, not recovered or inverted.",
+              "promising_next_lead": "Verify the exact consumer and source-preserving private materialization, then hosted no-skip CI and separately approved actual-commit-bound D02 acceptance; matched B19 price integration is a later distinct slice.",
+              "expected_decision_value": "Supplies every original wholesale-price source field through a dated HU hourly reference, preserving source lineage, currency, physical time, signed prices and explicit valuation boundary without demanding a full licensed historical/forward package.",
+              "decision": "QUALIFIED_SMARD_HU_WHOLESALE_HANDOFF_PREPARE_EXACT_CONSUMER_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_057_HU_WHOLESALE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Official SMARD HU publisher-hourly and original-resolution exports, source-specific rights/time/configuration evidence and five same-lineage JSON epoch witnesses"
+              ],
+              "remaining_unknown": "Retrospective retrieval is not original auction vintage; per-record revisions and publisher tie-rounding are unknown. Source end-label DST anomalies remain retained evidence with physical endpoints derived. Pre-transition repeated quarter display is not independent quarter-hour auction data. Actual retail, FX, uneven subhour procurement, operating permission, forecasts, programme effects and national readiness remain outside this handoff. Optional MVM D and broader licensed history/forward scope remain separate.",
+              "promising_next_lead": "Use the accepted explicit hourly reference within its source/time/valuation limits; consider a separately reviewed aligned B19 price handoff without inventing future probability or policy thresholds.",
+              "expected_decision_value": "Completes the original HU hourly wholesale currency, bidding-zone and dated source handoff with a genuine exact consumer and private materialization; no additional optional retail or national model gate is claimed.",
+              "decision": "ACCEPT_BOUNDED_SOURCE_QUALIFIED_B04_D02_HOURLY_WHOLESALE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_057_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "69d921c903c35c19e6dd34aa5aac562fa6a13082"
+        },
+        {
+          "title": "Mérési topológia",
+          "data": "H-mérőn töltés/kisütés/export és VPP jogosultság igen/nem/nyitott, pontos kapcsolás és hatály. Jogi bizonyíték, nem statisztikai becslés.",
+          "phase": "A",
+          "slice_id": "B04-L01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B04-NJT-H-TARIFF-2026",
+            "SRC-B04-NJT-NFM4-2011-CURRENT-20261003",
+            "SRC-B04-NJT-EM20-2025-H-EFFECTIVITY",
+            "SRC-B04-NJT-ITM17-2019-H-GRANDFATHER",
+            "SRC-B04-MVM-M1-2026",
+            "SRC-B04-MVM-ESZ-20260301",
+            "SRC-B04-MVM-ESZ-LISTING-20261003",
+            "SRC-B04-MVM-ESZ-ANNOUNCEMENT-20261003",
+            "SRC-B04-MEKH-MVM-ESZ-APPROVAL-2026",
+            "SRC-B04-NJT-VET-20261001",
+            "SRC-B04-NJT-VET-AMEND-2026-36",
+            "SRC-B04-NJT-VHR-20261001",
+            "SRC-B04-NJT-VHR-AMEND-2026-131",
+            "SRC-B04-DSO-ESZ29-LISTING-20261003",
+            "SRC-B04-DSO-ESZ29-20260707",
+            "SRC-B04-DSO-ESZ29-ANNEX-20260707",
+            "SRC-B04-MEKH-DSO-ESZ29-APPROVAL-2026",
+            "SRC-B04-MVM-H-FAQ-2026",
+            "SRC-B04-MVM-HALOZAT-H-DATA-2026",
+            "SRC-B04-MEKH-HMKE-EXPORT-2026",
+            "SRC-B04-MVM-HMKE-REQUEST-FORM-20261003"
+          ],
+          "accepted_artifacts": [
+            "registry/b04_topology_reference_manifest.json",
+            "data/processed/b04/topology_reference_20261003.json",
+            "modules/B04/topology_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b04_topology_reference.py",
+            "tests/test_b04_h_battery_boundary.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B04-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "NJT current H/VET/Vhr instruments and amendment lineage",
+                "Current MVM ESZ/M.1 approval/listing",
+                "National DSO code revision 29, annexes and approval",
+                "H device/FAQ and HMKE procedural context"
+              ],
+              "remaining_unknown": "Actual-site permissions, as-built switching paths and connection/POD mapping, selected consumer aggregation terms and exact post-July-2026 operational protocol alignment remain OPEN. No national permission or savings estimate.",
+              "promising_next_lead": "Independently review the exact source-to-consumer handoff, then hosted verification before conditional acceptance. Acquire actual operation evidence only for a selected site/service.",
+              "expected_decision_value": "Completes four separate researched operation dispositions across six explicit reference paths, corrects repealed authority, preserves source/contract effectivity, disabled operation and unknown foregone benefit.",
+              "decision": "PREPARE_RESEARCHED_OPEN_L01_HANDOFF_AWAIT_REVIEW_AND_HOSTED_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_055_H_TOPOLOGY_AUTHORITY.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "21 qualified official current/historical legal, supplier and DSO sources; source lineage, exact effectivity and procedural context"
+              ],
+              "remaining_unknown": "Actual-site H battery charge, discharge, export and VPP rights remain OPEN/E3 under Q-B04-001. Reference wiring is not as-built evidence. Selected consumer/market-service terms and exact post-July-2026 operational protocol alignment remain operation-enabling debt. No site or national permission, savings, numerical tariff result or readiness increase.",
+              "promising_next_lead": "Use the accepted dated researched-OPEN reference; obtain actual topology, mapping, operation-specific authority and selected-service evidence before any operation-enabling decision.",
+              "expected_decision_value": "Closes the original four-operation YES/NO/OPEN, explicit reference-wiring and effectivity handoff without inventing blanket prohibitions, outside-H contract requirements, supplier/BRP consent or universal export prerequisites.",
+              "decision": "ACCEPT_DATED_B04_L01_RESEARCHED_OPEN_SOURCE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_055_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "13ddb607b86d99ff92e662d027d5c8ce85887186"
+        }
+      ],
+      "e2": "Árhoz a hivatalos hatályos tábla lehet E1; hiányos komponenshez csak dokumentált E2. Fizikai akkumulátorképesség nem jogi engedély. HUPX hiánya nem állítja meg külön a háztartási tarifaszámítást.",
+      "accept": "ÁFA, fix díj, H-szezon és idősávteszt; import/export külön; az árgráf nem vezethet engedély nélküli dispatchhez.",
+      "stop": "Nyilvános jogi forrás nélkül a topológiát nem felminősíteni. A V1-ben csak igazolt legális topológia vagy kikapcsolt/nyitott ág; elvesző haszon látható, nem bizonyított nulla.",
+      "existing_at_base": "MVM A1/H és tarifakeret van, dinamikus tarifa és akkumulátoros H-jogosultság külön nyitott."
+    },
+    {
+      "id": "B05",
+      "title": "Hőszivattyú-fizika",
+      "dependencies": "B02/B06 hőigény/hőfok, B01 termék- és rollout SCN; B08/B12 fogyasztó.",
+      "slices": [
+        {
+          "title": "Órás fizikai bemenet",
+          "data": "HU állomás/éghajlati réteg × óra: T [°C], szükséges páratartalom, kW_th fűtés/HMV, előremenő °C. 2025 referencia plusz dokumentált hideg történeti ablak; közös időtengely.",
+          "phase": "A",
+          "slice_id": "B05-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+            "SRC-B05-HUNGARY-HOURLY-DESC-2026",
+            "SRC-B06-TABULA-HU-CALCULATOR-2016",
+            "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+            "SRC-B06-HOURLY-NOAA-SOLAR-EQUATIONS",
+            "SRC-B06-HOURLY-PVLIB-IRRADIANCE-0161",
+            "SRC-B06-HOURLY-SANDIA-ISOTROPIC",
+            "SRC-B06-HOURLY-SANDIA-GROUND-REFLECTION",
+            "SRC-B05-HUNGARY-ODP-TERMS-2026"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing canonical HungaroMet five-station hourly panel and official format description"
+              ],
+              "remaining_unknown": "Population/climate weighting, thermal demand and supply-temperature path; final consumer interval join not yet complete",
+              "promising_next_lead": "Reuse populated B02 thermal inputs with explicit interval-start energy/price joins",
+              "expected_decision_value": "Avoids redundant weather acquisition and a one-hour physical accounting misalignment",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_007_B05_WEATHER_TIME_SUPPORT.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "TABULA source template and explicitly transferred hourly method parameters",
+                "HungaroMet observed station temperature, humidity and global radiation",
+                "Mitsubishi fixed-water manufacturer capacity grid",
+                "NOAA solar geometry and Erbs/Sandia modeled radiation components"
+              ],
+              "remaining_unknown": "Empirical one-node and floor-boundary applicability; actual cycling, defrost, auxiliary durations/component boundaries and emitter-required supply; population assignment and national service policy remain unadmitted",
+              "promising_next_lead": "Claim-matched lower-boundary/thermal validation and a separately qualified product/runtime method; no inferred electrical or national result",
+              "expected_decision_value": "A reproducible finite hourly thermal SCN and common prescribed-path capacity requirement distinguish insufficient capacity from reduced service",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact HungaroMet Budapest2002–2025 archive and P9 complete-winter statistics",
+                "Existing WM50 Vol5.3 source map; P26/P46 operating-envelope classification"
+              ],
+              "remaining_unknown": "Complete cold-event capacity and installed electricity, product/supply/backup configuration, population weights and programme choices; numeric noncoverage is not measured equipment failure",
+              "promising_next_lead": "Use required emitter supply and a source-supported product/backup design for a declared target, after target/service inputs are established",
+              "expected_decision_value": "Quantifies historical cold exposure of the current fixed-W55 reference without generalizing one product or inventing a cold performance extension",
+              "decision": "BOUNDED_SOURCE_DOMAIN_CHECK_COMPLETED_NO_NATIONAL_GATE_CLOSURE",
+              "evidence": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Termékkohorsz",
+          "data": "Exact típus/revízió × T_kültér × T_víz: Qh, Pel [kW], COP, minimumteljesítmény, üzemhatár, rásegítés. EPREL/certifikáció/gyártó forrásokat eredet szerint összekötni.",
+          "phase": "A",
+          "slice_id": "B05-D02",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B05-JRC-COP-2023",
+            "SRC-B05-STIEBEL-HPA-O-CS-PLUS-2022",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+            "SRC-B05-HPKEYMARK-MITSUBISHI-WM50-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/b05_wm50_full_grid_manifest.json",
+            "data/processed/b05/wm50_full_performance_v53.csv",
+            "modules/B05/manufacturer_wm50_reference.py",
+            "modules/B05/engine.py",
+            "modules/B05/hourly_power_component_reference.py",
+            "registry/b05_annual_device_reference_manifest.json",
+            "modules/B05/annual_device_reference.py",
+            "modules/B05/cold_domain_reference.py",
+            "registry/b05_cold_domain_reference_manifest.json",
+            "registry/b05_p26_mitsubishi_cold_high_supply_classification.csv",
+            "registry/b05_p46_mitsubishi_a15_w50_domain_boundary.csv",
+            "registry/b05_p47_mitsubishi_szu_sampling_report_boundary.csv"
+          ],
+          "consumer_tests": [
+            "tests/test_b05_manufacturer_wm50_reference.py",
+            "tests/test_b05_heat_pump_engine.py",
+            "tests/test_b05_interpolation_energy_consistency.py",
+            "tests/test_b05_annual_device_reference.py",
+            "tests/test_b05_cold_domain_reference.py",
+            "tests/test_b05_p26_mitsubishi_cold_high_supply_classification.py",
+            "tests/test_b05_p46_mitsubishi_a15_w50_domain_boundary.py",
+            "tests/test_b05_p47_mitsubishi_szu_sampling_report_boundary.py",
+            "tests/test_b11_annual_retrofit_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B05-003",
+            "Q-B05-004"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing JRC definition",
+                "Existing STIEBEL manufacturer point table"
+              ],
+              "remaining_unknown": "National equipment/cohort applicability and populated thermal-demand handoff; component consistency is not slice completion",
+              "promising_next_lead": "Reuse source-grain product coverage and B02/B06 physical outputs before new product acquisition",
+              "expected_decision_value": "Remove deterministic consumer/map electricity discrepancy before national aggregation",
+              "decision": "CONTINUE",
+              "evidence": "docs/checkpoints/V1_001_B05_POWER_CONSISTENCY.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing Mitsubishi Vol.5.3 manufacturer document, extended exact product table"
+              ],
+              "remaining_unknown": "Thermal-demand/supply handoff, mode selection and weather-realized runtime; source blanks and national cohort applicability remain explicit",
+              "promising_next_lead": "Integrate a source-filled same-service physical reference case rather than acquiring another generic product average",
+              "expected_decision_value": "Provides explicit cold-condition Q/input reference with preserved source domain and defrost boundary",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing P90/P91/P94/P95/P96/P97/P98 prospective physical contracts and source surfaces",
+                "Pinned Mitsubishi WM50 manufacturer-coordinate consumer",
+                "Separate native TABULA annual reference"
+              ],
+              "remaining_unknown": "Hourly demand/gains/time/supply/controller and source-specific runtime penalties; actual-record P65 emitter authority; population allocation and national service choices. No annual/SPF or national programme result.",
+              "promising_next_lead": "Use this bounded design/capacity balance as a reference before an explicitly justified hourly same-service consumer and defensible population inference.",
+              "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
+              "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact HungaroMet Budapest2002–2025 archive and P9 complete-winter statistics",
+                "Existing WM50 Vol5.3 source map; P26/P46 operating-envelope classification"
+              ],
+              "remaining_unknown": "Complete cold-event capacity and installed electricity, product/supply/backup configuration, population weights and programme choices; numeric noncoverage is not measured equipment failure",
+              "promising_next_lead": "Use required emitter supply and a source-supported product/backup design for a declared target, after target/service inputs are established",
+              "expected_decision_value": "Quantifies historical cold exposure of the current fixed-W55 reference without generalizing one product or inventing a cold performance extension",
+              "decision": "BOUNDED_SOURCE_DOMAIN_CHECK_COMPLETED_NO_NATIONAL_GATE_CLOSURE",
+              "evidence": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact pinned Mitsubishi Ecodan Vol.5.3 manufacturer original and unchanged full WM50 source grid",
+                "Existing claim-specific KEYMARK Outdoor record, independently reread official cached rendering; manufacturer/certification conditions remain separate"
+              ],
+              "remaining_unknown": "A-15/W50 exact joint evidence, installed hydraulic/electric/backup applicability, Q-B05-003/004 and withdrawn exact Cdh/MIN transfer remain open. D01/D03 combined SH/DHW service and national product/rollout selection are separate. KEYMARK raw bytes and fresh live validity are not established.",
+              "promising_next_lead": "Reuse this accepted named-product handoff for supported declared cases; complete actual combined SH/DHW or backup-enabled inputs only when those downstream claims are activated.",
+              "expected_decision_value": "Closes all original D02 source-product criteria by exact-source and consumer reuse without adding a duplicate helper, new performance point, scientific default or numerical method.",
+              "decision": "ACCEPT_BOUNDED_WM50_D02_PRODUCT_HANDOFF_BY_VERIFIED_REUSE",
+              "evidence": "docs/checkpoints/V1_053_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "ce641bea8082ce3e49d78f75b9f178232f91ec3b"
+        },
+        {
+          "title": "Korrekció és validáció",
+          "data": "Részterhelés, ki-be kapcsolás, defrost és HMV módszer az adott forráshatáron. Egy rendszer event-kWh-ja nem flottakonstans; magyar transzfer külön adósság.",
+          "phase": "A",
+          "slice_id": "B05-D03",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B05-HPKEYMARK-MITSUBISHI-WM50-2026",
+            "SRC-B05-HPKEYMARK-DIMPLEX-LA2030CP-2026",
+            "SRC-B05-MITSUBISHI-PUZ-WM-MINNOMMAX-2024",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-MIN-GRID-2020",
+            "SRC-B05-DIMPLEX-LA2030CP-DETAILED-MIN-SURFACE-2026",
+            "SRC-B05-UK-SAP-CALCM01-ONOFF-DEFAULTS-2017"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Exact component/climate/application/bin KEYMARK observations",
+                "Independent manufacturer fixed-water minimum Q/P/COP tables",
+                "Official CALCM fixed/variable test-water methodology"
+              ],
+              "remaining_unknown": "Certified test-water/MIN-transfer authority for both current physical joins; complete actual hourly cycling/defrost/DHW runtime and empirical applicability remain unadmitted. Current P59 total is unassessed; 67 supported points and 8 unresolved gate weight are separate from historical75.",
+              "promising_next_lead": "Acquire the exact test-condition or named admissible transfer authority before qualified physical joining; preserve explicit conditional mathematics without choosing an hourly method or national policy",
+              "expected_decision_value": "Prevents source labels from qualifying unproven physical joins and prevents an old score from being carried forward after its criterion loses support",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_035_CYCLING_SOURCE_ADMISSION.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing TABULA annual building/system reference and effective distribution method",
+                "Existing WM50 native paired power map plus explicitly transferred fixed-capacity MIN-stage HEM/CALCM default",
+                "Matched KEYMARK nonactive powers and exact UTC2025 HungaroMet chronology",
+                "Existing original-source-validated B08/B09 historical balance"
+              ],
+              "remaining_unknown": "Outside-unit auxiliary aggregate, actual installed/field applicability, national building/product weights and programme counterfactual; no exact Cdh/MIN source join or original P59 credit is restored",
+              "promising_next_lead": "Connect a justified nonoverlapping system auxiliary/base and explicit programme inference to the admitted annual device profile; retain E1 validation debt without requiring every component measurement",
+              "expected_decision_value": "One complete8760-hour E2 device profile with exact35040-quarter timing comparison; no partial sums disguised as full annual electricity",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_039_ANNUAL_HP_DEVICE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA same-building original/standard/ambitious package rows and seasonal GCV system accounts",
+                "Existing complete UTC2025 weather and unchanged WM50W55 annual device method",
+                "Exact EN14511-1/-3:2013 pump and included-control definitions; original manufacturer nominal-point boundary"
+              ],
+              "remaining_unknown": "Actual installed/population applicability and signed rating-to-installed electricity/heat-delivery/duty reconciliation, genuinely excluded or retained controls, national weights and rollout; original same-device source service remains incomplete without a separate backup/capacity choice",
+              "promising_next_lead": "Use the complete source-package after-cases in an explicitly justified population/service model; preserve original-case shortage and independent auxiliary residuals",
+              "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Összevethető termékpontok és igazolt tartomány kell; katalógus+EPREL gyakran közös gyártói eredet. Egy exact E1 pont jobb, mint három nem összeillő átlag. Hiányzó korrekció nem 0.",
+      "accept": "Az interpolált Q=P×COP konzisztencia javítása; domain-outside fail-closed, éves hő/villamos mérleg, backup és HMV; összevont órás runtime teszt.",
+      "stop": "Az exact FCC06 víztömeg csak érintett tranziens állítást blokkoljon. Független új terepmérés akkor prioritás, ha outputérzékenység indokolja; egyetemes defrost-együttható nem elfogadási út.",
+      "existing_at_base": "Terméktérképek, részterhelési és defrost-részmodellek vannak. E2 folytatás engedett, de országos integráció nincs; korábbi audit konkrét Q/P/COP interpolációs eltérést jelzett."
+    },
+    {
+      "id": "B06",
+      "title": "Energetikai korszerűsítés",
+      "dependencies": "B02 baseline; B05 hőfokátadás; B12 CAPEX; B18 kapacitás.",
+      "slices": [
+        {
+          "title": "Beavatkozás és fizikai hatás",
+          "data": "Szigetelés/ablak/hőleadó/hidraulika csomag × archetípus: m², U W/m²K, kWh_th/év, kW_th, °C; magyar baseline és post külön. Tervezett és megvalósult állapot nem egy címke.",
+          "phase": "A",
+          "slice_id": "B06-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-TABULA-HU-CALCULATOR-2016",
+            "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+            "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+            "SRC-B05-HUNGARY-HOURLY-DESC-2026",
+            "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+            "SRC-B06-HOURLY-NOAA-SOLAR-EQUATIONS",
+            "SRC-B06-HOURLY-PVLIB-IRRADIANCE-0161",
+            "SRC-B06-HOURLY-SANDIA-ISOTROPIC",
+            "SRC-B06-HOURLY-SANDIA-GROUND-REFLECTION",
+            "SRC-B05-HUNGARY-ODP-TERMS-2026"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "TABULA/EPISCOPE compact workbook2016; historical Hungarian illustrative building examples"
+              ],
+              "remaining_unknown": "Current population applicability, monthly/hourly and design-peak handoff, generator losses and realized outcomes; seasonal examples do not pass P63",
+              "promising_next_lead": "Use populated same-service reference calculations to identify necessary handoffs; avoid another generic typology survey",
+              "expected_decision_value": "Reproduces three envelope-state triples from actual public physical inputs instead of synthetic thermal fixtures",
+              "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_012_TABULA_SEASONAL_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing P90/P91/P94/P95/P96/P97/P98 prospective physical contracts and source surfaces",
+                "Pinned Mitsubishi WM50 manufacturer-coordinate consumer",
+                "Separate native TABULA annual reference"
+              ],
+              "remaining_unknown": "Hourly demand/gains/time/supply/controller and source-specific runtime penalties; actual-record P65 emitter authority; population allocation and national service choices. No annual/SPF or national programme result.",
+              "promising_next_lead": "Use this bounded design/capacity balance as a reference before an explicitly justified hourly same-service consumer and defensible population inference.",
+              "expected_decision_value": "Produces actual component/design/device balances without silently promoting engineering coordinates or component maxima to a realized building.",
+              "decision": "CONTINUE_PHYSICAL_TIME_AND_SERVICE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "TABULA source template and explicitly transferred hourly method parameters",
+                "HungaroMet observed station temperature, humidity and global radiation",
+                "Mitsubishi fixed-water manufacturer capacity grid",
+                "NOAA solar geometry and Erbs/Sandia modeled radiation components"
+              ],
+              "remaining_unknown": "Empirical one-node and floor-boundary applicability; actual cycling, defrost, auxiliary durations/component boundaries and emitter-required supply; population assignment and national service policy remain unadmitted",
+              "promising_next_lead": "Claim-matched lower-boundary/thermal validation and a separately qualified product/runtime method; no inferred electrical or national result",
+              "expected_decision_value": "A reproducible finite hourly thermal SCN and common prescribed-path capacity requirement distinguish insufficient capacity from reduced service",
+              "decision": "CONTINUE_CORE_INFERENCE",
+              "evidence": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA same-building original/standard/ambitious package rows and seasonal GCV system accounts",
+                "Existing complete UTC2025 weather and unchanged WM50W55 annual device method",
+                "Exact EN14511-1/-3:2013 pump and included-control definitions; original manufacturer nominal-point boundary"
+              ],
+              "remaining_unknown": "Actual installed/population applicability and signed rating-to-installed electricity/heat-delivery/duty reconciliation, genuinely excluded or retained controls, national weights and rollout; original same-device source service remains incomplete without a separate backup/capacity choice",
+              "promising_next_lead": "Use the complete source-package after-cases in an explicitly justified population/service model; preserve original-case shortage and independent auxiliary residuals",
+              "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Költség és munka",
+          "data": "2026 HUF/csomag vagy HUF/m², anyag/munka/tervezés/engedély/ÁFA, FTE-nap, élettartam; régió és műszaki tartalom. KEHOP plafon csak scope-hoz kötött felső korlát.",
+          "phase": "V",
+          "slice_id": "B06-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "B06-LIFE-SYSTEM-BOUNDARY",
+            "B06-LIFE-MAINTENANCE",
+            "B06-LIFE-HU-DUTY",
+            "B06-LIFE-SERVICE"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact-product Mitsubishi/BRE EPD",
+                "Scope-separated public Hungarian supplier component quotes and historical cost-optimal inputs"
+              ],
+              "remaining_unknown": "Complete matched Hungarian installed CAPEX, annual monetary O&M, physical survival/target transfer, replacement scheduling/cost and terminal values; unmatched offers are not a national mean",
+              "promising_next_lead": "Reuse the 17-year ASS/E2 source-model life in existing asset input; acquire a dated itemized engineering-matched heat-only procurement scope before pricing a complete case",
+              "expected_decision_value": "Populates one required lifecycle subinput without inventing complete costs or creating new accessor machinery",
+              "decision": "ADMIT_SCOPED_LIFECYCLE_SUBINPUT_CONTINUE_COST_QUALIFICATION",
+              "evidence": "docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Eredményátvitel",
+          "data": "Párosított előtte/utána megfigyelés, időjáráskorrekció, használat/rebound; mintavétel, hiány és magyar súlyok. Külföldi EoH csak kontrollált transzfer.",
+          "phase": "A",
+          "slice_id": "B06-D03",
+          "status": "RESEARCHING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "B06-REF-SOLANOVA-NORMALIZATION",
+            "B06-REF-SOLANOVA-HEAT-BOUNDARY",
+            "B06-REF-TARGET-TRANSFER",
+            "B06-REF-NEED-SIGNED-DELTAS"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-05",
+              "source_families": [
+                "SOLANOVA participating-author TREES report/companion and original ACEEE coordinator paper",
+                "DESNZ NEED 2026 original England/Wales headline workbook, report and Annexes A/D"
+              ],
+              "remaining_unknown": "Target transfer, normalization/service and meter/area boundaries, source-selection uncertainty and Hungarian weights remain unresolved; raw NEED signed-change reconstruction is separately unresolved. Current cost, HP duty and original task acceptance remain open.",
+              "promising_next_lead": "Use the admitted source references in a separately justified target calibration or representative inference with uncertainty; no universal household-bill or full-census gate.",
+              "expected_decision_value": "Retains historical Hungarian OBS package evidence and foreign DER matched meter-based savings with exact source identity and separate Q target-effect authority.",
+              "decision": "QUALIFY_BOUNDED_REFERENCES_CONTINUE_TARGET_TRANSFER",
+              "evidence": "docs/source_packs/B06_RETROFIT_PHYSICAL_MODEL.md#v1-067-paired-primary-references"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Hazai megvalósult/boundary-kompatibilis költség vagy független, tételes piaci ajánlati konvergencia kell. Az árindex régi költséget időben rendez, nem javít ki hiányzó műszaki scope-ot.",
+      "accept": "A beavatkozások együtt és sorrendben számolódjanak; megtakarítások ne összeadott százalékok legyenek; baseline/post átadás és költség egyszeri elszámolás.",
+      "stop": "Ha csak támogatási plafon vagy brit medián található, az nem magyar expected CAPEX. Költség-E2 nyitott marad, vagy külön korlátszámítás készül teljes V1 megtérülési állítás nélkül.",
+      "existing_at_base": "Éves/design-peak motor és magyar tervezett hatásbizonyíték létezik; a realized completion és a reprezentatív költség/hatás még hiányos."
+    },
+    {
+      "id": "B07",
+      "title": "Akkumulátor és rugalmasság",
+      "dependencies": "B04 jog/tarifa; B05 terhelés; B08 nettó profil; B12 életciklus.",
+      "slices": [
+        {
+          "title": "Termék és veszteség",
+          "data": "Exact rendszerre AC-oldali használható kWh, töltés/kisütés kW, egyirányú vagy round-trip hatásfok, standby W, hőmérséklet °C; revízió és tesztterhelés.",
+          "phase": "A",
+          "slice_id": "B07-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B07-HTW-SAX-REFERENCE-2026",
+            "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026"
+          ],
+          "accepted_artifacts": [
+            "data/processed/b07/sax_2026_converter_curves.csv",
+            "data/processed/b07/sax_2026_source_controls.json",
+            "registry/b07_sax_reference_manifest.json",
+            "modules/B07/sax_source_reference.py",
+            "modules/B07/discharge_equivalent_reference.py",
+            "docs/methodology/b07_discharge_equivalent_reference_contract.md",
+            "modules/B07/README.md",
+            "docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md"
+          ],
+          "consumer_tests": [
+            "tests/test_b07_sax_source_reference.py",
+            "tests/test_b07_discharge_equivalent_reference.py",
+            "tests/test_b07_source_conditions.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B07-003"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "HTW/aquu2026 report and official inspector data asset; same research family"
+              ],
+              "remaining_unknown": "Reference runtime, nonempty idle/BMS draw, capacity/cycle efficiency transfer beyond lab conditions, aging and national cohort applicability",
+              "promising_next_lead": "Implement reviewed discharge-equivalent reference coordinate with source-supported converter clipping; preserve legacy one-way contract",
+              "expected_decision_value": "Avoids non-identifiable chemical-loss measurement demand while preserving measured capacity/cycle energy and material low-load converter losses",
+              "decision": "CONTINUE_REFERENCE_RUNTIME",
+              "evidence": "docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Published V1-038 conditional discharged-energy runtime and source-qualified SAX E2 aggregate idle proxy"
+              ],
+              "remaining_unknown": "Original temperature and test-condition metadata still needs exact source-to-handoff mapping before a whole-task acceptance decision; operating range and laboratory ambient are distinct. Exact BMS components and national or annual results are not new D01 gates.",
+              "promising_next_lead": "Qualify existing source passages and map original D01 criteria for acceptance by verified reuse; keep later physical-state allocation and E2-to-E1 debt separate.",
+              "expected_decision_value": "Records already available E2 model continuation and tested AC/DC accounting instead of incorrectly treating the V1-013 proposed runtime as current.",
+              "decision": "RECONCILE_EXISTING_RUNTIME_CONTINUE_BOUNDED_ACCEPTANCE_REVIEW",
+              "evidence": "docs/checkpoints/V1_038_B07_DISCHARGE_EQUIVALENT_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact hash-matched HTW/aquu 2026 report and official data asset; manufacturer SAX datasheet corroboration shares manufacturer lineage"
+              ],
+              "remaining_unknown": "Actual laboratory ambient/date and SAX individual cycle wattages remain Q; constant-parameter and idle applicability remain existing Q-B07-003 E2 debt. D02 lifecycle and D03 operating/legal availability stay separate.",
+              "promising_next_lead": "Review exact integrated source conditions and unchanged numerical handoff; after a real reviewed condition commit exists, record bounded whole-D01 acceptance against that commit.",
+              "expected_decision_value": "Completes original temperature/test-load metadata by verified source reuse rather than accumulating another partial numerical input or inventing measured ambient.",
+              "decision": "REVIEW_COMPLETE_D01_CONDITION_HANDOFF_BEFORE_COMMIT_BOUND_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact pinned HTW/aquu 2026 report and official data asset; exact manufacturer SAX datasheet; unchanged existing numerical reference and reviewed condition handoff"
+              ],
+              "remaining_unknown": "Actual laboratory ambient/date and SAX individual cycle wattages remain explicit Q; test-to-target constant parameters and aggregate-idle applicability remain Q-B07-003 E2 debt. D02 lifecycle and D03 operating/legal availability are not accepted.",
+              "promising_next_lead": "Use the accepted named-product E2 handoff within its source/condition boundary; acquire separately justified downstream lifecycle, dispatch or permission evidence.",
+              "expected_decision_value": "Closes the original whole D01 product/loss source handoff by verified reuse plus exact condition integration without inventing laboratory ambient or adding a new E1 campaign gate.",
+              "decision": "ACCEPT_BOUNDED_D01_SOURCE_HANDOFF_WITH_RETAINED_E2_VALIDATION_DEBT",
+              "evidence": "docs/checkpoints/V1_052_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "c11bf645a44b87d11f38e10fe20e9e24e514463f"
+        },
+        {
+          "title": "Életciklus és költség",
+          "data": "HUF/telepített rendszer, csere/karbantartás HUF/év, év/ciklus/throughput és SOH; garanciafeltétel nem mért öregedési görbe. B12 hosszú távú kimenethez ez már nem mellékes.",
+          "phase": "V",
+          "slice_id": "B07-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Vezérlés és hozzáférhető kapacitás",
+          "data": "SOC-kezdő/végfeltétel, órás kW parancs, tartalék és rendelkezésre állás; jogszerű mérőkör. VPP-bevételhez külön piaci/szerződési adat.",
+          "phase": "A",
+          "slice_id": "B07-D03",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B07-HTW-SAX-REFERENCE-2026",
+            "SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [
+            "tests/test_b07_discharge_equivalent_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B07-003"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Published V1-038 explicit command, reserve and endpoint inventory mechanics; no source for a national operating policy"
+              ],
+              "remaining_unknown": "Actual duty profile, physical idle allocation when that claim is activated, legal metering/export access, fleet availability and VPP revenue remain separate inputs.",
+              "promising_next_lead": "Use existing mechanics only with explicitly supported operating profiles and exact relevant permissions; no new runtime is needed merely to record its existence.",
+              "expected_decision_value": "Credits implemented conditional mechanics without selecting dispatch, guaranteeing available capacity or treating a commanded synthetic profile as an observed strategy.",
+              "decision": "RECONCILE_CONDITIONAL_MECHANICS_NOT_OPERATING_POLICY",
+              "evidence": "docs/checkpoints/V1_038_B07_DISCHARGE_EQUIVALENT_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "A HTW független ellenőrzés lehet azonos termék/határok mellett; eltérő AC/DC számok nem átlagolhatók. Két egyirányú hatásfok nem vezethető le önkényesen a round-trip gyökéből.",
+      "accept": "Energiamérleg, SOC/power korlát, veszteség egyszer, B08 double-count tiltás; életciklusban csere és maradványérték következetes.",
+      "stop": "Runtime-aging törvény hiányában explicit garanciahatár/csere-SCN csak címkézetten; bizonyított hosszú távú hozam nincs. VPP nélküli V1 megengedhető, de az elhagyott bevételt nem ígéri.",
+      "existing_at_base": "SOC/kW/kWh motor és kéttermékes korlátos kohorsz van. Hatásfok E2 adósság, aging és VPP külön feature-határ."
+    },
+    {
+      "id": "B08",
+      "title": "Országos rendszerterhelés",
+      "dependencies": "B01 állomány; B05 órás villamos igény; B07 akkumulátor.",
+      "slices": [
+        {
+          "title": "Referencia-terhelés",
+          "data": "HU control-area 2025 teljes PT15M MW panel, UTC és Europe/Budapest éves stitch; 2024 előző óra. Meglévő hash-es artefaktum hozzáférésének ellenőrzése, nem új keresési kör.",
+          "phase": "A",
+          "slice_id": "B08-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/b08_b09_p5_entsoe_gui_export_acquisition.csv",
+            "modules/B08/gui_load_reference.py",
+            "tools/materialize_b08_gui_load_reference.py",
+            "docs/checkpoints/V1_016_VERIFICATION.json",
+            "docs/checkpoints/V1_016_ACCEPTANCE.json"
+          ],
+          "consumer_tests": [
+            "tests/test_b08_gui_load_reference.py",
+            "tests/test_b08_p3_seasonal_reporting_contract.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B08-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Reuse of already acquired qualified ENTSO-E P5 actual-load GUI exports; two adjacent years, not independent source families"
+              ],
+              "remaining_unknown": "Public raw reuse remains validation debt; programme aggregation and regional mapping are separate B08-D02/D03 inputs",
+              "promising_next_lead": "Connect the qualified historical baseline to accepted programme physical handoffs; do not reacquire the same panel or infer regional allocation",
+              "expected_decision_value": "Restores exact complete Budapest 2025-year and winter reference with source-hash, UTC/DST and actual-versus-forecast controls",
+              "decision": "REVIEW_INTEGRATED_SOURCE_REUSE",
+              "evidence": "docs/checkpoints/V1_016_B08_QUALIFIED_LOAD_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Qualified P5 ENTSO-E source pair reused; independent whole-cell reconciliation and implementation review at exact published head"
+              ],
+              "remaining_unknown": "Public raw reuse remains Q-B08-001 validation debt. B08-D02/D03 and full programme conclusions are outside this accepted source handoff.",
+              "promising_next_lead": "Consume the accepted reference in the separate programme aggregation and generation comparison, preserving source grain and exact time boundaries",
+              "expected_decision_value": "Closes the defined historical reference-load acquisition/consumer slice through verified reuse without pretending downstream programme or regional completion",
+              "decision": "ACCEPT_QUALIFIED_REFERENCE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_016_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "1906d9709d4b6f8810b8b054c4eef6a9eceb5a7e"
+        },
+        {
+          "title": "Aggregációs súly és ellenforgatókönyv",
+          "data": "Archetípus/régió × év lakásállomány és profil; már meglevő villamos fűtés kiszűrése, baseline növekedés és programtöbblet külön; kW→MW, kWh→MWh.",
+          "phase": "A",
+          "slice_id": "B08-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+            "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+            "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
+            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+            "SRC-B09-ENTSOE-PSR-TYPE-CODES-2024"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Already accepted original ENTSO-E GUI load/generation sources",
+                "Already accepted signed MAVIR recovery and exact lineage",
+                "Targeted ENTSO-E quantity-definition metadata"
+              ],
+              "remaining_unknown": "Programme physical profiles and temporal support, weights and existing-heat-pump counterfactual; observed exchange/storage for trade claims; regional mapping and future adequacy. Missing preceding B09 civil-year hour remains separate.",
+              "promising_next_lead": "Join only separately qualified incremental physical/allocation profiles under explicit support and baseline-subtraction rules; use observed exchange/storage only for a future independently justified trade claim.",
+              "expected_decision_value": "Produces a complete native-window historical load/signed-generation reference and coincident source residual without shifting data or reclassifying source gaps.",
+              "decision": "CONTINUE_INCREMENTAL_PROFILE_AND_COUNTERFACTUAL_HANDOFF",
+              "evidence": "docs/checkpoints/V1_032_HISTORICAL_SOURCE_BALANCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing TABULA annual building/system reference and effective distribution method",
+                "Existing WM50 native paired power map plus explicitly transferred fixed-capacity MIN-stage HEM/CALCM default",
+                "Matched KEYMARK nonactive powers and exact UTC2025 HungaroMet chronology",
+                "Existing original-source-validated B08/B09 historical balance"
+              ],
+              "remaining_unknown": "Outside-unit auxiliary aggregate, actual installed/field applicability, national building/product weights and programme counterfactual; no exact Cdh/MIN source join or original P59 credit is restored",
+              "promising_next_lead": "Connect a justified nonoverlapping system auxiliary/base and explicit programme inference to the admitted annual device profile; retain E1 validation debt without requiring every component measurement",
+              "expected_decision_value": "One complete8760-hour E2 device profile with exact35040-quarter timing comparison; no partial sums disguised as full annual electricity",
+              "decision": "CONTINUE_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_039_ANNUAL_HP_DEVICE_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Regionális átadás",
+          "data": "DSO/réteg vagy vármegye kulcs, bizonyított megfeleltetés és fennmaradó lefedetlenség; országos control-area tény nem alállomási tény.",
+          "phase": "A",
+          "slice_id": "B08-D03",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B10-ELMU-M1-CANDIDATE-2025",
+            "SRC-B10-ELMU-OPERATING-LICENCE-805-2006",
+            "SRC-B10-EON-DDASZ-M1-CANDIDATE-2025",
+            "SRC-B10-EON-EDASZ-M1-CANDIDATE-2025",
+            "SRC-B10-KSH-HNK-2019-SETTLEMENT-IDS",
+            "SRC-B10-KSH-HNT-2025-IRSZHNK-DERIVATION-2026",
+            "SRC-B10-KSH-HNT-2025-SETTLEMENT-IDS",
+            "SRC-B10-MVM-DEMASZ-SERVICE-AREA-2026",
+            "SRC-B10-MVM-EMASZ-M1-2026",
+            "SRC-B10-OPUS-TITASZ-M1-2026",
+            "SRC-B10-MVM-DEMASZ-M1-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/b08_dated_regional_key_handoff.json",
+            "modules/B10/effective_service_area_projection.py",
+            "modules/B10/effective_service_area_membership_contract.py",
+            "modules/B10/operational_spatial_coverage_contract.py",
+            "registry/dso_service_area_membership_p63_effective_projection_summary.csv",
+            "registry/dso_service_area_membership_p64_operational_coverage.csv",
+            "modules/B08/seasonal_reporting_contract.py",
+            "docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md"
+          ],
+          "consumer_tests": [
+            "tests/test_b08_p3_seasonal_reporting_contract.py",
+            "tests/test_b10_p62_cross_operator_partial_whole_membership_supersession.py",
+            "tests/test_b10_p63_effective_partial_service_area_projection.py",
+            "tests/test_b10_p64_operational_spatial_coverage_acceptance.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Existing published P63 resolved-only DSO projection and P62 supersessions",
+                "Existing P64 explicit settlement residual; P22/P61 inherited source currentness"
+              ],
+              "remaining_unknown": "No 2025/future operational territory guarantee, regional load, exact nodes, population/load weighting or complete residual identity list is claimed. Broader regional-policy and source-use questions remain separate.",
+              "promising_next_lead": "Accept original dated regional-key data handoff after exact packet review and hosted verification; no wrapper is required for the existing callable enumeration.",
+              "expected_decision_value": "Completes the original key/mapping/noncoverage fields by reuse without imposing regional numerical data as a new gate.",
+              "decision": "DATED_REUSE_HANDOFF_READY_FOR_CONDITIONAL_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_060_REGIONAL_KEYS_AND_OWNER_POLICY.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Published curated P63/P64 DSO key projection with P62 supersessions",
+                "Inherited P22/P61 authority/currentness and exact KSH identity lineage"
+              ],
+              "remaining_unknown": "Snapshot-specific regional keys do not establish2025/future territory validity, regional MW, node/headroom, individual permissions, programme weights/demand or complete residual identities. The national load is not regionally disaggregated.",
+              "promising_next_lead": "Consume qualified keys at their exact whole/usage-location grain; retain missing or ambiguous mappings as Q without imputing unknown locations. Continue separate B08-D02 programme inputs and claim-specific temporal qualification.",
+              "expected_decision_value": "Accepts all original B08-D03 regional-key/mapping/noncoverage clauses by verified reuse, without a new wrapper or regional numerical series as an invented gate.",
+              "decision": "ACCEPT_BOUNDED_B08_D03_DATED_REGIONAL_KEY_HANDOFF",
+              "evidence": "docs/checkpoints/V1_060_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "551e57e135d24266be49b9ba49e2ddebc8c402ea"
+        }
+      ],
+      "e2": "Az országos alapterhelést nem kell három másodközléssel kiváltani. E2-ben megengedett model-use és proveniencia kell; raw újraközlés más jogkérdés.",
+      "accept": "Hiány/duplikáció/DST; teljes téli és éves ablak; egyidejű maximum nem egyéni maximumok összege; mérleg és mintasúlyok; meglévő HP kétszer ne szerepeljen.",
+      "stop": "Külső panel hiányzik az aktuális környezetből: átadási blokkoló, nem adatnemlétezés. Regionális adat hiánya ne blokkolja az országos eredményt, de regionális output maradjon Q.",
+      "existing_at_base": "2024/2025 A65 külső export és időszakszerződés megszerzett; public raw reuse külön adósság, regionális állítás külön."
+    },
+    {
+      "id": "B09",
+      "title": "Termelés, ellátási mérleg és rendszerérték",
+      "dependencies": "B08 nettó load; B04 értékelési ár; átadás B10/B13/B17.",
+      "slices": [
+        {
+          "title": "Megfigyelt termelési panel",
+          "data": "2025 HU PT15M MW termelési típusonként; exact A75 üres cellákhoz MAVIR net-operational pótlás, injection/withdrawal előjel és mértékegység.",
+          "phase": "A",
+          "slice_id": "B09-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+            "SRC-B09-ENTSOE-INSTALLED-CAPACITY-2025",
+            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+            "SRC-B09-ENTSOE-PSR-TYPE-CODES-2024"
+          ],
+          "accepted_artifacts": [
+            "registry/b08_b09_p5_entsoe_gui_export_acquisition.csv",
+            "registry/b09_p6_mavir_operational_acquisition.csv",
+            "registry/b09_p7_signed_net_generation_semantics.csv",
+            "registry/b09_gui_reference_manifest.json",
+            "modules/B09/gui_generation_reference.py",
+            "tools/materialize_b09_gui_generation_reference.py",
+            "docs/checkpoints/V1_017_VERIFICATION.json",
+            "docs/checkpoints/V1_017_ACCEPTANCE.json"
+          ],
+          "consumer_tests": [
+            "tests/test_b09_gui_generation_reference.py",
+            "tests/test_b09_signed_net_recovery_contract.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B09-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Reuse of existing P5 ENTSO-E generation/capacity and P6 selected MAVIR net-operational exports",
+                "Official ENTSO-E production-type code metadata"
+              ],
+              "remaining_unknown": "Public raw reuse and provider-estimate provenance remain explicit debt. Later common-window integration needs the absent 2024-12-31 23:00 UTC through 2025-01-01 00:00 UTC generation; this does not invalidate the complete native 2025 UTC source/recovery handoff.",
+              "promising_next_lead": "Acquire or lawfully restore the exact previous-hour generation boundary; compare only compatible common windows meanwhile and never substitute the load companion or unvalidated generation basis",
+              "expected_decision_value": "Reproduces every original numeric cell and exactly the P7-admitted signed recoveries, enabling source-native 2025 UTC model input without discarding sign or changing raw-reuse policy",
+              "decision": "REVIEW_QUALIFIED_UTC_SOURCE_HANDOFF",
+              "evidence": "docs/checkpoints/V1_017_B09_GUI_GENERATION_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Existing P5/P6/P7 sources with independent complete-cell XML comparison and exact published-head verification"
+              ],
+              "remaining_unknown": "Public raw reuse remains Q-B09-001 debt. The prior-hour local-year boundary and future supply/value/dispatch/region/programme integration remain separate open work.",
+              "promising_next_lead": "Acquire the previous-hour generation boundary for later common local-year reporting, while reusing the accepted native UTC source handoff",
+              "expected_decision_value": "Closes the defined observed-generation input/recovery slice with source identity, sign preservation, exact missing-key matching and independent review",
+              "decision": "ACCEPT_QUALIFIED_UTC_GENERATION_HANDOFF",
+              "evidence": "docs/checkpoints/V1_017_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "facd46bc4c4b6c26a7f54040103c0a2f611ec17d"
+        },
+        {
+          "title": "Jövőbeli ellátási alap",
+          "data": "Év × technológia: MW, rendelkezésre állás, tervezett/finanszírozott/üzemelő státusz; import/export határ és időjárásfüggés. ERAA adott forgatókönyve kontroll, nem programeredmény.",
+          "phase": "A",
+          "slice_id": "B09-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B09-ERAA2025-DASHBOARD-FINAL",
+            "SRC-B09-ERAA2025-EVA-CURRENT",
+            "SRC-B09-ERAA2025-COMMON-FINAL",
+            "SRC-B09-ERAA2025-RELEASE-NOTE",
+            "SRC-B09-ERAA2025-CHANGELOG",
+            "SRC-B09-ERAA2025-ANNEX1-AMENDED",
+            "SRC-B09-ERAA2025-COUNTRY-COMMENTS",
+            "SRC-B09-ACER-ERAA2025-DECISION-06-2026",
+            "SRC-B09-MAVIR-HFT2026-NATURE",
+            "SRC-B09-MAVIR-HFT2026-CONSULTATION-INPUT",
+            "SRC-B09-MAVIR-HFT2025-APPROVAL",
+            "SRC-B09-MAVIR-HFT2025-NATURE",
+            "SRC-B09-MAVIR-HFT2026-ANNEXES",
+            "SRC-B09-ACER-ERAA2025-CORRIGENDUM",
+            "SRC-B09-ERAA2025-ANNEX2-AMENDED",
+            "SRC-B09-ENTSOE-WEBSITE-DISCLAIMER-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/b09_future_supply_reference_manifest.json",
+            "modules/B09/future_supply_reference.py",
+            "tools/materialize_b09_future_supply_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b09_future_supply_reference.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "ERAA2025 final National Trends inputs and amended Cost Based EVA output",
+                "ACER2026 decision and July corrigendum",
+                "MAVIR HFT2026 project-status assumptions and HFT2025 approval"
+              ],
+              "remaining_unknown": "Source-specific model-use qualification, actual programme future/horizon selection and coherent future weather/availability/network integration remain unresolved. This is reference materialization only, not full B09-D02 acceptance or runtime input authority.",
+              "promising_next_lead": "Review the intended source-dependent use scope and select a programme calculation only when its horizon/scenario is decided; then acquire the coherent weather/outage/network inputs actually needed",
+              "expected_decision_value": "Preserves exact future source scenarios without mistaking market status for financing/commissioning, sparse absence for zero, consumption/storage for generation or source-scenario changes for programme effects",
+              "decision": "INTEGRATE_BOUNDED_FUTURE_SOURCE_REFERENCE_NO_BASELINE_SELECTION",
+              "evidence": "docs/checkpoints/V1_020_B09_FUTURE_SUPPLY_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Monetizálható rendszerérték",
+          "data": "HUF/év, szolgáltatás/mérési határ, tényleges piaci vagy elkerültköltség-levezetés. Fizikai rugalmasság önmagában nem bevétel; háztartási és rendszeroldali érték elkülönítve.",
+          "phase": "V",
+          "slice_id": "B09-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Előjelek és mérési határ előbb, utána számítás. Elkerült költséghez programnélküli és programos világ; piaci joghoz exact authority, nem E2 valószínűség.",
+      "accept": "Nem írunk felül numerikus A75 cellát; nincs zero-clamp; B07 tároló nincs még egyszer hozzáadva; NO_DISPATCH és optimalizált ág elkülönítése; residual nem LOLE.",
+      "stop": "Egyetlen történeti év nem jövőbeli ellátásbiztonsági igazolás. Hiányzó bevételi jogosultság esetén külön pénz nélküli fizikai output, a finanszírozás nem számíthatja be ezt biztos hozamként.",
+      "existing_at_base": "A75+MAVIR signed-net hiánypótlási szerződés és fizikai residual van; megvalósítható jövőbeli mix/monetizálás nincs kész."
+    },
+    {
+      "id": "B10",
+      "title": "Hálózati hatás, CAPEX és időzítés",
+      "dependencies": "B01/B08/B09 programterhelés; B18/B13 végrehajtási hurok.",
+      "slices": [
+        {
+          "title": "Reprezentatív hálózati kohorsz",
+          "data": "DSO × feszültség/réteg × horizont: MW/MVA headroom, terhelés és topológiai korlát; programigény-eloszlás és kohorszsúly. Magyar operátorok lefedése, residual explicit.",
+          "phase": "A",
+          "slice_id": "B10-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Fejlesztési költségkohorsz",
+          "data": "Projekt/komponens: többlet MW/MVA, km/eszköz, 2026 HUF, baseline vs program-okozta erősítés/gyorsítás; reprezentatív műszaki scope, nem összes DSO CAPEX.",
+          "phase": "A",
+          "slice_id": "B10-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B10-V1-TED-777208-2025",
+            "SRC-B10-V1-TED-438132-2026",
+            "SRC-B10-V1-TED-761369-2025",
+            "SRC-B10-V1-TED-373350-2026",
+            "SRC-B10-V1-EKR-SZ0176453-CONTRACT-20260610",
+            "SRC-B10-V1-EKR-SZ0176453-ANNEX-BUNDLE-20260722",
+            "SRC-B10-V1-EKR-SZ0176453-BOQ-20251202"
+          ],
+          "accepted_artifacts": [
+            "data/processed/b10/cost_reference_observations.json",
+            "registry/b10_cost_reference_manifest.json"
+          ],
+          "consumer_tests": [
+            "tests/test_b10_cost_reference.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B10-001",
+            "Q-B10-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "TED awarded transformer supply",
+                "TED storage-connection and substation works",
+                "TED utility-relocation amendment",
+                "Framework/lifecycle rejection and EKR metadata boundary",
+                "MNB/KSH normalization candidates kept outside admitted values"
+              ],
+              "remaining_unknown": "Representative reinforcement cohort, programme-caused quantities, equipment/free-issued and reserve boundary, compatible price normalization, actual timing/cashflow and joint uncertainty",
+              "promising_next_lead": "Listed EKR signed contract and priced annex pending CAPTCHA approval; similar-scope multi-operator projects and upstream demand/cohort integration",
+              "expected_decision_value": "Resolve local component/supply and payment boundaries before generic unit prices or national weighting",
+              "decision": "CONTINUE_TARGETED_COHORT_AND_ATTRIBUTION_RESEARCH",
+              "evidence": "docs/checkpoints/V1_015_B10_COST_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Public EKR Orgovány I signed contract and selected priced-annex aggregate",
+                "Existing TED award, same procurement cluster"
+              ],
+              "remaining_unknown": "Representative reinforcement cohort, programme-caused quantities, complete purchaser/free-issue schedule, economic price-base normalization, actual reserve use, payment/completion and annual cashflow remain open. Granular priced-offer publication is separate unresolved reuse scope.",
+              "promising_next_lead": "Use source-scoped contract aggregates in the continuing representative cost-cohort research; acquire comparable projects with compatible quantities and price periods before any national weighting",
+              "expected_decision_value": "Resolves this exact package reserve exclusion and source-native cost/supply/date/payment boundaries without duplicating the sample or inventing actual cashflow",
+              "decision": "ADMIT_ORGOVANY_I_CONTRACT_AGGREGATE_REFINEMENT_CONTINUE_COHORT_RESEARCH",
+              "evidence": "docs/checkpoints/V1_019_ORGOVANY_CONTRACT_REFINEMENT.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Megvalósulás és idő",
+          "data": "Tervezett ex-ante és tényleges dátum, nap/hónap/év, állapot és cenzorálás; managed peak/survivability evidence. Egy késés nem országos valószínűség.",
+          "phase": "A",
+          "slice_id": "B10-D03",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B10-MVM-DEMASZ-RRF-PROJECT-2026",
+            "SRC-B10-MVM-DEMASZ-RRF-COMPLETION-2026",
+            "SRC-B10-OPUS-TITASZ-RRF-PROJECT-2026",
+            "SRC-B10-OPUS-TITASZ-RRF-COMPLETION-2026",
+            "SRC-B10-OPUS-TITASZ-RRF-TIMING-2024",
+            "SRC-B10-OPUS-TITASZ-NEWS-INDEX-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/project_delivery_timing.csv",
+            "registry/baseline_infrastructure.csv",
+            "registry/b10_timing_source_review_manifest.json",
+            "modules/B10/project_delivery_timing_contract.py",
+            "modules/B10/rrf_baseline_ledger.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b10_p6_project_delivery_timing.py",
+            "tests/test_b10_p4_observed_baseline_rrf.py",
+            "tests/test_b10_p11_timed_investment_pathway.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B10-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Exact current MVM and OPUS RRF project/target/completion sources",
+                "OPUS dated news-index context",
+                "Phase-specific multi-operator project and procurement leads, not yet an admitted national cohort"
+              ],
+              "remaining_unknown": "Physical commissioning dates and target-versus-event scope links, representative cohort weights, censoring/calibration and actual cashflow remain unresolved. No national delivery probability is admitted.",
+              "promising_next_lead": "Named commissioning/acceptance and revision-chain records for Répcelak, Soltvadkert and Nyírjes; preserve phase-specific evidence rather than pooling ceremony or umbrella completion dates",
+              "expected_decision_value": "Withdraws false exact-date/OPERATING/delay precision from existing seed records while retaining valid project completion, baseline attribution and declared finance evidence",
+              "decision": "REPAIR_SOURCE_PRECISION_CONTINUE_PHASE_SPECIFIC_TIMING_RESEARCH",
+              "evidence": "docs/checkpoints/V1_021_B10_TIMING_PRECISION_REPAIR.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Nemzeti E2 csak reprezentatív/kalibrált kohorsz és igazolt attribúció alapján. Publikált headroom tájékoztató; egyedi MGT és projekthez rendelt költség exact marad.",
+      "accept": "Átfedő alállomások nem összeadhatók; source-grain, operator és horizon egyezés; baseline/inkrementális kettős elszámolás tiltás; populációs kalibráció és timing stressz.",
+      "stop": "Ha a nyilvános dokumentumokból nem épül védhető kohorsz, a nemzeti hálózati CAPEX/időzés nem zárható. E2 címke nem tölti fel az üres ledgert; ezt támogatási kutatási hiányként kell kimondani.",
+      "existing_at_base": "P67 megengedi országos inferenciát teljes node-inventory nélkül. Két baseline-projekt és hatósági kapuk vannak; programinkrementális/timed CAPEX-ledgerek üresek."
+    },
+    {
+      "id": "B11",
+      "title": "Gázkiváltás és importérték",
+      "dependencies": "B02/B05/B06 energia; B03 ár; B12/B13/B17 fogyasztó.",
+      "slices": [
+        {
+          "title": "Készülék és felhasználás",
+          "data": "HU készülékosztály × év: fűtés/HMV/főzés hasznos energia kWh_th, éves gáz MJ/kWh; hatásfok [arány] szezonális, LHV/GCV következetes; több tüzelőanyag és rebound.",
+          "phase": "A",
+          "slice_id": "B11-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-TABULA-HU-CALCULATOR-2016",
+            "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA building/system workbook and Common Method GCV/auxiliary definitions",
+                "Published complete annual WM50 device reference for the same historical source service"
+              ],
+              "remaining_unknown": "Actual installed/stock seasonal applicability and nonoverlapping post-replacement auxiliary/control aggregate; no volume, net hourly grid increment, national weights or savings admission",
+              "promising_next_lead": "Reuse this annual source-allocated gas/HP ledger with one qualified nondevice aggregate and explicit population inference when the intended consumer needs those claims",
+              "expected_decision_value": "Connects useful/generator heat, native seasonal GCV gas and complete device electricity while excluding mislabeled DHW totals and retaining shared-control uncertainty",
+              "decision": "CONTINUE_BOUNDED_E2_CONSUMER_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing original TABULA same-building original/standard/ambitious package rows and seasonal GCV system accounts",
+                "Existing complete UTC2025 weather and unchanged WM50W55 annual device method",
+                "Exact EN14511-1/-3:2013 pump and included-control definitions; original manufacturer nominal-point boundary"
+              ],
+              "remaining_unknown": "Actual installed/population applicability and signed rating-to-installed electricity/heat-delivery/duty reconciliation, genuinely excluded or retained controls, national weights and rollout; original same-device source service remains incomplete without a separate backup/capacity choice",
+              "promising_next_lead": "Use the complete source-package after-cases in an explicitly justified population/service model; preserve original-case shortage and independent auxiliary residuals",
+              "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
+              "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing KSH 2022 WBL011 V67 full observed joint; no new synthetic join",
+                "Existing scoped JRC 2022 SH service and final-energy model ledgers; natural gas and biogas source boundary"
+              ],
+              "remaining_unknown": "Central and selected-stock heat allocation, actual-population ledger applicability, positive saving floor, eligibility, rollout and complete national feasibility remain unresolved",
+              "promising_next_lead": "Use explicit policy/scenario thresholds and compatible heat/selection constraints when stronger decisions require tighter bounds; continue independent accepted-input modules",
+              "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
+              "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
+              "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Gázminőség és országos kontroll",
+          "data": "MJ/m³, referencia-hőmérséklet/nyomás és tér-időeloszlás; éves magyar lakossági eladás és végfelhasználási kontroll [TJ/GWh/bcm]. Nem kell minden fogyasztó FGSZ-pontja aggregált becsléshez.",
+          "phase": "A",
+          "slice_id": "B11-D02",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B11-FGSZ-MER-INDEX-2026",
+            "SRC-B11-FGSZ-MER-2026-REV1-PDF",
+            "SRC-B11-FGSZ-MER-2026-REV1-XLSX",
+            "SRC-B11-FGSZ-COPYRIGHT-NOTICE-2026",
+            "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-PDF",
+            "SRC-B11-FGSZ-EXIT-QUALITY-GASYEAR-2024-2025-EN-PDF",
+            "SRC-B11-FGSZ-COPYRIGHT-EN-20261004",
+            "SRC-B11-FGSZ-QAR-LISTING-EN-20261004",
+            "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-XLSX",
+            "SRC-B11-FGSZ-GAS-QUALITY-RULES-2025-2026",
+            "SRC-B11-FGSZ-QAR-2025-2026-REV4-EN-XLSX",
+            "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+            "SRC-B11-EUROSTAT-HU-GAS-BALANCE-2024",
+            "SRC-B11-KSH-TERSTAT-610-2024",
+            "SRC-B11-KSH-KOR0043-2024",
+            "SRC-B11-EUROSTAT-HU-GAS-COMMODITY-2024",
+            "SRC-B11-EUROSTAT-HOUSEHOLD-REPORTING-2026",
+            "SRC-B11-EUROSTAT-ENERGY-BALANCE-GUIDE-2019"
+          ],
+          "accepted_artifacts": [
+            "modules/B11/gas_quality_reference.py",
+            "registry/b11_gas_quality_reference_manifest.json",
+            "tools/materialize_b11_gas_quality_reference.py",
+            "modules/B11/county_baseline_contract.py",
+            "registry/b11_county_gas_baseline_2024.csv",
+            "modules/B02/household_energy_controls.py",
+            "registry/b02_eurostat_household_manifest.json",
+            "data/processed/b02/eurostat_household_enduse_hu_2022_2024.csv",
+            "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/2026-10-01.json"
+          ],
+          "consumer_tests": [
+            "tests/test_b11_gas_quality_reference.py",
+            "tests/test_b11_p2_county_gas_baseline.py",
+            "tests/test_b02_household_energy_controls.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "FGSZ MER revision and source-use metadata; synthetic dimensional contract"
+              ],
+              "remaining_unknown": "Actual source-use authority, temporally/geographically weighted gas-quality distribution and national sales calibration; no numerical admission",
+              "promising_next_lead": "Resolve source-specific permission or suitable alternative; retain reference-state context in any later numeric handoff",
+              "expected_decision_value": "Prevents mixing unlike per-volume/calorific denominators before data admission",
+              "decision": "REVIEW_BOUNDED_REFERENCE_STATE_REPAIR",
+              "evidence": "docs/checkpoints/V1_023_B11_REFERENCE_STATE_REPAIR.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Original TABULA workbook and method",
+                "IEA/Eurostat2004 general energy convention",
+                "MVM2026 gas rulebook and current listing"
+              ],
+              "remaining_unknown": "Physical Hungarian NCV/GCV and actual billing-energy compatibility; retained other uses and allowance; actual connection attribution/avoidability; wholesale/import valuation remain separate",
+              "promising_next_lead": "Integrate named source-only gas convention and explicitly conditional regulated reference; preserve actual billing and national inference debt",
+              "expected_decision_value": "Prevents mixing GCV with NCV tariff energy and NET fixed charges with GROSS rates; makes bounded source/reference arithmetic reproducible without invented gas chronology",
+              "decision": "CONTINUE_BOUNDED_REFERENCE_INTEGRATION",
+              "evidence": "docs/checkpoints/V1_045_GAS_ENERGY_AND_TARIFF_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Exact FGSZ English QAR originals and matching exit workbooks for calendar 2024/2025; actual revision applicability and personal-use notice",
+                "Existing KSH county/household sales consumer and freshly qualified yearbook/annual-average scope controls",
+                "Existing Eurostat household end-use consumer and exact fresh HHQ/balance/commodity snapshots with reporting-method context"
+              ],
+              "remaining_unknown": "Residential weights, compatible full reference states/moisture and target coverage, actual billing, sales calibration and physical gas displacement. KSH/Eurostat scope and revision differences and source QC defects remain unresolved; no general FGSZ content redistribution licence is supplied.",
+              "promising_next_lead": "Independently verify the actual native source/control reader against the frozen preimplementation oracle; after separately approved publication and zero-skip hosted validation, assess exact-commit-bound B11-D02 handoff acceptance. Keep activated national estimates and B11 module gates separate.",
+              "expected_decision_value": "Supplies the missing dated source-native gas-quality inventory and explicit annual controls without turning point rows into residential weights, mixing calendar/gas years or replacing TABULA and billing conventions.",
+              "decision": "QUALIFIED_BOUNDED_B11_D02_NATIVE_SOURCE_CONTROL_HANDOFF_PREPARE_CONSUMER_REVIEW",
+              "evidence": "docs/checkpoints/V1_059_GAS_QUALITY_HANDOFF.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Exact FGSZ dated native exit-point inventory and personal-use qualification, with distinct calendar years and revision applicability",
+                "Original KSH household utility controls and exact Eurostat end-use/balance/commodity snapshots with inherited qualified consumers"
+              ],
+              "remaining_unknown": "Residential weights/coverage and full compatible reference states, actual billing and sales calibration, physical gas displacement/uncertainty and broader FGSZ content reuse remain unresolved. Native discrepancies, source defects and informative NCV remain visible; no default coefficient or physical ratio is adopted.",
+              "promising_next_lead": "Use this accepted bounded inventory within its exact personal/source scope. Any national gas estimate requires a compatible population/state/weighting and uncertainty bridge, not an exhaustive household census or automatic point averaging.",
+              "expected_decision_value": "Completes the original dated gas-quality and annual-control handoff with actual source-validated consumer output while preventing mixed-state, mixed-population and source-validity substitutions.",
+              "decision": "ACCEPT_BOUNDED_B11_D02_NATIVE_GAS_QUALITY_CONTROL_HANDOFF",
+              "evidence": "docs/checkpoints/V1_059_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "acc4908ddb6ab09ea0b49c1b0f46c90a532ea935"
+        },
+        {
+          "title": "Érték átadása",
+          "data": "bcm/év fizikai kiváltás és HUF/év importérték külön; lakossági számla-megtakarítás más ledger.",
+          "phase": "A",
+          "slice_id": "B11-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "A tanulmány készülékmixe támogatja a súlyokat, de nem ad minden készülékosztályra szezonális hatásfokot. Három gyári névleges hatásfok nem lakossági szezonális E2.",
+      "accept": "LHV/GCV és m³-reference teszt; több tüzelőanyag összege kontrollra zár; HMV/főzés nem vész el; eladási kalibráció és bizonytalanság.",
+      "stop": "Ha a szezonális hatásfok/alapfogyasztás nem védhető, nem szabad egyszerű névleges százalékkal végleges bcm-et közölni. Forrásolt class-bound/stressz külön, központi kapu megőrizve.",
+      "existing_at_base": "Hasznoshő–gázenergia–térfogat híd és magyar készülékosztály-súlyok vannak; szezonális hatásfok és nemzeti kalibráció hiányos."
+    },
+    {
+      "id": "B12",
+      "title": "Háztartási gazdaságosság",
+      "dependencies": "B03/04/05/06/07/11; B01 policy floor; B14 támogatási feltétel.",
+      "slices": [
+        {
+          "title": "Teljes költség és életciklus",
+          "data": "Archetípus × fázis × év: 2026 HUF induló CAPEX, O&M, biztosítás ahol releváns, csere, maradványérték, élettartam, ÁFA. A műszaki scope és eligible/összes költség külön.",
+          "phase": "V",
+          "slice_id": "B12-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "B06-LIFE-SYSTEM-BOUNDARY",
+            "B06-LIFE-MAINTENANCE",
+            "B06-LIFE-HU-DUTY",
+            "B06-LIFE-SERVICE"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing canonical B03/B04/B06/B07/B11/B14 consumer authorities; synthetic input/accounting contract"
+              ],
+              "remaining_unknown": "Sourced cost/lifecycle and complete retail cash flows, net-income/required-spending/liquidity/housing linkage, actual finance access and owner valuation/affordability policies; no numerical household or national admission",
+              "promising_next_lead": "Qualify claim-specific upstream cost and representative household financial evidence, then connect admitted inputs without duplicating canonical source data",
+              "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
+              "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
+              "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            },
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing exact-product Mitsubishi/BRE EPD",
+                "Scope-separated public Hungarian supplier component quotes and historical cost-optimal inputs"
+              ],
+              "remaining_unknown": "Complete matched Hungarian installed CAPEX, annual monetary O&M, physical survival/target transfer, replacement scheduling/cost and terminal values; unmatched offers are not a national mean",
+              "promising_next_lead": "Reuse the 17-year ASS/E2 source-model life in existing asset input; acquire a dated itemized engineering-matched heat-only procurement scope before pricing a complete case",
+              "expected_decision_value": "Populates one required lifecycle subinput without inventing complete costs or creating new accessor machinery",
+              "decision": "ADMIT_SCOPED_LIFECYCLE_SUBINPUT_CONTINUE_COST_QUALIFICATION",
+              "evidence": "docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Megfizethetőség és hitel",
+          "data": "HU háztartástípus/jövedelmi csoport: HUF/év nettó jövedelem, kötelező kiadás, likvid eszköz, meglévő törlesztés; hitelkamat/THM, futamidő, önerő, díj és hozzáférés. Aggregált minta nem egyedi hitelbírálat.",
+          "phase": "V",
+          "slice_id": "B12-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing canonical B03/B04/B06/B07/B11/B14 consumer authorities; synthetic input/accounting contract"
+              ],
+              "remaining_unknown": "Sourced cost/lifecycle and complete retail cash flows, net-income/required-spending/liquidity/housing linkage, actual finance access and owner valuation/affordability policies; no numerical household or national admission",
+              "promising_next_lead": "Qualify claim-specific upstream cost and representative household financial evidence, then connect admitted inputs without duplicating canonical source data",
+              "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
+              "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
+              "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Pénzáram és értékelési alap",
+          "data": "HUF/év baseline/program számla, energia és tarifa upstream; diszkontráta, árszint, inflációs kezelés, adó, támogatás időpontja. NPV/IRR/DSCR számított output, nem megvásárolandó adat.",
+          "phase": "V",
+          "slice_id": "B12-D03",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Existing canonical B03/B04/B06/B07/B11/B14 consumer authorities; synthetic input/accounting contract"
+              ],
+              "remaining_unknown": "Sourced cost/lifecycle and complete retail cash flows, net-income/required-spending/liquidity/housing linkage, actual finance access and owner valuation/affordability policies; no numerical household or national admission",
+              "promising_next_lead": "Qualify claim-specific upstream cost and representative household financial evidence, then connect admitted inputs without duplicating canonical source data",
+              "expected_decision_value": "Establishes complete inputs and accounting identities before B12 numerical results; avoids circular dependency and double-counting",
+              "decision": "REVIEW_BOUNDED_SYNTHETIC_INPUT_CONTRACT_ONLY",
+              "evidence": "docs/checkpoints/V1_025_B12_INPUT_ACCOUNTING_CONTRACT.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "E2 költség és jövedelmi/likviditási becslés megengedett megfelelő magyar kalibrációval. A külön margók egyszerű összeszorzása nem közös affordability-eloszlás. Hiteljogosultság exact feltétel.",
+      "accept": "Real/nominal egyezés; törlesztési tábla; számla-megtakarítás és támogatás nem kétszer; negatív pénzáram/IRR-nemlétezés kezelése; affordability floor csoportonként.",
+      "stop": "B12 input-szerződés előre elkészülhet, de B12 eredmény nem a saját előfeltétele. Nem reprezentatív költségmintával központi megtérülés nem kész; nullával kitöltött hiány tiltott.",
+      "existing_at_base": "NOT_STARTED. Két globális bemenet: eligible CAPEX és affordable financing, mindkettő üres. Nincs teljes cash-flow szerződés vagy kész NPV/IRR/DSCR."
+    },
+    {
+      "id": "B13",
+      "title": "Fiskális állami modell",
+      "dependencies": "B01 keret; B03/04/11 érték; B12 pénzáram; B14/15 forrás.",
+      "slices": [
+        {
+          "title": "Fiskális baseline",
+          "data": "HU központi/államháztartási kör, év: HUF bevétel/kiadás, GDP, adósság, kamat, energiaár-kompenzáció releváns tételei. Pénzforgalmi és eredményszemlélet nem keverhető.",
+          "phase": "V",
+          "slice_id": "B13-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B13-MAK-CLOSING-2025",
+            "SRC-B13-MAK-MONTHLY-202512",
+            "SRC-B13-KSH-GG-QUARTERLY-20261001",
+            "SRC-B13-KSH-EDP-20261001",
+            "SRC-B13-KSH-EDP-INVENTORY-2024",
+            "SRC-B13-NJT-1500-2025",
+            "SRC-B13-KSH-GDP0111-20261001",
+            "SRC-B13-KSH-GDP0004-20260930",
+            "SRC-B13-MVM-ESEF-2025",
+            "SRC-B13-MVM-AUDIT-2025",
+            "SRC-B13-NJT-1003-2025",
+            "SRC-B13-NJT-1114-2025",
+            "SRC-B13-NJT-1333-2025",
+            "SRC-B13-NJT-BUDGET-2025-ANNEX1"
+          ],
+          "accepted_artifacts": [
+            "registry/b13_fiscal_source_led_reference_manifest.json",
+            "modules/B13/fiscal_reference.py",
+            "tools/materialize_b13_fiscal_reference.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b13_fiscal_reference.py",
+            "tests/test_b13_source_led_reference.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "Treasury closing and preliminary cash statements",
+                "KSH current ESA/EDP and annual GDP releases",
+                "Official MVM audited ESEF archive and opinion",
+                "NJT budget appropriation and quarterly payment orders"
+              ],
+              "remaining_unknown": "Programme fiscal response, compensation fuel/household/VAT/service-year attribution, complete recipient reconciliation and owner fiscal policy; no available-headroom inference",
+              "promising_next_lead": "Exact Energy Ministry final-account line and MVM Next separate activity/settlement reconciliation, followed by a source-bound programme ledger",
+              "expected_decision_value": "Establishes a reproducible dated baseline without mixing cash, accrual, planned appropriations, annual versus adjusted GDP, debt stocks or recipient cash",
+              "decision": "REVIEW_BOUNDED_EXTERNAL_STATISTIC_REFERENCE_ONLY",
+              "evidence": "docs/checkpoints/V1_026_B13_FISCAL_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "All14 selected Treasury, KSH, MVM and NJT originals reacquired with exact legacy byte identities",
+                "New direct-source Decimal normalization, record witnesses and independent original-source review"
+              ],
+              "remaining_unknown": "Legacy JSON, its private normalizer and its exact serialized values/text remain unrecovered. The new dated source-led reference is separately qualified. Institutional reserve actual stays blank; recipient/order difference, fuel/household/VAT/service-year allocation, historical annex legal effectivity, programme response, owner fiscal policy and available headroom remain explicit.",
+              "promising_next_lead": "Verify this exact executable new reference on hosted CI, then bind bounded D01 acceptance to the actual reviewed implementation; continue D02/P01 separately.",
+              "expected_decision_value": "Restores an executable provenance-backed handoff for all original D01 fields while retaining legacy behavior and distinct cash/ESA, actual/appropriation, stock/flow and vintage roles. No recovered legacy panel or unchanged legacy serialized values are claimed.",
+              "decision": "NEW_SOURCE_LED_D01_HANDOFF_AWAIT_EXACT_IMPLEMENTATION_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_056_B13_SOURCE_LED_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Fourteen exact recovered Treasury/KSH/MVM/NJT originals and independently re-extracted native witnesses; new source-led Decimal normalization and unchanged accounting controls"
+              ],
+              "remaining_unknown": "Legacy private JSON/normalizer/text/serialized lexemes remain unrecovered. The accepted new reference is explicitly separate. Institutional reserve actual stays blank; MVM/order difference and recipient/fuel/household/VAT/service-year attribution remain unresolved. Annex legal-effective/original-enacted authority is not admitted. D02 programme response, P01 policy and headroom/B15 remain separate.",
+              "promising_next_lead": "Use the accepted explicit source-led reference within its dated accounting and source-role limits; qualify programme ledger and owner policy separately.",
+              "expected_decision_value": "Completes the original central/general-government revenue/expenditure/GDP/debt/interest/relevant energy-compensation handoff with executable private inputs, preserving cash/accrual, actual/appropriation, stock/flow, vintage and source precision distinctions.",
+              "decision": "ACCEPT_SEPARATELY_QUALIFIED_B13_D01_SOURCE_LED_BASELINE",
+              "evidence": "docs/checkpoints/V1_056_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "40788c476f2833c69d4c30f0c5d935d952a7af52"
+        },
+        {
+          "title": "Program pénzáramai",
+          "data": "HUF/év grant, hitel/garancia nettó kockázat, adminisztráció, adóhatás, visszafizetés, energiaár-támogatás változása; tényleges jogcím, kedvezményezett és esedékesség.",
+          "phase": "V",
+          "slice_id": "B13-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Fiskális politika",
+          "data": "Éves keret, reinvesztálható arány és adósság/floor POL/SCN; nem a teljes importmegtakarítás kerül az állam kasszájába.",
+          "phase": "V",
+          "slice_id": "B13-P01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner policy decisions, bounded digest; original private"
+              ],
+              "remaining_unknown": "Exact target, horizon, annual public budget, reinvestment/debt bounds, benefit metric/denominator and numeric weights remain unset; technical cashflow comparison and scientific inputs still required.",
+              "promising_next_lead": "Implement and qualify household-only first-day non-worsening on complete dated cashflows; preserve selected benefit/public-HUF direction and 2028-01-01 planning start.",
+              "expected_decision_value": "Resolves actor/bindingness and conflict-priority direction plus planning date without hidden policy defaults.",
+              "decision": "RECORD_PARTIAL_OWNER_POLICY_WITH_OPEN_PARAMETERS",
+              "evidence": "registry/owner_policy_decisions.json"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Direct owner completed-cohort financing and deliberate user-scenario requirements"
+              ],
+              "remaining_unknown": "Actual cohort thresholds and fiscal attribution/cash dates, seed finance, capacity, exact horizon/ceiling/share, benefit definition and weights remain to be qualified; illustrative amounts are not inputs.",
+              "promising_next_lead": "Apply the declared triple-completion and household-protection gates, dated fiscal-release ledger and explicit parameter contract to qualified upstream inputs.",
+              "expected_decision_value": "Specifies intended cohort subsidy exit, recurring released-cash reinvestment, capacity/formality and scenario controls without assuming unlimited budget or acceleration.",
+              "decision": "CONTINUE_PARTIALLY_SPECIFIED_POLICY_AND_METHOD_PREPARATION",
+              "evidence": "docs/methodology/owner_policy_20261004.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Hivatalos elszámolási és jogi alap E1; becsült viselkedési/adóalaphatás lehet E2 külön adóssággal. Támogatási keretet nem lehet GDP-arányból automatikusan levezetni.",
+      "accept": "Pénzáram stock-flow és időzítés; háztartás/állam transzfer konszolidáció; importérték nem adóbevétel; államadósság és támogatási hitel kétszerezésének kizárása.",
+      "stop": "Ha konkrét fiskális jogcímhez nincs adat, a sor Q; puszta bruttó energia-megtakarítás nem bizonyít költségvetési megtérülést.",
+      "existing_at_base": "NOT_STARTED; reinvesztálási ráta SCN, fiskális ledger/headroom még üres keret."
+    },
+    {
+      "id": "B14",
+      "title": "Pályázati és EU-forrástérkép",
+      "dependencies": "Önálló forráskutatás; B01/B06/B12 jogosult scope; B15 fogyasztó.",
+      "slices": [
+        {
+          "title": "Aktuális konstrukciók",
+          "data": "Programazonosító, kiíró, hatály/verzió, ország/régió, jogosult/kizárt tevékenység, költség, intenzitás, saját erő, kumuláció, beadási/teljesítési határidő.",
+          "phase": "V",
+          "slice_id": "B14-L01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+            "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025",
+            "SRC-B14-MFB-RETAIL-PROCEDURE-20251015",
+            "SRC-B14-MFB-KEHOP-PROCESSING-FAQ-202609",
+            "SRC-B02-HU-KEHOP-417-PROGRAMME-2026",
+            "SRC-B14-MFB-KEHOP-418-STATUS-20261001",
+            "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261001",
+            "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261001",
+            "SRC-B14-FAIR-KEHOP-417-NHH-SUSPENSION-20260414",
+            "SRC-B14-FAIR-KEHOP-417-LHH-SUSPENSION-20260420",
+            "SRC-B14-FAIR-KEHOP-418-SUSPENSION-20260414",
+            "SRC-B14-MFB-KEHOP-417-STATUS-20261003",
+            "SRC-B14-FAIR-KEHOP-417-DOCUMENT-LIST-20261003",
+            "SRC-B14-MFB-KEHOP-418-STATUS-20261003",
+            "SRC-B14-FAIR-KEHOP-418-DOCUMENT-LIST-20261003"
+          ],
+          "accepted_artifacts": [
+            "registry/b14_funding_reference_manifest.json",
+            "data/processed/b14/funding_reference_snapshot.json",
+            "data/processed/b14/eligible_cost_caps_417.csv",
+            "modules/B14/funding_reference.py",
+            "registry/b14_rule_completion_manifest.json",
+            "data/processed/b14/rule_completion_20261003.json",
+            "data/processed/b14/eligible_cost_caps_418.csv"
+          ],
+          "consumer_tests": [
+            "tests/test_b14_funding_reference.py",
+            "tests/test_b14_rule_completion.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Official KEHOP Plusz 4.1.7/4.1.8 calls and common procedure",
+                "MFB September 2026 operational FAQ and current status",
+                "FAIR current document lists and official April suspension notices"
+              ],
+              "remaining_unknown": "Broader programme coverage and record-level fit, current financial balances/assignment and university/pilot financing remain open. Two household calls do not close all of B14-L01.",
+              "promising_next_lead": "Dated official financial reconciliation and targeted research/pilot programme fit, preserving original envelopes versus committed/paid/available and project-confirmed quantities",
+              "expected_decision_value": "Prevents suspended intakes, original envelopes or gross eligible-cost caps from being mistaken for currently available programme funding or expected project prices",
+              "decision": "ADMIT_BOUNDED_DATED_RULE_REFERENCE_CONTINUE_SCOPE_RESEARCH",
+              "evidence": "docs/checkpoints/V1_018_B14_FUNDING_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Exact published-head verification of bounded KEHOP rule reference"
+              ],
+              "remaining_unknown": "Broader programme scope, current financial balances and research/pilot fit remain open; no whole-slice or module acceptance",
+              "promising_next_lead": "Continue qualified programme and balance research independently of the accepted dated-reference implementation",
+              "expected_decision_value": "Confirms canonical LF input identity,25focusedchecks and2660hostedtests without misreporting the resource-blocked local aggregate",
+              "decision": "VERIFY_BOUNDED_REFERENCE_IMPLEMENTATION_ONLY",
+              "evidence": "docs/checkpoints/V1_018_CI.json"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Exact already-pinned4.1.7/4.1.8 calls recovered through recorded identical mirrors; SeptemberFAQ and two exactFAIR index payloads; new MFB status/index observations; explicit prior V1-018 procedure/notice review"
+              ],
+              "remaining_unknown": "Individual eligibility, all unlisted programme coverage, available/committed/paid/project funds, university/pilot fit and B15 outputs remain outside this named rule handoff. Common-procedure, three historical notices and old HTML originals remain archive-recovery limits; prior review is not relabelled a fresh full11source pass.",
+              "promising_next_lead": "Verify this exact two-date consumer on hosted CI, then bind bounded L01 acceptance to the actual reviewed implementation commit. D01 balances and D02 pilot fit remain separate.",
+              "expected_decision_value": "Completes original programme/issuer/version/geography, activity/cost/intensity/own-funds/cumulation/deadline fields for both named household calls. Supersedes the prior unbounded broader-programme/record-level/balance/pilot interpretation as L01 gates without asserting a programme census or individual approval.",
+              "decision": "SOURCE_CONTRACT_COMPLETE_AWAIT_EXACT_IMPLEMENTATION_ACCEPTANCE",
+              "evidence": "docs/checkpoints/V1_054_B14_RULE_COMPLETION.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Two exact pinned KEHOP calls and own-programme cost tables; separately dated official document/status observations and exact SeptemberFAQ; explicit prior V1-018 procedure/notice review"
+              ],
+              "remaining_unknown": "Only the two named dated rule handoffs are accepted. Unlisted programmes, individual eligibility, later revisions, D01 remaining/committed/paid/project funding, D02 research/pilot fit, whole B14 and B15 remain outside this acceptance. Historical procedure/notices/oldHTML archive gaps remain explicit; no new full11source pass is asserted.",
+              "promising_next_lead": "Use the accepted dated source-rule reference within exact scope; obtain separately qualified finance balances or pilot-fit evidence for D01/D02.",
+              "expected_decision_value": "Closes all original L01 programme/issuer/version/geography/activity/cost/intensity/own-source/cumulation/deadline fields for the two named calls while preserving historical reads, currentness and record-level boundaries.",
+              "decision": "ACCEPT_TWO_NAMED_DATED_B14_L01_SOURCE_RULE_HANDOFFS",
+              "evidence": "docs/checkpoints/V1_054_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "4719fb26b6a9df475a28808c30e403c074ebb3fa"
+        },
+        {
+          "title": "Összeg és pénzbeérkezés",
+          "data": "HUF/EUR keret, valóban rendelkezésre álló maradvány, kötelezettségvállalás, kifizetés, programhoz rendelhetőség és folyósítás időpontja; állapot külön mező.",
+          "phase": "V",
+          "slice_id": "B14-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B06-HU-KEHOP-417-COMPLETION-2025",
+            "SRC-B02-HU-KEHOP-418-COMPLETION-INDICATORS-2025"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [
+            "tests/test_b14_funding_reference.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Published V1-018 dated KEHOP 4.1.7/4.1.8 original programme-envelope controls, same official call family"
+              ],
+              "remaining_unknown": "Current available balances, reservations, commitments, disbursements, cancellations, programme attribution and payment timing remain absent. Original envelope is not remaining money or project award.",
+              "promising_next_lead": "Acquire a dated scope-matched reconciliation of commitments and cash before admitting available finance; unchanged suspension pages are not new balance evidence.",
+              "expected_decision_value": "Credits an existing envelope subinput while preserving the full remaining-finance and payment gap.",
+              "decision": "RECONCILE_ORIGINAL_ENVELOPE_SUBINPUT_ONLY",
+              "evidence": "docs/checkpoints/V1_018_CI.json"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Kutatási finanszírozási illeszkedés",
+          "data": "Egyetemi kutatási/pilot és országos beruházási forrás külön. A V1 támogatható kutatási hiányainak tételes költsége/eredménye csak további tervezéssel.",
+          "phase": "V",
+          "slice_id": "B14-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Jogosultság és támogatási döntés nem E2 átlag. A finanszírozási lehetőség rangsora lehet kutatási output, biztos forrásként csak exact hozzárendelés számítható.",
+      "accept": "Keret és megítélt összeg külön; dátumok/átfedő programok/kettős finanszírozás; baseline beruházást nem új grantként elszámolni.",
+      "stop": "Lejárt vagy érdemi tartalom nélküli oldal esetén forrásazonosítót megtartani, mai rendelkezésre állást nem állítani. Ha nincs megerősítés, a „confirmed” mező Q; külön grant-nélküli SCN vizsgálható.",
+      "existing_at_base": "NOT_STARTED; confirmed grant globális változó üres. Elérhető programoldal nem projektnek megítélt forrás."
+    },
+    {
+      "id": "B15",
+      "title": "Finanszírozási stratégia",
+      "dependencies": "B12+B13+B14 számszerű kimenete kötelező, B09 monetizálható érték ha beszámítjuk.",
+      "slices": [
+        {
+          "title": "Finanszírozási termék",
+          "data": "Érvényes nyilvános termékfeltétel: HUF/EUR, kamat/THM, futamidő, díj, garancia, önerő, hitel/lease/grant jogi keret és hozzáférhetőség.",
+          "phase": "V",
+          "slice_id": "B15-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Finanszírozási rés és idő",
+          "data": "HUF/év, fázis és archetipus: eligible CAPEX – megfizethető finanszírozás – confirmed grant – egyszer elszámolt realizálható rendszerérték; cash-flow időzítés.",
+          "phase": "V",
+          "slice_id": "B15-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Javasolt konstrukció",
+          "data": "Új közpolitikai finanszírozási termék csak POL/SCN, nem piacon már elérhető ajánlat. Elosztási és garanciakockázat külön.",
+          "phase": "V",
+          "slice_id": "B15-P01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Megfigyelt átlagkamat E2 kontroll lehet, de nem szerződési ígéret. A forrásmixhez minden komponens státusza és időzítése világos, jogi feltételek exact.",
+      "accept": "Finanszírozási azonosság, támogatási plafon/jogosultság, adósságszolgálat és állami kockázat; negatív rés kezelése és dupla érték tiltása.",
+      "stop": "Upstream hiányt nem old meg új hiteltermék fantáziálása. Ha finanszírozási rés fennmarad, ezt eredményként közölni kell, nem optimista támogatási feltevéssel elrejteni.",
+      "existing_at_base": "NOT_STARTED. Támogatási rés képlete strukturális hipotézis; upstream inputok nélkül nem eredmény."
+    },
+    {
+      "id": "B16",
+      "title": "Makrogazdasági hatás",
+      "dependencies": "B11 fizikai import; B12/13/15 pénz; B18 kínálati kapacitás.",
+      "slices": [
+        {
+          "title": "Gazdasági szerkezet",
+          "data": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR, importarány, hozzáadottérték, foglalkoztatás/FTE. FIGARO-kód és hazai kiadási csomag közti híd.",
+          "phase": "V",
+          "slice_id": "B16-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B16-EUROSTAT-KSH-HU-IOT-2023",
+            "SRC-B16-EUROSTAT-HU-IOT-METADATA-2026",
+            "SRC-B16-EUROSTAT-HU-IOT-COVERAGE-2026",
+            "SRC-B16-EUROSTAT-SUIOT-INFORMATION-2026",
+            "SRC-B16-EUROSTAT-REUSE-2026",
+            "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023",
+            "SRC-B16-EUROSTAT-HU-EMPLOYMENT-A10-2023",
+            "SRC-B16-EUROSTAT-HU-POPULATION-EMPLOYMENT-2023",
+            "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-2023-CONTROL",
+            "SRC-B16-EUROSTAT-EMPLOYMENT-METADATA-2026",
+            "SRC-B16-EUROSTAT-HU-EMPLOYMENT-METADATA-2025",
+            "SRC-B16-EUROSTAT-HU-NATIONAL-ACCOUNTS-METADATA-2026",
+            "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+            "SRC-B16-FIGARO-CLASSIFICATION-2026",
+            "SRC-B16-FIGARO-METADATA-2026",
+            "SRC-B16-EUROSTAT-REFURBISHMENT-GUIDE-2020",
+            "SRC-B16-NACE-REV2-MANUAL",
+            "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+            "SRC-B16-FIGARO-DESCRIPTION-2026"
+          ],
+          "accepted_artifacts": [
+            "registry/b16_industry_structure_reference_manifest.json",
+            "modules/B16/industry_structure_reference.py",
+            "registry/b16_spending_classification_manifest.json",
+            "modules/B16/spending_classification_reference.py",
+            "registry/b16_employment_structure_reference_manifest.json",
+            "modules/B16/employment_structure_reference.py",
+            "tests/test_b16_spending_classification_reference.py",
+            "docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md"
+          ],
+          "consumer_tests": [
+            "tests/test_b16_industry_structure_reference.py",
+            "tests/test_b16_employment_structure_reference.py",
+            "tests/test_b16_spending_classification_reference.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "KSH compiled national industry-by-industry IO 2023, national data vintage 2025, officially disseminated by Eurostat",
+                "Same-family national metadata, coverage and valuation conventions; Eurostat statistical reuse conditions"
+              ],
+              "remaining_unknown": "Programme expenditure-to-industry mapping, purchaser/basic and 2026 price/currency bridges, matched employment/hours/FTE, displacement/alternative-use and capacity constraints; detailed cause of source-signed core adjustments. No programme multiplier or net GDP/jobs/fiscal admission.",
+              "promising_next_lead": "Reuse the dated 89-leaf domestic/import source structure with a separately qualified programme spending vector and employment attachment when upstream monetary outputs are available; investigate source-signed adjustments before positivity-based interpretation.",
+              "expected_decision_value": "Fills the first B16 numerical source gap with exact domestic/import/total matrices and accounting identities, preventing overlapping sector double-counting, absent-year substitution and deletion of signed or missing source cells.",
+              "decision": "INTEGRATE_DATED_HISTORICAL_STRUCTURE_ONLY_WITH_PROGRAMME_DEPENDENCIES_OPEN",
+              "evidence": "docs/checkpoints/V1_050_HUNGARIAN_INDUSTRY_STRUCTURE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "KSH/Eurostat official HU 2023 domestic-concept persons and actual hours with same-family A10 and concept controls",
+                "Original ESA2010 A64 classification and current-versus-frozen national-account compatibility controls"
+              ],
+              "remaining_unknown": "Exact employment revision vintage and coherent IO compatibility; FTE denominator, occupation/installation capacity, programme expenditure, counterfactual and displacement. Absent self-employment or U remains null; no labour coefficients or jobs effects.",
+              "promising_next_lead": "Use the descriptive one-way 89-to-64 attachment only within its dated source scope; qualify aligned snapshots or a revision bridge before joint intensities, and acquire programme-specific spending/capacity before effects.",
+              "expected_decision_value": "Adds the previously missing quantitative labour dimension while detecting current-versus-frozen account differences and preventing false complete-sector closure, reverse allocation or FTE conversion.",
+              "decision": "INTEGRATE_DESCRIPTIVE_LABOUR_ATTACHMENT_WITH_COMPATIBILITY_DIAGNOSTICS",
+              "evidence": "docs/checkpoints/V1_051_EMPLOYMENT_AND_PLAN_RECONCILIATION.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Eurostat CPA2.1–CPA2.2 correspondence, NACE Rev.2 explanatory notes and FIGARO July2026 exact code description",
+                "Retained HU2023 national IO, descriptive native persons/hours and ESA2010 classification/valuation authority"
+              ],
+              "remaining_unknown": "Programme monetary vector, actual suppliers and mixed-invoice allocation, purchaser/basic and price/currency bridge, coherent labour/output coefficients, net additionality/displacement/capacity and all programme effects remain downstream conditions. They are not inferred from this descriptive handoff.",
+              "promising_next_lead": "Review the complete original B16-D01 data handoff: native accounts/GVA/persons/hours plus explicit historical origin ratios and the conditional versioned expenditure-classification bridge.",
+              "expected_decision_value": "Closes the original missing classification and import-denominator fields while preventing product/industry/version confusion, installed-work double counting and conversion of signed accounts into programme import propensities.",
+              "decision": "PREPARE_WHOLE_DESCRIPTIVE_DATA_HANDOFF_FOR_EXACT_REVIEW",
+              "evidence": "docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Exact qualified HU2023 national structure/persons/hours plus official versioned classification authorities"
+              ],
+              "remaining_unknown": "Actual supplier and programme monetary allocation, purchaser/basic and price/currency conversion, matched labour/output coefficients, net additionality/displacement and all programme GDP/jobs remain separate.",
+              "promising_next_lead": "Use the accepted descriptive handoff only within its historical and conditional classification scope; qualify the required monetary/counterfactual inputs for B16-D02.",
+              "expected_decision_value": "Accepts the original five-clause B16-D01 data handoff with exact source origin ratios, explicit undefined/signed cases and conditional expenditure code correspondence.",
+              "decision": "ACCEPT_BOUNDED_DESCRIPTIVE_STRUCTURE_CLASSIFICATION_HANDOFF",
+              "evidence": "docs/checkpoints/V1_061_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "4de371437a70ad36d3ff80ab7a6382212f2c4703"
+        },
+        {
+          "title": "Nettó többlethatás",
+          "data": "HUF/év beruházási és működési impulzus, finanszírozás alternatív felhasználása, kiszorítás, importszivárgás, bérek és kapacitáskorlát. Ezek becslési modellfeltevések, nem könyvelési automatizmus.",
+          "phase": "V",
+          "slice_id": "B16-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Megbízható IO-adat E1/DER input lehet; nettó multiplikátor alkalmazása E2/SCN módszerhatárt igényel. A GDP, árbevétel, munkahely és fiskális bevétel nem összeadható haszon.",
+      "accept": "Ágazati megfeleltetés, árszint és hazai/import bontás; bruttó vs nettó külön; baseline-hoz viszonyított output, munkaévek vs tartós állás elkülönítése.",
+      "stop": "Ha nincs védhető kiszorítási modell, csak bruttó ágazati kitettség közölhető, nettó nemzetgazdasági megtérülés nem. A V1 főállítás ezt jelezze.",
+      "existing_at_base": "NOT_STARTED; nincs kanonikus numerikus macro-motor vagy teljes inputlista. Az alábbiak új V1 szerződésjavaslatok."
+    },
+    {
+      "id": "B17",
+      "title": "Klíma, levegő és egészség",
+      "dependencies": "B05/09 áram; B11 kiváltott tüzelőanyag; B02 térbeli súly.",
+      "slices": [
+        {
+          "title": "Kibocsátási faktorok",
+          "data": "Technológia/tüzelőanyag × év: kgCO2e/kWh, gPM/NOx/GJ, használati és szükség szerint életciklus-határ; importáram, marginális/átlagos mix külön; hűtőközeg szivárgás ahol érdemi.",
+          "phase": "V",
+          "slice_id": "B17-D01",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B17-IPCC-2006-STATIONARY",
+            "SRC-B17-EEA-SMALL-COMBUSTION-2023",
+            "SRC-B17-IPCC-2019-STATIONARY",
+            "SRC-B17-HU-NID-2026-OFFICIAL",
+            "SRC-B17-HU-IIR-2026",
+            "SRC-B17-EEA-ELECTRICITY-INTENSITY",
+            "SRC-B17-AIB-RESIDUAL-2025-REPORT",
+            "SRC-B17-AIB-RESIDUAL-MIX-FAQ",
+            "SRC-B17-IPCC-2006-ENERGY-INTRO",
+            "SRC-B17-IPCC-2019-ENERGY-INTRO",
+            "SRC-B17-IPCC-2019-ENERGY-MAPPING",
+            "SRC-B17-IPCC-2006-ENERGY-INDEX",
+            "SRC-B17-IPCC-2019-ENERGY-INDEX"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [
+            "tests/test_b17_emission_factor_reference.py",
+            "tests/test_b17_direct_gas_reference.py"
+          ],
+          "validation_debt_ids": [],
+          "research_log": [
+            {
+              "date": "2026-10-02",
+              "source_families": [
+                "IPCC stationary-combustion default methods",
+                "EMEP/EEA small-combustion method factors",
+                "Current Hungarian NID/IIR and EEA/AIB contextual accounting references"
+              ],
+              "remaining_unknown": "Claim-specific Hungarian fuel/device/year/NCV activity and applicability; marginal and physical import electricity response; refrigerant and separate exposure/health/valuation bridges. No programme input selected.",
+              "promising_next_lead": "Connect qualified B05/B09/B11 activity only after explicit matching applicability, while retaining source-native default and uncertainty semantics.",
+              "expected_decision_value": "Prevents fuel-energy, pollutant, PM-boundary, source-vintage and electricity-accounting substitutions in later environmental consumers.",
+              "decision": "CONTINUE_SCOPED_ACTIVITY_AND_APPLICABILITY_BRIDGE",
+              "evidence": "docs/checkpoints/V1_029_B17_EMISSION_FACTOR_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Reacquired exact IPCC2006 stationary-combustion default and official2019 unchanged-method/refinement context",
+                "Original TABULA workbook fuel mapping and existing V1-045 source-convention NCV activities"
+              ],
+              "remaining_unknown": "Actual Hungarian fuel-carbon/calorimetry, measured combustion activity and population transfer; electricity response, upstream/refrigerant/non-CO2, net climate, exposure/health and valuation remain separate. Factor-only native limits do not cover full model uncertainty.",
+              "promising_next_lead": "Use separately qualified target activity and coherent electricity/lifecycle boundaries for a broader environmental claim; retain the generic source-method reference and its validation debt.",
+              "expected_decision_value": "First compatible B11-to-B17 numerical activity handoff for three named natural-gas source cases, with source-native uncertainty semantics and common-factor case differences rather than independent endpoint combinations.",
+              "decision": "ADMIT_NARROW_DIRECT_GAS_INVENTORY_METHOD_REFERENCE_CONTINUE_TARGET_APPLICABILITY",
+              "evidence": "docs/checkpoints/V1_049_DIRECT_GAS_CO2_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Egészséghatás",
+          "data": "HU terület × népességcsoport: koncentrációváltozás μg/m³, expozíció, baseline halálozás/megbetegedés, koncentráció–válasz és értékelési év. Emisszió nem koncentráció.",
+          "phase": "V",
+          "slice_id": "B17-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Társadalmi értékelés",
+          "data": "HUF/év vagy nem pénzbeli egészségmutató; értékelési módszer és diszkontráta. Klíma- és egészségnyereség átfedésvizsgálata.",
+          "phase": "V",
+          "slice_id": "B17-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "EEA módszer + magyar aktivitás jó emissziós út. WHO módszer nem magyar expozíció. Külföldi egészségfaktort csak dokumentált transzferrel, nem tetszőleges Ft/tonna adattal.",
+      "accept": "Energia/emisszió egységteszt, térbeli érzékenység; CO2/CO2e és árammix; emisszióból egészséghez külön modell; kettős monetizálás tilalma.",
+      "stop": "Megbízható expozíciós híd nélkül emisszióeredmény közölhető, egészségszám nyitott. Az elhagyott egészségnyereség nem garantált nulla és nem garantált pozitív összeg.",
+      "existing_at_base": "NOT_STARTED. Kibocsátás és egészséghatás eltérő bizonyítási réteg."
+    },
+    {
+      "id": "B18",
+      "title": "Kivitelezési és beszállítói kapacitás",
+      "dependencies": "B06 munkacsomag; B10 hálózati munka; B15 pénz; vissza B01.",
+      "slices": [
+        {
+          "title": "Munkakapacitás",
+          "data": "HU szakma/régió/év: aktív FTE, projekt-/m²-/készülék-nap, rendelkezésre álló munkaóra, képzés/belépés és kiesés. KSH ágazati létszám kontroll, nem installálási darabkorlát.",
+          "phase": "V↔A",
+          "slice_id": "B18-D01",
+          "status": "RESEARCHING",
+          "canonical_source_ids": [
+            "SRC-B18-HU-CS4L-SQA-2023",
+            "SRC-B18-HU-CS4L-ROADMAP-2024",
+            "SRC-B18-KSH-MUN0009-2026",
+            "SRC-B18-KSH-MUN-METHOD-2026",
+            "SRC-B18-KSH-MUN0009-HTML-2026"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "Q-B18-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "ConstructSkills4LIFE scenario family and KSH broad-sector employment"
+              ],
+              "remaining_unknown": "Aktív FTE; mért projekt-/m²-/készülék-munkaóra; más munkák, kiesés és belépés; illesztett reprezentatív minta vagy kalibrált következtetés.",
+              "promising_next_lead": "Trade/region completed-job labour hours, available active FTE and measured quality sample",
+              "expected_decision_value": "Prevent source controls or external scenarios from silently becoming national rollout limits",
+              "decision": "BOUNDED_REFERENCE_WITH_TARGETED_ACQUISITION_DEBT",
+              "evidence": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Beszállítás és hazai tartalom",
+          "data": "Termékkód/technológia × év: db, kW/kWh, szállítási hónap, import/hazai termelés, importarány és hozzáadottérték. PRODCOM/Comext kategória pontosítása.",
+          "phase": "V↔A",
+          "slice_id": "B18-D02",
+          "status": "INTEGRATING",
+          "canonical_source_ids": [
+            "SRC-B18-COMEXT-HU-CN84186100-2025",
+            "SRC-B18-PRODCOM-HU-28211400-2025",
+            "SRC-B18-KSH-ITO22-ITO25",
+            "SRC-B18-KSH-ITO25-CN25",
+            "SRC-B18-KSH-ITO25-STRUCTURE",
+            "SRC-B18-KSH-ITO-METHOD",
+            "SRC-B18-KSH-CN2025-STRUCTURE",
+            "SRC-B18-EU-CN2025",
+            "SRC-B18-PRODCOM2025-GUIDE",
+            "SRC-B18-EUROSTAT-TRADE-METHOD",
+            "SRC-B18-EUROSTAT-HU-PRODCOM-METHOD"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "Q-B18-002"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "Eurostat/KSH product classification and trade/production"
+              ],
+              "remaining_unknown": "Nem bizalmas termelési kontroll; termékkód/év készlet-reexport-értékesítés híd; beszállítói átfutás és szabad kapacitás; adatverzió-egyeztetés.",
+              "promising_next_lead": "Claim-matched product supply-use reconciliation and supplier capacity",
+              "expected_decision_value": "Prevent source controls or external scenarios from silently becoming national rollout limits",
+              "decision": "BOUNDED_REFERENCE_WITH_TARGETED_ACQUISITION_DEBT",
+              "evidence": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Minőség és felfutás",
+          "data": "Visszajavítás/hibaarány, engedélyezés/szerelés átfutás, tanulás mintával; múltbeli programtermelés és rendelkezésre álló többletkapacitás külön.",
+          "phase": "V↔A",
+          "slice_id": "B18-D03",
+          "status": "RESEARCHING",
+          "canonical_source_ids": [
+            "SRC-B18-HU-CS4L-SQA-2023",
+            "SRC-B18-HU-CS4L-ROADMAP-2024",
+            "SRC-B18-KSH-MUN0009-2026",
+            "SRC-B18-KSH-MUN-METHOD-2026",
+            "SRC-B18-KSH-MUN0009-HTML-2026"
+          ],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [
+            "Q-B18-003"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-01",
+              "source_families": [
+                "ConstructSkills4LIFE scenario family and KSH broad-sector employment"
+              ],
+              "remaining_unknown": "Munkacsomaghoz rendelt megvalósult idő/hibaarány minta; lefedettség, súlyozás és bizonytalanság; múltbeli output versus szabad többletkapacitás.",
+              "promising_next_lead": "Trade/region completed-job labour hours, available active FTE and measured quality sample",
+              "expected_decision_value": "Prevent source controls or external scenarios from silently becoming national rollout limits",
+              "decision": "BOUNDED_REFERENCE_WITH_TARGETED_ACQUISITION_DEBT",
+              "evidence": "docs/checkpoints/V1_022_B18_SUPPLY_WORKFORCE_REFERENCE.md"
+            }
+          ],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Ágazati publikációk mellé műszaki munkatartalom és megvalósulási kontroll kell. Regisztrált szerelők száma × kitalált éves db nem E2.",
+      "accept": "FTE-nap és munkaóra egyezés, szakmánkénti bottleneck, más piaci munkák levonása, régiós kapacitás és rollout visszafuttatás; importot nem kétszer számolni.",
+      "stop": "Ha ingyenes, nyilvános termelékenységi minta nincs, éves tempó csak feltételes SCN. Ne állítsunk bizonyított 15 éves megvalósulást puszta pénzügyi keretből.",
+      "existing_at_base": "NOT_STARTED, mégis B01 tényleges megvalósulásának kemény korlátja. A hiteles V1 rollout előtt nem hagyható végleg későbbre."
+    },
+    {
+      "id": "B19",
+      "title": "Kockázat és reziliencia",
+      "dependencies": "Minden modul; stresszek vissza B01–B18.",
+      "slices": [
+        {
+          "title": "Közös stresszesemények",
+          "data": "Időjárás/ár/terhelés/ellátás/timing együttes, dátumozott történeti ablakok; HU/EU kapcsolódás. Külön statisztikai bizonytalanság, strukturális ismerethiány és POL stressz.",
+          "phase": "V",
+          "slice_id": "B19-D01",
+          "status": "ACCEPTED",
+          "canonical_source_ids": [
+            "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+            "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+            "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+            "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+            "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+            "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+            "SRC-B04-SMARD-CONFIG-20261003",
+            "SRC-B04-SMARD-DATA-USE-20261003",
+            "SRC-B04-SMARD-GUIDE-202109",
+            "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+            "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+            "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1735513200000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1742770800000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1759096800000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1760911200000-20261003",
+            "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1766962800000-20261003",
+            "SRC-B19-SMARD-AT-DAM-HOURLY-20261003",
+            "SRC-B19-SMARD-AT-DAM-ORIGINAL-20261003",
+            "SRC-B19-SMARD-AT-QUARTERHOUR-INDEX-20261003"
+          ],
+          "accepted_artifacts": [
+            "modules/B19/historical_joint_stress.py",
+            "registry/b19_historical_joint_stress_manifest.json",
+            "modules/B19/austrian_price_reference.py",
+            "modules/B19/historical_joint_market.py",
+            "registry/b19_joint_market_reference_manifest.json",
+            "tools/materialize_b19_joint_market.py"
+          ],
+          "consumer_tests": [
+            "tests/test_b19_historical_joint_stress.py",
+            "tests/test_b19_austrian_price_reference.py",
+            "tests/test_b19_joint_market.py"
+          ],
+          "validation_debt_ids": [
+            "Q-B08-001",
+            "Q-B09-001"
+          ],
+          "research_log": [
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Accepted native UTC2025 ENTSO-E actual load/generation and exact MAVIR signed-recovery originals",
+                "Accepted HungaroMet Budapest44527 preceding-hour temperature handoff, with exact recent endpoint closing UTC2025"
+              ],
+              "remaining_unknown": "National weather representation, complete meteorological winter, future joint probabilities and causal response, physical exchange/storage reconciliation, programme profile and economic thresholds are not established",
+              "promising_next_lead": "Use these dated co-occurring reference windows with separately qualified programme activity or additional matched historical series when the next scoped decision requires them; preserve observed dependence and explicit analysis duration",
+              "expected_decision_value": "Prevents independently selected cold/load/residual maxima from being combined into an invented historical event; supplies reproducible contemporaneous conditions on one verified physical time grid",
+              "decision": "CONTINUE_BOUNDED_HISTORICAL_JOINT_CONDITIONS_WITHOUT_POLICY_OR_PROBABILITY_DEFAULTS",
+              "evidence": "docs/checkpoints/V1_048_HISTORICAL_JOINT_STRESS.md"
+            },
+            {
+              "date": "2026-10-03",
+              "source_families": [
+                "Accepted Budapest44527 hourly temperature and exact native HU load/signed-generation handoff",
+                "Accepted official SMARD HU hourly prices and separately independently qualified Austrian bidding-zone prices, exact configuration/rights/time evidence and epoch witnesses"
+              ],
+              "remaining_unknown": "Station weather is not national weather; source estimates/revisions and separate HU/AT retrieval vintages remain explicit. One EU comparator is not EU-wide representation; prices do not establish physical exchange, import support, congestion causality or adequacy. Statistical uncertainty for future/generalized claims is unestimated; no adopted POL shock, programme driver ranking, decision threshold or national readiness is supplied.",
+              "promising_next_lead": "Verify the exact joint consumer and all original D01 clauses against an independent preimplementation oracle; after separately approved publication and zero-skip hosted verification, consider actual-commit-bound D01 acceptance. D02/D03 and module/programme gates remain separate.",
+              "expected_decision_value": "Completes the previously absent contemporaneous price and bounded regional-market fields while preserving weather/load/domestic-source supply/timing, exact co-occurrence and separate statistical/structural/POL categories; prevents synthetic all-extrema events or inferred imports.",
+              "decision": "QUALIFIED_HU_AT_JOINT_HISTORICAL_HANDOFF_PREPARE_EXACT_CONSUMER_REVIEW",
+              "evidence": "docs/checkpoints/V1_058_JOINT_MARKET_WINDOWS.md"
+            },
+            {
+              "date": "2026-10-04",
+              "source_families": [
+                "Accepted Budapest44527 weather and native HU load/signed-generation originals; accepted HU and independently qualified AT SMARD publisher-hourly observations with exact rights/time/configuration and epoch evidence"
+              ],
+              "remaining_unknown": "Station weather and adopted E2/Q load/generation retain their limits; source residual is not measured imports or complete physical accounting. Separate retrospective price snapshots, revisions and quantization/resolution remain explicit. No EU-wide representation, physical support, congestion causality, future probability, policy stress/default, programme driver ranking, threshold or national readiness is supplied.",
+              "promising_next_lead": "Use the accepted bounded historical co-occurrence reference within its explicit source limits. B19-D02 owner thresholds and B19-D03 decision-value priorities require their own integrated programme evidence; do not substitute observed-domain ranks for programme drivers.",
+              "expected_decision_value": "Completes original dated weather/price/load/domestic-source supply/timing and bounded regional-market handoff with actual same-window vectors and distinct statistical/structural/POL categories, without fabricating combined extremes or stronger physical outcomes.",
+              "decision": "ACCEPT_BOUNDED_B19_D01_HU_AT_HISTORICAL_JOINT_HANDOFF",
+              "evidence": "docs/checkpoints/V1_058_ACCEPTANCE.json"
+            }
+          ],
+          "reviewed_commit": "3631f80be6ab2a34a7b4d64cdf3ad64754a87509"
+        },
+        {
+          "title": "Döntési küszöbök",
+          "data": "HUF/év, NPV, MW, nem kiszolgált energia, átmenet/év és fiscal headroom; tulajdonosi tolerancia, nem univerzális önkényes százalék.",
+          "phase": "V",
+          "slice_id": "B19-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "E2→E1 prioritás",
+          "data": "Input/adósság → érintett output → rangsor-/küszöbfordulás → beszerzési költség és elérhetőség. A mérés értéke az elkerülhető döntési tévedés, nem a forrásdarabszám.",
+          "phase": "V",
+          "slice_id": "B19-D03",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Nincs új általános „kockázati szorzó” megvásárlására szükség. Események korrelációját és töréspontokat őrizni; ismeretlen függőség strukturális stressz, nem független véletlen húzás.",
+      "accept": "Központi referencia és reprodukálható eltérések; out-of-domain felismerés; rangsorfordulás és kötő korlát; eredmény mindkét irányban közölve.",
+      "stop": "Ha nincs integrált futás, driver-rangsor csak hipotézis. Nem automatikus mindenhiány×low/base/high szorzattér; a döntési érzékenység után célzott újranyitás.",
+      "existing_at_base": "NOT_STARTED. Nem kell minden előző modul 100%-os E1 állapotáig várni az érzékenységgel."
+    },
+    {
+      "id": "B20",
+      "title": "Közös interfész és V1 átadhatóság",
+      "dependencies": "B01–B19 stabil output-szerződés és V1 elfogadási jegyzőkönyv.",
+      "slices": [
+        {
+          "title": "Modellcsomag",
+          "data": "Verziózott input/output séma: változó-ID, mértékegység, régió/év/fázis, forrás/evidence tier, bizonytalanság, scenario-ID, commit és artefaktumhash.",
+          "phase": "V",
+          "slice_id": "B20-D01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Átadható eredmény",
+          "data": "Reprodukálható futási parancs/környezet, teszt, gépi eredmény, vezetői jelentés, E2-adósságlista és újrafuttatási szabály. Egyetemi/kormányzati címzettnek az állítás határa látható.",
+          "phase": "V",
+          "slice_id": "B20-D02",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        },
+        {
+          "title": "Megjelenítés",
+          "data": "Végleges alkalmazás csak stabil szerződések után. A V1 ellenőrizhető számítási/jelentési csomagjához nem szükségszerű azonnal teljes webapp.",
+          "phase": "V",
+          "slice_id": "B20-P01",
+          "status": "NOT_STARTED",
+          "canonical_source_ids": [],
+          "accepted_artifacts": [],
+          "consumer_tests": [],
+          "validation_debt_ids": [],
+          "research_log": [],
+          "reviewed_commit": null
+        }
+      ],
+      "e2": "Az E1/E2 származást meg kell őrizni; a szép felület nem ad evidence-felminősítést. Az újratölthető hiányjelölés legyen ugyanúgy elsőrendű, mint a szám.",
+      "accept": "Egygombos/parancsos reprodukció, schema/egységteszt, eredményhash; jelentés és gépi output egyezés; Q nem nullává konvertálva; legális raw-kezelés.",
+      "stop": "Hiányos upstream kapunál nem kész V1. Felületépítés nem helyettesíti az országos futást; B20-hoz nem kell mesterséges húsz külső kutatási kör.",
+      "existing_at_base": "NOT_STARTED. Nincs önálló új fizikai/gazdasági adatforrás-igény; a modul a kanonikus eredményeket teszi visszakereshetővé."
+    }
+  ]
+}

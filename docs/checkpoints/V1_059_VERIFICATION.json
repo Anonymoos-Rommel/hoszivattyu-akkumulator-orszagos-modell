@@ -1,0 +1,150 @@
+{
+  "checkpoint": "V1-059",
+  "status": "LOCAL_REVIEWED_B11_D02_NATIVE_SOURCE_CONTROL_HANDOFF_NOT_PUBLISHED",
+  "integration_base_commit": "514ac0c7c195b3426d312e6c65fe471ef687eb2c",
+  "reviewed_substantive_tree": "31f7faa76181721efe4e5b1316aa5f3746133493",
+  "substantive_patch_sha256": "5eb49fd6657e0fdf82ca746c418939a3e7f657b8961e8babfb395b2e72eb76ba",
+  "reviewed_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_059_GAS_QUALITY_HANDOFF.md",
+      "bytes": 7295,
+      "sha256": "681993018738fca780e28fc732948583641786c1dc9e7c6c48c4e7631cd152f9"
+    },
+    {
+      "path": "modules/B11/README.md",
+      "bytes": 5097,
+      "sha256": "78e178f0d14e5c0c8f4164343fe8d644ff3ce83d85cf266711546fd5ac01c3b8"
+    },
+    {
+      "path": "modules/B11/gas_quality_reference.py",
+      "bytes": 26261,
+      "sha256": "5ecd6b371e3f6e47048405e8c6a41ba9e22809936769eade8226b78cc397523b"
+    },
+    {
+      "path": "registry/b11_gas_quality_reference_manifest.json",
+      "bytes": 19247,
+      "sha256": "1ad0df1a083a91d8d31f2ca21cf9473473f50551882f1215af2cb70317eebcfa"
+    },
+    {
+      "path": "registry/b11_gas_quality_sources.csv",
+      "bytes": 2091,
+      "sha256": "1dfc5cc07b861c5643352fab0aba147ca91ce6d7302640255effa6486f5ad940"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 65012,
+      "sha256": "f021c07c1e8ef227d2527f7a09e4722f5f7c26997846a7a7d286b3a57db1565d"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 335223,
+      "sha256": "a5e043362c3ce00ea6343a2c14f2d05897c41beaf4e897a13e9a4aa86d870f9c"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 165271,
+      "sha256": "77ab6446f8bb70f3a15f27a411fe9d733ada0c1f07bb35807a286511a2fa447b"
+    },
+    {
+      "path": "tests/test_b11_gas_quality_reference.py",
+      "bytes": 23862,
+      "sha256": "aa494176e6dae7ed32714f3d2e33021c25996c7adbf42c0e99ddac203dfcbb1d"
+    },
+    {
+      "path": "tools/materialize_b11_gas_quality_reference.py",
+      "bytes": 2859,
+      "sha256": "b3d09373008e7e2daf0da6c550f0df13a7086872e45e0c19e48abddb15b09372"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-059",
+    "status": "LOCAL_CANONICAL_PASS_WITH_THREE_DOCUMENTED_HOST_ONLY_SKIPS",
+    "verified_at": "2026-10-04T09:01:46.335825+00:00",
+    "tests_discovered": 3633,
+    "passed": 3630,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 153.491,
+    "registry": "VALID",
+    "log_bytes": 689913,
+    "log_sha256": "f38ef1a2a1e6050a8fab9706d315d76655aec6069c6a325c208af7f7132a117e",
+    "substantive_tree": "31f7faa76181721efe4e5b1316aa5f3746133493",
+    "all_ten_frozen_files_unchanged": true,
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "hosted_ci": "NOT_RUN_NOT_AUTHORIZED_YET"
+  },
+  "independent_review": {
+    "receipt_sha256": "9671f5bf6b312fdf730dcbaf584c0fa03ef58a6bc31d80e0fcae8dab074a9905",
+    "verdict": "PASS_EXACT_TEN_FILE_SUBSTANTIVE_PACKET",
+    "focused_tests": {
+      "tests": 184,
+      "passed": 183,
+      "skips": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    "adversarial_checks": 44,
+    "genuine_comparison_checks": 19042,
+    "completed_original_criterion_consumer_map_sha256": "5a84b3475ac49fd417cbb9af7301f5f5f260e58bf0622c96b6064d81d31c94c2",
+    "original_criteria_satisfied_at_bounded_handoff": true,
+    "registry_acceptance_executed": false,
+    "overlapping_checks_not_additive": true
+  },
+  "source_review": {
+    "corrected_handoff_sha256": "4cb155886ab80300a1cf28d04a35d656fdc7d201804d6658d5acfee36e06e831",
+    "source_verdict_sha256": "ae39c897ae62dbd8504a084c071d08648566322db733a822abeb85d15d9be24a",
+    "preimplementation_oracle_freeze_sha256": "f8ba4ec45231525f56ddf6b59e338e87dbdb4e4137220d8d6caee305424efc5b",
+    "qualification_originals": 17,
+    "runtime_originals": 13,
+    "inherited_source_consumer_data_pins": 6,
+    "exit_rows": 978,
+    "quality_cells": 3912,
+    "publisher_representations_not_independent_physical_observations": true,
+    "numerical_oracle_not_shared_before_author_freeze": true
+  },
+  "genuine_private_replay": {
+    "author_implementation_freeze_sha256": "dfddee912f50daa73ee32628cf0de76d7cd46a8ee6d5620ce37baad829fd4dcd",
+    "author_validation_sha256": "aefd9d151849f4286cfb690a6e1a62dc0e6ca226259ef5acd8502b97ccf9ab2f",
+    "receipt_bytes": 3616956,
+    "receipt_sha256": "d30509f2226ae6d70c5d1ae4444f8250f767d87ffbff92c742dd1aa923ddd7a5",
+    "independent_fresh_checkout_output_byte_identical": true,
+    "actual_storage_guard_and_authority_unmocked": true,
+    "all13_corrupted_originals_rejected_before_output_creation": true,
+    "raw_sources_and_detailed_outputs_public": false
+  },
+  "original_task_status_at_first_stage": "REVIEW_REQUIRED",
+  "conditional_acceptance_template": {
+    "sha256": "20b71754489969853652dc0c6697b9c9a22e25ec746aefc24aee371cd80e0790",
+    "executed": false,
+    "allowed_changed_paths": [
+      "registry/v1_research_plan.json",
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_059_ACCEPTANCE.json"
+    ],
+    "requires": "Exact owner approval, actual implementation tree/sole-parent binding, actual3,633 hosted passes with no skips and independent exact private preservation/metadata review; completed consumer map required"
+  },
+  "scientific_boundaries": {
+    "source_use": "Personal private source/control analysis only. Public patch contains original code/synthetic tests/factual provenance, no FGSZ originals or point panels. Broader reuse remains uncleared.",
+    "physical_state": "Distinct GCV25/0 and informative NCV15/15 retained; moisture null; no P7 input, conversion or TABULA/billing substitution.",
+    "distribution": "Dated overlapping source inventory, not a weighted/disjoint residential distribution. Exact source sections/colour hints are retained without eligibility inference.",
+    "controls": "Native KSH/Eurostat populations, unit labels, vintages/missingness and unresolved residuals retained. No forced calibration or physical MJ/m³ constant.",
+    "source_currentness": "Rev4 actual April–September 2026 interval restored; 2024 observations separate. English revisions do not overwrite prior Hungarian evidence.",
+    "web_only_guide": "Explicitly web-only 2019 methodology evidence; original binary is not retained and no binary hash is asserted.",
+    "other_tasks": "All other 57 tasks, original requirements/dependencies/readiness and previously accepted science unchanged. B11-D02 REVIEW_REQUIRED; accepted_artifacts empty and reviewed_commit null."
+  },
+  "rights_scope": "Personal private analysis; no general FGSZ content redistribution/deployment licence. Public patch is original code/synthetic tests and factual provenance only.",
+  "source_precision_corrections": {
+    "rev4_effective_interval": "2026-04-01 through2026-09-30; issued2026-03-31; embedded calendar2024 observations separate",
+    "canonical_archived_PDF_source_id_reused": "SRC-B11-FGSZ-GAS-QUALITY-RULES-2025-2026",
+    "previous_Hungarian_source_snapshots_unchanged": true,
+    "publisher_crossborder_equation_repaired": false,
+    "web_only_2019_guide_binary_hash_invented": false
+  },
+  "recovery_verification_method": "Stream all baseline/candidate member hashes, reconstruct one fresh exact repository and only required originals, run genuine source handoff and focused tests once, then bind Library readback by complete-byte equality. FullV22 stays unchanged until separately approved publication is terminal.",
+  "publication": "Not performed; exact eleven-file first-stage and conditional three-file metadata approval required; no main merge"
+}

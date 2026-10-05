@@ -1,0 +1,1148 @@
+{
+  "schema_version": 1,
+  "case_id": "SCN-HOURLY-TABULA-SFH01-72H-2025-001",
+  "claim_scope": "ONE_BOUNDED_SOURCE_CONDITIONED_HOURLY_THERMAL_SCN",
+  "evidence_status": "SCN",
+  "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+  "sources": [
+    {
+      "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+      "original_url": "https://episcope.eu/fileadmin/tabula/public/calc/tabula-calculator.xlsx",
+      "sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+      "reference_period": "July2016 workbook; variant source row entry2013-07-09/change2015-09-29",
+      "scope": "Source geometry and source method parameters only",
+      "repo_snapshot_path": null,
+      "retrieved_at": "2026-10-01",
+      "reuse_status": "Existing TABULA/EPISCOPE attribution; no rights promotion",
+      "attribution": "IEE Projects TABULA + EPISCOPE (www.episcope.eu)",
+      "document_revision": "TABULA compact database workbook, July 20 2016",
+      "authority": "TABULA / EPISCOPE project"
+    },
+    {
+      "source_id": "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+      "original_url": "https://episcope.eu/fileadmin/tabula/public/docs/report/TABULA_CommonCalculationMethod.pdf",
+      "sha256": "69963a02efba405bf0970d199d6fcdd24b44ef87521afd7b71694e714f6b92ef",
+      "locator": "Table1 physical/method defaults; section2.2.2 effective U equation5",
+      "scope": "Existing method context; no native hourly claim",
+      "repo_snapshot_path": null,
+      "retrieved_at": "2026-10-01",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "document_revision": "TABULA Common Calculation Method, 2013",
+      "authority": "TABULA / EPISCOPE project"
+    },
+    {
+      "source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+      "original_url": "https://odp.met.hu/climate/observations_hungary/hourly/historical/HABP_1H_44527_20020101_20251231_hist.zip",
+      "sha256": "a28ec01c28358f9af0cf846ac69642e80b1f6f0972a138d84f9269c08d3fe417",
+      "scope": "Exact registered Budapest archive; source ta/RH/sr no imputation",
+      "repo_snapshot_path": null,
+      "retrieved_at": "2026-10-02",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "HungaroMet Nonprofit Zrt.",
+      "document_revision": "HABP_1H station 44527 historical observation archive; identifier HABP_1H_44527_20020101_20251231_hist.zip (2002–2025)"
+    },
+    {
+      "source_id": "SRC-B05-HUNGARY-HOURLY-DESC-2026",
+      "original_url": "https://odp.met.hu/climate/observations_hungary/hourly/historical/Leiras_automata_oras-HABP_1H_hist-hu.pdf",
+      "locator": "PDFp2 source fields and units",
+      "scope": "ta preceding-hour mean; u endpoint; sr hourlyJ/cm²; no diffuse/direct",
+      "sha256": "c6677dfbdc05f834e61fa8a31c9612854aa70e43baf9bbc695932b31030b04e7",
+      "repo_snapshot_path": null,
+      "retrieved_at": "2026-10-02",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "authority": "HungaroMet Nonprofit Zrt.",
+      "document_revision": "HABP_1H historical hourly dataset description; undated; retrieved 2026-10-02"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4099",
+      "sha256": "e7212300cb49ad561db56e974cc9945655943bfb0dd8309610a400fba65919ab",
+      "locator": "PDFp60/A-56; methodp57/A-53",
+      "scope": "Exact WM50 maximum-frequency capacity ceiling, W55; not real weather or seasonal performance",
+      "repo_snapshot_path": null,
+      "retrieved_at": "2026-10-01",
+      "reuse_status": "Source numeric references only; original PDF no redistribution approval",
+      "document_revision": "Ecodan R32 Data Book Vol.5.3; issued December 2020, M-P0798C SIZ2008<MEE>",
+      "authority": "Mitsubishi Electric"
+    },
+    {
+      "source_id": "SRC-B06-HOURLY-NOAA-SOLAR-EQUATIONS",
+      "original_url": "https://gml.noaa.gov/grad/solcalc/solareqns.PDF",
+      "retrieved_at": "2026-10-02T05:03:56.432085+00:00",
+      "reuse_status": "EXTERNAL_ONLY_PRIVATE_RESEARCH_NO_RIGHTS_PROMOTION",
+      "purpose": "Precise solar decomposition, geometry or transposition equation needed by hourly thermal SCN",
+      "sha256": "7fa1fdb5f6b5c05ab1ec3ffde92e6fb2d5df98bf1a87055075ae2c3c1240a627",
+      "bytes": 208947,
+      "status": "RETAINED",
+      "repo_snapshot_path": null,
+      "authority": "NOAA Global Monitoring Laboratory",
+      "document_revision": "Undated primary method page, retained retrieval identified",
+      "research_source_id": "SRC-HOURLY-NOAA-SOLAR-EQUATIONS"
+    },
+    {
+      "source_id": "SRC-B06-HOURLY-PVLIB-IRRADIANCE-0161",
+      "original_url": "https://pvlib-python.readthedocs.io/en/v0.16.1/_modules/pvlib/irradiance.html",
+      "retrieved_at": "2026-10-02T05:04:03.347082+00:00",
+      "reuse_status": "EXTERNAL_ONLY_PRIVATE_RESEARCH_NO_RIGHTS_PROMOTION",
+      "purpose": "Precise solar decomposition, geometry or transposition equation needed by hourly thermal SCN",
+      "status": "DOWNLOAD_UNAVAILABLE_WEB_READING_RETAINED_IN_TOOL_HISTORY",
+      "repo_snapshot_path": null,
+      "authority": "pvlib project official implementation documentation",
+      "document_revision": "Undated primary method page, retained retrieval identified",
+      "research_source_id": "SRC-HOURLY-PVLIB-IRRADIANCE-0161"
+    },
+    {
+      "source_id": "SRC-B06-HOURLY-SANDIA-ISOTROPIC",
+      "original_url": "https://pvpmc.sandia.gov/modeling-guide/1-weather-design-inputs/plane-of-array-poa-irradiance/calculating-poa-irradiance/poa-sky-diffuse/isotropic-sky-diffuse-model/",
+      "retrieved_at": "2026-10-02T05:04:06.978168+00:00",
+      "reuse_status": "EXTERNAL_ONLY_PRIVATE_RESEARCH_NO_RIGHTS_PROMOTION",
+      "purpose": "Precise solar decomposition, geometry or transposition equation needed by hourly thermal SCN",
+      "sha256": "1b26b193276314069660a451f5a3f1920bd5fb411ec4186a0883cc2fec85161a",
+      "bytes": 230625,
+      "status": "RETAINED",
+      "repo_snapshot_path": null,
+      "authority": "Sandia National Laboratories PV Performance Modeling Collaborative",
+      "document_revision": "Undated primary method page, retained retrieval identified",
+      "research_source_id": "SRC-HOURLY-SANDIA-ISOTROPIC"
+    },
+    {
+      "source_id": "SRC-B06-HOURLY-SANDIA-GROUND-REFLECTION",
+      "original_url": "https://pvpmc.sandia.gov/modeling-guide/1-weather-design-inputs/plane-of-array-poa-irradiance/calculating-poa-irradiance/poa-ground-reflected/",
+      "retrieved_at": "2026-10-02T05:04:11.824174+00:00",
+      "reuse_status": "EXTERNAL_ONLY_PRIVATE_RESEARCH_NO_RIGHTS_PROMOTION",
+      "purpose": "Precise solar decomposition, geometry or transposition equation needed by hourly thermal SCN",
+      "sha256": "0e4cf3b736a7bfd010ade643e31c3009fd67618f0340ac1e1a7dc675ab2d38b0",
+      "bytes": 236395,
+      "status": "RETAINED",
+      "repo_snapshot_path": null,
+      "authority": "Sandia National Laboratories PV Performance Modeling Collaborative",
+      "document_revision": "Undated primary method page, retained retrieval identified",
+      "research_source_id": "SRC-HOURLY-SANDIA-GROUND-REFLECTION"
+    },
+    {
+      "source_id": "SRC-B05-HUNGARY-ODP-TERMS-2026",
+      "original_url": "https://odp.met.hu/ODP_altalanos_felhasznalasi_feltetelek.pdf",
+      "retrieved_at": "2026-10-02",
+      "sha256": "d069db0967bcdaba6b532b259640f560113679e6dae70f69fa0ce577f9c438ea",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "repo_snapshot_path": null,
+      "authority": "HungaroMet Nonprofit Zrt.",
+      "document_revision": "Általános tájékoztató és felhasználási feltételek; undated; retrieved 2026-10-02"
+    }
+  ],
+  "repository_pins": {
+    "building": {
+      "path": "data/processed/b06/tabula_three_reference_cases.json",
+      "sha256": "9b946e1ecded543bff1540273417add5b975d9ddbe5ce8b48f0d528cad76bb93",
+      "source_ids": [
+        "SRC-B06-TABULA-HU-CALCULATOR-2016"
+      ]
+    },
+    "building_contract": {
+      "path": "registry/b06_tabula_reference_manifest.json",
+      "sha256": "bdb493ba9d37b14520d8464b4610194697c862d66dfcec6dbd93ad2f80c39085",
+      "source_ids": [
+        "SRC-B06-TABULA-HU-CALCULATOR-2016"
+      ]
+    },
+    "weather": {
+      "path": "data/processed/heat_pump_weather_hourly.csv",
+      "sha256": "ab3f3534930c72b892b0d04acafc4a9d08b260bf4058bf30a4fcfe0367d9d63a",
+      "source_ids": [
+        "SRC-B05-HUNGARY-HOURLY-HIST-2026"
+      ]
+    },
+    "weather_contract": {
+      "path": "modules/B05/weather.py",
+      "sha256": "e3e519f8f9693648b13b0da5109ff9d0d76a5be378349a408c09208c629de857",
+      "source_ids": [
+        "SRC-B05-HUNGARY-HOURLY-DESC-2026"
+      ]
+    },
+    "weather_profiles": {
+      "path": "data/processed/heat_pump_weather_profiles.csv",
+      "sha256": "906ca52dbc9b21760e4c6bc142cc395c50b258acdd116d7b71f6f912aa81dff7",
+      "source_ids": [
+        "SRC-B05-HUNGARY-HOURLY-HIST-2026"
+      ]
+    },
+    "manufacturer": {
+      "path": "data/processed/b05/wm50_full_performance_v53.csv",
+      "sha256": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    },
+    "manufacturer_contract": {
+      "path": "registry/b05_wm50_full_grid_manifest.json",
+      "sha256": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    },
+    "manufacturer_consumer": {
+      "path": "modules/B05/manufacturer_wm50_reference.py",
+      "sha256": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    },
+    "manufacturer_engine": {
+      "path": "modules/B05/engine.py",
+      "sha256": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+      ]
+    }
+  },
+  "building": {
+    "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+    "source_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+    "sheet": "Calc.Set.Building",
+    "source_row": 1241,
+    "variant": "HU.N.SFH.01.Bel80.ReEx.001.013",
+    "source_scope": "HISTORICAL_SEASONAL_BUILDING_REFERENCE_NOT_NATIONAL_CALIBRATION",
+    "hourly_transfer_status": "SCN",
+    "parameter_lineage": {
+      "A_C_Ref": {
+        "value": 56,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!AB1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Door_1": {
+        "value": 2,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DD1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Floor_1": {
+        "value": 55.95,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!CZ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Floor_2": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DA1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Roof_1": {
+        "value": 55.95,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!CU1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Roof_2": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!CV1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Wall_1": {
+        "value": 91.3,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!CW1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Wall_2": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!CX1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Wall_3": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!CY1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_1": {
+        "value": 6.75,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DB1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_2": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DC1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_East": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DF1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_Horizontal": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DE1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_North": {
+        "value": 6.75,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DI1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_South": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DG1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "A_Calc_Window_West": {
+        "value": 0,
+        "native_unit": "m²",
+        "source_cell": "Calc.Set.Building!DH1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²"
+      },
+      "Code_MeasureType_Door_1": {
+        "value": "Replace",
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HZ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Floor_1": {
+        "value": 0,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HV1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Floor_2": {
+        "value": 0,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HW1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Roof_1": {
+        "value": "Add",
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HQ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Roof_2": {
+        "value": 0,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HR1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Wall_1": {
+        "value": "Add",
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HS1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Wall_2": {
+        "value": 0,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HT1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Wall_3": {
+        "value": 0,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HU1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Window_1": {
+        "value": "Replace",
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HX1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "Code_MeasureType_Window_2": {
+        "value": 0,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!HY1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "F_f": {
+        "value": 0.3,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!JE1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "F_sh_vert": {
+        "value": 0.6,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!JD1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "F_w": {
+        "value": 0.9,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!JF1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "R_Add_UnheatedSpace_Floor_1": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!FE1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Add_UnheatedSpace_Floor_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!FF1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Add_UnheatedSpace_Roof_1": {
+        "value": 0.3,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!EZ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Add_UnheatedSpace_Roof_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!FA1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Add_UnheatedSpace_Wall_1": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!FB1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Add_UnheatedSpace_Wall_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!FC1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Add_UnheatedSpace_Wall_3": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!FD1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Door_1": {
+        "value": 0.7692307692307692,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HN1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Floor_1": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HJ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Floor_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HK1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Roof_1": {
+        "value": 6.666666666666667,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HE1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Roof_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HF1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Wall_1": {
+        "value": 4,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HG1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Wall_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HH1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Wall_3": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HI1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Window_1": {
+        "value": 1,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HL1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "R_Measure_Window_2": {
+        "value": 0,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HM1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m²K/W"
+      },
+      "U_Door_1": {
+        "value": 3.5,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EP1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Floor_1": {
+        "value": 1.04,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EL1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Floor_2": {
+        "value": 0,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EM1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Roof_1": {
+        "value": 2.01,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EG1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Roof_2": {
+        "value": 0,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EH1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Wall_1": {
+        "value": 0.943,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EI1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Wall_2": {
+        "value": 0,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EJ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Wall_3": {
+        "value": 0,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EK1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Window_1": {
+        "value": 3.5,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EN1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "U_Window_2": {
+        "value": 0,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EO1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "c_m": {
+        "value": 45,
+        "native_unit": "Wh/(m²K)",
+        "source_cell": "Calc.Set.Building!JG1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "Wh/(m²K)"
+      },
+      "d_Insulation_Floor_1": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!EX1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "d_Insulation_Floor_2": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!EY1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "d_Insulation_Roof_1": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!ES1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "d_Insulation_Roof_2": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!ET1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "d_Insulation_Wall_1": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!EU1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "d_Insulation_Wall_2": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!EV1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "d_Insulation_Wall_3": {
+        "value": 0,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!EW1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "delta_U_ThermalBridging_Original": {
+        "value": 0.15,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!ED1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "delta_U_ThermalBridging_Refurbished": {
+        "value": 0.05,
+        "native_unit": "W/(m²K)",
+        "source_cell": "Calc.Set.Building!EE1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/(m²K)"
+      },
+      "f_Measure_Door_1": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IJ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Floor_1": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IF1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Floor_2": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IG1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Roof_1": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IA1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Roof_2": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IB1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Wall_1": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IC1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Wall_2": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!ID1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Wall_3": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IE1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Window_1": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!IH1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "f_Measure_Window_2": {
+        "value": 1,
+        "native_unit": null,
+        "source_cell": "Calc.Set.Building!II1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "dimensionless_or_code"
+      },
+      "g_gl_n_Measure_Window_1": {
+        "value": 0.6,
+        "native_unit": "m²K/W",
+        "source_cell": "Calc.Set.Building!HO1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "ratio",
+        "unit_qualification": "Source native resistance label is a worksheet metadata error; solar-energy transmittance is dimensionless per the retained TABULA source contract"
+      },
+      "h_room": {
+        "value": 2.5,
+        "native_unit": "m",
+        "source_cell": "Calc.Set.Building!IZ1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "m"
+      },
+      "n_air_infiltration": {
+        "value": 0.1,
+        "native_unit": "1/h",
+        "source_cell": "Calc.Set.Building!EF1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "1/h"
+      },
+      "n_air_use": {
+        "value": 0.4,
+        "native_unit": "1/h",
+        "source_cell": "Calc.Set.Building!IY1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "1/h"
+      },
+      "phi_int": {
+        "value": 3,
+        "native_unit": "W/m²",
+        "source_cell": "Calc.Set.Building!JA1241",
+        "hourly_use_status": "SCN_TRANSFER",
+        "used_unit": "W/m²"
+      }
+    },
+    "geometry_warnings": {
+      "Check_EnvArea_ExactToEstim": 0,
+      "Check_EnvSum_ExactToEstim": 1,
+      "Check_FloorArea_ExactToEstim": 0,
+      "Check_ToBeApplied_FloorArea_ExactToEstim": 1,
+      "Check_WindowArea_ExactToEstim": 1
+    }
+  },
+  "weather": {
+    "source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "station_id": "44527",
+    "profile_id": "B05-REF-OBS-2025-44527",
+    "panel_rows": 8760,
+    "first_endpoint_utc": "2025-01-01T00:00:00+00:00",
+    "last_endpoint_utc": "2025-12-31T23:00:00+00:00",
+    "panel_scope": "Europe/Budapest civil year 2025; not exact UTC calendar year",
+    "selection": "minimum mean ta over all contiguous 72-hour windows; earliest tie; no solar screening",
+    "selection_index": 1161,
+    "hours": 72,
+    "physical_start_utc": "2025-02-18T08:00:00+00:00",
+    "physical_end_utc": "2025-02-21T08:00:00+00:00",
+    "temperature_variable": "ta",
+    "temperature_unit": "degC",
+    "temperature_support": "PRECEDING_HOUR_MEAN",
+    "humidity_unit": "percent",
+    "humidity_support": "INSTANTANEOUS_AT_INTERVAL_END",
+    "energy_join_key": "interval_start_utc",
+    "solar_variable": "sr",
+    "solar_unit": "J/cm2",
+    "solar_support": "SCN_SHARED_ENDING_HOUR_INTERPRETATION_OF_NATIVE_HOURLY_SUM",
+    "sg_meaning": "gamma dose rate nSv/h; NOT solar",
+    "diffuse_direct_observed": false
+  },
+  "external_radiation": {
+    "sha256": "bcc374a5592c72a3a24f43f065997d64b694215184df6f1889500fbd5dae425c",
+    "bytes": 973257,
+    "required_columns": [
+      "station_id",
+      "source_endpoint_utc",
+      "interval_start_utc",
+      "ta_C",
+      "u_pct_at_endpoint",
+      "sr_J_cm2_native",
+      "global_energy_kWh_m2_DER",
+      "global_hour_mean_W_m2_DER",
+      "source_id"
+    ],
+    "source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+    "attribution": "Adatbázis: Meteorológiai Adattár, HungaroMet Nonprofit Zrt.",
+    "path": null,
+    "repository_copy": false,
+    "missing_input_policy": "Q_NO_SOLAR_AND_SUBSEQUENT_THERMAL_STATE; never zero-fill"
+  },
+  "scenario": {
+    "lower_boundary_temperature_c": {
+      "value": 10.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "initial_node_temperature_c": {
+      "value": 20.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "latitude_deg": {
+      "value": 47.4292,
+      "unit": "degree_north",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "longitude_deg": {
+      "value": 19.1822,
+      "unit": "degree_east",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "ground_shortwave_albedo": {
+      "value": 0.2,
+      "unit": "ratio",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "ideal_day_target_c": {
+      "value": 20.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "ideal_night_target_c": {
+      "value": 18.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "day_start_hour_local": {
+      "value": 6,
+      "unit": "hour",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "day_end_hour_local": {
+      "value": 22,
+      "unit": "hour",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "supply_coordinate_c": {
+      "value": 55.0,
+      "unit": "degC",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "air_volumetric_heat_capacity_wh_m3k": {
+      "value": 0.34,
+      "unit": "Wh/m3K",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    },
+    "insulation_conductivity_w_mk": {
+      "value": 0.04,
+      "unit": "W/mK",
+      "evidence_status": "SCN",
+      "source_ids": [
+        "SCN-HOURLY-TABULA-SFH01-72H-2025-001"
+      ]
+    }
+  },
+  "timezone": "Europe/Budapest",
+  "model_choices": [
+    {
+      "choice": "model",
+      "value": "single effective thermal node with exact first-law integration",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Mass, indoor air and radiative receiving surfaces are collapsed; transparent tractable reference, not a validated hourly building solver"
+    },
+    {
+      "choice": "capacity",
+      "value": "45 Wh/m²K × 56 m² = 2520 Wh/K",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "TABULA method Table1 supplies 45 as a standard assumption; using it as a dynamic lumped capacity is explicit SCN, no observed inertia assertion"
+    },
+    {
+      "choice": "air_hour_shape",
+      "value": "source ta held constant over its preceding hour",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Only the previous-hour average is observed; constant forcing permits analytic integration"
+    },
+    {
+      "choice": "internal_gain_schedule",
+      "value": "168 W every hour",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Source 3 W/m² is a method average; a flat schedule preserves that mean without invented occupancy records; variation is not observed"
+    },
+    {
+      "choice": "lower_boundary_temperature",
+      "value": "10°C for the entire finite initial-value problem",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Explicit isothermal test reservoir on the other side of the source floor assembly; exercises nonzero floor exchange without assigning seasonal b=0.5 or claiming ground temperature; E3 scenario fixture, not an E2 base"
+    },
+    {
+      "choice": "roof_unheated_space_resistance",
+      "value": "source R_add=0.3 m²K/W retained as stationary extra resistance",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Source method treats unheated space as static resistance; no attic state or observed attic time series is claimed"
+    },
+    {
+      "choice": "thermal_bridge_boundary",
+      "value": "source area-weighted bridge H=16.1925 W/K all connected to outdoor air",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Keeps bridges once. Assigning every lumped bridge to outdoor air is a declared reduced-model choice; detailed junction destinations are unavailable"
+    },
+    {
+      "choice": "operating_schedule",
+      "value": "20°C06:00–22:00,18°C22:00–06:00 Europe/Budapest",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Engineering test schedule chosen to exercise cooling and recovery; neither observed schedule nor national comfort choice"
+    },
+    {
+      "choice": "initial_state",
+      "value": "20°C at 2025-02-18T08:00Z for both branches",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Defines a finite initial-value problem. No observation, cyclic-state assumption, hidden warmup or pre-event equilibrium is asserted"
+    },
+    {
+      "choice": "solar_interval",
+      "value": "assign native sr hourly sum to hour ending at shared UTC Time",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Temperature preceding-hour support is explicit; the same ending-hour support for sr is an aggregation interpretation, labelled SCN"
+    },
+    {
+      "choice": "solar_geometry",
+      "value": "NOAA midpoint solar geometry, 47.4292N19.1822E",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Coordinates are station-native; applying one solar position to an hourly energy interval is SCN"
+    },
+    {
+      "choice": "solar_decomposition",
+      "value": "Erbs1982 equations as published in pvlib0.16.1 implementation",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "DHI/DNI are modeled from measured GHI; no diffuse/direct observation or HU empirical validation. kt clipped[0,1], cosine floor.065; above87deg zenith DNI0,DHI=GHI preserves closure"
+    },
+    {
+      "choice": "solar_transposition",
+      "value": "isotropic sky plus Lambertian ground, ground albedo0.2",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Primary Sandia formula; 0.2 is an explicitly selected nonsnow surface fixture, not observed ground/snow cover. All6.75m² windows face north in source; direct term geometrically0 in this winter block"
+    },
+    {
+      "choice": "solar_optics",
+      "value": "source F_sh.6 × (1-F_f.3) × F_w.9 × g.6",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Seasonal optical and shading modifiers are transferred unchanged as fixed hourly SCN, not observed orientation-specific shading"
+    },
+    {
+      "choice": "gain_partition",
+      "value": "all window and internal heat enters the same effective thermal node",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "No convective/radiative split, finite envelope layers or emitter state"
+    },
+    {
+      "choice": "opaque_surface_and_sky_exchange",
+      "value": "excluded from declared air-temperature model",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "No sol-air correction or net sky-longwave term; they are not asserted physically zero. Blocks complete actual building heat claim"
+    },
+    {
+      "choice": "ideal_controller",
+      "value": "minimum constant nonnegative heat in each hour that reaches endpoint target",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "No cooling, no instantaneous setpoint jump; even ideal branch may be below target during morning recovery"
+    },
+    {
+      "choice": "capacity_controller",
+      "value": "same ideal endpoint request clipped to WM50 MAX at fixedW55",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Diagnostic ideal actuator; arbitrary continuous modulation below source MIN remains visible, no compressor cycling/controller fit"
+    },
+    {
+      "choice": "supply",
+      "value": "W55 as fixed source-map coordinate",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "No emitter-required supply, universal deltaT, hydraulic return path or installation readiness inferred"
+    },
+    {
+      "choice": "heat_pump_boundary",
+      "value": "source Q and P interpolation with exact source annotations",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Rating-conditioned ceiling only. Unshaded does not mean defrost absent; no weather-driven dynamic penalty applied"
+    },
+    {
+      "choice": "excluded_systems",
+      "value": "DHW,external auxiliaries,backup,storage,electric energy not modeled",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "These outputs remain null or false in model_contract; ideal heat is not a hidden backup"
+    },
+    {
+      "choice": "completeness",
+      "value": "unknown solar or source capacity invalidates dependent state for all following hours",
+      "evidence_status": "SCN",
+      "evidence_tier": "E3_SCENARIO_ONLY_NO_CANONICAL_BASE_ADMISSION",
+      "justification": "Independent ideal thermal branch can remain supported when capacity branch becomes unknown; never zero-fill or silently restart"
+    }
+  ],
+  "excluded_source_fields": [
+    "F_red_htr1",
+    "F_red_htr4",
+    "HeatingDays",
+    "I_Sol_East",
+    "I_Sol_Hor",
+    "I_Sol_North",
+    "I_Sol_South",
+    "I_Sol_West",
+    "Theta_e",
+    "b_Transmission_Floor_1",
+    "b_Transmission_Floor_2",
+    "b_Transmission_Roof_1",
+    "b_Transmission_Roof_2",
+    "b_Transmission_Wall_1",
+    "b_Transmission_Wall_2",
+    "b_Transmission_Wall_3",
+    "q_h_nd"
+  ],
+  "excluded_source_field_reason": "Seasonal weather, seasonal gain totals, nonuniform factor, annual energy and boundary reduction factors do not enter hourly calculation",
+  "prohibited_promotions": [
+    "OBS hourly household heat",
+    "ISO13790/ISO52016 conformance",
+    "actual full-season SPF",
+    "national population aggregate or eligibility",
+    "emitter W55 readiness",
+    "seasonal or annual before/after effect",
+    "complete B02/B05/B06 slice"
+  ],
+  "service_comparison": {
+    "prescribed_path": "IDEAL_EXPONENTIAL_PATH_FROM_DECLARED_ENDPOINT_CONTROLLER",
+    "full_continuous_path_preserved": true,
+    "additional_thermal_requirement": "max(0,required_heat_kw-source_MAX_capacity_kw) on the same prescribed path",
+    "clipped_branch_role": "REDUCED_SERVICE_DIAGNOSTIC_NOT_EFFICIENCY_COMPARISON",
+    "actual_electricity_kwh": null,
+    "actual_spf": null,
+    "backup_equipment": null,
+    "selected_dispatch_policy": null,
+    "selected_additional_capacity_kw": null,
+    "emitter_required_supply_c": null,
+    "dhw_kwh": null,
+    "auxiliary_electricity_kwh": null,
+    "cycling_electricity_kwh": null,
+    "defrost_electricity_kwh": null,
+    "national_population_weight": null,
+    "empirical_validation": false,
+    "whole_slice_complete": false,
+    "actual_heat_pump_runtime_hours": null,
+    "auxiliary_runtime_hours": null,
+    "cycling_runtime_hours": null,
+    "defrost_runtime_hours": null
+  },
+  "research_review": {
+    "original_handoff_sha256": "f1474db1360cd74fb4b3abf6ae9e240da2f6909c1fee67391dbbfb92eef5e94e",
+    "original_review_sha256": "4274e041d92b7535b7e0cd88e0815d91221e797da8696510e4ddc5f2c8addcfa",
+    "original_review_status": "PASS_NO_OPEN_FINDINGS_WITHIN_BOUNDED_PROTOTYPE_SCOPE",
+    "supplementary_handoff_sha256": "26fa1244ca809ce8e1be1e50999db78de58e442286d9c952596a32e870235f7f",
+    "supplementary_review_sha256": "37b5f5577942020d313f160d699045f39422e37859321f66baf55fe9c3811f67",
+    "supplementary_review_status": "PASS_NO_OPEN_FINDINGS_WITHIN_FIXED_PATH_SCOPE",
+    "source_parameter_ledger_sha256": "960fc35f1aa13f1486e5d92990f9f0346fc776870fe81fd8902474c41a94fb35",
+    "empirical_validation": false,
+    "production_candidate_requires_separate_review": true
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "checkpoint": "V1-027",
+  "head": "d7f9d1d8311b096d71ba08f015ed6aab8e23ad62",
+  "tree": "14ae08c2405b963122c8099691ceb41ad657de6e",
+  "run_id": 36958288837,
+  "run_number": 1089,
+  "job_id": 110686079843,
+  "conclusion": "success",
+  "test_count": 2982,
+  "test_seconds": 143.796,
+  "skipped_count": 0,
+  "registry": "VALID",
+  "tested_merge_commit": "f5feb44b4d9961e4f3365c9c873c10b337b2c8d1",
+  "exact_tree_match": true,
+  "required_external_positives": [
+    "2026-10-02T03:03:44.6847668Z test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "2026-10-02T03:03:54.3119967Z test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "required_four_storage_matrices": [
+    "2026-10-02T03:03:40.8628845Z test_storage_boundaries_before_first_source_read (test_b08_gui_load_reference.AdversarialStorageTests.test_storage_boundaries_before_first_source_read) ... ok",
+    "2026-10-02T03:03:45.1072728Z test_storage_boundaries_before_first_source_read (test_b09_future_supply_reference.AdversarialStorageTests.test_storage_boundaries_before_first_source_read) ... ok",
+    "2026-10-02T03:03:45.7744801Z test_storage_boundaries_before_first_source_read (test_b09_gui_generation_reference.AdversarialStorageTests.test_storage_boundaries_before_first_source_read) ... ok",
+    "2026-10-02T03:03:54.7420480Z test_storage_boundaries_before_first_source_read (test_b18_supply_source_reference.AdversarialStorageTests.test_storage_boundaries_before_first_source_read) ... ok"
+  ],
+  "required_four_index_tests": [
+    "2026-10-02T03:03:40.4407158Z test_git_index_errors_fail_closed_before_source_read (test_b08_gui_load_reference.AdversarialStorageTests.test_git_index_errors_fail_closed_before_source_read) ... ok",
+    "2026-10-02T03:03:44.6801782Z test_git_index_errors_fail_closed_before_source_read (test_b09_future_supply_reference.AdversarialStorageTests.test_git_index_errors_fail_closed_before_source_read) ... ok",
+    "2026-10-02T03:03:45.3256364Z test_git_index_errors_fail_closed_before_source_read (test_b09_gui_generation_reference.AdversarialStorageTests.test_git_index_errors_fail_closed_before_source_read) ... ok",
+    "2026-10-02T03:03:54.3073647Z test_git_index_errors_fail_closed_before_source_read (test_b18_supply_source_reference.AdversarialStorageTests.test_git_index_errors_fail_closed_before_source_read) ... ok"
+  ],
+  "verified_at": "2026-10-02T03:04:58.247Z",
+  "log_sha256": "e0f5c90fd5c66c90539e0a6e69c4cdaca01e6c012f5ee3b579fb9ef904a1d7b0"
+}

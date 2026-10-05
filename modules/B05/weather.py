@@ -170,3 +170,53 @@ def coverage(records: Sequence[WeatherRecord], *, lower_c: float = -7.0, upper_c
         "share_inside_current_performance_domain": inside / len(values) if values else None,
         "minimum_observed_temperature_C": min(values) if values else None,
     }
+
+
+@dataclass(frozen=True)
+class HourlyWeatherInterval:
+    """Source `ta` covers the preceding hour; `u` is sampled at its end."""
+    interval_start_utc: datetime
+    interval_end_utc: datetime
+    station_id: str
+    mean_temperature_c: float
+    end_relative_humidity_pct: float | None
+    source_id: str
+    temperature_source_variable: str = 'ta'
+    humidity_temporal_boundary: str = 'INSTANTANEOUS_AT_INTERVAL_END'
+
+
+def materialized_intervals(rows: Iterable[Mapping[str, str]]) -> tuple[HourlyWeatherInterval, ...]:
+    """Validate one existing station/profile and expose physical time support.
+
+    No weather data are changed, shifted between stations, imputed or assigned
+    national weights. Interval-start keys are for concurrent energy/price joins;
+    the source observation timestamp is retained as interval_end_utc.
+    """
+    from math import isfinite
+    output=[];station=None;profile=None
+    for row in rows:
+        if row['temperature_source_variable']!='ta' or row['evidence_status']!='OBS':
+            raise ValueError('observed source-native previous-hour ta required')
+        end=datetime.fromisoformat(row['timestamp_utc'].replace('Z','+00:00'))
+        if end.tzinfo is None or end.utcoffset()!=timedelta(0) or end.minute or end.second or end.microsecond:
+            raise ValueError('whole-hour UTC source endpoint required')
+        if station is None:station=row['station_id'];profile=row['weather_profile_id']
+        if not station or not profile or row['station_id']!=station or row['weather_profile_id']!=profile:
+            raise ValueError('one station and one profile required')
+        temperature=float(row['outdoor_temperature_C'])
+        raw_u=row.get('relative_humidity_pct','').strip()
+        humidity=None if not raw_u else float(raw_u)
+        if not isfinite(temperature) or temperature==-999 or (humidity is not None and (not isfinite(humidity) or not 0<=humidity<=100)):
+            raise ValueError('finite observed temperature and optional bounded humidity required')
+        if output and end-output[-1].interval_end_utc!=timedelta(hours=1):
+            raise ValueError('consecutive unique ordered hourly endpoints required')
+        if not row['source_id']:raise ValueError('source identity required')
+        output.append(HourlyWeatherInterval(end-timedelta(hours=1),end,station,temperature,humidity,row['source_id']))
+    if not output:raise ValueError('nonempty weather profile required')
+    return tuple(output)
+
+
+def load_materialized_profile(profile_id: str) -> tuple[HourlyWeatherInterval, ...]:
+    root=Path(__file__).resolve().parents[2]
+    with (root/'data/processed/heat_pump_weather_hourly.csv').open(encoding='utf-8',newline='') as f:
+        return materialized_intervals(r for r in csv.DictReader(f) if r['weather_profile_id']==profile_id)

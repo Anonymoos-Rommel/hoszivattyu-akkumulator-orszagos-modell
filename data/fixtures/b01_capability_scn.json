@@ -1,0 +1,56 @@
+{
+  "status": "SCN",
+  "dataset_license": "CC BY-SA 4.0",
+  "description": "Synthetic battery-first component snapshot. No actual household, prices, national weight or selected work.",
+  "snapshot": {
+    "identity": {
+      "household_id": "HH-CAP-SCN-001",
+      "site_id": "SITE-CAP-SCN-001",
+      "basis_id": "SCN-BATTERY-FIRST-v1",
+      "truth_context": "SCN",
+      "evidence_scope": "INDIVIDUAL_RECORD"
+    },
+    "as_of": "2028-01-15",
+    "completion_events": [
+      {
+        "evidence_id": "SCN-BATTERY-COMMISSIONED",
+        "identity": {
+          "household_id": "HH-CAP-SCN-001",
+          "site_id": "SITE-CAP-SCN-001",
+          "basis_id": "SCN-BATTERY-FIRST-v1",
+          "truth_context": "SCN",
+          "evidence_scope": "INDIVIDUAL_RECORD"
+        },
+        "component_id": "BATTERY",
+        "completed_on": "2028-01-10",
+        "origin": "COMMISSIONED_ACCEPTED",
+        "evidence_status": "SCN",
+        "evidence_refs": [
+          "SCN-CAPABILITY-FIXTURE"
+        ],
+        "scope_note": "Synthetic accepted battery only; no HP, insulation or legal permission inferred."
+      }
+    ],
+    "assertions": [
+      {
+        "evidence_id": "SCN-BATTERY-AVAILABLE",
+        "identity": {
+          "household_id": "HH-CAP-SCN-001",
+          "site_id": "SITE-CAP-SCN-001",
+          "basis_id": "SCN-BATTERY-FIRST-v1",
+          "truth_context": "SCN",
+          "evidence_scope": "INDIVIDUAL_RECORD"
+        },
+        "claim_id": "BATTERY_AVAILABLE",
+        "result": "PASS",
+        "evidence_status": "SCN",
+        "evidence_refs": [
+          "SCN-CAPABILITY-FIXTURE"
+        ],
+        "valid_from": "2028-01-10",
+        "valid_until": "2028-02-01",
+        "scope_note": "Synthetic dated availability, without a quantity or dispatch result."
+      }
+    ]
+  }
+}

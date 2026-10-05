@@ -1,0 +1,111 @@
+{
+  "checkpoint": "V1-049",
+  "status": "REVIEWED_LOCAL_CANDIDATE_NOT_PUBLISHED",
+  "base_commit": "a8a6ce8cec35dbcc9dfdff5fab8efe65a0863935",
+  "substantive_tree": "217808edf52023f1a54214ec40ba1adf55d02651",
+  "scope": "B17-D01 narrow direct-combustion inventory-method CO2 reference for three named TABULA gas source activities; common-factor case differences",
+  "source_qualification": {
+    "verdict": "ACCEPT_NARROW_E2_CONDITIONAL_METHOD_REFERENCE",
+    "receipt_sha256": "edaf6b7d1489c38b5ac7d607990566fbc7ed34bbff4fef9c19fcdbb911e6276e",
+    "original_factor_pdf_sha256": "a25d9f96d7672df391b328de79d4cfd812c07fe79d5cf4a30d23d82d8f02985b",
+    "old_complete_factor_panel_recovered": false,
+    "original_document_repository_republication": false
+  },
+  "local_canonical": {
+    "command": "python -m unittest discover -s tests -v",
+    "discovered": 3404,
+    "passed": 3401,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "elapsed_seconds": 136.787,
+    "log_sha256": "4b0a505b31a5633e176236dbc1a42454e514a849e63d4c405f018357a3575dd0"
+  },
+  "local_skips_reason": "Three existing real-external-directory positive tests require a host temporary directory without a Git ancestor; clean hosted CI is still required.",
+  "independent_review": {
+    "verdict": "ACCEPT_EXACT_SUBSTANTIVE_CANDIDATE",
+    "receipt_sha256": "45555132344ac70d838bcba335f25594205ff68f55bdb8f4f188de7d6357a4ab",
+    "e2_criteria_passed": 8,
+    "runs": {
+      "candidate_focused": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0
+      },
+      "prior_b17": {
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0
+      },
+      "b11_calorific": {
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0
+      },
+      "independent_original_source_oracle_adversaries": {
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0
+      },
+      "registry": "PASS"
+    },
+    "reviewer_reran_full_aggregate": false,
+    "aggregate_log_independently_verified": true
+  },
+  "runtime_boundaries": [
+    "Source factor ASS; conditional output DER/E2, not observed Hungarian or measured stack CO2",
+    "Oxidation1 included once; total-fuel-carbon inventory convention",
+    "Factor-only native95percent interval, not hard bounds or full-model uncertainty",
+    "One common factor for signed case differences; no independent endpoint subtraction or runtime distribution",
+    "No national weights, net heat-pump/electricity/lifecycle/health/valuation result",
+    "No readiness increase, whole-slice acceptance or closure of existing empirical debt"
+  ],
+  "frozen_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_049_DIRECT_GAS_CO2_REFERENCE.md",
+      "bytes": 5320,
+      "sha256": "3fc0daeaffb30c03810225e0d4fb39cb0a14324357be1da7eebb54e474cf5d83",
+      "git_blob": "c2e1b3ec78ae42fe05b66f8f1db6cc0ef339c35e"
+    },
+    {
+      "path": "modules/B17/README.md",
+      "bytes": 1206,
+      "sha256": "f8defe4ee35efd1b24f5a39a289ca1571d589dcd07c9d99ef813d377b15cc1e5",
+      "git_blob": "7133a197e83a76fe9d5f26ef0c65d006a3213f9f"
+    },
+    {
+      "path": "modules/B17/direct_gas_reference.py",
+      "bytes": 6066,
+      "sha256": "e7815b3a8f2e6df0c5b84fe18af3ded55f6f9a276513668e513f19806d726a54",
+      "git_blob": "e148ef9c4b3b2fab6d07b9c0fe56141d8bc64494"
+    },
+    {
+      "path": "registry/b17_direct_gas_reference_manifest.json",
+      "bytes": 11884,
+      "sha256": "2f86bc20eebe15f344c61fb4b2020c1b8232f430c3215abd318675def6f5757f",
+      "git_blob": "393c5b8d1445684d198f34444fd211b88d677492"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 266912,
+      "sha256": "5fcf7bade77b2987b4add16f66c2287d78cb8f3659339833b750bf9b3e211ac7",
+      "git_blob": "5045f3bbb24e843d73adcf6ccf876f1f3fccb202"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 128112,
+      "sha256": "8f689e6fd5cf87df1079a7f2a03855a691725092e71850cee22714980bac5e85",
+      "git_blob": "be6574404bff8c9e3cd822966a12cb272f51661d"
+    },
+    {
+      "path": "tests/test_b17_direct_gas_reference.py",
+      "bytes": 10702,
+      "sha256": "83529ca991f207a8c875a64c2d19419a5e7ee5e6f30409316b1359b15329f039",
+      "git_blob": "5b55945a277371427306006e6242987f1a3f8d39"
+    }
+  ],
+  "hosted_ci": "NOT_RUN_FOR_THIS_UNPUBLISHED_CANDIDATE",
+  "publication": "NOT_COMMITTED_NOT_PUBLISHED",
+  "main_merge": false,
+  "created_at": "2026-10-03T06:55:02.966644+00:00"
+}

@@ -81,3 +81,58 @@ The next highest-value blocker is a combined B04/B07 evidence slice: prove the
 H-tariff meter/battery/export boundary and obtain product-specific AC/DC
 one-way efficiency plus cell/supply-chain origin evidence without importing a
 foreign-dependence assumption.
+
+## V1 tested-reference evidence and coordinate
+
+[SAX2026 source reference](../../docs/checkpoints/V1_013_SAX_SOURCE_AND_COORDINATE.md) adds explicit, bounded converter-point consumers and a [proposed discharge-equivalent coordinate contract](../../docs/methodology/b07_discharge_equivalent_reference_contract.md). It does not fill legacy one-way efficiency fields or alter the existing engine. Source-tested DC capacity/cycle efficiency and separate output-axis converter curves permit a conditional reference route; idle, aging, national applicability and legal gates remain distinct. No new state runtime is included in this checkpoint.
+
+
+V1-038 adopts the separately named [discharge-equivalent reference](discharge_equivalent_reference.py) with explicit initial/terminal inventory, converter boundaries and cycle-eligibility checks. Its constant tested-product applicability and separately supplied idle-exposure aggregate use E2/PROVISIONAL_BASE; calculated balances are DER. [Validation debt](../../registry/b07_reference_validation_debt.json) preserves the E1 upgrade path. Exact component measurements are not required merely to continue the E2 aggregate model. The existing engine remains unchanged; the idle AC proxy does not invent a DC state transition, a national product choice or a complete annual-system efficiency.
+
+
+## Source temperature and test conditions (V1-052)
+
+The SAX source controls and genuine source-labelled run/aggregate-idle results now
+include `source_conditions`. The 5–35 °C manufacturer operating specification is
+separate from the unknown measured laboratory ambient. The published common capacity
+protocol retains its 100/50/25% nominal-power levels and six retained cycles; its
+Fronius D1 example does not become SAX test wattages. The additional low-load method
+also retains its own scope. All existing numerical controls, curves and calculations
+are unchanged. Synthetic references receive no source-condition authority.
+
+See the [condition handoff checkpoint](../../docs/checkpoints/V1_052_B07_SOURCE_CONDITIONS.md)
+and the [reference contract](../../docs/methodology/b07_discharge_equivalent_reference_contract.md).
+The exact report, official data asset and datasheet were recovered against their
+existing hashes; originals remain private. Q-B07-003 E2 applicability debt, D02
+lifecycle and D03 operating/legal availability remain open. This prepares the original
+D01 handoff for whole-slice acceptance review; a real reviewed condition commit must
+exist before its acceptance metadata can reference it.
+
+## Supplied shared-use schedules (V1-066)
+
+[`shared_use_schedule_contract.evaluate_shared_use`](shared_use_schedule_contract.py)
+audits household and state/aggregator use of one physical battery across two
+explicit generation-free schedules. It executes each native B07 engine once per
+leg and interval, then reconciles supplied actor allocations and independent
+energy, power, duration, budget and service-window rights. Shared-capacity access
+and a protected inventory pool are separate modes; neither creates charged energy.
+
+Activation under an existing reservation and agreement-versus-household-only
+comparisons have distinct baseline bindings. Raw signed connection response,
+physical clipping, actor shortages, recharge and terminal inventory stay visible.
+Reference idle keeps the DC path and total-connection response unknown while
+preserving qualified active-converter component arithmetic and a separately
+supplied E2 aggregate AC debit. Contract availability respects the unsplit retained
+inventory floor; missing actor rows cannot erase established local violations.
+Known-use lower bounds retain whole-window energy/duration and non-replenishing
+budget contradictions across earlier allocation gaps while exact ledgers remain
+Q. Possible recharge never becomes a fixed initial-budget cap.
+Unqualified household correspondence retains upstream protection failures only
+as diagnostics for their original subjects. No source, rights split,
+dispatch priority, monetary value or permission is chosen by this consumer.
+
+See the [versioned input/status registry](../../registry/b07_shared_use_schedule_contract.json)
+and [checkpoint with usage and acceptance coverage](../../docs/checkpoints/V1_066_B07_SHARED_USE_SCHEDULE.md).
+Actual site permission, commercial delivery, household economics and national or
+network consequences keep their separate gates. Existing B07 APIs, numerical
+behavior and readiness declarations are unchanged.

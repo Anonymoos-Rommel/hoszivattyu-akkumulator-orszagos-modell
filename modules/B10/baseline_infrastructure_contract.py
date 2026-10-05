@@ -22,6 +22,8 @@ WITHOUT_PROGRAM = "WITHOUT_PROGRAM"
 WITH_PROGRAM = "WITH_PROGRAM"
 
 OPERATING = "OPERATING"
+PROJECT_COMPLETED_REPORTED = "PROJECT_COMPLETED_REPORTED"
+REPORTING_AS_OF_DATE = "REPORTING_AS_OF_DATE"
 UNDER_CONSTRUCTION = "UNDER_CONSTRUCTION"
 CONTRACTED = "CONTRACTED"
 BUDGETED_OR_ALLOCATED = "BUDGETED_OR_ALLOCATED"
@@ -36,6 +38,7 @@ UNRESOLVED = "Q"
 
 BASELINE_STATUSES = {
     OPERATING,
+    PROJECT_COMPLETED_REPORTED,
     UNDER_CONSTRUCTION,
     CONTRACTED,
     BUDGETED_OR_ALLOCATED,
@@ -51,6 +54,7 @@ HIGH_AUTHORITY_LEVELS = {1, 2, 3, 4}
 # smallest canonical support claims accepted by the B10-P3 contract.
 STATUS_SUPPORT_CLAIMS = {
     OPERATING: "OPERATING",
+    PROJECT_COMPLETED_REPORTED: "PROJECT_COMPLETED_REPORTED",
     UNDER_CONSTRUCTION: "UNDER_CONSTRUCTION",
     CONTRACTED: "CONTRACTED",
     BUDGETED_OR_ALLOCATED: "FUNDED_OR_ALLOCATED",
@@ -142,6 +146,7 @@ class InfrastructureRecord:
     acceleration_proven: bool = False
     upsizing_proven: bool = False
     unresolved_reason: str | None = None
+    status_date_basis: str = "STATUS_EFFECTIVE_DATE"
 
     def __post_init__(self) -> None:
         for field_name in (
@@ -157,6 +162,12 @@ class InfrastructureRecord:
         if self.status_taxonomy not in BASELINE_STATUSES:
             raise B10BaselineInfrastructureContractError("invalid status_taxonomy")
         _iso_date(self.status_effective_date, "status_effective_date")
+        if self.status_date_basis not in {"STATUS_EFFECTIVE_DATE", REPORTING_AS_OF_DATE}:
+            raise B10BaselineInfrastructureContractError("invalid status_date_basis")
+        if self.status_taxonomy == PROJECT_COMPLETED_REPORTED and self.status_date_basis != REPORTING_AS_OF_DATE:
+            raise B10BaselineInfrastructureContractError(
+                "reported project completion requires REPORTING_AS_OF_DATE, not a physical transition date"
+            )
         if isinstance(self.source_refs, str) or not self.source_refs:
             raise B10BaselineInfrastructureContractError("source_refs must be non-empty")
         if isinstance(self.evidence, str) or not self.evidence:
@@ -359,6 +370,7 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
 
     if record.status_taxonomy in {
         OPERATING,
+        PROJECT_COMPLETED_REPORTED,
         UNDER_CONSTRUCTION,
         CONTRACTED,
         BUDGETED_OR_ALLOCATED,
@@ -398,6 +410,7 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
     if record.temporal_coincidence_only or record.program_causality_status == "Q":
         if record.status_taxonomy in {
             OPERATING,
+            PROJECT_COMPLETED_REPORTED,
             UNDER_CONSTRUCTION,
             CONTRACTED,
             BUDGETED_OR_ALLOCATED,
@@ -420,7 +433,7 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
                 BASELINE,
                 effective_evidence_status,
                 refs,
-                f"{WITHOUT_PROGRAM} includes the already operating/contracted/funded scope",
+                f"{WITHOUT_PROGRAM} includes the already operating/reported-completed/contracted/funded scope",
                 record.total_project_cost_huf,
                 None,
                 "programme causality is not proven; existing scope is baseline",
@@ -452,6 +465,7 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
         (True, True)
         if record.status_taxonomy in {
             OPERATING,
+            PROJECT_COMPLETED_REPORTED,
             UNDER_CONSTRUCTION,
             CONTRACTED,
             BUDGETED_OR_ALLOCATED,
@@ -511,6 +525,7 @@ def classify_infrastructure(record: InfrastructureRecord) -> AttributionDecision
         CONTRACTED,
         BUDGETED_OR_ALLOCATED,
         OPERATING,
+        PROJECT_COMPLETED_REPORTED,
     } else PROGRAM_INCREMENTAL
     return AttributionDecision(
         record.project_id,
@@ -586,6 +601,8 @@ __all__ = [
     "InfrastructureRecord",
     "OPEN_TENDER",
     "OPERATING",
+    "PROJECT_COMPLETED_REPORTED",
+    "REPORTING_AS_OF_DATE",
     "PROGRAM_ACCELERATED",
     "PROGRAM_ACCELERATED_OR_UPSIZED",
     "PROGRAM_INCREMENTAL",

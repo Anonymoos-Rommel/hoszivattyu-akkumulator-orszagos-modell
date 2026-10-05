@@ -1,0 +1,22 @@
+{
+  "head": "812015a4a0cca04181457dca5e7d7b834aecd612",
+  "tree": "a70eaf122aa04cf39869f16e30676b6b6a564113",
+  "tested_merge": "d849d1d97af921c7bb21fd9a8970526f5c2ab5d4",
+  "run_id": 37000196883,
+  "run_number": 1100,
+  "job_id": 110815898353,
+  "tests": 3181,
+  "seconds": 140.279,
+  "skips": 0,
+  "required_external_positive_lines": [
+    "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "checkpoint": "V1-038",
+  "conclusion": "success",
+  "registry": "VALID",
+  "log_sha256": "88727d99af843d9e54ece63fe198e3d55e080347453c4efd97fe68aec20ec667",
+  "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37000196883",
+  "verified_at": "2026-10-02T11:24:20.959424+00:00"
+}

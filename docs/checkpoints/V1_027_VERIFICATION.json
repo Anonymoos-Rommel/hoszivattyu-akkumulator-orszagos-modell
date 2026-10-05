@@ -1,0 +1,145 @@
+{
+  "checkpoint": "V1-027",
+  "revision": 2,
+  "base_commit": "72ec387538463101fc2f0847e78cf0d2c1b8ca26",
+  "independently_reviewed_tree": "d9a4f89aa025567fb37277c4f82c84ef7129d16e",
+  "independent_verdict": "PASS_BOUNDED_REPAIR_HOSTED_CLOSURE_PENDING",
+  "independent_report_sha256": "7a2ff8cb63916bce0c4aeb016404d3cddac864aeb8d96b109455723a0290ff87",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_026_CI.json",
+      "sha256": "60550ca263690fd7deced983c01112b0aadb239b8cf180dbe71fc8697d56a06d",
+      "bytes": 844,
+      "git_blob": "1684b4b2280d6d4de43952a7436cc165c5f01bf5"
+    },
+    {
+      "path": "docs/checkpoints/V1_027_REFERENCE_STORAGE_BOUNDARIES.md",
+      "sha256": "ac18910db3accc44053cfa6afd3a3b94ff0621ba88252c472edbd02549fd1da2",
+      "bytes": 6162,
+      "git_blob": "22a17b533c49c153a8b811f61c561e1965ba73ea"
+    },
+    {
+      "path": "tests/test_b08_gui_load_reference.py",
+      "sha256": "0555fd6e129ea7a96c555a226901332e51b1db88be8a5444562f96dfb7dc991e",
+      "bytes": 27823,
+      "git_blob": "dd0fbaee29693948eb569566fc53e042652626e9"
+    },
+    {
+      "path": "tests/test_b09_future_supply_reference.py",
+      "sha256": "19ff3d4f7dd63cf9fe1419cda0fb7771af69c923502f0a240ae609b6f0036ee9",
+      "bytes": 31560,
+      "git_blob": "6b497a13e0a85d387e9b194c98a4ebc7385399f4"
+    },
+    {
+      "path": "tests/test_b09_gui_generation_reference.py",
+      "sha256": "0af1c683b1233ededbd9acaab53c599658ceab31b5e9860521c120450f5cb7fb",
+      "bytes": 33934,
+      "git_blob": "28135e94c6559e48e65e4f12086ca587e19b7686"
+    },
+    {
+      "path": "tests/test_b18_supply_source_reference.py",
+      "sha256": "3298feb06a3678e3ee818c4f18a061f711f600d24ae8bf4fc4b6a682e50eb9c6",
+      "bytes": 27659,
+      "git_blob": "0997f9567b3fe856fe7066380d3a4a929376e732"
+    },
+    {
+      "path": "tools/materialize_b08_gui_load_reference.py",
+      "sha256": "22c40e9799ac79da3115b31eb367df6cc00c5fb57821876d565fc336e4adb664",
+      "bytes": 4883,
+      "git_blob": "958097ee94279796e6b3e539bf645f6766a1f940"
+    },
+    {
+      "path": "tools/materialize_b09_future_supply_reference.py",
+      "sha256": "56d804f44487f0c4897bfcd1dcc7bf5f970f287cd7f6f73a3a526ccd61254967",
+      "bytes": 5064,
+      "git_blob": "8118db91d16c2e5e6e9eb900cc3ab0d6762d07cf"
+    },
+    {
+      "path": "tools/materialize_b09_gui_generation_reference.py",
+      "sha256": "73e038319246549b2880877f9ec82eb5fc409cbada942360b8d2d2492b42bb7e",
+      "bytes": 7108,
+      "git_blob": "7c0d994cfb9b5f8ca50198b565bf291b21203960"
+    },
+    {
+      "path": "tools/materialize_b18_supply_source_reference.py",
+      "sha256": "d68b9b80b7f3caf2a5c402fe56804541665db244955ce2d039432c0079dc0f20",
+      "bytes": 4656,
+      "git_blob": "cc19df0d761a23a5e96000a1f5f6bc278613a9c1"
+    }
+  ],
+  "independent_checks": {
+    "focused_command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python -m unittest test_b08_gui_load_reference test_b09_gui_generation_reference test_b09_future_supply_reference test_b18_supply_source_reference -v",
+    "focused_discovered": 115,
+    "focused_executed_passed": 113,
+    "focused_skipped": 2,
+    "focused_seconds": 3.954,
+    "shared_registry_tests_passed": 15,
+    "registry_validator": "VALID",
+    "git_diff_check": "PASS",
+    "original_test_helper_ASTs_preserved": 121,
+    "boundary_matrix_subcases": 108,
+    "boundary_matrix_real_metadata_cases": 104,
+    "boundary_matrix_controlled_host_metadata_cases": 4,
+    "new_repository_index_subcases": 24,
+    "independent_index_replay_cases": 24,
+    "b08_late_target_collision_subcases": 4,
+    "three_non_B08_materializers": "Non-guard AST unchanged from base.",
+    "b08_scientific_output": "Original and final synthetic CSV/receipt/stdout bytes identical; only output storage checks and exclusive creation changed.",
+    "scope": "Exactly four tools, four tests, checkpoint and previous CI receipt. No source, numeric/parser, registry, B13, workflow or settings change.",
+    "prior_evidence": "All16 audited artifacts preserved and previous CI1088 receipt byte-identical to privately verified receipt; its hosted log digest matches.",
+    "counting_note": "Targeted methods, matrix cases and replay probes overlap; do not sum into a distinct aggregate count."
+  },
+  "closed_findings": [
+    {
+      "id": "V1-027-R1",
+      "original": "Every nonzero git ls-files exit was treated as untracked; corrupt/truncated/directory-valued indexes admitted deleted tracked targets and reached source readers.",
+      "repair": "All four guards admit tracking query exit1 only; zero or error/signal status rejects.",
+      "independent_proof": "Unchanged24-case witness passes:12 error variants reject before source read and12 valid/tracked/unignored neighbors retain expected behavior.",
+      "production_delta_from_revision1": "Exactly tracked.returncode == 0 changed to tracked.returncode != 1 in each of four tools."
+    }
+  ],
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 2982,
+    "seconds": 114.77,
+    "skipped_count": 2,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "passed": 2980,
+    "frozen_tree": "d9a4f89aa025567fb37277c4f82c84ef7129d16e",
+    "all_hashes_unchanged": true,
+    "log_sha256": "1991e02deb9501e25a9f1256e2d2d39ba4c6e80938f3a0ddf863f84d18bb1e26",
+    "completed_at": "2026-10-02T02:55:39.586449+00:00"
+  },
+  "hosted_precondition_negative": {
+    "command": "GITHUB_ACTIONS=true PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tests python -m unittest -v test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed",
+    "expected_exit": 1,
+    "observed_exit": 1,
+    "expected_failures": 2,
+    "observed_failures": 2,
+    "observed_skips": 0,
+    "meaning": "Under GitHub Actions inherited Git markers cannot silently skip required external positives."
+  },
+  "hosted_closure_requirement": {
+    "status": "PENDING",
+    "required_exact_named_methods": [
+      "test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed",
+      "test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed"
+    ],
+    "criterion": "Final exact-head hosted logs show both named methods as ok with no relevant skips, all configured tests pass, and tested merge tree matches final publication tree.",
+    "foreign_negative_cases": "Clean hosted matrix also confirms foreign-repository rejection without inherited host markers acting as an independent reason."
+  },
+  "superseded_revision1": "Preserved original ten-file freeze af8da1edf250a47361ff1d7e382327c4ce4d8344, aggregate 2978 discovered / 2976 passed / 2 skipped; independently held for Git-index error admission and not published.",
+  "boundaries": [
+    "The two actual Git-free external positives cannot execute on this local host; controlled-metadata positives are explicitly separate.",
+    "No new raw source or scientific numerical admission; storage tests use synthetic source stand-ins.",
+    "No claim of transactional multi-file writes or protection from concurrent ancestor replacement after preflight.",
+    "Reviewer made no production edit, publication, workflow run, install or permission change.",
+    "B13 materializer is outside this four-tool checkpoint; its analogous index-status pattern is a separately tracked follow-on.",
+    "No source, registry, evidence-tier, readiness, scientific calculation, workflow, account or permission changes.",
+    "No main merge."
+  ]
+}

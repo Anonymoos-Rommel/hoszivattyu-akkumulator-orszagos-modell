@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "source_id": "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+  "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_d_hhq?geo=HU&unit=TJ&sinceTimePeriod=2022",
+  "dataset_url": "https://doi.org/10.2908/NRG_D_HHQ",
+  "retrieved_at": "2026-10-01",
+  "data_updated_at": "2026-06-09T11:00:00+0200",
+  "reference_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "authority": "Eurostat; Hungary national reporting",
+  "repo_snapshot_path": "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/2026-10-01.json",
+  "sha256": "5b6dd68d05743a1c0e14bd9b53c392668ef3d761cd8eb64e54d59361770621d8",
+  "reuse_status": "PUBLIC_REUSE_CLEARED_WITH_ATTRIBUTION",
+  "license_url": "https://ec.europa.eu/eurostat/en/help/copyright-notice",
+  "attribution": "Source: Eurostat, https://ec.europa.eu/eurostat/databrowser/product/page/nrg_d_hhq, accessed 2026-10-01. Selection and normalization by repository authors; Eurostat is not responsible for these modifications or interpretations.",
+  "metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/en/nrg_quant_esms.htm",
+  "national_metadata_url": "https://ec.europa.eu/eurostat/cache/metadata/EN/nrg_quant_simsqu_hu.htm",
+  "national_metadata_updated_at": "2024-02-29",
+  "national_metadata_limitation": "Describes KSH household energy survey and MEKH reporting lineage; does not certify a new 2024 survey or current sampling error for every cell.",
+  "source_independence": "Same national statistical lineage as KSH/MEKH; not an independent third measurement.",
+  "evidence_status": "DER",
+  "evidence_status_reason": "Official compiled national statistical estimate, including survey weighting and administrative reporting; no claim of metered useful heat.",
+  "energy_boundary": "REPORTED_HOUSEHOLD_FINAL_ENERGY_BY_PRODUCT_AND_END_USE",
+  "unit": "TJ",
+  "missing_cells": "Explicit missing, never zero; no observation flags supplied for present HU cells in this response.",
+  "aggregation_boundary": "SIEC contains aggregate families and their children. Never sum all products; use publisher TOTAL or a justified mutually exclusive partition.",
+  "forbidden_promotions": [
+    "FINAL_ENERGY_TO_USEFUL_HEAT_WITHOUT_DEVICE_BOUNDARY",
+    "NATIONAL_TOTAL_TO_TARGET_COHORT",
+    "ANNUAL_TO_DESIGN_PEAK",
+    "REFERENCE_2024_TO_OBSERVED_2025",
+    "ABSENT_CELL_TO_ZERO"
+  ],
+  "scientific_validation_debt": [
+    "Current end-use allocation uncertainty not quantified in national metadata",
+    "Weather/comfort/occupancy and appliance efficiencies needed before useful-heat calibration",
+    "Household electricity includes appliances and existing heat pumps; ambient heat is separately reported"
+  ],
+  "metadata_snapshots": [
+    {
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/EN/nrg_quant_simsqu_hu.htm",
+      "repo_snapshot_path": "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/hu_metadata.html",
+      "sha256": "cc5e6d869ddde2b9d38726a39b1083434227b3122cc56ff126f5c75c0857343a",
+      "retrieved_at": "2026-10-01",
+      "reuse_status": "PUBLIC_REUSE_CLEARED_WITH_ATTRIBUTION"
+    },
+    {
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/en/nrg_quant_esms.htm",
+      "repo_snapshot_path": "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/general_metadata.html",
+      "sha256": "d1d604cf407adcc7717f5e84e9d5ce040497c8513ff739f69fd5b514e09579ab",
+      "retrieved_at": "2026-10-01",
+      "reuse_status": "PUBLIC_REUSE_CLEARED_WITH_ATTRIBUTION"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "checkpoint": "V1-040",
+  "scope": "Bounded source-allocated annual GCV gas/device ledger; full source-service replacement is an explicit SCN condition",
+  "base_commit": "382990b682895b881f6a50a3d3ec5f24809932e4",
+  "reviewed_substantive_tree": "170b4dab0fb1f8ab580d25f7a312d45a930d2820",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_039_CI.json",
+      "bytes": 1431,
+      "sha256": "921ae79697dab6578189559ad88ee6fb5e03c80b4bc8f850f459e5f92083cb6c",
+      "git_blob": "c6488cfe7e389c73369f8b0e43879d6783968de7"
+    },
+    {
+      "path": "docs/checkpoints/V1_040_ANNUAL_SAME_SERVICE_GAS_REFERENCE.md",
+      "bytes": 4521,
+      "sha256": "27edda8fab3575ea499b3d6d8294d9fdc82edaf769cd489301ecb3fe854930b7",
+      "git_blob": "01c0cdf3c50cd8859ff4406533e5fac6f62c0c0a"
+    },
+    {
+      "path": "modules/B11/README.md",
+      "bytes": 2477,
+      "sha256": "9551aadfa26c5efc3eef7a735d2c20dc98ead57d504ccdc6c3091fff2df26838",
+      "git_blob": "84cf6d78486286104214dc1f329b9b75022dd72d"
+    },
+    {
+      "path": "modules/B11/annual_same_service_reference.py",
+      "bytes": 7224,
+      "sha256": "592ae52cef361f2765a3a90e29df667ee53cd21b53930bb4df2f4c804893a869",
+      "git_blob": "51513e6ca983112033ac19155ad3a88fcc2ebf96"
+    },
+    {
+      "path": "registry/b11_annual_same_service_reference_manifest.json",
+      "bytes": 5897,
+      "sha256": "6c6be62037dc588cd2d7a48b5bb569fb227f0ba26aac77a4c57e8a410b843cf5",
+      "git_blob": "cff0e78526ecdf6a53067719062d28b66f7b25e3"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 108132,
+      "sha256": "2ff95d682eea6fe839076de4e11a0715c58470607df606833a806e76add0b486",
+      "git_blob": "fca9b650d65939d2c831a7d8784e8dba556f0c84"
+    },
+    {
+      "path": "tests/test_b11_annual_same_service_reference.py",
+      "bytes": 10190,
+      "sha256": "653e8c719e7e0501b6ad22848cae93fdf45b027a89d6cd496848aad346f10d3d",
+      "git_blob": "d8a8347e412321c6c3ebc766f5c351fd013240cf"
+    }
+  ],
+  "independent_review": {
+    "verdict": "ACCEPTED_BOUNDED_REVISION_2",
+    "report_sha256": "6eb8a1a566b89df693c77a20cc716dcd2a276700e556fc66045612ba00212760",
+    "new_focused_tests": 20,
+    "independent_boundary_checks": 36,
+    "original_source_method_receipt_sha256": "49c2db830b0fde08ba55c617eb197156ca3a6b2f807c896cf4331f54d626d59d",
+    "genuine_replay": "Complete public API matches all8760 underlying device rows and every unchanged numerical result",
+    "closed_finding": "Q belongs in evidence_status, not evidence_tier; both unknown debt entries and a regression are corrected"
+  },
+  "configured_local_aggregate": {
+    "discovered": 3227,
+    "passed": 3224,
+    "skipped": 3,
+    "failures": 0,
+    "elapsed_seconds": 125.333,
+    "log_sha256": "79aa9c709ad53eabaeed8ea9478fba8cccad5442b1f48e95e9adcdf57e7dd851",
+    "frozen_hashes_unchanged": true,
+    "skip_reason": "Existing external-storage positive tests are unsuitable under protected inherited Git host markers; no marker or permission changed"
+  },
+  "other_checks": {
+    "all_b11_before_final_label_fix": 69,
+    "new_final_tests": 20,
+    "registry_tests": 15,
+    "plan_tests": 3,
+    "registry_validator": "VALID",
+    "diff_check": "PASS"
+  },
+  "superseded_revision": {
+    "substantive_tree": "c61806787a25ac66137e5d8269023bb665638a8d",
+    "aggregate_discovered": 3226,
+    "aggregate_passed": 3223,
+    "aggregate_skipped": 3,
+    "disposition": "Preserved; passing aggregate did not override independent metadata finding"
+  },
+  "hosted_ci": {
+    "status": "REQUIRED_ON_PUBLISHED_FINAL_HEAD",
+    "expected_tests": 3227,
+    "required_skips": 0,
+    "required_external_positive_tests": [
+      "test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed",
+      "test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read",
+      "test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed"
+    ]
+  },
+  "limits": [
+    "Gas and auxiliary quantities are source-allocated annual reference values, not measured whole-boiler savings",
+    "Post-replacement nondevice/retained-control electricity and complete net totals remain unknown",
+    "DHW is excluded, not displaced; seasonal gas factor does not supply hourly boiler performance",
+    "No gas volume, import value, household saving, national weight, readiness or main-merge admission"
+  ]
+}

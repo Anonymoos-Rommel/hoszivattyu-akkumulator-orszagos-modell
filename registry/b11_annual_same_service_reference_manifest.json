@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "reference_id": "E2-SAME-SERVICE-GCV-GAS-TO-WM50-W55-TABULA-SFH01-001",
+  "device_reference_id": "E2-ANNUAL-WM50-W55-TABULA-SFH01-UTC2025-001",
+  "evidence_status": "DER",
+  "evidence_tier": "E2",
+  "scope": "SOURCE_ALLOCATED_ANNUAL_SPACE_HEATING_REFERENCE_WITH_EXPLICIT_FULL_REPLACEMENT_SCN",
+  "repository_pins": {
+    "modules/B05/annual_device_reference.py": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+    "registry/b05_annual_device_reference_manifest.json": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15"
+  },
+  "gas_reference": {
+    "source_id": "SRC-B06-TABULA-HU-CALCULATOR-2016",
+    "original_url": "https://episcope.eu/fileadmin/tabula/public/calc/tabula-calculator.xlsx",
+    "source_sha256": "1fe9865deb4030e5194a8c6abcd7d01446867747064681ba6ac8a99eb0c8b7ce",
+    "source_sheet": "Calc.Set.System",
+    "source_row": 3392,
+    "reuse_status": "EXTERNAL_ONLY_ORIGINAL_WORKBOOK_NOT_REPUBLISHED",
+    "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.013",
+    "heating_system": "HU.Gas.B_C.SUH.01",
+    "generator": "HU.B_C.SUH.01",
+    "area_m2": 56,
+    "energy_basis": "GCV",
+    "useful_heat_kwh_m2": 102.64561485096266,
+    "generator_heat_kwh_m2": 108.04561485096266,
+    "seasonal_generator_expenditure_gcv": 1.05,
+    "space_heating_fuel_kwh_gcv_m2": 113.44789559351081,
+    "heating_auxiliary_kwh_m2": 2.8,
+    "excluded_dhw_fuel_kwh_gcv_m2": 9.696,
+    "excluded_dhw_auxiliary_kwh_m2": 1.3,
+    "cells": [
+      {
+        "cell": "B3392",
+        "field": "Code_BuildingVariant",
+        "value": "HU.N.SFH.01.Bel80.ReEx.001.013"
+      },
+      {
+        "cell": "L3392",
+        "field": "Code_SysH",
+        "value": "HU.Gas.B_C.SUH.01"
+      },
+      {
+        "cell": "U3392",
+        "field": "A_C_Ref",
+        "value": 56
+      },
+      {
+        "cell": "AR3392",
+        "field": "q_del_w_aux",
+        "value": 1.3
+      },
+      {
+        "cell": "AT3392",
+        "field": "q_del_w_1",
+        "value": 9.696
+      },
+      {
+        "cell": "BC3392",
+        "field": "q_h_nd",
+        "value": 102.64561485096266
+      },
+      {
+        "cell": "BD3392",
+        "field": "Code_SysH_G_1",
+        "value": "HU.B_C.SUH.01"
+      },
+      {
+        "cell": "BG3392",
+        "field": "Code_SysH_EC_1",
+        "value": "Gas"
+      },
+      {
+        "cell": "BO3392",
+        "field": "e_g_h_Heat_1",
+        "value": 1.05
+      },
+      {
+        "cell": "BW3392",
+        "field": "q_del_h_aux",
+        "value": 2.8
+      },
+      {
+        "cell": "CH3392",
+        "field": "q_g_h_out",
+        "value": 108.04561485096266
+      },
+      {
+        "cell": "CI3392",
+        "field": "q_del_h_1",
+        "value": 113.44789559351081
+      },
+      {
+        "cell": "DQ3392",
+        "field": "q_del_h_sum_gas",
+        "value": 123.1438955935108
+      },
+      {
+        "cell": "DU3392",
+        "field": "q_del_h_sum_el",
+        "value": 4.1
+      }
+    ],
+    "field_exclusions": {
+      "DQ3392": "Its formula includes CI3392 space-heating fuel and AT3392 DHW fuel despite a heating label; not a space-heating input",
+      "DU3392": "Its formula includes heating and DHW auxiliary electricity despite a heating label; not a space-heating input"
+    }
+  },
+  "method_source": {
+    "source_id": "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE",
+    "source_sha256": "69963a02efba405bf0970d199d6fcdd24b44ef87521afd7b71694e714f6b92ef",
+    "reuse_status": "EXTERNAL_ONLY",
+    "locators": [
+      "Equation19: generator heat times seasonal expenditure gives delivered fuel",
+      "Equation20: effective distribution/storage loss and useful heat boundary",
+      "Gross calorific convention for delivered combustible-fuel energy",
+      "Table14: auxiliary system scope across available generator/storage/distribution/emission components"
+    ]
+  },
+  "residual": {
+    "name": "POST_REPLACEMENT_NONDEVICE_AND_RETAINED_AUXILIARY",
+    "meaning": "Signed installed-case electricity for the declared heating service minus the rating-derived device reference, including electricity consequences of matching installed heat delivery/duty, replacement of embedded pump conventions and genuinely additional/excluded or retained/reallocated controls",
+    "evidence_status": "Q",
+    "upper_bound": null,
+    "timing": null,
+    "source_baseline_is_measured_avoidable_consumption": false,
+    "sign": "SIGNED_UNKNOWN",
+    "is_physical_auxiliary_consumption_sum": false,
+    "rated_unit_control_and_safety_input_already_included": true,
+    "installed_thermal_boundary_and_duty_reconciled": false
+  },
+  "validation_debt": [
+    {
+      "scope": "SEASONAL_GAS_CLASS_APPLICABILITY",
+      "evidence_tier": "E2",
+      "quantity": "Source seasonal gas expenditure and annual service",
+      "upgrade": "Source/field calibration of the intended boiler class and operating service; no national mix or actual whole-boiler savings inferred"
+    },
+    {
+      "scope": "POST_REPLACEMENT_AUXILIARY_BOUNDARY",
+      "quantity": "Signed rating-to-installed electricity reconciliation at the same declared service",
+      "upgrade": "One compatible aggregate including replacement of embedded pump allowance and any heat-delivery/duty adjustment; no extra charge or submeter required for already-included rated-unit control/safety input",
+      "evidence_status": "Q",
+      "thermal_applicability_debt": "Rated heating capacity also uses the pump convention. Actual installed heat-delivery/duty reconciliation remains unestablished; existing source-rating reference values remain usable E2."
+    },
+    {
+      "scope": "GAS_VOLUME_AND_VALUE",
+      "quantity": "Gas volume and import/retail value",
+      "upgrade": "Compatible admitted calorific/reference-state and price inputs; no source factor is silently converted to LHV",
+      "evidence_status": "Q"
+    }
+  ],
+  "limits": [
+    "The full-replacement condition is SCN; arithmetic is DER with E2 source applicability",
+    "DHW gas/auxiliaries are excluded, not displaced or assumed zero",
+    "Annual gas and auxiliary source scalars do not supply an hourly gas or net-grid profile",
+    "No physical SPF, whole-household savings, national weights, boiler retirement or readiness promotion"
+  ],
+  "source_method_review": {
+    "proposal_manifest_sha256": "9c7262a40ee577de6a8dcf897e7bbcce8d79aa10121f9e23c33ae3b46974a325",
+    "verdict": "ADMIT_BOUNDED_E2_DER_IMPLEMENTATION",
+    "review_receipt_sha256": "49c2db830b0fde08ba55c617eb197156ca3a6b2f807c896cf4331f54d626d59d"
+  },
+  "rating_to_installed_boundary": {
+    "meaning": "Signed installed-case electricity for the declared heating service minus the rating-derived device reference, including electricity consequences of matching installed heat delivery/duty, replacement of embedded pump conventions and genuinely additional/excluded or retained/reallocated controls",
+    "sign": "SIGNED_UNKNOWN",
+    "rated_unit_control_and_safety_input_already_included": true,
+    "no_blanket_extra_controller_load": true,
+    "thermal_scope": "Rated heating capacity also uses the pump convention. Actual installed heat-delivery/duty reconciliation remains unestablished; existing source-rating reference values remain usable E2.",
+    "no_numerical_correction_adopted": true,
+    "nominal_allowance_not_extrapolated_across_map": true,
+    "source_ids": [
+      "SRC-B05-EN14511-3-2013-SIST-PREVIEW",
+      "SRC-B05-EN14511-1-2013-SIST-PREVIEW",
+      "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+    ]
+  },
+  "rating_boundary_sources": [
+    {
+      "source_id": "SRC-B05-EN14511-3-2013-SIST-PREVIEW",
+      "original_url": "https://preview.sist.si/sist-preview/39045/9470ceb23bab46de9ba16268b5344739/SIST-EN-14511-3-2013.pdf",
+      "retrieved_at": "2026-10-02T14:19:59.427846+00:00",
+      "document_date": "2013-07 (EN); 2013-12-01 (SIST)",
+      "sha256": "5ce4cd24a4c5af4890aa4501798a1ac081e673a3d6208324a42ce93404aa1b1c",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "claim_scope": "Rating pump/electrical and heat-capacity correction definition; not WM50 test settings"
+    },
+    {
+      "source_id": "SRC-B05-EN14511-1-2013-SIST-PREVIEW",
+      "original_url": "https://preview.sist.si/sist-preview/39043/c7b6bab824a84b9b8084ff1dfb534dbf/SIST-EN-14511-1-2013.pdf",
+      "retrieved_at": "2026-10-02T14:31:18.959091+00:00",
+      "document_date": "2013-09 (EN)",
+      "sha256": "e89a92f9d831aa88d10768b31f3322c78142f467badaf6d2e7eacb700ec1a814",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "claim_scope": "Exact effective-input and COP definitions; includes rated unit control and safety devices, not proof of actual tested accessory package"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4099",
+      "document_revision": "Vol.5.3 December2020",
+      "sha256": "e7212300cb49ad561db56e974cc9945655943bfb0dd8309610a400fba65919ab",
+      "reuse_status": "EXTERNAL_ONLY",
+      "claim_scope": "Nominal W35 pump allowance10W is included in rating COP/input; not a constant established across the W55 map"
+    }
+  ],
+  "rating_boundary_review": {
+    "source_pack_sha256": "c88cf5dbe421fbe51559da97bc501f761bd4ba30fe63992b86ca037efbf01712",
+    "report_sha256": "3d4c603c6c2cf2790793dba41b049b3f01d20f34798c0e6ea43aff5626e7b613",
+    "verdict": "QUALIFIED_SIGNED_RECONCILIATION_METADATA_NO_NUMERIC_ADMISSION"
+  }
+}

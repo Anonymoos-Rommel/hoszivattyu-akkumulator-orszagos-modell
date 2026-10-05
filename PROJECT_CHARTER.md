@@ -31,6 +31,28 @@ A B15 finanszírozási stratégia nem kezdhető el addig, amíg B12, B13 és B14
 
 A kanonikus egység nem az egyszeri háztartási telepítés, hanem az `S0`–`S5` állapotgépen átvezetett beavatkozás az éves országos projektportfólióban. Az éves kiválasztás csak explicit prioritási komponensekkel, kemény korlátokkal, magyarázattal és bizonyíték-státusszal történhet. A V1.2 szerződés részletei: [`docs/methodology/v12_portfolio_transition_contract.md`](docs/methodology/v12_portfolio_transition_contract.md).
 
+## Tulajdonosi döntések 2026 október 4
+
+A 2026. október 4-i tulajdonosi döntés kötelezővé teszi a háztartási
+pénzáram program miatti romlásának elkerülését az első naptól. E korlát
+mellett a közpénzforintra jutó legnagyobb haszon élvez elsőbbséget, ha ez
+ütközik a rászorultsági sorrenddel. A tervezett indulás 2028. január 1.;
+a futamidő, éves keret és számszerű súlyok nyitottak. A részletes
+[alkalmazási határ](docs/methodology/owner_policy_20261004.md) és a
+[gépi döntési rekord](registry/owner_policy_decisions.json) megőrzi a
+kiválasztott irányt és a fennmaradó hiányokat. Ez nem kész országos
+számítás vagy finanszírozási kötelezettségvállalás.
+
+A későbbi pontosítás szerint a hőszivattyú, akkumulátor és szigetelés
+hármasával elkészült, a háztartási védelmet és támogatás nélküli
+számlafeltételt teljesítő háztartások támogatásból való kilépése
+ismétlődően szabadíthat fel állami forrást. A ténylegesen elérhető nettó
+összeg időben változó része forgatható vissza. Ez kapacitás- és
+finanszírozási korlátok mellett gyorsíthatja a későbbi ütemeket; az üres
+éves keret nem korlátlan költségvetés. A tervezett paraméteres működést a
+[kohorsz- és pénzáramszerződés](registry/subsidy_reinvestment_policy_contract.json)
+rögzíti. A példaszámok nem válnak modellbemenetté.
+
 ## Bizonyítottsági státuszok
 
 - `OBS` — megfigyelt tényadat;

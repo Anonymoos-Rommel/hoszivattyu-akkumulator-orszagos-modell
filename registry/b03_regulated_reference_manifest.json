@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "reference_id": "SCN-TABULA-GAS-REGULATED-PRICE-REFERENCE-001",
+  "repository_pins": {
+    "energy_consumer": {
+      "path": "modules/B11/calorific_reference.py",
+      "sha256": "ea8d6f98dc05a0e82d135d873b257698f705115cac4ad595c26ac3e2b627f17a"
+    },
+    "energy_manifest": {
+      "path": "registry/b11_calorific_reference_manifest.json",
+      "sha256": "1ebd49b36328ffd0af2d8228f0a30cfed9cb2ced69effccd9ae2e11c6d48b6f0"
+    },
+    "schedule": {
+      "path": "data/processed/residential_gas_tariff_schedule.csv",
+      "sha256": "d31cfda4f3d45f4cabf7ca003a047aa06cde0e8e4fa400485fc74a672f0de777"
+    }
+  },
+  "source_snapshots": [
+    {
+      "filename": "MVM_Egyetemes_foldgaz_uzletszabalyzat_20260301.pdf",
+      "source_id": "SRC-B03-MVM-REGULATED-TARIFF-F4-2026",
+      "original_url": "https://www.mvmnext.hu/foldgaz/contents/Documents/foldgaz/Dokumentumok/Jogszabalyok-szabalyzatok/AKTUALIS-UZLETSZABALYZAT-ALTALANOS-SZERZODESI-FELTETELEK/Egyetemes-foldgazszolgaltatoi-uzletszabalyzat-20260301.pdf?download=",
+      "bytes": 3119176,
+      "sha256": "0dee4a872bb896a0dbec5c0a98f41413d63fc5458dc86049adfe4d95b7c04afa",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "public_redistribution_status": "NOT_ASSESSED_NO_REPUBLICATION",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    },
+    {
+      "filename": "MVM_Alkalmazott_dijak_20261002.html",
+      "source_id": "SRC-B03-MVM-GAS-BILLING-2026",
+      "original_url": "https://www.mvmnext.hu/foldgaz/Kozszolgaltatasi-informaciok/Alkalmazott-dijak",
+      "bytes": 64951,
+      "sha256": "55be500f489778a4ba94db9e942e74ed91114369d00774176cf2d6a0d28cb9fd",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "public_redistribution_status": "NOT_ASSESSED_NO_REPUBLICATION",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    },
+    {
+      "filename": "MVM_Gazminoseg_20261002.html",
+      "source_id": "SRC-B03-MVM-GAS-QUALITY-2026",
+      "original_url": "https://www.mvmnext.hu/foldgaz/Egyetemes-Szolgaltatas/Ugyintezes/Szamlazas/Gazminoseg",
+      "bytes": 80527,
+      "sha256": "0074927da062d8bfe9d484b74eb08956a5c9b2f192201c30fd70558303df84d1",
+      "retrieved_date": "2026-10-02",
+      "retention": "PRIVATE_RESEARCH_ONLY",
+      "public_redistribution_status": "NOT_ASSESSED_NO_REPUBLICATION",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    }
+  ],
+  "tariff_scope": "A1 individual residential under20m3/h reference; no actual site eligibility",
+  "price_scope": "2026 nominal frozen rates from retained2026-03-01 rulebook; not a forecast or observed2025 bill",
+  "fixed_fee_repair": {
+    "source_net_huf_per_year": "9192",
+    "source_vat_rate": "0.27",
+    "derived_gross_huf_per_year": "11673.84",
+    "locators": [
+      "MVM rulebook p40 universal price excludes VAT",
+      "p115 net base fee plus VAT",
+      "F.4 p154 A1 fee table"
+    ],
+    "legacy_value_preserved": true,
+    "invoice_rounding": "NOT_INFERRED"
+  },
+  "settlement_scope": "One abstract complete Aug1–Jul31 protected year; explicit allocated discount MJ after other uses; no hourly gas or calendar-year split",
+  "source_admission_review_sha256": "11cb06851fd414c5960334e9731e2cada31fe33e64e059a7166a12788540702a",
+  "consumer_route": "REGULATED_RESIDENTIAL_TARIFF to B13 baseline reference only; no B12 or WHOLESALE_IMPORT route change",
+  "validation_debt": [
+    {
+      "quantity": "Source-convention energy to tariff denominator",
+      "scope": "CONDITIONAL_REFERENCE_ONLY",
+      "status": "SCN_EXPLICIT_CONDITION",
+      "upgrade": "Physical/calorimetric compatibility remains unquantified debt; MVM futoertek billing and dry normal volume state are established separately"
+    },
+    {
+      "quantity": "Actual bill and avoidable charge",
+      "scope": "NOT_ADMITTED",
+      "status": "Q",
+      "upgrade": "Actual other-end-use energy, eligibility/allocation, billing year, connection retention/avoidability and rounding; no default or zero fill"
+    }
+  ],
+  "scope_limits": [
+    "No actual household bill, savings or fiscal compensation",
+    "No wholesale/import substitution",
+    "Alternative source packages are not additive",
+    "One separately declared gross connection charge; not automatically attributable to heating"
+  ]
+}

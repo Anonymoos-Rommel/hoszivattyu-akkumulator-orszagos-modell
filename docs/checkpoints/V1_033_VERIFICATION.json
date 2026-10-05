@@ -1,0 +1,168 @@
+{
+  "checkpoint": "V1-033",
+  "base_commit": "365a28433f5eda976fa00936282a1565922de45a",
+  "independently_reviewed_tree": "edcbf3994d88bb41ea86c6412ef84265ba8646a1",
+  "independent_verdict": "PASS_NO_OPEN_FINDINGS_WITHIN_EXACT_EIGHT_FILE_BOUNDED_SCN_INTEGRATION_SCOPE",
+  "independent_report_sha256": "66fdcffaceb8bfc1003b41dce7d4d504098ce3a187aae3e7c37839a166af126a",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_032_CI.json",
+      "sha256": "5c5fdfdf0fa837fc191b5bc75809585b57aa43a97510c5614a9591a75000aa19",
+      "bytes": 1344,
+      "git_blob": "b16a986ffb557b83fb1b79e1653d810c26e4de0e"
+    },
+    {
+      "path": "docs/checkpoints/V1_033_HOURLY_THERMAL_SERVICE_REFERENCE.md",
+      "sha256": "c414c05d319d4686cf47ebe255831dfd2efdcdf85e0cf8f459d401d3db5dbe23",
+      "bytes": 10696,
+      "git_blob": "4b2c740ebe9218843d495964b7f146a0914e0224"
+    },
+    {
+      "path": "modules/B06/hourly_thermal_reference.py",
+      "sha256": "80d5879145a7574e91952f9407c972cb6fc4799c62f83aa033e052068ded17df",
+      "bytes": 32474,
+      "git_blob": "013e945680ce506cb6d9d1afc983195f1d8a728c"
+    },
+    {
+      "path": "registry/b06_hourly_thermal_reference_manifest.json",
+      "sha256": "1e167ccef1a40cc916f72ab0b8d11edfde84ad61980e81bc45836aec4248f90d",
+      "bytes": 43914,
+      "git_blob": "6247b9a64387173275124baeaa6488a44f6e8ea4"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "sha256": "a01f2c8232cc952893e0a2daf1928ebd6fc46bdc0c283b8177462da504b3db0e",
+      "bytes": 57318,
+      "git_blob": "60be1597ebf0e431c93ff479f467ed67362fd73d"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "b39d7afc872240e537e0448c58d27d9edc31623cf82af5b916436f1517311930",
+      "bytes": 255889,
+      "git_blob": "0efbf551dd7becc9403c195239cef1cd4cb91d45"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "sha256": "fcafe43b8aa2521cb9ea88ece68e17061a8b4a106e56d49d2319cbbee19de4f4",
+      "bytes": 100751,
+      "git_blob": "2bfdd4b1992a24215b17556f4405896543452639"
+    },
+    {
+      "path": "tests/test_b06_hourly_thermal_reference.py",
+      "sha256": "406dd272ddde0e8c7de7991e642586122de0fb204ff3fa4073673c0d368464c5",
+      "bytes": 32083,
+      "git_blob": "ad5ce040538e24367a90dae84d56afcbd2857e27"
+    }
+  ],
+  "independent_checks": {
+    "focused_tests_rerun": 29,
+    "source_audit_rerun": {
+      "raw_joint_rows": 8760,
+      "workbook_cells": 81,
+      "manufacturer_pdf_pairs_and_annotations": 252,
+      "original_branch_hours_exactly_reproduced": 144,
+      "method_note": "Author audit rerun with output destinations redirected only; not claimed as reviewer-authored independent mathematics"
+    },
+    "separate_independent_physics": {
+      "method": "INDEPENDENT_DECIMAL_SOURCE_ARITHMETIC_RAW72_REPLAY_SOLAR_AND_SI_DOP853",
+      "original_weather_rows": 72,
+      "candidate_windows_checked": 8689,
+      "branch_hours_integrated": 144,
+      "within_hour_state_and_derivative_checks": 7272,
+      "maximum_errors": {
+        "solar_w": 3.126388037344441e-13,
+        "solar_horizontal_closure_w_m2": 0.0,
+        "endpoint_c": 2.1316282072803006e-14,
+        "mean_c": 5.684341886080802e-14,
+        "loss_out_wh": 4.320099833421409e-12,
+        "loss_lower_wh": 3.069544618483633e-12,
+        "command_w": 5.95719029661268e-11,
+        "target_deficit_kh": 4.674038933671909e-14,
+        "path_c": 2.4868995751603507e-14,
+        "path_derivative_c_h": 2.4893859932558168e-14,
+        "map_q_kw": 8.881784197001252e-16,
+        "map_p_kw": 4.440892098500626e-16,
+        "map_cop": 4.440892098500626e-16,
+        "map_min_kw": 4.440892098500626e-16,
+        "balance_wh": 6.235723049030639e-11,
+        "path_heat_w": 6.002665031701326e-11
+      },
+      "additional_thermal_requirement_kwh": 9.028230983764509,
+      "peak_additional_thermal_requirement_kw": 3.06433858441906,
+      "agreement": "Independent integration agrees within floating-point roundoff; not an empirical validation"
+    },
+    "separate_adversarial_groups": 10,
+    "adverse_boundaries": [
+      "Immutable public source/scenario authority",
+      "Original/extract substitution and source identity",
+      "Time, shape, units and missing forcing",
+      "No state resumption after unknown forcing/capacity",
+      "MIN/MAX labels and unsupported manufacturer cells",
+      "Fixed-service differential identity and absence of savings from reduced service",
+      "Precision and downstream null actual-energy claims"
+    ],
+    "fresh_primary_public_replay_after_integration": "PASS_PHYSICS_EXACTLY_UNCHANGED",
+    "prior_research": "Prior source/prototype reviews and author replay are explicitly distinct from the new independent SI-unit physics and adverse-input checks"
+  },
+  "integration_checks": {
+    "original_source_rows_byte_preserved": 391,
+    "new_source_rows": 5,
+    "canonical_source_id_normalization": {
+      "SRC-HOURLY-NOAA-SOLAR-EQUATIONS": "SRC-B06-HOURLY-NOAA-SOLAR-EQUATIONS",
+      "SRC-HOURLY-PVLIB-IRRADIANCE-0161": "SRC-B06-HOURLY-PVLIB-IRRADIANCE-0161",
+      "SRC-HOURLY-SANDIA-ISOTROPIC": "SRC-B06-HOURLY-SANDIA-ISOTROPIC",
+      "SRC-HOURLY-SANDIA-GROUND-REFLECTION": "SRC-B06-HOURLY-SANDIA-GROUND-REFLECTION"
+    },
+    "original_research_aliases_preserved": true,
+    "source_date_precision": "Full source timestamps retained in manifest; registry retrieval dates use date schema. TABULA document year is recorded without inventing a publication day.",
+    "module_note_changes": [
+      "B05",
+      "B06"
+    ],
+    "research_source_and_log_changes": [
+      "B05-D01",
+      "B06-D01"
+    ],
+    "slice_statuses_accepted_artifacts_module_status_readiness_unchanged": true,
+    "prior_CI_receipt": "V1-032 exact published head only; not evidence for this candidate"
+  },
+  "lead_focused_checks": {
+    "new_hourly": 29,
+    "registry": 15,
+    "plan": 3,
+    "total_passed": 47,
+    "registry_validation": "VALID",
+    "diff_check": "PASS"
+  },
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3083,
+    "passed": 3080,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "seconds": 115.273,
+    "frozen_tree": "edcbf3994d88bb41ea86c6412ef84265ba8646a1",
+    "all_hashes_unchanged": true,
+    "log_sha256": "a80776eac0a6f175c0133e114be5795b41de52021cc009a3fc410bcec8be523b",
+    "completed_at": "2026-10-02T05:56:39.430727+00:00"
+  },
+  "resolved_review_and_integration_items": [
+    "Three source-document descriptors corrected, with source hashes, rights, scenario and computation unchanged.",
+    "Four initially proposed research source IDs normalized to the canonical SRC-B06 namespace, with original aliases retained; registry validation now passes.",
+    "One preliminary focused invocation used a nonexistent test-module name. That invocation error is preserved and is not a complete focused pass; the corrected command passes 47 tests."
+  ],
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; zero skips and all three existing real external-directory positives must execute as ok",
+  "boundaries": [
+    "One named historical 72-hour one-template technical SCN; fixed 10C lower reservoir, mass, gains, solar transfer, schedule and initial state are explicit assumptions.",
+    "Common prescribed-path capacity requirement is separate from a lower-service clipped trajectory; reduced service is never an efficiency saving.",
+    "Source MIN and support/defrost annotations remain visible; missing forcing or state is not zero-filled or silently resumed.",
+    "No actual electricity, SPF, auxiliary/runtime, emitter, backup, dispatch, population weighting, national comfort or central national admission.",
+    "No raw workbook, ZIP/PDF, full radiation panel or full private result is included; source reuse rights remain unchanged.",
+    "No slice acceptance, module readiness increase or main merge."
+  ]
+}

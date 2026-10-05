@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "reference_id": "B19-HISTORICAL-JOINT-WINDOW-UTC2025",
+  "model_use": "HISTORICAL_COINCIDENCE_ONLY",
+  "window_hours_default": null,
+  "station_id": "44527",
+  "national_weather_weights": null,
+  "probabilities": null,
+  "authority_sha256": {
+    "modules/B08/historical_source_balance.py": "466aba7d3f292a522612d97d686c0f24e0e27ad4389d79d874e944ecc253d145",
+    "registry/b08_b09_historical_balance_manifest.json": "f8f3664b70e8bf84373c8bdb7b0653260bbb57cbc2bc07dc939c9f2188a5bd29",
+    "registry/b05_annual_device_reference_manifest.json": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15"
+  },
+  "weather": {
+    "sha256": "a213df5a30b30360443681f81977c111145795d23f5c2a05e4eeeec6738c3f39",
+    "bytes": 964506,
+    "rows": 8760,
+    "start_utc": "2025-01-01T00:00:00+00:00",
+    "end_utc": "2026-01-01T00:00:00+00:00",
+    "station_id": "44527",
+    "history_source_id": "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "recent_source_id": "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+    "recent_endpoint_utc": "2026-01-01T00:00:00+00:00",
+    "history_rows": 8759,
+    "recent_rows": 1,
+    "history_panel_sha256": "bcc374a5592c72a3a24f43f065997d64b694215184df6f1889500fbd5dae425c",
+    "recent_zip_sha256": "86f57ea9b74b0b5c8e200f86e7a8e444d30105b021fb447983f1f702e1075fd9",
+    "recent_description_sha256": "c452a422515998764f56589f81517fc403601d41341575e941b98a0b62e55542",
+    "temperature_boundary": "preceding-hour mean Celsius, UTC half-open intervals",
+    "quality": "Primary checks; no climate homogenization; reserved Q fields are not quality-pass claims",
+    "raw_storage": "EXTERNAL_ONLY"
+  },
+  "source_evidence": {
+    "temperature": "OBS preceding-hour mean at Budapest44527; original quality flags do not establish homogenized climate data",
+    "load": "DER / E2_PROVISIONAL_BASE; accepted native Actual Total Load",
+    "generation": "Source record Q with QUALIFIED_E2_MODEL_USE; published actual may include provider estimates",
+    "source_ids": [
+      "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+      "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+      "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+      "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+      "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026"
+    ]
+  },
+  "spatial_boundary": "Budapest station44527 weather paired with HU bidding-zone source load/generation; no national meteorological representativeness or causal temperature response",
+  "validation_debt": [
+    "Q-B08-001",
+    "Q-B09-001",
+    "Station-only weather and original quality/annual support; no national spatial weighting or return-period inference"
+  ],
+  "excluded_claims": [
+    "Observed cross-border imports or exports",
+    "Unmet demand, future adequacy, LOLE or capacity headroom",
+    "Programme heat/electricity, national weather or participant scaling",
+    "A complete meteorological winter or Budapest civil-year generation panel",
+    "A joint probability distribution, causal response, risk forecast or design return period",
+    "Prices, costs, household/fiscal economics or national feasibility",
+    "Public redistribution of originals or complete numeric panels",
+    "Combining independently selected extrema into one historical event",
+    "Hourly/window averages as quarter-hour or instantaneous peaks"
+  ],
+  "selection_interpretation": "Single-metric-selected co-occurring historical windows; not a demonstration that all stressors were jointly extreme",
+  "window_start_grid": "UTC whole-hour starts, fixed physical duration, no wrap, padding or incomplete windows"
+}

@@ -159,3 +159,21 @@ def test_unapproved_scope_deviation_blocks_s1():
     )
     assert result.s1_gate == "BLOCKED"
     assert any("UNAPPROVED_SCOPE_DEVIATION" in gap for gap in result.remaining_readiness_gaps)
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_completion_and_outcome_must_link_same_record,
+            test_completion_obs_and_outcome_der_can_jointly_open_s1,
+            test_completion_status_is_bound_to_realized_obs_not_outcome_der,
+            test_outcome_without_realized_completion_cannot_open_s1,
+            test_realized_completion_without_outcome_cannot_open_s1,
+            test_unapproved_scope_deviation_blocks_s1,
+        )
+    )
+    return tests

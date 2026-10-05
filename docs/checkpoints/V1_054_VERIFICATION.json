@@ -1,0 +1,210 @@
+{
+  "checkpoint": "V1-054",
+  "status": "LOCAL_REVIEWED_TWO_DATE_RULE_COMPLETION_NOT_PUBLISHED",
+  "integration_base_commit": "45b68941454325d3d7d8096e3552291551dc1763",
+  "reviewed_substantive_tree": "49aeef3ef39b2e374ad9d458694318ee6867c332",
+  "substantive_patch_sha256": "7de249f1e95a4f98c40765d5786fc50b31dbbd2aa42dbbbb71f16d118fc6b0c3",
+  "reviewed_substantive_files": [
+    {
+      "path": "data/processed/b14/eligible_cost_caps_418.csv",
+      "bytes": 10931,
+      "sha256": "a38368dde085780d4e1f3ad14cad77eb93dcde8e1fc58e1f15299735205d46e0"
+    },
+    {
+      "path": "data/processed/b14/rule_completion_20261003.json",
+      "bytes": 42472,
+      "sha256": "7b434267038e91afd66e54e4f82269f8a02668ccdb8be274aa4aacc333ba928a"
+    },
+    {
+      "path": "docs/checkpoints/V1_054_B14_RULE_COMPLETION.md",
+      "bytes": 6920,
+      "sha256": "386dc00c22a9899f2b5e4f54934af58dd2d8037808222b1d7a939768dfee9d02"
+    },
+    {
+      "path": "modules/B14/README.md",
+      "bytes": 3406,
+      "sha256": "16d412d1c92fb0ecb15f86a9e19ec1a6e98d0ed5bc13967ca2a042aa62a5bb25"
+    },
+    {
+      "path": "modules/B14/funding_reference.py",
+      "bytes": 38268,
+      "sha256": "bed7fd9155cfb87641fe1c02e864b99e3abc0e56821dd904208a88fa392326ae"
+    },
+    {
+      "path": "registry/b14_rule_completion_manifest.json",
+      "bytes": 6576,
+      "sha256": "a6a4fb661c517613917fb0c2984abc45f7db01da769e4ee6b696ef204d100370"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 61615,
+      "sha256": "5a63aee0110822730b717e9342805eaa5d2236d2f9bb5813ac7dd8c5cf6ab5a7"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 280170,
+      "sha256": "ca3b501f448a70f2772d56eae43561bbe01485ed5b6ffb85c1634b75b5108ce2"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 144484,
+      "sha256": "a0f4bd8d2a59bdb389c70168d07d7e48872ad70435765a69f26e711e42604fb2"
+    },
+    {
+      "path": "tests/test_b14_rule_completion.py",
+      "bytes": 18633,
+      "sha256": "9a9c138ab00812471f1e447cfe363d48dae1100c666858465d43da3ce940f7a8"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-054",
+    "status": "PASS_REVISED_LOCAL_CANONICAL_WITH_THREE_DOCUMENTED_HOST_SKIPS",
+    "command": "python -m unittest discover -s tests -v",
+    "discovered": 3496,
+    "passed": 3493,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "exit_code": 0,
+    "seconds": 146.236,
+    "log_bytes": 666648,
+    "log_sha256": "181fd152df91ef681bf7206590a6f9f95a6a12bdfd4c2a67102069c7f9b2f840",
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "focused_tests": 115,
+    "focused_passed": 115,
+    "focused_skips": 0,
+    "registry": "VALID",
+    "hosted_ci_run": false,
+    "initial_review_defect": "ACTUAL_HISTORICAL_OVERRIDE_BYTES_WERE_NOT_BOUND",
+    "regression_fix": "COMPLETION_PINS_CHECK_ACTUAL_CONSUMED_DATA_CAPS_MANIFEST_PATHS_IDENTICAL_COPIES_ALLOWED",
+    "post_run_changes": "README-only status time-qualification and verification JSON; all source data/code/tests unchanged and independently hash-checked."
+  },
+  "independent_review": {
+    "status": "PASS_EXACT_REVISED_TEN_FILE_B14_RULE_COMPLETION_AND_CONDITIONAL_TEMPLATE",
+    "receipt_sha256": "beecdc9f87af95a8759fd27ad126125fef46b46c694747eb97a4c1a6c570abca",
+    "resolved_initial_defect": {
+      "id": "COMPLETION_HISTORICAL_DEPENDENCY_OVERRIDE_NOT_BOUND",
+      "severity": "P2",
+      "initial_tree": "e7c14bd49b73a645ac4f5df4cb7f5a6a99d64424",
+      "primary_reviewer_reproduced_failure_and_rejection": true,
+      "finance_and_cap_exact_original_fixtures_now_rejected": true,
+      "identical_relocated_input_combinations_accepted": 8,
+      "initial_blocker_receipt_sha256": "b31b4823ae0d419a993387126d29aa0ecc4150cc257e50ce8280d5d59698b003"
+    },
+    "focused": {
+      "status": "PASS",
+      "tests_run": 115,
+      "passed": 115,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 3.6343820095062256,
+      "test_modules": [
+        "test_b14_funding_reference",
+        "test_b14_rule_completion",
+        "test_b12_input_accounting_contract",
+        "test_registry_contract",
+        "test_v1_research_plan"
+      ],
+      "log_sha256": "6d09f9d94eaad27fc5f27f8c13b7f6c4e2a366e8ecff6f1c5096c3b83663546c"
+    },
+    "consumer_adversary": {
+      "verdict": "PASS_FROZEN_REVISED_CONSUMER",
+      "base_commit": "45b68941454325d3d7d8096e3552291551dc1763",
+      "substantive_tree": "a19f1beb19c465d9cb351acd8c54d8562fcc0e5f",
+      "patch_sha256": "7a020156f8d590a3d8151dc0954fea230258ea61c1844df4a0008cfaa453355f",
+      "focused_tests": {
+        "count": 46,
+        "status": "PASS"
+      },
+      "default_input_probe": {
+        "assertions": 12981,
+        "status": "PASS"
+      },
+      "revision_controls": {
+        "assertions": 37,
+        "status": "PASS"
+      },
+      "open_defects": [],
+      "resolved_defects": [
+        {
+          "priority": "P2",
+          "id": "COMPLETION_HISTORICAL_DEPENDENCY_OVERRIDE_NOT_BOUND",
+          "resolution": "Actual consumed historical data, caps and manifest paths are pinned before completed views are constructed. Exact original finance/cap fixtures now reject; byte-identical relocated files are accepted.",
+          "original_evidence_directory": "../initial_e7c14bd49b73a645ac4f5df4cb7f5a6a99d64424"
+        }
+      ],
+      "repo_edits": false,
+      "external_mutation": false,
+      "source_requalification": false,
+      "hosted_verification": false,
+      "registry_acceptance": false
+    },
+    "source_qualification": {
+      "independent_verdict_sha256": "edbe6ee6709116bbeaa7afa837aa424200ebd53a37dee016f046cdd053323327",
+      "source_checks": 148,
+      "visual_cap_rows": 39,
+      "all_eleven_historical_source_pass_claimed": false,
+      "historical_review_reliance_explicit": true,
+      "independent_cap_component_values": 78
+    },
+    "full_suite_provenance": "Author-run revised canonical full log independently inspected; independent focused and adversarial executions are distinct.",
+    "readme_only_post_review_clarification": {
+      "status": "PASS",
+      "supplement_sha256": "42924149eb26871552e8f21326c6992b7aaa17193083fd452373c64454091d80",
+      "prior_review_receipt_sha256": "beecdc9f87af95a8759fd27ad126125fef46b46c694747eb97a4c1a6c570abca",
+      "new_substantive_tree": "49aeef3ef39b2e374ad9d458694318ee6867c332",
+      "readme_sha256": "16d412d1c92fb0ecb15f86a9e19ec1a6e98d0ed5bc13967ca2a042aa62a5bb25",
+      "source_code_data_tests_and_logs_unchanged": true,
+      "meaning": "First-stage REVIEW_REQUIRED wording is time-qualified; later acceptance is recorded separately in registry and actual acceptance JSON."
+    }
+  },
+  "preserved_boundaries": {
+    "historical_asof": "2026-10-01",
+    "new_observation_asof": "2026-10-03",
+    "historical_inputs_and_reads_unchanged": true,
+    "other57_tasks_and_all_original_criteria_unchanged": true,
+    "readiness_increase": false,
+    "source_originals_in_public_patch": false,
+    "individual_eligibility_or_available_money_admitted": false,
+    "b15_gate_released": false,
+    "prior_procedure_notice_review_explicit": true,
+    "fresh_old_eleven_source_pass": false,
+    "source_rules_truth_status": "POL",
+    "new_currentness_truth_status": "OBS"
+  },
+  "conditional_acceptance_template": {
+    "status": "PASS_CONDITIONAL_THREE_FILE_ACCEPTANCE_TEMPLATE_NOT_EXECUTED",
+    "reviewed_at": "2026-10-03T14:25:30.889112+00:00",
+    "template_sha256": "f83df6c2b00fb3414d59133e18ae67957175e3cebe0b787ee8e7af4daa98c0a3",
+    "allowed_paths": [
+      "registry/v1_research_plan.json",
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_054_ACCEPTANCE.json"
+    ],
+    "actual_reviewed_implementation_commit_required": true,
+    "expected_hosted_tests": 3496,
+    "expected_hosted_skips": 0,
+    "exact_merge_tree_required": true,
+    "actual_owner_authorization_required": true,
+    "source_data_code_and_tests_unchanged_in_acceptance_step": true,
+    "readiness_other57tasks_and_debt_preserved": true,
+    "original_criteria_scope": "Two named dated calls, not an exhaustive programme census or individual adjudication",
+    "historical_reliance_preserved": true,
+    "unexecuted": true,
+    "blocking_findings": [],
+    "later_exact_resolution_review_required": true
+  },
+  "publication": {
+    "first_stage": "NOT_RUN_REQUIRES_OWNER_APPROVAL",
+    "hosted_ci": "NOT_RUN_FOR_THIS_CANDIDATE",
+    "first_stage_registry_status": "REVIEW_REQUIRED",
+    "first_stage_reviewed_commit": null,
+    "second_stage": "UNEXECUTED_METADATA_ONLY_THREE_FILE_TEMPLATE_REQUIRING_REAL_VERIFIED_IMPLEMENTATION_COMMIT",
+    "no_acceptance_action_performed": true
+  }
+}

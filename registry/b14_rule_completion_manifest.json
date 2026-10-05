@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "status": "BOUNDED_DATED_RULE_COMPLETION_REFERENCE",
+  "as_of": "2026-10-03",
+  "historical_as_of": "2026-10-01",
+  "data_path": "data/processed/b14/rule_completion_20261003.json",
+  "data_sha256": "7b434267038e91afd66e54e4f82269f8a02668ccdb8be274aa4aacc333ba928a",
+  "caps_path": "data/processed/b14/eligible_cost_caps_418.csv",
+  "caps_sha256": "a38368dde085780d4e1f3ad14cad77eb93dcde8e1fc58e1f15299735205d46e0",
+  "historical_input_sha256": {
+    "data/processed/b14/funding_reference_snapshot.json": "eb553d4eb26f25764c49dadad6f77fb93c645205e409c73fea51079984140587",
+    "data/processed/b14/eligible_cost_caps_417.csv": "87ec275050a912a41065629def73589fb72199b8532813374951ed938ab8cd3a",
+    "registry/b14_funding_reference_manifest.json": "cc2619038b67c22d4c2c117a66e02e7b1b22872773431f7cf9ecc71f86c5646f"
+  },
+  "programme_bindings": [
+    {
+      "programme_id": "KEHOP Plusz-4.1.7-24",
+      "sha256": "318c06b2b2e06da707826d4aca2cf02180f8e1b479eb3e817cba1d0815184a19"
+    },
+    {
+      "programme_id": "KEHOP Plusz-4.1.8-24",
+      "sha256": "057d877c6daab9374ddccc68076d312a67b8e44771b21c198e78a59f0393bf96"
+    }
+  ],
+  "cap_bindings": [
+    {
+      "cap_id": "KEHOP418-CAP-01",
+      "sha256": "4a127b44fc105f27e7b6291fde35a069cb2eb5afe6ebf30275880c53bd0900ed"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-02",
+      "sha256": "117e12cef4c9e2737caff122799ebac99a5ed6f264682118b5b15941972cf926"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-03",
+      "sha256": "a93781393b68e86f571621df097901a5d2a6594d34a3dd3bbd52e08a21bdc0c0"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-04",
+      "sha256": "a5a734a4ff3c1c39a8b8395abfc9325907eb556da308d230c0ab2c9e51a1263e"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-05",
+      "sha256": "26fc8692347217a07b806d696ebe8a6de73053b9d39b2e1496800ac47b90b9c9"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-06",
+      "sha256": "35939938c6927d4034913364fca8647168f380a522379c209ff2c6f2083f708b"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-07",
+      "sha256": "fe7cf6d2a7ee26b8228c743cd0f9a5838822eb989e009ecd0bc39d5633062afb"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-08",
+      "sha256": "d63e7a193cb7739306981fca999ea52e8d9d2e989617427274572f7ef9e8786d"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-09",
+      "sha256": "66675caaa1771be49dd3724fc9b284730f5d74b3ca220c93db34b6cbcaab8615"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-10",
+      "sha256": "b7b39cb9c34f931757870b833157e01c950fa754992b1558d8bfb76f054097d7"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-11",
+      "sha256": "8d35011439bc5f320e2dc5c53ab81c139d7d0fdda5fc64c8d2e9150015356e27"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-12",
+      "sha256": "09899360fe0972ce642cfe1dd53464da372a52543ac359a4458919de9758cc9a"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-13",
+      "sha256": "322be805dcfc8a3ccb952e096ab99c58a917c15fcdddf1533cd2f17ea741e5a4"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-14",
+      "sha256": "327c0cd02597e2f66073445e97ed5bfe8cf9c3005e5e0e3d6d48d0302730901e"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-15",
+      "sha256": "063a347737529bae878c290d290f4de4a8216bd5540891b3363a859139af4999"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-16",
+      "sha256": "07359c025e03f33decdfeef68416e3d24f98915cc421a84c13cd484147dd5d29"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-17",
+      "sha256": "14dd6ed5eabb6e9e999c14091aaf2f1de5777a7e5f47a68cc4715ea393aaf636"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-18",
+      "sha256": "5e6a46b47758cea337300039b879ee1c2b3b7e55499db685a737caf0fee7994c"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-19",
+      "sha256": "2c642761fd1d3440b0ae24253db5664c6181653d4cb750aaf38755278dd46fdd"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-20",
+      "sha256": "474dd26c72dbcf5217c144ff4ea32f1868d0c8fd0606ba2e3665094794c5c9e5"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-21",
+      "sha256": "5b985e4923b15868fe43c2ecb753053a27a2434815d39f4788c77614bc8c71ae"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-22",
+      "sha256": "c8e9e8308f7308cdf080a0bc618a825743e80819c96794d35b90d8ce21ab9996"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-23",
+      "sha256": "c466eb6d8e664de399b8096dfecce89f3fa9d0629d100c381b297d5ae13bcc1e"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-24",
+      "sha256": "d28cc9aeaa6f792927ae225d33bd7f90ed8821556e9571da92fb97376715eae2"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-25",
+      "sha256": "061c3e7b3f087886bb3e4d9676bc43cafdac48b213fd28fc086977675a774ab8"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-26",
+      "sha256": "85b9c45bd139146bb083caf02fb5e917efd6104ab2d22a10eeb8bc4913904150"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-27",
+      "sha256": "99c15527b99eb1d2b14a64f40f26e37e3fb435f775f295b5974902a2c06dbd71"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-28",
+      "sha256": "125fc460af63c403364cdd4b68aab85dff2b6ce6979f09de2bf884be1ca900a3"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-29",
+      "sha256": "929e72b87c817d24749c031a6dc9333d5b8904541e448285fb232253a36e72a6"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-30",
+      "sha256": "bd6f69a04627a8aeec2e644a821764677edd66d133d4136f07da9ea0682b6619"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-31",
+      "sha256": "cf7489a4fe486fef77f2579bda52a44aae1772cedd7e868373b587bd4ac982f7"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-32",
+      "sha256": "ee922e3330c59d216dde1963b816cc688963b96f365c3ca1a92f868aeac8803e"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-33",
+      "sha256": "a92ae1abc89f9b4c983254bf146be5f7d963e8dcf59c0bf6056c2e78772f87b4"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-34",
+      "sha256": "ff74732d206b5f29fe39f33e5b9c548659eb59d3999852c69ccfd69d8bf4e730"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-35",
+      "sha256": "22c6c2d392e1ffda7fac0d5128c00f69ca856157a2e6558414c283adba36fe1f"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-36",
+      "sha256": "d49a8c29fe063236ddf24eab80775cf00eb5fbbbb83608156bec89e1328132c3"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-37",
+      "sha256": "311483b434a9de0ad4e014cdee298c4855ed269919e78f08c551ee4f85f71b36"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-38",
+      "sha256": "eef1e1a8b85ff1a4b977ca88c2081a5caffc56ff5ee4f262264e56ee20835823"
+    },
+    {
+      "cap_id": "KEHOP418-CAP-39",
+      "sha256": "0f56b9b21190171d32ac43fe7af7d601a6cea0519e65c7546f96675d56db9b20"
+    }
+  ],
+  "currentness_sha256": "15b170c1a0ca3ca00ca8fe107c1c48e4c178b8909f08f3752c7901254bf09073",
+  "source_family": "MFB_KEHOP_HOUSEHOLD_PROGRAMME",
+  "source_original_publication": "EXTERNAL_ONLY",
+  "full_old_eleven_source_reverification": false,
+  "confers_registry_acceptance": false
+}

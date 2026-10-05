@@ -1,0 +1,29 @@
+{
+  "source_id": "SRC-B04-MVM-D-HISTORY-2026-09",
+  "original_url": "https://www.mvmnext.hu/aram/servlet/download?type=file&id=16727",
+  "retrieved_at": "2026-10-01",
+  "document_identity": "MVM D tariff 12-month retrospective price table, PDF metadata created 2026-09-17",
+  "authority": "MVM Next",
+  "sha256": "51b961356ecf28299f0229b70cffad06cbd25143daa230500b0989a9f7697603",
+  "repo_snapshot_path": null,
+  "reuse_status": "EXTERNAL_ONLY_NO_SOURCE_BYTES_OR_COMPLETE_PRICE_SERIES_REPUBLICATION",
+  "start_date_local": "2025-09-01",
+  "end_date_local_exclusive": "2026-09-01",
+  "timezone": "Europe/Budapest",
+  "timezone_basis": "Every source start and end clock label checked against contiguous UTC quarters, including explicit 100/92-row DST days",
+  "expected_intervals": 35040,
+  "expected_negative_net_prices": 175,
+  "unit": "HUF/kWh",
+  "boundary": "NET_FLEXIBLE_ENERGY_PRICE_INCLUDING_MERCHANT_SPREAD_EXCLUDING_NETWORK_AND_VAT",
+  "evidence_status": "SCN",
+  "claim_scope": "Published retrospective D-price scenario support; not historical D retail availability, pure HUPX data, a forecast or a full household bill",
+  "earliest_product_application": "2027-01-01",
+  "display_resolution_huf_per_kwh": "0.01",
+  "source_period_note": "Until 2025-09-30 the four quarter-hour price entries within each hour are identical because source DAM resolution was hourly",
+  "remaining_debt": [
+    "Aligned household import/dispatch profile and weather window",
+    "Actual future contract eligibility and tariff revision",
+    "Applicable network/fixed/tax charges and period entitlement allocation",
+    "Full source-series redistribution rights"
+  ]
+}

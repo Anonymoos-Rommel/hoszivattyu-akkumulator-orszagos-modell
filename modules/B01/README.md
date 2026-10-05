@@ -36,12 +36,197 @@
 - egyetlen éves kiválasztási súly vagy hard minimum sem lehet rejtett konstans;
 - az országos portfólió kiválasztott darabszáma nem haladhatja meg az éves pénz-, FTE-, beszállítói-, engedélyezési- vagy hálózati korlátot.
 
-## Executable B01-P1 contract
+## Canonical component assessment
 
-`registry/household_state_model.json` az egyetlen canonical state-record,
-transition-, policy- és capacity-contract. A `modules/B01/engine.py` ezt a
-contractot tölti be; nem tart fenn második állapotgépet és nem ad rejtett
-országos optimumot.
+`engine.assess_household_capabilities(CapabilitySnapshot(...))` evaluates the
+versioned `registry/household_capability_contract.json` contract. Installation
+order is not evidence of a physical component. A battery, qualified existing
+insulation/envelope or heat pump may be recorded independently; a proposed heat
+pump still needs its own building-specific sizing, emitter, hydraulic,
+electrical and site prerequisites.
+
+The returned assessment separates:
+
+- historical accepted component completion and current dated availability;
+- technical prerequisites and programme preconditions for proposed actions;
+- the technically accepted complete heat-pump + battery + insulation package;
+- subsidy-exit conditions, including the separate total-bill, full household
+  cashflow, programme eligibility and exact applicable subsidy/timing claims;
+- grid charge, household discharge, export and state/aggregator-service
+  permission conditions and separate programme-operation preconditions. One
+  operation's permission does not imply another's; a valid right cannot bypass
+  the household floor when programme operation is assessed.
+
+`PASS` is an assessment of supplied qualified record evidence. It does not
+verify the underlying source, calculate B12 cashflows, grant a permission,
+select an intervention, spend money or schedule work. Passed action
+prerequisites do not create completed equipment and do not imply a need to
+repeat an already completed action. No own PV is required.
+
+Every fact has a household, site, comparison/configuration basis, truth
+context and evidence lineage. Current assertions use explicit half-open date
+intervals; expiry or withdrawal can disable current capability/rights while
+retaining completion history. Population estimates cannot certify an individual
+record. `SCN` remains a scenario, missing facts remain `UNKNOWN`, and an explicit
+negative condition remains `FAIL`. A missing financial condition does not erase
+an observed installed asset.
+
+Shared programme-eligibility and cashflow assertions carry an explicit
+`applies_to` set of action, operation or subsidy-exit subjects. HP-only evidence
+cannot qualify a battery action. Package-wide evidence must name every covered
+subject; an omitted scope or an `ALL` wildcard cannot widen it. For state
+service, the full household comparison includes foregone arbitrage, losses,
+wear and assigned replacement costs. The strict JSON decoder rejects unknown
+fields instead of silently dropping a conflicting scope or legacy record.
+
+The executable demonstration is
+`engine.run_capability_fixture("data/fixtures/b01_capability_scn.json")`.
+It shows a synthetic battery-first record with unknown HP/envelope, programme
+completion, subsidy exit and operation rights. It contains no real household,
+price, national weight, dispatch quantity or funded selection.
+
+`engine.migrate_legacy_capability_record(...)` preserves a valid legacy record
+as versioned provenance. It creates no component or condition assertion from
+S1, S4 or S5. New claim-specific evidence must be supplied independently.
+
+See [V1-062 boundaries and migration](../../docs/checkpoints/V1_062_B01_CAPABILITY_CONTRACT.md).
+
+## Canonical annual bundle planning
+
+`engine.create_annual_plan(...)` creates an `AnnualPlanSession` governed by
+`registry/b01_annual_bundle_contract.json`. The session owns its current ledger;
+each `reserve(..., expected_revision=..., order_ref=...)` call includes existing
+reservations and checks the revision against the session, not a caller's old
+snapshot. Explicit order is a scenario input, not a new priority score.
+
+An annual household bundle may contain several independent, parallel or
+genuinely dependent component actions. It is reserved atomically only with
+matching joint household cashflow/eligibility qualification, all action-specific
+prerequisites and resource fit. This prevents a partial selection from reusing
+financial proof for a different full package. At most one bundle is reserved
+per household in that annual ledger; it need not finish the entire triple in
+that year. No planned action becomes an observed completion or subsidy exit.
+
+Annual non-reusable flow, concurrent occupied capacity and dated public cash
+have different rules. The cash check uses payment/debit due dates and an
+explicit January 1 opening balance before all declared in-year commitments.
+Later receipts cannot pay earlier obligations. National and regional ceilings
+are views of one unique use event. Units, price/reference basis, geography,
+resource holder and stable source-event/work/asset identities are preserved.
+Unknown requirements or ceilings do not become zero or unlimited capacity.
+
+Every explicitly bounded resource pool has one total view plus any local
+subviews. The total can itself be regional; no national capacity is invented.
+Omitted geographic tags or uncovered locations cannot bypass a view. One
+funding-event identity cannot supply two independent pools, while nested views
+of the same pool remain views of one receipt. Cash-pool fungibility and
+non-additive access ceilings require explicit qualification. Each view binds
+its original pool-total receipt; it can only restrict amount/availability with
+separate derived/scenario provenance, never increase or advance the root.
+Source-exclusive regional earmarks need a separate allocation contract.
+
+A qualified, versioned requirement catalogue is bound into each bundle's
+fingerprint. Every action declares each domain required, explicitly not required
+or unknown, with provenance. The code does not discover that complete inventory.
+A labour-only list cannot silently omit cash/equipment needs, and a qualified
+not-required domain does not create an artificial positive use. Known excesses
+or cash gaps remain failures when other quantities or opening commitments are unknown; a known lower
+bound is never reported as the full resource total.
+
+Identical retries do not charge again. Changes/cancellations of an existing
+reservation require whole-plan requalification; this bounded contract does not
+refund, release actual obligations or deploy a shared database. Calendar-date
+arithmetic does not certify intraday settlement or physical dispatch.
+
+The resulting reservations remain conditional `SCN`. Joint network assessment
+is separate and bound to the whole active set including opening knowledge and
+provenance; a stale or absent result is
+unknown. B18 supply/workforce references still do not supply actual programme
+capacity, and B10 indicative headroom does not grant a connection. The caller
+must supply qualified data or explicit scenarios, with no numerical defaults.
+
+See [V1-063 annual planning boundaries](../../docs/checkpoints/V1_063_B01_ANNUAL_BUNDLE_LEDGER.md).
+
+## Population planning and actual-record correspondence
+
+`engine.create_population_plan(...)` consumes a qualified population state
+partition or explicit SCN inputs, intervention alternatives and complete aligned
+joint realizations. One fixed dated allocation schedule runs unchanged in every
+world. Exact origin intervals are reserved immediately, while stock changes
+state only at the declared qualified milestone. Repeated phases preserve origin
+lineage, so transition throughput remains distinct from unique planning mass.
+
+Requirements retain per-native-unit coefficients and their own payment or
+occupancy dates. Annual flows, concurrent peaks and optional dated envelope fit
+are separate. Missing capacity coverage remains Q. No policy weights, actual
+programme resources, permissions, finance or individual completions are inferred.
+
+The report separately evaluates supplied actual `CapabilitySnapshot` records
+through the existing B01 entrypoint and counts record/household/dwelling/site
+identities at their proper grain. Correspondence never changes population mass.
+An admitted E2 model may run with explicit validation debt; exhaustive household
+coverage is not required for aggregate modelling.
+
+`engine.population_source_demo()` reuses the existing P84 reader: 40 controls,
+3,389,817 occupied non-district-heated 2022 dwellings, and terminal eligibility
+still Q with [0, 3,389,817] bounds. These source controls supply no new state
+shares, intervention-eligible mass, 2028 forecast or actual addresses. Complete
+synthetic tests exercise the remaining interface without becoming model defaults.
+
+See [V1-064 boundaries and examples](../../docs/checkpoints/V1_064_B01_POPULATION_PLANNING_BRIDGE.md).
+
+## Signed benefit metrics and conditional public-HUF ordering
+
+`engine.compare_benefit_ratios(frame=..., definitions=..., policy=...,
+candidates=...)` composes the versioned
+`registry/b01_benefit_metric_contract.json` contract. The typed inputs and exact
+SCN consumer examples are in `benefit_metric_contract.py` and
+`tests/test_b01_benefit_metric_contract.py`.
+
+Each raw signed quantity retains its own household/project, bundle,
+baseline/programme, unit, actor, native periods, producer status and output
+digest. Candidates share an explicit comparison frame, not household IDs.
+Raw lower/upper/range bounds are independent of preference direction. Supplied
+monotone utility anchors produce separate traces, with no inferred weights,
+clipping, extrapolation or inter-metric score aggregation.
+
+The only new comparison method orders one declared benefit/public-HUF ratio
+with a positive denominator. Zero, negative and unknown denominators remain
+distinct. Ties, blocked candidates and unknown competitors remain visible;
+the best comparable group is not a complete winner or a budget-optimal portfolio.
+Optional Q diagnostics and unused weights do not gate this method.
+
+The mandatory household floor binds the exact bundle, counterfactual, first
+cashflow day and complete relevant cash-period inventory. Qualified
+not-applicable scope does not invent extra periods. Neither annual benefit nor
+utility offsets a cashflow failure. A separately qualified population scenario
+or estimate grants no individual pass. Overlap coverage is an upstream claim;
+distinct identifiers alone do not prove monetary independence. Shared source
+events can support distinct qualified effects. Utility redundancy is separate.
+
+B12 bindings preserve the actual producer result, original Case, MoneyBasis,
+Conversion and Valuation context. The adapter verifies the supplied audit
+against the unchanged producer for that exact Case; references and valid
+metadata do not promote Q. Native inclusive dates need an explicit adapter
+before comparison to half-open B01 horizons. Project costs cannot be renamed
+public spending, and composite bundles need their own qualified output or
+correspondence without a fabricated legacy transition.
+
+The accepted canonical benefit metric, denominator and weights remain unset;
+`Q-B01-006` stays open. A complete SCN comparison neither selects work, reserves
+resources, grants permission nor adopts policy. V1-062/063/064 and the legacy
+APIs remain unchanged. See [V1-065 scope and witnesses](../../docs/checkpoints/V1_065_B01_BENEFIT_METRIC_CONTRACT.md).
+
+## Executable B01-P1 compatibility contract
+
+`registry/household_state_model.json` a történeti S0–S5 state-record,
+transition-, policy- és capacity-contract kompatibilitási változata. A régi
+`modules/B01/engine.py` függvények ezt töltik be, változatlan eredményekkel.
+A lineáris állapotcímkék nem a fenti komponens-, támogatáskilépési vagy
+jogosultsági állítások bizonyítékai. A régi éves kiválasztás háztartásonként
+egyetlen szomszédos átmenetet kezel. Az éven belüli többfázisú tervezés és a
+közös éves erőforráskeret a fenti, külön annual bundle szerződést használja;
+a régi selector többszöri hívása nem helyettesíti ezt a nyilvántartást.
 
 - `HouseholdStateRecord` csak explicit state-as-of, owner, next gate,
   eligibility és transition evidence mellett értékelhető.
@@ -55,6 +240,9 @@ országos optimumot.
   kilenc V1.2 komponenshez és explicit resource-needs mezőkhöz kötött.
 - MCDA, lexikografikus és capacity-limited ordering csak teljes, explicit
   `POL`/`SCN`/`DER`/`OBS` policy-paraméterekkel fut; hiányzó érték nem nulla.
+- A történeti `hard_minimum` szó szerint alsó korlát (`>=`), `MINIMIZE`
+  rangsorolás mellett is. Nem helyettesít nyers költségre adott felső korlátot;
+  az új metrikaszerződés ennek külön operátort ad, a régi eredmény változtatása nélkül.
 - A state-stock aggregáció konzervál, régiós összeget képez, és csak `SCN`
   outputot ad. A bounded fixture nem országos eligible-stock vagy rollout
   eredmény.
@@ -128,3 +316,17 @@ aktív target/default szemantikát a globális variable registryből. A canonica
 programme target továbbra is `Q`; a Q-B01-001 célháztartás-definíció, a B02
 national eligible stock, a valós éves capacity path, valamint a tényleges
 regional/settlement household allocation továbbra sincs lezárva.
+
+## V1 public stock-flow controls
+
+The [public KSH stock-flow handoff](../../docs/checkpoints/V1_004_B01_PUBLIC_STOCK_FLOW.md) reconciles total county stock across 2023–2025. It does not replace the 2022 occupied/non-district programme denominator or infer eligibility. The 2022 source reference is October 1; later stock dates are January 1.
+
+## V1 conditional national accounting screens
+
+[National count and source-accounting bounds](../../docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md)
+combine native 2022 census group counts and the admitted JRC ledger in a
+parametric necessary-condition screen. Above-cap requirements are excluded
+within their stated boundaries; other requirements remain INCONCLUSIVE.
+The gas ledger includes natural gas and biogas. Nonempty selected groups
+retain the whole ledger cap, with no proportional heat assignment. Central
+heat allocation, eligibility and national feasibility remain unresolved.

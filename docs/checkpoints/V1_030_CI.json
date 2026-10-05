@@ -1,0 +1,22 @@
+{
+  "checkpoint": "V1-030",
+  "head": "9742cf2d04808d2c8ecf01e5bb3c3fba38f75d44",
+  "tree": "648011deba7decd1b9a9ea9f2508f6ce17af6a76",
+  "run_id": 36963837653,
+  "run_number": 1092,
+  "job_id": 110703141393,
+  "conclusion": "success",
+  "test_count": 3028,
+  "test_seconds": 102.404,
+  "skipped_count": 0,
+  "registry": "VALID",
+  "tested_merge_commit": "786c1a7fe20412e0a1c07b7a6c57ae5300ba0ec8",
+  "exact_tree_match": true,
+  "required_external_positives": [
+    "2026-10-02T04:18:15.2091856Z test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "2026-10-02T04:18:21.0201115Z test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "2026-10-02T04:18:21.9160121Z test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "verified_at": "2026-10-02T04:23:20.044Z",
+  "log_sha256": "8807594296ff9d173bc98beda94a7831d1439d8741175eac047097fff6311ae3"
+}

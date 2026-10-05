@@ -6,6 +6,10 @@ Nyilvános, forrásolt és reprodukálható kutatási projekt egy magyarországi
 
 **P0 — kutatási infrastruktúra és V1.2-szerződés.** A repository a kutatás szerződését, modulstruktúráját, bizonyítási szabályait, a B02 reprodukálható adat-alapját és a lépcsőzetes országos projektportfólió gépi szerződésének üres vázát tartalmazza. Még nem közöl végleges szakpolitikai következtetést vagy validált országos portfóliószámot.
 
+## V1 végrehajtási terv
+
+A jóváhagyott adatbeszerzési és feltételes megvalósíthatósági munka menete: [V1 végrehajtási szerződés](docs/methodology/v1_evidence_feasibility_execution.md). A [58 munkaszelet jegyzéke](registry/v1_research_plan.json) kutatási állapotot követ, nem bizonyítottságot helyettesít; a meglévő E2 és merge-szabályok változatlanok.
+
 ## Alapelv
 
 Előbb a fizika és az adatok, utána a pénzügy. Előbb a kanonikus modell, utána a kommunikáció és az interaktív alkalmazás.

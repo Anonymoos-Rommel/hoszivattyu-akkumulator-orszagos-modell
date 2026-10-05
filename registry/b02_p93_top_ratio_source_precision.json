@@ -1,0 +1,64 @@
+{
+  "correction_id": "V1-031",
+  "source_id": "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+  "original_url": "https://episcope.eu/fileadmin/tabula/public/docs/report/TABULA_WorkReport_EvaluationDatabase.pdf",
+  "authority": "IWU / EPISCOPE project team",
+  "document_date": "2015-12-10",
+  "reference_period": "April 2015 database version",
+  "source_registry_retrieved_at": "2026-09-22",
+  "retained_bytes_inspected_at": "2026-10-02",
+  "sha256": "800959c8ac321144d2e8cbe42b5a17f94c41587fde8fc63f445d6e35cdfc2a63",
+  "repo_snapshot_path": null,
+  "reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+  "source_bytes_policy": "EXTERNAL_ONLY; no PDF, page image or full-table transcription added to repository",
+  "source_location": {
+    "table": "Table 4",
+    "printed_page": 8,
+    "pdf_page_index": 7,
+    "column": "HU",
+    "row": "A_Roof / A_C_Ref",
+    "unit": "m2/m2"
+  },
+  "published_hu_class_average_ratios": {
+    "SFH": 0.84,
+    "MFH": 0.36,
+    "AB": 0.2
+  },
+  "ratio_evidence_status": "DER",
+  "historical_error": {
+    "class": "MFH",
+    "selected_column": "Common",
+    "value": 0.35,
+    "correct_column": "HU",
+    "correct_value": 0.36,
+    "base_commit": "a43327e1239ddc6f3ec9dff217cbc3d86c4342c1"
+  },
+  "estimator_boundary": "Use published class-average ratio; do not divide class-average absolute A_Roof by class-average A_C_Ref.",
+  "canonical_runtime_input": "modules/B02/hungarian_top_envelope_area.py:TABULA_HU_MFH_TOP_TO_CONDITIONED_FLOOR_RATIO",
+  "derived_proxy_evidence_status": "DER/SCN_PROXY",
+  "thermal_bound_evidence_status": "POL/DER/SCN",
+  "affected_strata": "Seven MULTI_DWELLING upper bounds only; MFH/AB class mixture remains unidentified.",
+  "historical_artifacts": {
+    "data/processed/b02/p93_hungarian_top_envelope_area.csv": {
+      "base_sha256": "50feab35d99f86cf3fb7bb1598a80178446e9dfc120a48cee2e6c9220431e249",
+      "preserved_family_house_rows_sha256": "3aab935ac1d97ddf79b21a877a06422a7abc792fd867c2846c657f781c7c0466",
+      "preserved_family_house_row_count": 7
+    },
+    "data/processed/b02/p96_pitched_roof_top_envelope_thermal_surface.csv": {
+      "base_sha256": "ae926c7afda0aef835a52bd2ffe0868767ac40ab2468dac55b5525b58a294a50",
+      "preserved_family_house_rows_sha256": "06b8811a44db8fcef80ff3c533bd034cd499df9c5d0746a72cc0d358afd613d6",
+      "preserved_family_house_row_count": 7
+    }
+  },
+  "reproduction": {
+    "check": "python tools/materialize_b02_top_envelope.py --check",
+    "write": "python tools/materialize_b02_top_envelope.py --write"
+  },
+  "no_promotion": [
+    "NO_NEW_NATIONAL_CLAIM",
+    "NO_POPULATION_WEIGHTS",
+    "NO_SERVICE_ASSUMPTION",
+    "NO_READINESS_CHANGE",
+    "NO_Q_STATUS_CHANGE"
+  ]
+}

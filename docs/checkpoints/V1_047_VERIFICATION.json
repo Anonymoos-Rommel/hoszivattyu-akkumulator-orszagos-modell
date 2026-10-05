@@ -1,0 +1,98 @@
+{
+  "checkpoint": "V1-047",
+  "base": "1c18c92c1e5af3b66874a071ae4b591911fcd55a",
+  "substantive_tree": "acfa0486801e050ec41573ae8a780f660ea752a9",
+  "scope": "Conditional native-2022 census count and source-accounting screens; no central heat allocation, default policy, actual savings or national feasibility admission",
+  "local_verification": {
+    "substantive_tree": "acfa0486801e050ec41573ae8a780f660ea752a9",
+    "command": "python -m unittest discover -s tests -v",
+    "discovered": 3354,
+    "passed": 3351,
+    "skipped": 3,
+    "failed": 0,
+    "duration_seconds": 148.608,
+    "log_sha256": "17ea1fdfb7b9254a5bd08f015c2b2117c174a3d61da506237e70594212c796f8",
+    "skip_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "registry": "VALID",
+    "registry_log_sha256": "f73cb74b0a67a90e027cf5b8495fdf8999378abcb4735a070e8113f62cc7329f",
+    "freeze_sha256": "557587ee29f59d659019973fed745b9017f27f0a9a82ecd5d5d38e47cc94348e",
+    "frozen_files_unchanged_after_tests": true,
+    "hosted_ci": "NOT_RUN_UNPUBLISHED_LOCAL_CANDIDATE"
+  },
+  "independent_review": {
+    "verdict": "ACCEPT_EXACT_R2_CONDITIONAL_NATIONAL_ACCOUNTING_BOUNDS",
+    "reviewed_files": [
+      {
+        "path": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md",
+        "bytes": 8767,
+        "sha256": "17b861ae2d0d1fca24530754695ef5bab61b3c60e26d6c8e4154e8a686efb97f",
+        "git_blob": "63329200cf0a96791590ac9be75efd875fbaaf54"
+      },
+      {
+        "path": "modules/B01/README.md",
+        "bytes": 7336,
+        "sha256": "a943bf4db9415275c37261184bca09eeccd66854298cecb71f5cc255d658d27d",
+        "git_blob": "349e5710690ba83640c029465f1cc532739d75b0"
+      },
+      {
+        "path": "modules/B02/README.md",
+        "bytes": 11282,
+        "sha256": "30c5356f918169a06051f8dc25413907f0855226b2cc118ba2e7d239652f4389",
+        "git_blob": "4f3a16ec01270f2614514adca7a29c5bee4633b6"
+      },
+      {
+        "path": "modules/B02/annual_heat_reference.py",
+        "bytes": 8746,
+        "sha256": "39a7a0f3e5a70e7bef6aa3b939314f8377926e5f6cd3006a5d14b1d5eb1d81aa",
+        "git_blob": "0659ff9c74f8f611a45ee935d1625f36e35ebec1"
+      },
+      {
+        "path": "modules/B02/national_accounting_bounds.py",
+        "bytes": 13246,
+        "sha256": "4f1b17a74f03dae995304d7c6c656aeae4fa87303f52bb3f70f174b218c46b52",
+        "git_blob": "33922997bfd0bdc01bd8ff563e820a879c978bf0"
+      },
+      {
+        "path": "modules/B11/README.md",
+        "bytes": 3902,
+        "sha256": "4d58d45629a1f201dc3f238ec86452d91ef451282bf242ce481bf27533e92080",
+        "git_blob": "e44184bb1ffa5df20c8082f9fd08317e42bfcd07"
+      },
+      {
+        "path": "registry/b02_national_accounting_bounds_manifest.json",
+        "bytes": 3288,
+        "sha256": "f9a394f2cf288b4897abaf82aa7fc6a262a0172e83c18505122b7f0c1d6ebcb9",
+        "git_blob": "f7a8e402e60203f602df4d9ba3bd0ac37eb0db3a"
+      },
+      {
+        "path": "registry/v1_research_plan.json",
+        "bytes": 124856,
+        "sha256": "22104540ee60904fe27e25608bc7777cf858fc736cbfe8d07d6f4e6d0f56dd91",
+        "git_blob": "10debd56e8d01cb02b70c810003ba030a7df965c"
+      },
+      {
+        "path": "tests/test_b02_national_accounting_bounds.py",
+        "bytes": 12942,
+        "sha256": "b19eb92e5ae13fc8b8a45d1c54763bfe02d8ae119fc658fd4a167a99df195457",
+        "git_blob": "71084432c18c4988991ae5916da3c5ad30ce249f"
+      }
+    ],
+    "review_receipt_sha256": "cf05064e2907ab1a2762fb54bdc77573fdb1df2ab7d751653a4f8cb1ba26f8fa",
+    "independent_source_oracle": "Direct pinned-source exact rational arithmetic reproduces counts and three source ceilings",
+    "independent_adversarial_tests_passed": 18,
+    "focused_tests_passed": 31,
+    "annual_dependency_tests_passed": 7,
+    "registry": "VALID",
+    "resolved_findings": [
+      "First-import Decimal context could round the exact GWh/ktoe conversion; exact literal and fresh-process regressions now preserve source totals and threshold decisions."
+    ],
+    "remaining_implementation_blockers": []
+  },
+  "unchanged_scientific_debt": "The five inherited annual heat debts remain open, including source-universe applicability and central/selected-stock allocation. Bounds do not close full national feasibility.",
+  "hosted_ci": "NOT_RUN_UNPUBLISHED_LOCAL_CANDIDATE; 3 real-external-directory positive cases require clean hosted CI",
+  "publication": "NOT_PUBLISHED; exact authorization, remote ref and hosted CI verification remain separate"
+}

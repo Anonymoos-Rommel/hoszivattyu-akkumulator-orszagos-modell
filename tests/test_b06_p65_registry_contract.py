@@ -86,3 +86,20 @@ def test_national_stock_gaps_remain_visible_but_no_longer_block_gate_execution()
     assert technical["technical_eligibility_status"] == "Q"
     assert "P65 retires current-stock emitter and design-temperature coverage as aggregate prerequisites" in technical["notes"]
 
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_b02_s2_bridge_uses_p65_as_record_transition_gate_not_national_precondition,
+            test_national_stock_gaps_remain_visible_but_no_longer_block_gate_execution,
+            test_p65_external_sources_are_registered_in_both_source_registries,
+            test_q_b06_008_is_resolved_without_claiming_national_coverage,
+            test_readiness_does_not_inflate_when_only_authority_blocker_is_closed,
+            test_source_pack_preserves_non_equivalence_and_fail_closed_boundary,
+        )
+    )
+    return tests

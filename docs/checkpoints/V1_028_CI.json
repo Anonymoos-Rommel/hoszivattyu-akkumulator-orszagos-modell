@@ -1,0 +1,26 @@
+{
+  "checkpoint": "V1-028",
+  "head": "a43327e1239ddc6f3ec9dff217cbc3d86c4342c1",
+  "tree": "fc84ea5d08b2bd626c7e8994fc3651f164e1b5ad",
+  "run_id": 36959893305,
+  "run_number": 1090,
+  "job_id": 110691044172,
+  "conclusion": "success",
+  "test_count": 2986,
+  "test_seconds": 145.125,
+  "skipped_count": 0,
+  "registry": "VALID",
+  "tested_merge_commit": "1fd18e200765183a5077471e9c4fda2f3e98d8d9",
+  "exact_tree_match": true,
+  "required_external_positives": [
+    "2026-10-02T03:24:58.3726038Z test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+    "2026-10-02T03:25:07.5537003Z test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+    "2026-10-02T03:25:08.4687072Z test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+  ],
+  "required_index_negative_and_neighbors": [
+    "2026-10-02T03:25:07.7317427Z test_real_index_errors_fail_before_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_index_errors_fail_before_first_fiscal_source_read) ... ok",
+    "2026-10-02T03:25:07.9559116Z test_valid_index_neighbors_preserve_storage_admission (test_b13_fiscal_reference.FiscalOutputIndexTests.test_valid_index_neighbors_preserve_storage_admission) ... ok"
+  ],
+  "verified_at": "2026-10-02T03:26:33.014Z",
+  "log_sha256": "6c3ea397897846a2036595b4054cc5f2e5177976b15446b155900b45e68c7516"
+}

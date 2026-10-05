@@ -3,10 +3,11 @@
 This module keeps source-native timing claims separate from derived schedule
 variance and from any forecast of future project completion. A planned or
 expected completion date is not a completion probability. An actual completion
-date is an observed event only when an exact completion source is referenced.
+date is an exact event only when a referenced source explicitly dates that event.
+Publication/completed-by bounds, project closure and physical operation are separate.
 
 B10-P6 therefore permits retrospective schedule variance to be DER when both
-an admissible ex-ante target and an observed completion date are available, but
+an admissible ex-ante target and an exact, same-scope milestone are available, but
 it never mints a forward-looking fulfilment probability without a separately
 calibrated cohort/model authority.
 """
@@ -41,6 +42,21 @@ CURRENT_PAGE_ONLY = "CURRENT_PAGE_ONLY"
 NOT_APPLICABLE = "NOT_APPLICABLE"
 SNAPSHOT_STATUSES = {EX_ANTE_VERIFIED, CURRENT_PAGE_ONLY, NOT_APPLICABLE}
 
+# Defaults preserve input construction, never an unsupported timing claim.
+UNSPECIFIED = "UNSPECIFIED"
+PROJECT_COMPLETION = "PROJECT_COMPLETION"
+CAPABILITY_TARGET = "CAPABILITY_TARGET"
+PHYSICAL_IN_SERVICE = "PHYSICAL_IN_SERVICE"
+MILESTONE_TYPES = {UNSPECIFIED, PROJECT_COMPLETION, CAPABILITY_TARGET, PHYSICAL_IN_SERVICE}
+EXACT = "EXACT"
+ON_OR_BEFORE = "ON_OR_BEFORE"
+OPEN = "OPEN"
+SOURCE_STATED_TARGET_DATE = "SOURCE_STATED_TARGET_DATE"
+SOURCE_STATED_EVENT_DATE = "SOURCE_STATED_EVENT_DATE"
+PUBLICATION_REPORTING_BOUND = "PUBLICATION_REPORTING_BOUND"
+VERIFIED_SAME_MILESTONE_SCOPE = "VERIFIED_SAME_MILESTONE_SCOPE"
+UNRESOLVED_PAIRING = "UNRESOLVED"
+
 FULFILMENT_PROBABILITY_UNAVAILABLE = "Q_NO_CALIBRATED_DELIVERY_MODEL"
 
 
@@ -48,7 +64,10 @@ def _iso_date(value: str, field_name: str) -> date:
     if not isinstance(value, str) or not value.strip():
         raise B10ProjectDeliveryTimingError(f"{field_name} is required")
     try:
-        return date.fromisoformat(value)
+        result = date.fromisoformat(value)
+        if result.isoformat() != value:
+            raise ValueError("noncanonical ISO date")
+        return result
     except ValueError as exc:
         raise B10ProjectDeliveryTimingError(f"{field_name} must be ISO YYYY-MM-DD") from exc
 
@@ -64,6 +83,12 @@ class ProjectTimingEvidence:
     evidence_status: str
     snapshot_status: str
     notes: str = ""
+    milestone_type: str = UNSPECIFIED
+    scope_id: str | None = None
+    scope_source_id: str | None = None
+    date_relation: str = OPEN
+    date_precision: str = UNSPECIFIED
+    date_authority: str = UNSPECIFIED
 
     def __post_init__(self) -> None:
         for field_name in ("project_id", "network_operator", "source_id"):
@@ -104,6 +129,64 @@ class ProjectTimingEvidence:
                     "planned/expected timing requires explicit snapshot qualification"
                 )
 
+        if self.snapshot_status == EX_ANTE_VERIFIED and self.source_publication_date is None:
+            raise B10ProjectDeliveryTimingError("EX_ANTE_VERIFIED requires dated source authority")
+        if self.milestone_type not in MILESTONE_TYPES:
+            raise B10ProjectDeliveryTimingError("invalid milestone_type")
+        if self.date_relation not in {EXACT, ON_OR_BEFORE, OPEN}:
+            raise B10ProjectDeliveryTimingError("invalid date_relation")
+        if self.date_precision not in {"DAY", UNSPECIFIED}:
+            raise B10ProjectDeliveryTimingError("invalid date_precision")
+        if self.date_authority not in {
+            UNSPECIFIED, SOURCE_STATED_TARGET_DATE, SOURCE_STATED_EVENT_DATE,
+            PUBLICATION_REPORTING_BOUND,
+        }:
+            raise B10ProjectDeliveryTimingError("invalid date_authority")
+        if self.scope_id is not None and (not isinstance(self.scope_id, str) or not self.scope_id.strip()):
+            raise B10ProjectDeliveryTimingError("scope_id cannot be blank")
+        if self.scope_source_id is not None and (
+            self.scope_source_id != self.source_id or self.scope_id is None
+            or self.milestone_type == UNSPECIFIED
+        ):
+            raise B10ProjectDeliveryTimingError(
+                "scope_source_id must bind this source's explicit milestone and scope"
+            )
+        if self.date_relation != OPEN and self.date_precision != "DAY":
+            raise B10ProjectDeliveryTimingError("bounded dates require explicit DAY precision")
+        if self.claim_type == ACTUAL_COMPLETION:
+            if self.date_relation == EXACT and self.date_authority != SOURCE_STATED_EVENT_DATE:
+                raise B10ProjectDeliveryTimingError("exact event requires SOURCE_STATED_EVENT_DATE")
+            if self.date_authority == SOURCE_STATED_TARGET_DATE:
+                raise B10ProjectDeliveryTimingError("a target is not an actual event")
+        elif self.date_relation != OPEN and (
+            self.date_relation != EXACT or self.date_authority != SOURCE_STATED_TARGET_DATE
+        ):
+            raise B10ProjectDeliveryTimingError("target requires an exact source-stated target date")
+        if self.date_authority == PUBLICATION_REPORTING_BOUND and (
+            self.claim_type != ACTUAL_COMPLETION or self.date_relation != ON_OR_BEFORE
+            or self.source_publication_date != self.claimed_date
+        ):
+            raise B10ProjectDeliveryTimingError(
+                "publication reporting is only a completed-by bound, never an exact event"
+            )
+        if self.date_relation == ON_OR_BEFORE and self.date_authority != PUBLICATION_REPORTING_BOUND:
+            raise B10ProjectDeliveryTimingError("completed-by bound requires publication reporting authority")
+        if (self.claim_type == ACTUAL_COMPLETION and self.date_relation == EXACT
+                and self.source_publication_date is not None
+                and self.source_publication_date < self.claimed_date):
+            raise B10ProjectDeliveryTimingError("observed event cannot post-date its reporting source")
+
+    @property
+    def has_bound_scope(self) -> bool:
+        return bool(self.scope_id and self.scope_source_id == self.source_id
+                    and self.milestone_type != UNSPECIFIED)
+
+    @property
+    def is_exact_event(self) -> bool:
+        return (self.claim_type == ACTUAL_COMPLETION and self.date_relation == EXACT
+                and self.date_authority == SOURCE_STATED_EVENT_DATE
+                and self.date_precision == "DAY" and self.has_bound_scope)
+
 
 @dataclass(frozen=True)
 class ProjectDeliveryTimingDecision:
@@ -118,6 +201,16 @@ class ProjectDeliveryTimingDecision:
     completion_probability: float | None
     completion_probability_status: str
     source_refs: tuple[str, ...]
+    target_milestone_type: str = UNSPECIFIED
+    actual_milestone_type: str = UNSPECIFIED
+    actual_date_relation: str = OPEN
+    actual_event_lower_bound: str | None = None
+    actual_event_upper_bound: str | None = None
+    pairing_status: str = UNRESOLVED_PAIRING
+    physical_actual_completion_date: str | None = None
+    physical_target_proven: bool = False
+    target_scope_id: str | None = None
+    actual_scope_id: str | None = None
 
 
 def evaluate_project_delivery_timing(
@@ -143,20 +236,30 @@ def evaluate_project_delivery_timing(
     actual_date: str | None = None
     refs = [target.source_id]
 
+    pairing_status = UNRESOLVED_PAIRING
+    lower_bound = upper_bound = physical_actual = None
     if actual is not None:
         refs.append(actual.source_id)
-        actual_date = actual.claimed_date
-        if target.snapshot_status == EX_ANTE_VERIFIED:
-            target_date = _iso_date(target.claimed_date, "target claimed_date")
-            completed = _iso_date(actual.claimed_date, "actual claimed_date")
-            variance_days = (completed - target_date).days
+        if actual.is_exact_event:
+            actual_date = actual.claimed_date
+            lower_bound = upper_bound = actual.claimed_date
+            if actual.milestone_type == PHYSICAL_IN_SERVICE:
+                physical_actual = actual.claimed_date
+        elif actual.date_relation == ON_OR_BEFORE:
+            upper_bound = actual.claimed_date
+        if (target.has_bound_scope and actual.has_bound_scope
+                and target.milestone_type == actual.milestone_type
+                and target.scope_id == actual.scope_id):
+            pairing_status = VERIFIED_SAME_MILESTONE_SCOPE
+        if (target.snapshot_status == EX_ANTE_VERIFIED
+                and target.date_relation == EXACT
+                and target.date_authority == SOURCE_STATED_TARGET_DATE
+                and actual.is_exact_event
+                and pairing_status == VERIFIED_SAME_MILESTONE_SCOPE
+                and target.source_publication_date <= actual.claimed_date):
+            variance_days = (_iso_date(actual.claimed_date, "actual claimed_date")
+                             - _iso_date(target.claimed_date, "target claimed_date")).days
             variance_status = DER
-        else:
-            # A current page may contain a planned date but cannot prove that the
-            # same value was published before completion. Therefore it cannot
-            # support a retrospective forecast-performance metric.
-            variance_days = None
-            variance_status = Q
 
     return ProjectDeliveryTimingDecision(
         project_id=target.project_id,
@@ -170,6 +273,18 @@ def evaluate_project_delivery_timing(
         completion_probability=None,
         completion_probability_status=FULFILMENT_PROBABILITY_UNAVAILABLE,
         source_refs=tuple(refs),
+        target_milestone_type=target.milestone_type,
+        actual_milestone_type=actual.milestone_type if actual else UNSPECIFIED,
+        target_scope_id=target.scope_id,
+        actual_scope_id=actual.scope_id if actual else None,
+        actual_date_relation=actual.date_relation if actual else OPEN,
+        actual_event_lower_bound=lower_bound,
+        actual_event_upper_bound=upper_bound,
+        pairing_status=pairing_status,
+        physical_actual_completion_date=physical_actual,
+        physical_target_proven=(target.milestone_type == PHYSICAL_IN_SERVICE
+                                and target.has_bound_scope and target.date_relation == EXACT
+                                and target.date_authority == SOURCE_STATED_TARGET_DATE),
     )
 
 
@@ -197,6 +312,18 @@ def validate_completion_probability_claim(
 
 __all__ = [
     "ACTUAL_COMPLETION",
+    "CAPABILITY_TARGET",
+    "EXACT",
+    "ON_OR_BEFORE",
+    "OPEN",
+    "PHYSICAL_IN_SERVICE",
+    "PROJECT_COMPLETION",
+    "PUBLICATION_REPORTING_BOUND",
+    "SOURCE_STATED_EVENT_DATE",
+    "SOURCE_STATED_TARGET_DATE",
+    "UNRESOLVED_PAIRING",
+    "UNSPECIFIED",
+    "VERIFIED_SAME_MILESTONE_SCOPE",
     "B10ProjectDeliveryTimingError",
     "CURRENT_PAGE_ONLY",
     "DER",

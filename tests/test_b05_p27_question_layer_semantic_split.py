@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 ROOT = Path(__file__).resolve().parents[1]
 QUESTIONS = ROOT / "registry" / "open_questions.csv"
 REG = ROOT / "registry" / "b05_p27_question_layer_semantic_split.csv"
@@ -58,7 +60,7 @@ class B05P27QuestionLayerSemanticSplitTests(unittest.TestCase):
         self.assertEqual(fan["status"], "CONFIRMED_CURRENT_DIVERGENCE_Q")
         self.assertEqual((fan["lower_bound"], fan["upper_bound"], fan["unit"]), ("360", "1370", "s"))
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         self.assertIn("P27", readiness["PART_LOAD_MODULATION"]["notes"])
 
     def test_fresh_hem_sources_pack_and_readme_are_pinned(self):

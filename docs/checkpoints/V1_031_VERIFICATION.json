@@ -1,0 +1,220 @@
+{
+  "checkpoint": "V1-031",
+  "base_commit": "9742cf2d04808d2c8ecf01e5bb3c3fba38f75d44",
+  "independently_reviewed_tree": "426c42d6e42bb525309d2d94e5ca3cb987d84291",
+  "independent_verdict": "PASS_EXACT_15_FILE_COMBINED_SCOPE_PHYSICAL_INVARIANCE_AND_LOCAL_AGGREGATE",
+  "independent_report_sha256": "22fc2f7ee64ca637dea5e487be045fac6666791430e0597017ae4d0805d83044",
+  "independent_source_report_sha256": "94341a94a4b51c06613e9e5c74946d3cf9547d82b3a7c8e4cf404c32933ceb08",
+  "reviewed_files": [
+    {
+      "path": "data/processed/b02/p93_hungarian_top_envelope_area.csv",
+      "sha256": "fe7eceee8d439b2b436bbb92254f9d233c902829ced7c8789d078793eb78beda",
+      "bytes": 6468,
+      "git_blob": "1d48edfe90e626f31bd4cd3c418a379a0246078c"
+    },
+    {
+      "path": "data/processed/b02/p96_pitched_roof_top_envelope_thermal_surface.csv",
+      "sha256": "455c21cab940975919f93b63c38d5902cdbdd5ec7565dd68c84498cc07a49eee",
+      "bytes": 6657,
+      "git_blob": "fe857cc1103f07d7c6b682cc01aa013fff6b7436"
+    },
+    {
+      "path": "docs/checkpoints/V1_030_CI.json",
+      "sha256": "59a7367192e83827569044ffb15ab1cdb87fad8759a40b9533b5ff7461606971",
+      "bytes": 1242,
+      "git_blob": "f62724a73841748a94e053ddb0420412831df3f4"
+    },
+    {
+      "path": "docs/checkpoints/V1_031_MFH_ROOF_SOURCE_PRECISION.md",
+      "sha256": "87e2a97ae556aab8ac0ee761fb23b99a2870f5c28c8f47622c39b8df1bbd84af",
+      "bytes": 5989,
+      "git_blob": "1eb7b5e0dea765f53f21589e149727384acfee51"
+    },
+    {
+      "path": "docs/source_packs/B02_P93_HUNGARIAN_TOP_ENVELOPE_AREA.md",
+      "sha256": "4cf6830fe5218faa2721b977d9022b62fc72a2b625dac7485a484e9afbe856cf",
+      "bytes": 4922,
+      "git_blob": "acabfbb978c268d7d894f430c66ebd810047688c"
+    },
+    {
+      "path": "modules/B02/hungarian_top_envelope_area.py",
+      "sha256": "7fe060fb94f310e5a8776edd1a5d6f2ac7db53b1063f350e7a40b014fdf9f818",
+      "bytes": 8301,
+      "git_blob": "9d5a110900d17ef0d1fdb843e3134cb5d3febeff"
+    },
+    {
+      "path": "modules/B06/prospective_capacity_reference.py",
+      "sha256": "9bbc863ff40cf6b12162ce23980881d15c3056db65a434b4ce6a49dc97e62c45",
+      "bytes": 22220,
+      "git_blob": "b7867a06dc6890287344e236beae2c3e24fffd35"
+    },
+    {
+      "path": "registry/b02_p93_hungarian_top_envelope_area.csv",
+      "sha256": "5a7095bd26434f6e9e1a6a97afa3b47f1be01032ab37ded00fcee76e29a3dbb5",
+      "bytes": 4103,
+      "git_blob": "a75a74f8c2c57b576a4fc689133db6895f8aa95d"
+    },
+    {
+      "path": "registry/b02_p93_top_ratio_source_precision.json",
+      "sha256": "f97a27165dca164adbee52cd83d912096fe39ee874a468babf51a3001584a8af",
+      "bytes": 2689,
+      "git_blob": "1a80e6e7db9a735c548a9c42c4d56316157a2cd0"
+    },
+    {
+      "path": "registry/b06_prospective_capacity_reference_manifest.json",
+      "sha256": "74ea72259ebd9d3b856a5326c018bda4f034a242e04bfd5dea242a6a2e9901e8",
+      "bytes": 11179,
+      "git_blob": "c7cb51973f9013a0fdc8b4cf0fc1ea9a284b6da0"
+    },
+    {
+      "path": "registry/open_questions.csv",
+      "sha256": "fef8506d9843fbb76d953257667aa4b0278725ed58164522d37fce793101a3d3",
+      "bytes": 134813,
+      "git_blob": "5efbb87daf763f0b55943d4c0ccc2280c5b42361"
+    },
+    {
+      "path": "registry/sources.csv",
+      "sha256": "c2af7928cf14fb692f78cbd4f5ea6753b846e2babee8d2e454c6bcd92097c2e1",
+      "bytes": 251871,
+      "git_blob": "a533ccba4304c1fc1d27d7f7c0b8bad6c27d0c9c"
+    },
+    {
+      "path": "tests/test_b02_p93_hungarian_top_envelope_area.py",
+      "sha256": "d843e61d559a71a36d4b996d3e32ff724cec71572cb544f5ebb7ca3921a510a4",
+      "bytes": 10978,
+      "git_blob": "84edb504b4518db9c3b6416ae8d342ad1272367e"
+    },
+    {
+      "path": "tests/test_b02_p96_pitched_roof_poststate_u.py",
+      "sha256": "9739fe096512d32b7da06c3a5c499b551cc7ac732c2fb704e943540fa9f66106",
+      "bytes": 10736,
+      "git_blob": "34a6e7ac088a2e959c8f979f0fb76cb4dfc49289"
+    },
+    {
+      "path": "tools/materialize_b02_top_envelope.py",
+      "sha256": "7ae83eb1d5ef894bd42305c6d00f9d7d93ded4a160f0e23224f3199aa5719cab",
+      "bytes": 4486,
+      "git_blob": "e7932bb4e4a1f5779f4d490834e1ec68f6ddadb3"
+    }
+  ],
+  "source_correction": {
+    "source_id": "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015",
+    "source_pdf_sha256": "800959c8ac321144d2e8cbe42b5a17f94c41587fde8fc63f445d6e35cdfc2a63",
+    "coordinate": "Table4 printedp8, A_Roof/A_C_Ref, HU MFH column",
+    "corrected_ratio": "0.36",
+    "historical_wrong_column_ratio": "0.35 Common",
+    "SFH_ratio_unchanged": "0.84",
+    "AB_ratio_unchanged": "0.20",
+    "changed_rows_per_generated_artifact": 7,
+    "changed_cells_per_row": 2,
+    "other_rows_fields_and_lower_bounds_unchanged": true
+  },
+  "isolated_independent_checks": {
+    "targeted_and_neighbor_tests_passed": 57,
+    "consumer_registry_tests_passed": 24,
+    "tests_total": 81,
+    "registry_validation": "PASS",
+    "candidate_materializer_check": "PASS",
+    "reverse_patch_apply_check": "PASS",
+    "git_diff_check": "PASS",
+    "historical_source_failure_reproduced": "Independent original-module assertion and candidate source-binding test both reject 0.35",
+    "stale_p93_and_p96_negative_controls": "PASS; expected exit 1 and no file changes",
+    "explicit_write_regeneration": "PASS in external sandbox; only stale derived artifact changes; idempotent write has zero byte changes",
+    "required_and_exclusive_cli_modes": "PASS; omitted or conflicting flags exit 2 without writes",
+    "artifact_delta": "Exactly seven MULTI_DWELLING rows and two cells per row in each artifact",
+    "sfh_invariance": "All seven FAMILY_HOUSE rows byte-identical in each artifact",
+    "other_invariance": "Every lower bound, ID, mapping, status, evidence field and existing artifact note byte-preserved",
+    "u_invariance": "0.17 * (1 + 0.20) = 0.204 W/m2K unchanged",
+    "source_registry": "Only existing TABULA source row notes change; every other source row byte-preserved",
+    "source_policy": "No raw-source document, source image, full-table transcription, private panel, permission or setting included in 11-file patch",
+    "full_aggregate": "NOT_RUN_LEAD_OWNED"
+  },
+  "combined_checks": {
+    "whole_tree_blob_count": 1470,
+    "whole_tree_mismatches": 0,
+    "focused_tests": 59,
+    "materializer_check": "PASS",
+    "registry_validation": "PASS",
+    "diff_check": "PASS"
+  },
+  "source_registry_scope": {
+    "row_count": 391,
+    "changed_rows": [
+      "SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015"
+    ],
+    "eight_B17_rows_preserved": true
+  },
+  "question_scope": "Only dated append to existing Q-B02-004 notes; all historical text, question identity, status and tier preserved",
+  "physical_rebinding": {
+    "manifest_diff": [
+      {
+        "path": "/inputs/top/sha256",
+        "before": "ae926c7afda0aef835a52bd2ffe0868767ac40ab2468dac55b5525b58a294a50",
+        "after": "455c21cab940975919f93b63c38d5902cdbdd5ec7565dd68c84498cc07a49eee"
+      }
+    ],
+    "code_change": "PIN_SET_SHA256 literal only",
+    "output_differences": [
+      {
+        "path": "/input_lineage/top/sha256",
+        "before": "ae926c7afda0aef835a52bd2ffe0868767ac40ab2468dac55b5525b58a294a50",
+        "after": "455c21cab940975919f93b63c38d5902cdbdd5ec7565dd68c84498cc07a49eee"
+      },
+      {
+        "path": "/input_pin_set_sha256",
+        "before": "0c5a0a3842b952fdd62a0ddf0f06bf89adc45119806ee809a00fb4287ae6eec5",
+        "after": "ffa05c894396266d0291428718d664a3d138a101bfa4f6eda45105233ea68c05"
+      }
+    ],
+    "all_other_output_values_statuses_scope_limitations_exact": true,
+    "old_manifest_rejected": true,
+    "sfh_source_invariance": {
+      "data/processed/b02/p93_hungarian_top_envelope_area.csv": {
+        "row_count": 7,
+        "sha256": "3aab935ac1d97ddf79b21a877a06422a7abc792fd867c2846c657f781c7c0466",
+        "exact_bytes_unchanged": true
+      },
+      "data/processed/b02/p96_pitched_roof_top_envelope_thermal_surface.csv": {
+        "row_count": 7,
+        "sha256": "06b8811a44db8fcef80ff3c533bd034cd499df9c5d0746a72cc0d358afd613d6",
+        "exact_bytes_unchanged": true
+      }
+    }
+  },
+  "historical_receipts_preserved": {
+    "docs/checkpoints/V1_030_PROSPECTIVE_CAPACITY_REFERENCE.md": "20daf1ac8ecf6afc0cc52e9266978a04be5ac3483031af188dc04818ee1ecbda",
+    "docs/checkpoints/V1_030_VERIFICATION.json": "03e37fb26d696039d0685c635e81b9e64a71bf27afb10b34199bf2cd73cc129b"
+  },
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3032,
+    "seconds": 108.982,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "passed": 3029,
+    "frozen_tree": "426c42d6e42bb525309d2d94e5ca3cb987d84291",
+    "all_hashes_unchanged": true,
+    "log_sha256": "c7988497d89727a0632334152fe60edf68ba368a9d5f52d30cf8cf0f143dcd4d",
+    "completed_at": "2026-10-02T04:26:06.503191+00:00"
+  },
+  "prior_CI_receipt_check": {
+    "run": 1092,
+    "executed_passes": 3028,
+    "skipped": 0,
+    "log_hash_verified": true,
+    "tested_merge_tree_verified": true,
+    "current_tree_coverage": false
+  },
+  "hosted_aggregate": "REQUIRED_ON_EXACT_PUBLISHED_HEAD; all three existing real external-directory positives must execute as ok without skips",
+  "boundaries": [
+    "Corrects a source-table column selection and dependent public model-proxy upper rows; no source document or full table is republished.",
+    "Proxy/uncertainty, corrected U, SFH/lower bounds, source-reuse restrictions and evidence status remain unchanged.",
+    "V1-030 remains an explicit technical SCN, with identical numerical and Q/SCN outputs after deliberate source-hash rebinding.",
+    "No target, service policy, population weight, record eligibility, national result, slice acceptance, readiness uplift or main merge."
+  ]
+}

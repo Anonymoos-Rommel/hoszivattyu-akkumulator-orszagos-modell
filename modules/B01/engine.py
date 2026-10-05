@@ -1,15 +1,16 @@
-"""Fail-closed household state-stock and portfolio-selection contract for B01.
+"""B01 component assessment and historical state-stock compatibility APIs.
 
-The executable rules are loaded from ``registry/household_state_model.json``;
-this module does not create a second state machine or a default national
-objective.  Scenario fixtures can be ordered and capacity-limited, but their
-outputs remain SCN and never promote a household's observed state.
+``assess_household_capabilities`` is the canonical component/partial-order
+entry point. The S0-S5 functions below retain the versioned historical
+``household_state_model.json`` rules for compatibility, including the original
+SCN portfolio fixture. They do not certify the new component, exit or rights
+claims. Neither API supplies a default national objective.
 """
 
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import date
 from math import isfinite
 from pathlib import Path
@@ -756,3 +757,88 @@ def run_fixture(path: str | Path) -> StateStockOutput:
         int(payload["plan_year"]),
         status="SCN",
     )
+
+
+def assess_household_capabilities(snapshot):
+    """Canonical record assessment; readiness is not selected/funded work.
+
+    See ``capability_contract.CapabilitySnapshot`` and the versioned
+    ``registry/household_capability_contract.json``. This composes physical
+    components, proposed action prerequisites, full triple, subsidy-exit and
+    operation conditions without imposing the historical S0-S5 order.
+    """
+    from modules.B01.capability_contract import assess_snapshot
+    return assess_snapshot(snapshot)
+
+
+def migrate_legacy_capability_record(record: HouseholdStateRecord, *, site_id: str,
+                                     basis_id: str, completion_events=(), assertions=()):
+    """Retain a validated legacy record without inferring any new fact.
+
+    New component/condition evidence must be supplied explicitly. Legacy
+    generic S1/S4/S5 gates cannot prove insulation, a battery, exit or rights.
+    """
+    from modules.B01.capability_contract import (
+        CapabilityContractError, CapabilitySnapshot, EvidenceIdentity, LegacyProvenance,
+    )
+    for item in record.transition_evidence:
+        if type(item.completed) is not bool or type(item.skipped) is not bool:
+            raise CapabilityContractError("legacy boolean coercion cannot enter the new adapter")
+    determine_current_state(record)
+    snapshot = CapabilitySnapshot(
+        EvidenceIdentity(record.household_id, site_id, basis_id, record.truth_context, "INDIVIDUAL_RECORD"),
+        record.state_as_of, completion_events, assertions,
+        LegacyProvenance(MODEL["schema_version"], json.dumps(asdict(record), ensure_ascii=False, sort_keys=True)),
+    )
+    assess_household_capabilities(snapshot)
+    return snapshot
+
+
+def run_capability_fixture(path: str | Path):
+    """Execute the explicit synthetic component fixture through B01's entry point."""
+    from modules.B01.capability_contract import CapabilityContractError, snapshot_from_payload
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if payload.get("status") != "SCN" or payload.get("dataset_license") != "CC BY-SA 4.0":
+        raise CapabilityContractError("capability fixture must be explicit SCN with dataset license")
+    snapshot = snapshot_from_payload(payload["snapshot"])
+    if snapshot.identity.truth_context != "SCN":
+        raise CapabilityContractError("fixture cannot certify real household evidence")
+    return assess_household_capabilities(snapshot)
+
+
+def create_annual_plan(**explicit_inputs):
+    """Create the owned SCN annual bundle ledger; every budget/input is explicit.
+
+    The session retains prior reservations and checks current revision tokens.
+    It does not call the compatibility selector or infer real funding, physical
+    completion, network permission, population weights or priority scores.
+    """
+    from modules.B01.annual_bundle_ledger import AnnualPlanSession
+    return AnnualPlanSession(**explicit_inputs)
+
+
+def create_population_plan(**explicit_inputs):
+    """Compose qualified population outputs, dated planning and actual records.
+
+    The returned session evaluates fixed schedules across supplied joint worlds.
+    Its report keeps population stock/resources separate from actual Capability-
+    Snapshot assessments; a source control is not intervention-eligible mass.
+    """
+    from modules.B01.population_planning_bridge import PopulationPlanSession
+    return PopulationPlanSession(**explicit_inputs)
+
+
+def population_source_demo():
+    """Read existing P84 controls and the unchanged terminal-eligibility Q bound."""
+    from modules.B01.population_planning_bridge import p84_source_demo
+    return p84_source_demo()
+
+
+def compare_benefit_ratios(**explicit_inputs):
+    """Trace signed metrics, supplied utilities and compatible public-HUF ratios.
+
+    Household cashflow protection stays mandatory. This conditional comparison
+    neither selects work nor reserves resources; the canonical owner metric is Q.
+    """
+    from modules.B01.benefit_metric_contract import compare_benefit_ratios as compare
+    return compare(**explicit_inputs)

@@ -1,0 +1,71 @@
+{
+  "checkpoint": "V1_021",
+  "reviewed_base_head": "bb6ffac5bb2e64fc750b3c7ec9a537a68471f6a3",
+  "reviewed_candidate_tree_before_receipt": "1fc6f7176650b56ffaa420c3a8c5202c0d352305",
+  "independent_review": {
+    "result": "PASS_BOUNDED_SOURCE_PRECISION_REPAIR",
+    "candidate_revision": 2,
+    "frozen_files": 25,
+    "B10_module_tests": 701,
+    "registry_contract_tests": 15,
+    "research_plan_tests": 3,
+    "registry_validation": "VALID",
+    "diff_check": "PASS",
+    "source_snapshots_verified": 6,
+    "historical_source_metadata_copies_verified": 5,
+    "independent_P11_witness_checks": {
+      "positive": 1,
+      "negative": 7
+    },
+    "closed_findings": [
+      "Matching target/actual event labels are insufficient without milestone and scope correspondence",
+      "Two equal but unrelated physical scopes cannot be attached to a P5 project/operator/node/component",
+      "Administrative completion and publication bounds cannot be promoted to physical delivery or cashflow"
+    ],
+    "full_suite_run_by_reviewer": false
+  },
+  "source_correction": {
+    "MVM_DEMASZ": "15 June 2026 retained as completed-by reporting upper bound; exact completion and all-assets operational date are not established",
+    "OPUS_TITASZ": "Exact source-declared project completion retained; 378 MW target and later 261 MW reporting have no verified like-for-like bridge, so the prior 73-day performance variance is withdrawn",
+    "physical_status": "PROJECT_COMPLETED_REPORTED is separate from physical OPERATING",
+    "preserved": "Without-program attribution, source-supported declared OPUS project cost and funding, explicit unknowns and existing E2/E3 national inference boundaries"
+  },
+  "canonical_public_bytes": "All 25 reviewed files use LF and match Git-filtered bytes",
+  "artifact_sha256": {
+    "docs/checkpoints/V1_021_B10_TIMING_PRECISION_REPAIR.md": "9b647a450fea6337063307ce378de03045dd6bbc09d065a834becc88444894f0",
+    "docs/source_packs/P11_B10_TIMED_INVESTMENT_PATHWAY.md": "516c75c21b9a760dc64b0b0aa31f29f71c7d606b333b7e69bafb5b0e86fe50b6",
+    "docs/source_packs/P4_B10_OBSERVED_BASELINE_RRF_PROJECTS.md": "ea16463c673fe18d0cdfbf140bbef7487bbe7c7015bacdd7e4cbd5cadc24351e",
+    "docs/source_packs/P6_B10_PROJECT_DELIVERY_TIMING.md": "9bd11d9236c83c501ee610e985d35adce36ebaf8b37c9289ed397da72ef479ce",
+    "docs/source_packs/P7_B10_NETWORK_LAYER_AUTHORITY.md": "44bf8dd13de752c1352c6bcffa63a9116eb1db3bf63493cd6ba248d8f46342c7",
+    "modules/B10/README.md": "fc6b94b9be7def5798f4a4582b38cf3bce65fbbb7fe8ce08cf816ff53b548519",
+    "modules/B10/__init__.py": "85c1d013fb063e8a8f4cae2d672b3e6d136d8f87423e0c0c04f8685d741f71f9",
+    "modules/B10/baseline_infrastructure_contract.py": "10489a999b66593edf728ca21c7931c245ac65bb90689868a16b1d08de9f6e53",
+    "modules/B10/project_delivery_timing_contract.py": "65b1e6ae7a6c6e92f09f543d7b0bd425ba872e73f0633bb41a02fbe82e9bd7b6",
+    "modules/B10/rrf_baseline_ledger.py": "e5bdbbeb1143a0a7b3135e43055a12535e83360559b1fa488d05d04a067e2003",
+    "modules/B10/timed_investment_pathway_contract.py": "7ac7a88d2a25c9fde07996f8909d3fb376c6705eb1e658db1391f23a3b4ba5a1",
+    "registry/baseline_infrastructure.csv": "03e0726edd882b42acb59b56a02b4c3fea7cbb81d2cdd2d83f7e7f7d77baebc5",
+    "registry/project_delivery_timing.csv": "86e1b39fd8ccf8d390fc2599e822546a5ed1dfe51cffb163da9b07792eb3ccf6",
+    "tests/test_b10_p11_timed_investment_pathway.py": "ba158f58e48a591715d10a7b282d72bd1fc46e1b8b6ab9e4115ebef37179a14a",
+    "tests/test_b10_p33_timed_programme_incremental_capex_lineage.py": "aa91e41cfc933e881ba137e341ccad1d57ba7c03dbf25ecfd31c7dae7bd786b1",
+    "tests/test_b10_p4_observed_baseline_rrf.py": "707fee62be4f8734fcf6ec8bb7f3e957c4433c462057c752701bd64226ff8da3",
+    "tests/test_b10_p6_project_delivery_timing.py": "85363657a84f718c25d6023b2b9406143ab82e9b13ddfd1a0e2511378babc0f6",
+    "tools/validate_registry.py": "1b43e9dcbdf46ef9b280f8c2b2f699b28f6fc9f708a45836985feca6453eb905",
+    "registry/sources.csv": "c3d8ea8e972627d447c9f865f09d1e4112b19ebfc3e8b73f59afa678b8bcc7e6",
+    "registry/open_questions.csv": "5a5ce4fe3fd62fdb36dd9d3804344bc6d0ef1ae345537576bbbc9bc5a3574139",
+    "registry/project_blocker_evidence_audit.csv": "1e6494bc8ba367bd591f35b16e1711f095089d2215a7462dcdfe22a050baaabb",
+    "registry/module_status.csv": "8aba97503ef39e673eb52a1bd448550a9d37f60d273fcf82b8d9bbdf1f675e55",
+    "registry/v1_research_plan.json": "753a4c304429c0a6e61d09ee977bc7e34530bca14e642d0325700383fc8fa188",
+    "registry/b10_timing_source_review_manifest.json": "cf115773b153ba5dded0f1f2b3cbf016f97700980970cbda57ea2d53848a6aff",
+    "docs/checkpoints/V1_020_CI.json": "cc92f4e7e2cd4408d3c2958571a4219c94538c17738bcd95b3cbd36f6d3dd580"
+  },
+  "local_full_suite": {
+    "result": "NOT_RUN",
+    "required_followthrough": "Exact published-content hosted full-suite CI must pass before checkpoint completion"
+  },
+  "public_safety": [
+    "No original HTML/PDF/ZIP source bytes",
+    "No private telemetry, signatures, contacts or banking details",
+    "No new national timing base, delay probability, cashflow schedule or readiness promotion",
+    "New multi-operator candidate cohort remains external research; it is not admitted as a national sample"
+  ]
+}

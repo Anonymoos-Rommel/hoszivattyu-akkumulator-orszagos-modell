@@ -1,0 +1,164 @@
+{
+  "checkpoint": "V1-051",
+  "base_commit": "9f9d07991045b1c778f13f56ab6444222929548d",
+  "reviewed_substantive_tree": "73f0814102439e0a76061070a08e699e9816102f",
+  "status": "LOCAL_REVIEWED_CANDIDATE_NOT_PUBLISHED",
+  "public_change_scope": "Eleven public code, test, documentation and provenance files; source-original JSON/HTML/PDF remain external-only.",
+  "reviewed_substantive_files": [
+    {
+      "path": "data/processed/gas_price_forward_curve.csv",
+      "bytes": 563,
+      "sha256": "be97f70299cde6cf79d53a9193fa52d3925c521734279cd9680e7b735589202a",
+      "git_blob": "d6ae5e4bfca8f3e7e049e13820ed3b6c4af69654"
+    },
+    {
+      "path": "docs/checkpoints/V1_051_EMPLOYMENT_AND_PLAN_RECONCILIATION.md",
+      "bytes": 8604,
+      "sha256": "48bfd68686a6b1944e389a72c3e4161d83654d9189711fc015d9af60b163138b",
+      "git_blob": "cbe73f1b8e9f4ee13644f0e8da8f242db762b268"
+    },
+    {
+      "path": "modules/B16/README.md",
+      "bytes": 15703,
+      "sha256": "3d7d8b37cd620c4dea1b7303fca4cba1dc04c19aa88eca4de6992c2f6377eee4",
+      "git_blob": "6a52d6f293bede404d75172f16f7f670ed59b840"
+    },
+    {
+      "path": "modules/B16/employment_structure_reference.py",
+      "bytes": 22428,
+      "sha256": "dccbd57163289fc6a91fc8ddc805c5baf1275fb137d78659ea00910eea1ec0a8",
+      "git_blob": "b0c4e2f04002a0b65d271af9c765b3ef9cf26690"
+    },
+    {
+      "path": "registry/b16_employment_structure_reference_manifest.json",
+      "bytes": 33755,
+      "sha256": "4a8b773ff92d0c87e0101f02c7e476d2afbeb4a1edf8f67f8a5394094711701d",
+      "git_blob": "913b4c6d626cf7770cf2e38b331554ce01ddf4bb"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 60369,
+      "sha256": "4a267dea5367057fcc3df02e6285867cf2450516146d602c5fa05032eb515ea3",
+      "git_blob": "451e41dfa0e9573cb95427365e36287fa8781ffd"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 276169,
+      "sha256": "e8eb28cf9072b8e0943650a69cfaee375c2957823f37fb50f6e21a637ac54f38",
+      "git_blob": "3a6d581680a7b2646db7a2fb2cbcb89fc9e4632b"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 136911,
+      "sha256": "97ba5fc78c99ce044f9ba4ae810d3f415ecba59579e1129c5df0cc31998f39d4",
+      "git_blob": "101e1a3cbf04bfa5b17b8117cf62dc84b96c4ace"
+    },
+    {
+      "path": "tests/test_b03_forward_placeholder_truth.py",
+      "bytes": 2076,
+      "sha256": "456dbe9e3ee75a9eb036731cc3959254efb9c9a54bd198bf8363777a24549f6b",
+      "git_blob": "053579f08bc0b5c65e098070f354999589b5c71a"
+    },
+    {
+      "path": "tests/test_b16_employment_structure_reference.py",
+      "bytes": 22565,
+      "sha256": "511faf10d3a88d9a87fd48a31dd1f606830b57c81f31bcb3bd6390b30033bcef",
+      "git_blob": "4bb78e2a36ca8a6362cbe537c1bbce2776225525"
+    }
+  ],
+  "local_full_suite": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3465,
+    "passed": 3462,
+    "skipped_count": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 136.684,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "substantive_tree": "73f0814102439e0a76061070a08e699e9816102f",
+    "all_hashes_unchanged": true,
+    "log_sha256": "f5f90e0c779ee22e0ca12a2e2d38c39896d12c36c81a457b6c105bbc0d36aaf7",
+    "log_bytes": 661405,
+    "completed_at": "2026-10-03T10:08:03.796376+00:00"
+  },
+  "focused_tests": {
+    "command": "PYTHONPATH=tests python -m unittest test_b16_employment_structure_reference test_b16_industry_structure_reference test_b03_forward_placeholder_truth test_b03_gas_price_engine test_v1_research_plan test_registry_contract -v",
+    "passed": 87,
+    "skipped": 0,
+    "failed": 0,
+    "new_employment_test_methods": 31,
+    "new_placeholder_test_methods": 2,
+    "log_sha256": "c5356be78a4e25d684d007fd8f32676b8d276eedd55786b142bdee16c0acca5b"
+  },
+  "registry_validation": "VALID",
+  "genuine_source_acceptance": {
+    "source_id": "SRC-B16-EUROSTAT-KSH-HU-EMPLOYMENT-2023",
+    "source_sha256": "82ee68b73566043430f9da3b3f29d25b28b565272fc00a2eba27d2567220e33c",
+    "source_bytes": 22394,
+    "reference_year": 2023,
+    "native_units": [
+      "THS_PER",
+      "THS_HW"
+    ],
+    "country_specific_employment_vintage": "NOT_ESTABLISHED",
+    "selected_core_positions": 384,
+    "core_numeric": 340,
+    "core_absent": 44,
+    "reported_totals": 6,
+    "within_row_residuals": 90,
+    "partial_sum_diagnostics": 6,
+    "production_total_controls": 9,
+    "io_aggregation_controls": 2,
+    "current_versus_frozen_comparisons": 130,
+    "complete_report_sha256": "b3d05ea2c3de4479c6b5b948f9d5acad76726a888b9c2214d5d033e37528d996"
+  },
+  "independent_review": {
+    "verdict": "PASS_EXACT_TEN_FILE_SUBSTANTIVE_REVIEW",
+    "receipt_sha256": "a7ad5f027dfdac9d5459f74e40bf7a59d4fa9cbbe3a9b308391401cbed20ea38",
+    "pre_implementation_oracle_sha256": "db1718fc5e0d08e957e4d5b014488d50687e042b4fc8e31e34ab53e437601232",
+    "selected_core_cells_compared": 384,
+    "rows_with_totals_compared": 390,
+    "one_way_bridge": "89 IO leaves mapped exactly once to 64 groups",
+    "current_account_comparisons": 130,
+    "source_oracle_cross_table_checks": 75,
+    "production_total_controls": 9,
+    "adversarial_checks_passed": 48,
+    "focused_tests_passed": 87,
+    "canonical_log_independently_inspected": true,
+    "canonical_suite_independently_rerun": false,
+    "counting_note": "Source controls, field comparisons, adversaries and focused tests overlap and are not summed as distinct aggregate tests."
+  },
+  "plan_reconciliation": {
+    "original_task_count": 58,
+    "original_ids_and_requirements_preserved": true,
+    "accepted_task_objects_unchanged": [
+      "B04-D01",
+      "B08-D01",
+      "B09-D01"
+    ],
+    "dependencies_and_readiness_preserved": true,
+    "original_historical_base_descriptions_preserved": true,
+    "scope": "Selected stale-description/status/test-link corrections after a full dated audit; not every identified cleanup is included.",
+    "b07_whole_task_acceptance": "NOT_GRANTED",
+    "forward_placeholder": "Q; source retrieval/requested August window retained, unsupported market dates and BASE removed; no numeric price admitted"
+  },
+  "hosted_validation": {
+    "status": "NOT_RUN",
+    "requirement": "After separately authorized publication, exact-head hosted logs must pass all configured tests and execute the three local host-only positives without skips; tested merge tree must match the published candidate tree."
+  },
+  "boundaries": [
+    "Official historical P1/DER/E1 reference only; no observed intervention effects.",
+    "Domestic persons and actual hours are not FTE, installer availability, new jobs or programme effects.",
+    "Sparse absence and source status remain distinct; partial sums do not establish complete 64-sector closure.",
+    "The bridge aggregates IO only; employment is never allocated back to finer IO leaves.",
+    "Current-versus-frozen account differences do not identify the exact employment vintage or exclusive cause of differences. No joint labour coefficients are admitted.",
+    "Existing industry reader, manifest and tests remain byte-identical; all prior global source rows remain unchanged, with eight new rows appended.",
+    "The three whole-task acceptances and all original task/dependency/readiness contracts are preserved; B16-D01 remains INTEGRATING.",
+    "No original source files, private data, national defaults, full B12 expansion or main merge."
+  ]
+}

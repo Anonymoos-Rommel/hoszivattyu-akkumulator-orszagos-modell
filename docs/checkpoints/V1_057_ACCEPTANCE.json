@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "slice_id": "B04-D02",
+  "status": "ACCEPTED",
+  "acceptance_date": "2026-10-03",
+  "accepted_at": "2026-10-03T21:17:35.374370+00:00",
+  "acceptance_scope": "EXPLICIT_DATED_HU_HOURLY_WHOLESALE_SOURCE_HANDOFF_WITH_CALLER_DECLARED_HOURLY_FLAT_REFERENCE_VALUATION",
+  "reviewed_commit": "69d921c903c35c19e6dd34aa5aac562fa6a13082",
+  "reviewed_tree": "0dad106ec7b464d6578b5a9c0d3224584fc1ec5a",
+  "implementation_sole_parent": "f12e1dd812d0b536a01e6f0de43467fe41c89550",
+  "original_requirement": "EUR/MWh vagy HUF/MWh órás/napi nagykereskedelmi sor, HU ajánlati zóna, as-of; külön a lakossági számlától. Dinamikus termék csak ha tényleges szerződési/elszámolási feltétel elérhető.",
+  "canonical_source_ids": [
+    "SRC-B04-MVM-D-PRODUCT-2026",
+    "SRC-B04-MVM-D-METHOD-2026",
+    "SRC-B04-MVM-D-FEE-20260910",
+    "SRC-B04-MVM-D-HISTORY-2026-09",
+    "SRC-B04-ENTSOE-TERMS-LISTING-20261003",
+    "SRC-B04-ENTSOE-PRICE-DEFINITION-20261003",
+    "SRC-B04-ENTSOE-FREE-REUSE-20231018",
+    "SRC-B04-ENTSOE-TERMS-20230329",
+    "SRC-B04-HUPX-ACCESS-20261003",
+    "SRC-B04-HUPX-TERMS-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+    "SRC-B04-SMARD-HU-QUARTERHOUR-INDEX-20261003",
+    "SRC-B04-SMARD-DATA-USE-20261003",
+    "SRC-B04-SMARD-PUBLIC-EXPORT-CODE-20261003",
+    "SRC-B04-SMARD-DOWNLOAD-20261003",
+    "SRC-B04-SMARD-GUIDE-202109",
+    "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+    "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+    "SRC-B04-SMARD-CONFIG-20261003",
+    "SRC-B04-SMARD-PUBLIC-CHART-CODE-20261003",
+    "SRC-B04-SMARD-SMARD-MOD-CSV-20261003",
+    "SRC-B04-SMARD-SMARD-MOD-URLS-20261003",
+    "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+    "SRC-B04-SMARD-REGIONS-20261003",
+    "SRC-B04-SMARD-GUIDE-LISTING-20261003"
+  ],
+  "accepted_artifact_sha256": {
+    "registry/b04_wholesale_reference_manifest.json": "e7363f2593717bfe65353fc1e1cdf93aa675743f2c0702ffbaccd5adb4df9a90",
+    "modules/B04/wholesale_reference.py": "4c917df56b251b192a5f50014b8d7274b235ebc8fdd9f08eaf741dc4cabe3cfa",
+    "tools/materialize_b04_wholesale_reference.py": "d9f08c19c22e730828ccdaf4c045b848553e524da282b5b0436ae40192b43e9c"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b04_wholesale_reference.py": "410f4fd153409ef2577e9abd3167cba95c8b039cd44d46c09644cdcbbee97e72"
+  },
+  "original_field_mapping": [
+    {
+      "criterion": "EUR/MWh or HUF/MWh",
+      "source_evidence": "Exact Hungary EUR/MWh headers in both pinned CSVs; current configuration module 8000262/data_id262 unit Euro/MWh; guide D3.1 pp47–48.",
+      "verdict": "SATISFIED_FOR_BOUNDED_REFERENCE",
+      "boundary": "EUR/MWh is sufficient; no new FX field is required.",
+      "consumer_binding": "source_manifest and exact CSV/configuration pins",
+      "independent_result": "Genuine EUR/MWh rational prices preserve all original cent lexemes; no FX is required."
+    },
+    {
+      "criterion": "Hourly or daily wholesale series",
+      "source_evidence": "Exact publisher-hourly CSV contains all8760UTC2025 hours; quarter serialization checks all8808 padded hourly means within EUR0.005/MWh.",
+      "verdict": "SATISFIED_FOR_BOUNDED_REFERENCE",
+      "boundary": "Publisher-calculated hourly values retain their original cent lexemes; native market resolution changes at2025-09-30T22:00Z. Post-transition use is an explicitly hourly reference, not arbitrary subhour energy valuation.",
+      "consumer_binding": "read_wholesale_reference; _parse_csv, _reconcile and _epochs",
+      "independent_result": "Two complete explicit 8760-hour windows; publisher-hourly resolution and native period change, cent discrepancy and DST endpoints retain their qualified meanings."
+    },
+    {
+      "criterion": "Hungarian bidding zone",
+      "source_evidence": "Hungary CSV header, configuration name MM-Bausteine.Ungarn and guide D3.1 bidding-zone list.",
+      "verdict": "SATISFIED_FOR_BOUNDED_REFERENCE",
+      "boundary": "DE-LU is the display/request region; it is not the selected price geography.",
+      "consumer_binding": "_configuration and exact Hungary headers",
+      "independent_result": "HU module/data identity is enforced independently of DE-LU display context."
+    },
+    {
+      "criterion": "As-of",
+      "source_evidence": "Exact successful hourly retrieval2026-10-03T20:12:13.090560Z and request/payload hashes, separate from the original-resolution retrieval and five epoch witnesses.",
+      "verdict": "SATISFIED_FOR_BOUNDED_REFERENCE",
+      "boundary": "Retrospective observed snapshot only. CSV producer/per-record revisions and original auction-publication as-of are unknown; JSON file generation metadata cannot fill them.",
+      "consumer_binding": "read_wholesale_reference evidence fields",
+      "independent_result": "Exact retrospective hourly retrieval timestamp propagates. Original auction vintage and per-row revisions remain null; JSON file dates are not promoted."
+    },
+    {
+      "criterion": "Separated from household bill",
+      "source_evidence": "Source prices are wholesale day-ahead EUR/MWh; no supplier spread, VAT, fixed/network charges or individual contract scope is present.",
+      "verdict": "SATISFIED_FOR_BOUNDED_REFERENCE",
+      "boundary": "New consumer must expose wholesale-reference authority and refuse household bill/default/permission claims.",
+      "consumer_binding": "value_wholesale_reference and materializer receipt",
+      "independent_result": "Wholesale source and derived energy-only EUR results carry explicit exclusions; every hour needs caller-supplied exact nonnegative MWh and FLAT convention. No tariff consumer is changed."
+    },
+    {
+      "criterion": "Dynamic retail only when actual contract/settlement terms exist",
+      "source_evidence": "Original registry wording is conditional. Existing V1-003 MVM source lineage remains distinct. This acquisition supplies no retail product.",
+      "verdict": "SATISFIED_FOR_BOUNDED_REFERENCE",
+      "boundary": "Do not relabel MVM spread-inclusive history as pure HUPX; do not require a new optional retail scenario merely to close this wholesale source handoff.",
+      "consumer_binding": "Unchanged V1-003 artifacts, source IDs, optional D consumer and tests",
+      "independent_result": "No dynamic retail claim is introduced. The original conditional retail provision does not add a mandatory field to this wholesale source handoff."
+    }
+  ],
+  "reference_id": "B04-HU-SMARD-WHOLESALE-REFERENCE-20261003-V1",
+  "selected_hourly_source_id": "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+  "runtime_source_pins": [
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+      "sha256": "8eeb9c8c39587be4e42a80dc710ba2fdcc706d287dd9f53471eaa195f1f070ee",
+      "bytes": 15263
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+      "sha256": "9385a1bc3b9eb720a73abb96d2be0558796dcbaad97fa8661b0eccb2337c463a",
+      "bytes": 15063
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+      "sha256": "4f7bf08a9667e432c8419ef8f0b91b67fa18c8f4b25355c06de3d9280dd8e084",
+      "bytes": 15042
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+      "sha256": "0108a1d9e2c0acacb97701b1f35b701032cf2cb645e248202ae99c007d1b2c90",
+      "bytes": 15221
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+      "sha256": "7ea0da815f96824d1e10f8b1188e23650c1840f2fc8309ace3359dc0ee26ca7c",
+      "bytes": 14956
+    },
+    {
+      "source_id": "SRC-B04-SMARD-DATA-USE-20261003",
+      "sha256": "35fde74f29cd1134a2ed76f023bfab1be33285466609f33ad295642410eb64bd",
+      "bytes": 22677
+    },
+    {
+      "source_id": "SRC-B04-SMARD-GUIDE-202109",
+      "sha256": "2e7c4ea2b75cf320e8ac64108b29feb23155471b75bbd5c5c2a2f7ff4411b3a8",
+      "bytes": 4041997
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+      "sha256": "83cf09dc3624d1f4e60132163820996017434105ebe018f7c751ae490108f860",
+      "bytes": 435514
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+      "sha256": "007005936f18ecf03030f2d786d621374e4db8777ec2b7f814d2bdfaa572ea50",
+      "bytes": 1741751
+    },
+    {
+      "source_id": "SRC-B04-SMARD-CONFIG-20261003",
+      "sha256": "569b5d32d4b065565e77588647104b4bb64041a69f03f77741fcebf8c365102c",
+      "bytes": 92622
+    },
+    {
+      "source_id": "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+      "sha256": "b5f06ebc00b8d45e1f4200a02af614f0631580fe963fe279adf4b9e550504d44",
+      "bytes": 28127
+    }
+  ],
+  "qualified_source_pins": [
+    {
+      "source_id": "SRC-B04-ENTSOE-TERMS-LISTING-20261003",
+      "sha256": "d7234ecbf44084f25d47c92c41e75540230939cc200d785ff77df90e70f3fd10",
+      "bytes": 36373
+    },
+    {
+      "source_id": "SRC-B04-ENTSOE-PRICE-DEFINITION-20261003",
+      "sha256": "9264959c73371f97e7b78caa9362e399f9a2e7110918876630add32fe63d3737",
+      "bytes": 28014
+    },
+    {
+      "source_id": "SRC-B04-ENTSOE-FREE-REUSE-20231018",
+      "sha256": "b21717e8a5a41b9b8544db730d11c2a717abc9b07f89704437a89332b708ff9a",
+      "bytes": 236143
+    },
+    {
+      "source_id": "SRC-B04-ENTSOE-TERMS-20230329",
+      "sha256": "665d08621f711e3c0971581b15b2572e69054d4a017f693e32c20924d476352b",
+      "bytes": 345433
+    },
+    {
+      "source_id": "SRC-B04-HUPX-ACCESS-20261003",
+      "sha256": "3023b11552f5066b45eb8ba683b433c65b92796d1f8cf41679df86da769eff22",
+      "bytes": 114334
+    },
+    {
+      "source_id": "SRC-B04-HUPX-TERMS-20261003",
+      "sha256": "422fd6c78641aca1e5f70e58e0a7f7cd9b310397365ddc746ac059f041b35ae8",
+      "bytes": 86979
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+      "sha256": "8eeb9c8c39587be4e42a80dc710ba2fdcc706d287dd9f53471eaa195f1f070ee",
+      "bytes": 15263
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+      "sha256": "9385a1bc3b9eb720a73abb96d2be0558796dcbaad97fa8661b0eccb2337c463a",
+      "bytes": 15063
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+      "sha256": "4f7bf08a9667e432c8419ef8f0b91b67fa18c8f4b25355c06de3d9280dd8e084",
+      "bytes": 15042
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+      "sha256": "0108a1d9e2c0acacb97701b1f35b701032cf2cb645e248202ae99c007d1b2c90",
+      "bytes": 15221
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+      "sha256": "7ea0da815f96824d1e10f8b1188e23650c1840f2fc8309ace3359dc0ee26ca7c",
+      "bytes": 14956
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-QUARTERHOUR-INDEX-20261003",
+      "sha256": "5c16e420cebcf3d19078a93fec0dd76ad40a0f1b61e4bd3462c31c4bf0710075",
+      "bytes": 8612
+    },
+    {
+      "source_id": "SRC-B04-SMARD-DATA-USE-20261003",
+      "sha256": "35fde74f29cd1134a2ed76f023bfab1be33285466609f33ad295642410eb64bd",
+      "bytes": 22677
+    },
+    {
+      "source_id": "SRC-B04-SMARD-PUBLIC-EXPORT-CODE-20261003",
+      "sha256": "7e87bb86d87cf76be4ecaa23a39d85aab11060c629493d38fb9d52ed5264826b",
+      "bytes": 1676804
+    },
+    {
+      "source_id": "SRC-B04-SMARD-DOWNLOAD-20261003",
+      "sha256": "bd26b8b3351718f5b8bd35a664cf2e453e00861c1c68143ed9018f85e8f7dac2",
+      "bytes": 25353
+    },
+    {
+      "source_id": "SRC-B04-SMARD-GUIDE-202109",
+      "sha256": "2e7c4ea2b75cf320e8ac64108b29feb23155471b75bbd5c5c2a2f7ff4411b3a8",
+      "bytes": 4041997
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+      "sha256": "83cf09dc3624d1f4e60132163820996017434105ebe018f7c751ae490108f860",
+      "bytes": 435514
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+      "sha256": "007005936f18ecf03030f2d786d621374e4db8777ec2b7f814d2bdfaa572ea50",
+      "bytes": 1741751
+    },
+    {
+      "source_id": "SRC-B04-SMARD-CONFIG-20261003",
+      "sha256": "569b5d32d4b065565e77588647104b4bb64041a69f03f77741fcebf8c365102c",
+      "bytes": 92622
+    },
+    {
+      "source_id": "SRC-B04-SMARD-PUBLIC-CHART-CODE-20261003",
+      "sha256": "345d538704a26205795c1a7e0286896710363b69d3df4dd643009ef9075f0fa7",
+      "bytes": 2575160
+    },
+    {
+      "source_id": "SRC-B04-SMARD-SMARD-MOD-CSV-20261003",
+      "sha256": "1ab348e8a16854c60aaf0a931eda4d7d0a98b042f7cbc4cb20bc9c532b591ee7",
+      "bytes": 2125
+    },
+    {
+      "source_id": "SRC-B04-SMARD-SMARD-MOD-URLS-20261003",
+      "sha256": "42feba54f133bdc179ebaeedada9bdd00fac33b49562010cbdfd20432ce5442d",
+      "bytes": 347
+    },
+    {
+      "source_id": "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+      "sha256": "b5f06ebc00b8d45e1f4200a02af614f0631580fe963fe279adf4b9e550504d44",
+      "bytes": 28127
+    },
+    {
+      "source_id": "SRC-B04-SMARD-REGIONS-20261003",
+      "sha256": "6e594b556bd53005457ed5751083659230ff3566dd499094dcc66895de9481c8",
+      "bytes": 759
+    },
+    {
+      "source_id": "SRC-B04-SMARD-GUIDE-LISTING-20261003",
+      "sha256": "5ed873a59a44cb1386d47a7c56bc60b5096dfbf90ae900ad10423a0180c7e64e",
+      "bytes": 21334
+    }
+  ],
+  "source_and_independent_review_sha256": {
+    "source_freeze": "a278aadb2d15bdc1bafdb8de47075ad4f85a029f41a491438ab38db0bedd3294",
+    "source_review": "b89e6ceb477a523a31493b98958f2e2435b635551bb1e9fe59ae4624f0a0afc6",
+    "implementation_freeze": "7a00c3315dcb15d00cec5d6a907270d7d63e957197b501519470d6414f4e12b4",
+    "author_genuine_private_proof": "90ae320f003ef09715377d2e764db2af5a9543990d65d82424e563ed07525437",
+    "exact_consumer_review": "fa4e0d3b60a18c024de680697a02071e80bfa43da3660ba4815e847a1deed24e",
+    "final_metadata": "a150f50dd30c446bd9a73048763e58a0327c2311c1c8181b1edf1654b258f854",
+    "genuine_independent_consumer": "5b049edc8ca78b4a8717cc5994fb9b1b10a41b94539206aa25ec3cbff7adf08f",
+    "hosted": "1f208647b7c5a393f57f510fae3bc24e1da1c435bc2603e38e0b7b831e65a7ec",
+    "private_library_readback": "5d47352af4a5f56a5a07188712fee031f5d7c87892df6d40bab082a6d2e78b59",
+    "original_criterion_consumer_map": "f6d777886d9045c74c97e55ca7a914f2b7c035d07ee1dd3775ff3162738d9d66"
+  },
+  "genuine_consumer": {
+    "windows": {
+      "utc2025": [
+        "2025-01-01T00:00:00Z",
+        "2026-01-01T00:00:00Z"
+      ],
+      "civil2025": [
+        "2024-12-31T23:00:00Z",
+        "2025-12-31T23:00:00Z"
+      ]
+    },
+    "selected_hours_each": 8760,
+    "padded_hours": 8808,
+    "padded_displayed_quarters": 35232,
+    "same_lineage_epoch_witnesses": 2976,
+    "private_cli_guard_mocked": false,
+    "negative_prices_retained": true,
+    "exact_rational_arithmetic": true,
+    "author_and_independent_scenarios": "EXPLICIT_REVIEW_SCENARIOS_NOT_DEFAULTS",
+    "numerical_benchmark_outputs_public": false
+  },
+  "hosted_verification": {
+    "run_id": 37154132833,
+    "run_number": 1123,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37154132833",
+    "job_id": 111293892173,
+    "workflow_conclusion": "success",
+    "tests": 3572,
+    "passed": 3572,
+    "skips": 0,
+    "failures": 0,
+    "errors": 0,
+    "registry": "VALID",
+    "tested_merge_commit": "7a4a9fff542c40b66dbf7ef006b542b54ccc930f",
+    "tested_merge_tree": "0dad106ec7b464d6578b5a9c0d3224584fc1ec5a",
+    "log_sha256": "c2edad55e09dc208e114faabb1cbc6af3dfc9e8913db907e57c3cc8d95a5111d"
+  },
+  "acceptance_template_sha256": "23ba509b1c3667da3498141f6bd034c838c2b316a778be611e77ca18419ab183",
+  "retained_validation_debt_ids": [],
+  "preserved_boundaries": {
+    "bidding_zone": "HU; DE-LU is only display region",
+    "unit": "EUR/MWh; imported energy MWh; output EUR",
+    "price_representation": "PUBLISHER_CALCULATED_HOURLY_CENT_LEXEMES",
+    "maximum_observed_quarter_mean_difference_eur_mwh": "0.005; empirical serialization comparison, not full uncertainty",
+    "publisher_tie_rounding": "UNKNOWN",
+    "source_vintage": "RETROSPECTIVE_RETRIEVAL_ONLY; original-auction/per-record revisions unknown",
+    "native_resolution_transition_utc": "2025-09-30T22:00:00Z",
+    "pretransition_quarter_display": "REPEATED_HOURLY_PRICE_NOT_FOUR_INDEPENDENT_AUCTIONS",
+    "physical_UTC_ends": "DER; original displayed end labels and two DST anomalies per CSV retained",
+    "operative_article_displayed_date": "2025-10-10; HTML midnight+02 equals Oct9 22:00Z, stable ID retained as lineage",
+    "guide_edition": "September 2021; exact publication day unknown",
+    "rights": "Source-specific SMARD numerical-market-data CC BY4 representation; Bundesnetzagentur | SMARD.de attribution; no direct HUPX/ENTSO-E relicensing",
+    "raw_sources_or_numeric_panel_publication": false,
+    "retail_or_actual_uneven_subhour_procurement_claim": false,
+    "FX_or_dispatch_or_forecast_or_programme_result": false,
+    "window_energy_or_policy_defaults": false,
+    "optional_MVM_D_or_broader_licensed_history_forward_admission": false,
+    "whole_module_or_national_gate_acceptance": false,
+    "module_readiness_increase": false,
+    "B19_whole_task_acceptance": false,
+    "b15_gate_released": false
+  },
+  "no_source_data_code_or_tests_changed_in_this_step": true
+}

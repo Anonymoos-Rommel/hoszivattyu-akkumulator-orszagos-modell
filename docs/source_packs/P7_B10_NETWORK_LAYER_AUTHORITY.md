@@ -82,7 +82,10 @@ P7 creates **no second attribution classifier**.
 
 - P1/P2 remain source-native DSO headroom contracts.
 - P3 remains the WITHOUT_PROGRAM / WITH_PROGRAM baseline/incremental authority.
-- P4 remains the two observed completed RRF DSO baseline projects.
+- P4 remains the two source-reported completed RRF DSO baseline projects, with
+  `PROJECT_COMPLETED_REPORTED` lifecycle status. Physical operating coverage and
+  energization dates remain Q; neither layer authority nor programme-independent
+  baseline attribution can promote those reporting facts to physical operation.
 - P5 remains the reinforcement requirement and programme-incremental CAPEX gate.
 - P6 remains the project-delivery timing evidence gate.
 

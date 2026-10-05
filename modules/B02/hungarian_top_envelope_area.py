@@ -13,11 +13,16 @@ and A_C_Ref is conditioned floor area.
 
 Published Hungarian class-average ratios:
 - SFH: 0.84 m2/m2
-- MFH: 0.35 m2/m2
+- MFH: 0.36 m2/m2
 - AB:  0.20 m2/m2
 
 These ratios are averaged over construction-year classes and are admitted only
 as reference-programme synthetic-average calibration values.
+
+Authority: SRC-B02-EU-TABULA-DATABASE-EVALUATION-2015, Table 4, printed
+page 8, HU column. V1-031 corrects the historical MFH Common-column 0.35
+transcription; source-cell and retained-byte provenance is recorded in
+registry/b02_p93_top_ratio_source_precision.json.
 
 Critical boundaries:
 
@@ -48,7 +53,7 @@ FAMILY_HOUSE = "FAMILY_HOUSE"
 MULTI_DWELLING = "MULTI_DWELLING"
 
 TABULA_HU_SFH_TOP_TO_CONDITIONED_FLOOR_RATIO = 0.84
-TABULA_HU_MFH_TOP_TO_CONDITIONED_FLOOR_RATIO = 0.35
+TABULA_HU_MFH_TOP_TO_CONDITIONED_FLOOR_RATIO = 0.36
 TABULA_HU_AB_TOP_TO_CONDITIONED_FLOOR_RATIO = 0.20
 
 QUALIFIED_HUNGARIAN_TOP_ENVELOPE_AREA_PROXY = (

@@ -1,0 +1,109 @@
+{
+  "checkpoint": "V1-042",
+  "base_commit": "148ccae8b8e8e7cca12f18a1e3d8cf9ab7df1380",
+  "reviewed_substantive_tree": "d30f8f02a8ef5a39303348be1656104a158f59da",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_041_CI.json",
+      "bytes": 1581,
+      "sha256": "c3966c11be09fe74a65174a99be519ba601e3752d6d4c269ffc769bcd6e55c0e",
+      "git_blob": "9517836e9971b31a2e7691b04fa556d72a853f28"
+    },
+    {
+      "path": "docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md",
+      "bytes": 5314,
+      "sha256": "5504d9246208fc4d3f66820668bc89aed159e0370b1c5613c4eb819495977c76",
+      "git_blob": "e67cd96b5d32543b6dca4b1e801a337e50568545"
+    },
+    {
+      "path": "modules/B02/README.md",
+      "bytes": 10686,
+      "sha256": "5834e31e74bb2bb0e14ac51f0e483f78a6e054ca9026932c64d208107a7c9691",
+      "git_blob": "665206f8ce446f360ca552e5d3ccdf39baf72775"
+    },
+    {
+      "path": "modules/B02/current_area_reference.py",
+      "bytes": 8276,
+      "sha256": "4c054f396fb1d7dc221457aedc5092dca826938939c539725876dfe8518fa957",
+      "git_blob": "b92fe945b0ee4e37a0e22c85e640f2c05fb1bedf"
+    },
+    {
+      "path": "registry/b02_current_area_reference_manifest.json",
+      "bytes": 5025,
+      "sha256": "f017c319fb8cf068d445db39b0d820eaf53422a09d60b005f9658bedb23bb602",
+      "git_blob": "ac04828631845f45ea973bfaf712eaf54371f831"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 261782,
+      "sha256": "a3308e05d8b92a44dfb163c02d8fda3d7545027a080bc088652f31a592ca5d5b",
+      "git_blob": "e2f9f8f7f57c43e1d2ad31382e9214258e80bbe6"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 113605,
+      "sha256": "34c4f53552a6f8a430578e5e1161efd07c943ac6443c236fadd92f79657d9a32",
+      "git_blob": "62f5275f61ff378ba7a9469d396c69691bffd4cd"
+    },
+    {
+      "path": "tests/test_b02_current_area_reference.py",
+      "bytes": 5876,
+      "sha256": "f70a2bdfb0c0cb4f1289dc71a00ef1bf6066e6e910c24f6113bdc861cc3b0411",
+      "git_blob": "3f85fce0c2637c485931c5539776159d34ee204c"
+    }
+  ],
+  "scope": "Current occupied-area E2 diagnostic only; no heat allocation or weights changed",
+  "independent_review": {
+    "verdict": "PASS_FOR_SCOPED_AREA_DIAGNOSTIC",
+    "report_sha256": "aa47701935dec1b3a259e29df117456a31f1362b138fa1ed5c8aeab12c6d6cc6",
+    "focused_tests": 14,
+    "constructive_budget_witnesses": 16,
+    "witness_sha256": "3b947ea5cb88a22a13d9f16f756755c772a0032623cb7eb6042824ae2f3616cd",
+    "source_artifacts_hash_verified": 3,
+    "blocking_findings": [],
+    "limits": "Scoped area diagnostic; no heat, installed-system or programme validation. Prior hosted CI checked against retained exact log, not newly queried by the independent reviewer."
+  },
+  "author_verification": {
+    "focused_tests": 14,
+    "plan_tests": 3,
+    "registry": "VALID",
+    "diff_check": "PASS",
+    "configured_suite": {
+      "checkpoint": "V1-042",
+      "substantive_tree": "d30f8f02a8ef5a39303348be1656104a158f59da",
+      "command": "python3 -m unittest discover -s tests -v",
+      "discovered": 3261,
+      "passed": 3258,
+      "skipped": 3,
+      "failed": 0,
+      "duration_seconds": 122.84,
+      "log_sha256": "068d675f6a8489ed461d19587296917da29652e1c2b31ee6c0b041a4490c614b",
+      "skip_lines": [
+        "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+        "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+        "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+      ],
+      "hosted_requirement": "Exact final head must execute all tests and three named external positives without skips"
+    }
+  },
+  "hosted_ci": {
+    "status": "REQUIRED_ON_FINAL_PUBLISHED_HEAD",
+    "expected_discovered": 3261,
+    "required_skips": 0,
+    "required_external_positives": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+    ]
+  },
+  "claim_boundary": {
+    "reported_mean_status": "OBS_AT_PUBLICATION_PRECISION",
+    "rounding_interpretation_status": "ASS",
+    "derived_area_status": "DER",
+    "derived_area_evidence_tier": "E2_PROVISIONAL_BASE",
+    "heat_admission": false,
+    "weights_changed": false,
+    "readiness_changed": false,
+    "source_raw_publication": false
+  }
+}

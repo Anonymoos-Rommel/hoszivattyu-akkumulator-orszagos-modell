@@ -1,0 +1,167 @@
+{
+  "checkpoint": "V1-056",
+  "status": "LOCAL_REVIEWED_SEPARATELY_SELECTED_SOURCE_LED_REFERENCE_NOT_PUBLISHED",
+  "integration_base_commit": "ea0f67daf7b7374c49967c0409894994d3f57eb4",
+  "reviewed_substantive_tree": "216ab115922bd22b24a416a3a758b2fef4dc5cf9",
+  "substantive_patch_sha256": "60ac38f27d31092ddce8361e5cef7f1932e30dbe3ddf648ec4ce18490eb924e6",
+  "reviewed_substantive_files": [
+    {
+      "path": "docs/checkpoints/V1_056_B13_SOURCE_LED_REFERENCE.md",
+      "bytes": 7180,
+      "sha256": "06cd3250f60854d770bc1164155be152047fb386216ae73a0855fa2715fe83ea"
+    },
+    {
+      "path": "modules/B13/README.md",
+      "bytes": 1732,
+      "sha256": "5f15561a661fa1bbd6665e4e4d8c8bab02acccc6a79c31fc964a92135f3584fe"
+    },
+    {
+      "path": "modules/B13/fiscal_reference.py",
+      "bytes": 21692,
+      "sha256": "67dc729c138c773f7410035d10ea8393b54ccea4d58bb523992d1e9244fd57b5"
+    },
+    {
+      "path": "registry/b13_fiscal_source_led_reference_manifest.json",
+      "bytes": 62988,
+      "sha256": "9c9842239e80ffb0e064eb66c4bc4cf0d4bd447aa1c26d71b8348a25e6a58bcb"
+    },
+    {
+      "path": "registry/module_status.csv",
+      "bytes": 62730,
+      "sha256": "06ab08fb5c4bf6086caab46347612db4340faba10057983f8c35e14b41a56149"
+    },
+    {
+      "path": "registry/sources.csv",
+      "bytes": 290071,
+      "sha256": "f7028510de280fd3467e322a52cfb182efb34d556bd3c84fa2929194884f504d"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 151519,
+      "sha256": "2e9c70fd2aad30752eafd84d3346c346d6beceb50be02c9f2079f874196b7599"
+    },
+    {
+      "path": "tests/test_b13_source_led_reference.py",
+      "bytes": 13307,
+      "sha256": "8fb766e66f37d4a6bfdceaf6f4a4338c3e6535f5e4124bac3c3b151533be69f6"
+    },
+    {
+      "path": "tools/materialize_b13_fiscal_reference.py",
+      "bytes": 6877,
+      "sha256": "d1c6b47c037413cb656adf7f3f5c341a8e9a00997d02e96a49b7e516e3f1abf5"
+    }
+  ],
+  "local_canonical": {
+    "checkpoint": "V1-056",
+    "status": "LOCAL_CANONICAL_PASS_WITH_THREE_DOCUMENTED_HOST_ONLY_SKIPS",
+    "tests_discovered": 3541,
+    "passed": 3538,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 131.634,
+    "registry": "VALID",
+    "log_bytes": 674418,
+    "log_sha256": "3ec9a8605c545c86f931a702b020ac167951a494e6e6bf46405484e1915b7e7b",
+    "skipped_tests": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "substantive_tree": "216ab115922bd22b24a416a3a758b2fef4dc5cf9",
+    "all_nine_frozen_files_unchanged": true,
+    "hosted_ci": "NOT_RUN_NOT_YET_AUTHORIZED"
+  },
+  "independent_review": {
+    "receipt_sha256": "8c2e11e8945ca2299b4f02160b4a4871d89d016c4a9146578c799925aac37387",
+    "verdict": "PASS_EXACT_NINE_FILE_SUBSTANTIVE_PACKET",
+    "original_criteria_satisfied": true,
+    "focused_tests_discovered": 73,
+    "focused_tests_passed": 72,
+    "known_host_skips": 1,
+    "original_criterion_map_sha256": "c82aed9463bb0d7a9013ad9b1346994669ae561350c77c13758d3b38bd144aaf"
+  },
+  "source_review": {
+    "raw_source_count": 14,
+    "original_source_bytes": 15530865,
+    "original_source_verdict_sha256": "bf2daab6410b3470ddd4ce2a8385b9610014edac50a6389c83e73f0490b971d1",
+    "source_led_r3_verdict_sha256": "d1e9037069ae1a59cba32b8c6facbf16a941494ace456830ccaa1e475d191b97",
+    "source_led_freeze_sha256": "e163b6c007adba088e7bcc4db3aa053510f75bc82656dd2bb80580236cfc1167",
+    "public_metadata_admission_sha256": "9c9842239e80ffb0e064eb66c4bc4cf0d4bd447aa1c26d71b8348a25e6a58bcb",
+    "prior_source_freezes_unchanged": true,
+    "fresh_online_currentness_check_claimed": false
+  },
+  "source_freezes": {
+    "recovered_originals_inventory_sha256": "e2ad9452d98808c75d0329897b1190274967eaef672fbed27e672e586815c5ca",
+    "source_led_reference_freeze_sha256": "e163b6c007adba088e7bcc4db3aa053510f75bc82656dd2bb80580236cfc1167",
+    "metadata_admission_delta_sha256": "0dd9745d85dfd84360ee77220d0933a40f72848a51a3bf746399b9d6ebffe8a1"
+  },
+  "genuine_materialization": {
+    "status": "PASS_GENUINE_NEW_SOURCE_LED_READER_AND_PRIVATE_MATERIALIZER",
+    "reference_id": "B13-D01-FISCAL-BASELINE-REFERENCE-SOURCE-LED-20261003",
+    "private_panel_sha256": "e61832ed2546175a93b4f63b3660887119ad96c244d42f2455a2733a3e27a5c7",
+    "original_source_count": 14,
+    "records": 51,
+    "numeric_records": 50,
+    "genuine_blanks": 1,
+    "source_flags": 7,
+    "native_lexeme_differences": 0,
+    "controls": 32,
+    "control_statuses": {
+      "PASS": 26,
+      "RETAINED_DIAGNOSTIC": 5,
+      "UNRESOLVED": 1
+    },
+    "source_led_manifest_sha256": "9c9842239e80ffb0e064eb66c4bc4cf0d4bd447aa1c26d71b8348a25e6a58bcb",
+    "output_files": [
+      {
+        "path": "repo/data/interim/v1056_source_led_exact_candidate/fiscal_reference.json",
+        "bytes": 73336,
+        "sha256": "50b39a8a75fc3a479e1d674759349a4cdcbf995b9c9002254646728dfb931b8c"
+      },
+      {
+        "path": "repo/data/interim/v1056_source_led_exact_candidate/receipt.json",
+        "bytes": 11262,
+        "sha256": "02c9f74f626671b73758016f99b32b5ba3bc3f6d82ef8a9673fa4e6bf6798d15"
+      }
+    ],
+    "output_ignored_and_untracked": true,
+    "legacy_panel_recovered": false,
+    "headroom": "NOT_ESTABLISHED",
+    "b15": "NOT_GRANTED"
+  },
+  "original_task_status_at_first_stage": "REVIEW_REQUIRED",
+  "conditional_acceptance_template": {
+    "sha256": "4819f24b8c15363125b891b9bb3c799d18342502156e64bb944fba2d1e73da2f",
+    "executed": false,
+    "allowed_changed_paths": [
+      "registry/v1_research_plan.json",
+      "registry/module_status.csv",
+      "docs/checkpoints/V1_056_ACCEPTANCE.json"
+    ],
+    "requires": "Exact owner approval, actual implementation commit with exact reviewed tree, 3541 passed and zero skipped hosted tests, independently verified CI and private recovery preservation"
+  },
+  "scientific_boundaries": {
+    "reference_id": "B13-D01-FISCAL-BASELINE-REFERENCE-SOURCE-LED-20261003",
+    "legacy_default_and_manifest_unchanged": true,
+    "legacy_panel_private_normalizer_or_serialized_values_recovered": false,
+    "new_source_led_values_independently_extracted": true,
+    "raw_originals": 14,
+    "records": 51,
+    "numeric_records": 50,
+    "genuine_blank": 1,
+    "native_source_flags": 7,
+    "accounting_controls_unchanged": 32,
+    "control_statuses": {
+      "PASS": 26,
+      "RETAINED_DIAGNOSTIC": 5,
+      "UNRESOLVED": 1
+    },
+    "annex_authority": "DESCRIPTIVE_PINNED_CONTEXT_LEGAL_EFFECTIVITY_UNVERIFIED",
+    "cash_ESA_IFRS_stock_flow_and_appropriation_distinctions_retained": true,
+    "programme_response_headroom_owner_policy_and_B15_not_established": true,
+    "other57_tasks_criteria_dependencies_readiness_unchanged": true,
+    "source_originals_and_numeric_panels_in_public_patch": false
+  },
+  "publication": "Not performed; exact 10-file approval required; no main merge"
+}

@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.engine import PerformanceMap, PerformancePoint
 from modules.B05.modulation_floor_surface import (
     OUTSIDE_SURFACE,
@@ -109,7 +111,7 @@ class B05P21BoundedModulationFloorSurfaceTests(unittest.TestCase):
         variables={r["variable_id"]:r for r in rows(VARIABLES)}
         self.assertEqual(variables["VAR-B05-MODULATION-FLOOR-SURFACE"]["status"],"DER")
         readiness={r["component_id"]:r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         sources={r["source_id"]:r for r in rows(SOURCES)}
         self.assertIn("SRC-B05-MITSUBISHI-ECODAN-PLAN-MINFLOOR-2021",sources)
         self.assertIn("SRC-B05-MITSUBISHI-SE-WM50-A7W45-2026",sources)

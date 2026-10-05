@@ -1,0 +1,79 @@
+{
+  "checkpoint": "V1-037",
+  "base_commit": "4bb201914ff8fe824cfa8fc5207b3947d8fe136d",
+  "reviewed_substantive_tree": "7744b83534e4c058d86a1079387c196f8b64ad6f",
+  "scope": "Three historical envelope states at identical modelled service; conditional thermal/capacity results only",
+  "source_contracts": "Existing exact TABULA/hourly/manufacturer inputs and methods preserved; full external radiation/source workbook not republished",
+  "qualification_review": {
+    "receipt_sha256": "fcad5356deabdb28f919a624aabfc22fa1b1d78ca35b5116dc6ebb82262a8112",
+    "original_workbook_cells_checked": 255,
+    "genuine_state_hours": 216
+  },
+  "independent_implementation_review": {
+    "verdict": "ACCEPT_EXACT_IMPLEMENTATION_NO_BLOCKING_FINDING",
+    "review_sha256": "70ab4e215eb47e7b12af194512d0a35151b703c1667d18cd0e39d6cc3bb3639c",
+    "receipt_sha256": "bfee9ad9ffaa04fbb70cc8b54925c3f493249f64d44cdf31c202c2983b50ae00",
+    "genuine_state_hours_independently_replayed": 216,
+    "embedded_thermal_result_unchanged": true,
+    "adverse_probe_groups_passed": 18,
+    "independent_interval_partitions": 15
+  },
+  "focused_tests": {
+    "new": 21,
+    "existing_thermal": 29,
+    "existing_partial_electrical": 21,
+    "total": 71
+  },
+  "registry": "VALID",
+  "local_full": {
+    "command": "python -m unittest discover -s tests -v",
+    "exit_code": 0,
+    "discovered": 3143,
+    "passed": 3140,
+    "skipped_count": 3,
+    "skipped_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "seconds": 117.422,
+    "frozen_tree": "7744b83534e4c058d86a1079387c196f8b64ad6f",
+    "all_hashes_unchanged": true,
+    "log_sha256": "2f7177385d0bb60d454f608551884e6b19ee3e880ebb435c1e7178d7d97b8afd",
+    "completed_at": "2026-10-02T09:02:31.997666+00:00"
+  },
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_036_CI.json",
+      "bytes": 987,
+      "sha256": "cd235cc09b671a63f587ea1e7554643f4544c170dfbd159dfc89d648062806f6",
+      "git_blob": "8e3b69727f8444d704c04c439ff56dd81e641591"
+    },
+    {
+      "path": "docs/checkpoints/V1_037_COMMON_SERVICE_ENVELOPE_REFERENCE.md",
+      "bytes": 3797,
+      "sha256": "92ef6494fb039ff97a29e3d5df604215881c09f96e9ca6f67ebe43fe77c14e8f",
+      "git_blob": "7eab7cd5dcdf89e62817eb0751d3cd566ec75044"
+    },
+    {
+      "path": "modules/B06/common_service_envelope_reference.py",
+      "bytes": 13769,
+      "sha256": "88f9c97a1455c002f8080a2e5322f38ff744aedb8865a154dda9f34e831cada6",
+      "git_blob": "8fdd77d153e6a1f4fdcc9fbc7060af0a8fe61691"
+    },
+    {
+      "path": "tests/test_b06_common_service_envelope_reference.py",
+      "bytes": 12544,
+      "sha256": "93bc81cb408d39761d9dad3e2c98474d5d00adb8978d065dd2481a9bbaca0387",
+      "git_blob": "3471f62d70ab566d414aa02db1cf22c6527966a5"
+    }
+  ],
+  "hosted_ci": "REQUIRED_ON_FINAL_PUBLICATION_HEAD",
+  "limits": [
+    "Historical alternative states are not observed paired renovation outcomes",
+    "No complete electricity,SPF,payback,annual or national result",
+    "No readiness/slice promotion or policy choice",
+    "Unknown radiation/state and capacity dependencies propagate without zero fill",
+    "Source/software verification is not empirical building/runtime/network validation"
+  ]
+}

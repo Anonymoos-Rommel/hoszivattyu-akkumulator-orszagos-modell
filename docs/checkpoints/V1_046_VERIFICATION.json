@@ -1,0 +1,101 @@
+{
+  "checkpoint": "V1-046",
+  "base": "738375e2b5d25c0f9b080729212801a50b2bbe1b",
+  "substantive_tree": "fc15ce04463ecd1756f05710213b973fb75060d4",
+  "scope": "Single 17-year ASS/E2 modeled WM50 lifecycle subinput with centrally registered transfer debt; no complete cost/cash flow/physical-survival admission",
+  "local_verification": {
+    "checkpoint": "V1-046",
+    "substantive_tree": "fc15ce04463ecd1756f05710213b973fb75060d4",
+    "command": "python3 -m unittest discover -s tests -v",
+    "discovered": 3323,
+    "passed": 3320,
+    "skipped": 3,
+    "failed": 0,
+    "duration_seconds": 129.592,
+    "log_sha256": "f22d98021a30cd4f51272aca04cad6c53072c8a6c5d4678f4f203d9cf5a3f370",
+    "skip_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ],
+    "registry": "VALID",
+    "freeze_sha256": "753bf08b04f5cd60ec35e0584bca6ef54a4b1afd383950728ae9de92beaa9ad6"
+  },
+  "independent_review": {
+    "verdict": "ACCEPT_EXACT_R3_BOUNDED_LIFECYCLE_SUBINPUT",
+    "reviewed_files": [
+      {
+        "path": "modules/B06/README.md",
+        "bytes": 12655,
+        "sha256": "5572be9bdd46f1ae3890d334de49315042c81a7d70a791cb8d8106619d68fa64",
+        "git_blob": "f9b1a35f27d83bc1aba4d512425aa7e762464e3d"
+      },
+      {
+        "path": "modules/B12/README.md",
+        "bytes": 11499,
+        "sha256": "98381c5d330dea5e4a5e5d9870c9f809b38ca58bfb9961eb255e35240f1b51ed",
+        "git_blob": "5e11f51ade4b7bbc245e0cd9429ef5d87a0c0637"
+      },
+      {
+        "path": "registry/b12_input_inventory.json",
+        "bytes": 10820,
+        "sha256": "92124d4685d0c12afc973463bbb96844c15929ecd2d104510ced256c2d277c79",
+        "git_blob": "8168f29b4ec6f9ca71d36ad14a6d979611e7e84f"
+      },
+      {
+        "path": "registry/project_blocker_evidence_audit.csv",
+        "bytes": 27501,
+        "sha256": "9a79821ae52eace7dc0595f60f9175a51036dc4126e113bcdf6c0370d57b77df",
+        "git_blob": "e6de6f53bf2a96da148a49b35c77483c811f3077"
+      },
+      {
+        "path": "registry/sources.csv",
+        "bytes": 263193,
+        "sha256": "c3f7f1b101441202387878b52eecd4dc170475dd9cfbb9e2863f5d4748d05dcb",
+        "git_blob": "03bef45cee84c0247701c5b57b862b32b94caf85"
+      },
+      {
+        "path": "registry/v1_research_plan.json",
+        "bytes": 121379,
+        "sha256": "1a5282f4ce13f727640ac9c7a5403942cb024275b0cbbd15436750d7b31b32c8",
+        "git_blob": "7b0fa09f220c2dcbb3bd112eb4f27397becb9afd"
+      },
+      {
+        "path": "tests/test_b12_input_accounting_contract.py",
+        "bytes": 64658,
+        "sha256": "b5aad13a60bea3e908a466cf17e3b71de4c97a9409eb4551de5bd73fe161fc24",
+        "git_blob": "192ca06c59aef033e473dd8710ea426024513ada"
+      },
+      {
+        "path": "docs/checkpoints/V1_046_WM50_REFERENCE_LIFECYCLE.md",
+        "bytes": 5019,
+        "sha256": "6bfbeee09e3f002f705987e3eddd8d33a929dc1e959f75be6b03422e37d76555",
+        "git_blob": "f8bd99580cc2c469cad762e94fe58e02db332e2d"
+      },
+      {
+        "path": "registry/b06_cost_lifecycle_handoff.json",
+        "bytes": 5295,
+        "sha256": "2361d5c9f083a957aeaf36cc0d8fef7df0e184d2e89c986c7f737f76b903e773",
+        "git_blob": "437b84185c5c179b9fa2c8eccf08f2207f1e04ee"
+      },
+      {
+        "path": "tests/test_b06_cost_lifecycle_handoff.py",
+        "bytes": 5888,
+        "sha256": "b60b75dff5035384c4e7daf3880aad95d47341055951ca43bf09083bc2cd068f",
+        "git_blob": "df573ea0ae0e6227507af7f58a6e76048c026dd4"
+      }
+    ],
+    "source_admission_report_sha256": "b5658f36703184091b26c3c2014653bda2da68a7e9b160230b225cb3484e9c00",
+    "r2_implementation_review_sha256": "77a3accc8ba516aa363dd25b26e6377a1bf53ece9c70f210b09976afd38a36d8",
+    "r3_exact_delta_review_sha256": "06d95585be9e5c745be9644571bb53c562ad9309043246f53ace2a588c07bf7f",
+    "r2_targeted_tests_passed": 71,
+    "r3_focused_repeated_tests_passed": 8,
+    "consumer_check": "Existing Scalar to Asset life field accepted; replacement/coverage remain missing; external accounting Q without monetary rows",
+    "resolved_findings": [
+      "Four material debts registered in existing central audit and linked to both affected slices",
+      "Prose spacing clarified without numeric or logic changes"
+    ]
+  },
+  "hosted_ci": "PENDING_EXACT_FINAL_TREE; local environment skipped 3 real-external positives",
+  "publication": "Candidate receipt requires exact remote ref and hosted CI verification"
+}

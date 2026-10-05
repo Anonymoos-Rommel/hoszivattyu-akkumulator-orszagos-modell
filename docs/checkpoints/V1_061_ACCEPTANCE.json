@@ -1,0 +1,147 @@
+{
+  "checkpoint": "V1-061",
+  "accepted_slice": "B16-D01",
+  "status": "ACCEPTED_BOUNDED_B16_D01_DESCRIPTIVE_STRUCTURE_HANDOFF",
+  "accepted_scope": "Original structural-data handoff at explicit historical source and conditional classification scope; no programme macroeconomic effect or national readiness.",
+  "record_prepared_at": "2026-10-04T17:31:43.748083+00:00",
+  "reviewed_commit": "4de371437a70ad36d3ff80ab7a6382212f2c4703",
+  "reviewed_tree": "0b65c72838ec7447e2b225eaede9b9dea0ac95f1",
+  "reviewed_parent": "f9ba7b95761ba2083b1f26a5d8131217bea8fe28",
+  "original_requirement": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR, importarány, hozzáadottérték, foglalkoztatás/FTE. FIGARO-kód és hazai kiadási csomag közti híd.",
+  "original_criteria": [
+    {
+      "original_clause": "HU × ágazat/termék × év: input-output folyó vagy bázisáras HUF/EUR",
+      "verdict": "SATISFIED_AT_DECLARED_DESCRIPTIVE_SCOPE",
+      "binding": "HU2023 national ModelD industry-by-industry accounts, current-price millionHUF, basic prices/CIF imports, national vintage2025. This is the industry alternative and is not renamed FIGARO.",
+      "evidence": [
+        "registry/b16_industry_structure_reference_manifest.json",
+        "modules/B16/industry_structure_reference.py"
+      ]
+    },
+    {
+      "original_clause": "importarány",
+      "verdict": "SATISFIED_AT_DECLARED_DESCRIPTIVE_SCOPE",
+      "binding": "Named historical origin-use cell IMP/TOTAL, where TOTAL=DOM+IMP; exact fractions and explicit signed/zero/missing classifications. No programme propensity or embodied import claim.",
+      "evidence": [
+        "registry/b16_spending_classification_manifest.json",
+        "modules/B16/spending_classification_reference.py"
+      ]
+    },
+    {
+      "original_clause": "hozzáadottérték",
+      "verdict": "SATISFIED_AT_DECLARED_DESCRIPTIVE_SCOPE",
+      "binding": "Native B1G with source accounting identities, output/GVA distinction and absent imported GVA retained.",
+      "evidence": [
+        "registry/b16_industry_structure_reference_manifest.json",
+        "modules/B16/industry_structure_reference.py"
+      ]
+    },
+    {
+      "original_clause": "foglalkoztatás/FTE",
+      "verdict": "SATISFIED_AT_DECLARED_DESCRIPTIVE_SCOPE",
+      "binding": "Native domestic persons/actual hours are the employment alternative. No invented FTE denominator or labour/output ratio across unresolved vintage differences.",
+      "evidence": [
+        "registry/b16_employment_structure_reference_manifest.json",
+        "modules/B16/employment_structure_reference.py"
+      ]
+    },
+    {
+      "original_clause": "FIGARO-kód és hazai kiadási csomag közti híd",
+      "verdict": "SATISFIED_AT_DECLARED_DESCRIPTIVE_SCOPE",
+      "binding": "Complete declared conditional classification vocabulary:27 routes,11groups, versioned CPA2.1 products, characteristic NACERev2, actual supplier separately Q, national IO and exact FIGARO2026 code keys. Monetary allocation and unlisted items remain unresolved.",
+      "evidence": [
+        "registry/b16_spending_classification_manifest.json",
+        "modules/B16/spending_classification_reference.py"
+      ]
+    }
+  ],
+  "source_bound_artifacts": [
+    {
+      "path": "registry/b16_industry_structure_reference_manifest.json",
+      "bytes": 17562,
+      "sha256": "f0da3653a5ccccde6d88bab13afbd0cf5f1872035e7d6c9a38d56bd5cf036c7c"
+    },
+    {
+      "path": "modules/B16/industry_structure_reference.py",
+      "bytes": 18388,
+      "sha256": "503edd26d794a1da82f48b5411ab4b600e164fba47ca0a9809abdc2d4bd153de"
+    },
+    {
+      "path": "registry/b16_spending_classification_manifest.json",
+      "bytes": 55596,
+      "sha256": "39242eb63e449b299b1310655144ca03d1782c3ce6c9471b25d47811126461e6"
+    },
+    {
+      "path": "modules/B16/spending_classification_reference.py",
+      "bytes": 8128,
+      "sha256": "fdaec6a8ea8a230fab6ac84a9a0b766072ff1947ff66b5ca953452b01a672b22"
+    },
+    {
+      "path": "registry/b16_employment_structure_reference_manifest.json",
+      "bytes": 33755,
+      "sha256": "4a8b773ff92d0c87e0101f02c7e476d2afbeb4a1edf8f67f8a5394094711701d"
+    },
+    {
+      "path": "modules/B16/employment_structure_reference.py",
+      "bytes": 22428,
+      "sha256": "dccbd57163289fc6a91fc8ddc805c5baf1275fb137d78659ea00910eea1ec0a8"
+    },
+    {
+      "path": "tests/test_b16_spending_classification_reference.py",
+      "bytes": 13253,
+      "sha256": "3c253525d366eebb11b8f52a85333b16f910f7d5ce596c8a8768770b6447e96f"
+    },
+    {
+      "path": "docs/checkpoints/V1_061_STRUCTURE_CLASSIFICATION_HANDOFF.md",
+      "bytes": 7664,
+      "sha256": "5d52653d711a4dcccbe2da1ca1f977ec34392c8df042e44bf8a03a832ae9f56c"
+    }
+  ],
+  "hosted_ci": {
+    "run_id": 37220409972,
+    "run_number": 1131,
+    "run_attempt": 1,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37220409972",
+    "job_id": 111489420096,
+    "tested_merge_commit": "99f33f3ec9881ddccbd66c4fefce946b51100b9a",
+    "tested_merge_tree": "0b65c72838ec7447e2b225eaede9b9dea0ac95f1",
+    "tested_merge_parents": [
+      "144c0d96cee674fbea4bf951826e68f000b45705",
+      "4de371437a70ad36d3ff80ab7a6382212f2c4703"
+    ],
+    "workflow_status": "completed",
+    "workflow_conclusion": "success",
+    "job_status": "completed",
+    "job_conclusion": "success",
+    "tests": 3660,
+    "passed": 3660,
+    "skips": 0,
+    "errors": 0,
+    "failures": 0,
+    "registry": "VALID",
+    "log_bytes": 818206,
+    "log_sha256": "d333478941c1e91b4884fd4aaa84d844a53bf2c50908132cfb73952bc5a8c11f"
+  },
+  "independent_verification": {
+    "published_CI_receipt_sha256": "4f8d33288f90f4511193fa4ae1892e0c0675add755953c336b0f6acb4a91b6b0",
+    "exact_packet_review_sha256": "e84382fc4317a877791811b3a366409f32571098c1a5ff0f67063dbab1b2a2db",
+    "original_criterion_map_sha256": "893b5d5ee361cd2d423318971e5aef281cfd4bb212857a108e6d515973c43728",
+    "source_review_sha256": "f7e917390a4ce6bf1be7e97f88516f7cc9afdc9f87b10ca59b1c92a0ebfdc37e",
+    "template_sha256": "fc2f75a374ad26a82518c47598f2e6081f323d09589dbfdc6c9902a39e6c3fe4",
+    "private_custody_receipt_sha256": "04b423c97f684b0dd8ed8b044cec24ecdb63f729f952e709a1fd60ec229a33e5"
+  },
+  "limits": [
+    "Current classifications do not update the historical numeric source.",
+    "CPA2.2 target relations are retained for version checking; no automatic conversion or reverse allocation.",
+    "Gross output is not GVA, GDP or net programme benefit.",
+    "Persons/actual hours are not FTE, permanent jobs or person-years of incremental employment.",
+    "No joint labour/output coefficients are admitted across the incompatible accounting snapshots.",
+    "Actual supplier industry and monetary allocation are Q; no programme expenditure vector or price/currency conversion supplied.",
+    "Named origin-use positions are not an additive partition; source signed adjustments remain interpretive debt.",
+    "B16-D02 and all module dependencies/readiness and B15 gates remain unchanged.",
+    "Originals and private B13 method/conversation are not part of the public patch."
+  ],
+  "original_sources_and_private_messages_published": false,
+  "main_merge_authorized": false,
+  "acceptance_step_code_data_tests_changed": false
+}

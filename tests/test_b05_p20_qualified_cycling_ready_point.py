@@ -2,9 +2,13 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.cycling_input_colocation import MEASUREMENT_DETERMINED, QUALIFIED, assess_cycling_input_colocation
 from modules.B05.qualified_cycling_point import (
-    QUALIFIED_POINT,
+    CONDITIONAL_POINT,
+    SOURCE_JOIN_REQUIRED,
+    evaluate_conditional_cycling_point,
     QualifiedCyclingPoint,
     evaluate_exact_cycling_point,
     p20_boundary,
@@ -39,7 +43,7 @@ def point():
     )
 
 class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
-    def test_materialized_point_is_exact_and_runtime_ready(self):
+    def test_manufacturer_point_is_preserved_but_source_join_is_not_ready(self):
         data=rows(DATA)
         self.assertEqual(len(data),1)
         row=data[0]
@@ -49,7 +53,11 @@ class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
         self.assertEqual(float(row["min_input_kW"]),0.33)
         self.assertEqual(float(row["declared_min_COP"]),5.46)
         self.assertEqual(float(row["cdh_Tj"]),0.950)
-        self.assertEqual(row["runtime_ready"],"true")
+        self.assertEqual(row["runtime_ready"],"false")
+        self.assertEqual(row["cdh_climate"],"average")
+        self.assertEqual(row["historical_cdh_climate"],"warmer")
+        self.assertEqual(row["historical_runtime_ready"],"true")
+        self.assertEqual(row["test_water_control"],"Q")
 
     def test_minimum_point_cop_is_rounding_consistent(self):
         p=point()
@@ -57,7 +65,7 @@ class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
         self.assertAlmostEqual(p.minimum_capacity_kw/p.minimum_input_kw,5.4545454545,places=9)
         self.assertLess(abs(p.minimum_capacity_kw/p.minimum_input_kw-p.declared_minimum_cop),0.05)
 
-    def test_p19_colocation_gate_now_qualifies_for_exact_point(self):
+    def test_legacy_boolean_gate_is_not_source_qualification(self):
         result=assess_cycling_input_colocation(
             exact_modulation_floor=True,
             point_paired_minimum_capacity_cop=True,
@@ -65,10 +73,14 @@ class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
         )
         self.assertEqual(result.status,QUALIFIED)
         self.assertEqual(result.residual_gaps,())
+        current=evaluate_exact_cycling_point(point(),required_capacity_kw=0.90)
+        self.assertEqual(current.status,SOURCE_JOIN_REQUIRED)
+        self.assertIsNone(current.cop_bin)
+        self.assertIsNone(current.electrical_input_kw)
 
-    def test_exact_point_can_execute_p18_cycling_method(self):
-        result=evaluate_exact_cycling_point(point(),required_capacity_kw=0.90)
-        self.assertEqual(result.status,QUALIFIED_POINT)
+    def test_conditional_point_can_execute_p18_cycling_method(self):
+        result=evaluate_conditional_cycling_point(point(),required_capacity_kw=0.90)
+        self.assertEqual(result.status,CONDITIONAL_POINT)
         self.assertAlmostEqual(result.capacity_ratio,0.5)
         self.assertAlmostEqual(result.cop_bin,5.20,places=10)
         self.assertAlmostEqual(result.electrical_input_kw,0.90/5.20,places=10)
@@ -79,10 +91,10 @@ class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             evaluate_exact_cycling_point(point(),required_capacity_kw=2.00)
 
-    def test_registry_closes_point_pair_and_colocation_only(self):
+    def test_registry_preserves_point_pair_and_withholds_source_colocation(self):
         reg={r["claim"]:r for r in rows(REG)}
         self.assertEqual(reg["POINT_PAIRED_MINIMUM_CAPACITY_COP_REQUIRED"]["status"],"RESOLVED_FOR_QUALIFIED_MITSUBISHI_A7_W35_POINT")
-        self.assertEqual(reg["CYCLING_INPUT_COLOCATION_GATE"]["status"],"RESOLVED_FOR_ONE_EXACT_CURRENT_PRODUCT_POINT")
+        self.assertEqual(reg["CYCLING_INPUT_COLOCATION_GATE"]["status"],"Q_SOURCE_BOUND_CYCLING_JOIN_REQUIRED")
         self.assertEqual(reg["MODULATION_FLOOR_SURFACE_OR_INTERPOLATION_CONTRACT_REQUIRED"]["status"],"OPEN")
         self.assertEqual(reg["Q-B05-004"]["status"],"OPEN_NARROWED_TO_MODULATION_FLOOR_SURFACE_ONLY")
 
@@ -100,7 +112,7 @@ class B05P20QualifiedCyclingReadyPointTests(unittest.TestCase):
         self.assertEqual(v["VAR-B05-COP-AT-CYCLING-CAPACITY"]["status"],"Q")
         self.assertEqual(v["VAR-B05-COP-CYCLING-BIN"]["status"],"Q")
         self.assertEqual(v["VAR-B05-CYCLING-INPUT-COLOCATION"]["status"],"Q")
-        self.assertGreaterEqual(int({r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, {r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"])
 
     def test_sources_and_document_are_bounded(self):
         s={r["source_id"]:r for r in rows(SOURCES)}

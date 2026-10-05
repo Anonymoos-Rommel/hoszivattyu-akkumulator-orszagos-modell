@@ -1,0 +1,91 @@
+{
+  "contract_id": "B11-P7-REFERENCE-STATE-V1",
+  "research_date": "2026-10-02",
+  "source_artifacts": [
+    {
+      "source_id": "SRC-B11-FGSZ-MER-INDEX-2026",
+      "original_url": "https://fgsz.hu/partnereink/rendszerhasznalok/szabalyozasi-kornyezet/foldgazminoseg-elszamolasi-rendje",
+      "retrieved_on": "2026-10-01",
+      "sha256": "3ed296c6c1c6cd7b9a4e57db3340ef618f92972e57fa4c8ffe697de32fd3de25",
+      "byte_count": 31366,
+      "repo_snapshot_path": null,
+      "raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+      "numeric_model_use_status": "UNRESOLVED_SOURCE_SPECIFIC_PERMISSION",
+      "claim_scope": "Document identity/reference-state/source-use metadata only; no point values or conversion coefficients admitted",
+      "document_date": null,
+      "document_validity": null,
+      "observation_period_note": null
+    },
+    {
+      "source_id": "SRC-B11-FGSZ-MER-2026-REV1-PDF",
+      "original_url": "https://fgsz.hu/file/documents/3/3329/elszamolasi_rend_2026_10_01_2027_09_30_rev_1.pdf",
+      "retrieved_on": "2026-10-01",
+      "sha256": "34f90b934f05f7b9f7ce2287af997ae439b0572e1818baac5af1a2eb324120e3",
+      "byte_count": 915588,
+      "repo_snapshot_path": null,
+      "raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+      "numeric_model_use_status": "UNRESOLVED_SOURCE_SPECIFIC_PERMISSION",
+      "claim_scope": "Document identity/reference-state/source-use metadata only; no point values or conversion coefficients admitted",
+      "document_date": "2026-09-30",
+      "document_validity": "2026-10-01 through2027-09-30",
+      "observation_period_note": "Body and workbook explicitly2025; PDF contents page still2024"
+    },
+    {
+      "source_id": "SRC-B11-FGSZ-MER-2026-REV1-XLSX",
+      "original_url": "https://fgsz.hu/file/documents/3/3330/mer_partnereknek_2026_10_01_2027_09_30_rev_1.xlsx",
+      "retrieved_on": "2026-10-01",
+      "sha256": "9e56d55fe6ba92296f5a971e40bdd6f9b403d0400a7f189d406f9c49f9fa628a",
+      "byte_count": 174579,
+      "repo_snapshot_path": null,
+      "raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+      "numeric_model_use_status": "UNRESOLVED_SOURCE_SPECIFIC_PERMISSION",
+      "claim_scope": "Document identity/reference-state/source-use metadata only; no point values or conversion coefficients admitted",
+      "document_date": "2026-09-30",
+      "document_validity": "2026-10-01 through2027-09-30",
+      "observation_period_note": "Body and workbook explicitly2025; PDF contents page still2024"
+    },
+    {
+      "source_id": "SRC-B11-FGSZ-COPYRIGHT-NOTICE-2026",
+      "original_url": "https://fgsz.hu/szerzoi-jogok",
+      "retrieved_on": "2026-10-01",
+      "sha256": "bb0099df06c66e2dc73025dbc14db49840bb3e2962cc256d60c301c177388f34",
+      "byte_count": 127271,
+      "repo_snapshot_path": null,
+      "raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+      "numeric_model_use_status": "UNRESOLVED_SOURCE_SPECIFIC_PERMISSION",
+      "claim_scope": "Document identity/reference-state/source-use metadata only; no point values or conversion coefficients admitted",
+      "document_date": null,
+      "document_validity": null,
+      "observation_period_note": null
+    }
+  ],
+  "numeric_model_use_status": "UNRESOLVED_SOURCE_SPECIFIC_PERMISSION",
+  "public_raw_reuse_status": "REPOSITORY_COPY_NOT_CLEARED",
+  "raw_storage_policy": "EXTERNAL_ONLY",
+  "runtime_data_admission": "NONE; synthetic contract correctness only",
+  "reference_period_qualification": {
+    "document_issue_date": "2026-09-30",
+    "validity_start": "2026-10-01",
+    "validity_end": "2027-09-30",
+    "pdf_contents_page": 2,
+    "contents_year_label": 2024,
+    "body_reference_year": 2025,
+    "body_locators": [
+      "PDF page7",
+      "PDF pages23-30"
+    ],
+    "workbook_locators": [
+      "Gázösszetétel!B12",
+      "Betáplálási pontok!A1,G2:J2",
+      "Kiadási pontok!A1,E2:H2"
+    ],
+    "rule": "Use exact body/workbook metadata; preserve stale contents-page conflict. Validity is not observation period."
+  },
+  "contract_boundaries": [
+    "No implicit state conversion",
+    "No actual FGSZ point values or factors",
+    "No national gas constant or seasonal efficiency default",
+    "P1/P6 and national representative-inference authority unchanged",
+    "Context identifiers require external source provenance; equality is not empirical applicability or permission"
+  ]
+}

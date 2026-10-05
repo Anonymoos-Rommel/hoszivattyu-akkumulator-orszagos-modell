@@ -1,0 +1,97 @@
+{
+  "checkpoint": "V1-044",
+  "base_commit": "01364742c9cd85b4f03b3df503fd48ac72571122",
+  "reviewed_substantive_tree": "92d2824376df3b1b49ec84ec5f8916abee6d9af4",
+  "reviewed_files": [
+    {
+      "path": "docs/checkpoints/V1_043_CI.json",
+      "bytes": 1509,
+      "sha256": "6c8280817c31e913d75f0ecbd4b3d6b145a4ce01afe85265c9493127fdddf4f8",
+      "git_blob": "cc6dde0825f9f20791c1b58ea644d2aaa7703ee5"
+    },
+    {
+      "path": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md",
+      "bytes": 5241,
+      "sha256": "afff1bcb2a03fd58f5d9c8cf727fdee54c3840cba1c2d0cfb09eb9e89c542890",
+      "git_blob": "ce925832ecf5b829b655028a3ce584712d29e772"
+    },
+    {
+      "path": "modules/B05/README.md",
+      "bytes": 60014,
+      "sha256": "1c96b3c66235759c00c26301d4aad62c4deb463b2b9b04bc06ff13f47ea3c005",
+      "git_blob": "d19692d73220d6189632ed51bbdf047ce7f541e8"
+    },
+    {
+      "path": "modules/B05/cold_domain_reference.py",
+      "bytes": 7881,
+      "sha256": "f7d8c6d446fb95fbc5fe2f271315f0a33ffcae32aad2d812502a9174081ece1f",
+      "git_blob": "44a956ca69b139531b768b073dbd1cefe32f65af"
+    },
+    {
+      "path": "registry/b05_cold_domain_reference_manifest.json",
+      "bytes": 4308,
+      "sha256": "9976768275bf15e6bb7707a10f051d7f3d81ba8a27a5d4bd89ffde4213c474b9",
+      "git_blob": "422cf970499e0c488ff5f74b9ff64b63d88a33f8"
+    },
+    {
+      "path": "registry/v1_research_plan.json",
+      "bytes": 116807,
+      "sha256": "24fa4a413587cd256fc9beb0ee8d06f0c254bf4e0ce9892a7bdef28490dd133e",
+      "git_blob": "f8640bf4ce707649fd086a7a5f7528fae77e3701"
+    },
+    {
+      "path": "tests/test_b05_cold_domain_reference.py",
+      "bytes": 5607,
+      "sha256": "1fcfe9383ef000015083414317f915ce86a6ffa3f62dd7052be293adf4477401",
+      "git_blob": "880955965d52c7b82c7db08775371b4637e67bf5"
+    }
+  ],
+  "independent_review": {
+    "status": "PASS_NO_OPEN_FINDINGS_WITHIN_BOUNDED_SOURCE_DOMAIN_SCOPE",
+    "reviewed_at_utc": "2026-10-02T18:31:29.169452+00:00",
+    "receipt_sha256": "922fe42528b437a80ac165b6a4d01f02bd683e6b42ab637c0749eb7988a9e058",
+    "focused_tests": 13,
+    "plan_tests": 3,
+    "registry": "VALID",
+    "original_source_oracle_sha256": "d8afec9483a0284d68e895890df1bbb356de6783e83a2bc6355a0e1188d1e238",
+    "original_source_reproducer_sha256": "0b9eeb1a0a335d6877c0759eefc05422fe28807c9188decd2daadaddf15f8ffb",
+    "checked_winter_windows": 23,
+    "additional_negative": "One-bit same-length source ZIP mutation rejected before parser",
+    "scope": "Exact source/code identity, original integer-arithmetic weather oracle, map-domain coverage and claim-boundary checks; no empirical installed-system validation"
+  },
+  "local_full_suite": {
+    "checkpoint": "V1-044",
+    "substantive_tree": "92d2824376df3b1b49ec84ec5f8916abee6d9af4",
+    "command": "python3 -m unittest discover -s tests -v",
+    "discovered": 3293,
+    "passed": 3290,
+    "skipped": 3,
+    "failed": 0,
+    "duration_seconds": 131.424,
+    "log_sha256": "85c96cabd00c75c3a1dfe6884517dcce1b54cc7b0c63ffe6f5b7c43e64a81048",
+    "skip_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... skipped 'host temporary directory has a Git ancestor; real external-positive requires clean hosted CI'"
+    ]
+  },
+  "required_hosted_ci": {
+    "status": "REQUIRED_AFTER_PUBLICATION",
+    "exact_head": true,
+    "same_tested_tree": true,
+    "expected_discovered": 3293,
+    "expected_skips": 0,
+    "required_external_positive_log_lines": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read) ... ok",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed) ... ok"
+    ]
+  },
+  "claim_boundaries": [
+    "45 hours is numeric W55 source-map noncoverage, not measured equipment failure",
+    "P26 approximate graphical applicability is preserved without a new physical cutoff",
+    "No cold capacity deficit, backup, electricity, annual or national result admitted",
+    "No population, participation, service or replacement configuration chosen",
+    "Existing2025 consumers and P9 records unchanged"
+  ]
+}

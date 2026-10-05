@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
+import json
 from math import isclose, isfinite
 from typing import Iterable
 
@@ -28,6 +29,8 @@ from .project_delivery_timing_contract import (
     CURRENT_PAGE_ONLY,
     EX_ANTE_VERIFIED,
     FULFILMENT_PROBABILITY_UNAVAILABLE,
+    PROJECT_COMPLETION,
+    VERIFIED_SAME_MILESTONE_SCOPE,
     ProjectDeliveryTimingDecision,
     ProjectTimingEvidence,
     evaluate_project_delivery_timing,
@@ -53,6 +56,8 @@ PERIOD_END_PREFIX = "PERIOD_END:"
 DELIVERY_ACTUAL_OBSERVED = "DELIVERY_ACTUAL_OBSERVED"
 DELIVERY_EX_ANTE_TARGET = "DELIVERY_EX_ANTE_TARGET"
 DELIVERY_CURRENT_TARGET_ONLY = "DELIVERY_CURRENT_TARGET_ONLY"
+PROJECT_MILESTONE_ONLY = "PROJECT_MILESTONE_ONLY"
+Q_PHYSICAL_DELIVERY_UNRESOLVED = "Q_PHYSICAL_DELIVERY_UNRESOLVED"
 
 TIMED_PROGRAMME_CAPEX_PROVEN = "TIMED_PROGRAMME_CAPEX_PROVEN"
 SCN_TIMED_PROGRAMME_CAPEX = "SCN_TIMED_PROGRAMME_CAPEX"
@@ -184,11 +189,52 @@ class TimedInvestmentPathwayDecision:
     cashflow_rows: tuple[TimedInvestmentCashflowRow, ...]
     source_refs: tuple[str, ...]
     reason: str
+    reported_project_completion_date: str | None = None
+    reported_completion_upper_bound: str | None = None
 
 
-def _delivery_status(decision: ProjectDeliveryTimingDecision) -> str:
-    if decision.actual_completion_date is not None:
+def physical_delivery_scope_id(record: InfrastructureRecord) -> str | None:
+    """Name P5's exact scope; this helper does not supply source authority.
+
+    Timing evidence must explicitly bind this key via its own scope_source_id.
+    Missing component identity cannot be inferred from project/operator equality.
+    JSON encoding prevents delimiter collisions between identity fields.
+    """
+    if record.cost_component_id is None:
+        return None
+    return "P11_PHYSICAL_SCOPE:" + json.dumps(
+        [record.project_id, record.network_operator, record.region_id,
+         record.region_grain, record.infrastructure_type, record.cost_component_id],
+        ensure_ascii=True, separators=(",", ":"),
+    )
+
+
+def _physical_target_is_bound(
+    decision: ProjectDeliveryTimingDecision, record: InfrastructureRecord,
+) -> bool:
+    required_scope = physical_delivery_scope_id(record)
+    return bool(required_scope and decision.physical_target_proven
+                and decision.target_scope_id == required_scope)
+
+
+def _physical_delivery_is_bound(
+    decision: ProjectDeliveryTimingDecision, record: InfrastructureRecord,
+) -> bool:
+    return bool(_physical_target_is_bound(decision, record)
+                and decision.physical_actual_completion_date
+                and decision.actual_scope_id == physical_delivery_scope_id(record)
+                and decision.pairing_status == VERIFIED_SAME_MILESTONE_SCOPE)
+
+
+def _delivery_status(
+    decision: ProjectDeliveryTimingDecision, record: InfrastructureRecord,
+) -> str:
+    if _physical_delivery_is_bound(decision, record):
         return DELIVERY_ACTUAL_OBSERVED
+    if not _physical_target_is_bound(decision, record):
+        if decision.actual_milestone_type == PROJECT_COMPLETION:
+            return PROJECT_MILESTONE_ONLY
+        return Q_PHYSICAL_DELIVERY_UNRESOLVED
     if decision.target_snapshot_status == EX_ANTE_VERIFIED:
         return DELIVERY_EX_ANTE_TARGET
     if decision.target_snapshot_status == CURRENT_PAGE_ONLY:
@@ -249,7 +295,7 @@ def build_timed_investment_pathway(
     if timing.completion_probability is not None or timing.completion_probability_status != FULFILMENT_PROBABILITY_UNAVAILABLE:
         raise B10TimedInvestmentPathwayError("P11 cannot mint a completion probability")
 
-    delivery_status = _delivery_status(timing)
+    delivery_status = _delivery_status(timing, record)
     refs = set(reinforcement.attribution.source_refs) | set(timing.source_refs)
     base = dict(
         project_id=record.project_id,
@@ -261,9 +307,20 @@ def build_timed_investment_pathway(
         reinforcement_required_proven=reinforcement.reinforcement_required_proven,
         delivery_status=delivery_status,
         target_date=timing.target_date,
-        actual_completion_date=timing.actual_completion_date,
-        schedule_variance_days=timing.schedule_variance_days,
-        schedule_variance_status=timing.schedule_variance_status,
+        actual_completion_date=(timing.physical_actual_completion_date
+                                if _physical_delivery_is_bound(timing, record) else None),
+        reported_project_completion_date=(
+            timing.actual_completion_date if timing.actual_milestone_type == PROJECT_COMPLETION else None
+        ),
+        reported_completion_upper_bound=(
+            timing.actual_event_upper_bound if timing.actual_milestone_type == PROJECT_COMPLETION else None
+        ),
+        # This pathway's delivery fields are physical. Administrative variance
+        # remains a P6 project milestone and cannot become physical delay here.
+        schedule_variance_days=(timing.schedule_variance_days
+                                if _physical_delivery_is_bound(timing, record) else None),
+        schedule_variance_status=(timing.schedule_variance_status
+                                  if _physical_delivery_is_bound(timing, record) else "Q"),
         completion_probability=timing.completion_probability,
         completion_probability_status=timing.completion_probability_status,
         untimed_programme_incremental_capex_huf=reinforcement.program_incremental_capex_huf,
@@ -446,6 +503,8 @@ __all__ = [
     "DELIVERY_CURRENT_TARGET_ONLY",
     "DELIVERY_EX_ANTE_TARGET",
     "PROGRAMME_INCREMENTAL_CAPEX_CASHFLOW",
+    "PROJECT_MILESTONE_ONLY",
+    "Q_PHYSICAL_DELIVERY_UNRESOLVED",
     "Q_CAPEX_TIMING_UNRESOLVED",
     "Q_PROGRAMME_ATTRIBUTION_UNRESOLVED",
     "Q_PROGRAMME_CAPEX_UNRESOLVED",
@@ -454,4 +513,5 @@ __all__ = [
     "TimedInvestmentCashflowRow",
     "TimedInvestmentPathwayDecision",
     "build_timed_investment_pathway",
+    "physical_delivery_scope_id",
 ]

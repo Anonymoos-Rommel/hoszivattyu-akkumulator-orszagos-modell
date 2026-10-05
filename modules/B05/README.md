@@ -1,5 +1,33 @@
 # B05 – Hőszivattyú fizikai és teljesítménymodell
 
+## B05-D02 product handoff acceptance — V1-053
+
+The named WM50/Vol.5.3 source-product handoff is accepted by verified reuse of
+commit `ce641bea8082ce3e49d78f75b9f178232f91ec3b`. Existing maps, numerical
+controls, scientific code and tests are unchanged. The acceptance record binds
+source domains, supplementary-heat meaning, manufacturer/certification lineage
+and actual consumers without a new wrapper or runtime default.
+
+This completes the D02 source-product task only. D01/D03, combined SH/DHW service,
+installed or national performance and backup-enabled cases requiring a real
+configuration remain separate. Existing annual/cold `whole_slice_complete=false`
+flags and the cycling qualification below remain unchanged. KEYMARK is
+rendered-source evidence; no raw-response hash or fresh-live validity is invented.
+See [the acceptance](../../docs/checkpoints/V1_053_B05_PRODUCT_HANDOFF_ACCEPTANCE.md)
+and [exact criterion bindings](../../docs/checkpoints/V1_053_ACCEPTANCE.json).
+
+## Current cycling qualification — 2026-10-02
+
+P20/P22 WM50 and P23/P42 Dimplex exact fixed-W35 Cdh/MIN joining are Q.
+Manufacturer fixed-coordinate minimum facts and separately scoped certified
+Cdh remain valid. The common gate requires source-bound test-water and MIN
+transfer authority; caller booleans cannot close it. Conditional P18 algebra
+is executable under an explicit conditional status. Historical exact-join
+claims below are superseded for physical admission. The original P59 eight-point
+execution criterion remains unchanged but unresolved: current component total
+is Q/null, with 67 supported points and 8 unresolved weight. Historical 75 is
+preserved; B05 module 64 is unchanged. See the V1-035 checkpoint note.
+
 ## Cél
 
 A B05 egy explicit hőigény- és időjárás-profilra alkalmazott, operating-point teljesítménytérképes hőszivattyú-fizikai motor. Nem egyetlen éves SCOP/COP értékkel helyettesíti az üzemi viselkedést.
@@ -27,7 +55,7 @@ B05 nem fogyaszt és nem számol Ft/kWh, Ft/MJ, gázárat, tarifát, számlát, 
 
 ## Módszer és fail-closed szabályok
 
-- A V1 motor determinisztikus, bounded bilineáris interpolációt használ a teljesítménytérkép teljes téglalap-rácsán.
+- A V1 motor determinisztikus, bounded bilineáris interpolációt használ a teljesítménytérkép teljes téglalap-rácsán. A belső pontokban a hőteljesítményt és a teljes egység villamos inputját interpolálja, majd COP = Q/P; a COP nem harmadik független interpolált felület. Ugyanez érvényes a megengedett hideg oldali egydimenziós interpolációra. Az exact source-native pontok és kerekítési toleranciájuk változatlanok.
 - Ismert pontot változtatás nélkül reprodukál; hiányzó sarokpont vagy tartományon kívüli hőmérséklet `Q / OUT_OF_PERFORMANCE_DOMAIN` vagy `Q / MISSING_GRID_POINT`.
 - A kapacitás, teljes egység-input és COP közül kettőből a harmadik `DER`; három forrásérték inkonzisztenciája validációs hiba. A gyártói, két tizedesre kerekített táblákhoz legfeljebb 0,05 COP-eltérés tolerált; nagyobb eltérés Q/validációs hiba.
 - Modulation-floor hiányában nincs kitalált degradációs együttható. B05-P15 current HP KEYMARK EN14825 Vaillant part-load Pdh/COP/Cdh mezőket materializál. B05-P16 ezt egy második, Bosch HP KEYMARK gyártói rekorddal cross-manufacturer szinten validálja, és külön fail-closed runtime-state contractot ad: explicit minimum continuous capacity nélkül a cycling-state alkalmazhatósága Q; a floor alatt `CYCLING_REQUIRED`, fölötte `CONTINUOUS_MODULATION`. A current UK HEM-TP-12 ezt a sorrendet módszertani kontrollként támogatja, de nem magyar szabályozási authority és nem termékadat. A certified Cdh csak cycling-state után válhat megfontolható evidence-é; közvetlen órás multiplier vagy `COP × Cdh` korrekció továbbra is tiltott bizonyított numerikus runtime-módszer nélkül. B05-P17 ehhez két exact same-product minimum-modulation anchor-t ad (Vaillant A7/W35, Bosch A2/W35); az anchor lookup exact-coordinate-only, ezért a hiányzó operating coordinate továbbra is Q. B05-P18 a to-water EN14825 cycling képletet külön executable standard-method contractként kvalifikálja: `COPbin = COPd × CR / (Cdh × CR + (1 − Cdh))`. Ez nem engedi meg a névleges vagy más kapacitásponton mért COP csendes használatát: a `COPd`-nek ugyanahhoz a cycling kapacitáshoz kell tartoznia, amely a `CR` nevezője. B05-P19 tovább szigorítja ezt: ugyanazon operating conditionben együtt közölt min/max capacity/input/COP tartományok sem tekinthetők automatikusan point-paired adatoknak; range-endpoint division és COP-endpoint hozzárendelés explicit source semantics nélkül tiltott. B05-P20 az első source-native point-paired closure-t adja: Mitsubishi PUZ-WM50VHA A7/W35 Min/Nom/Max capacity, input és COP tripletjei pozicionálisan párosítottak; a minimum pont 1.80 kW / 0.33 kW / COP 5.46. A current HP KEYMARK outdoor-only PUZ-WM50VHA(-BS) +7 low-temperature Cdh=0.950 értékével ez az exact pont már a P18 cycling képlettel numerikusan értékelhető. B05-P21 ugyanazon PUZ-WM50VHA modellhez négy source-native minimum-output sarkot materializál (A2/A7 x W35/W45), és a már kanonikus complete-rectangle szabályt alkalmazza a modulation floor-ra is: exact corner = OBS, rectangle-interior = bounded bilinear DER, rectangle-outside/missing corner = Q. Az engine min_modulation interpolációja ezzel együtt javul: többé nem a négy sarok egyszerű átlaga, hanem ugyanaz a koordinátafüggő lineáris/bilineáris súlyozás fut. B05-P22 az official Mitsubishi Data Book Min táblájával ezt 40 exact minimum-capacity/COP pontra és 27 complete bounded cellára bővíti. A core surface A-10..A20 x W35..W55; hidegebben lépcsősen szűkül A-15..A-10 x W35..W45, illetve A-20..A-15 x W35..W40 tartományra. Blank source cell továbbra sem interpolálható. Ugyanazon modell official ERP dokumentuma négy exact W35 low-temperature Cdh bin-t ad (-7/+2/+7/+12 C); ezek között nincs automatikus órás Cdh-interpoláció. B05-P23 egy második gyártói modulation-floor surface-et kvalifikál Dimplex LA 2030CP-vel: 15 exact minimum-output pont W35/W45/W55 mellett. A forrás A-10 minimum sora hiányos, ezért a surface explicit A-10 interpolation barrierrel működik; -15 és -7 között nincs csendes híd. A current HP KEYMARK ugyanahhoz az exact modellhez non-default Cdh bin-eket ad, és A-7/A2/A7 W35 pontokon a gyártói minimum-COP mezőkkel három exact második-gyártós cycling-ready bin áll össze. B05-P24 lezárja a Cdh órás hőmérsékletre vetítésének szemantikai kérdését: ezt a projekt nem lineáris/nearest-bin interpolációval oldja meg. A Cdh/COPbin út exact EN14825/DEAP standard-bin validáció marad; a generic órás fizikai runtime a current HEM-TP-12 v3.0 EN15316-derived on/off transient útját követi, ahol a below-minimum állapotban a többlet compressor power a minimum continuous compressor power, LR, heat-pump transient parameter és emitter response time függvénye. Cdh nem bemenete ennek az órás képletnek. B05-P25 ehhez explicit parameter-policy réteget ad. A HEM-default scenario tau_eq=140 s csak POL/default minőségű és csak explicit policy-választással használható. A current HEM dokumentum és reference code egyező emitter classoknál a response time materializálható: radiator/UFH wet=1370 s, warm air=120 s, DHW/storage=1560 s. Fan coil esetén a current HEM v3 dokumentum (all wet -> Light embedded) és a current Rust reference code (FanCoils -> 360 s) eltér; ez Q marad. A generic product-specific tau_eq változó szintén Q marad. B05-P26 visszatér a közvetlen termékfizikához: a PUZ-WM50VHA gyártói maximum outlet-water operating-envelope görbéjével újraminősíti a P22 hideg/high-supply blank Min cellákat. A-20/W45, W50, W55 és A-15/W55 az operating envelope-on kívül van, ezért ezek nem hiányzó modulation-floor adatok. A-15/W50 továbbra is Q, mert a projekt nem digitizál és nem interpolál köztes görbeértéket csak a blocker lezárásáért. A P9 W55 hidegebb, A-10 alatti szegmense ennél a terméknél product-applicability kizárás, nem missing-data Q.
@@ -323,3 +351,18 @@ P59 canonical artifacts:
 - `docs/source_packs/B05_P59_PART_LOAD_READINESS_RECALIBRATION.md`
 - `registry/b05_p59_part_load_readiness_scorecard.csv`
 - `modules/B05/part_load_readiness_recalibration.py`
+
+## V1 weather interval support
+
+[Reused source-window adapter](../../docs/checkpoints/V1_007_B05_WEATHER_TIME_SUPPORT.md) retains HungaroMet observation endpoints and exposes the preceding temperature-average interval. Concurrent energy/price joins must use interval_start_utc; endpoint humidity is not an hourly mean.
+
+## V1 explicit manufacturer reference
+
+[WM50 source-condition reference](../../docs/checkpoints/V1_011_WM50_SOURCE_REFERENCE.md) preserves four separate frequency modes, 208 capacity/COP pairs, 44 source blanks and exact defrost annotations. `manufacturer_wm50_reference.py` uses existing bounded Q/input interpolation; an explicit fixed-supply column is available without filling source gaps. It does not change the default dispatch surface or establish annual/national efficiency.
+
+
+V1-039 adds an [annual E2 device reference](annual_device_reference.py): native TABULA annual useful heat plus effective distribution loss, normalized observed-weather timing, paired WM50 input power and an explicit minimum-stage on/off transfer. All 8,760 UTC 2025 hours are covered in the declared reference. Its historical comparison consumes the existing B08/B09 original-source producer on all 35,040 quarters. This method preserves the withdrawn exact Cdh/MIN joins and their readiness treatment. Outside-unit auxiliaries and complete household/national outcomes remain distinct from the available device profile.
+
+## Historical cold exposure of the WM50/W55 reference
+
+`cold_domain_reference.calculate_reference(archive_path=...)` reuses the exact external Budapest archive and P9 winter selection. It compares the observed coldest 72-hour episode with the 2025 reference episode against the admitted fixed-W55 numeric map. Numeric noncoverage is distinct from P26's approximate graphical applicability classification and from actual equipment failure. No replacement, lower supply temperature, backup size or national configuration is selected. See [V1-044](../../docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md).

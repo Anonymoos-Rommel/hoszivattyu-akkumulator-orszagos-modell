@@ -50,7 +50,18 @@ def test_p57_p58_p59_stale_bridge_rows_are_repaired():
     assert permit["status"] == "CONTRACTED"
     assert permit["required_for_gate"] == "no"
     assert "site_legal_delivery_gate.py" in permit["current_source_or_registry"]
-    assert "not part of B02 technical S2 eligibility" in permit["notes"]
+    assert permit["state_id"] == "S2"
+    assert permit["allow_inference"] == "no"
+    assert "registry/b02_p59_site_legal_delivery_authority.csv" in permit["current_source_or_registry"]
+    assert "mandatory separate site legal/delivery gate in programme orchestration" in permit["notes"]
+    authority = by(ROOT / "registry" / "b02_p59_site_legal_delivery_authority.csv", "claim_id")["SITE_LEGAL_DELIVERY_AUTHORITY"]
+    assert authority["current_status"] == "CONTRACTED"
+    assert authority["authority_type"] == "LEGAL_DELIVERY_GATE"
+    assert "local clearance status" in authority["required_inputs"]
+    assert "reproducible binding" in authority["required_inputs"]
+    # The discovered B02 P59 tests exercise PENDING=Q and final-refusal=BLOCKED.
+    assert "PENDING=Q;" in authority["notes"]
+    assert "final refusal without admitted alternative=BLOCKED" in authority["notes"]
 
 
 def test_completion_authority_requires_both_document_layers():
@@ -78,3 +89,21 @@ def test_readiness_percentage_is_not_uplifted_by_contract_only():
     assert row["readiness_percent"] == "70"
     assert "intentionally unchanged" in row["notes"]
     assert "SRC-B06-HU-KEHOP-417-COMPLETION-2025" in row["source_ids"]
+
+
+def load_tests(loader, tests, pattern):
+    """Admit the explicit legacy cases to the configured unittest runner."""
+    import unittest
+
+    tests.addTests(
+        unittest.FunctionTestCase(test, description=f"{__name__}.{test.__name__}")
+        for test in (
+            test_completion_artifacts_do_not_collapse_roles,
+            test_completion_authority_requires_both_document_layers,
+            test_p57_p58_p59_stale_bridge_rows_are_repaired,
+            test_q_b06_009_is_resolved_as_completion_plus_outcome_contract,
+            test_readiness_percentage_is_not_uplifted_by_contract_only,
+            test_s1_has_separate_realized_completion_and_outcome_bridges,
+        )
+    )
+    return tests

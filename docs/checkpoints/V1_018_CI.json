@@ -1,0 +1,27 @@
+{
+  "checkpoint": "V1_018",
+  "verified_commit": "fdbddafc19582780c190753cbe3c6bf170eb885f",
+  "verified_tree": "b1a55074b6b4bc4839ea89c3c821997f8b1a3b47",
+  "review_date": "2026-10-01",
+  "github_ci": {
+    "run_number": 1079,
+    "run_id": 36925569244,
+    "job_id": 110581931547,
+    "result": "PASS",
+    "registry_validation": "PASS",
+    "tests": 2660,
+    "duration_seconds": 135.953,
+    "url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36925569244"
+  },
+  "focused_tests": 25,
+  "pinned_source_checks": 113,
+  "pinned_sources": 11,
+  "independent_review": "PASS_NO_BLOCKING_FINDING_INCLUDING_CANONICAL_LF_CORRECTION",
+  "local_aggregate_result": "RESOURCE_BLOCKED; not reported as PASS",
+  "superseded_ci": {
+    "run_number": 1078,
+    "result": "FAILED_CAPS_SHA256_CHECKOUT_LINE_ENDING_MISMATCH",
+    "resolved_by": "fdbddafc19582780c190753cbe3c6bf170eb885f"
+  },
+  "scope": "Bounded dated funding-rule reference implementation verified; B14-L01 remains INTEGRATING; B14-D01/D02 and B15 gates unchanged"
+}

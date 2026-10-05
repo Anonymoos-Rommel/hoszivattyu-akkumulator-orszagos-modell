@@ -40,6 +40,8 @@ from modules.B10.programme_incremental_capex_lineage_contract import (
     evaluate_real_programme_incremental_capex_lineage,
 )
 from modules.B10.project_delivery_timing_contract import (
+    ACTUAL_COMPLETION, EXACT, ON_OR_BEFORE, NOT_APPLICABLE,
+    PROJECT_COMPLETION, PUBLICATION_REPORTING_BOUND, SOURCE_STATED_EVENT_DATE,
     EXPECTED_COMPLETION,
     EX_ANTE_VERIFIED,
     OBS,
@@ -363,7 +365,7 @@ def timed_record(item=None, **overrides):
     return TimedProgrammeIncrementalCapexLineageRecord(**values)
 
 
-def evaluate(candidate=None, *, capex_decision=None, capex_record=None, flows=None):
+def evaluate(candidate=None, *, capex_decision=None, capex_record=None, flows=None, actual_timing=None):
     record = p5_record()
     lineage = p31(record)
     capex_record = capex_record or p32_record()
@@ -383,6 +385,7 @@ def evaluate(candidate=None, *, capex_decision=None, capex_record=None, flows=No
         limiting_node_lineage=p30(),
         reinforcement_record=record,
         target_timing=target(),
+        actual_timing=actual_timing,
         cashflow_evidence=real_cashflows() if flows is None else flows,
     )
 
@@ -461,6 +464,30 @@ class TestB10P33TimedProgrammeIncrementalCapexLineage(unittest.TestCase):
         self.assertIn("DELIVERY DATE != CAPEX CASH-FLOW TIMING", text)
         self.assertIn("header-only", text)
         self.assertIn("readiness remains **15%**", text)
+
+
+    def test_exact_project_completion_and_report_bound_cannot_create_timed_capex(self):
+        for relation, authority in ((EXACT, SOURCE_STATED_EVENT_DATE),
+                                    (ON_OR_BEFORE, PUBLICATION_REPORTING_BOUND)):
+            completion = ProjectTimingEvidence(
+                project_id=PROJECT, network_operator=OPERATOR, claim_type=ACTUAL_COMPLETION,
+                claimed_date="2029-06-15", source_id="SRC-P33-PROJECT-CLOSURE",
+                source_publication_date="2029-06-15", evidence_status=OBS,
+                snapshot_status=NOT_APPLICABLE, milestone_type=PROJECT_COMPLETION,
+                scope_id="SYNTHETIC:P33:ADMINISTRATIVE_PROJECT_SCOPE",
+                scope_source_id="SRC-P33-PROJECT-CLOSURE", date_relation=relation,
+                date_precision="DAY", date_authority=authority,
+            )
+            with self.subTest(relation=relation):
+                decision = evaluate(flows=(), actual_timing=completion)
+                self.assertEqual(Q_REAL_TIMED_PROGRAMME_INCREMENTAL_CAPEX_LINEAGE_UNRESOLVED, decision.status)
+                self.assertEqual((), decision.cashflow_rows)
+                self.assertIsNone(decision.schedule_id)
+                # A separately proven complete cash-flow schedule retains its own
+                # earlier periods; the later project completion cannot rephase it.
+                supported = evaluate(actual_timing=completion)
+                self.assertEqual(REAL_TIMED_PROGRAMME_INCREMENTAL_CAPEX_LINEAGE_PROVEN, supported.status)
+                self.assertEqual("2027-01-01", supported.cashflow_rows[0].period_start)
 
 
 if __name__ == "__main__":

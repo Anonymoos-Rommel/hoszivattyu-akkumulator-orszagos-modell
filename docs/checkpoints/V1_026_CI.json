@@ -1,0 +1,18 @@
+{
+  "checkpoint": "V1-026",
+  "head_commit": "72ec387538463101fc2f0847e78cf0d2c1b8ca26",
+  "tree": "740889795d400bb389d67c25fe17aa1f70a10920",
+  "run_number": 1088,
+  "run_id": 36956001108,
+  "job_id": 110678967474,
+  "conclusion": "success",
+  "registry_validation": "VALID",
+  "tests": 2970,
+  "test_seconds": 155.724,
+  "tested_merge_commit": "645dd81d8553739b0cf5593bc52c8795f9020f1a",
+  "merge_tree_matches_head": true,
+  "verified_at": "2026-10-02T02:36:29.712484+00:00",
+  "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/36956001108",
+  "hosted_log_sha256": "ceda9942faec5a5def7c22d75e000c827d23513923ad0e2d1cfe9823b088d3e8",
+  "scope_note": "B13 dated published-statistic reference only; 51rows14sourcepins32controls, no programme fiscal/headroom/policy/B15 admission, readiness0"
+}

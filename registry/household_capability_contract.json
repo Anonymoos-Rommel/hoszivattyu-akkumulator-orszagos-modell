@@ -1,0 +1,189 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "B01-HOUSEHOLD-CAPABILITY",
+  "status": "BOUNDED_RECORD_ASSESSMENT_NO_SELECTION_OR_NATIONAL_RESULT",
+  "canonical_entrypoint": "modules.B01.engine.assess_household_capabilities",
+  "legacy_contract": "registry/household_state_model.json",
+  "legacy_role": "Versioned S0-S5 compatibility/history only; no automatic inference into this component contract.",
+  "claim_unit": "logical condition for one household/site/basis at an explicit date; no monetary or energy quantity",
+  "evidence_boundary": "Consumes qualified claim-specific record assertions and completion events. It does not verify original documents, calculate B12 cashflow, confer a right, or execute an action. Missing assertions are UNKNOWN; explicit negative assertions are FAIL.",
+  "time_boundary": "Current assertions use explicit half-open [valid_from, valid_until) dates chosen by their qualified evidence scope; no automatic validity duration. Nonoverlapping later assertions can withdraw availability/permission. Historical accepted completion events remain available separately. Later events cannot establish an earlier snapshot.",
+  "basis_boundary": "One explicit basis_id binds building/service configuration, proposed programme package/action, baseline and financial comparison scope. Facts from different bases cannot be combined. A changed configuration requires appropriately requalified assertions.",
+  "components": {
+    "HEAT_PUMP": {
+      "availability_claim": "HP_AVAILABLE",
+      "completion_origins": [
+        "COMMISSIONED_ACCEPTED"
+      ]
+    },
+    "BATTERY": {
+      "availability_claim": "BATTERY_AVAILABLE",
+      "completion_origins": [
+        "COMMISSIONED_ACCEPTED"
+      ]
+    },
+    "INSULATION": {
+      "availability_claim": "INSULATION_ADEQUATE",
+      "completion_origins": [
+        "WORK_COMPLETED_ACCEPTED",
+        "EXISTING_SCOPE_QUALIFIED"
+      ]
+    }
+  },
+  "claims": {
+    "HP_AVAILABLE": "Accepted heat pump is available for the declared current building/service scope; historical commissioning alone is insufficient.",
+    "BATTERY_AVAILABLE": "Accepted battery is available at this site and date; no quantified reserve or service allocation follows.",
+    "INSULATION_ADEQUATE": "Declared insulation/envelope scope is currently adequate and technically accepted, including condition-appropriate openings; no generic demand-reduction waiver.",
+    "HP_DESIGN_MATCH": "Sizing, heat-load and emitter-temperature/service requirements match the actual declared building condition, with no universal prior insulation phase.",
+    "HP_EMITTER_HYDRAULIC_READY": "Required emitter and hydraulic works or evidenced existing adequacy support the proposed heat-pump commissioning.",
+    "HP_ELECTRICAL_READY": "The actual proposed heat-pump electrical connection and safety requirements are met.",
+    "HP_SITE_REQUIREMENTS_MET": "Applicable site-specific technical and permission prerequisites for the proposed heat-pump commissioning are met; a general source rule is insufficient.",
+    "BATTERY_DESIGN_SAFETY_READY": "Proposed battery/inverter design and installation safety requirements are met, without requiring own PV or a previously installed heat pump.",
+    "BATTERY_ELECTRICAL_READY": "Actual battery connection, protection and electrical prerequisites are met.",
+    "BATTERY_SITE_REQUIREMENTS_MET": "Applicable site-specific commissioning prerequisites are met; this does not establish any grid charging, discharge, export or aggregator operation permission.",
+    "ENVELOPE_SCOPE_DESIGN_READY": "Building-specific insulation and any required windows/doors are scoped; already adequate elements need no invented replacement.",
+    "ENVELOPE_SITE_REQUIREMENTS_MET": "Applicable site-specific prerequisites for envelope acceptance are met.",
+    "PROGRAMME_ELIGIBILITY": "Record-specific programme eligibility for the declared action/package is established; physical suitability is not sufficient.",
+    "HOUSEHOLD_CASHFLOW_PROTECTED": "Qualified full programme versus without-programme household cashflow is non-worsening from the first day and in every initial/interim/payment/settlement period on the declared basis. Includes assigned financing, operating, maintenance and replacement costs. Annual net savings or energy bills alone cannot satisfy this claim. For state/aggregator use, include household opportunity costs from foregone arbitrage, losses, wear and assigned replacement costs; scope to the exact declared operation.",
+    "PROGRAMME_TECHNICAL_QA": "All three named component scopes and their joint technical compatibility have independent programme technical acceptance for the actual record.",
+    "UNSUBSIDIZED_TOTAL_BILL_LOWER": "Total unsubsidized with-programme energy bill is strictly below the prior subsidized baseline, with compatible service, calendar, energy coverage and price basis; this is separate from full cashflow protection.",
+    "SUBSIDY_EXIT_APPLICABLE": "Exact replaced subsidy channel, beneficiary, payer, applicability and exit timing are qualified for this record/basis/date. Owner policy intent alone is not current legal authority or proof of released state cash.",
+    "GRID_CHARGE_PERMISSION": "Actual site/connection/topology permission for grid charging within the declared scope and validity period.",
+    "HOUSEHOLD_DISCHARGE_PERMISSION": "Actual site/connection/topology permission for household discharge within the declared scope and validity period.",
+    "GRID_EXPORT_PERMISSION": "Actual site/connection/topology permission for export within the declared scope and validity period; other permissions do not imply this.",
+    "STATE_SERVICE_PERMISSION": "Actual named state/aggregator service is authorized at this site/connection within its declared operating scope and validity; non-export service does not imply export.",
+    "STATE_CONTROL_READY": "The declared state/aggregator service has qualified metering, telemetry, control and applicable security prerequisites; this does not quantify callable kWh/kW or allocate capacity."
+  },
+  "actions": {
+    "COMMISSION_HEAT_PUMP": {
+      "component_id": "HEAT_PUMP",
+      "technical_prerequisites": [
+        "HP_DESIGN_MATCH",
+        "HP_EMITTER_HYDRAULIC_READY",
+        "HP_ELECTRICAL_READY",
+        "HP_SITE_REQUIREMENTS_MET"
+      ]
+    },
+    "COMMISSION_BATTERY": {
+      "component_id": "BATTERY",
+      "technical_prerequisites": [
+        "BATTERY_DESIGN_SAFETY_READY",
+        "BATTERY_ELECTRICAL_READY",
+        "BATTERY_SITE_REQUIREMENTS_MET"
+      ]
+    },
+    "ACCEPT_ENVELOPE_SCOPE": {
+      "component_id": "INSULATION",
+      "technical_prerequisites": [
+        "ENVELOPE_SCOPE_DESIGN_READY",
+        "ENVELOPE_SITE_REQUIREMENTS_MET"
+      ]
+    }
+  },
+  "programme_action_claims": [
+    "PROGRAMME_ELIGIBILITY",
+    "HOUSEHOLD_CASHFLOW_PROTECTED"
+  ],
+  "triple_claims": [
+    "PROGRAMME_TECHNICAL_QA"
+  ],
+  "exit_claims": [
+    "PROGRAMME_ELIGIBILITY",
+    "UNSUBSIDIZED_TOTAL_BILL_LOWER",
+    "HOUSEHOLD_CASHFLOW_PROTECTED",
+    "SUBSIDY_EXIT_APPLICABLE"
+  ],
+  "operations": {
+    "GRID_CHARGE": {
+      "component_id": "BATTERY",
+      "claims": [
+        "GRID_CHARGE_PERMISSION"
+      ]
+    },
+    "HOUSEHOLD_DISCHARGE": {
+      "component_id": "BATTERY",
+      "claims": [
+        "HOUSEHOLD_DISCHARGE_PERMISSION"
+      ]
+    },
+    "GRID_EXPORT": {
+      "component_id": "BATTERY",
+      "claims": [
+        "GRID_EXPORT_PERMISSION"
+      ]
+    },
+    "STATE_SERVICE": {
+      "component_id": "BATTERY",
+      "claims": [
+        "STATE_SERVICE_PERMISSION",
+        "STATE_CONTROL_READY"
+      ]
+    }
+  },
+  "source_bindings": [
+    {
+      "kind": "EXISTING_PUBLIC_POLICY",
+      "path": "registry/owner_policy_decisions.json",
+      "id": "POL-OWNER-20261004"
+    },
+    {
+      "kind": "EXISTING_PUBLIC_POLICY",
+      "path": "registry/subsidy_reinvestment_policy_contract.json",
+      "id": "POLICY-COHORT-SUBSIDY-REINVESTMENT-20261004"
+    },
+    {
+      "kind": "METHOD",
+      "path": "docs/methodology/population_inference_policy.md"
+    },
+    {
+      "kind": "METHOD",
+      "path": "docs/methodology/evidence_tier_and_validation_debt_policy.md"
+    },
+    {
+      "kind": "TECHNICAL_SCOPE",
+      "path": "modules/B05/README.md"
+    },
+    {
+      "kind": "TECHNICAL_SCOPE",
+      "path": "modules/B06/README.md"
+    },
+    {
+      "kind": "TECHNICAL_SCOPE",
+      "path": "modules/B07/README.md"
+    },
+    {
+      "kind": "LEGAL_SCOPE",
+      "path": "docs/checkpoints/V1_055_H_TOPOLOGY_AUTHORITY.md"
+    }
+  ],
+  "deferred": [
+    "within-year scheduling and joint annual resource accounting",
+    "weighted population planning-unit bridge",
+    "score benefit semantics and units",
+    "quantified battery dispatch and dynamic state-use allocation",
+    "D-tariff retail billing",
+    "full household financial model"
+  ],
+  "policy_numeric_defaults": {},
+  "accepted_original_tasks": [],
+  "subject_scoped_claims": [
+    "PROGRAMME_ELIGIBILITY",
+    "HOUSEHOLD_CASHFLOW_PROTECTED"
+  ],
+  "programme_subjects": [
+    "COMMISSION_HEAT_PUMP",
+    "COMMISSION_BATTERY",
+    "ACCEPT_ENVELOPE_SCOPE",
+    "GRID_CHARGE",
+    "HOUSEHOLD_DISCHARGE",
+    "GRID_EXPORT",
+    "STATE_SERVICE",
+    "SUBSIDY_EXIT"
+  ],
+  "subject_scope_boundary": "Shared eligibility and household cashflow assertions require an explicit applies_to list of action/operation/exit subjects. Qualification for one action never widens to another. Package-wide evidence must name every covered subject explicitly. No ALL wildcard or implicit coverage.",
+  "operation_result_boundary": "permission_conditions report only supplied physical and operation-right evidence; programme_preconditions additionally require subject-matched programme eligibility and household cashflow protection. Neither result is a dispatch schedule, new permission, selected work or funding.",
+  "deferred_scope": "Outside this component-assessment interface; see related contracts for separate implementation status.",
+  "related_contracts": {
+    "annual_bundle_planning": "registry/b01_annual_bundle_contract.json"
+  }
+}

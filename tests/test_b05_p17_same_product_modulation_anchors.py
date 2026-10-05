@@ -1,6 +1,8 @@
 import csv
 import unittest
 from pathlib import Path
+
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
 from modules.B05.modulation_anchor_contract import ANCHOR_NOT_QUALIFIED,SURFACE_CONTRACT_REQUIRED,ModulationAnchor,classify_at_exact_anchor,p17_boundary,resolve_exact_anchor
 from modules.B05.part_load_runtime_contract import CONTINUOUS,CYCLING
 
@@ -51,7 +53,7 @@ class B05P17SameProductModulationAnchorTests(unittest.TestCase):
         self.assertEqual(reg["CYCLING_DEGRADATION_NUMERIC_METHOD_AUTHORITY_REQUIRED"]["status"],"OPEN")
     def test_live_variable_and_readiness_are_bounded(self):
         v={r["variable_id"]:r for r in rows(VARIABLES)}; self.assertEqual(v["VAR-B05-MIN-MODULATION"]["status"],"OBS")
-        self.assertGreaterEqual(int({r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, {r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"])
         s={r["source_id"]:r for r in rows(SOURCES)}; self.assertIn("SRC-B05-VAILLANT-PLUS-VWL85-MINMAX-2026",s); self.assertIn("SRC-B05-BOSCH-CS5800I-MODULATION-2024",s)
     def test_document_and_contract_keep_residuals_open(self):
         t=PACK.read_text(encoding="utf-8"); self.assertIn("ONE MODULATION ANCHOR != MODULATION SURFACE",t); self.assertIn("CYCLING STATE != NUMERIC CYCLING ENERGY CORRECTION",t); self.assertIn("B05 remains **64%**",t)

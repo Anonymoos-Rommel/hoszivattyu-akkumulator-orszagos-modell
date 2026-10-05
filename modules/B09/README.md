@@ -70,3 +70,39 @@ generation; it makes no tariff, market, reserve, curtailment, headroom,
 reinforcement, CAPEX, national-scaling or monetizable-system-value claim.
 `BOUNDED_SCOPE_TOTAL` is a B09-derived bounded sum, never a national result.
 B08 `scope_total_rows` are summary inputs and are rejected by B09.
+
+## Qualified P5/P6/P7 GUI generation reference
+
+`gui_generation_reference.py` verifies and streams the six exact existing
+source workbooks into the P7 signed-net recovery consumer. It preserves every
+numeric A75 cell and recovers only the 4,820 approved missing keys. The source
+capacity manifest controls active versus structural n/e types. MAVIR interval
+ends, explicit UTC offsets, full-row overlap agreement and source-cell lineage
+remain explicit.
+
+The 490,560 records cover the complete native 2025 UTC year. They retain Q-derived
+rows within the existing qualified E2/external-only wrapper; the XML/OBS reuse
+gate is unchanged. The prior hour needed for the Budapest civil year is absent,
+so no complete local-year or winter result is asserted. The full panel and
+lineage are materialized only under ignored `data/interim`. See
+[checkpoint 017](../../docs/checkpoints/V1_017_B09_GUI_GENERATION_REFERENCE.md).
+
+## V1-020 — Future source references
+
+`future_supply_reference.py` is a separate research/reference-only intake for
+exact external ERAA2025 files. It preserves 88 National Trends capacity rows
+and 49 amended Cost Based EVA change rows, with explicit source, revision,
+scenario, model-stage, year, date-basis and resource-role selection. Future
+values remain SCN, not observed or financed capacity. Sparse absence is not zero.
+
+The source-specific model-use qualification remains REVIEW_REQUIRED; no central
+future is selected and no existing engine imports this adapter. Reference
+materialization does not authorize future hourly generation, storage dispatch,
+guaranteed imports, adequacy/LOLE, revenues or national programme effects.
+Original sources and normalized rows remain external-only, with ignored-output
+guards in the local materializer.
+
+See [checkpoint 020](../../docs/checkpoints/V1_020_B09_FUTURE_SUPPLY_REFERENCE.md)
+and the [source manifest](../../registry/b09_future_supply_reference_manifest.json).
+B09-D02 stays INTEGRATING; the earlier accepted native 2025 UTC observed-source
+handoff and Q-B09-001 qualification are not broadened to these new files.

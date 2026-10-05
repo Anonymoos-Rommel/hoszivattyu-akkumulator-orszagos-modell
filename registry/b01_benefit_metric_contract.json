@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.2.0",
+  "contract_id": "B01-BENEFIT-METRIC-CONTRACT",
+  "canonical_entrypoint": "modules.B01.engine.compare_benefit_ratios",
+  "supported_methods": [
+    "RATIO_ORDERING"
+  ],
+  "canonical_question": "Q-B01-006",
+  "household_floor": "MANDATORY_FIRST_DAY_AND_INTERIM",
+  "numeric_defaults": {},
+  "original_task_acceptance_changed": false,
+  "input_contracts": [
+    "ComparisonFrame",
+    "MetricDefinition",
+    "CandidateIdentity",
+    "Measurement",
+    "UtilityMapping",
+    "Constraint",
+    "HouseholdProtection",
+    "OverlapAssessment",
+    "RatioPolicy"
+  ],
+  "raw_quantities": "Finite signed exact int, decimal text, Decimal or Fraction. None is Q. No float/bool/nonfinite coercion.",
+  "raw_bounds": "Inclusive LOWER_BOUND, UPPER_BOUND and RANGE in the exact bound definition/frame/unit. Missing applicable endpoint is Q; a known violation dominates another unknown endpoint.",
+  "utility": "Versioned explicit monotone piecewise linear anchors cover the supplied domain. Higher utility is preferred, including for MINIMIZE raw metrics. Exact knots, endpoints and plateaus retained; no clipping/extrapolation/sample normalization or inter-metric aggregation.",
+  "comparison": "One exact numerator definition and public-HUF denominator definition across all candidates; separate candidate household/project/baseline/programme identities. Native event periods may differ under the same declared evaluation contract. Ratios require a known positive denominator. Zero/negative denominator states remain separate, not worst/infinite values.",
+  "unknowns_and_ties": "Unresolved candidates remain visible outside tie groups. Stable candidate-ID tie presentation is not a preference. Arithmetic scope is incomplete with unresolved or nonpositive-denominator alternatives. No complete-winner field or optimal-portfolio claim.",
+  "method_readiness": "Only objective and required constraint metrics gate ratio comparison. Q diagnostics, optional utility maps and unused weights stay visible without becoming prerequisites. Mandatory household protection is never optional.",
+  "household_protection": "Exact candidate/bundle, baseline/programme, frame and complete qualified cash-period inventory, bound first cashflow date and explicit REQUIRED/NOT_APPLICABLE/Q scope coverage. One actual period can cover first-day/payment together. Every relevant initial/interim/payment/settlement condition must be covered; irrelevant periods are not invented. Annual/PV benefit and utility cannot compensate FAIL or Q. No new cashflow model is run.",
+  "population_protection": "A supplied admitted or SCN joint qualifying-population output with weighting, diagnostics, coverage and joint uncertainty/sensitivity may qualify the aggregate comparison without an exhaustive record census. Population means and individual-record evidence cannot substitute for this joint claim; no population result grants a household pass.",
+  "upstream_binding": "Measurements retain signed raw quantity, native status, output identity/version/content digest, candidate/frame, native periods, upstream transforms and evidence. B12 adapter retains exact Case/audit/MoneyBasis/Conversion/Valuation context and native inclusive periods. Q accounting, EXTERNAL_ADMISSION pointers and unimplemented valuation/affordability remain Q. Composite bundle uses separately qualified output or exact qualified correspondence, never a fabricated S-state. B12 output verification replays the existing unchanged producer on the exact Case; same-ID metadata with a different audit is rejected. Ready native buckets retain their concept, actor and incremental/total meaning; project cost is not automatically public spending.",
+  "periods": "B12 native INCLUSIVE dates and B01 HALF_OPEN dates remain distinct. Cross-convention evaluation comparison requires an explicit qualified PeriodAdapter preserving covered dates. Native event dates are not silently changed to the evaluation horizon.",
+  "overlap": "Numerator/denominator output-bound scope/coverage and evidence. Duplicate economic contribution identities, included/excluded conflicts and known overlapping endpoints fail. A shared physical/source event can support qualified distinct economic contributions; arbitrary distinct IDs alone never prove independence. SCN completeness is conditional; Q remains Q. Utility redundancy notes remain separate.",
+  "authority": "Conditional supplied-input comparison only. Canonical owner numerator/denominator/weights remain UNSET/Q and Q-B01-006 OPEN. No spending, reservation, actual programme selection, technical/legal permission or new empirical admission.",
+  "excluded": [
+    "weighted MCDA",
+    "lexicographic engine",
+    "general benefit aggregator",
+    "cashflow calculation",
+    "discounting",
+    "currency conversion",
+    "resource reservation",
+    "portfolio optimiser",
+    "new national numerical result",
+    "policy adoption"
+  ],
+  "source_bindings": [
+    {
+      "path": "registry/owner_policy_decisions.json"
+    },
+    {
+      "path": "registry/open_questions.csv"
+    },
+    {
+      "path": "registry/household_state_model.json"
+    },
+    {
+      "path": "registry/household_capability_contract.json"
+    },
+    {
+      "path": "registry/b01_annual_bundle_contract.json"
+    },
+    {
+      "path": "registry/b01_population_planning_contract.json"
+    },
+    {
+      "path": "modules/B12/input_accounting_contract.py"
+    },
+    {
+      "path": "docs/methodology/population_inference_policy.md"
+    }
+  ],
+  "method_sources": [
+    {
+      "source_id": "SRC-B01-METHOD-EU-EEFIRST-2024-2143",
+      "original_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024H2143",
+      "retrieved_at": "2026-10-04T20:55:35.465787+00:00",
+      "document_date": "2024-07-29",
+      "oj_date": "2024-08-09",
+      "authority": "European Commission recommendation, official EUR-Lex HTML",
+      "sha256": "fe5e502fbfae79f0daa102cdee2b758d63845cff0089023cb7b4d8b7131dbd0c",
+      "original_bytes": 541390,
+      "claim_scope": [
+        "Annex4.2(b)-(c)",
+        "Annex4.4"
+      ],
+      "admission": "METHOD_REFERENCE_ONLY_NO_PROGRAMME_VALUES_OR_CURRENT_SITE_ELIGIBILITY",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "repo_snapshot_path": null,
+      "method_reference_alias": "SRC-METHOD-EU-EEFIRST-2024-2143"
+    },
+    {
+      "source_id": "SRC-B01-METHOD-EU-EEFIRST-2026-0839",
+      "original_url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32026H0839",
+      "retrieved_at": "2026-10-04T20:56:28.082549+00:00",
+      "document_date": "2026-03-11",
+      "oj_date": "2026-04-16",
+      "authority": "European Commission recommendation, official EUR-Lex HTML",
+      "sha256": "c6b71e84438e16f07c6e82e79966aed447452b135aad7af92bc9a36b510b4ccf",
+      "original_bytes": 637776,
+      "claim_scope": [
+        "Annex4.2.3",
+        "Annex6.1-6.8"
+      ],
+      "admission": "METHOD_REFERENCE_ONLY_NO_PROGRAMME_VALUES_OR_CURRENT_SITE_ELIGIBILITY",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "repo_snapshot_path": null,
+      "method_reference_alias": "SRC-METHOD-EU-EEFIRST-2026-0839"
+    }
+  ],
+  "official_illustration_boundary": {
+    "source_id": "SRC-B01-METHOD-EU-EEFIRST-2026-0839",
+    "locator": "Annex 6.5 Table 12 and adjacent prose",
+    "meaning": "Table differences are 300 gross benefit, 200 cost, 100 net benefit; 7/3 rounds to 2.3. Adjacent additional-investment 300 is inconsistent with the table. Illustrative arithmetic is not a programme input. The general NPV/BCR distinction remains valid."
+  },
+  "supported_metric_output_units": {
+    "MONETARY": [
+      "HUF"
+    ],
+    "NONMONETARY": [
+      "kWh",
+      "MWh",
+      "GJ",
+      "kW",
+      "MW",
+      "kgCO2e",
+      "tCO2e",
+      "job-year",
+      "household",
+      "dwelling",
+      "building",
+      "person",
+      "ratio"
+    ]
+  },
+  "monetary_dimension": "Each definition explicitly declares MONETARY or NONMONETARY; an unresolved dimension remains Q. MONETARY requires its full MoneyBasis for readiness. Removing that basis preserves quantity but leaves comparison Q. NONMONETARY requires an exact supported nonmonetary output token and no MoneyBasis. Missing metadata never implies inapplicability. The bounded output vocabulary performs no alias parsing, scaling, currency conversion or compound-unit interpretation; unsupported output units are rejected explicitly. HUF, Ft, forint and compound money labels cannot be disguised as physical units. Currency, nominal/real, price date, money convention and valuation method remain exact compatibility conditions. Only HUF monetary outputs are supported here; native other-currency inputs can remain in explicitly qualified upstream Conversion bindings.",
+  "native_transformation_validation": "Submitted B12 Valuation and Conversion objects use the existing native recursive shape and Scalar/Reference/Period validation before readiness. Missing required fields, including bare None, are malformed rather than typed Q. Valuation requires native date and references, ratio-unit rates greater than -1 when known, matching discount-rate basis and the known nominal/real/inflation Fisher identity. Conversion retains native date/method, scalar fields, factor unit, original/target basis and currency bindings, and positive-factor multiplication identity when all amounts are known. Known identities use the existing B12 precision-50 ROUND_HALF_EVEN convention. Properly represented native Q remains Q. No new result, discount/FX choice, financial model or universal full Case is created.",
+  "conversion_original_context": "Every submitted monetary CONVERSION binds its original Scalar to an explicit original_money_basis: native B12 MoneyBasis, including currency, nominal/real, price date and convention. The existing metric MoneyBasis supplies target context. Source/target scalar units must equal their declared currencies and basis IDs must match their explicit contexts. No currency is inferred from an ID string. Absent original or target context stays Q; a typed Q convention stays Q; known mismatches and malformed context reject. Transformation evidence qualifies the complete bound input, including both bases. Independent physical numerators without a monetary Conversion remain supported; no universal Case, FX lookup, price default or new monetary calculation is introduced. One basis ID cannot resolve to conflicting known source and target monetary contexts; explicitly unresolved convention remains Q."
+}

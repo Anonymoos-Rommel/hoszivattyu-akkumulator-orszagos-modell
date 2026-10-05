@@ -1,0 +1,754 @@
+{
+  "schema_version": 1,
+  "slice_id": "B19-D01",
+  "status": "ACCEPTED",
+  "acceptance_date": "2026-10-04",
+  "accepted_at": "2026-10-04T07:40:43.674254+00:00",
+  "acceptance_scope": "BOUNDED_HISTORICAL_UTC2025_BUDAPEST_HU_AND_HU_AT_JOINT_MARKET_HANDOFF",
+  "reviewed_commit": "3631f80be6ab2a34a7b4d64cdf3ad64754a87509",
+  "reviewed_tree": "ebadd98021dd971f45dc313a804c33b05586d596",
+  "implementation_sole_parent": "7ca1f1e497465a10b776dc9b80f9fcf218205157",
+  "original_requirement": "Időjárás/ár/terhelés/ellátás/timing együttes, dátumozott történeti ablakok; HU/EU kapcsolódás. Külön statisztikai bizonytalanság, strukturális ismerethiány és POL stressz.",
+  "original_field_mapping": [
+    {
+      "criterion": "Weather",
+      "original_source_evidence": "Exact accepted Budapest44527 preceding-hour temperature handoff, SHA a213df5a30b30360443681f81977c111145795d23f5c2a05e4eeeec6738c3f39; 8,759 historical endpoints plus the qualified recent endpoint.",
+      "consumer_binding": "modules/B19/historical_joint_stress.py::_weather/_weather_rows/_joined_hours; historical_joint_market.py::calculate_reference/_summarize hourly_observations.temperature_c and weather_source_id; each window.weather_station_id/weather_source_hours",
+      "independent_result": "All 8,760 station temperatures and their physical hours/source IDs match the preimplementation oracle. Every window retains station44527 and the actual historical/recent source-hour counts; no national weighting or Austrian weather inference.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Price",
+      "original_source_evidence": "Accepted V1-057 HU publisher-hourly EUR/MWh plus independently qualified AT publisher-hourly field. Exact raw hashes and separate retrieval as-of timestamps are retained.",
+      "consumer_binding": "modules/B19/austrian_price_reference.py::read_austrian_reference/_configuration/_parse_csv/_witnesses/_reconcile; modules/B04/wholesale_reference.py::read_wholesale_reference; historical_joint_market.py::_price_rows/hourly_observations/market_eur_per_mwh",
+      "independent_result": "All HU and AT hourly prices, exact lexemes, local/source labels, physical endpoints and negative/zero values match preserved originals and independent oracle. All 8,689 same-window market means/ranges/spreads agree. The AT source identity is distinct; both retrospective retrieval timestamps and unknown auction/per-record vintages are exposed.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Load",
+      "original_source_evidence": "Accepted native Actual Total Load PT15M source, DER/E2. Exact source-validation primitive and all source/handoff pins replayed to exhaustion.",
+      "consumer_binding": "modules/B08/historical_source_balance.py::iter_historical_source_balance; historical_joint_stress.py::_joined_hours; historical_joint_market.py::_summarize hourly_observations.energy_mwh and window.energy_mwh/mean_power_mw",
+      "independent_result": "Every hourly load and each complete-window energy/mean matches exact quarter-hour source integration in the prior independent oracle. Actual load retains DER/E2 and Q-B08-001; no forecast substitution or new E1 requirement.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Supply",
+      "original_source_evidence": "Accepted domestic source generation, signed operational recovery, positive injection and source withdrawal. Native signed generation equals injection minus withdrawal.",
+      "consumer_binding": "modules/B08/historical_source_balance.py::iter_historical_source_balance; historical_joint_market.py::_summarize plus physical_source_evidence/physical_validation_debt/supply_interpretation",
+      "independent_result": "Every injection, withdrawal, signed-generation and source-reference residual hour/window agrees exactly. Both accounting identities and annual quantities hold; Q-B09-001/source estimates remain explicit. Supply is the named domestic generation reference; residual is not imports, adequacy, capacity or complete physical balance.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Timing and dated historical windows",
+      "original_source_evidence": "Complete half-open physical UTC2025 support and explicit integer H. Source-start mapping is corroborated by epochs; source DST end labels are retained separately.",
+      "consumer_binding": "historical_joint_market.py::calculate_reference/_price_rows/_summarize; historical_joint_stress.py::_duration/_joined_hours; austrian_price_reference.py::_parse_csv/_witnesses; tools/materialize_b19_joint_market.py::main/materialize",
+      "independent_result": "Explicit utc2025 and integer H are mandatory. All 8,760 hours and 8,689 complete non-wrapping H72 windows agree; H72 remains a caller example. Epoch/source-label and DST behavior retain physical starts/derived ends. Independent adverse checks reject incompatible domains, durations, shifted endpoints and late post-final-yield source failures before output.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Joint co-occurrence",
+      "original_source_evidence": "Private independent oracle enumerates all 8,689 complete H72 windows from 8,760 joined hours and 35,040 source grid quarters.",
+      "consumer_binding": "historical_joint_market.py::_summarize windows/criteria/descriptive_same_domain_ranks; _coverage/_intersection and selector_temporal_overlap",
+      "independent_result": "Every complete observed vector remains on its own actual dated window. All five selectors, exact ties, 78,201 descriptive rank records, 26,067 price ranges and signed spreads match the prior oracle. Independent hour-set tests verify coverage-union intersections for all tied selections; these are not pairwise event-overlap totals. No synthetic all-maxima event or risk score.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "HU/EU connection",
+      "original_source_evidence": "Austria is a distinct EU bidding-zone price field in the exact official guide pp47–48, configuration module8004170/data_id4170 and original response headers. Every padded AT hourly label and physical interval matches HU.",
+      "consumer_binding": "austrian_price_reference.py::_configuration/read_austrian_reference; registry/b19_joint_market_reference_manifest.json::at; historical_joint_market.py::regional_interpretation/retrieval_vintage_relation and market_eur_per_mwh.HU/AT/HU_MINUS_AT",
+      "independent_result": "The official separate AT field supplies one named EU bidding-zone market comparison, exactly aligned with HU UTC intervals. Distinct source IDs and non-atomic retrieval vintages are retained. No physical flow/support, congestion causality or EU-wide representation is inferred.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Statistical uncertainty",
+      "original_source_evidence": "Exact finite-domain descriptive ranks and ties can be computed. Overlapping windows are dependent; original source errors and future occurrence distributions are not estimated here.",
+      "consumer_binding": "registry/b19_joint_market_reference_manifest.json::uncertainty.statistical; historical_joint_market.py::uncertainty/probabilities/result.rank_meaning",
+      "independent_result": "Machine output explicitly separates finite-domain descriptive ranks/ties from unestimated future probabilities or return periods. Overlapping windows remain dependent. Null probability and stated absence of stochastic confidence estimation do not imply zero uncertainty.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "Structural unknowns",
+      "original_source_evidence": "Station/zone mismatch, source estimates, separate retrieval vintages and absent per-record revisions, source-cent quantization, one-year support, October resolution change and missing compatible exchange/storage observations.",
+      "consumer_binding": "registry/b19_joint_market_reference_manifest.json::uncertainty.structural/excluded_claims; historical_joint_market.py::uncertainty/physical_validation_debt/spatial_boundary/price evidence/reconciliation",
+      "independent_result": "Machine output exposes station-zone scope, E2/Q source accounting debt, separate price snapshots/unobserved revisions, shared publisher lineage, cent quantization and unknown tie rounding, one-year/native-resolution limits and missing exchange/storage accounting. No invented independent distributions or generic uncertainty factor.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    },
+    {
+      "criterion": "POL stress separated",
+      "original_source_evidence": "No owner risk tolerance, adopted shock, default operating duration or programme intervention was supplied by this historical source handoff.",
+      "consumer_binding": "registry/b19_joint_market_reference_manifest.json::uncertainty.POL/window_hours_default/policy_defaults_selected; historical_joint_market.py::window_definition_status/policy_defaults_selected; mandatory window_hours parameter",
+      "independent_result": "No adopted shock, threshold, risk tolerance or default horizon is supplied. Caller H is explicitly analysis choice, while future owner POL/SCN scenarios remain separate. No fabricated policy stress and no new D02 owner-choice gate are required to complete this historical D01 handoff.",
+      "verdict": "SATISFIED_AT_EXPLICIT_HISTORICAL_REFERENCE_SCOPE"
+    }
+  ],
+  "completed_consumer_map_sha256": "ef19eef45b8ce6333c2d030441e46fc207527a884100c4d7947426d7084f5c3e",
+  "canonical_source_ids": [
+    "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+    "SRC-B08-ENTSOE-ACTUAL-TOTAL-LOAD-2026",
+    "SRC-B09-ENTSOE-ACTUAL-GENERATION-TYPE-2026",
+    "SRC-B09-MAVIR-FUEL-NET-OPERATIONAL-2026",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+    "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+    "SRC-B04-SMARD-CONFIG-20261003",
+    "SRC-B04-SMARD-DATA-USE-20261003",
+    "SRC-B04-SMARD-GUIDE-202109",
+    "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+    "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+    "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+    "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1735513200000-20261003",
+    "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1742770800000-20261003",
+    "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1759096800000-20261003",
+    "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1760911200000-20261003",
+    "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1766962800000-20261003",
+    "SRC-B19-SMARD-AT-DAM-HOURLY-20261003",
+    "SRC-B19-SMARD-AT-DAM-ORIGINAL-20261003",
+    "SRC-B19-SMARD-AT-QUARTERHOUR-INDEX-20261003"
+  ],
+  "validation_debt_ids": [
+    "Q-B08-001",
+    "Q-B09-001"
+  ],
+  "accepted_artifact_sha256": {
+    "modules/B19/historical_joint_stress.py": "3f9035a03ed8fe5217624eeca763f61e9cae52599c0ebfccafb0e8667363c63d",
+    "registry/b19_historical_joint_stress_manifest.json": "0466a0ed61cdab5110a41c42a29e3fefe0a4a4197bc2ad36b42a91cdb7af5036",
+    "modules/B19/austrian_price_reference.py": "df2163b6a91edd517695a397443a18b0c942aca0b660b6b10630967050f8aacf",
+    "modules/B19/historical_joint_market.py": "65e7fe1675e1a08eff726179d9c05a579a454b57f4c183ca73a4e2e4e8ce9870",
+    "registry/b19_joint_market_reference_manifest.json": "01f7fc2d00722be7a4e99770eda81efaf140df4b3a0fcc45ce4e99aea9b1645a",
+    "tools/materialize_b19_joint_market.py": "382ead98c31b3c476c3d540f4e373b712642e46fd61dea30221413bdfecc234f"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b19_historical_joint_stress.py": "73885107a325eabda3fec56089fc14e4809ab47c679389e6c6e7cd5fd2a7aab5",
+    "tests/test_b19_austrian_price_reference.py": "9b39e06ad7dceb24cabe63a5bdba4a6d94398823bc4ef63d52871a8489bee84a",
+    "tests/test_b19_joint_market.py": "702c3a0940baf99f5c3b7a1b4cb488f10329367ec641123afd42bc36af0811dd"
+  },
+  "reference_id": "B19-HU-AT-JOINT-MARKET-UTC2025-V1",
+  "runtime_HU_source_pins": [
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1735513200000-20261003",
+      "sha256": "8eeb9c8c39587be4e42a80dc710ba2fdcc706d287dd9f53471eaa195f1f070ee",
+      "bytes": 15263,
+      "original_url": "https://www.smard.de/app/chart_data/262/DE-LU/262_DE-LU_quarterhour_1735513200000.json",
+      "retrieved_at": "2026-10-03T20:16:18.058075+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1759853164482
+      },
+      "http_headers": {
+        "Content-Length": "15263",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 20:16:25 GMT",
+        "Etag": "\"f148148a437dc1:0\"",
+        "Last-Modified": "Tue, 07 Oct 2025 16:06:04 GMT"
+      },
+      "first_epoch_ms": 1735513200000,
+      "points": 672
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1742770800000-20261003",
+      "sha256": "9385a1bc3b9eb720a73abb96d2be0558796dcbaad97fa8661b0eccb2337c463a",
+      "bytes": 15063,
+      "original_url": "https://www.smard.de/app/chart_data/262/DE-LU/262_DE-LU_quarterhour_1742770800000.json",
+      "retrieved_at": "2026-10-03T20:16:18.058629+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1759849187848
+      },
+      "http_headers": {
+        "Content-Length": "15063",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 20:16:25 GMT",
+        "Etag": "\"2143e69b37dc1:0\"",
+        "Last-Modified": "Tue, 07 Oct 2025 14:59:47 GMT"
+      },
+      "first_epoch_ms": 1742770800000,
+      "points": 668
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1759096800000-20261003",
+      "sha256": "4f7bf08a9667e432c8419ef8f0b91b67fa18c8f4b25355c06de3d9280dd8e084",
+      "bytes": 15042,
+      "original_url": "https://www.smard.de/app/chart_data/262/DE-LU/262_DE-LU_quarterhour_1759096800000.json",
+      "retrieved_at": "2026-10-03T20:16:25.445537+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1759849314731
+      },
+      "http_headers": {
+        "Content-Length": "15042",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 20:16:29 GMT",
+        "Etag": "\"48f3df519b37dc1:0\"",
+        "Last-Modified": "Tue, 07 Oct 2025 15:01:54 GMT"
+      },
+      "first_epoch_ms": 1759096800000,
+      "points": 672
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1760911200000-20261003",
+      "sha256": "0108a1d9e2c0acacb97701b1f35b701032cf2cb645e248202ae99c007d1b2c90",
+      "bytes": 15221,
+      "original_url": "https://www.smard.de/app/chart_data/262/DE-LU/262_DE-LU_quarterhour_1760911200000.json",
+      "retrieved_at": "2026-10-03T20:16:25.453366+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1761501482539
+      },
+      "http_headers": {
+        "Content-Length": "15221",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 20:16:29 GMT",
+        "Etag": "\"433ba112a246dc1:0\"",
+        "Last-Modified": "Sun, 26 Oct 2025 17:58:02 GMT"
+      },
+      "first_epoch_ms": 1760911200000,
+      "points": 676
+    },
+    {
+      "source_id": "SRC-B04-SMARD-262-DE-LU-QUARTERHOUR-1766962800000-20261003",
+      "sha256": "7ea0da815f96824d1e10f8b1188e23650c1840f2fc8309ace3359dc0ee26ca7c",
+      "bytes": 14956,
+      "original_url": "https://www.smard.de/app/chart_data/262/DE-LU/262_DE-LU_quarterhour_1766962800000.json",
+      "retrieved_at": "2026-10-03T20:16:29.882264+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1767445607453
+      },
+      "http_headers": {
+        "Content-Length": "14956",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 20:16:33 GMT",
+        "Etag": "\"436d2ad1b17cdc1:0\"",
+        "Last-Modified": "Sat, 03 Jan 2026 13:06:47 GMT"
+      },
+      "first_epoch_ms": 1766962800000,
+      "points": 672
+    },
+    {
+      "source_id": "SRC-B04-SMARD-DATA-USE-20261003",
+      "sha256": "35fde74f29cd1134a2ed76f023bfab1be33285466609f33ad295642410eb64bd",
+      "bytes": 22677,
+      "original_url": "https://www.smard.de/en/datennutzung",
+      "retrieved_at": "2026-10-03T20:07:04.126689+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "NUMERICAL_REUSE_RIGHTS"
+    },
+    {
+      "source_id": "SRC-B04-SMARD-GUIDE-202109",
+      "sha256": "2e7c4ea2b75cf320e8ac64108b29feb23155471b75bbd5c5c2a2f7ff4411b3a8",
+      "bytes": 4041997,
+      "original_url": "https://www.smard.de/resource/blob/205652/63fcff2c9813096fa2229d769da164ef/smard-user-guide-09-2021-data.pdf",
+      "retrieved_at": "2026-10-03T20:07:29.887191+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "TIME_AND_PRICE_DEFINITION"
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-DAM-HOURLY-20261003",
+      "sha256": "83cf09dc3624d1f4e60132163820996017434105ebe018f7c751ae490108f860",
+      "bytes": 435514,
+      "original_url": "https://www.smard.de/nip-download-manager/nip/download/market-data",
+      "retrieved_at": "2026-10-03T20:12:13.090560+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "PUBLISHER_HOURLY_PRICE",
+      "export_request": {
+        "request_form": [
+          {
+            "moduleIds": [
+              8000262
+            ],
+            "region": "DE-LU",
+            "resolution": "hour",
+            "format": "CSV",
+            "timestamp_from": 1735603200000,
+            "timestamp_to": 1767312000000,
+            "type": "discrete",
+            "language": "en"
+          }
+        ]
+      },
+      "http_headers": {
+        "Content-Disposition": "attachment; filename=\"Day-ahead_prices_202412310100_202601020100_Hour.csv\"",
+        "Content-Length": "435514",
+        "Content-Type": "application/octet-stream;charset=UTF-8",
+        "Date": "Sat, 03 Oct 2026 20:12:17 GMT"
+      },
+      "field": "Hungary [€/MWh] Calculated resolutions",
+      "duration_minutes": 60,
+      "rows": 8808
+    },
+    {
+      "source_id": "SRC-B04-SMARD-HU-DAM-ORIGINAL-20261003",
+      "sha256": "007005936f18ecf03030f2d786d621374e4db8777ec2b7f814d2bdfaa572ea50",
+      "bytes": 1741751,
+      "original_url": "https://www.smard.de/nip-download-manager/nip/download/market-data",
+      "retrieved_at": "2026-10-03T20:10:43.969524+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "intended_use": "NATIVE_RESOLUTION_RECONCILIATION",
+      "export_request": {
+        "request_form": [
+          {
+            "moduleIds": [
+              8000262
+            ],
+            "region": "DE-LU",
+            "resolution": "",
+            "format": "CSV",
+            "timestamp_from": 1735603200000,
+            "timestamp_to": 1767312000000,
+            "type": "discrete",
+            "language": "en"
+          }
+        ]
+      },
+      "http_headers": {
+        "Content-Disposition": "attachment; filename=\"Day-ahead_prices_202412310100_202601020100_Quarterhour.csv\"",
+        "Content-Length": "1741751",
+        "Content-Type": "application/octet-stream;charset=UTF-8",
+        "Date": "Sat, 03 Oct 2026 20:10:50 GMT"
+      },
+      "field": "Hungary [€/MWh] Original resolutions",
+      "duration_minutes": 15,
+      "rows": 35232
+    },
+    {
+      "source_id": "SRC-B04-SMARD-CONFIG-20261003",
+      "sha256": "569b5d32d4b065565e77588647104b4bb64041a69f03f77741fcebf8c365102c",
+      "bytes": 92622,
+      "original_url": "https://www.smard.de/app/chart_configuration/market_data_configuration.json",
+      "retrieved_at": "2026-10-03T20:09:35.824450+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "HU_IDENTITY"
+    },
+    {
+      "source_id": "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+      "sha256": "b5f06ebc00b8d45e1f4200a02af614f0631580fe963fe279adf4b9e550504d44",
+      "bytes": 28127,
+      "original_url": "https://www.smard.de/en/15-minute-wholesale-prices-available-218078",
+      "retrieved_at": "2026-10-03T20:08:10.720745+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "NATIVE_AUCTION_TRANSITION",
+      "displayed_publication_date": "2025-10-10",
+      "publication_datetime_local": "2025-10-10T00:00:00+02:00",
+      "publication_instant_utc": "2025-10-09T22:00:00Z",
+      "source_id_date_note": "Stable source ID retains original qualification lineage; use displayed publication date above."
+    }
+  ],
+  "runtime_AT_source_pins": [
+    {
+      "source_id": "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1735513200000-20261003",
+      "sha256": "b0c4004390cb54167871d430208ed72371b8849fdde0c93c9f7738a279a0f6d9",
+      "bytes": 15319,
+      "original_url": "https://www.smard.de/app/chart_data/4170/DE-LU/4170_DE-LU_quarterhour_1735513200000.json",
+      "retrieved_at": "2026-10-03T21:20:15.915587+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Length": "15319",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 21:20:15 GMT",
+        "Etag": "\"827e9a679e37dc1:0\"",
+        "Last-Modified": "Tue, 07 Oct 2025 15:23:59 GMT"
+      },
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1759850639671
+      },
+      "first_epoch_ms": 1735513200000,
+      "points": 672
+    },
+    {
+      "source_id": "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1742770800000-20261003",
+      "sha256": "6029ae60041aa77b15e4db573dbf9d1673cae68454e6afca8441ad07fe397c5d",
+      "bytes": 15071,
+      "original_url": "https://www.smard.de/app/chart_data/4170/DE-LU/4170_DE-LU_quarterhour_1742770800000.json",
+      "retrieved_at": "2026-10-03T21:20:20.534816+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Length": "15071",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 21:20:19 GMT",
+        "Etag": "\"7e9c4a469737dc1:0\"",
+        "Last-Modified": "Tue, 07 Oct 2025 14:32:57 GMT"
+      },
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1759847577324
+      },
+      "first_epoch_ms": 1742770800000,
+      "points": 668
+    },
+    {
+      "source_id": "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1759096800000-20261003",
+      "sha256": "5de030c6a12a284f82a89debaea0d5316d18f721a79def46960b3c32ac799ed1",
+      "bytes": 15016,
+      "original_url": "https://www.smard.de/app/chart_data/4170/DE-LU/4170_DE-LU_quarterhour_1759096800000.json",
+      "retrieved_at": "2026-10-03T21:20:24.609445+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Length": "15016",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 21:20:23 GMT",
+        "Etag": "\"e9374f889737dc1:0\"",
+        "Last-Modified": "Tue, 07 Oct 2025 14:34:48 GMT"
+      },
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1759847688076
+      },
+      "first_epoch_ms": 1759096800000,
+      "points": 672
+    },
+    {
+      "source_id": "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1760911200000-20261003",
+      "sha256": "155e026c9effd0f44f7905f5149e866784d3934ed79b8dd56c09972f492057e0",
+      "bytes": 15185,
+      "original_url": "https://www.smard.de/app/chart_data/4170/DE-LU/4170_DE-LU_quarterhour_1760911200000.json",
+      "retrieved_at": "2026-10-03T21:20:29.291486+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Length": "15185",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 21:20:29 GMT",
+        "Etag": "\"50c6d53ca246dc1:0\"",
+        "Last-Modified": "Sun, 26 Oct 2025 17:59:13 GMT"
+      },
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1761501553362
+      },
+      "first_epoch_ms": 1760911200000,
+      "points": 676
+    },
+    {
+      "source_id": "SRC-B19-SMARD-4170-DE-LU-QUARTERHOUR-1766962800000-20261003",
+      "sha256": "def74d8de483f90575ada7943fdb8428fb24c82eec459f4afb3467b7711d6c84",
+      "bytes": 14936,
+      "original_url": "https://www.smard.de/app/chart_data/4170/DE-LU/4170_DE-LU_quarterhour_1766962800000.json",
+      "retrieved_at": "2026-10-03T21:20:37.178147+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Length": "14936",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 21:20:36 GMT",
+        "Etag": "\"54c6f933ad7cdc1:0\"",
+        "Last-Modified": "Sat, 03 Jan 2026 12:33:45 GMT"
+      },
+      "intended_use": "PHYSICAL_UTC_EPOCH_WITNESS",
+      "file_generation_metadata": {
+        "version": 1,
+        "created": 1767443625737
+      },
+      "first_epoch_ms": 1766962800000,
+      "points": 672
+    },
+    {
+      "source_id": "SRC-B19-SMARD-AT-DAM-HOURLY-20261003",
+      "sha256": "a16cae90346dbc0fed8a9ed739500a79c6ef0cacf7346337353e33c7e0de6937",
+      "bytes": 435236,
+      "original_url": "https://www.smard.de/nip-download-manager/nip/download/market-data",
+      "retrieved_at": "2026-10-03T21:20:00.079458+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Disposition": "attachment; filename=\"Day-ahead_prices_202412310100_202601020100_Hour.csv\"",
+        "Content-Length": "435236",
+        "Content-Type": "application/octet-stream;charset=UTF-8",
+        "Date": "Sat, 03 Oct 2026 21:19:59 GMT"
+      },
+      "intended_use": "PUBLISHER_HOURLY_PRICE",
+      "export_request": {
+        "request_form": [
+          {
+            "moduleIds": [
+              8004170
+            ],
+            "region": "DE-LU",
+            "resolution": "hour",
+            "format": "CSV",
+            "timestamp_from": 1735603200000,
+            "timestamp_to": 1767312000000,
+            "type": "discrete",
+            "language": "en"
+          }
+        ]
+      },
+      "field": "Austria [€/MWh] Calculated resolutions",
+      "duration_minutes": 60,
+      "rows": 8808
+    },
+    {
+      "source_id": "SRC-B19-SMARD-AT-QUARTERHOUR-INDEX-20261003",
+      "sha256": "ad36d4c8bf6f7132c7a2b4c520c97b33ca6adeb2a2407b3e2e651d72c5afbb25",
+      "bytes": 5868,
+      "original_url": "https://www.smard.de/app/chart_data/4170/DE-LU/index_quarterhour.json",
+      "retrieved_at": "2026-10-03T21:20:11.821963+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Length": "5868",
+        "Content-Type": "application/json",
+        "Date": "Sat, 03 Oct 2026 21:19:44 GMT",
+        "Etag": "\"42ebf952a53dd1:0\"",
+        "Last-Modified": "Sat, 03 Oct 2026 11:30:25 GMT"
+      },
+      "intended_use": "AT_SERIES_INDEX",
+      "timestamp_count": 418
+    },
+    {
+      "source_id": "SRC-B19-SMARD-AT-DAM-ORIGINAL-20261003",
+      "sha256": "ee43eac03fb07017d58dff65aa49e3705b3040dcdc99505a6153ee79e5fa7d0b",
+      "bytes": 1740654,
+      "original_url": "https://www.smard.de/nip-download-manager/nip/download/market-data",
+      "retrieved_at": "2026-10-03T21:20:07.181326+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "SMARD_NUMERICAL_MARKET_DATA_CC_BY_4_0_ATTRIBUTION_REQUIRED",
+      "user_publication_authorized": false,
+      "http_headers": {
+        "Content-Disposition": "attachment; filename=\"Day-ahead_prices_202412310100_202601020100_Quarterhour.csv\"",
+        "Content-Length": "1740654",
+        "Content-Type": "application/octet-stream;charset=UTF-8",
+        "Date": "Sat, 03 Oct 2026 21:20:05 GMT"
+      },
+      "intended_use": "NATIVE_RESOLUTION_RECONCILIATION",
+      "export_request": {
+        "request_form": [
+          {
+            "moduleIds": [
+              8004170
+            ],
+            "region": "DE-LU",
+            "resolution": "",
+            "format": "CSV",
+            "timestamp_from": 1735603200000,
+            "timestamp_to": 1767312000000,
+            "type": "discrete",
+            "language": "en"
+          }
+        ]
+      },
+      "field": "Austria [€/MWh] Original resolutions",
+      "duration_minutes": 15,
+      "rows": 35232
+    },
+    {
+      "source_id": "SRC-B04-SMARD-DATA-USE-20261003",
+      "sha256": "35fde74f29cd1134a2ed76f023bfab1be33285466609f33ad295642410eb64bd",
+      "bytes": 22677,
+      "original_url": "https://www.smard.de/en/datennutzung",
+      "retrieved_at": "2026-10-03T20:07:04.126689+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "NUMERICAL_REUSE_RIGHTS"
+    },
+    {
+      "source_id": "SRC-B04-SMARD-GUIDE-202109",
+      "sha256": "2e7c4ea2b75cf320e8ac64108b29feb23155471b75bbd5c5c2a2f7ff4411b3a8",
+      "bytes": 4041997,
+      "original_url": "https://www.smard.de/resource/blob/205652/63fcff2c9813096fa2229d769da164ef/smard-user-guide-09-2021-data.pdf",
+      "retrieved_at": "2026-10-03T20:07:29.887191+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "TIME_AND_PRICE_DEFINITION"
+    },
+    {
+      "source_id": "SRC-B04-SMARD-CONFIG-20261003",
+      "sha256": "569b5d32d4b065565e77588647104b4bb64041a69f03f77741fcebf8c365102c",
+      "bytes": 92622,
+      "original_url": "https://www.smard.de/app/chart_configuration/market_data_configuration.json",
+      "retrieved_at": "2026-10-03T20:09:35.824450+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "AT_IDENTITY"
+    },
+    {
+      "source_id": "SRC-B04-SMARD-MTU-ANNOUNCEMENT-20251009",
+      "sha256": "b5f06ebc00b8d45e1f4200a02af614f0631580fe963fe279adf4b9e550504d44",
+      "bytes": 28127,
+      "original_url": "https://www.smard.de/en/15-minute-wholesale-prices-available-218078",
+      "retrieved_at": "2026-10-03T20:08:10.720745+00:00",
+      "authority": "Bundesnetzagentur | SMARD.de",
+      "reuse_status": "PRIVATE_QUALIFICATION_COPY_PUBLIC_REPOSITORY_COPY_NOT_CLEARED",
+      "user_publication_authorized": false,
+      "intended_use": "NATIVE_AUCTION_TRANSITION",
+      "displayed_publication_date": "2025-10-10",
+      "publication_datetime_local": "2025-10-10T00:00:00+02:00",
+      "publication_instant_utc": "2025-10-09T22:00:00Z",
+      "source_id_date_note": "Inherited source ID is lineage, not displayed publication date"
+    }
+  ],
+  "source_review": {
+    "new_AT_source_freeze_sha256": "412f27143c66edf4299de1f25d237c1b7ed49ad5a54d7c1ee701695bdd27e9c7",
+    "independent_source_verdict_sha256": "62dea018772d6ad5ab5592669d5b8b3b1e96e537f3635e2f96e0b083b7649160",
+    "private_preimplementation_oracle_freeze_sha256": "e109e9a17ed96486d6cfcc4e1bd46a43cd631a4cd30ca665b3568d5101abdc09",
+    "source_files_frozen": 25,
+    "reused_evidence_pins": 18,
+    "new_original_bodies": 8,
+    "runtime_AT_source_pins": 12,
+    "runtime_HU_source_pins": 11,
+    "padded_hours_each_zone": 8808,
+    "selected_UTC2025_hours_each_zone": 8760,
+    "same_lineage_epoch_overlap_each_zone": 2976,
+    "new_source_review_did_not_read_new_implementation_before_oracle_freeze": true,
+    "shared_SMARD_ENTSOE_lineage_not_independent_exchange_validation": true
+  },
+  "independent_implementation_review": {
+    "receipt_sha256": "262192536ea5967283711f6aa395c11094f7c0672043101d62292c54382bee1a",
+    "verdict": "PASS_EXACT_ELEVEN_FILE_SUBSTANTIVE_PACKET",
+    "focused_discovered": 150,
+    "focused_passed": 149,
+    "known_host_skips": 1,
+    "genuine_hours_compared": 8760,
+    "genuine_complete_72h_windows_compared": 8689,
+    "window_rank_records_compared": 78201,
+    "window_price_ranges_compared": 26067,
+    "coverage_union_intersections_compared": 10,
+    "additional_adverse_cases_passed": 56,
+    "overlapping_checks_not_additive_independent_evidence": true,
+    "completed_original_criterion_consumer_map_sha256": "ef19eef45b8ce6333c2d030441e46fc207527a884100c4d7947426d7084f5c3e",
+    "all_ten_original_clauses_satisfied_at_bounded_handoff": true,
+    "registry_acceptance_executed": false
+  },
+  "genuine_private_replay": {
+    "implementation_freeze_sha256": "9ab09cad79c016e25daf002376b6c953b4a5b30b5c2d1089abe6a42dbb348bfa",
+    "author_proof_sha256": "237cb0b14f1255742275203f0180cb215b0b918a13809e1b88850c2a321d1449",
+    "receipt_bytes": 78605365,
+    "receipt_sha256": "f9e9815afc6895b030f5bdcec30bf6251ef867af3d6f47cd828d418accd42d41",
+    "independent_guarded_output_byte_identical": true,
+    "real_storage_guard_or_authority_not_mocked": true,
+    "original_B19_selectors_ties_windows_and_annual_quantities_unchanged": true,
+    "detailed_numeric_outputs_public": false,
+    "valuation_performed": false
+  },
+  "scientific_boundaries": {
+    "reference_id": "B19-HU-AT-JOINT-MARKET-UTC2025-V1",
+    "domain": "Physical UTC2025, one Budapest station and Hungarian source load/signed domestic generation, with one Austrian EU bidding-zone market comparator",
+    "duration_default": null,
+    "statistical": "Exact observed-domain descriptive ranks and ties; overlapping windows dependent, future/generalized statistical uncertainty not estimated",
+    "structural": "Station/zone mismatch, adopted E2/Q source estimates and debt, absent exchange/storage, separate retrospective price snapshots and unobserved revisions, one-year support, cent quantization and native-resolution transition",
+    "POL": "No adopted stress, shock, threshold, tolerance or policy/default; any future POL/SCN intervention remains separate",
+    "time": "Retain source lexemes and anomalous end labels; derive physical UTC ends; civil2025 is incompatible with this joint domain",
+    "regional": "HU–AT market-price comparison only, not physical imports/support, EU-wide representation, congestion causality or adequacy",
+    "overlap": "Exact intersection of unions of all tied-selector physical-hour coverage, not pairwise event totals",
+    "retail_procurement_FX_programme_driver_ranks_thresholds_national_results": "NOT_ESTABLISHED",
+    "raw_sources_and_detailed_numeric_outputs_public": false,
+    "other_57_tasks_original_criteria_dependencies_readiness_unchanged": true,
+    "B19_D02_D03_and_national_gates_unchanged": true
+  },
+  "physical_source_manifest_sha256": "0466a0ed61cdab5110a41c42a29e3fefe0a4a4197bc2ad36b42a91cdb7af5036",
+  "attribution": "Bundesnetzagentur | SMARD.de",
+  "rights_scope": "The SMARD numerical Market data visuals/download product only. No blanket relicensing of direct exchanges/ENTSO-E or editorial/JS/PDF documentation. No public action is authorized by this package.",
+  "hosted_ci": {
+    "checkpoint": "V1-058",
+    "status": "PASS_PUBLISHED_EXACT_TREE_HOSTED_CI",
+    "commit": "3631f80be6ab2a34a7b4d64cdf3ad64754a87509",
+    "tree": "ebadd98021dd971f45dc313a804c33b05586d596",
+    "sole_parent": "7ca1f1e497465a10b776dc9b80f9fcf218205157",
+    "branch": "agent/v1-evidence-feasibility",
+    "main_commit": "144c0d96cee674fbea4bf951826e68f000b45705",
+    "pull_request": 324,
+    "main_merged": false,
+    "tested_merge_commit": "e9d76d0d0df340a26705870e9f5d0cc1a233a138",
+    "tested_merge_tree": "ebadd98021dd971f45dc313a804c33b05586d596",
+    "tested_merge_parents": [
+      "144c0d96cee674fbea4bf951826e68f000b45705",
+      "3631f80be6ab2a34a7b4d64cdf3ad64754a87509"
+    ],
+    "run_id": 37186094786,
+    "run_number": 1125,
+    "run_attempt": 1,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37186094786",
+    "job_id": 111388191276,
+    "workflow_status": "completed",
+    "workflow_conclusion": "success",
+    "job_status": "completed",
+    "job_conclusion": "success",
+    "tests": 3602,
+    "passed": 3602,
+    "skips": 0,
+    "errors": 0,
+    "failures": 0,
+    "test_duration_seconds": 182.375,
+    "registry": "VALID",
+    "host_positive_test_names": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed)",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read)",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed)"
+    ],
+    "log_path": "V1_058_HOSTED.log",
+    "log_bytes": 806374,
+    "log_sha256": "92117a32037b1816bbbe7a671d91130776a87d2e172333a3be899749420b43cd",
+    "log_encoding": "UTF-8 decoded content including BOM and final newline preserved",
+    "log_fetched_once": true,
+    "verified_at": "2026-10-04T07:39:02.808763+00:00"
+  },
+  "independent_hosted_review_sha256": "f4f6c66472f3bddd33ee27fd4b99b81ec3e3f9ee367e1d420df9b4462ff8a844",
+  "private_preservation": {
+    "baseline_version": 21,
+    "baseline_sha256": "6b9ff2d26fe8632d9c629cfcc54648a13a95b499622b5cdf6a15c704210c0490",
+    "candidate_version": 0,
+    "candidate_sha256": "376e2c618de1b912acdab383241aac63aeb441fb926789f3340b3c07249fc3d0",
+    "restoration_independent_receipt_sha256": "af0a8ed4c41a660fea248abf0024a3b7cd5d022803324229d5fbb578aa75a2dc",
+    "replay_independent_receipt_sha256": "1824b50b7c4f73548a4204c307371be9c9c4b4f56ae8e7b5035fce9ebd6ac6de",
+    "source_originals_and_detailed_numeric_panels_public": false
+  },
+  "conditional_template_sha256": "b501d98eca6b6f8ea270371fa49c2824770d784d10cd7d636c807c5c76b426ad",
+  "acceptance_changes_only_original_task_metadata": true,
+  "B19_D02_D03_other57_tasks_original_criteria_dependencies_readiness_unchanged": true,
+  "national_admission": false,
+  "physical_import_support_established": false,
+  "POL_defaults_selected": false,
+  "main_merge_authorized": false
+}

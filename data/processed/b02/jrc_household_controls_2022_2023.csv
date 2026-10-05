@@ -1,0 +1,257 @@
+sheet,source_row,reference_year,native_code,label,source_unit,value,availability,evidence_status,source_id,source_formula
+RES_summary,6,2022,NUM.number.HU.Res.HH,Number of households,number,4174806,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,6,2023,NUM.number.HU.Res.HH,Number of households,number,4161137,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,7,2022,SurfaceArea.ksqm.HU.Res.HH,Total households useful surface area (in thousand sqm),ksqm,342042.0787374235,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,7,2023,SurfaceArea.ksqm.HU.Res.HH,Total households useful surface area (in thousand sqm),ksqm,341154.7311656439,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,11,2022,HDD.Celsius.HU.Actual,Actual heating degree-days,Celsius,2549.8,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,11,2023,HDD.Celsius.HU.Actual,Actual heating degree-days,Celsius,2324.16,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,12,2022,HDD.Celsius.HU.Mean,Mean heating degree-days over period 2000 - 2020,Celsius,2693.8642857142854,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=AVERAGE($B11:$V11)
+RES_summary,12,2023,HDD.Celsius.HU.Mean,Mean heating degree-days over period 2000 - 2020,Celsius,2693.8642857142854,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=AVERAGE($B11:$V11)
+RES_summary,28,2022,FEC.ktoe.HU.ES.Res,Energy consumption by fuel - Eurostat structure (ktoe),ktoe,5821.191831470334,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(X29:X30,X33:X34,X41:X42)"
+RES_summary,28,2023,FEC.ktoe.HU.ES.Res,Energy consumption by fuel - Eurostat structure (ktoe),ktoe,5367.116938950989,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(Y29:Y30,Y33:Y34,Y41:Y42)"
+RES_summary,33,2022,FEC.ktoe.HU.ES.Res.NG,Natural gas,ktoe,2860.0125868124833,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,33,2023,FEC.ktoe.HU.ES.Res.NG,Natural gas,ktoe,2488.9830873916376,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,36,2022,FEC.ktoe.HU.ES.Res.Biogas,Biogas,ktoe,1.7028044170946552,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,36,2023,FEC.ktoe.HU.ES.Res.Biogas,Biogas,ktoe,3.127832642756541,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,40,2022,FEC.ktoe.HU.ES.Res.Ambient,Ambient heat,ktoe,29.330266552020625,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,40,2023,FEC.ktoe.HU.ES.Res.Ambient,Ambient heat,ktoe,34.99088564058469,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_summary,44,2022,FEC.ktoe.HU.Res.HH,Energy consumption by end-uses (ktoe),ktoe,5791.861564918312,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(X45,X50)"
+RES_summary,44,2023,FEC.ktoe.HU.Res.HH,Energy consumption by end-uses (ktoe),ktoe,5332.126053310403,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(Y45,Y50)"
+RES_hh_fec,3,2022,FEC.ktoe.HU.Res.HH.Thermal,Final energy consumption (ktoe),ktoe,5149.572085709307,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(X4,X15,X17,X27)"
+RES_hh_fec,3,2023,FEC.ktoe.HU.Res.HH.Thermal,Final energy consumption (ktoe),ktoe,4697.566138024704,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(Y4,Y15,Y17,Y27)"
+RES_hh_fec,4,2022,FEC.ktoe.HU.Res.HH.Thermal.SH,Space heating,ktoe,4204.2716468027775,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X5:X14)
+RES_hh_fec,4,2023,FEC.ktoe.HU.Res.HH.Thermal.SH,Space heating,ktoe,3763.670557826871,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y5:Y14)
+RES_hh_fec,5,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.Solids.Solids,Solids,ktoe,49.89871023215817,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,5,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.Solids.Solids,Solids,ktoe,32.25055889939812,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,6,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,1.9307652622527913,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,6,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,1.863047721410148,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,7,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,7,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,8,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.Gas.NG_Biogas,Natural gas,ktoe,2388.8385815778756,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,8,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.Gas.NG_Biogas,Natural gas,ktoe,2036.7006086336535,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,9,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.Biomass.Biomass_Waste,Biomass,ktoe,1265.8900878952904,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,9,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.Biomass.Biomass_Waste,Biomass,ktoe,1204.9837919174554,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,10,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,10,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,11,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.DistrHeat.Steam_Distr,Distributed heat,ktoe,403.67759892490426,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,11,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.DistrHeat.Steam_Distr,Distributed heat,ktoe,374.2920919715563,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,12,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.AdvElc.Elec,Advanced electric heating,ktoe,12.439731990946898,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,12,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.AdvElc.Elec,Advanced electric heating,ktoe,14.597806753311795,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,13,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.ConvElc.Elec,Conventional electric heating,ktoe,42.574034036793684,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,13,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.ConvElc.Elec,Conventional electric heating,ktoe,64.73007894444116,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,14,2022,FEC.ktoe.HU.Res.HH.Thermal.SH.TotalCirculation.Elec,Electricity in circulation,ktoe,39.02213688255598,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,14,2023,FEC.ktoe.HU.Res.HH.Thermal.SH.TotalCirculation.Elec,Electricity in circulation,ktoe,34.25257298564449,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,15,2022,FEC.ktoe.HU.Res.HH.Thermal.SC,Space cooling,ktoe,27.19836151714912,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=X16
+RES_hh_fec,15,2023,FEC.ktoe.HU.Res.HH.Thermal.SC,Space cooling,ktoe,22.174023120282776,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=Y16
+RES_hh_fec,16,2022,FEC.ktoe.HU.Res.HH.Thermal.SC.AC.Elec,Air conditioning,ktoe,27.19836151714912,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,16,2023,FEC.ktoe.HU.Res.HH.Thermal.SC.AC.Elec,Air conditioning,ktoe,22.174023120282776,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,17,2022,FEC.ktoe.HU.Res.HH.Thermal.WH,Water heating,ktoe,654.8089379408706,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X18:X26)
+RES_hh_fec,17,2023,FEC.ktoe.HU.Res.HH.Thermal.WH,Water heating,ktoe,666.2828818221045,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y18:Y26)
+RES_hh_fec,18,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,18,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,19,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,6.150457151046147,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,19,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,5.936974061335626,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,20,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,20,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,21,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.Gas.NG_Biogas,Natural gas,ktoe,315.9192541740961,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,21,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.Gas.NG_Biogas,Natural gas,ktoe,315.6900470907349,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,22,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.Biomass.Biomass_Waste,Biomass,ktoe,12.319122002483997,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,22,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.Biomass.Biomass_Waste,Biomass,ktoe,12.157208369160218,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,23,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,23,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,24,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.DistrHeat.Steam_Distr,Distributed heat,ktoe,54.45275361163857,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,24,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.DistrHeat.Steam_Distr,Distributed heat,ktoe,57.3263087163199,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,25,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.Elc.Elec,Electricity,ktoe,250.27517559317926,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,25,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.Elc.Elec,Electricity,ktoe,257.9038139198935,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,26,2022,FEC.ktoe.HU.Res.HH.Thermal.WH.TotalSolar.Solar,Solar,ktoe,15.69217540842648,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,26,2023,FEC.ktoe.HU.Res.HH.Thermal.WH.TotalSolar.Solar,Solar,ktoe,17.26852966466036,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,27,2022,FEC.ktoe.HU.Res.HH.Thermal.CO,Cooking,ktoe,263.2931394485104,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X28:X32)
+RES_hh_fec,27,2023,FEC.ktoe.HU.Res.HH.Thermal.CO,Cooking,ktoe,245.43867525544547,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y28:Y32)
+RES_hh_fec,28,2022,FEC.ktoe.HU.Res.HH.Thermal.CO.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,28,2023,FEC.ktoe.HU.Res.HH.Thermal.CO.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,29,2022,FEC.ktoe.HU.Res.HH.Thermal.CO.LPG.LPG,Liquified petroleum gas (LPG),ktoe,58.04087560905703,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,29,2023,FEC.ktoe.HU.Res.HH.Thermal.CO.LPG.LPG,Liquified petroleum gas (LPG),ktoe,56.02654743479507,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,30,2022,FEC.ktoe.HU.Res.HH.Thermal.CO.Gas.NG_Biogas,Natural gas,ktoe,156.95755547760552,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,30,2023,FEC.ktoe.HU.Res.HH.Thermal.CO.Gas.NG_Biogas,Natural gas,ktoe,139.72026431000467,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,31,2022,FEC.ktoe.HU.Res.HH.Thermal.CO.Biomass.Biomass_Waste,Biomass,ktoe,0.35674023120282794,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,31,2023,FEC.ktoe.HU.Res.HH.Thermal.CO.Biomass.Biomass_Waste,Biomass,ktoe,0.3520349670392663,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,32,2022,FEC.ktoe.HU.Res.HH.Thermal.CO.Elc.Elec,Electricity,ktoe,47.93796813064502,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_fec,32,2023,FEC.ktoe.HU.Res.HH.Thermal.CO.Elc.Elec,Electricity,ktoe,49.339828543606465,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,3,2022,TES.ktoe.HU.Res.HH.Thermal,Thermal energy service (ktoe useful),ktoe,3599.2319645794987,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(X4,X15,X17,X27)"
+RES_hh_tes,3,2023,TES.ktoe.HU.Res.HH.Thermal,Thermal energy service (ktoe useful),ktoe,3342.8321506165594,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=SUM(Y4,Y15,Y17,Y27)"
+RES_hh_tes,4,2022,TES.ktoe.HU.Res.HH.Thermal.SH,Space heating,ktoe,2851.070180552011,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X5:X14)
+RES_hh_tes,4,2023,TES.ktoe.HU.Res.HH.Thermal.SH,Space heating,ktoe,2605.869622943265,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y5:Y14)
+RES_hh_tes,5,2022,TES.ktoe.HU.Res.HH.Thermal.SH.Solids.Solids,Solids,ktoe,31.971871403762414,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,5,2023,TES.ktoe.HU.Res.HH.Thermal.SH.Solids.Solids,Solids,ktoe,20.67730366708751,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,6,2022,TES.ktoe.HU.Res.HH.Thermal.SH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,1.1057160783285618,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,6,2023,TES.ktoe.HU.Res.HH.Thermal.SH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,1.068725991837888,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,7,2022,TES.ktoe.HU.Res.HH.Thermal.SH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,7,2023,TES.ktoe.HU.Res.HH.Thermal.SH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,8,2022,TES.ktoe.HU.Res.HH.Thermal.SH.Gas.NG_Biogas,Natural gas,ktoe,1600.0480030510776,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,8,2023,TES.ktoe.HU.Res.HH.Thermal.SH.Gas.NG_Biogas,Natural gas,ktoe,1382.8647753513399,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,9,2022,TES.ktoe.HU.Res.HH.Thermal.SH.Biomass.Biomass_Waste,Biomass,ktoe,803.9713142732529,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,9,2023,TES.ktoe.HU.Res.HH.Thermal.SH.Biomass.Biomass_Waste,Biomass,ktoe,784.1352936777765,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,10,2022,TES.ktoe.HU.Res.HH.Thermal.SH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,10,2023,TES.ktoe.HU.Res.HH.Thermal.SH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,11,2022,TES.ktoe.HU.Res.HH.Thermal.SH.DistrHeat.Steam_Distr,Distributed heat,ktoe,295.56004416601854,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,11,2023,TES.ktoe.HU.Res.HH.Thermal.SH.DistrHeat.Steam_Distr,Distributed heat,ktoe,275.23159779621966,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,12,2022,TES.ktoe.HU.Res.HH.Thermal.SH.AdvElc.Elec,Advanced electric heating,ktoe,41.76999854296752,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,12,2023,TES.ktoe.HU.Res.HH.Thermal.SH.AdvElc.Elec,Advanced electric heating,ktoe,49.58869239389649,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,13,2022,TES.ktoe.HU.Res.HH.Thermal.SH.ConvElc.Elec,Conventional electric heating,ktoe,37.62109615404737,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,13,2023,TES.ktoe.HU.Res.HH.Thermal.SH.ConvElc.Elec,Conventional electric heating,ktoe,58.05066107946223,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,14,2022,TES.ktoe.HU.Res.HH.Thermal.SH.TotalCirculation.Elec,Electricity in circulation,ktoe,39.02213688255598,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,14,2023,TES.ktoe.HU.Res.HH.Thermal.SH.TotalCirculation.Elec,Electricity in circulation,ktoe,34.25257298564449,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,15,2022,TES.ktoe.HU.Res.HH.Thermal.SC,Space cooling,ktoe,101.45118481622976,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=X16
+RES_hh_tes,15,2023,TES.ktoe.HU.Res.HH.Thermal.SC,Space cooling,ktoe,83.27680052937174,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=Y16
+RES_hh_tes,16,2022,TES.ktoe.HU.Res.HH.Thermal.SC.AC.Elec,Air conditioning,ktoe,101.45118481622976,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,16,2023,TES.ktoe.HU.Res.HH.Thermal.SC.AC.Elec,Air conditioning,ktoe,83.27680052937174,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,17,2022,TES.ktoe.HU.Res.HH.Thermal.WH,Water heating,ktoe,476.08899332662827,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X18:X26)
+RES_hh_tes,17,2023,TES.ktoe.HU.Res.HH.Thermal.WH,Water heating,ktoe,492.4368186613747,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y18:Y26)
+RES_hh_tes,18,2022,TES.ktoe.HU.Res.HH.Thermal.WH.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,18,2023,TES.ktoe.HU.Res.HH.Thermal.WH.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,19,2022,TES.ktoe.HU.Res.HH.Thermal.WH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,5.120697294375669,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,19,2023,TES.ktoe.HU.Res.HH.Thermal.WH.LPG.LPG,Liquified petroleum gas (LPG),ktoe,5.006089775899447,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,20,2022,TES.ktoe.HU.Res.HH.Thermal.WH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,20,2023,TES.ktoe.HU.Res.HH.Thermal.WH.Oil.Oil_LiqBio,Diesel oil,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,21,2022,TES.ktoe.HU.Res.HH.Thermal.WH.Gas.NG_Biogas,Natural gas,ktoe,224.73687192956277,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,21,2023,TES.ktoe.HU.Res.HH.Thermal.WH.Gas.NG_Biogas,Natural gas,ktoe,228.6809742328025,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,22,2022,TES.ktoe.HU.Res.HH.Thermal.WH.Biomass.Biomass_Waste,Biomass,ktoe,8.774069257014153,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,22,2023,TES.ktoe.HU.Res.HH.Thermal.WH.Biomass.Biomass_Waste,Biomass,ktoe,8.759427713550666,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,23,2022,TES.ktoe.HU.Res.HH.Thermal.WH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,23,2023,TES.ktoe.HU.Res.HH.Thermal.WH.Geo.Geo,Geothermal,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,24,2022,TES.ktoe.HU.Res.HH.Thermal.WH.DistrHeat.Steam_Distr,Distributed heat,ktoe,43.73979260767673,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,24,2023,TES.ktoe.HU.Res.HH.Thermal.WH.DistrHeat.Steam_Distr,Distributed heat,ktoe,46.33453552399447,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,25,2022,TES.ktoe.HU.Res.HH.Thermal.WH.Elc.Elec,Electricity,ktoe,178.0253868295725,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,25,2023,TES.ktoe.HU.Res.HH.Thermal.WH.Elc.Elec,Electricity,ktoe,186.38726175046733,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,26,2022,TES.ktoe.HU.Res.HH.Thermal.WH.TotalSolar.Solar,Solar,ktoe,15.69217540842649,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,26,2023,TES.ktoe.HU.Res.HH.Thermal.WH.TotalSolar.Solar,Solar,ktoe,17.26852966466026,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,27,2022,TES.ktoe.HU.Res.HH.Thermal.CO,Cooking,ktoe,170.6216058846292,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X28:X32)
+RES_hh_tes,27,2023,TES.ktoe.HU.Res.HH.Thermal.CO,Cooking,ktoe,161.24890848254802,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y28:Y32)
+RES_hh_tes,28,2022,TES.ktoe.HU.Res.HH.Thermal.CO.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,28,2023,TES.ktoe.HU.Res.HH.Thermal.CO.Solids.Solids,Solids,ktoe,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,29,2022,TES.ktoe.HU.Res.HH.Thermal.CO.LPG.LPG,Liquified petroleum gas (LPG),ktoe,34.630708139120905,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,29,2023,TES.ktoe.HU.Res.HH.Thermal.CO.LPG.LPG,Liquified petroleum gas (LPG),ktoe,33.53056628776885,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,30,2022,TES.ktoe.HU.Res.HH.Thermal.CO.Gas.NG_Biogas,Natural gas,ktoe,95.21781661544429,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,30,2023,TES.ktoe.HU.Res.HH.Thermal.CO.Gas.NG_Biogas,Natural gas,ktoe,85.22541764860084,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,31,2022,TES.ktoe.HU.Res.HH.Thermal.CO.Biomass.Biomass_Waste,Biomass,ktoe,0.2092699002483161,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,31,2023,TES.ktoe.HU.Res.HH.Thermal.CO.Biomass.Biomass_Waste,Biomass,ktoe,0.2073475420290634,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,32,2022,TES.ktoe.HU.Res.HH.Thermal.CO.Elc.Elec,Electricity,ktoe,40.56381122981566,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_tes,32,2023,TES.ktoe.HU.Res.HH.Thermal.CO.Elc.Elec,Electricity,ktoe,42.285577004149275,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_eff,3,2022,Eff.ratio.HU.Res.HH.Thermal,Ratio of energy service to energy consumption,ratio,0.6989380679936121,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X3=0,"""",RES_hh_tes!X3/RES_hh_fec!X3)"
+RES_hh_eff,3,2023,Eff.ratio.HU.Res.HH.Thermal,Ratio of energy service to energy consumption,ratio,0.7116093850297973,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y3=0,"""",RES_hh_tes!Y3/RES_hh_fec!Y3)"
+RES_hh_eff,4,2022,Eff.ratio.HU.Res.HH.Thermal.SH,Space heating,ratio,0.678136528765967,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X4=0,"""",RES_hh_tes!X4/RES_hh_fec!X4)"
+RES_hh_eff,4,2023,Eff.ratio.HU.Res.HH.Thermal.SH,Space heating,ratio,0.6923745271817531,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y4=0,"""",RES_hh_tes!Y4/RES_hh_fec!Y4)"
+RES_hh_eff,5,2022,Eff.ratio.HU.Res.HH.Thermal.SH.Solids.Solids,Solids,ratio,0.6407354269280798,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X5=0,"""",RES_hh_tes!X5/RES_hh_fec!X5)"
+RES_hh_eff,5,2023,Eff.ratio.HU.Res.HH.Thermal.SH.Solids.Solids,Solids,ratio,0.6411455916651851,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y5=0,"""",RES_hh_tes!Y5/RES_hh_fec!Y5)"
+RES_hh_eff,6,2022,Eff.ratio.HU.Res.HH.Thermal.SH.LPG.LPG,Liquified petroleum gas (LPG),ratio,0.5726828112902896,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X6=0,"""",RES_hh_tes!X6/RES_hh_fec!X6)"
+RES_hh_eff,6,2023,Eff.ratio.HU.Res.HH.Thermal.SH.LPG.LPG,Liquified petroleum gas (LPG),ratio,0.5736439166619764,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y6=0,"""",RES_hh_tes!Y6/RES_hh_fec!Y6)"
+RES_hh_eff,7,2022,Eff.ratio.HU.Res.HH.Thermal.SH.Oil.Oil_LiqBio,Diesel oil,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X7=0,"""",RES_hh_tes!X7/RES_hh_fec!X7)"
+RES_hh_eff,7,2023,Eff.ratio.HU.Res.HH.Thermal.SH.Oil.Oil_LiqBio,Diesel oil,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y7=0,"""",RES_hh_tes!Y7/RES_hh_fec!Y7)"
+RES_hh_eff,8,2022,Eff.ratio.HU.Res.HH.Thermal.SH.Gas.NG_Biogas,Natural gas,ratio,0.669801641429541,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X8=0,"""",RES_hh_tes!X8/RES_hh_fec!X8)"
+RES_hh_eff,8,2023,Eff.ratio.HU.Res.HH.Thermal.SH.Gas.NG_Biogas,Natural gas,ratio,0.6789730260251909,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y8=0,"""",RES_hh_tes!Y8/RES_hh_fec!Y8)"
+RES_hh_eff,9,2022,Eff.ratio.HU.Res.HH.Thermal.SH.Biomass.Biomass_Waste,Biomass,ratio,0.6351035701764294,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X9=0,"""",RES_hh_tes!X9/RES_hh_fec!X9)"
+RES_hh_eff,9,2023,Eff.ratio.HU.Res.HH.Thermal.SH.Biomass.Biomass_Waste,Biomass,ratio,0.650743436498847,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y9=0,"""",RES_hh_tes!Y9/RES_hh_fec!Y9)"
+RES_hh_eff,10,2022,Eff.ratio.HU.Res.HH.Thermal.SH.Geo.Geo,Geothermal,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X10=0,"""",RES_hh_tes!X10/RES_hh_fec!X10)"
+RES_hh_eff,10,2023,Eff.ratio.HU.Res.HH.Thermal.SH.Geo.Geo,Geothermal,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y10=0,"""",RES_hh_tes!Y10/RES_hh_fec!Y10)"
+RES_hh_eff,11,2022,Eff.ratio.HU.Res.HH.Thermal.SH.DistrHeat.Steam_Distr,Distributed heat,ratio,0.7321685546910947,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X11=0,"""",RES_hh_tes!X11/RES_hh_fec!X11)"
+RES_hh_eff,11,2023,Eff.ratio.HU.Res.HH.Thermal.SH.DistrHeat.Steam_Distr,Distributed heat,ratio,0.7353390672681789,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y11=0,"""",RES_hh_tes!Y11/RES_hh_fec!Y11)"
+RES_hh_eff,12,2022,Eff.ratio.HU.Res.HH.Thermal.SH.AdvElc.Elec,Advanced electric heating,ratio,3.3577892653447785,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X12=0,"""",RES_hh_tes!X12/RES_hh_fec!X12)"
+RES_hh_eff,12,2023,Eff.ratio.HU.Res.HH.Thermal.SH.AdvElc.Elec,Advanced electric heating,ratio,3.39699608522673,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y12=0,"""",RES_hh_tes!Y12/RES_hh_fec!Y12)"
+RES_hh_eff,13,2022,Eff.ratio.HU.Res.HH.Thermal.SH.ConvElc.Elec,Conventional electric heating,ratio,0.8836629416309049,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X13=0,"""",RES_hh_tes!X13/RES_hh_fec!X13)"
+RES_hh_eff,13,2023,Eff.ratio.HU.Res.HH.Thermal.SH.ConvElc.Elec,Conventional electric heating,ratio,0.8968112201637823,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y13=0,"""",RES_hh_tes!Y13/RES_hh_fec!Y13)"
+RES_hh_eff,14,2022,Eff.ratio.HU.Res.HH.Thermal.SH.TotalCirculation.Elec,Electricity in circulation,ratio,1,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X14=0,"""",RES_hh_tes!X14/RES_hh_fec!X14)"
+RES_hh_eff,14,2023,Eff.ratio.HU.Res.HH.Thermal.SH.TotalCirculation.Elec,Electricity in circulation,ratio,1,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y14=0,"""",RES_hh_tes!Y14/RES_hh_fec!Y14)"
+RES_hh_eff,15,2022,Eff.ratio.HU.Res.HH.Thermal.SC,Space cooling,ratio,3.7300476630646564,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X15=0,"""",RES_hh_tes!X15/RES_hh_fec!X15)"
+RES_hh_eff,15,2023,Eff.ratio.HU.Res.HH.Thermal.SC,Space cooling,ratio,3.755601772291728,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y15=0,"""",RES_hh_tes!Y15/RES_hh_fec!Y15)"
+RES_hh_eff,16,2022,Eff.ratio.HU.Res.HH.Thermal.SC.AC.Elec,Air conditioning,ratio,3.7300476630646564,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X16=0,"""",RES_hh_tes!X16/RES_hh_fec!X16)"
+RES_hh_eff,16,2023,Eff.ratio.HU.Res.HH.Thermal.SC.AC.Elec,Air conditioning,ratio,3.755601772291728,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y16=0,"""",RES_hh_tes!Y16/RES_hh_fec!Y16)"
+RES_hh_eff,17,2022,Eff.ratio.HU.Res.HH.Thermal.WH,Water heating,ratio,0.7270655083355311,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X17=0,"""",RES_hh_tes!X17/RES_hh_fec!X17)"
+RES_hh_eff,17,2023,Eff.ratio.HU.Res.HH.Thermal.WH,Water heating,ratio,0.7390806999493854,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y17=0,"""",RES_hh_tes!Y17/RES_hh_fec!Y17)"
+RES_hh_eff,18,2022,Eff.ratio.HU.Res.HH.Thermal.WH.Solids.Solids,Solids,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X18=0,"""",RES_hh_tes!X18/RES_hh_fec!X18)"
+RES_hh_eff,18,2023,Eff.ratio.HU.Res.HH.Thermal.WH.Solids.Solids,Solids,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y18=0,"""",RES_hh_tes!Y18/RES_hh_fec!Y18)"
+RES_hh_eff,19,2022,Eff.ratio.HU.Res.HH.Thermal.WH.LPG.LPG,Liquified petroleum gas (LPG),ratio,0.8325718184224201,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X19=0,"""",RES_hh_tes!X19/RES_hh_fec!X19)"
+RES_hh_eff,19,2023,Eff.ratio.HU.Res.HH.Thermal.WH.LPG.LPG,Liquified petroleum gas (LPG),ratio,0.843205600054995,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y19=0,"""",RES_hh_tes!Y19/RES_hh_fec!Y19)"
+RES_hh_eff,20,2022,Eff.ratio.HU.Res.HH.Thermal.WH.Oil.Oil_LiqBio,Diesel oil,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X20=0,"""",RES_hh_tes!X20/RES_hh_fec!X20)"
+RES_hh_eff,20,2023,Eff.ratio.HU.Res.HH.Thermal.WH.Oil.Oil_LiqBio,Diesel oil,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y20=0,"""",RES_hh_tes!Y20/RES_hh_fec!Y20)"
+RES_hh_eff,21,2022,Eff.ratio.HU.Res.HH.Thermal.WH.Gas.NG_Biogas,Natural gas,ratio,0.7113744064668982,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X21=0,"""",RES_hh_tes!X21/RES_hh_fec!X21)"
+RES_hh_eff,21,2023,Eff.ratio.HU.Res.HH.Thermal.WH.Gas.NG_Biogas,Natural gas,ratio,0.7243844914980027,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y21=0,"""",RES_hh_tes!Y21/RES_hh_fec!Y21)"
+RES_hh_eff,22,2022,Eff.ratio.HU.Res.HH.Thermal.WH.Biomass.Biomass_Waste,Biomass,ratio,0.7122317041137324,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X22=0,"""",RES_hh_tes!X22/RES_hh_fec!X22)"
+RES_hh_eff,22,2023,Eff.ratio.HU.Res.HH.Thermal.WH.Biomass.Biomass_Waste,Biomass,ratio,0.7205130855345979,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y22=0,"""",RES_hh_tes!Y22/RES_hh_fec!Y22)"
+RES_hh_eff,23,2022,Eff.ratio.HU.Res.HH.Thermal.WH.Geo.Geo,Geothermal,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X23=0,"""",RES_hh_tes!X23/RES_hh_fec!X23)"
+RES_hh_eff,23,2023,Eff.ratio.HU.Res.HH.Thermal.WH.Geo.Geo,Geothermal,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y23=0,"""",RES_hh_tes!Y23/RES_hh_fec!Y23)"
+RES_hh_eff,24,2022,Eff.ratio.HU.Res.HH.Thermal.WH.DistrHeat.Steam_Distr,Distributed heat,ratio,0.8032613542307238,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X24=0,"""",RES_hh_tes!X24/RES_hh_fec!X24)"
+RES_hh_eff,24,2023,Eff.ratio.HU.Res.HH.Thermal.WH.DistrHeat.Steam_Distr,Distributed heat,ratio,0.8082595332150482,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y24=0,"""",RES_hh_tes!Y24/RES_hh_fec!Y24)"
+RES_hh_eff,25,2022,Eff.ratio.HU.Res.HH.Thermal.WH.Elc.Elec,Electricity,ratio,0.7113185972505386,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X25=0,"""",RES_hh_tes!X25/RES_hh_fec!X25)"
+RES_hh_eff,25,2023,Eff.ratio.HU.Res.HH.Thermal.WH.Elc.Elec,Electricity,ratio,0.7227006802170066,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y25=0,"""",RES_hh_tes!Y25/RES_hh_fec!Y25)"
+RES_hh_eff,26,2022,Eff.ratio.HU.Res.HH.Thermal.WH.TotalSolar.Solar,Solar,ratio,1.0000000000000007,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X26=0,"""",RES_hh_tes!X26/RES_hh_fec!X26)"
+RES_hh_eff,26,2023,Eff.ratio.HU.Res.HH.Thermal.WH.TotalSolar.Solar,Solar,ratio,0.9999999999999942,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y26=0,"""",RES_hh_tes!Y26/RES_hh_fec!Y26)"
+RES_hh_eff,27,2022,Eff.ratio.HU.Res.HH.Thermal.CO,Cooking,ratio,0.64802906084834,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X27=0,"""",RES_hh_tes!X27/RES_hh_fec!X27)"
+RES_hh_eff,27,2023,Eff.ratio.HU.Res.HH.Thermal.CO,Cooking,ratio,0.6569824756213536,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y27=0,"""",RES_hh_tes!Y27/RES_hh_fec!Y27)"
+RES_hh_eff,28,2022,Eff.ratio.HU.Res.HH.Thermal.CO.Solids.Solids,Solids,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X28=0,"""",RES_hh_tes!X28/RES_hh_fec!X28)"
+RES_hh_eff,28,2023,Eff.ratio.HU.Res.HH.Thermal.CO.Solids.Solids,Solids,ratio,,MISSING,Q,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y28=0,"""",RES_hh_tes!Y28/RES_hh_fec!Y28)"
+RES_hh_eff,29,2022,Eff.ratio.HU.Res.HH.Thermal.CO.LPG.LPG,Liquified petroleum gas (LPG),ratio,0.5966606770783611,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X29=0,"""",RES_hh_tes!X29/RES_hh_fec!X29)"
+RES_hh_eff,29,2023,Eff.ratio.HU.Res.HH.Thermal.CO.LPG.LPG,Liquified petroleum gas (LPG),ratio,0.5984763977611232,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y29=0,"""",RES_hh_tes!Y29/RES_hh_fec!Y29)"
+RES_hh_eff,30,2022,Eff.ratio.HU.Res.HH.Thermal.CO.Gas.NG_Biogas,Natural gas,ratio,0.6066469137194853,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X30=0,"""",RES_hh_tes!X30/RES_hh_fec!X30)"
+RES_hh_eff,30,2023,Eff.ratio.HU.Res.HH.Thermal.CO.Gas.NG_Biogas,Natural gas,ratio,0.6099717751714722,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y30=0,"""",RES_hh_tes!Y30/RES_hh_fec!Y30)"
+RES_hh_eff,31,2022,Eff.ratio.HU.Res.HH.Thermal.CO.Biomass.Biomass_Waste,Biomass,ratio,0.5866170449649504,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X31=0,"""",RES_hh_tes!X31/RES_hh_fec!X31)"
+RES_hh_eff,31,2023,Eff.ratio.HU.Res.HH.Thermal.CO.Biomass.Biomass_Waste,Biomass,ratio,0.5889970072374534,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y31=0,"""",RES_hh_tes!Y31/RES_hh_fec!Y31)"
+RES_hh_eff,32,2022,Eff.ratio.HU.Res.HH.Thermal.CO.Elc.Elec,Electricity,ratio,0.8461729358087807,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!X32=0,"""",RES_hh_tes!X32/RES_hh_fec!X32)"
+RES_hh_eff,32,2023,Eff.ratio.HU.Res.HH.Thermal.CO.Elc.Elec,Electricity,ratio,0.8570272384870034,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,"=IF(RES_hh_tes!Y32=0,"""",RES_hh_tes!Y32/RES_hh_fec!Y32)"
+RES_hh_num,3,2022,NUM.number.HU.Res.HH.Thermal,Stock of households,number,4174806,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=X4
+RES_hh_num,3,2023,NUM.number.HU.Res.HH.Thermal,Stock of households,number,4161137,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=Y4
+RES_hh_num,4,2022,NUM.number.HU.Res.HH.Thermal.SH,Space heating,number,4174806,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X5:X13)
+RES_hh_num,4,2023,NUM.number.HU.Res.HH.Thermal.SH,Space heating,number,4161137,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y5:Y13)
+RES_hh_num,5,2022,NUM.number.HU.Res.HH.Thermal.SH.Solids,Solids,number,41793,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,5,2023,NUM.number.HU.Res.HH.Thermal.SH.Solids,Solids,number,37911,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,6,2022,NUM.number.HU.Res.HH.Thermal.SH.LPG,Liquified petroleum gas (LPG),number,1683,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,6,2023,NUM.number.HU.Res.HH.Thermal.SH.LPG,Liquified petroleum gas (LPG),number,1710,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,7,2022,NUM.number.HU.Res.HH.Thermal.SH.Oil,Diesel oil,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,7,2023,NUM.number.HU.Res.HH.Thermal.SH.Oil,Diesel oil,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,8,2022,NUM.number.HU.Res.HH.Thermal.SH.Gas,Natural gas,number,2395669,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,8,2023,NUM.number.HU.Res.HH.Thermal.SH.Gas,Natural gas,number,2292473,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,9,2022,NUM.number.HU.Res.HH.Thermal.SH.Biomass,Biomass,number,1182017,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,9,2023,NUM.number.HU.Res.HH.Thermal.SH.Biomass,Biomass,number,1236738,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,10,2022,NUM.number.HU.Res.HH.Thermal.SH.Geo,Geothermal,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,10,2023,NUM.number.HU.Res.HH.Thermal.SH.Geo,Geothermal,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,11,2022,NUM.number.HU.Res.HH.Thermal.SH.DistrHeat,Distributed heat,number,436636,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,11,2023,NUM.number.HU.Res.HH.Thermal.SH.DistrHeat,Distributed heat,number,438966,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,12,2022,NUM.number.HU.Res.HH.Thermal.SH.AdvElc,Advanced electric heating,number,59978,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,12,2023,NUM.number.HU.Res.HH.Thermal.SH.AdvElc,Advanced electric heating,number,73178,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,13,2022,NUM.number.HU.Res.HH.Thermal.SH.ConvElc,Conventional electric heating,number,57030,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,13,2023,NUM.number.HU.Res.HH.Thermal.SH.ConvElc,Conventional electric heating,number,80161,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,15,2022,NUM.number.HU.Res.HH.Thermal.SC,Space cooling,number,805047,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=X16
+RES_hh_num,15,2023,NUM.number.HU.Res.HH.Thermal.SC,Space cooling,number,915448,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=Y16
+RES_hh_num,16,2022,NUM.number.HU.Res.HH.Thermal.SC.AC,Air conditioning,number,805047,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,16,2023,NUM.number.HU.Res.HH.Thermal.SC.AC,Air conditioning,number,915448,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,17,2022,NUM.number.HU.Res.HH.Thermal.WH,Water heating,number,4174806,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X18:X25)
+RES_hh_num,17,2023,NUM.number.HU.Res.HH.Thermal.WH,Water heating,number,4161137,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y18:Y25)
+RES_hh_num,18,2022,NUM.number.HU.Res.HH.Thermal.WH.Solids,Solids,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,18,2023,NUM.number.HU.Res.HH.Thermal.WH.Solids,Solids,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,19,2022,NUM.number.HU.Res.HH.Thermal.WH.LPG,Liquified petroleum gas (LPG),number,45343,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,19,2023,NUM.number.HU.Res.HH.Thermal.WH.LPG,Liquified petroleum gas (LPG),number,43180,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,20,2022,NUM.number.HU.Res.HH.Thermal.WH.Oil,Diesel oil,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,20,2023,NUM.number.HU.Res.HH.Thermal.WH.Oil,Diesel oil,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,21,2022,NUM.number.HU.Res.HH.Thermal.WH.Gas,Natural gas,number,1898071,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,21,2023,NUM.number.HU.Res.HH.Thermal.WH.Gas,Natural gas,number,1942332,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,22,2022,NUM.number.HU.Res.HH.Thermal.WH.Biomass,Biomass,number,75914,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,22,2023,NUM.number.HU.Res.HH.Thermal.WH.Biomass,Biomass,number,75048,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,23,2022,NUM.number.HU.Res.HH.Thermal.WH.Geo,Geothermal,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,23,2023,NUM.number.HU.Res.HH.Thermal.WH.Geo,Geothermal,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,24,2022,NUM.number.HU.Res.HH.Thermal.WH.DistrHeat,Distributed heat,number,388174,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,24,2023,NUM.number.HU.Res.HH.Thermal.WH.DistrHeat,Distributed heat,number,389219,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,25,2022,NUM.number.HU.Res.HH.Thermal.WH.Elc,Electricity,number,1767304,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,25,2023,NUM.number.HU.Res.HH.Thermal.WH.Elc,Electricity,number,1711358,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,26,2022,NUM.number.HU.Res.HH.Thermal.WH.Solar,Solar,number,191660,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,26,2023,NUM.number.HU.Res.HH.Thermal.WH.Solar,Solar,number,212384,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,27,2022,NUM.number.HU.Res.HH.Thermal.CO,Cooking,number,4174806,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(X28:X32)
+RES_hh_num,27,2023,NUM.number.HU.Res.HH.Thermal.CO,Cooking,number,4161137,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,=SUM(Y28:Y32)
+RES_hh_num,28,2022,NUM.number.HU.Res.HH.Thermal.CO.Solids,Solids,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,28,2023,NUM.number.HU.Res.HH.Thermal.CO.Solids,Solids,number,0,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,29,2022,NUM.number.HU.Res.HH.Thermal.CO.LPG,Liquified petroleum gas (LPG),number,845946,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,29,2023,NUM.number.HU.Res.HH.Thermal.CO.LPG,Liquified petroleum gas (LPG),number,859266,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,30,2022,NUM.number.HU.Res.HH.Thermal.CO.Gas,Natural gas,number,2329220,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,30,2023,NUM.number.HU.Res.HH.Thermal.CO.Gas,Natural gas,number,2238248,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,31,2022,NUM.number.HU.Res.HH.Thermal.CO.Biomass,Biomass,number,5004,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,31,2023,NUM.number.HU.Res.HH.Thermal.CO.Biomass,Biomass,number,5269,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,32,2022,NUM.number.HU.Res.HH.Thermal.CO.Elc,Electricity,number,994636,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,
+RES_hh_num,32,2023,NUM.number.HU.Res.HH.Thermal.CO.Elc,Electricity,number,1058354,PRESENT,DER,SRC-B02-JRC-IDEES-HU-2023,

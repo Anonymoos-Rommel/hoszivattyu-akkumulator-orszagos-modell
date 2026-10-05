@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "B01-ANNUAL-BUNDLE-RESERVATION",
+  "status": "BOUNDED_SCN_PLANNING_NO_ACTUAL_SPENDING_OR_COMPLETION",
+  "canonical_entrypoint": "modules.B01.engine.create_annual_plan",
+  "component_entrypoint": "modules.B01.engine.assess_household_capabilities",
+  "scope": "One owner/session, annual calendar-date ledger and explicitly ordered qualified household bundles. No optimal ranking, household census, national rollout result or distributed database lock.",
+  "calendar": "Explicit IANA timezone and calendar year. All intervals are half-open calendar-date intervals inside that year. No sub-day interpolation or intraday liquidity claim. Cash receipts are input as available for settlement on the declared date; posting dates alone do not prove this availability.",
+  "resource_kinds": {
+    "ANNUAL_FLOW": "Sum unique non-reusable resource-use quantities over the year. Work-hours, equipment pieces and native mass are distinct; no automatic conversion.",
+    "CONCURRENT": "Maximum sum over overlapping occupied calendar-date intervals. Resource occupancy has its own interval, which may extend beyond installation work. No diversity or battery-nameplate credit is inferred.",
+    "PUBLIC_CASH": "Both the annual ceiling and dated running available balance must support declared payment/debit due dates. Opening balance is January1 before all declared in-year debits/commitments; prior-year settled amounts are already reflected. Later receipt cannot fund an earlier payment date. Explicit sourced/scenario bridge funding may be an input; aggregate state fiscal cashflow is not required to be nonnegative."
+  },
+  "opening_uses_states": [
+    "NONE",
+    "USES",
+    "Q"
+  ],
+  "opening_boundary": "NONE needs explicit provenance. Q is not zero. Existing in-year committed uses are retained once and cannot be cancelled or netted from the gross opening balance a second time.",
+  "bundle_boundary": "One exact qualified annual household bundle may contain several component actions, in parallel or with actual declared predecessors. At most one reserved bundle per household per identified annual ledger, not per lifetime. Staged work need not complete all three programme components that year.",
+  "joint_qualification": "An explicit SCN joint eligibility and full first-day/interim household cashflow qualification binds the exact bundle fingerprint, including the action set, dates, cost/resource inputs and counterfactual. Separate per-action passes cannot establish joint affordability. Source documents and B12 cashflows are not calculated by this evaluator.",
+  "identity_and_aliases": "Household/site/basis identities, source work, asset generation, source cash/resource events and proposal aliases are separate. Alias changes cannot create a second installation, cost or receipt. One event can constrain national and regional views without becoming two total costs. Actor, unit and basis must match.",
+  "revision_rule": "AnnualPlanSession owns its latest state and checks expected revision against it. Successful atomic batches preserve order reference, ordered-input digest and prior digest. Identical reservation retries do not debit again. Alternative scenarios require separate identities; external durable storage/locking is outside this offline contract.",
+  "amendment_rule": "Changed reserved bundle, cancellation or a second alternative for the same household returns REQUALIFICATION_REQUIRED, retaining commitments. No refund/rebooking or cancellation authority is inferred.",
+  "joint_network_boundary": "Conditional arithmetic reservations keep a separate network result bound to the whole current active set, its opening uses plus their explicit knowledge state and provenance, planning basis and horizon. Missing/stale study remains UNKNOWN. Individual passes, territory membership and indicative published MW are not joint connection permission. Opening-state fingerprinting is not a new funding or capacity gate for a separately qualified network assessment.",
+  "output_units": "Resource checks preserve each constraint unit, basis, scope and source references. used_or_peak and remaining are exact Fraction quantities. remaining is ceiling minus used/peak, not a current cash account balance. No sum across national/regional views or heterogeneous resources is produced.",
+  "numeric_policy_defaults": {},
+  "original_task_acceptance_changed": false,
+  "source_bindings": [
+    {
+      "path": "registry/owner_policy_decisions.json",
+      "id": "POL-OWNER-20261004",
+      "use": "Mandatory household protection; state may invest long term; no annual budget selected."
+    },
+    {
+      "path": "registry/subsidy_reinvestment_policy_contract.json",
+      "id": "POLICY-COHORT-SUBSIDY-REINVESTMENT-20261004",
+      "use": "Dated actually available funding, separate seed/bridge, one deduction per movement."
+    },
+    {
+      "path": "registry/household_capability_contract.json",
+      "use": "Component-specific and subject-matched action prerequisites."
+    },
+    {
+      "path": "modules/B12/README.md",
+      "use": "Combined household finance remains unqualified for actual external numerical decisions."
+    },
+    {
+      "path": "modules/B18/README.md",
+      "use": "Supply/workforce references do not establish available installer-hours or equipment counts."
+    },
+    {
+      "path": "modules/B10/README.md",
+      "use": "Indicative headroom and record permission do not prove selected-set network fit."
+    },
+    {
+      "path": "docs/methodology/population_inference_policy.md",
+      "use": "Population inference does not authorize an individual record."
+    }
+  ],
+  "deferred": [
+    "weighted population planning-unit bridge",
+    "benefit/score semantics and optimal ordering",
+    "full sourced household/fiscal model",
+    "actual worker/equipment supply and programme funding paths",
+    "full network/dispatch model and actual connection permission",
+    "general amendments refunds and distributed persistence"
+  ],
+  "resource_pool_boundary": "pool_id names an explicitly bounded resource pool, not merely a unit/dimension. Each pool has exactly one total view whose declared scope covers every use, plus optional regional/node subviews. The pool may be regional only; no national capacity input is inferred. Every used pool requires all declared scope schemes and a matching view, with no missing-tag or uncovered-region fallback.",
+  "funding_event_boundary": "A stable source funding event belongs to one resource pool and must exist in its total view. CashPoolQualification explicitly qualifies a fungible pool with non-additive access ceilings (SCN or DER, references and scope). A subview can only retain or restrict the root event amount and availability; a changed amount/date/lineage requires a qualified CashViewRestriction and derived/scenario/unknown view quantity. A view cannot exceed the known root amount, advance its date, or resolve a Q root amount. Root factual lineage is retained separately. These views do not represent source-exclusive earmarked regional allocations; those require a separate conserved source-to-payment allocation contract. Pool-total cash funds all uses once, and view amounts are never added as new receipts.",
+  "requirement_catalogue": "RequirementCatalogue declares a qualified complete resource-domain universe and version for this bounded case, or Q. The code does not discover all physical requirements. Its digest joins each bundle fingerprint. Every action declares REQUIRED, NOT_REQUIRED or Q for every catalogue pool; required uses must be supplied, and not-required declarations have provenance and no invented quantity. Missing domains are unknown, not free resources.",
+  "known_failure_with_missingness": "Known nonnegative uses provide a lower bound, not a full total. A bound already above a cap remains FAIL even when another use or the opening commitments are Q; full used/remaining remain null. A definite earlier cash gap remains FAIL despite unknown outgoing uses or later receipts. Unknown incoming funding can affect only dates on/after its possible availability."
+}

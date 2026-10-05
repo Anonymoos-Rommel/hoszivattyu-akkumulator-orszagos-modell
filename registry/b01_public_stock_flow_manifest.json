@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "source_id": "SRC-B01-KSH-STADAT-STOCK-2026",
+      "original_url": "https://www.ksh.hu/stadat_files/lak/hu/lak0017.csv",
+      "metadata_url": "https://www.ksh.hu/stadat_files/lak/hu/lak0017.html",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "2026-07-06",
+      "authority": "KSH",
+      "sha256": "ba93dfd6bbc55859664162560a1dcd9aeccab8c117ec8352bf38ecabc01c11eb",
+      "encoding": "ISO-8859-2",
+      "delimiter": ";",
+      "license": "CC BY 4.0",
+      "license_url": "https://www.ksh.hu/copyright",
+      "attribution": "Forrás: KSH",
+      "repo_snapshot_path": null,
+      "archive_status": "EXACT_NON_UTF8_SOURCE_BYTES_RETAINED_EXTERNALLY; UTF8_ONLY_PUBLICATION_ROUTE; RAW_ARCHIVE_NOT_CLAIMED",
+      "derived_extract_scope": "20 counties including Budapest; no region/national double count",
+      "metadata_html_sha256": "72a6d2e0e33e2214f2c77409971ff216c51cbdc5b9631dfaa1cc4d42f252b0c6"
+    },
+    {
+      "source_id": "SRC-B01-KSH-STADAT-FLOW-2025",
+      "original_url": "https://www.ksh.hu/stadat_files/lak/hu/lak0022.csv",
+      "metadata_url": "https://www.ksh.hu/stadat_files/lak/hu/lak0022.html",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "2026-07-06",
+      "authority": "KSH",
+      "sha256": "a6b8e414d6b4886e64dff231b0041d75e85aef5dd162671c9bfa90d5316c8355",
+      "encoding": "ISO-8859-2",
+      "delimiter": ";",
+      "license": "CC BY 4.0",
+      "license_url": "https://www.ksh.hu/copyright",
+      "attribution": "Forrás: KSH",
+      "repo_snapshot_path": null,
+      "archive_status": "EXACT_NON_UTF8_SOURCE_BYTES_RETAINED_EXTERNALLY; UTF8_ONLY_PUBLICATION_ROUTE; RAW_ARCHIVE_NOT_CLAIMED",
+      "derived_extract_scope": "20 counties including Budapest; no region/national double count",
+      "metadata_html_sha256": "dc8b4d163aba5a38fe2d2941442039de5334a5625706521d3d623cf8192e3a8a"
+    }
+  ],
+  "methodology_url": "https://www.ksh.hu/docs/hun/modsz/lak_modsz.html",
+  "source_reference_dates": {
+    "2022": "2022-10-01",
+    "2023": "2023-01-01",
+    "2024": "2024-01-01",
+    "2025": "2025-01-01",
+    "2026": "2026-01-01"
+  },
+  "national_stock_controls": {
+    "2022": 4580538,
+    "2023": 4586878,
+    "2024": 4603906,
+    "2025": 4615584,
+    "2026": 4626092
+  },
+  "national_completed_controls": {
+    "2023": 18647,
+    "2024": 13295,
+    "2025": 12062
+  },
+  "national_removed_controls": {
+    "2023": 1619,
+    "2024": 1617,
+    "2025": 1554
+  },
+  "forbidden_promotions": [
+    "TOTAL_STOCK_TO_OCCUPIED_STOCK",
+    "TOTAL_STOCK_TO_NON_DISTRICT_TARGET",
+    "TOTAL_STOCK_TO_TECHNICAL_ELIGIBILITY",
+    "2022_OCTOBER_REFERENCE_TO_JANUARY_REFERENCE"
+  ],
+  "county_codes": [
+    "HU110",
+    "HU120",
+    "HU211",
+    "HU212",
+    "HU213",
+    "HU221",
+    "HU222",
+    "HU223",
+    "HU231",
+    "HU232",
+    "HU233",
+    "HU311",
+    "HU312",
+    "HU313",
+    "HU321",
+    "HU322",
+    "HU323",
+    "HU331",
+    "HU332",
+    "HU333"
+  ],
+  "evidence_tier_for_published_controls": "E1",
+  "post_census_stock_method": "Official roll-forward from census and administrative flow statistics; not a fresh census"
+}

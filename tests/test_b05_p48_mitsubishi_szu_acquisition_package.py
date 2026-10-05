@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.mitsubishi_szu_acquisition_package import (
     AcquisitionResponse,
     AcquisitionTarget,
@@ -99,7 +101,7 @@ class B05P48MitsubishiSzuAcquisitionPackageTests(unittest.TestCase):
         ):
             self.assertIn(sid, sources)
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         text = PACK.read_text(encoding="utf-8")
         self.assertIn("ACQUISITION_PACKAGE_READY_UNSENT", text)
         self.assertIn("NO_EXTERNAL_SEND_WITHOUT_HUMAN_AUTHORIZATION", p48_boundaries())

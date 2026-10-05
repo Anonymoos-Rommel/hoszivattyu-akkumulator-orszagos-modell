@@ -1,0 +1,532 @@
+{
+  "schema_version": 1,
+  "slice_id": "B11-D02",
+  "status": "ACCEPTED",
+  "acceptance_date": "2026-10-04",
+  "accepted_at": "2026-10-04T09:37:26.254586+00:00",
+  "acceptance_scope": "DATED_NATIVE_GAS_QUALITY_AND_HOUSEHOLD_SOURCE_CONTROL_HANDOFF_FOR_PERSONAL_PRIVATE_ANALYSIS",
+  "reviewed_commit": "acc4908ddb6ab09ea0b49c1b0f46c90a532ea935",
+  "reviewed_tree": "23a14c418f14b92be43a01452c93e3e85916054c",
+  "implementation_sole_parent": "514ac0c7c195b3426d312e6c65fe471ef687eb2c",
+  "original_requirement": "MJ/m³, referencia-hőmérséklet/nyomás és tér-időeloszlás; éves magyar lakossági eladás és végfelhasználási kontroll [TJ/GWh/bcm]. Nem kell minden fogyasztó FGSZ-pontja aggregált becsléshez.",
+  "original_field_mapping": [
+    {
+      "clause": "MJ/m³",
+      "source_evidence": [
+        "Both QAR Exit_points native NCV MJ/m³, GCV kWh/m³; PDF pp24–30; original XML values and source display precision independently checked"
+      ],
+      "coverage": "All 488 calendar-2024 and 490 calendar-2025 source exit records, including missing tokens; GCV energy-unit rescaling by 3.6 is DER and retains its original volume/calorific basis.",
+      "required_consumer_binding": "Explicit source/revision/year selection, immutable original hashes, all native fields/missingness and informative-NCV qualifier; private materialization only.",
+      "remaining_limit": "No same-state NCV/GCV ratio or measured national calorific constant follows from unlike native columns.",
+      "feasibility": "SATISFIABLE_BY_BOUNDED_NATIVE_HANDOFF",
+      "consumer_binding": [
+        "modules/B11/gas_quality_reference.py:_exit_panel/read_gas_quality_reference",
+        "registry/b11_gas_quality_reference_manifest.json:panels/calorific_fields",
+        "tests/test_b11_gas_quality_reference.py:GasQualitySourceTests"
+      ],
+      "independent_result": "SATISFIED_AT_BOUNDED_PERSONAL_NATIVE_SOURCE_CONTROL_HANDOFF_SCOPE",
+      "evidence_bindings": [
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json",
+        "ADVERSARIAL_REVIEW.json",
+        "FOCUSED_TESTS.log"
+      ]
+    },
+    {
+      "clause": "Reference temperature / pressure",
+      "source_evidence": [
+        "Each English QAR PDF p4 §1–2, distinct GCV25/0 and NCV15/15; volume pressure 1.01325 bar; current pp5–6 method-specific conversions"
+      ],
+      "coverage": "Native reference definitions are available. Unestablished moisture and KSH volume state must stay unknown.",
+      "required_consumer_binding": "Carry both temperatures, source pressure, unknown moisture and KSH unknown state explicitly. Reject promotion to existing physical GasReferenceState rather than supplying DRY or a silent state conversion.",
+      "remaining_limit": "Current five-year-derived prescribed conversion factors have specific validity and purposes. They are not calendar-2024 physical measurement or TABULA/billing equivalence.",
+      "feasibility": "SATISFIABLE_WITH_EXPLICIT_NATIVE_STATE_AND_UNKNOWNS",
+      "consumer_binding": [
+        "registry/b11_gas_quality_reference_manifest.json:calorific_fields",
+        "modules/B11/gas_quality_reference.py:read_gas_quality_reference output",
+        "tests/test_b11_gas_quality_reference.py:test_incomplete_physical_state_stays_distinct_from_p7"
+      ],
+      "independent_result": "SATISFIED_AT_BOUNDED_PERSONAL_NATIVE_SOURCE_CONTROL_HANDOFF_SCOPE",
+      "evidence_bindings": [
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json",
+        "ADVERSARIAL_REVIEW.json",
+        "FOCUSED_TESTS.log"
+      ]
+    },
+    {
+      "clause": "Spatial / temporal distribution",
+      "source_evidence": [
+        "Exit_points network/EIC/name/NNO index and annual mean/minimum/maximum; QAR pp24–30; p30 merge legends and storage/export/virtual sections"
+      ],
+      "coverage": "Two complete source-native dated point inventories satisfy a bounded historical spatial/annual handoff. They are not a weighted household probability distribution, within-year chronological profile or independent residential sample.",
+      "required_consumer_binding": "Retain all rows and overlapping groups/children; preserve source sections/overlap evidence, missingness, extrema contradictions and annual period. No sums, unweighted national means, quantiles, deduplication or repaired extrema.",
+      "remaining_limit": "Household weights, mutually exclusive coverage and uncertainty/calibration are required before activating a residential distribution. Representative/calibrated evidence is allowed; exhaustive household-point mapping is not required.",
+      "feasibility": "SATISFIABLE_AT_EXPLICIT_NATIVE_SOURCE_GRAIN",
+      "consumer_binding": [
+        "modules/B11/gas_quality_reference.py:_exit_panel native identity/source_notes/group hints/QC flags",
+        "registry/b11_gas_quality_reference_manifest.json:panels/source_defects",
+        "tests/test_b11_gas_quality_reference.py:year/precision/missingness/overlap tests"
+      ],
+      "independent_result": "SATISFIED_AT_BOUNDED_PERSONAL_NATIVE_SOURCE_CONTROL_HANDOFF_SCOPE",
+      "evidence_bindings": [
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json",
+        "ADVERSARIAL_REVIEW.json",
+        "FOCUSED_TESTS.log"
+      ]
+    },
+    {
+      "clause": "Annual Hungarian residential sales and end-use controls [TJ/GWh/bcm]",
+      "source_evidence": [
+        "KSH table6.10 printed351/PDF13; methodology printed353/PDF15",
+        "Eurostat nrg_d_hhq, nrg_bal_c and nrg_cb_gas original HU2024 JSON responses",
+        "KSH kor0043 current dated snapshot"
+      ],
+      "coverage": "Native sales/counts plus gas space heating, water heating, cooking and other end uses are available. Source units can be rescaled exactly with DER labels; omitted cells remain missing.",
+      "required_consumer_binding": "Preserve national populations, observation year and separate release vintages; retain KSH rounding residual, KSH cross-table disagreement, Eurostat subtotal rounding/revision differences and absent calorific/volume responses. Keep total and end uses distinct.",
+      "remaining_limit": "KSH excludes boilers heating multiple dwellings; Eurostat household scope differs. No cross-source TJ/m³ estimate, forced closure, physical ratio or fitted national calibration is justified.",
+      "feasibility": "SATISFIABLE_BY_NATIVE_CONTROLS_AND_HONEST_DIAGNOSTICS",
+      "consumer_binding": [
+        "modules/B11/gas_quality_reference.py:_eurostat/_ksh_annual_average/_controls/_reconcile",
+        "modules/B11/county_baseline_contract.py and modules/B02/household_energy_controls.py unchanged pinned consumers",
+        "tests/test_b11_gas_quality_reference.py:statistical missingness/identity/reconciliation tests"
+      ],
+      "independent_result": "SATISFIED_AT_BOUNDED_PERSONAL_NATIVE_SOURCE_CONTROL_HANDOFF_SCOPE",
+      "evidence_bindings": [
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json",
+        "ADVERSARIAL_REVIEW.json",
+        "FOCUSED_TESTS.log"
+      ]
+    },
+    {
+      "clause": "No requirement for every consumer’s FGSZ point for an aggregate estimate",
+      "source_evidence": [
+        "Original D02 explicit second sentence; AGENTS.md and population-inference policy"
+      ],
+      "coverage": "No universal record gate is added.",
+      "required_consumer_binding": "A source handoff is usable without participant IDs. Exact point permissions and actual programme claims remain separate existing contracts.",
+      "remaining_limit": "A later population estimate still needs defensible weighting/calibration and uncertainty.",
+      "feasibility": "PRESERVED",
+      "consumer_binding": [
+        "modules/B11/gas_quality_reference.py:read_gas_quality_reference explicit historical_scope; no participant argument",
+        "registry/b11_gas_quality_reference_manifest.json:boundaries",
+        "docs/checkpoints/V1_059_GAS_QUALITY_HANDOFF.md:aggregate application boundary"
+      ],
+      "independent_result": "SATISFIED_AT_BOUNDED_PERSONAL_NATIVE_SOURCE_CONTROL_HANDOFF_SCOPE",
+      "evidence_bindings": [
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json",
+        "ADVERSARIAL_REVIEW.json",
+        "FOCUSED_TESTS.log"
+      ]
+    },
+    {
+      "clause": "B11 module acceptance / dependency boundary",
+      "source_evidence": [
+        "Original module accept/stop and V1-023/V1-045 checkpoints"
+      ],
+      "coverage": "D02 may close the bounded data handoff while B11-D01 and D03 and the module remain incomplete.",
+      "required_consumer_binding": "Actual original-clause source-to-consumer mapping and independent genuine private-data replay; preserve module readiness and all other tasks/dependencies.",
+      "remaining_limit": "Multi-fuel useful-heat closure, installed seasonal efficiency, physical national gas displacement, target-stock calibration, import valuation and bill savings are not proved by source controls.",
+      "feasibility": "DOWNSTREAM_GATES_REMAIN_SEPARATE",
+      "consumer_binding": [
+        "tools/materialize_b11_gas_quality_reference.py:materialize/_write_receipt with unchanged B13 guard",
+        "registry/v1_research_plan.json:B11-D02 REVIEW_REQUIRED/reviewed_commit null",
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json:other57/readiness/dependency invariants"
+      ],
+      "independent_result": "SATISFIED_AT_BOUNDED_PERSONAL_NATIVE_SOURCE_CONTROL_HANDOFF_SCOPE",
+      "evidence_bindings": [
+        "GENUINE_ORACLE_AND_PACKET_CHECKS.json",
+        "ADVERSARIAL_REVIEW.json",
+        "FOCUSED_TESTS.log"
+      ]
+    }
+  ],
+  "completed_consumer_map_sha256": "5a84b3475ac49fd417cbb9af7301f5f5f260e58bf0622c96b6064d81d31c94c2",
+  "canonical_source_ids": [
+    "SRC-B11-FGSZ-MER-INDEX-2026",
+    "SRC-B11-FGSZ-MER-2026-REV1-PDF",
+    "SRC-B11-FGSZ-MER-2026-REV1-XLSX",
+    "SRC-B11-FGSZ-COPYRIGHT-NOTICE-2026",
+    "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-PDF",
+    "SRC-B11-FGSZ-EXIT-QUALITY-GASYEAR-2024-2025-EN-PDF",
+    "SRC-B11-FGSZ-COPYRIGHT-EN-20261004",
+    "SRC-B11-FGSZ-QAR-LISTING-EN-20261004",
+    "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-XLSX",
+    "SRC-B11-FGSZ-GAS-QUALITY-RULES-2025-2026",
+    "SRC-B11-FGSZ-QAR-2025-2026-REV4-EN-XLSX",
+    "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+    "SRC-B11-EUROSTAT-HU-GAS-BALANCE-2024",
+    "SRC-B11-KSH-TERSTAT-610-2024",
+    "SRC-B11-KSH-KOR0043-2024",
+    "SRC-B11-EUROSTAT-HU-GAS-COMMODITY-2024",
+    "SRC-B11-EUROSTAT-HOUSEHOLD-REPORTING-2026",
+    "SRC-B11-EUROSTAT-ENERGY-BALANCE-GUIDE-2019"
+  ],
+  "validation_debt_ids": [],
+  "accepted_artifact_sha256": {
+    "modules/B11/gas_quality_reference.py": "5ecd6b371e3f6e47048405e8c6a41ba9e22809936769eade8226b78cc397523b",
+    "registry/b11_gas_quality_reference_manifest.json": "1ad0df1a083a91d8d31f2ca21cf9473473f50551882f1215af2cb70317eebcfa",
+    "tools/materialize_b11_gas_quality_reference.py": "b3d09373008e7e2daf0da6c550f0df13a7086872e45e0c19e48abddb15b09372",
+    "modules/B11/county_baseline_contract.py": "c16bf4252da2d99514a987f15c5db20c0228c3327f00c655e928610dc8978908",
+    "registry/b11_county_gas_baseline_2024.csv": "62d85ccc86e8ce301c8ca434d673bee7b61cdd8ea530d71b819e6d4305e1dccd",
+    "modules/B02/household_energy_controls.py": "49a2e3239b51a08b42bb3dedc34f0cd2d42693c5afe6e9bc7ce8c71f513fa992",
+    "registry/b02_eurostat_household_manifest.json": "c694ef7cefab667c476a2735a0dc4d2163f4121e5d2d0af710c7544b20da06e6",
+    "data/processed/b02/eurostat_household_enduse_hu_2022_2024.csv": "9e67575905e3fd3fc1cbacb04f6b5b0ade0789297e943df28846021fbab6012b",
+    "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/2026-10-01.json": "5b6dd68d05743a1c0e14bd9b53c392668ef3d761cd8eb64e54d59361770621d8"
+  },
+  "consumer_test_sha256": {
+    "tests/test_b11_gas_quality_reference.py": "aa494176e6dae7ed32714f3d2e33021c25996c7adbf42c0e99ddac203dfcbb1d",
+    "tests/test_b11_p2_county_gas_baseline.py": "471267acedf8abd3881446931d329b87f7581af6736263b410b8cefa7ac88694",
+    "tests/test_b02_household_energy_controls.py": "c79cdfdf2ba2ae8b83c5e9537745102cc5eda711fca36c9506999071063dbf96"
+  },
+  "reference_id": "B11-D02-PRIVATE-GAS-QUALITY-CONTROLS-2024-V1",
+  "runtime_source_artifact_pins": [
+    {
+      "artifact_id": "ART-B11-FGSZ-QAR-2026-2027-REV1-EN-PDF",
+      "source_id": "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-PDF",
+      "original_url": "https://fgsz.hu/file/documents/3/3331/quality_accounting_rules_2026_10_01_2027_09_30_rev_1.pdf",
+      "retrieved_at": "2026-10-04T07:57:39.963678+00:00",
+      "sha256": "750453f1e226a160111e18843822bf2e8ff266fbbefd4dc4158b4c821665333f",
+      "byte_count": 847210,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "quality_rules_2026_2027.pdf",
+      "document_issue_date": "2026-09-30",
+      "revision_valid_from": "2026-10-01",
+      "revision_valid_through": "2027-09-30",
+      "gas_year_label": "2026/2027",
+      "exit_panel_observation_year": 2025
+    },
+    {
+      "artifact_id": "ART-B11-FGSZ-EXIT-QUALITY-GASYEAR-2024-2025-EN-PDF",
+      "source_id": "SRC-B11-FGSZ-EXIT-QUALITY-GASYEAR-2024-2025-EN-PDF",
+      "original_url": "https://fgsz.hu/file/documents/3/3155/weighted_avarage_ncv_gcv_2024_2025_gasyear.pdf",
+      "retrieved_at": "2026-10-04T07:57:45.840675+00:00",
+      "sha256": "81fb7e8a2cb48b832c7f92ac7c04b48e17a3951bed617f7033286dd632abe020",
+      "byte_count": 457898,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "weighted_quality_2024_2025.pdf",
+      "observation_period_kind": "GAS_YEAR",
+      "observation_period": "2024-10-01 through 2025-09-30",
+      "document_issue_date": "2025-10-31",
+      "revision": 1,
+      "claim_scope": "INVENTORY_ONLY_NO_NUMERICAL_IMPORT_NO_CALENDAR_2024_MERGE"
+    },
+    {
+      "artifact_id": "ART-B11-FGSZ-COPYRIGHT-EN-20261004",
+      "source_id": "SRC-B11-FGSZ-COPYRIGHT-EN-20261004",
+      "original_url": "https://fgsz.hu/en/copyright",
+      "retrieved_at": "2026-10-04T07:57:51.344873+00:00",
+      "sha256": "34e0d407f318a3bcc4c60c9c23be2db078cee153137ec0a0f91151923b152c60",
+      "byte_count": 100042,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "copyright.pdf"
+    },
+    {
+      "artifact_id": "ART-B11-FGSZ-QAR-LISTING-EN-20261004",
+      "source_id": "SRC-B11-FGSZ-QAR-LISTING-EN-20261004",
+      "original_url": "https://fgsz.hu/en/for-business/network-operators/regulatory-framework-networkoperators/order-of-natural-gas-quality-accounting-users",
+      "retrieved_at": "2026-10-04T07:57:57.844071+00:00",
+      "sha256": "6e1fb0fcaea854ff7abd7fe7df239841246c57d520c16cc249f6918f27180cb7",
+      "byte_count": 30813,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "listing.html"
+    },
+    {
+      "artifact_id": "ART-B11-FGSZ-QAR-2026-2027-REV1-EN-XLSX",
+      "source_id": "SRC-B11-FGSZ-QAR-2026-2027-REV1-EN-XLSX",
+      "original_url": "https://fgsz.hu/file/documents/3/3332/qar_to_partners_2026_10_01_2027_09_30_rev_1.xlsx",
+      "retrieved_at": "2026-10-04T07:58:41.247455+00:00",
+      "sha256": "ab6ff150fd31ac68daaae4e653c7b156397456ee93b1d2264685ee9d6c7085f9",
+      "byte_count": 124474,
+      "repo_snapshot_path": null,
+      "role": "EXIT_POINT_PANEL",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "quality_rules_2026_2027.xlsx",
+      "document_issue_date": "2026-09-30",
+      "revision_valid_from": "2026-10-01",
+      "revision_valid_through": "2027-09-30",
+      "gas_year_label": "2026/2027",
+      "exit_panel_observation_year": 2025
+    },
+    {
+      "artifact_id": "ART-B11-FGSZ-QAR-2025-2026-REV4-EN-PDF",
+      "source_id": "SRC-B11-FGSZ-GAS-QUALITY-RULES-2025-2026",
+      "original_url": "https://fgsz.hu/file/documents/3/3211/quality_accounting_rules_2025_10_01_2026_09_30_rev_4.pdf",
+      "retrieved_at": "2026-10-04T08:09:56.717610+00:00",
+      "sha256": "8ba789bf3db1680379b0ddbeefeacf887133df137422da2209fc405d99068776",
+      "byte_count": 869207,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "quality_rules_2025_2026_rev4.pdf",
+      "source_identity_note": "Existing canonical ID for this exact English rev4 URL; provisional handoff alias SRC-B11-FGSZ-QAR-2025-2026-REV4-EN-PDF is not a second source.",
+      "document_issue_date": "2026-03-31",
+      "revision_valid_from": "2026-04-01",
+      "revision_valid_through": "2026-09-30",
+      "gas_year_label": "2025/2026",
+      "exit_panel_observation_year": 2024
+    },
+    {
+      "artifact_id": "ART-B11-FGSZ-QAR-2025-2026-REV4-EN-XLSX",
+      "source_id": "SRC-B11-FGSZ-QAR-2025-2026-REV4-EN-XLSX",
+      "original_url": "https://fgsz.hu/file/documents/3/3212/qar_to_partners_2025_10_01_2026_09_30_rev_4.xlsx",
+      "retrieved_at": "2026-10-04T08:10:03.733060+00:00",
+      "sha256": "a0f1d025e1fe0c072b051e855efb935af00435b7f5ccfacf5c15eac8bbedcb5f",
+      "byte_count": 124627,
+      "repo_snapshot_path": null,
+      "role": "EXIT_POINT_PANEL",
+      "authority": "FGSZ",
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "local_filename_hint": "quality_rules_2025_2026_rev4.xlsx",
+      "document_issue_date": "2026-03-31",
+      "revision_valid_from": "2026-04-01",
+      "revision_valid_through": "2026-09-30",
+      "gas_year_label": "2025/2026",
+      "exit_panel_observation_year": 2024
+    },
+    {
+      "artifact_id": "ART-B11-EUROSTAT-HHQ-HU-G3000-2024-20261004",
+      "source_id": "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_d_hhq?geo=HU&unit=TJ&siec=G3000&time=2024",
+      "retrieved_at": "2026-10-04T08:09:25.426239+00:00",
+      "sha256": "61683e4b0e1829188484ca596b6b5ee34b2ef91fcf0ecb6985e97580f4ecfdec",
+      "byte_count": 3507,
+      "repo_snapshot_path": null,
+      "role": "NATIVE_STATISTICAL_CONTROL",
+      "authority": "Eurostat",
+      "reuse_status": "EXTERNAL_SOURCE_WITH_ATTRIBUTION_PRIVATE_OUTPUT",
+      "local_filename_hint": "eurostat_household_gas_2024.json"
+    },
+    {
+      "artifact_id": "ART-B11-EUROSTAT-HU-GAS-BALANCE-2024",
+      "source_id": "SRC-B11-EUROSTAT-HU-GAS-BALANCE-2024",
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_bal_c?geo=HU&unit=TJ&siec=G3000&nrg_bal=FC_OTH_HH_E&time=2024",
+      "retrieved_at": "2026-10-04T08:09:32.349842+00:00",
+      "sha256": "f92ece89276240c1ec3c8c28bfc1e543f814e2f53a5ce1659462c012df2dcfbf",
+      "byte_count": 2740,
+      "repo_snapshot_path": null,
+      "role": "NATIVE_STATISTICAL_CONTROL",
+      "authority": "Eurostat",
+      "reuse_status": "EXTERNAL_SOURCE_WITH_ATTRIBUTION_PRIVATE_OUTPUT",
+      "local_filename_hint": "eurostat_balance_gas_2024.json"
+    },
+    {
+      "artifact_id": "ART-B11-KSH-TERSTAT-610-2024",
+      "source_id": "SRC-B11-KSH-TERSTAT-610-2024",
+      "original_url": "https://www.ksh.hu/evkonyvek/2024/teruleti-statisztikai-evkonyv-2024/pdf/terstat_2024_6.pdf",
+      "retrieved_at": "2026-10-04T08:09:48.800303+00:00",
+      "sha256": "9b5b1742b8b764805f2e08a00bd458b9257fe1cad227c6053552920c0f34e0ce",
+      "byte_count": 592271,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "KSH",
+      "reuse_status": "EXTERNAL_SOURCE_WITH_ATTRIBUTION_PRIVATE_OUTPUT",
+      "local_filename_hint": "ksh_terstat_2024_6.pdf"
+    },
+    {
+      "artifact_id": "ART-B11-KSH-KOR0043-2024",
+      "source_id": "SRC-B11-KSH-KOR0043-2024",
+      "original_url": "https://www.ksh.hu/stadat_files/kor/hu/kor0043.html",
+      "retrieved_at": "2026-10-04T08:09:53.635449+00:00",
+      "sha256": "a1f7d8b8aeea07d0692f9f910d0ed81b6f16acb702ad8a16ddb8b47dbfba0556",
+      "byte_count": 25731,
+      "repo_snapshot_path": null,
+      "role": "KSH_ANNUAL_AVERAGE_CONFLICT",
+      "authority": "KSH",
+      "reuse_status": "EXTERNAL_SOURCE_WITH_ATTRIBUTION_PRIVATE_OUTPUT",
+      "local_filename_hint": "ksh_gas_supply_2024.html"
+    },
+    {
+      "artifact_id": "ART-B11-EUROSTAT-HU-GAS-COMMODITY-2024",
+      "source_id": "SRC-B11-EUROSTAT-HU-GAS-COMMODITY-2024",
+      "original_url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_cb_gas?geo=HU&siec=G3000&nrg_bal=FC_OTH_HH_E&time=2024",
+      "retrieved_at": "2026-10-04T08:11:04.331180+00:00",
+      "sha256": "b55da0b2a4ae51b8de7657f237a535cb553fffe6cdc6ed80d9d280f66c4f7267",
+      "byte_count": 3617,
+      "repo_snapshot_path": null,
+      "role": "NATIVE_STATISTICAL_CONTROL",
+      "authority": "Eurostat",
+      "reuse_status": "EXTERNAL_SOURCE_WITH_ATTRIBUTION_PRIVATE_OUTPUT",
+      "local_filename_hint": "eurostat_supply_gas_household_2024.json"
+    },
+    {
+      "artifact_id": "ART-B11-EUROSTAT-HOUSEHOLD-REPORTING-2026",
+      "source_id": "SRC-B11-EUROSTAT-HOUSEHOLD-REPORTING-2026",
+      "original_url": "https://ec.europa.eu/eurostat/documents/38154/16135593/energy-consumption-households-reporting-instructions.pdf",
+      "retrieved_at": "2026-10-04T08:13:36.718207+00:00",
+      "sha256": "de4735f46529172b6ebbab6465b451b90b4a7fec2bcacac1562dae0493a4843e",
+      "byte_count": 203611,
+      "repo_snapshot_path": null,
+      "role": "PROVENANCE_ONLY",
+      "authority": "Eurostat",
+      "reuse_status": "EXTERNAL_SOURCE_WITH_ATTRIBUTION_PRIVATE_OUTPUT",
+      "local_filename_hint": "eurostat_household_reporting_instructions.pdf"
+    }
+  ],
+  "inherited_repository_pins": [
+    {
+      "path": "modules/B11/county_baseline_contract.py",
+      "sha256": "c16bf4252da2d99514a987f15c5db20c0228c3327f00c655e928610dc8978908",
+      "byte_count": 4920
+    },
+    {
+      "path": "registry/b11_county_gas_baseline_2024.csv",
+      "sha256": "62d85ccc86e8ce301c8ca434d673bee7b61cdd8ea530d71b819e6d4305e1dccd",
+      "byte_count": 1655
+    },
+    {
+      "path": "modules/B02/household_energy_controls.py",
+      "sha256": "49a2e3239b51a08b42bb3dedc34f0cd2d42693c5afe6e9bc7ce8c71f513fa992",
+      "byte_count": 2532
+    },
+    {
+      "path": "registry/b02_eurostat_household_manifest.json",
+      "sha256": "c694ef7cefab667c476a2735a0dc4d2163f4121e5d2d0af710c7544b20da06e6",
+      "byte_count": 3517
+    },
+    {
+      "path": "data/processed/b02/eurostat_household_enduse_hu_2022_2024.csv",
+      "sha256": "9e67575905e3fd3fc1cbacb04f6b5b0ade0789297e943df28846021fbab6012b",
+      "byte_count": 27554
+    },
+    {
+      "path": "evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/2026-10-01.json",
+      "sha256": "5b6dd68d05743a1c0e14bd9b53c392668ef3d761cd8eb64e54d59361770621d8",
+      "byte_count": 7670
+    }
+  ],
+  "source_review": {
+    "corrected_handoff_sha256": "4cb155886ab80300a1cf28d04a35d656fdc7d201804d6658d5acfee36e06e831",
+    "source_verdict_sha256": "ae39c897ae62dbd8504a084c071d08648566322db733a822abeb85d15d9be24a",
+    "preimplementation_oracle_freeze_sha256": "f8ba4ec45231525f56ddf6b59e338e87dbdb4e4137220d8d6caee305424efc5b",
+    "qualification_originals": 17,
+    "runtime_originals": 13,
+    "inherited_source_consumer_data_pins": 6,
+    "exit_rows": 978,
+    "quality_cells": 3912,
+    "publisher_representations_not_independent_physical_observations": true,
+    "numerical_oracle_not_shared_before_author_freeze": true
+  },
+  "historical_independent_implementation_review": {
+    "receipt_sha256": "9671f5bf6b312fdf730dcbaf584c0fa03ef58a6bc31d80e0fcae8dab074a9905",
+    "verdict": "PASS_EXACT_TEN_FILE_SUBSTANTIVE_PACKET",
+    "focused_tests": {
+      "tests": 184,
+      "passed": 183,
+      "skips": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    "adversarial_checks": 44,
+    "genuine_comparison_checks": 19042,
+    "completed_original_criterion_consumer_map_sha256": "5a84b3475ac49fd417cbb9af7301f5f5f260e58bf0622c96b6064d81d31c94c2",
+    "original_criteria_satisfied_at_bounded_handoff": true,
+    "registry_acceptance_executed": false,
+    "overlapping_checks_not_additive": true
+  },
+  "genuine_private_replay": {
+    "author_implementation_freeze_sha256": "dfddee912f50daa73ee32628cf0de76d7cd46a8ee6d5620ce37baad829fd4dcd",
+    "author_validation_sha256": "aefd9d151849f4286cfb690a6e1a62dc0e6ca226259ef5acd8502b97ccf9ab2f",
+    "receipt_bytes": 3616956,
+    "receipt_sha256": "d30509f2226ae6d70c5d1ae4444f8250f767d87ffbff92c742dd1aa923ddd7a5",
+    "independent_fresh_checkout_output_byte_identical": true,
+    "actual_storage_guard_and_authority_unmocked": true,
+    "all13_corrupted_originals_rejected_before_output_creation": true,
+    "raw_sources_and_detailed_outputs_public": false
+  },
+  "scientific_boundaries": {
+    "source_use": "Personal private source/control analysis only. Public patch contains original code/synthetic tests/factual provenance, no FGSZ originals or point panels. Broader reuse remains uncleared.",
+    "physical_state": "Distinct GCV25/0 and informative NCV15/15 retained; moisture null; no P7 input, conversion or TABULA/billing substitution.",
+    "distribution": "Dated overlapping source inventory, not a weighted/disjoint residential distribution. Exact source sections/colour hints are retained without eligibility inference.",
+    "controls": "Native KSH/Eurostat populations, unit labels, vintages/missingness and unresolved residuals retained. No forced calibration or physical MJ/m³ constant.",
+    "source_currentness": "Rev4 actual April–September 2026 interval restored; 2024 observations separate. English revisions do not overwrite prior Hungarian evidence.",
+    "web_only_guide": "Explicitly web-only 2019 methodology evidence; original binary is not retained and no binary hash is asserted.",
+    "other_tasks": "Only original B11-D02 is accepted at the stated bounded handoff. All other 57 tasks, original requirements, dependencies, module readiness and national gates are unchanged."
+  },
+  "rights_scope": "Personal private analysis; no general FGSZ content redistribution/deployment licence. Public patch is original code/synthetic tests and factual provenance only.",
+  "source_precision_corrections": {
+    "rev4_effective_interval": "2026-04-01 through2026-09-30; issued2026-03-31; embedded calendar2024 observations separate",
+    "canonical_archived_PDF_source_id_reused": "SRC-B11-FGSZ-GAS-QUALITY-RULES-2025-2026",
+    "previous_Hungarian_source_snapshots_unchanged": true,
+    "publisher_crossborder_equation_repaired": false,
+    "web_only_2019_guide_binary_hash_invented": false
+  },
+  "hosted_ci": {
+    "checkpoint": "V1-059",
+    "status": "PASS_PUBLISHED_EXACT_TREE_HOSTED_CI",
+    "commit": "acc4908ddb6ab09ea0b49c1b0f46c90a532ea935",
+    "tree": "23a14c418f14b92be43a01452c93e3e85916054c",
+    "sole_parent": "514ac0c7c195b3426d312e6c65fe471ef687eb2c",
+    "branch": "agent/v1-evidence-feasibility",
+    "main_commit": "144c0d96cee674fbea4bf951826e68f000b45705",
+    "pull_request": 324,
+    "main_merged": false,
+    "tested_merge_commit": "686d75d5a001a1ade07fc19f7efad8cacae4e374",
+    "tested_merge_tree": "23a14c418f14b92be43a01452c93e3e85916054c",
+    "tested_merge_parents": [
+      "144c0d96cee674fbea4bf951826e68f000b45705",
+      "acc4908ddb6ab09ea0b49c1b0f46c90a532ea935"
+    ],
+    "run_id": 37192431650,
+    "run_number": 1127,
+    "run_attempt": 1,
+    "run_url": "https://github.com/Anonymoos-Rommel/hoszivattyu-akkumulator-orszagos-modell/actions/runs/37192431650",
+    "job_id": 111407258559,
+    "workflow_status": "completed",
+    "workflow_conclusion": "success",
+    "job_status": "completed",
+    "job_conclusion": "success",
+    "tests": 3633,
+    "passed": 3633,
+    "skips": 0,
+    "errors": 0,
+    "failures": 0,
+    "test_duration_seconds": 194.884,
+    "registry": "VALID",
+    "host_positive_test_names": [
+      "test_real_external_non_git_directory_remains_allowed (test_b09_future_supply_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed)",
+      "test_real_external_directory_still_reaches_first_fiscal_source_read (test_b13_fiscal_reference.FiscalOutputIndexTests.test_real_external_directory_still_reaches_first_fiscal_source_read)",
+      "test_real_external_non_git_directory_remains_allowed (test_b18_supply_source_reference.AdversarialStorageTests.test_real_external_non_git_directory_remains_allowed)"
+    ],
+    "log_path": "V1_059_HOSTED.log",
+    "log_bytes": 812754,
+    "log_sha256": "48fe267795296bd19ee8b6af6d77f060d07394da45d1947e5b6700699c038504",
+    "log_encoding": "UTF-8 decoded content including BOM and final newline preserved",
+    "log_fetched_once": true,
+    "individual_results_checked_with_interleaved_stdout": true,
+    "verified_at": "2026-10-04T09:36:54.211326+00:00"
+  },
+  "independent_hosted_review_sha256": "5abe09634af55a4e1a5d002ea4bb231a318855e47a751aad9f2e16be198ae9de",
+  "private_preservation": {
+    "baseline_version": 22,
+    "baseline_sha256": "94bf911c7e97a458c69ba263477409bd7f424e80659c3f53667a1f3592559033",
+    "candidate_version": 0,
+    "candidate_sha256": "e90c698c26b0cd3a3bfad7be4030023b93210d4f0ec28e6205b260f815b0842e",
+    "candidate_bytes": 13060068,
+    "candidate_manifest_sha256": "e7ccfe7e8e0e46f3727c63745585f21e1819195178c786d3aa625c277cdbc279",
+    "independent_library_readback_sha256": "2df7a013264699a2ed3618c0c6b0f7d5042a219e9291863b1f90bdae4360eb3b",
+    "one_selective_replay_receipt_sha256": "7f5f92888eac818300acd85be78b29bb11deff8fb42ded6958b32ceb43370078",
+    "source_originals_and_detailed_numeric_panels_public": false
+  },
+  "conditional_template_sha256": "20b71754489969853652dc0c6697b9c9a22e25ec746aefc24aee371cd80e0790",
+  "acceptance_changes_only_original_task_metadata": true,
+  "other57_tasks_original_criteria_dependencies_readiness_unchanged": true,
+  "national_admission": false,
+  "physical_gas_conversion_or_billing_calibration": false,
+  "national_gas_quality_distribution_admitted": false,
+  "broader_FGSZ_source_content_reuse_admitted": false,
+  "POL_defaults_selected": false,
+  "main_merge_authorized": false
+}

@@ -1,0 +1,1463 @@
+{
+  "schema_version": 1,
+  "reference_id": "B16-SPENDING-CLASSIFICATION-HANDOFF-20261004",
+  "task": "B16-D01",
+  "claim": "HISTORICAL_STRUCTURE_CLASSIFICATION_REFERENCE",
+  "source_tier": "P1",
+  "evidence_tier": "E1",
+  "truth_status": "DER",
+  "prepared_at": "2026-10-04",
+  "scope": "Conditional classification of the declared domestic expenditure-package vocabulary, alongside the existing HU2023 national industry accounts and descriptive employment attachment. No programme expenditure, supplier allocation, coefficient or effect estimate.",
+  "source_artifacts": [
+    {
+      "source_id": "SRC-B16-FIGARO-CLASSIFICATION-2026",
+      "original_url": "https://ec.europa.eu/eurostat/web/esa-supply-use-input-tables/database?node_code=naio_10_fg",
+      "retrieved_at": "2026-10-04T16:15:52.454323+00:00",
+      "byte_count": 194526,
+      "sha256": "77ca12449fc0167294d11a362ebede9592677b8e8d167ff26146dbb966ec7fee",
+      "authority": "Eurostat / European Commission",
+      "document_date": null,
+      "document_revision": null,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B16-FIGARO-METADATA-2026",
+      "original_url": "https://ec.europa.eu/eurostat/cache/metadata/EN/naio_10_fcp_esms.htm",
+      "retrieved_at": "2026-10-04T16:15:52.641009+00:00",
+      "byte_count": 266292,
+      "sha256": "6d6a6c62de0a0e2669377a0ba6a2f64c500f3d55a403a523a75d6a2c4f005f43",
+      "authority": "Eurostat / European Commission",
+      "document_date": "2026-07-20",
+      "document_revision": "Displayed metadata update; not HU national IOT revision",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B16-EUROSTAT-REFURBISHMENT-GUIDE-2020",
+      "original_url": "https://ec.europa.eu/eurostat/documents/1798247/12177560/Guidance%2Bnote%2Bon%2Benergy%2Befficient%2Bbuildings%2B-%2Btechnical%2Bnote.pdf/8ab3d765-b6b7-a8b4-bef3-5ef2d5c1d145?t=1609859263907",
+      "retrieved_at": "2026-10-04T16:15:52.371396+00:00",
+      "byte_count": 273330,
+      "sha256": "24d67ed813e8d054ed66d1278b87dd97be1022876f86e9cf187f1c69cc66049a",
+      "authority": "Eurostat / European Commission",
+      "document_date": "2020-12",
+      "document_revision": "EEEA/2020/02; Table1 references CPA2008 and is context only, not automatic CPA2.1 authority",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B16-NACE-REV2-MANUAL",
+      "original_url": "https://ec.europa.eu/eurostat/documents/3859598/5902521/KS-RA-07-015-EN.PDF",
+      "retrieved_at": "2026-10-04T16:15:57.449674+00:00",
+      "byte_count": 5908141,
+      "sha256": "452982566cfcb4ee4f0e20d19395cb9c81726828b3bce48fdf4a0c7efc3a2302",
+      "authority": "Eurostat / European Commission",
+      "document_date": "2008",
+      "document_revision": "NACE Rev.2 explanatory manual; publication KS-RA-07-015-EN",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY"
+    },
+    {
+      "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+      "original_url": "https://circabc.europa.eu/ui/group/d11cc50e-9ad7-41f5-8381-a51f98b792f9/library/065082f9-dd82-4ccb-aa61-d3405df52c0a/details",
+      "retrieved_at": "2026-10-04T16:22:04.174367+00:00",
+      "byte_count": 875282,
+      "sha256": "ab27c888e383cb8cd4ef1230aa84887dc01987d7877b883124e00a9ff63d4bae",
+      "authority": "Eurostat",
+      "document_date": null,
+      "document_revision": "V1.00 / publisher version1.0",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "ui_modified_date": "2025-09-05 06:04; UI timezone not established"
+    },
+    {
+      "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+      "original_url": "https://circabc.europa.eu/ui/group/cec66924-a924-4f91-a0ef-600a0531e3ba/library/a6a89ef1-2926-48f9-9268-dd53b6fe7957/details",
+      "retrieved_at": "2026-10-04T16:40:48.654799+00:00",
+      "byte_count": 81303,
+      "sha256": "164e0d6984ab0ad7a4da7f8fc76a15444911c6b6aa24753cfc59ec9c246883cd",
+      "authority": "Eurostat",
+      "document_date": "2026-07",
+      "document_revision": "FIGARO 2026 / publisher workbook version1.0",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY",
+      "ui_modified_date": "2026-06-29 02:52; UI timezone not established"
+    }
+  ],
+  "package_groups": [
+    "heat_pump_equipment",
+    "heat_pump_installation",
+    "battery_equipment",
+    "electrical_and_grid_works",
+    "envelope_materials",
+    "envelope_works",
+    "window_door_goods",
+    "combined_installed_works",
+    "professional_services",
+    "vocational_training",
+    "price_conversion"
+  ],
+  "routes": [
+    {
+      "route_id": "hp_refrigerating_equipment",
+      "package_group": "heat_pump_equipment",
+      "cpa_2_1_code": "28.25.13",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "28.25",
+      "figaro_2026_circabc_product_code": "CPA_C28",
+      "figaro_2026_circabc_industry_code": "C28",
+      "national_io_characteristic_industry_code": "C28",
+      "employment_a64_characteristic_code": "C28",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Heat-pump/refrigerating equipment within this historical class; establish domestic-type and equipment boundary from the actual specification.",
+      "exclusions": "Do not classify a named WM50 configuration, whole installation or every heat pump by label alone.",
+      "cpa_2_2_correspondence_targets": [
+        "28.21.14",
+        "28.25.13"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            3139,
+            3140
+          ],
+          "native_relation_ids": [
+            54510,
+            54515
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 23,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 182,
+          "class_or_division": "28.25"
+        }
+      }
+    },
+    {
+      "route_id": "hp_air_conditioning_machine",
+      "package_group": "heat_pump_equipment",
+      "cpa_2_1_code": "28.25.12",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "28.25",
+      "figaro_2026_circabc_product_code": "CPA_C28",
+      "figaro_2026_circabc_industry_code": "C28",
+      "national_io_characteristic_industry_code": "C28",
+      "employment_a64_characteristic_code": "C28",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Actual air-conditioning machine within the source class.",
+      "exclusions": "No blanket mapping of all heat pumps or all new-version correspondence targets.",
+      "cpa_2_2_correspondence_targets": [
+        "28.21.14",
+        "28.21.15",
+        "28.25.12",
+        "28.25.13",
+        "29.32.20",
+        "29.32.30"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            3133,
+            3134,
+            3135,
+            3136,
+            3137,
+            3138
+          ],
+          "native_relation_ids": [
+            54480,
+            54485,
+            54490,
+            54495,
+            54500,
+            54505
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 23,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 182,
+          "class_or_division": "28.25"
+        }
+      }
+    },
+    {
+      "route_id": "hp_installation",
+      "package_group": "heat_pump_installation",
+      "cpa_2_1_code": "43.22.12",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "43.22",
+      "figaro_2026_circabc_product_code": "CPA_F",
+      "figaro_2026_circabc_industry_code": "F",
+      "national_io_characteristic_industry_code": "F43",
+      "employment_a64_characteristic_code": "F",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately identified heating/ventilation installation service or installed-work output.",
+      "exclusions": "Not the manufacturer class; do not additionally count embedded purchased equipment as final expenditure.",
+      "cpa_2_2_correspondence_targets": [
+        "43.22.12"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4303
+          ],
+          "native_relation_ids": [
+            77480
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 31,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 216,
+          "class_or_division": "43.22"
+        }
+      }
+    },
+    {
+      "route_id": "battery_lithium_or_other",
+      "package_group": "battery_equipment",
+      "cpa_2_1_code": "27.20.23",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "27.20",
+      "figaro_2026_circabc_product_code": "CPA_C27",
+      "figaro_2026_circabc_industry_code": "C27",
+      "national_io_characteristic_industry_code": "C27",
+      "employment_a64_characteristic_code": "C27",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Rechargeable accumulator within the old mixed class; chemistry and item boundary must be known.",
+      "exclusions": "Old code is broader than lithium-ion; it does not classify an entire battery/inverter/control installation.",
+      "cpa_2_2_correspondence_targets": [
+        "27.20.23",
+        "27.20.24"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            2832,
+            2833
+          ],
+          "native_relation_ids": [
+            49210,
+            49215
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 22,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 174,
+          "class_or_division": "27.20"
+        }
+      }
+    },
+    {
+      "route_id": "battery_lead_acid",
+      "package_group": "battery_equipment",
+      "cpa_2_1_code": "27.20.22",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "27.20",
+      "figaro_2026_circabc_product_code": "CPA_C27",
+      "figaro_2026_circabc_industry_code": "C27",
+      "national_io_characteristic_industry_code": "C27",
+      "employment_a64_characteristic_code": "C27",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Non-starter lead-acid accumulator when the specification establishes that chemistry.",
+      "exclusions": "A conditional alternative, not the selected project chemistry.",
+      "cpa_2_2_correspondence_targets": [
+        "27.20.22"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            2831
+          ],
+          "native_relation_ids": [
+            49205
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 22,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 174,
+          "class_or_division": "27.20"
+        }
+      }
+    },
+    {
+      "route_id": "battery_inverter",
+      "package_group": "battery_equipment",
+      "cpa_2_1_code": "27.90.41",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "27.90",
+      "figaro_2026_circabc_product_code": "CPA_C27",
+      "figaro_2026_circabc_industry_code": "C27",
+      "national_io_characteristic_industry_code": "C27",
+      "employment_a64_characteristic_code": "C27",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately identified inverter/converter equipment within the old source class.",
+      "exclusions": "Not a part of accumulator output to count again when already embedded in an installed service.",
+      "cpa_2_2_correspondence_targets": [
+        "27.11.42",
+        "27.11.50",
+        "27.11.72",
+        "27.90.45",
+        "29.31.30"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            2952,
+            2953,
+            2954,
+            2955,
+            2956
+          ],
+          "native_relation_ids": [
+            51510,
+            51515,
+            51520,
+            51525,
+            51530
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 22,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 177,
+          "class_or_division": "27.90"
+        }
+      }
+    },
+    {
+      "route_id": "electrical_installation",
+      "package_group": "electrical_and_grid_works",
+      "cpa_2_1_code": "43.21.10",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "43.21",
+      "figaro_2026_circabc_product_code": "CPA_F",
+      "figaro_2026_circabc_industry_code": "F",
+      "national_io_characteristic_industry_code": "F43",
+      "employment_a64_characteristic_code": "F",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Building electrical installation/connection service, when separately identified.",
+      "exclusions": "Grid line construction is a different route; no connection permission or operational eligibility follows.",
+      "cpa_2_2_correspondence_targets": [
+        "43.21.00"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4299
+          ],
+          "native_relation_ids": [
+            77410
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 31,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 216,
+          "class_or_division": "43.21"
+        }
+      }
+    },
+    {
+      "route_id": "local_grid_works",
+      "package_group": "electrical_and_grid_works",
+      "cpa_2_1_code": "42.22.22",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "42.22",
+      "figaro_2026_circabc_product_code": "CPA_F",
+      "figaro_2026_circabc_industry_code": "F",
+      "national_io_characteristic_industry_code": "F42",
+      "employment_a64_characteristic_code": "F",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately identified local electricity-line construction works.",
+      "exclusions": "No attribution of a whole framework award or general network budget to this programme.",
+      "cpa_2_2_correspondence_targets": [
+        "42.22.22"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4259
+          ],
+          "native_relation_ids": [
+            76035
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 31,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 213,
+          "class_or_division": "42.22"
+        }
+      }
+    },
+    {
+      "route_id": "glass_wool_material",
+      "package_group": "envelope_materials",
+      "cpa_2_1_code": "23.14.12",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "23.14",
+      "figaro_2026_circabc_product_code": "CPA_C23",
+      "figaro_2026_circabc_industry_code": "C23",
+      "national_io_characteristic_industry_code": "C23",
+      "employment_a64_characteristic_code": "C23",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Glass-fibre mat/board or similar material within the source class, including qualifying glass wool.",
+      "exclusions": "Not all mineral wool or all envelope materials; do not count again inside installed-work output.",
+      "cpa_2_2_correspondence_targets": [
+        "23.14.12"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            2043
+          ],
+          "native_relation_ids": [
+            35205
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 18,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 151,
+          "class_or_division": "23.14"
+        }
+      }
+    },
+    {
+      "route_id": "other_mineral_insulation",
+      "package_group": "envelope_materials",
+      "cpa_2_1_code": "23.99.19",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "23.99",
+      "figaro_2026_circabc_product_code": "CPA_C23",
+      "figaro_2026_circabc_industry_code": "C23",
+      "national_io_characteristic_industry_code": "C23",
+      "employment_a64_characteristic_code": "C23",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Other qualifying mineral insulation within the broad class, with product details.",
+      "exclusions": "Broad residual mineral class is not wholly insulation or wholly programme output.",
+      "cpa_2_2_correspondence_targets": [
+        "23.99.19"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            2189
+          ],
+          "native_relation_ids": [
+            37865
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 18,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 156,
+          "class_or_division": "23.99"
+        }
+      }
+    },
+    {
+      "route_id": "cellular_plastic_material",
+      "package_group": "envelope_materials",
+      "cpa_2_1_code": "22.21.41",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "22.21",
+      "figaro_2026_circabc_product_code": "CPA_C22",
+      "figaro_2026_circabc_industry_code": "C22",
+      "national_io_characteristic_industry_code": "C22",
+      "employment_a64_characteristic_code": "C22",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Qualifying cellular plastic sheet/board material; identify material and form.",
+      "exclusions": "Not a classification of every polymer product or installed insulation system.",
+      "cpa_2_2_correspondence_targets": [
+        "22.21.43",
+        "22.25.00"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            1909,
+            1910
+          ],
+          "native_relation_ids": [
+            33015,
+            33020
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 17,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 149,
+          "class_or_division": "22.21"
+        }
+      }
+    },
+    {
+      "route_id": "wood_fibre_material",
+      "package_group": "envelope_materials",
+      "cpa_2_1_code": "16.21.15",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "16.21",
+      "figaro_2026_circabc_product_code": "CPA_C16",
+      "figaro_2026_circabc_industry_code": "C16",
+      "national_io_characteristic_industry_code": "C16",
+      "employment_a64_characteristic_code": "C16",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Qualifying wood/ligneous fibreboard; identify actual product form.",
+      "exclusions": "Not every bio-based material; source class includes other uses.",
+      "cpa_2_2_correspondence_targets": [
+        "16.21.15",
+        "16.27.00"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            1273,
+            1274
+          ],
+          "native_relation_ids": [
+            23070,
+            23075
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 11,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 134,
+          "class_or_division": "16.21"
+        }
+      }
+    },
+    {
+      "route_id": "insulation_installation",
+      "package_group": "envelope_works",
+      "cpa_2_1_code": "43.29.11",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "43.29",
+      "figaro_2026_circabc_product_code": "CPA_F",
+      "figaro_2026_circabc_industry_code": "F",
+      "national_io_characteristic_industry_code": "F43",
+      "employment_a64_characteristic_code": "F",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Identified installed thermal insulation works.",
+      "exclusions": "No additional final-demand line for embedded materials already in the work price.",
+      "cpa_2_2_correspondence_targets": [
+        "43.23.10"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4310
+          ],
+          "native_relation_ids": [
+            77620
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 31,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 217,
+          "class_or_division": "43.29"
+        }
+      }
+    },
+    {
+      "route_id": "wood_openings",
+      "package_group": "window_door_goods",
+      "cpa_2_1_code": "16.23.11",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "16.23",
+      "figaro_2026_circabc_product_code": "CPA_C16",
+      "figaro_2026_circabc_industry_code": "C16",
+      "national_io_characteristic_industry_code": "C16",
+      "employment_a64_characteristic_code": "C16",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Wooden window/door goods when replacement is required and material confirmed.",
+      "exclusions": "No automatic replacement requirement; finishing services and installed works remain distinct.",
+      "cpa_2_2_correspondence_targets": [
+        "16.25.10",
+        "16.27.00"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            1309,
+            1310
+          ],
+          "native_relation_ids": [
+            23525,
+            23530
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 11,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 134,
+          "class_or_division": "16.23"
+        }
+      }
+    },
+    {
+      "route_id": "plastic_openings",
+      "package_group": "window_door_goods",
+      "cpa_2_1_code": "22.23.14",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "22.23",
+      "figaro_2026_circabc_product_code": "CPA_C22",
+      "figaro_2026_circabc_industry_code": "C22",
+      "national_io_characteristic_industry_code": "C22",
+      "employment_a64_characteristic_code": "C22",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Plastic window/door goods within the source class and actual scope.",
+      "exclusions": "No automatic replacement requirement; material alternatives are not additive purchases.",
+      "cpa_2_2_correspondence_targets": [
+        "22.23.10",
+        "22.25.00"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            1948,
+            1949
+          ],
+          "native_relation_ids": [
+            33525,
+            33530
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 17,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 150,
+          "class_or_division": "22.23"
+        }
+      }
+    },
+    {
+      "route_id": "metal_openings",
+      "package_group": "window_door_goods",
+      "cpa_2_1_code": "25.12.10",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "25.12",
+      "figaro_2026_circabc_product_code": "CPA_C25",
+      "figaro_2026_circabc_industry_code": "C25",
+      "national_io_characteristic_industry_code": "C25",
+      "employment_a64_characteristic_code": "C25",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Metal window/door goods within the source class and actual scope.",
+      "exclusions": "No automatic replacement requirement or assignment of mixed-material totals.",
+      "cpa_2_2_correspondence_targets": [
+        "25.12.10"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            2406
+          ],
+          "native_relation_ids": [
+            41120
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 20,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 161,
+          "class_or_division": "25.12"
+        }
+      }
+    },
+    {
+      "route_id": "joinery_installation",
+      "package_group": "envelope_works",
+      "cpa_2_1_code": "43.32.10",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "43.32",
+      "figaro_2026_circabc_product_code": "CPA_F",
+      "figaro_2026_circabc_industry_code": "F",
+      "national_io_characteristic_industry_code": "F43",
+      "employment_a64_characteristic_code": "F",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Installation of ordinary windows/doors; identify the service boundary.",
+      "exclusions": "Automated/revolving doors are excluded from this NACE route; embedded goods are not extra final demand.",
+      "cpa_2_2_correspondence_targets": [
+        "43.32.01",
+        "43.32.02",
+        "43.32.09"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4321,
+            4322,
+            4323
+          ],
+          "native_relation_ids": [
+            78060,
+            78065,
+            78070
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 31,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 217,
+          "class_or_division": "43.32"
+        }
+      }
+    },
+    {
+      "route_id": "combined_residential_works",
+      "package_group": "combined_installed_works",
+      "cpa_2_1_code": "41.00.3",
+      "cpa_level": 5,
+      "characteristic_nace_rev2": "41.20",
+      "figaro_2026_circabc_product_code": "CPA_F",
+      "figaro_2026_circabc_industry_code": "F",
+      "national_io_characteristic_industry_code": "F41",
+      "employment_a64_characteristic_code": "F",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Contract output that actually qualifies as residential construction/renovation works, at the published broader product level.",
+      "exclusions": "An invoice combining unrelated equipment and specialist services does not automatically become this class; preserve unallocated bundle residual.",
+      "cpa_2_2_correspondence_targets": [
+        "41.00.3",
+        "43.99.9"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4186,
+            4187
+          ],
+          "native_relation_ids": [
+            74605,
+            74615
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 31,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 212,
+          "class_or_division": "41.20"
+        }
+      }
+    },
+    {
+      "route_id": "building_architecture",
+      "package_group": "professional_services",
+      "cpa_2_1_code": "71.11.21",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "71.11",
+      "figaro_2026_circabc_product_code": "CPA_M71",
+      "figaro_2026_circabc_industry_code": "M71",
+      "national_io_characteristic_industry_code": "M71",
+      "employment_a64_characteristic_code": "M71",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately supplied residential architectural design service.",
+      "exclusions": "No allocation of all administration or installation to architecture.",
+      "cpa_2_2_correspondence_targets": [
+        "71.11.21",
+        "71.11.25"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            5972,
+            5973
+          ],
+          "native_relation_ids": [
+            117040,
+            117045
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 50,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 269,
+          "class_or_division": "71.11"
+        }
+      }
+    },
+    {
+      "route_id": "building_engineering",
+      "package_group": "professional_services",
+      "cpa_2_1_code": "71.12.12",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "71.12",
+      "figaro_2026_circabc_product_code": "CPA_M71",
+      "figaro_2026_circabc_industry_code": "M71",
+      "national_io_characteristic_industry_code": "M71",
+      "employment_a64_characteristic_code": "M71",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately supplied building engineering service.",
+      "exclusions": "Actual professional scope and supplier are required for expenditure attribution.",
+      "cpa_2_2_correspondence_targets": [
+        "71.12.12"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            5989
+          ],
+          "native_relation_ids": [
+            117185
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 50,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 269,
+          "class_or_division": "71.12"
+        }
+      }
+    },
+    {
+      "route_id": "project_management",
+      "package_group": "professional_services",
+      "cpa_2_1_code": "71.12.20",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "71.12",
+      "figaro_2026_circabc_product_code": "CPA_M71",
+      "figaro_2026_circabc_industry_code": "M71",
+      "national_io_characteristic_industry_code": "M71",
+      "employment_a64_characteristic_code": "M71",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately supplied construction project-management service within the product class.",
+      "exclusions": "No arbitrary overhead percentage or double count inside a main contract.",
+      "cpa_2_2_correspondence_targets": [
+        "71.12.20"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            5998
+          ],
+          "native_relation_ids": [
+            117235
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 50,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 269,
+          "class_or_division": "71.12"
+        }
+      }
+    },
+    {
+      "route_id": "technical_testing",
+      "package_group": "professional_services",
+      "cpa_2_1_code": "71.20.19",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "71.20",
+      "figaro_2026_circabc_product_code": "CPA_M71",
+      "figaro_2026_circabc_industry_code": "M71",
+      "national_io_characteristic_industry_code": "M71",
+      "employment_a64_characteristic_code": "M71",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately supplied technical testing/analysis service within the old class.",
+      "exclusions": "The classification does not establish accreditation, independence or legal acceptance.",
+      "cpa_2_2_correspondence_targets": [
+        "71.20.05",
+        "71.20.09"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            6012,
+            6013
+          ],
+          "native_relation_ids": [
+            117455,
+            117460
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 50,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 270,
+          "class_or_division": "71.20"
+        }
+      }
+    },
+    {
+      "route_id": "vocational_secondary",
+      "package_group": "vocational_training",
+      "cpa_2_1_code": "85.32",
+      "cpa_level": 4,
+      "characteristic_nace_rev2": "85.32",
+      "figaro_2026_circabc_product_code": "CPA_P85",
+      "figaro_2026_circabc_industry_code": "P85",
+      "national_io_characteristic_industry_code": "P",
+      "employment_a64_characteristic_code": "P",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Identified vocational secondary education service; the route retains the source class level.",
+      "exclusions": "Not all training, not instantaneous qualified labour capacity, no FTE conversion.",
+      "cpa_2_2_correspondence_targets": [
+        "85.32"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            6755
+          ],
+          "native_relation_ids": [
+            140065
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 59,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 293,
+          "class_or_division": "85.32"
+        }
+      }
+    },
+    {
+      "route_id": "vocational_other",
+      "package_group": "vocational_training",
+      "cpa_2_1_code": "85.59.13",
+      "cpa_level": 6,
+      "characteristic_nace_rev2": "85.59",
+      "figaro_2026_circabc_product_code": "CPA_P85",
+      "figaro_2026_circabc_industry_code": "P85",
+      "national_io_characteristic_industry_code": "P",
+      "employment_a64_characteristic_code": "P",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Vocational service not otherwise classifiable by education level, within the native product subclass.",
+      "exclusions": "Secondary, post-secondary and higher education are not silently relabelled as this route.",
+      "cpa_2_2_correspondence_targets": [
+        "85.59.03"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            6805
+          ],
+          "native_relation_ids": [
+            141070
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 59,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 295,
+          "class_or_division": "85.59"
+        }
+      }
+    },
+    {
+      "route_id": "wholesale_margin",
+      "package_group": "price_conversion",
+      "cpa_2_1_code": "46",
+      "cpa_level": 2,
+      "characteristic_nace_rev2": "46",
+      "figaro_2026_circabc_product_code": "CPA_G46",
+      "figaro_2026_circabc_industry_code": "G46",
+      "national_io_characteristic_industry_code": "G46",
+      "employment_a64_characteristic_code": "G46",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately evidenced wholesale trade-service margin.",
+      "exclusions": "Never assign the full resale value of equipment to trade output; no invented margin rate.",
+      "cpa_2_2_correspondence_targets": [
+        "46"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4570
+          ],
+          "native_relation_ids": [
+            84335
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 33,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 221,
+          "class_or_division": "46"
+        },
+        "price_boundary": {
+          "source_id": "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+          "locators": [
+            "paragraphs3.56–3.57 PDF94 / printed62",
+            "paragraph9.33 PDF313 / printed281",
+            "paragraphs9.37–9.38 PDF315–316 / printed283–284"
+          ]
+        }
+      }
+    },
+    {
+      "route_id": "retail_margin",
+      "package_group": "price_conversion",
+      "cpa_2_1_code": "47",
+      "cpa_level": 2,
+      "characteristic_nace_rev2": "47",
+      "figaro_2026_circabc_product_code": "CPA_G47",
+      "figaro_2026_circabc_industry_code": "G47",
+      "national_io_characteristic_industry_code": "G47",
+      "employment_a64_characteristic_code": "G47",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately evidenced retail trade-service margin.",
+      "exclusions": "Never assign the full retail invoice to trade output; no invented margin rate.",
+      "cpa_2_2_correspondence_targets": [
+        "47"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            4829
+          ],
+          "native_relation_ids": [
+            89435
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 34,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 229,
+          "class_or_division": "47"
+        },
+        "price_boundary": {
+          "source_id": "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+          "locators": [
+            "paragraphs3.56–3.57 PDF94 / printed62",
+            "paragraph9.33 PDF313 / printed281",
+            "paragraphs9.37–9.38 PDF315–316 / printed283–284"
+          ]
+        }
+      }
+    },
+    {
+      "route_id": "paid_road_freight",
+      "package_group": "price_conversion",
+      "cpa_2_1_code": "49.41.1",
+      "cpa_level": 5,
+      "characteristic_nace_rev2": "49.41",
+      "figaro_2026_circabc_product_code": "CPA_H49",
+      "figaro_2026_circabc_industry_code": "H49",
+      "national_io_characteristic_industry_code": "H49",
+      "employment_a64_characteristic_code": "H49",
+      "actual_supplier_industry": null,
+      "actual_supplier_status": "Q",
+      "monetary_allocation": null,
+      "qualification": "Separately identified paid road-freight service. Treat as a transport margin only under the source-specific purchase/use, invoice and contracting conditions.",
+      "exclusions": "Embedded manufacturer/trader transport stays in the corresponding basic price/trade margin; household-arranged third-party transport for final consumption is a separate transport service. No duplicate freight or automatic margin.",
+      "cpa_2_2_correspondence_targets": [
+        "49.41.1",
+        "52.24.0"
+      ],
+      "correspondence_semantics": "SET_OF_SOURCE_RELATIONS_NOT_WHOLE_CLASS_EQUIVALENCE_OR_WEIGHTS",
+      "source_witnesses": {
+        "cpa_correspondence": {
+          "source_id": "SRC-B16-CPA21-CPA22-CORRESPONDENCE-2025",
+          "sheet": "CorrespTab_CPA_Ver.2.1_Ver.2.2",
+          "rows": [
+            5122,
+            5123
+          ],
+          "native_relation_ids": [
+            95140,
+            95150
+          ]
+        },
+        "figaro_codes": {
+          "source_id": "SRC-B16-FIGARO-DESCRIPTION-2026",
+          "sheet": "Prod, Ind & Accounting items",
+          "row": 35,
+          "product_column": "B",
+          "industry_column": "E"
+        },
+        "nace_notes": {
+          "source_id": "SRC-B16-NACE-REV2-MANUAL",
+          "pdf_page": 238,
+          "class_or_division": "49.41"
+        },
+        "price_boundary": {
+          "source_id": "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+          "locators": [
+            "paragraphs3.56–3.57 PDF94 / printed62",
+            "paragraph9.33 PDF313 / printed281",
+            "paragraphs9.37–9.38 PDF315–316 / printed283–284"
+          ]
+        }
+      }
+    }
+  ],
+  "classification_basis": {
+    "products": "CPA2.1",
+    "characteristic_activities": "NACE Rev.2",
+    "figaro_code_source": "2026 CIRCABC description, July2026 release",
+    "national_numeric_source": "HU2023 national ModelD industry-by-industry, national vintage2025, current-price millionHUF/basic prices; imports CIF",
+    "figaro_numeric_data_loaded": false,
+    "figaro_import_valuation": "FOB, not interchangeable with national CIF",
+    "employment_basis": "Native domestic persons and actual hours; descriptive source vintage mismatch retained",
+    "education_alias": "National IO/employment P corresponds to FIGARO industry P85 and product CPA_P85. This is a classification correspondence only."
+  },
+  "package_boundary": {
+    "complete_for_declared_vocabulary": true,
+    "unlisted_item": "UNRESOLVED_REQUIRES_SOURCE_QUALIFIED_CLASSIFICATION",
+    "mixed_bundle": "Keep actual contract output and unresolved component residual; no default split or simultaneous installed-output plus embedded-material final expenditure.",
+    "route_selection": "Conditional reference sets, not automated classification of a named product or invoice.",
+    "actual_supplier": "The characteristic activity of a product does not establish the actual producer, importer, wholesaler or installer industry.",
+    "monetary_bridge": "No amount, package weight, supplier distribution or purchaser-to-basic-price adjustment is supplied. A future monetary consumer must evidence these separately.",
+    "transfer": "A subsidy/loan/guarantee is a financing transaction, not a product purchase or GDP contribution by itself."
+  },
+  "origin_ratio_contract": {
+    "numerator": "IMP",
+    "denominator": "TOTAL = DOM + IMP",
+    "grain": "One named origin-use cell: nonoverlapping national industry leaf or TOTAL row, by industry leaf or native final/control use column; HU2023 MIO_NAC",
+    "nonnegative_share": "Only if total>0 and domestic>=0 and imported>=0",
+    "zero_denominator": "Undefined; preserve all signed amounts",
+    "missing": "Undefined; absence never zero",
+    "signed": "Retain exact ratio separately labelled signed accounting ratio, never a bounded propensity; no clamp",
+    "excluded": "Accounting rows including GVA/output/import-account rows; overlapping industry parents; embodied imports; purchaser-price or programme import leakage"
+  },
+  "dependencies": [
+    {
+      "path": "registry/b16_industry_structure_reference_manifest.json",
+      "sha256": "f0da3653a5ccccde6d88bab13afbd0cf5f1872035e7d6c9a38d56bd5cf036c7c"
+    },
+    {
+      "path": "registry/b16_employment_structure_reference_manifest.json",
+      "sha256": "4a8b773ff92d0c87e0101f02c7e476d2afbeb4a1edf8f67f8a5394094711701d"
+    },
+    {
+      "path": "modules/B16/industry_structure_reference.py",
+      "sha256": "503edd26d794a1da82f48b5411ab4b600e164fba47ca0a9809abdc2d4bd153de"
+    },
+    {
+      "path": "modules/B16/employment_structure_reference.py",
+      "sha256": "dccbd57163289fc6a91fc8ddc805c5baf1275fb137d78659ea00910eea1ec0a8"
+    }
+  ],
+  "applicability_boundaries": [
+    "Current classifications do not update the historical numeric source.",
+    "CPA2.2 target relations are retained for version checking; no automatic conversion or reverse allocation.",
+    "Gross output is not GVA, GDP or net programme benefit.",
+    "Persons/actual hours are not FTE, permanent jobs or person-years of incremental employment.",
+    "No joint labour/output coefficients are admitted across the incompatible accounting snapshots.",
+    "Original task acceptance is conditional on independent review and hosted zero-skip validation; no acceptance asserted by this candidate."
+  ],
+  "retained_source_authority": {
+    "source_id": "SRC-B16-EUROSTAT-ESA2010-MANUAL",
+    "sha256": "9569393aefd24d7fed20e55f30e68850148004e45c70dd5af4eda73214349858",
+    "provenance_manifest": "registry/b16_employment_structure_reference_manifest.json",
+    "classification_locator": "Chapter23 A64, PDF562–564 / printed530–532",
+    "price_locators": [
+      "3.56–3.57",
+      "9.33",
+      "9.37–9.38"
+    ],
+    "reuse_status": "EXTERNAL_ONLY"
+  },
+  "price_conversion_contract": {
+    "valuation": "Purchaser prices, deductible/non-deductible VAT, net product taxes, trade and transport margins must be kept explicit; no numeric conversion is supplied.",
+    "trade_margin": "Trade output is its margin, not the equipment resale value. Preserve source-signed margins rather than clipping.",
+    "transport": "Contracting party, use and invoicing determine margin versus service treatment. Embedded transport is not counted again.",
+    "import": "Domestic purchase location does not establish domestic production origin. National CIF and FIGARO FOB require a separate evidenced bridge before numeric combination.",
+    "currency_year": "2023 current-price millionHUF is not a 2028 programme invoice or EUR value."
+  },
+  "expected_historical_origin_ratio_coverage": {
+    "rows": 90,
+    "columns": 106,
+    "cells": 9540,
+    "statuses": {
+      "NONNEGATIVE_ORIGIN_SHARE": 8065,
+      "UNDEFINED_ZERO_DENOMINATOR": 1233,
+      "MISSING": 180,
+      "SIGNED_ACCOUNTING_RATIO": 62
+    },
+    "count_semantics": "Named query positions; TOTAL and control/final-use columns overlap and are not an additive partition."
+  }
+}

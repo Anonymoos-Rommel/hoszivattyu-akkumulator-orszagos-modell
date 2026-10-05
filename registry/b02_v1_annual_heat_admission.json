@@ -1,0 +1,85 @@
+{
+  "admission_id": "B02-V1-ANNUAL-HEAT-REF-2022",
+  "admission_status": "E2_PROVISIONAL_BASE",
+  "evidence_status": "DER",
+  "reference_year": 2022,
+  "geography": "HU",
+  "claim_scope": "NATIONAL_ANNUAL_CALIBRATION_REFERENCE",
+  "normalization_scope": "KSH_DWELLING_EQUIVALENT_NOT_OBSERVED_MEAN",
+  "source_ids": [
+    "SRC-B02-JRC-IDEES-HU-2023",
+    "SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024",
+    "SRC-B02-KSH-CENSUS-API-2022"
+  ],
+  "canonical_base_definition": "One native 2022 JRC SH-cohort/DHW-branch vector; exclude entire district SH cohort and all its DHW branches; separate circulation; retain solar DHW and existing advanced-electric SH visibly; no source averaging or count-based energy rescaling",
+  "unit": "GWh/year thermal service; kWh/dwelling-equivalent/year only as explicit normalization",
+  "input_artifact": "data/processed/b02/jrc_sh_dhw_cohorts_2022_2023.csv",
+  "input_artifact_sha256": "9bb56a5eb76b8b8d3c84607f454739368dfd2de99b532bb60685de70e238190a",
+  "consumer": "modules/B02/annual_heat_reference.py",
+  "tests": [
+    "tests/test_b02_annual_heat_reference.py",
+    "tests/test_b02_jrc_household_controls.py"
+  ],
+  "policy": "docs/methodology/evidence_tier_and_validation_debt_policy.md",
+  "admission_criteria": {
+    "1_quantity": "Annual source-model thermal service from SH and DHW, circulation separately accounted",
+    "2_boundary": "2022 national JRC household technology cohort; explicit source units and KSH normalization-only denominator",
+    "3_support": "Direct official JRC workbook and technical methodology; focused independent reviewer reconciliation of the SAME source, not independent empirical corroboration",
+    "4_applicability": "Hungary and same 2022 year; applicable only as national annual calibration reference, not as household/archetype demand",
+    "5_contradictions": "No contradiction to the native source sums. Current Eurostat end-use decomposition differences remain explicit and coherently stress-tested; the JRC reference is not promoted to actual end-use truth",
+    "6_reproduction": "Pinned binary source hash, native cells/codes/formulas, exact extract and consumer identities",
+    "7_debt": "Named validation debts below bind every stronger population/programme claim",
+    "8_label": "DER and E2_PROVISIONAL_BASE; never OBS because consumed"
+  },
+  "validation_debt": [
+    {
+      "id": "VD-B02-V1-HEAT-UNIVERSE",
+      "missing_exact_evidence": "Household energy coverage versus occupied conventional dwellings, including secondary/vacant dwelling consumption and district-cohort membership",
+      "possible_supplier": "Public KSH and MEKH/Eurostat scope documentation or a documented calibrated population-inference study",
+      "claim_upgraded": "Actual occupied non-district dwelling mean rather than normalized calibration reference",
+      "material_to_finalization": true
+    },
+    {
+      "id": "VD-B02-V1-HEAT-ENDUSE",
+      "missing_exact_evidence": "Separation of statistical revisions from JRC SH/WH reallocations and observed district-cohort electric/solar DHW assignment",
+      "possible_supplier": "Public Hungarian end-use methodology, survey controls or a validated coherent allocation estimator",
+      "claim_upgraded": "Target-population SH/WH split and district exclusion",
+      "material_to_finalization": true
+    },
+    {
+      "id": "VD-B02-V1-HEAT-EFFICIENCY",
+      "missing_exact_evidence": "Hungarian installed-equipment useful/final conversion and delivered-service boundary validation",
+      "possible_supplier": "Public representative field or stock-calibrated engineering evidence",
+      "claim_upgraded": "Observed/validated useful heat rather than provisional JRC model conversion",
+      "material_to_finalization": true
+    },
+    {
+      "id": "VD-B02-V1-HEAT-ALLOCATION",
+      "missing_exact_evidence": "Energy assignment to KSH mixed-fuel and building archetype cells; source-native mixed-fuel expenditure/use shares and SH/DHW links or a controlled estimator",
+      "possible_supplier": "Representative public evidence plus explicit constrained calibration and structural sensitivity",
+      "claim_upgraded": "Archetype demand and selected programme-cohort savings; direct average multiplication remains forbidden",
+      "material_to_finalization": true
+    },
+    {
+      "id": "VD-B02-V1-HEAT-WEATHER",
+      "missing_exact_evidence": "Same-boundary weather/service normalization when transferring 2022 annual heat to hourly reference weather",
+      "possible_supplier": "Existing physical B02/B06 model and observed HungaroMet time support with documented calibration",
+      "claim_upgraded": "Hourly demand and peak-load handoff; annual energy alone does not determine peak",
+      "material_to_finalization": true
+    }
+  ],
+  "forbidden_uses": [
+    "PROGRAMME_PARTICIPANT_COUNT_MULTIPLIER",
+    "OBSERVED_KSH_MEAN_HEAT_CLAIM",
+    "ARCHETYPE_ENERGY_ALLOCATION_WITHOUT_ESTIMATOR",
+    "ANNUAL_TO_DESIGN_PEAK",
+    "INDIVIDUAL_ELIGIBILITY",
+    "AUTOMATIC_REPLACEMENT_OF_SOLAR_OR_EXISTING_HEAT_PUMPS"
+  ],
+  "structural_diagnostics": [
+    "Native paired JRC vector versus same-year Eurostat end-use controls",
+    "Fixed H8000 total with jointly replaced SH/WH shares; changes only excluded district branch. Consistent national/district updates cancel exactly in non-district ledger; not non-district uncertainty",
+    "District non-H8000 DHW allocation stress does not change total national energy"
+  ],
+  "review_scope": "Independent focused source, native cohort and code review; not full V1 scientific validation; exact artifact hashes and test receipt bind the checkpoint"
+}

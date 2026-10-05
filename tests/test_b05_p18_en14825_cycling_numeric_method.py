@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.cycling_degradation_method import (
     MINIMUM_CAPACITY_COP_INPUT_REQUIRED,
     QUALIFIED,
@@ -57,7 +59,7 @@ class B05P18CyclingNumericMethodTests(unittest.TestCase):
         self.assertEqual(v["VAR-B05-COP-CYCLING-BIN"]["status"],"Q")
         f={r["formula_id"]:r for r in rows(FORMULAS)}
         self.assertIn("FORM-B05-EN14825-WATER-CYCLING-COP",f)
-        self.assertGreaterEqual(int({r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"]["readiness_percent"]),45)
+        assert_part_load_readiness_unassessed(self, {r["component_id"]:r for r in rows(READINESS)}["PART_LOAD_MODULATION"])
     def test_document_and_boundary_forbid_shortcuts(self):
         t=PACK.read_text(encoding="utf-8")
         self.assertIn("NOMINAL COP != COP AT MINIMUM CAPACITY",t)

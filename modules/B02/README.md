@@ -118,3 +118,29 @@ A KSH webtartalom CC BY 4.0, attribution required; a két source-history manifes
 `IN_PROGRESS` – a KSH V67 népszámlálási adatfolyamok materializáltak, a kanonikus archetípus-dimenziók szerződöttek, és B02-P21 a building-type valamint primary-energy WBL linkage-et APPROVED / JOSEPH / QUALIFIED állapotban biztosítja. B02-P50 ezért `Q-B02-002` kérdést RESOLVED-ra állítja a project-wide population-inference policy szerint. **Ez nem ad országos eligible-stock számot és nem emeli az ASS/MODELLED outputot OBS/DER-re.** `Q-B02-001` és `Q-B02-004` továbbra is nyitott. B02 readiness változatlanul 55%.
 
 Részletes szerződés: [`data_contract.md`](data_contract.md).
+
+## V1 national household final-energy controls
+
+[Eurostat control intake](../../docs/checkpoints/V1_005_B02_HOUSEHOLD_ENERGY_CONTROLS.md) separates end uses and energy products for Hungary in 2022–2024. It preserves missing cells and rounding residuals; it is not a useful-heat estimate or a programme savings result.
+
+[JRC household model controls](../../docs/checkpoints/V1_006_B02_JRC_MODEL_CONTROLS.md) retain selected 2022–2023 native cells and expose the end-use decomposition difference against Eurostat. They remain research calibration controls, without E2 admission.
+
+[Scoped annual heat E2 reference](../../docs/checkpoints/V1_008_B02_ANNUAL_HEAT_REFERENCE.md) uses the paired 2022 JRC SH/DHW cohorts, excludes the whole district cohort and separates circulation. KSH is a normalization-only denominator; participant scaling remains forbidden until the target-allocation estimator is admitted.
+
+[Historical type-prior and area-bridge experiment](../../docs/checkpoints/V1_009_HISTORICAL_PRIOR_AND_AREA_BRIDGE.md) conserves current WBL/P21 counts while keeping source census area separate from prototype geometry. Its weights and 2011-to-2022 area transfer remain explicit SCN/ASS, not E2 household assignments.
+
+[Reported2022 service controls](../../docs/checkpoints/V1_010_REPORTED_SERVICE_CONTROLS.md) retain gas-use-group survey means and their denominators. Separate mean dwelling area and mean heated fraction do not authorize mean heated area or a type-level heat allocation.
+
+## V1 current occupied-area reference
+
+`current_area_reference.calculate_reference()` provides source-bound 2022 census area enclosures and compares the preserved historical dwelling-area exposures. The published 82 m² mean is observed at publication precision; its nearest-whole interpretation and wider rounding sensitivity are explicit assumptions. Open bands retain their unbounded tails before applying the aggregate budget. This DER/E2 area diagnostic does not provide heated area, type weights or participant heat. See [V1-042](../../docs/checkpoints/V1_042_CURRENT_DWELLING_AREA_BOUNDS.md).
+
+## V1 conditional national accounting screens
+
+[National count and source-accounting bounds](../../docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md)
+combine native 2022 census group counts and the admitted JRC ledger in a
+parametric necessary-condition screen. Above-cap requirements are excluded
+within their stated boundaries; other requirements remain INCONCLUSIVE.
+The gas ledger includes natural gas and biogas. Nonempty selected groups
+retain the whole ledger cap, with no proportional heat assignment. Central
+heat allocation, eligibility and national feasibility remain unresolved.

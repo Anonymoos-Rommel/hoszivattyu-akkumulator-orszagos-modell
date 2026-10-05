@@ -159,7 +159,8 @@ class B05HeatPumpEngineTests(unittest.TestCase):
         self.assertEqual(interpolated.point.interpolation, "bilinear_bounded")
         self.assertAlmostEqual(interpolated.point.thermal_capacity_kw, 3.365, places=3)
         self.assertAlmostEqual(interpolated.point.electrical_input_kw, 1.207, places=3)
-        self.assertAlmostEqual(interpolated.point.cop, 2.939, places=3)
+        # Bilinear total-unit input is 1.2066666666666668 kW (=181/150).
+        self.assertAlmostEqual(interpolated.point.cop, 3.365 / (181.0 / 150.0), places=12)
         self.assertEqual(stiebel_map.evaluate(-21.0, 35.0).status, "Q / OUT_OF_PERFORMANCE_DOMAIN")
         self.assertEqual(stiebel_map.evaluate(-15.0, 35.0).status, "OBS")
         self.assertEqual(stiebel_map.evaluate(-18.0, 35.0).status, "Q / OUT_OF_PERFORMANCE_DOMAIN")

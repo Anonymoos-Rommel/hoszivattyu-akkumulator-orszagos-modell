@@ -2,6 +2,8 @@ import csv
 import unittest
 from pathlib import Path
 
+from tests.b05_readiness_assertions import assert_part_load_readiness_unassessed
+
 from modules.B05.mitsubishi_szu_sampling_report_boundary import (
     CertificateScope,
     SamplingArchitecture,
@@ -97,7 +99,7 @@ class B05P47MitsubishiSzuSamplingBoundaryTests(unittest.TestCase):
             self.assertIn(sid, s)
         self.assertEqual(len(rows(DATA)), 7)
         readiness = {r["component_id"]: r for r in rows(READINESS)}
-        self.assertGreaterEqual(int(readiness["PART_LOAD_MODULATION"]["readiness_percent"]), 45)
+        assert_part_load_readiness_unassessed(self, readiness["PART_LOAD_MODULATION"])
         text = PACK.read_text(encoding="utf-8")
         self.assertIn("PART_LOAD_MODULATION = **45%**", text)
         self.assertIn("CERTIFIED_SUBTYPE_IS_NOT_PROVEN_DIRECTLY_TESTED_SUBTYPE", p47_boundaries())
