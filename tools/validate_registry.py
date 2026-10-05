@@ -2226,6 +2226,7 @@ def validate() -> list[str]:
     validate_b01_capability_artifacts(errors)
     validate_b01_annual_artifacts(errors)
     validate_b01_population_planning_artifacts(errors)
+    validate_b01_benefit_metric_artifacts(errors, source_ids)
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
@@ -2305,6 +2306,34 @@ def validate_b01_population_planning_artifacts(errors: list[str]) -> None:
             errors.append("B01 source control demo cannot manufacture allocatable states")
     except (ValueError, TypeError, KeyError, OSError) as exc:
         errors.append(f"invalid B01 population planning contract: {exc}")
+
+
+def validate_b01_benefit_metric_artifacts(errors: list[str], source_ids: set[str]) -> None:
+    """Validate bounded metric semantics and method provenance; adopt no policy."""
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    try:
+        from modules.B01.benefit_metric_contract import load_benefit_contract
+        from modules.B01.engine import compare_benefit_ratios
+        contract = load_benefit_contract()
+        if not callable(compare_benefit_ratios):
+            errors.append("B01 benefit comparison entrypoint is missing")
+        owner = json.loads((REGISTRY / "owner_policy_decisions.json").read_text(encoding="utf-8"))
+        priority = owner["decisions"]["selection_priority"]
+        if any(priority[k] is not None for k in ("benefit_metric_definition", "public_cost_denominator", "normalization_and_weights")):
+            errors.append("B01 bounded benefit contract cannot adopt canonical metrics or weights")
+        for binding in contract["source_bindings"]:
+            if not (ROOT / binding["path"]).is_file():
+                errors.append(f"B01 benefit source binding missing: {binding['path']}")
+        for source in contract["method_sources"]:
+            if source["source_id"] not in source_ids:
+                errors.append(f"B01 benefit method source absent from registry: {source['source_id']}")
+            if (source["reuse_status"] != "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED" or
+                    source["repo_snapshot_path"] is not None or len(source["sha256"]) != 64 or
+                    source["admission"] != "METHOD_REFERENCE_ONLY_NO_PROGRAMME_VALUES_OR_CURRENT_SITE_ELIGIBILITY"):
+                errors.append("B01 method source must retain its bounded provenance and no-copy boundary")
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        errors.append(f"invalid B01 benefit metric contract: {exc}")
 
 
 def main() -> int:

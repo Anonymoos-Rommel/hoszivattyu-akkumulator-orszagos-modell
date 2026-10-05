@@ -175,6 +175,48 @@ synthetic tests exercise the remaining interface without becoming model defaults
 
 See [V1-064 boundaries and examples](../../docs/checkpoints/V1_064_B01_POPULATION_PLANNING_BRIDGE.md).
 
+## Signed benefit metrics and conditional public-HUF ordering
+
+`engine.compare_benefit_ratios(frame=..., definitions=..., policy=...,
+candidates=...)` composes the versioned
+`registry/b01_benefit_metric_contract.json` contract. The typed inputs and exact
+SCN consumer examples are in `benefit_metric_contract.py` and
+`tests/test_b01_benefit_metric_contract.py`.
+
+Each raw signed quantity retains its own household/project, bundle,
+baseline/programme, unit, actor, native periods, producer status and output
+digest. Candidates share an explicit comparison frame, not household IDs.
+Raw lower/upper/range bounds are independent of preference direction. Supplied
+monotone utility anchors produce separate traces, with no inferred weights,
+clipping, extrapolation or inter-metric score aggregation.
+
+The only new comparison method orders one declared benefit/public-HUF ratio
+with a positive denominator. Zero, negative and unknown denominators remain
+distinct. Ties, blocked candidates and unknown competitors remain visible;
+the best comparable group is not a complete winner or a budget-optimal portfolio.
+Optional Q diagnostics and unused weights do not gate this method.
+
+The mandatory household floor binds the exact bundle, counterfactual, first
+cashflow day and complete relevant cash-period inventory. Qualified
+not-applicable scope does not invent extra periods. Neither annual benefit nor
+utility offsets a cashflow failure. A separately qualified population scenario
+or estimate grants no individual pass. Overlap coverage is an upstream claim;
+distinct identifiers alone do not prove monetary independence. Shared source
+events can support distinct qualified effects. Utility redundancy is separate.
+
+B12 bindings preserve the actual producer result, original Case, MoneyBasis,
+Conversion and Valuation context. The adapter verifies the supplied audit
+against the unchanged producer for that exact Case; references and valid
+metadata do not promote Q. Native inclusive dates need an explicit adapter
+before comparison to half-open B01 horizons. Project costs cannot be renamed
+public spending, and composite bundles need their own qualified output or
+correspondence without a fabricated legacy transition.
+
+The accepted canonical benefit metric, denominator and weights remain unset;
+`Q-B01-006` stays open. A complete SCN comparison neither selects work, reserves
+resources, grants permission nor adopts policy. V1-062/063/064 and the legacy
+APIs remain unchanged. See [V1-065 scope and witnesses](../../docs/checkpoints/V1_065_B01_BENEFIT_METRIC_CONTRACT.md).
+
 ## Executable B01-P1 compatibility contract
 
 `registry/household_state_model.json` a történeti S0–S5 state-record,
@@ -198,6 +240,9 @@ a régi selector többszöri hívása nem helyettesíti ezt a nyilvántartást.
   kilenc V1.2 komponenshez és explicit resource-needs mezőkhöz kötött.
 - MCDA, lexikografikus és capacity-limited ordering csak teljes, explicit
   `POL`/`SCN`/`DER`/`OBS` policy-paraméterekkel fut; hiányzó érték nem nulla.
+- A történeti `hard_minimum` szó szerint alsó korlát (`>=`), `MINIMIZE`
+  rangsorolás mellett is. Nem helyettesít nyers költségre adott felső korlátot;
+  az új metrikaszerződés ennek külön operátort ad, a régi eredmény változtatása nélkül.
 - A state-stock aggregáció konzervál, régiós összeget képez, és csak `SCN`
   outputot ad. A bounded fixture nem országos eligible-stock vagy rollout
   eredmény.

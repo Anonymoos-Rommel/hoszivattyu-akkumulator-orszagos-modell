@@ -832,3 +832,13 @@ def population_source_demo():
     """Read existing P84 controls and the unchanged terminal-eligibility Q bound."""
     from modules.B01.population_planning_bridge import p84_source_demo
     return p84_source_demo()
+
+
+def compare_benefit_ratios(**explicit_inputs):
+    """Trace signed metrics, supplied utilities and compatible public-HUF ratios.
+
+    Household cashflow protection stays mandatory. This conditional comparison
+    neither selects work nor reserves resources; the canonical owner metric is Q.
+    """
+    from modules.B01.benefit_metric_contract import compare_benefit_ratios as compare
+    return compare(**explicit_inputs)
