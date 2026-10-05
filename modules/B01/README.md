@@ -147,6 +147,34 @@ must supply qualified data or explicit scenarios, with no numerical defaults.
 
 See [V1-063 annual planning boundaries](../../docs/checkpoints/V1_063_B01_ANNUAL_BUNDLE_LEDGER.md).
 
+## Population planning and actual-record correspondence
+
+`engine.create_population_plan(...)` consumes a qualified population state
+partition or explicit SCN inputs, intervention alternatives and complete aligned
+joint realizations. One fixed dated allocation schedule runs unchanged in every
+world. Exact origin intervals are reserved immediately, while stock changes
+state only at the declared qualified milestone. Repeated phases preserve origin
+lineage, so transition throughput remains distinct from unique planning mass.
+
+Requirements retain per-native-unit coefficients and their own payment or
+occupancy dates. Annual flows, concurrent peaks and optional dated envelope fit
+are separate. Missing capacity coverage remains Q. No policy weights, actual
+programme resources, permissions, finance or individual completions are inferred.
+
+The report separately evaluates supplied actual `CapabilitySnapshot` records
+through the existing B01 entrypoint and counts record/household/dwelling/site
+identities at their proper grain. Correspondence never changes population mass.
+An admitted E2 model may run with explicit validation debt; exhaustive household
+coverage is not required for aggregate modelling.
+
+`engine.population_source_demo()` reuses the existing P84 reader: 40 controls,
+3,389,817 occupied non-district-heated 2022 dwellings, and terminal eligibility
+still Q with [0, 3,389,817] bounds. These source controls supply no new state
+shares, intervention-eligible mass, 2028 forecast or actual addresses. Complete
+synthetic tests exercise the remaining interface without becoming model defaults.
+
+See [V1-064 boundaries and examples](../../docs/checkpoints/V1_064_B01_POPULATION_PLANNING_BRIDGE.md).
+
 ## Executable B01-P1 compatibility contract
 
 `registry/household_state_model.json` a történeti S0–S5 state-record,

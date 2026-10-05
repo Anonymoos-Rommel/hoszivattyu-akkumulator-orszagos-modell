@@ -2225,6 +2225,7 @@ def validate() -> list[str]:
     validate_b01_artifacts(errors)
     validate_b01_capability_artifacts(errors)
     validate_b01_annual_artifacts(errors)
+    validate_b01_population_planning_artifacts(errors)
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
@@ -2281,6 +2282,29 @@ def validate_b01_annual_artifacts(errors: list[str]) -> None:
             errors.append("B01 annual opening commitments must preserve Q versus explicit absence")
     except (ValueError, TypeError, KeyError, OSError) as exc:
         errors.append(f"invalid B01 annual bundle contract: {exc}")
+
+
+def validate_b01_population_planning_artifacts(errors: list[str]) -> None:
+    """Validate the bounded population bridge and reuse the actual P84 reader."""
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    try:
+        from modules.B01.population_planning_bridge import load_population_contract
+        from modules.B01.engine import population_source_demo
+        contract = load_population_contract()
+        for source in contract["source_bindings"]:
+            if not (ROOT / source["path"]).is_file():
+                errors.append(f"B01 population planning source binding is missing: {source['path']}")
+        demo = population_source_demo()
+        if (demo["control_count"], demo["represented_mass"], demo["native_unit"], demo["reference_date"]) != (40, 3389817, "DWELLING", "2022-10-01"):
+            errors.append("B01 population bridge source controls differ from the 2022 P84 boundary")
+        envelope = demo["terminal_eligibility"]
+        if (envelope.status, envelope.eligible_lower_dwellings, envelope.eligible_upper_dwellings) != ("Q", 0, 3389817):
+            errors.append("B01 population bridge cannot invent terminal eligibility")
+        if demo["planning_state_distribution"] is not None or demo["intervention_eligible_mass"] is not None:
+            errors.append("B01 source control demo cannot manufacture allocatable states")
+    except (ValueError, TypeError, KeyError, OSError) as exc:
+        errors.append(f"invalid B01 population planning contract: {exc}")
 
 
 def main() -> int:

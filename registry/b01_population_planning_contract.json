@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0.0",
+  "contract_id": "B01-POPULATION-PLANNING-BRIDGE",
+  "canonical_entrypoint": "modules.B01.engine.create_population_plan",
+  "source_demo_entrypoint": "modules.B01.engine.population_source_demo",
+  "status": "BOUNDED_POPULATION_PLANNING_NO_ACTUAL_COMPLETION_OR_PERMISSION",
+  "scope": "Closed reference population, externally qualified disjoint cells and origin lots, exact represented mass, fixed explicitly ordered allocations and supplied aligned joint worlds. No calibration, optimizer, empirical national state model or new numerical policy.",
+  "native_units": [
+    "DWELLING",
+    "HOUSEHOLD",
+    "BUILDING"
+  ],
+  "evidence_modes": [
+    "ADMITTED_ESTIMATE",
+    "SCN"
+  ],
+  "input_boundary": "Scientific admission is upstream. ADMITTED_ESTIMATE requires a claim-specific qualification, model/version, exact output digest, sources/hashes, selection and weighting, validation diagnostics, structural sensitivity, uncertainty, one central definition and explicit coverage/missingness. E2 permits modelling with validation debt. SCN requires a supplied scenario premise. Neither a DER label nor a source string alone establishes admission. CONTROL and Q do not establish an allocatable state distribution. Each option/world also supplies an eligible origin-interval set in stable statistical mass coordinates, qualified for the exact option and source-state definition. Its union equals the claimed eligible mass; missing sets remain UNKNOWN and scalar marginals never create a joint set.",
+  "mass_boundary": "One native represented-mass quantity per origin lot/world; never multiplied by a sample expansion weight. Qualified disjoint partition and exact compatible control reconciliation, with uncovered atoms and Q retained. Cell scope atoms and initial origin IDs must be disjoint. The code validates these qualified identities, not raw scientific source truth. The independently qualified target_control universe is separate from supplied Control rows; omitted whole controls remain visibly uncovered. A bounded regional scope explicitly declares its own target set.",
+  "timing": "Explicit IANA timezone and half-open calendar dates. Reserve source intervals immediately; keep stock in the source state until the effective completion or qualified milestone, effective at the start of that date. Resource due dates and occupancy intervals are independent. Composite options have qualified endpoints without invented component order.",
+  "uncertainty": "One fixed schedule unchanged across every complete aligned joint world. Rejected allocations are recorded with their full requested mass; no clipping, reoptimization, independent-marginal product, equal probability, automatic robust rule or overall policy verdict. Supplied probabilities are retained only; they are not converted into confidence bounds or a decision rule. Full fixed-schedule resource requirements remain reported even for world-specific rejected allocations; separately posted resources refer only to the admitted subset.",
+  "reservation": "Session owns cumulative origin intervals and current revision. Different alternatives and aliases cannot consume the same source interval twice. Identical retries at the current revision are idempotent; changed identity/definitions require requalification. Failed per-world allocations do not post mass or resource demands; earlier successful allocations remain. Reports explicitly identify the admitted subset when a full schedule is infeasible. Selected source intervals in the fixed decision schedule may not overlap even when an earlier request was infeasible in a world. Failed requests do not release a choice for an implicit world-specific fallback; choosing another alternative requires an explicitly requalified plan.",
+  "resources": "Native mass times explicit compatible per-unit coefficients, with resource kind/unit/pool/region/actor/basis/source and separate windows. FLOW sums by explicit due-date year; OCCUPANCY reports half-open concurrent segments and peak. Requirement inventory is qualified upstream; empty inventory needs its own explicit qualification. Optional envelopes assess only their declared compatible windows. Gaps remain Q; no actual funding, household affordability, network permission or installer capacity is inferred. An envelope with no matching resource/date demand is NOT_APPLICABLE and does not gate an allocation. Explicit qualified zero demand fits the nonnegative capacity domain even with a Q ceiling; the ceiling remains null and retains its provenance. Unknown demand and positive applicable demand against a Q ceiling remain Q; known excess remains FAIL. Missing actual-demand coverage remains separately Q.",
+  "correspondence": "Explicit dated many-to-many record/household/source-population-unit/dwelling/site/cell relation. Distinct identities are reported separately at REAL and SCN scope. Ambiguous or stale membership remains unresolved. Links never alter planning mass or expand individual rights. Supplied CapabilitySnapshots are evaluated through the unchanged public B01 record entrypoint with their own identity/evidence/date. Native DWELLING/HOUSEHOLD IDs use an explicitly qualified shared canonical namespace in this first interface; literal equality is a consistency check, not proof of real identity. Differing source namespaces require a qualified upstream crosswalk.",
+  "outputs": [
+    "control_reconciliation",
+    "dated_stock",
+    "allocation_outcomes",
+    "resource_requirements",
+    "per_world_envelope_fit",
+    "unique_origin_planning_mass",
+    "transition_throughput",
+    "separate_record_assessment"
+  ],
+  "deferred": [
+    "general cell split/merge/geography reclassification without new qualification",
+    "demographic roll-forward estimator",
+    "adaptive policies and decision-time observability",
+    "population outcome estimator",
+    "distributed persistence and cancellation",
+    "actual funding capacity and full household finance"
+  ],
+  "numeric_defaults": {},
+  "original_task_acceptance_changed": false,
+  "source_bindings": [
+    {
+      "source_id": "SRC-B02-KSH-CENSUS-API-2022",
+      "path": "modules/B02/terminal_eligibility_population_inference.py",
+      "use": "Reuse 40 source-native 2022 controls and current terminal eligibility Q bounds only."
+    },
+    {
+      "path": "registry/b02_p84_terminal_eligibility_population_inference.csv",
+      "use": "Existing population inference boundary, not a new admission."
+    },
+    {
+      "path": "docs/methodology/population_inference_policy.md",
+      "use": "Claim-specific admitted aggregate inference; no population-to-record permission."
+    },
+    {
+      "path": "docs/methodology/evidence_tier_and_validation_debt_policy.md",
+      "use": "E2 modelling with explicit validation debt; no universal E1 prerequisite."
+    },
+    {
+      "path": "registry/household_capability_contract.json",
+      "use": "Separate actual-record assessment; unchanged V1-062 authority."
+    },
+    {
+      "path": "registry/b01_annual_bundle_contract.json",
+      "use": "Actual household bundle planning remains separate; no population cell masquerades as one household."
+    },
+    {
+      "path": "registry/owner_policy_decisions.json",
+      "use": "No new owner weights, annual capacity, finance or completion policy."
+    }
+  ],
+  "envelope_fit_statuses": [
+    "NOT_APPLICABLE",
+    "PASS",
+    "Q",
+    "FAIL"
+  ]
+}

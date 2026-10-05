@@ -815,3 +815,20 @@ def create_annual_plan(**explicit_inputs):
     """
     from modules.B01.annual_bundle_ledger import AnnualPlanSession
     return AnnualPlanSession(**explicit_inputs)
+
+
+def create_population_plan(**explicit_inputs):
+    """Compose qualified population outputs, dated planning and actual records.
+
+    The returned session evaluates fixed schedules across supplied joint worlds.
+    Its report keeps population stock/resources separate from actual Capability-
+    Snapshot assessments; a source control is not intervention-eligible mass.
+    """
+    from modules.B01.population_planning_bridge import PopulationPlanSession
+    return PopulationPlanSession(**explicit_inputs)
+
+
+def population_source_demo():
+    """Read existing P84 controls and the unchanged terminal-eligibility Q bound."""
+    from modules.B01.population_planning_bridge import p84_source_demo
+    return p84_source_demo()
