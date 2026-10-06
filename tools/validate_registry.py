@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import re
 import sys
@@ -2243,6 +2244,7 @@ def validate() -> list[str]:
     validate_b08_artifacts(errors, source_ids)
     validate_b09_artifacts(errors, source_ids)
     validate_b10_artifacts(errors, source_ids)
+    validate_b11_seasonal_references(errors, source_ids)
 
     return errors
 
@@ -2354,6 +2356,163 @@ def validate_b07_shared_use_artifacts(errors: list[str]) -> None:
         load_shared_use_contract()
     except (ValueError, TypeError, KeyError, OSError) as exc:
         errors.append(f"invalid B07 shared-use schedule contract: {exc}")
+
+def validate_b11_seasonal_references(errors: list[str], source_ids: set[str]) -> None:
+    """Validate this bounded source inventory, without creating a runtime consumer."""
+    path = REGISTRY / "b11_seasonal_boiler_reference_manifest.json"
+    prefix = "B11 seasonal reference"
+
+    def require(condition, message):
+        if not condition:
+            errors.append(f"{prefix}: {message}")
+
+    authority = {
+        "applicability_status": "Q", "fuel_volume_authority_status": "Q",
+        "usable_for_engine": False, "model_default_admitted": False,
+        "national_factor_admitted": False, "task_accepted": False,
+    }
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        require(set(manifest) == {"schema_version", "handoff_id", "status", "owner_module", "research_slice_id", "source_fact_policy", "target_authority", "sources", "families", "validation_debt", "allowed_next_use"}, "unexpected/missing manifest fields")
+        require(manifest["schema_version"] == 1 and manifest["status"] == "QUALIFIED_SOURCE_REFERENCES_ONLY", "invalid source-reference contract")
+        require(manifest["owner_module"] == "B11" and manifest["research_slice_id"] == "B11-D01", "invalid owner/slice")
+        require(all(type(manifest["target_authority"][k]) is type(v) for k, v in authority.items()), "invalid top-level authority field types")
+        require(manifest["target_authority"] == authority, "retain Q authority and no admission/default/task acceptance")
+        sources = manifest["sources"]
+        by_id = {s["source_id"]: s for s in sources}
+        require(len(by_id) == len(sources) == 5, "source identities must be unique and complete")
+        global_rows = {r["source_id"]: r for r in read_csv(REGISTRY / "sources.csv")[1]}
+        local_rows = read_csv(REGISTRY / "b11_gas_efficiency_sources.csv")[1]
+        for sid, source in by_id.items():
+            matches = [r for r in local_rows if r["source_id"] == sid]
+            require(sid in source_ids and sid in global_rows and len(matches) == 1, f"missing/duplicate global or local source {sid}")
+            if sid not in global_rows or len(matches) != 1:
+                continue
+            global_row, local_row = global_rows[sid], matches[0]
+            for field in ("original_url", "retrieved_at", "reference_period", "authority", "document_date_basis", "reuse_note"):
+                require(isinstance(source[field], str) and bool(source[field].strip()), f"missing {field} for {sid}")
+            require(source["original_url"].startswith("https://"), f"invalid original URL {sid}")
+            require(bool(re.fullmatch(r"[a-f0-9]{64}", source["sha256"])), f"invalid source hash {sid}")
+            require(type(source["bytes"]) is int and source["bytes"] > 0, f"invalid original byte count {sid}")
+            require(source["sha256"] == global_row["local_snapshot_sha256"], f"global source hash mismatch {sid}")
+            require(source["original_url"] == global_row["url"] == local_row["url"], f"source URL mismatch {sid}")
+            require(source["retrieved_at"][:10] == global_row["retrieved_at"] == local_row["retrieved_at"], f"retrieval date mismatch {sid}")
+            require(source["reference_period"] == global_row["reference_period"] == local_row["reference_period"], f"source period mismatch {sid}")
+            require(source["source_tier"] == global_row["source_tier"] == local_row["source_tier"], f"source tier mismatch {sid}")
+            require(source["title"] == global_row["title"] == local_row["title"], f"source title mismatch {sid}")
+            require(source["authority"] == global_row["institution"] == local_row["institution"], f"source authority mismatch {sid}")
+            expected_status = "DER" if source["family_id"] == "EST-CONDENSING-FIELD-TRIAL" else "OBS"
+            require(global_row["evidence_status"] == local_row["evidence_status"] == expected_status, f"source evidence type mismatch {sid}")
+            require(global_row["module_id"] == local_row["module_id"] == "B11", f"source owner mismatch {sid}")
+            require(local_row["authority_status"] == "SOURCE_REFERENCE_ONLY_NO_RUNTIME_ADMISSION", f"local source admitted {sid}")
+            require(source["repo_snapshot_path"] is None and source["reuse_status"] == "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED", f"original-document copy not cleared {sid}")
+        families = manifest["families"]
+        require(set(families) == {"BOILEFF", "EST-CONDENSING-FIELD-TRIAL"}, "family identity mismatch")
+        memberships = [sid for family in families.values() for sid in family["source_ids"]]
+        require(len(memberships) == len(set(memberships)) and set(memberships) == set(by_id), "each source must belong to exactly one family")
+        expected_row_fields = {"case_id", "geography", "appliance_class", "gcv_efficiency_pct", "truth", "source_id", "family_id", "locator", "boundary_id", "period_id", "use_scope"}
+        family_fields = {"source_ids", "target_authority", "record_kind", "records", "record_field_policy", "period", "gas_basis", "calibration", "records_sha256"}
+        extra_family_fields = {
+            "BOILEFF": {"cohort", "heat_boundary", "aggregate_discrepancy", "lineage", "case_detail_limits"},
+            "EST-CONDENSING-FIELD-TRIAL": {"heat_boundaries", "boundary_locator", "denominator", "selection", "source_subgroups", "substitution", "subgroup_audit", "limits", "continuation_2010"},
+        }
+        for fid, family in families.items():
+            require(set(family) == family_fields | extra_family_fields[fid], f"unexpected/missing family fields {fid}")
+            require(all(type(family["target_authority"][k]) is type(v) for k, v in authority.items()), f"invalid authority field types {fid}")
+            require(family["target_authority"] == authority, f"family authority/default promotion {fid}")
+            require(all(by_id[sid]["family_id"] == fid for sid in family["source_ids"]), f"mixed source families {fid}")
+            basis = family["gas_basis"]
+            require(basis["reported_energy_basis"] == "GCV" and basis["status"] == "Q", f"energy basis mislabelled {fid}")
+            for field in ("fuel_subtype", "calorific_reference_temperature_c", "gas_quality_context_id", "compatible_gcv_lhv_pair", "volume_reference_state", "lhv_efficiency", "runtime_fuel_volume"):
+                require(basis[field] is None, f"invented gas-basis/volume field {fid}/{field}")
+            require(family["calibration"] == {"case_instrument_certificates": None, "propagated_efficiency_uncertainty": None, "status": "Q"}, f"invented uncertainty {fid}")
+            records = family["records"]
+            require(len(records) == len({r["case_id"] for r in records}), f"duplicate case IDs {fid}")
+            digest = hashlib.sha256(json.dumps(records, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+            require(digest == family["records_sha256"], f"native record integrity mismatch {fid}")
+            is_boi = fid == "BOILEFF"
+            extra_fields = set() if is_boi else {"months_without_substitution", "months_with_substitution", "substituted_days", "substitution_locator"}
+            expected_source = "SRC-B11-BOILEFF-FINAL-2009" if is_boi else "SRC-B11-EST-FIELD-2009"
+            expected_policy = {
+                "gcv_efficiency_pct": {
+                    "unit": "percent_GCV", "truth": "OBS" if is_boi else "DER",
+                    "statistic": "SOURCE_LABELLED_MEASURED_EFFICIENCY" if is_boi else "SOURCE_PROCESSED_ACCEPTED_ANNUAL_HEAT_OUTPUT_OVER_GAS_ENERGY",
+                    "raw_uninterrupted_measurement_claim": False,
+                },
+            }
+            if not is_boi:
+                expected_policy.update({
+                    "months_without_substitution": {"unit": "month", "truth": "OBS", "statistic": "SOURCE_REPORTED_ACCEPTANCE_COUNT"},
+                    "months_with_substitution": {"unit": "month", "truth": "OBS", "statistic": "SOURCE_REPORTED_ACCEPTANCE_COUNT"},
+                    "substituted_days": {"unit": "day", "truth": "OBS", "statistic": "SOURCE_REPORTED_SUBSTITUTION_COUNT"},
+                })
+            require(family["record_field_policy"] == expected_policy, f"source field policy mismatch {fid}")
+            require(family["record_field_policy"]["gcv_efficiency_pct"]["raw_uninterrupted_measurement_claim"] is False, f"raw uninterrupted claim {fid}")
+            for row in records:
+                case = row["case_id"]
+                require(set(row) == expected_row_fields | extra_fields, f"unexpected/missing native fields {case}")
+                require(row["family_id"] == fid and row["source_id"] == expected_source and expected_source in family["source_ids"], f"mixed row/source family {case}")
+                require(row["truth"] == ("OBS" if is_boi else "DER") == family["record_field_policy"]["gcv_efficiency_pct"]["truth"], f"source fact type mismatch {case}")
+                require(isinstance(row["locator"], str) and bool(row["locator"]), f"missing native locator {case}")
+                value = Decimal(row["gcv_efficiency_pct"])
+                require(value.is_finite() and 0 < value <= 100, f"invalid native GCV percent {case}")
+                if is_boi:
+                    require(row["appliance_class"] == "gas_condensing_installation", f"BOILeff source-qualified appliance class mismatch {case}")
+                    country = case.split()[0]
+                    require(country in {"HU", "AT"} and row["geography"] == country, f"mixed BOILeff geography {case}")
+                    require(row["use_scope"] == ("HISTORICAL_HU_REFERENCE" if country == "HU" else "SAME_FAMILY_AT_AGGREGATE_CONTEXT"), f"mixed BOILeff applicability {case}")
+                    require(row["boundary_id"] == "BOILEFF_CASE_BOUNDARY_UNRESOLVED" and row["period_id"] == "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN", f"invented BOILeff boundary/coverage {case}")
+                else:
+                    boundaries = {"combination": "COMBI_BOILER_SH_DHW_OUTPUT", "regular": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER", "CPSU": "CPSU_INTEGRAL_STORE"}
+                    require(row["geography"] == "UK" and row["boundary_id"] == boundaries.get(row["appliance_class"]), f"mixed UK service/geography boundary {case}")
+                    require(row["period_id"] == "EST_SITE_ACCEPTED_12_MONTHS" and row["use_scope"] == "HISTORICAL_UK_REFERENCE", f"UK period/applicability mismatch {case}")
+                    counts = [row[k] for k in ("months_without_substitution", "months_with_substitution", "substituted_days")]
+                    require(all(type(x) is int and x >= 0 for x in counts) and sum(counts[:2]) == 12, f"invalid UK substitution counts {case}")
+                    require(bool(row["substitution_locator"]), f"missing substitution join locator {case}")
+        boi, uk = families["BOILEFF"], families["EST-CONDENSING-FIELD-TRIAL"]
+        require({k: sum(r["geography"] == k for r in boi["records"]) for k in ("HU", "AT")} == {"HU": 6, "AT": 8}, "BOILeff cohort must retain six HU and eight separate AT rows")
+        require({k: sum(r["appliance_class"] == k for r in uk["records"]) for k in ("combination", "regular", "CPSU")} == {"combination": 31, "regular": 10, "CPSU": 2}, "UK cohort/class counts changed")
+        for key in ("individual_make_model", "commissioning_date_or_age", "case_control_details"):
+            require(boi["case_detail_limits"][key] is None, f"invented BOILeff case detail {key}")
+        for key in ("predicted_efficiency_or_guarantee_band_is_measurement_uncertainty", "climate_corrected_saving_is_old_new_conversion_pair", "old_conventional_baseline_established"):
+            require(boi["case_detail_limits"][key] is False, f"BOILeff unsupported inference {key}")
+        aggregate = boi["aggregate_discrepancy"]
+        require({k: v["value"] for k, v in aggregate["source_reported"].items()} == {"HU": "86.00", "AT": "89.63", "ALL_14": "87.9"}, "source aggregates must not be repaired")
+        require(aggregate["status"] == "UNRESOLVED_SOURCE_AGGREGATION" and aggregate["weights"] is None and aggregate["source_aggregates_repaired"] is False and aggregate["default_selected"] is False, "aggregate discrepancy/default boundary changed")
+        require(boi["period"]["blank_agreement"]["completed_observation_evidence"] is False and boi["period"]["completed_case_intervals"] is None, "planned readings are not completion evidence")
+        require(boi["lineage"]["independent_replication"] is False and boi["lineage"]["jrc_available_date_is_print_publication_date"] is False, "BOILeff lineage/date authority changed")
+        for key in ("pooled_unlike_boundaries", "sd_is_measurement_uncertainty_or_ci", "extrema_are_population_or_prediction_intervals", "usage_weighted_table_14_substituted"):
+            require(uk["source_subgroups"][key] is False, f"UK statistic boundary changed {key}")
+        for key in ("annual_table_heat_adjustment_applied", "illustrative_cylinder_loss_adjustment_adopted", "sap_factor_adopted", "qa_thresholds_are_measurement_uncertainty", "controls_service_weather_standardized"):
+            require(uk["limits"][key] is False, f"UK unsupported adjustment {key}")
+        for kind, mean, sd in (("combination", "82.5", "4.0"), ("regular", "85.3", "2.5")):
+            published = uk["source_subgroups"][kind]
+            require((published["mean"]["value"], published["sample_sd"]["value"]) == (mean, sd), f"UK published statistics changed {kind}")
+            require(all(published[k]["truth"] == "DER" for k in ("mean", "sample_sd", "minimum", "maximum")), f"UK statistic type mismatch {kind}")
+        require(uk["source_subgroups"]["CPSU"]["pooled_mean_adopted"] is None and uk["source_subgroups"]["CPSU"]["pooled_sd_adopted"] is None, "CPSU pooling not admitted")
+        require(uk["subgroup_audit"]["truth"] == "DER", "UK subgroup audit is derived")
+        for kind, audit in uk["subgroup_audit"]["subgroups"].items():
+            rows = [r for r in uk["records"] if r["appliance_class"] == kind]
+            expected = (len(rows), sum(r["substituted_days"] > 0 for r in rows), sum(r["substituted_days"] for r in rows), sum(r["months_without_substitution"] for r in rows), sum(r["months_with_substitution"] for r in rows), len(rows) * 365)
+            fields = ("n", "sites_with_substitution", "sum_substituted_days", "months_without_substitution", "months_with_substitution", "source_convention_days_denominator")
+            require(tuple(audit[k] for k in fields) == expected, f"UK subgroup audit reconciliation {kind}")
+        substitution = uk["substitution"]
+        for key, expected in (("months_without_substitution", 449), ("months_with_substitution", 67), ("substituted_days", 225)):
+            require(sum(row[key] for row in uk["records"]) == substitution[key]["value"] == expected, f"UK substitution reconciliation {key}")
+        require(substitution["contradictory_prose_percent"]["value"] == "2.3" and substitution["source_prose_repaired"] is False and substitution["raw_uninterrupted_measurement_claim"] is False, "UK source-prose/raw-record boundary changed")
+        continuation = uk["continuation_2010"]
+        require(continuation["same_cohort_family"] is True, "UK continuation must retain same family")
+        for key in ("independent_replication", "counts_reconciled", "added_to_2009_cohort", "tpi_savings_factor_adopted"):
+            require(continuation[key] is False, f"UK continuation is not additive/reconciled {key}")
+        require(continuation["unique_homes_inferred"] is None, "UK unique-home inference forbidden")
+        plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
+        task = next(s for m in plan["modules"] for s in m["slices"] if s["slice_id"] == "B11-D01")
+        require(task["status"] == "INTEGRATING" and not task["accepted_artifacts"] and not task["consumer_tests"] and task["reviewed_commit"] is None, "original task acceptance cannot change")
+        require(task["canonical_source_ids"] == ["SRC-B06-TABULA-HU-CALCULATOR-2016", "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE"], "seasonal references cannot replace/admit canonical defaults")
+        require(set(task["validation_debt_ids"]) == {d["id"] for d in manifest["validation_debt"]} and all(d["status"] == "Q" for d in manifest["validation_debt"]), "source debt must remain explicit")
+    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, StopIteration, InvalidOperation) as exc:
+        errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
+
 
 def main() -> int:
     errors = validate()

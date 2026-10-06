@@ -1,0 +1,1619 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B11-SEASONAL-BOILER-REFERENCE-2026",
+  "status": "QUALIFIED_SOURCE_REFERENCES_ONLY",
+  "owner_module": "B11",
+  "research_slice_id": "B11-D01",
+  "source_fact_policy": "OBS is source-reported measured BOILeff field efficiency or reported counts; DER is UK processed accepted field efficiency, source statistics or explicitly marked audit arithmetic. Neither means raw uninterrupted measurement or target authority. Dates, source/table/page identifiers and schema versions are provenance metadata.",
+  "target_authority": {
+    "applicability_status": "Q",
+    "fuel_volume_authority_status": "Q",
+    "usable_for_engine": false,
+    "model_default_admitted": false,
+    "national_factor_admitted": false,
+    "task_accepted": false
+  },
+  "sources": [
+    {
+      "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+      "family_id": "BOILEFF",
+      "original_url": "https://wupperinst.org/uploads/tx_wupperinst/BOILeff_final_report.pdf",
+      "retrieved_at": "2026-10-05T18:37:19.872899+00:00",
+      "document_date": "2009-11",
+      "document_date_precision": "month",
+      "document_date_basis": "Cover month; no exact publication day established",
+      "reference_period": "heating period 2008/2009; case-specific coverage unknown",
+      "title": "Raising the efficiency of new heating systems BOILeff",
+      "authority": "Austrian Energy Agency; Günter R. Simader and Franz Zach",
+      "source_tier": "P2",
+      "sha256": "706ed941885560de8b35da8360e0f6a897364b9b506fb1baaf5fad1e0d332cb9",
+      "bytes": 4563172,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Original documents and full extracted text remain external-only. No blanket source licence or original-document redistribution permission established; only necessary attributed factual references and own qualification metadata retained."
+    },
+    {
+      "source_id": "SRC-B11-BOILEFF-EEDAL-2010",
+      "family_id": "BOILEFF",
+      "original_url": "https://publications.jrc.ec.europa.eu/repository/bitstream/JRC56066/reqno_jrc56066_eedal09-vol2.pdf.pdf",
+      "retrieved_at": "2026-10-05T18:40:27.115926+00:00",
+      "document_date": "2010",
+      "document_date_precision": "year",
+      "document_date_basis": "Proceedings year; 2009 conference; exact print-publication date not established",
+      "reference_period": "preliminary Austrian results; chart October 2008–March 2009; readings planned through May/June 2009",
+      "title": "Raising the Efficiency of Boiler Installations BOILeff in EEDAL 09 proceedings volume 2",
+      "authority": "Simader, Trnka, Zach, Coronas, Bruno, Puig-Arnavat, Quince, Barthel, Wohlauf, Lezsovits; JRC official repository",
+      "source_tier": "P2",
+      "sha256": "0541e53b736931a34e74705a7ab924715cb8eee1eee624ba29e9d1163ab581d2",
+      "bytes": 11560999,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Original documents and full extracted text remain external-only. No blanket source licence or original-document redistribution permission established; only necessary attributed factual references and own qualification metadata retained."
+    },
+    {
+      "source_id": "SRC-B11-EST-FIELD-2009",
+      "family_id": "EST-CONDENSING-FIELD-TRIAL",
+      "original_url": "https://assets.publishing.service.gov.uk/media/5a75149be5274a3cb28697f7/In-situ_monitoring_of_condensing_boilers_final_report.pdf",
+      "retrieved_at": "2026-10-05T18:42:03.676350+00:00",
+      "document_date": "2009-06",
+      "document_date_precision": "month",
+      "document_date_basis": "Report cover June 2009",
+      "reference_period": "43 accepted site-specific 12-month datasets; source overview September 2007–November 2008 and acceptance table June 2007–October 2008",
+      "title": "In-situ monitoring of efficiencies of condensing boilers and use of secondary heating",
+      "authority": "GASTEC at CRE, AECOM, EA Technology for Energy Saving Trust; GaC3563",
+      "source_tier": "P2",
+      "sha256": "c3c484dcc8fc4bd5ee945d4a0f9d7c7a75c4453e403e6f1d240c5395d05f6fd3",
+      "bytes": 4447005,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Original documents and full extracted text remain external-only. No blanket source licence or original-document redistribution permission established; only necessary attributed factual references and own qualification metadata retained."
+    },
+    {
+      "source_id": "SRC-B11-EST-TPI-2010",
+      "family_id": "EST-CONDENSING-FIELD-TRIAL",
+      "original_url": "https://assets.publishing.service.gov.uk/media/5a78c2b0ed915d042206520a/1149-condensing-boilers.pdf",
+      "retrieved_at": "2026-10-05T18:42:03.395623+00:00",
+      "document_date": "2010-09",
+      "document_date_precision": "month",
+      "document_date_basis": "Report cover September 2010",
+      "reference_period": "extension October 2008–February 2010; TPI installations December 2008–February 2009",
+      "title": "In-situ monitoring of efficiencies of condensing boilers TPI control project extension",
+      "authority": "GASTEC at CRE, AECOM, EA Technology for Energy Saving Trust; GaC3700",
+      "source_tier": "P2",
+      "sha256": "3dcf7923186440d1983ede41275fe88976e4132d6d234f5c08ca55144fb42b6d",
+      "bytes": 1746649,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Original documents and full extracted text remain external-only. No blanket source licence or original-document redistribution permission established; only necessary attributed factual references and own qualification metadata retained."
+    },
+    {
+      "source_id": "SRC-B11-JRC-EEDAL-RECORD",
+      "family_id": "BOILEFF",
+      "original_url": "https://publications.jrc.ec.europa.eu/repository/handle/JRC56066",
+      "retrieved_at": "2026-10-05T18:49:17.437307+00:00",
+      "document_date": null,
+      "document_date_precision": "unknown",
+      "document_date_basis": "Retrieved repository record; 2010-02-08 is Date available, not exact print-publication date",
+      "reference_period": "conference 16–18 June 2009; not field observation interval",
+      "title": "Energy Efficiency in Domestic Appliances and Lighting Proceedings EEDAL 09",
+      "authority": "European Commission JRC",
+      "source_tier": "P1",
+      "sha256": "8d9eeb30f3ebdf0a0f42d517a9078f87ba4e75e17a7230e4122ab98470052614",
+      "bytes": 4003471,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Original documents and full extracted text remain external-only. No blanket source licence or original-document redistribution permission established; only necessary attributed factual references and own qualification metadata retained."
+    }
+  ],
+  "families": {
+    "BOILEFF": {
+      "source_ids": [
+        "SRC-B11-BOILEFF-FINAL-2009",
+        "SRC-B11-BOILEFF-EEDAL-2010",
+        "SRC-B11-JRC-EEDAL-RECORD"
+      ],
+      "target_authority": {
+        "applicability_status": "Q",
+        "fuel_volume_authority_status": "Q",
+        "usable_for_engine": false,
+        "model_default_admitted": false,
+        "national_factor_admitted": false,
+        "task_accepted": false
+      },
+      "record_kind": "SOURCE_REPORTED_MEASURED_GCV_REFERENCE",
+      "records": [
+        {
+          "case_id": "HU 1",
+          "geography": "HU",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "93.4",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "HISTORICAL_HU_REFERENCE"
+        },
+        {
+          "case_id": "HU 2",
+          "geography": "HU",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "90.1",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "HISTORICAL_HU_REFERENCE"
+        },
+        {
+          "case_id": "HU 3",
+          "geography": "HU",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "88.9",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "HISTORICAL_HU_REFERENCE"
+        },
+        {
+          "case_id": "HU 5",
+          "geography": "HU",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "83.8",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "HISTORICAL_HU_REFERENCE"
+        },
+        {
+          "case_id": "HU 6",
+          "geography": "HU",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "80.7",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "HISTORICAL_HU_REFERENCE"
+        },
+        {
+          "case_id": "HU 7",
+          "geography": "HU",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "80.0",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "HISTORICAL_HU_REFERENCE"
+        },
+        {
+          "case_id": "AT 1",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "86.7",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 2",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "87.8",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 4",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "82.4",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 5",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "94.8",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 6",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "87.5",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 7",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "91.3",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 9",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "88.8",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        },
+        {
+          "case_id": "AT 11",
+          "geography": "AT",
+          "appliance_class": "gas_condensing_installation",
+          "gcv_efficiency_pct": "89.8",
+          "truth": "OBS",
+          "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+          "family_id": "BOILEFF",
+          "locator": "Table 2; printed p12 / PDF p22",
+          "boundary_id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+          "period_id": "BOILEFF_STUDY_2008_2009_CASE_COVERAGE_UNKNOWN",
+          "use_scope": "SAME_FAMILY_AT_AGGREGATE_CONTEXT"
+        }
+      ],
+      "record_field_policy": {
+        "gcv_efficiency_pct": {
+          "unit": "percent_GCV",
+          "truth": "OBS",
+          "statistic": "SOURCE_LABELLED_MEASURED_EFFICIENCY",
+          "raw_uninterrupted_measurement_claim": false
+        }
+      },
+      "cohort": {
+        "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+        "locator": "section 4.1; printed p11 / PDF p21",
+        "participating_consumers": {
+          "value": 53,
+          "unit": "consumer",
+          "truth": "OBS"
+        },
+        "participating_installers": {
+          "value": 44,
+          "unit": "installer",
+          "truth": "OBS"
+        },
+        "metered_systems": {
+          "value": 29,
+          "unit": "system",
+          "truth": "OBS"
+        },
+        "metered_by_fuel": {
+          "gas": {
+            "value": 23,
+            "unit": "system",
+            "truth": "OBS"
+          },
+          "oil": {
+            "value": 3,
+            "unit": "system",
+            "truth": "OBS"
+          },
+          "biomass": {
+            "value": 3,
+            "unit": "system",
+            "truth": "OBS"
+          }
+        },
+        "metered_by_country": {
+          "AT": {
+            "value": 13,
+            "unit": "system",
+            "truth": "OBS"
+          },
+          "DE": {
+            "value": 6,
+            "unit": "system",
+            "truth": "OBS"
+          },
+          "HU": {
+            "value": 10,
+            "unit": "system",
+            "truth": "OBS"
+          }
+        },
+        "detailed_selected_gas_systems": {
+          "value": 14,
+          "unit": "system",
+          "truth": "OBS"
+        },
+        "detailed_by_country": {
+          "HU": {
+            "value": 6,
+            "unit": "system",
+            "truth": "OBS"
+          },
+          "AT": {
+            "value": 8,
+            "unit": "system",
+            "truth": "OBS"
+          }
+        },
+        "country_by_fuel_cross_tab": null,
+        "selection": "Detailed gas systems sufficiently meeting DHQUI installation-quality criteria; not a probability sample. Earlier installation audits are a different activity.",
+        "national_weights": null
+      },
+      "period": {
+        "study_period": "heating period 2008/2009",
+        "locator": "printed pII / PDF p6",
+        "completed_case_intervals": null,
+        "blank_agreement": {
+          "locator": "printed p62 / PDF p72",
+          "planned_end_date": "2009-12-31",
+          "planned_monthly_readings": true,
+          "completed_observation_evidence": false,
+          "interpretation": "Unsigned template; named meter and planned readings do not prove installation, calibration or completed case coverage. No automatic annualization or universal calendar-year gate."
+        }
+      },
+      "heat_boundary": {
+        "id": "BOILEFF_CASE_BOUNDARY_UNRESOLVED",
+        "case_meter_storage_distribution_boundary": null,
+        "dhw_separation": {
+          "value": 2,
+          "unit": "case without separate DHW metering",
+          "truth": "OBS",
+          "locator": "Figure 15; printed p19 / PDF p29"
+        },
+        "cases_without_separate_dhw_ids": null,
+        "auxiliary_electricity_boundary": null,
+        "standby_cycling_summer_coverage": null,
+        "context": "EEDAL project gas/heating/DHW-meter method is context only; preliminary Austrian observations cannot complete HU as-built boundaries."
+      },
+      "aggregate_discrepancy": {
+        "source_id": "SRC-B11-BOILEFF-FINAL-2009",
+        "locator": "printed p14 / PDF p24",
+        "source_reported": {
+          "HU": {
+            "value": "86.00",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "AT": {
+            "value": "89.63",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "ALL_14": {
+            "value": "87.9",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          }
+        },
+        "rounded_row_arithmetic": {
+          "HU": {
+            "value": "86.15",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "AT": {
+            "value": "88.6375",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "ALL_14": {
+            "value": "87.57142857142857",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          }
+        },
+        "audit_statistic": "UNWEIGHTED_MEAN_OF_ROUNDED_TABLE_2_ROWS",
+        "status": "UNRESOLVED_SOURCE_AGGREGATION",
+        "weights": null,
+        "source_aggregates_repaired": false,
+        "default_selected": false,
+        "chart_order_note": "Figure 8 appears to reverse AT 7 / AT 11 order; Table 2 remains numeric authority. No chart digitization."
+      },
+      "lineage": {
+        "independent_replication": false,
+        "eedal_scope": "Same BOILeff family; preliminary Austrian results and planned May/June 2009 readings, not completed Hungarian records.",
+        "eedal_locator": "printed pp885-887 / PDF pp464-466",
+        "jrc_repository_available_date": "2010-02-08",
+        "jrc_available_date_is_print_publication_date": false
+      },
+      "gas_basis": {
+        "reported_energy_basis": "GCV",
+        "fuel_subtype": null,
+        "calorific_reference_temperature_c": null,
+        "gas_quality_context_id": null,
+        "compatible_gcv_lhv_pair": null,
+        "volume_reference_state": null,
+        "lhv_efficiency": null,
+        "runtime_fuel_volume": null,
+        "status": "Q",
+        "interpretation": "Source GCV/HCV label is known; missing applicable calorific reference/context and gas-quality pair are not filled from generic ratios or another source family."
+      },
+      "calibration": {
+        "case_instrument_certificates": null,
+        "propagated_efficiency_uncertainty": null,
+        "status": "Q"
+      },
+      "records_sha256": "1ab53b3fee07f443999f71dd23c62ccc94e8540689efa39095cf50376d72fb4b",
+      "case_detail_limits": {
+        "individual_make_model": null,
+        "commissioning_date_or_age": null,
+        "case_control_details": null,
+        "predicted_efficiency_or_guarantee_band_is_measurement_uncertainty": false,
+        "climate_corrected_saving_is_old_new_conversion_pair": false,
+        "old_conventional_baseline_established": false,
+        "status": "Q"
+      }
+    },
+    "EST-CONDENSING-FIELD-TRIAL": {
+      "source_ids": [
+        "SRC-B11-EST-FIELD-2009",
+        "SRC-B11-EST-TPI-2010"
+      ],
+      "target_authority": {
+        "applicability_status": "Q",
+        "fuel_volume_authority_status": "Q",
+        "usable_for_engine": false,
+        "model_default_admitted": false,
+        "national_factor_admitted": false,
+        "task_accepted": false
+      },
+      "record_kind": "PUBLISHED_PROCESSED_FIELD_GCV_REFERENCE",
+      "records": [
+        {
+          "case_id": "343DNO",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "89.7",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "329PLE",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "87.4",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 9,
+          "months_with_substitution": 3,
+          "substituted_days": 11,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "319JBO",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "87.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "312PLO",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "87.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "356MJM",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "86.8",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "351WIL",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "84.7",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 9,
+          "months_with_substitution": 3,
+          "substituted_days": 25,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "347WMI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "84.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 1,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "320ETH",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "84.3",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "309ADH",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "84.1",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "317MTR",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "84.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 2,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "307MLE",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.9",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 3,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "315EJO",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.9",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 5,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "339PRI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.9",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "337JDI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.5",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 2,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "352PLA",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.4",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "313KPE",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.1",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "344WBA",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "338CNE",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "83.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "311STW",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "82.9",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 2,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "340PCU",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "82.2",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 8,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "323RWA",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "81.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 12,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "302SWI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "81.1",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "349JTI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "81.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 5,
+          "months_with_substitution": 7,
+          "substituted_days": 17,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "326ABR",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "80.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 1,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "350AWI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "80.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 1,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "355PCA",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "80.5",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "316MBA",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "80.1",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 1,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "357SHO",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "78.4",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 13,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "310MPO",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "76.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 8,
+          "months_with_substitution": 4,
+          "substituted_days": 11,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "335RHA",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "74.9",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "328CHI",
+          "geography": "UK",
+          "appliance_class": "combination",
+          "gcv_efficiency_pct": "68.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 9; printed p27 / PDF p41",
+          "boundary_id": "COMBI_BOILER_SH_DHW_OUTPUT",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "314DPA",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "89.2",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 10,
+          "months_with_substitution": 2,
+          "substituted_days": 2,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "346CFR",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "88.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 9,
+          "months_with_substitution": 3,
+          "substituted_days": 8,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "331MMU",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "87.8",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "353HEB",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "86.2",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 1,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "321THB",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "85.4",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "341NSM",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "85.0",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 12,
+          "months_with_substitution": 0,
+          "substituted_days": 0,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "325JSE",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "83.7",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 2,
+          "months_with_substitution": 10,
+          "substituted_days": 24,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "345PYO",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "83.6",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 1,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "327BSW",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "82.7",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 6,
+          "months_with_substitution": 6,
+          "substituted_days": 54,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "336JON",
+          "geography": "UK",
+          "appliance_class": "regular",
+          "gcv_efficiency_pct": "81.2",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 10; printed p28 / PDF p42",
+          "boundary_id": "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 11,
+          "months_with_substitution": 1,
+          "substituted_days": 2,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "359NPO",
+          "geography": "UK",
+          "appliance_class": "CPSU",
+          "gcv_efficiency_pct": "76.5",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 11; printed p28 / PDF p42",
+          "boundary_id": "CPSU_INTEGRAL_STORE",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 7,
+          "months_with_substitution": 5,
+          "substituted_days": 15,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        },
+        {
+          "case_id": "358MSC",
+          "geography": "UK",
+          "appliance_class": "CPSU",
+          "gcv_efficiency_pct": "64.1",
+          "truth": "DER",
+          "source_id": "SRC-B11-EST-FIELD-2009",
+          "family_id": "EST-CONDENSING-FIELD-TRIAL",
+          "locator": "Table 11; printed p28 / PDF p42",
+          "boundary_id": "CPSU_INTEGRAL_STORE",
+          "period_id": "EST_SITE_ACCEPTED_12_MONTHS",
+          "use_scope": "HISTORICAL_UK_REFERENCE",
+          "months_without_substitution": 9,
+          "months_with_substitution": 3,
+          "substituted_days": 3,
+          "substitution_locator": "Appendix D printed p.95 / PDF p.109"
+        }
+      ],
+      "record_field_policy": {
+        "gcv_efficiency_pct": {
+          "unit": "percent_GCV",
+          "truth": "DER",
+          "statistic": "SOURCE_PROCESSED_ACCEPTED_ANNUAL_HEAT_OUTPUT_OVER_GAS_ENERGY",
+          "raw_uninterrupted_measurement_claim": false
+        },
+        "months_without_substitution": {
+          "unit": "month",
+          "truth": "OBS",
+          "statistic": "SOURCE_REPORTED_ACCEPTANCE_COUNT"
+        },
+        "months_with_substitution": {
+          "unit": "month",
+          "truth": "OBS",
+          "statistic": "SOURCE_REPORTED_ACCEPTANCE_COUNT"
+        },
+        "substituted_days": {
+          "unit": "day",
+          "truth": "OBS",
+          "statistic": "SOURCE_REPORTED_SUBSTITUTION_COUNT"
+        }
+      },
+      "heat_boundaries": {
+        "COMBI_BOILER_SH_DHW_OUTPUT": "Separate appliance space-heating and DHW heat meters; DHW operation/purge/internal-store effects retained; downstream room/tap heat not measured.",
+        "REGULAR_BOILER_OUTPUT_BEFORE_CYLINDER": "Total boiler output before primary-pipe/cylinder losses; separate cylinder draw-off is not this efficiency numerator. Regular is a system layout, not old non-condensing.",
+        "CPSU_INTEGRAL_STORE": "Integral primary store changes the loss boundary relative to regular boilers."
+      },
+      "boundary_locator": "Figures 1-2; printed pp2-3 / PDF pp16-17; section 6.3 printed p22 / PDF p36; printed p24 / PDF p38",
+      "denominator": "Separately metered boiler gas on source HCV/GCV energy basis; not whole-property fiscal gas. Electricity is separately monitored and excluded from the gas-only denominator; carbon benefits ratio is a different metric.",
+      "period": {
+        "overview": "September 2007-November 2008; printed p1 / PDF p15",
+        "acceptance_table": "June 2007-October 2008; Table 8 printed p22 / PDF p36",
+        "data_receipt_narrative": "Starts June 2007; printed p21 / PDF p35",
+        "accepted_site_period": "12 consecutive accepted months per site; exact site calendar boundaries not transcribed",
+        "degree_day_adjusted": false,
+        "one_common_calendar_year_assumed": false
+      },
+      "selection": {
+        "source_id": "SRC-B11-EST-FIELD-2009",
+        "locator": "printed pp6-10 / PDF pp20-24",
+        "initial_sites": {
+          "value": 60,
+          "unit": "site",
+          "truth": "OBS"
+        },
+        "accepted_sites": {
+          "value": 43,
+          "unit": "site",
+          "truth": "OBS"
+        },
+        "recruitment": "Self-selected EST website respondents; small non-random cohort, equipment-access selection, Midlands/North West England concentration and fewer flats.",
+        "boiler_age_at_recruitment": {
+          "value": 2,
+          "unit": "year; strict upper bound",
+          "truth": "OBS"
+        },
+        "national_weights": null,
+        "old_conventional_baseline": false
+      },
+      "source_subgroups": {
+        "source_id": "SRC-B11-EST-FIELD-2009",
+        "locator": "Tables 9-11; printed pp27-28 / PDF pp41-42",
+        "combination": {
+          "n": {
+            "value": 31,
+            "unit": "site",
+            "truth": "OBS"
+          },
+          "mean": {
+            "value": "82.5",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "sample_sd": {
+            "value": "4.0",
+            "unit": "percentage_point",
+            "truth": "DER"
+          },
+          "minimum": {
+            "value": "68.6",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "maximum": {
+            "value": "89.7",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          }
+        },
+        "regular": {
+          "n": {
+            "value": 10,
+            "unit": "site",
+            "truth": "OBS"
+          },
+          "mean": {
+            "value": "85.3",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "sample_sd": {
+            "value": "2.5",
+            "unit": "percentage_point",
+            "truth": "DER"
+          },
+          "minimum": {
+            "value": "81.2",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          },
+          "maximum": {
+            "value": "89.2",
+            "unit": "percent_GCV",
+            "truth": "DER"
+          }
+        },
+        "CPSU": {
+          "n": {
+            "value": 2,
+            "unit": "site",
+            "truth": "OBS"
+          },
+          "pooled_mean_adopted": null,
+          "pooled_sd_adopted": null
+        },
+        "pooled_unlike_boundaries": false,
+        "sd_is_measurement_uncertainty_or_ci": false,
+        "extrema_are_population_or_prediction_intervals": false,
+        "usage_weighted_table_14_substituted": false
+      },
+      "substitution": {
+        "source_id": "SRC-B11-EST-FIELD-2009",
+        "locator": "Table 8 printed p22 / PDF p36; Appendix D printed p95 / PDF p109",
+        "months_total": {
+          "value": 516,
+          "unit": "month",
+          "truth": "OBS"
+        },
+        "months_without_substitution": {
+          "value": 449,
+          "unit": "month",
+          "truth": "OBS"
+        },
+        "months_with_substitution": {
+          "value": 67,
+          "unit": "month",
+          "truth": "OBS"
+        },
+        "substituted_days": {
+          "value": 225,
+          "unit": "day",
+          "truth": "OBS"
+        },
+        "source_convention_days_per_set": {
+          "value": 365,
+          "unit": "day",
+          "truth": "DER"
+        },
+        "source_denominator_days": {
+          "value": 15695,
+          "unit": "day",
+          "truth": "DER"
+        },
+        "table8_percent": {
+          "value": "1.4",
+          "unit": "percent",
+          "truth": "DER"
+        },
+        "appendix_percent": {
+          "value": "1.43",
+          "unit": "percent",
+          "truth": "DER"
+        },
+        "contradictory_prose_percent": {
+          "value": "2.3",
+          "unit": "percent",
+          "truth": "DER"
+        },
+        "arithmetic_percent": {
+          "value": "1.4335775724753106",
+          "unit": "percent",
+          "truth": "DER"
+        },
+        "status": "UNRESOLVED_SOURCE_PROSE_DISCREPANCY",
+        "source_prose_repaired": false,
+        "raw_uninterrupted_measurement_claim": false
+      },
+      "subgroup_audit": {
+        "truth": "DER",
+        "method": "Own arithmetic from published rounded table rows and one-to-one Appendix D case-ID join; source convention uses 365 days, not verified calendar lengths.",
+        "subgroups": {
+          "combination": {
+            "n": 31,
+            "sum_substituted_days": 115,
+            "months_without_substitution": 337,
+            "months_with_substitution": 35,
+            "sites_with_substitution": 16,
+            "source_convention_days_denominator": 11315,
+            "mean_from_rounded_rows": 82.46451612903226,
+            "sample_sd_from_rounded_rows": 4.0228139725898995,
+            "minimum": 68.6,
+            "maximum": 89.7
+          },
+          "regular": {
+            "n": 10,
+            "sum_substituted_days": 92,
+            "months_without_substitution": 96,
+            "months_with_substitution": 24,
+            "sites_with_substitution": 7,
+            "source_convention_days_denominator": 3650,
+            "mean_from_rounded_rows": 85.28,
+            "sample_sd_from_rounded_rows": 2.553342036538692,
+            "minimum": 81.2,
+            "maximum": 89.2
+          },
+          "CPSU": {
+            "n": 2,
+            "sum_substituted_days": 18,
+            "months_without_substitution": 16,
+            "months_with_substitution": 8,
+            "sites_with_substitution": 2,
+            "source_convention_days_denominator": 730,
+            "minimum": 64.1,
+            "maximum": 76.5
+          }
+        }
+      },
+      "limits": {
+        "short_dhw_draws": "Heat meters under-record short draw-offs; the summer-DHW-only upward heat adjustment is not applied to annual tables.",
+        "annual_table_heat_adjustment_applied": false,
+        "illustrative_cylinder_loss_adjustment_adopted": false,
+        "sap_factor_adopted": false,
+        "measurement_uncertainty": null,
+        "qa_thresholds_are_measurement_uncertainty": false,
+        "controls_service_weather_standardized": false,
+        "case_328CHI": "Boiler breakdown remains in accepted annual result; no ideal-operation repair.",
+        "case_325JSE": "Table 10 retains a B-rated regular boiler despite executive-summary simplification. Product ratings are not field efficiencies.",
+        "product_rating_metadata": "SEDBUK numeric ratings are outside this handoff. The author extraction omitted CPSU rating descriptors; original Table 11 includes B-rated descriptors for both. No field-value gap is filled with product ratings.",
+        "excluded_348HIG": "Wider trial LPG setup issue; absent from accepted records. Does not prove every accepted fuel subtype."
+      },
+      "continuation_2010": {
+        "source_id": "SRC-B11-EST-TPI-2010",
+        "locator": "Tables 2-4; printed pp14-16 / PDF pp18-20",
+        "same_cohort_family": true,
+        "independent_replication": false,
+        "control_installation_period": "December 2008-February 2009",
+        "monitoring_end": "February 2010",
+        "monitored_homes": {
+          "value": 52,
+          "unit": "home",
+          "truth": "OBS"
+        },
+        "accepted_extension_sets": {
+          "value": 37,
+          "unit": "annual dataset",
+          "truth": "OBS"
+        },
+        "tpi_sets": {
+          "value": 29,
+          "unit": "annual dataset",
+          "truth": "OBS"
+        },
+        "non_tpi_sets": {
+          "value": 8,
+          "unit": "annual dataset",
+          "truth": "OBS"
+        },
+        "paired_tpi_sites": {
+          "value": 28,
+          "unit": "site",
+          "truth": "OBS"
+        },
+        "paired_classes": {
+          "combination": {
+            "value": 21,
+            "unit": "site",
+            "truth": "OBS"
+          },
+          "regular": {
+            "value": 6,
+            "unit": "site",
+            "truth": "OBS"
+          },
+          "CPSU": {
+            "value": 1,
+            "unit": "site",
+            "truth": "OBS"
+          }
+        },
+        "combined_sets": {
+          "value": 82,
+          "unit": "annual dataset",
+          "truth": "OBS"
+        },
+        "substituted_days": {
+          "value": 338,
+          "unit": "day",
+          "truth": "OBS"
+        },
+        "source_denominator_days": {
+          "value": 29930,
+          "unit": "day",
+          "truth": "DER"
+        },
+        "unchanged_months": {
+          "value": 882,
+          "unit": "month",
+          "truth": "OBS"
+        },
+        "months_with_substitution": {
+          "value": 102,
+          "unit": "month",
+          "truth": "OBS"
+        },
+        "prose_original_sets": {
+          "value": 46,
+          "unit": "annual dataset",
+          "truth": "OBS"
+        },
+        "table2_original_sets": {
+          "value": 43,
+          "unit": "annual dataset",
+          "truth": "OBS"
+        },
+        "counts_reconciled": false,
+        "unique_homes_inferred": null,
+        "added_to_2009_cohort": false,
+        "tpi_savings_factor_adopted": false,
+        "interpretation": "Source count reconciliation unresolved; repeated/overlapping annual sets are not independent homes. No significant overall heat-efficiency improvement established; low-output points excluded in some tests. No transferable control-saving coefficient."
+      },
+      "gas_basis": {
+        "reported_energy_basis": "GCV",
+        "fuel_subtype": null,
+        "calorific_reference_temperature_c": null,
+        "gas_quality_context_id": null,
+        "compatible_gcv_lhv_pair": null,
+        "volume_reference_state": null,
+        "lhv_efficiency": null,
+        "runtime_fuel_volume": null,
+        "status": "Q",
+        "interpretation": "Source GCV/HCV label is known; missing applicable calorific reference/context and gas-quality pair are not filled from generic ratios or another source family."
+      },
+      "calibration": {
+        "case_instrument_certificates": null,
+        "propagated_efficiency_uncertainty": null,
+        "status": "Q"
+      },
+      "records_sha256": "2ce94959ce10854594d730358c7bf95a61cfecce8733b0232b594d792b03ef83"
+    }
+  },
+  "validation_debt": [
+    {
+      "id": "B11-REF-BOILEFF-CASE-BOUNDARY",
+      "status": "Q",
+      "scope": "Quantitative reuse beyond historical source-labelled observations",
+      "required": "Completed case coverage, actual heating/DHW/storage/distribution and auxiliary boundaries; measurement concept D4.1 and technical evaluation D6.1 are useful leads. Planned agreement is insufficient."
+    },
+    {
+      "id": "B11-REF-SEASONAL-CALORIFIC-CONTEXT",
+      "status": "Q",
+      "scope": "Physical GCV-to-LHV or heat-to-gas-volume use of these references",
+      "required": "Applicable calorific temperature/context, compatible gas-quality pair and volume state; no synthetic basis, generic ratio or TABULA/FGSZ borrowing."
+    },
+    {
+      "id": "B11-REF-SEASONAL-TARGET-TRANSFER",
+      "status": "Q",
+      "scope": "Hungarian current-stock/class or household applicability",
+      "required": "Source-compatible service/system boundary and defensible target calibration/representative inference with uncertainty. No universal private bills, measured ageing, exhaustive census or full-calendar-year requirement."
+    },
+    {
+      "id": "B11-REF-SEASONAL-SOURCE-DISCREPANCIES",
+      "status": "Q",
+      "scope": "Use of source aggregates, reconstructed counts or uncertainty beyond the retained native records",
+      "required": "BOILeff aggregation/weights, UK contradictory substitution prose, 2010 count reconciliation and full metrological uncertainty remain unresolved. Not a gate on retaining correctly labelled historical records."
+    }
+  ],
+  "allowed_next_use": "Traceable historical source comparison and separately justified future qualification. No runtime adapter, Hungarian default, replacement of annual_same_service_reference/TABULA or gas-quality controls, national weights, source-low/high engine, task acceptance or readiness increase."
+}

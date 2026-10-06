@@ -1546,7 +1546,12 @@
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
+          "validation_debt_ids": [
+            "B11-REF-BOILEFF-CASE-BOUNDARY",
+            "B11-REF-SEASONAL-CALORIFIC-CONTEXT",
+            "B11-REF-SEASONAL-TARGET-TRANSFER",
+            "B11-REF-SEASONAL-SOURCE-DISCREPANCIES"
+          ],
           "research_log": [
             {
               "date": "2026-10-02",
@@ -1584,6 +1589,18 @@
               "expected_decision_value": "Adds reproducible national count and conditional source-accounting exclusions without inventing point defaults; below-cap and equal-cap requirements stay INCONCLUSIVE",
               "decision": "CONTINUE_CONDITIONAL_NATIONAL_ACCOUNTING_SCREENS_WITH_CENTRAL_HEAT_DEBT",
               "evidence": "docs/checkpoints/V1_047_NATIONAL_ACCOUNTING_BOUNDS.md"
+            },
+            {
+              "date": "2026-10-05",
+              "source_families": [
+                "BOILeff final report and same-lineage EEDAL context",
+                "UK EST 2009 accepted annual field cohort and overlapping 2010 TPI continuation"
+              ],
+              "remaining_unknown": "HU case coverage/boundaries, fuel subtype, applicable calorific context/pair, measurement uncertainty and current Hungarian target transfer remain unresolved. BOILeff aggregate and UK prose/count discrepancies are preserved.",
+              "promising_next_lead": "BOILeff measurement concept/technical evaluation and source-compatible target calibration; no universal private-bill or full-calendar-year gate.",
+              "expected_decision_value": "Retains source-reported measured HU GCV values, separate AT aggregate context and UK processed field records with exact lineage, substitution and non-admission checks.",
+              "decision": "QUALIFY_BOUNDED_SEASONAL_REFERENCES_NO_DEFAULT_OR_RUNTIME_ADMISSION",
+              "evidence": "docs/source_packs/P4_B11_GAS_APPLIANCE_EFFICIENCY_AUTHORITY.md#qualified-historical-seasonal-references"
             }
           ],
           "reviewed_commit": null
