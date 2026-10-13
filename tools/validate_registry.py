@@ -2238,6 +2238,7 @@ def validate() -> list[str]:
     validate_b03_artifacts(errors, source_ids)
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
+    validate_b05_r290_references(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
     validate_b07_shared_use_artifacts(errors)
@@ -2511,6 +2512,285 @@ def validate_b11_seasonal_references(errors: list[str], source_ids: set[str]) ->
         require(task["canonical_source_ids"] == ["SRC-B06-TABULA-HU-CALCULATOR-2016", "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE"], "seasonal references cannot replace/admit canonical defaults")
         require(set(task["validation_debt_ids"]) == {d["id"] for d in manifest["validation_debt"]} and all(d["status"] == "Q" for d in manifest["validation_debt"]), "source debt must remain explicit")
     except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, StopIteration, InvalidOperation) as exc:
+        errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
+
+
+def validate_b05_r290_references(errors: list[str], source_ids: set[str]) -> None:
+    """Check a bounded manufacturer inventory; no loader or runtime admission."""
+    prefix = "B05 R290 reference"
+    def require(condition, message):
+        if not condition:
+            errors.append(f"{prefix}: {message}")
+
+    m1 = "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025"
+    m2 = "SRC-B05-MITSUBISHI-WZ50-PI-2025"
+    m3 = "SRC-B05-MITSUBISHI-FTC7-MANUAL-2024"
+    h1 = "SRC-B05-MITSUBISHI-HU-CATALOGUE-2024"
+    authority = {
+        "applicability_status": "Q", "usable_for_engine": False,
+        "model_default_admitted": False, "product_selected": False,
+        "wm50_replaced": False, "annual_performance_admitted": False,
+        "installed_cost_qualified": False, "current_complete_hu_price_qualified": False,
+        "procurement_2028_legal_eligibility_certified": False, "scenario_widened": False,
+        "readiness_closed": False, "task_accepted": False,
+    }
+    # Independent source-native identity and six-row oracle; not derived from the manifest digest.
+    expected_sources = {
+        m1: ("d6cc1ca7c6bb2e2af75e15930c0031623de6c25bbf49b636bb42c56004077886", 44665136, "2025-05", "month", "https://library.mitsubishielectric.co.uk/pdf/download_full/5483", "2026-10-05T18:02:29.140130+00:00"),
+        m2: ("dabe22096af02a3954365c5cb0f36f89d447b201ebf599dbf75893c473f0d0c6", 775721, "2025-01", "month", "https://library.mitsubishielectric.co.uk/pdf/download_full/4927", "2026-10-05T18:02:35.793186+00:00"),
+        m3: ("17cab38d2b723369e6036ec2c7886164a732ed8891a9d4d6e0707948af630082", 5351021, None, "unknown", "https://library.mitsubishielectric.co.uk/pdf/download_full/4950", "2026-10-05T18:05:16.093047+00:00"),
+        h1: ("50f77a80e559b1179114cfe8efd2b644f3dab972775979e4f1e5d8cbad22f9c4", 9408582, "2024-12", "month", "https://mklima.hu/storage/app/uploads/public/689/995/2d6/6899952d6676a549765922.pdf", "2026-10-05T18:04:29.916224+00:00"),
+    }
+    expected_source_descriptions = {'SRC-B05-MITSUBISHI-WZ-DATABOOK-2025': ('Ecodan ATW Databook PUZ-WZ Vol.1.0',
+                                             'Mitsubishi Electric',
+                                             'Manufacturer original hosted by Mitsubishi Electric UK; models and geography must be preserved'),
+     'SRC-B05-MITSUBISHI-WZ50-PI-2025': ('PUZ-WZ50VAA product information sheet',
+                                         'Mitsubishi Electric Europe UK/Ireland',
+                                         'UK/Ireland product sheet, not HU pricing or certification'),
+     'SRC-B05-MITSUBISHI-HU-CATALOGUE-2024': ('Hungarian air-to-water heat pump catalogue',
+                                              'Mitsubishi Electric Europe B.V., manufacturer-authored catalogue hosted at mklima.hu',
+                                              'Hungarian translation/distributor-hosted manufacturer material; not independent performance corroboration '
+                                              'or price list'),
+     'SRC-B05-MITSUBISHI-FTC7-MANUAL-2024': ('PAC-IF081/082/083B-E installation manual DG79H200H02',
+                                             'Mitsubishi Electric',
+                                             'Manufacturer original; installer manual, not evidence of a fully priced system')}
+    expected_document_roles = {
+        m1: ("Issued May 2025; M-E0977 SIZ2025<MEE>; PDF metadata creation 2025-05-16, modification 2025-06-13", "ISSUE_MONTH", "Issued May 2025; creation/modification metadata is not issue date"),
+        m2: ("Effective January 2025; original PDF metadata created/modified 2026-02-03", "EFFECTIVE_MONTH", "Effective January 2025; PDF created/modified February 2026, not a new effective date"),
+        m3: ("DG79H200H02; PDF metadata April 2024", "ISSUE_DATE_UNKNOWN", "Revision DG79H200H02; April 2024 PDF metadata, exact issue date not established"),
+        h1: ("HU-00386 // 12/2024; PDF metadata Jan/Apr 2025; HTTP Last-Modified 2025-08-11", "ISSUE_MONTH", "HU-00386 // 12/2024; August 2025 HTTP hosting timestamp is not issue date"),
+    }
+    expected_anchors = {
+        "M1-A7-W35": (m1, "capacity table", "M1_CAPACITY_2018", "7", None, None, "4.00", "5.10", "0.78", "11.5", "NOT_STATED_IN_CAPACITY_TABLE"),
+        "M1-A2-W35": (m1, "capacity table", "M1_CAPACITY_2018", "2", None, None, "5.00", "3.15", "1.59", "14.3", "NOT_STATED_IN_CAPACITY_TABLE"),
+        # M1 p40/A-36: these W35 cells are white; p38/A-34 does not
+        # state that non-grey data excludes defrost operation.
+        "M1-A-7-W35-PARTLOAD1": (m1, "Partload1", "M1_GRID_REFERENCE", "-7", None, None, "5.0", "2.70", None, None, "NOT_GRAY_NOT_ZERO_DEFROST"),
+        "M1-A-7-W35-MAX": (m1, "Max", "M1_GRID_REFERENCE", "-7", None, None, "5.2", "2.68", None, None, "NOT_GRAY_NOT_ZERO_DEFROST"),
+        "M2-A-7-W35-NORMAL": (m2, "normal heating conditions", "M2_PI_NORMAL_HEATING", "-7", "-8", "30", "5.2", "2.68", "1.94", None, "NOT_STATED"),
+        "M1-A-25-W35-MAX": (m1, "Max", "M1_GRID_REFERENCE", "-25", None, None, "3.2", "1.85", None, None, "NOT_GRAY_NOT_ZERO_DEFROST"),
+    }
+    try:
+        manifest = json.loads((REGISTRY / "b05_r290_reference_manifest.json").read_text(encoding="utf-8"))
+        require(set(manifest) == {"schema_version", "handoff_id", "status", "owner_module", "research_slice_id", "source_fact_policy", "target_authority", "sources", "identity", "anchor_units", "methods", "anchors", "anchors_sha256", "configurations", "context", "conflicts", "validation_debt", "allowed_next_use"}, "unexpected/missing manifest fields")
+        require(manifest["schema_version"] == 1 and manifest["handoff_id"] == "B05-R290-MANUFACTURER-REFERENCE-2026" and manifest["status"] == "QUALIFIED_SOURCE_REFERENCES_ONLY", "invalid reference identity/status")
+        require(manifest["owner_module"] == "B05" and manifest["research_slice_id"] == "B05-D02", "invalid module/slice")
+        require(manifest["target_authority"] == authority and all(type(manifest["target_authority"][k]) is type(v) for k, v in authority.items()), "retain Q authority and no admission/default/selection/closure")
+        sources = manifest["sources"]
+        by_id = {s["source_id"]: s for s in sources}
+        require(set(by_id) == set(expected_sources) and len(sources) == 4, "four unique source identities required")
+        global_rows = read_csv(REGISTRY / "sources.csv")[1]
+        local_rows = read_csv(REGISTRY / "heat_pump_sources.csv")[1]
+        source_fields = {"source_id", "title", "authority", "original_url", "retrieved_at", "document_date", "document_date_precision", "document_date_basis", "document_revision", "reference_period", "geography_and_authority", "source_tier", "sha256", "bytes", "repo_snapshot_path", "reuse_status", "reuse_note", "document_date_role"}
+        for sid, source in by_id.items():
+            require(set(source) == source_fields, f"unexpected/missing source fields {sid}")
+            fields = ("sha256", "bytes", "document_date", "document_date_precision", "original_url", "retrieved_at")
+            require(tuple(source[k] for k in fields) == expected_sources.get(sid), f"source identity/date changed {sid}")
+            require(type(source["bytes"]) is int, f"source byte count must be integer {sid}")
+            require(tuple(source[k] for k in ("document_revision", "document_date_role", "document_date_basis")) == expected_document_roles.get(sid), f"source revision/date role changed {sid}")
+            require(source["reference_period"] == source["document_revision"], f"source revision/period binding changed {sid}")
+            require(tuple(source[k] for k in ("title", "authority", "geography_and_authority")) == expected_source_descriptions.get(sid), f"original document/authority/geography binding changed {sid}")
+            matches = [[r for r in rows if r["source_id"] == sid] for rows in (global_rows, local_rows)]
+            require(sid in source_ids and all(len(rows) == 1 for rows in matches), f"missing/duplicate source registry identity {sid}")
+            if not all(len(rows) == 1 for rows in matches):
+                continue
+            global_row, local_row = (rows[0] for rows in matches)
+            for key, field in (("title", "title"), ("authority", "institution"), ("original_url", "url"), ("reference_period", "reference_period"), ("source_tier", "source_tier")):
+                require(source[key] == global_row[field] == local_row[field], f"registry {field} mismatch {sid}")
+            require(global_row["local_snapshot_sha256"] == source["sha256"], f"registry hash mismatch {sid}")
+            require(global_row["retrieved_at"] == local_row["retrieved_at"] == source["retrieved_at"][:10], f"registry retrieval mismatch {sid}")
+            require(global_row["published_at"] == "undated", f"do not invent day precision {sid}")
+            require(global_row["module_id"] == local_row["module_id"] == "B05" and local_row["layer"] == "OPERATING_CONFIG", f"source ownership/scope mismatch {sid}")
+            require(global_row["evidence_status"] == local_row["evidence_status"] == "OBS" and source["source_tier"] == "P2", f"source classification mismatch {sid}")
+            require(source["repo_snapshot_path"] is None and source["reuse_status"] == global_row["license"] == local_row["license_status"] == "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED", f"original-document reuse not cleared {sid}")
+            for key in ("document_date_basis", "document_revision", "reference_period", "geography_and_authority", "reuse_note"):
+                require(isinstance(source[key], str) and bool(source[key].strip()), f"missing source boundary {sid}/{key}")
+        # Check references/fact wrappers throughout without treating dates and IDs as quantities.
+        def check_facts(value):
+            if isinstance(value, dict):
+                if "source_id" in value:
+                    require(value["source_id"] in by_id, "unknown claim source")
+                    if "locator" in value:
+                        require(isinstance(value["locator"], str) and value["locator"].startswith("PDF p"), "missing primary page trace")
+                if "value" in value:
+                    require(value["truth"] == "OBS" and value["unit"] in {"kg", "phase", "V", "Hz", "kW", "L", "L/min", "degC", "ratio", "percent", "tCO2eq", "mm", "kPa"}, "invalid native fact truth/unit")
+                    require(isinstance(value["value"], str) and Decimal(value["value"]).is_finite(), "native fact must be a finite source decimal string")
+                for item in value.values():
+                    check_facts(item)
+            elif isinstance(value, list):
+                for item in value:
+                    check_facts(item)
+        check_facts(manifest)
+        require(bool(manifest["source_fact_policy"]) and bool(manifest["allowed_next_use"]), "source-fact/non-admission explanation required")
+        identity = manifest["identity"]
+        require(set(identity) == {"source_id", "locator", "truth", "base_model", "covered_commercial_variant", "manufacturer_table_scope", "refrigerant", "charge", "phase", "voltage", "frequency", "connection", "refrigerant_water_exchanger", "base_variant_commercial_equivalence_inferred", "boundary"} and identity["locator"] == "PDF p6 / A-2", "identity provenance/schema changed")
+        require((identity["source_id"], identity["truth"], identity["base_model"], identity["covered_commercial_variant"], identity["manufacturer_table_scope"], identity["refrigerant"], identity["connection"], identity["refrigerant_water_exchanger"]) == (m1, "OBS", "PUZ-WZ50VAA", "PUZ-WZ50VAA-BS", "PUZ-WZ50VAA(-BS)", "R290", "WATER_CONNECTED_MONOBLOCK", "BUILT_IN_OUTDOOR"), "exact outdoor/variant identity required")
+        require(identity["base_variant_commercial_equivalence_inferred"] is False, "base and -BS commercial equivalence not admitted")
+        for key, value, unit in (("charge", "0.6", "kg"), ("phase", "1", "phase"), ("voltage", "230", "V"), ("frequency", "50", "Hz")):
+            require(identity[key] == {"value": value, "unit": unit, "truth": "OBS"}, f"native identity fact changed {key}")
+        units = {"ambient_dry_bulb_c": "degC", "ambient_wet_bulb_c": "degC", "water_outlet_c": "degC", "water_inlet_c": "degC", "capacity_kw": "kW", "cop": "ratio", "electrical_input_kw": "kW", "test_flow_l_per_min": "L/min"}
+        require(manifest["anchor_units"] == units, "anchor dimensional boundary changed")
+        anchors = manifest["anchors"]
+        require(len(anchors) == 6 and {r["anchor_id"] for r in anchors} == set(expected_anchors), "exact six-anchor selection required")
+        fields = ("source_id", "mode_label", "method_id", "ambient_dry_bulb_c", "ambient_wet_bulb_c", "water_inlet_c", "capacity_kw", "cop", "electrical_input_kw", "test_flow_l_per_min", "defrost_annotation")
+        for row in anchors:
+            require(set(row) == set(fields) | {"anchor_id", "locator", "model_scope", "truth", "water_outlet_c", "use_scope"}, "unexpected/missing anchor fields")
+            require(tuple(row[k] for k in fields) == expected_anchors.get(row["anchor_id"]), f"native anchor semantics changed {row['anchor_id']}")
+            require(row["truth"] == "OBS" and row["water_outlet_c"] == "35" and row["use_scope"] == "SOURCE_REFERENCE_ONLY", "anchor truth/condition/admission changed")
+            location = {
+                "M1_CAPACITY_2018": "PDF p11 / A-7; capacity table",
+                "M1_GRID_REFERENCE": f"PDF p40 / A-36; WZ50 {row['mode_label']} row",
+                "M2_PI_NORMAL_HEATING": "PDF p2; HEATING and note 2",
+            }.get(row["method_id"])
+            require(row["locator"] == location, "anchor primary page trace changed")
+            require(row["model_scope"] == ("PUZ-WZ50VAA" if row["source_id"] == m2 else "PUZ-WZ50VAA(-BS)"), "anchor variant scope changed")
+        actual_hash = hashlib.sha256(json.dumps(anchors, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+        require(manifest["anchors_sha256"] == actual_hash, "anchor integrity hash mismatch")
+        methods = manifest["methods"]
+        require(set(methods) == {"M1_CAPACITY_2018", "M1_GRID_REFERENCE", "M2_PI_NORMAL_HEATING"}, "method inventory changed")
+        method_fields = {
+            "M1_CAPACITY_2018": {"source_id", "locator", "standard", "standard_year_applies_to", "pump_input_included", "method_boundary"},
+            "M1_GRID_REFERENCE": {"source_id", "locator", "standard", "values_may_include_interpolation_or_calculation", "all_points_directly_measured", "gray_includes_defrost", "not_gray_means_no_defrost", "mode_definitions", "method_boundary"},
+            "M2_PI_NORMAL_HEATING": {"source_id", "locator", "standard", "native_label", "max_label_stated", "method_boundary"},
+        }
+        for mid, method in methods.items():
+            require(set(method) == method_fields.get(mid), "unexpected/missing method fields")
+        method_refs = {
+            "M1_CAPACITY_2018": (m1, "PDF p11 / A-7, WZ50/60/80 capacity table"),
+            "M1_GRID_REFERENCE": (m1, "PDF p38 / A-34, performance notes and modes"),
+            "M2_PI_NORMAL_HEATING": (m2, "PDF p2, HEATING row and note 2"),
+        }
+        for mid, method in methods.items():
+            require((method["source_id"], method["locator"]) == method_refs.get(mid), f"method source/page role changed {mid}")
+        cap, grid, pi = (methods[k] for k in ("M1_CAPACITY_2018", "M1_GRID_REFERENCE", "M2_PI_NORMAL_HEATING"))
+        require(cap["standard_year_applies_to"] == "WZ50/60/80 capacity table only; 2022 line belongs to other models", "capacity standard model/year role changed")
+        require(cap["source_id"] == m1 and cap["standard"] == "EN14511 parts 1-4:2018" and cap["pump_input_included"] is True, "capacity-table standard/pump boundary changed")
+        require(grid["source_id"] == m1 and grid["standard"] == "EN14511; year not specified in grid notes" and grid["values_may_include_interpolation_or_calculation"] is True and grid["all_points_directly_measured"] is False, "grid method must retain manufacturer calculation limits")
+        require(grid["gray_includes_defrost"] is True and grid["not_gray_means_no_defrost"] is False, "defrost semantics changed")
+        require(grid["mode_definitions"] == {"Max": "Maximum capacity", "Partload1": "Heating reference capacity defined at A-7/W35", "Min": "Minimum capacity"}, "manufacturer capacity mode definitions changed")
+        require(pi["source_id"] == m2 and pi["standard"] == "Not specified for note 2 heating point" and pi["native_label"] == "normal heating conditions" and pi["max_label_stated"] is False, "PI source label/standard cannot be borrowed")
+        configs = manifest["configurations"]
+        require(set(configs) == {"ERPX", "ERPT20X", "PAC_IF081"}, "three separate configuration alternatives required")
+        expected_config = {
+            "ERPX": ("PUZ-WZ50VAA", "ERPX-VM2E", "INTEGRATED_HYDROBOX", True, False, "INTEGRATED_CONTROL_AND_MAIN_REMOTE", "SPACE_HEATING_ONLY_REFERENCE"),
+            "ERPT20X": ("PUZ-WZ50VAA", "ERPT20X-VM2E", "INTEGRATED_CYLINDER_UNIT", True, True, "INTEGRATED_INDOOR_CONTROL", "SEPARATE_DHW_ALTERNATIVE"),
+            "PAC_IF081": ("PUZ-WZ50VAA(-BS)", None, "STANDALONE_CONTROLLER_LOCAL_HYDRAULICS", None, False, "PAC-IF081B-E", "SEPARATE_CONTROLLER_ALTERNATIVE"),
+        }
+        config_refs = {
+            "ERPX": [(m1, "PDF p68 / B-2; compatibility"), (m1, "PDF p72 / B-6; ERPX-VM2E specification"), (m1, "PDF p73 / B-7; combination performance"), (m1, "PDF pp152-153 / B-86-B-87; components/hydraulics")],
+            "ERPT20X": [(m1, "PDF p68 / B-2; compatibility"), (m1, "PDF p70 / B-4; ERPT20X-VM2E specification"), (m1, "PDF p73 / B-7; combination performance")],
+            "PAC_IF081": [(m1, "PDF p187 / C-3; WZ50 compatible controller and mandatory flow sensor"), (m3, "PDF pp3,6-8 / printed pp2,5-7; kit contents and system requirements")],
+        }
+        config_fields = ("outdoor", "indoor", "architecture", "hardware_reversible", "dhw_cylinder_included", "controller_arrangement", "service_scenario")
+        for cid, config in configs.items():
+            allowed = set(config_fields) | {"service_scenario_truth", "standalone_controller_added_to_integrated_route", "mandatory_external_controller", "components", "facts", "references", "boundary"}
+            if cid == "PAC_IF081":
+                allowed |= {"mandatory_flow_sensor", "complete_hydraulic_module", "locally_supplied"}
+            require(set(config) == allowed, f"unexpected/missing configuration fields {cid}")
+            require(type(config["dhw_cylinder_included"]) is bool and (type(config["hardware_reversible"]) is bool or config["hardware_reversible"] is None), "configuration flags must retain boolean/null types")
+            require(tuple(config[k] for k in config_fields) == expected_config.get(cid), f"configuration identity/service/controller changed {cid}")
+            require(config["service_scenario_truth"] == "SCN" and config["standalone_controller_added_to_integrated_route"] is False and config["mandatory_external_controller"] is None, f"integrated versus standalone or service truth changed {cid}")
+            require(config["references"] == [{"source_id": sid, "locator": loc} for sid, loc in config_refs[cid]] and bool(config["boundary"]), f"configuration provenance/boundary changed {cid}")
+        require(configs["ERPX"]["components"] == ["control/main remote", "primary circulation pump", "flow sensor", "expansion vessel", "booster heater", "magnetic filter"], "ERPX component scope changed")
+        require(configs["ERPT20X"]["components"] == ["integrated cylinder unit"], "ERPT components cannot add standalone controller or another indoor route")
+        require(configs["PAC_IF081"]["components"] == ["main remote", "supplied thermistors"], "standalone kit contents cannot become integrated hydraulics")
+        for cid, expected in (("ERPX", {"booster": ("2", "kW"), "expansion_vessel": ("10", "L"), "internal_heating_water": ("4.5", "L")}), ("ERPT20X", {"dhw_cylinder": ("200", "L"), "booster": ("2", "kW"), "expansion_vessel": ("12", "L")})):
+            require(configs[cid]["facts"] == {k: {"value": v, "unit": u, "truth": "OBS"} for k, (v, u) in expected.items()}, f"native indoor facts changed {cid}")
+        control = configs["PAC_IF081"]
+        require(control["mandatory_flow_sensor"] == "PAC-FS01-E" and control["complete_hydraulic_module"] is False and control["facts"] == {}, "standalone sensor/hydraulic boundary changed")
+        require(control["locally_supplied"] == ["water circulation pump", "flow protection and hydraulic safety components", "hydraulic circuit", "DHW tank and valve if that service is required"], "standalone local-supply boundary changed")
+        context = manifest["context"]
+        context_fields = {
+            "erp_rating": {"source_id", "locator", "outdoor", "indoor", "condition", "rated_heat_output", "legal_maximum_rated_capacity_determination"},
+            "operating_limits": {"references", "heating_ambient_min", "heating_ambient_max", "dhw_ambient_min", "dhw_ambient_max", "cooling_ambient_min", "cooling_ambient_max", "max_outlet_at_ambient_minus25", "max_outlet_at_ambient_minus15", "boundary", "model_scope"},
+            "family_naming": {"source_id", "locator", "control_generation", "scope", "exact_compatibility_authority", "independent_performance_corroboration"},
+            "rating_crosswalk": {"references", "A7_A2_capacity_values_match", "A2_Partload1_defrost_annotation", "M2_normal_values_numerically_match", "M2_mode_relabelled", "boundary"},
+            "conditional_hydraulics": {"references", "table_indoor_reference", "additional_average_or_warmer", "additional_colder", "universal_buffer_size_admitted", "site_climate_or_circuit_volume_known", "boundary", "volume_scope", "model_scope"},
+            "installation": {"references", "site_safe_design_certified", "unpriced_scope", "boundary", "model_scope"},
+        }
+        context_fields["water_data"] = {"readings", "source_reading_correction", "m2_flow_min_or_max_label", "rounding_reconciliation_admitted", "harmonised_hydraulic_default", "boundary"}
+        context_refs = {
+            "operating_limits": [(m1, "PDF p6 / A-2"), (m1, "PDF p26 / A-22"), (m1, "PDF p27 / A-23")],
+            "rating_crosswalk": [(m1, "PDF p40 / A-36"), (m1, "PDF p73 / B-7")],
+            "conditional_hydraulics": [(m1, "PDF p158 / B-92; Table 5.6.2"), (m1, "PDF p27 / A-23"), (m1, "PDF p160 / B-94")],
+            "installation": [(m1, "PDF pp62-66 / A-58-A-62; R290 installation"), (m1, "PDF p153 / B-87; hydraulic design")],
+        }
+        for cid, section in context.items():
+            require(set(section) == context_fields.get(cid), f"unexpected/missing context fields {cid}")
+            if cid in context_refs:
+                require(section["references"] == [{"source_id": sid, "locator": loc} for sid, loc in context_refs[cid]], f"context exact reference role/cardinality changed {cid}")
+        require(set(context) == {"erp_rating", "operating_limits", "family_naming", "rating_crosswalk", "conditional_hydraulics", "installation", "water_data"}, "context scope changed")
+        erp = context["erp_rating"]
+        require(erp["locator"] == "PDF p13 / A-9; PUZ-WZ50VAA(-BS) + ERPX-VM2E row", "ErP primary page/row role changed")
+        require((erp["source_id"], erp["outdoor"], erp["indoor"], erp["condition"]) == (m1, "PUZ-WZ50VAA(-BS)", "ERPX-VM2E", "ErP medium-temperature average climate"), "ErP model/condition changed")
+        require(erp["rated_heat_output"] == {"value": "5.0", "unit": "kW", "truth": "OBS"} and erp["legal_maximum_rated_capacity_determination"] is False, "ErP legal/output boundary changed")
+        limits = context["operating_limits"]
+        require(limits["model_scope"] == "PUZ-WZ50VAA(-BS)", "operating limit model scope changed")
+        for key, value in {"heating_ambient_min": "-25", "heating_ambient_max": "24", "dhw_ambient_min": "-25", "dhw_ambient_max": "46", "cooling_ambient_min": "10", "cooling_ambient_max": "46", "max_outlet_at_ambient_minus25": "65", "max_outlet_at_ambient_minus15": "75"}.items():
+            require(limits[key] == {"value": value, "unit": "degC", "truth": "OBS"}, f"operating mode limit changed {key}")
+        naming = context["family_naming"]
+        require(naming["locator"] == "PDF pp8,30; model/controller naming and R290 family" and naming["scope"] == "E-generation indoor / R290 Power Inverter monoblock family", "family naming exact page/scope changed")
+        require(naming["source_id"] == h1 and naming["control_generation"] == "FTC7" and naming["exact_compatibility_authority"] == m1 and naming["independent_performance_corroboration"] is False, "supplementary naming cannot become compatibility/performance authority")
+        crosswalk = context["rating_crosswalk"]
+        require(crosswalk["A7_A2_capacity_values_match"] == "Partload1" and crosswalk["A2_Partload1_defrost_annotation"] == "GRAY_INCLUDES_DEFROST" and crosswalk["M2_normal_values_numerically_match"] == "M1 Max at A-7/W35" and crosswalk["M2_mode_relabelled"] is False, "numeric agreement cannot overwrite native labels")
+        hydraulic = context["conditional_hydraulics"]
+        require(hydraulic["volume_scope"] == "GENERIC_INDOOR_REFERENCE_WITH_WZ50_ADDITIONAL_WATER_TABLE" and hydraulic["model_scope"] == "PUZ-WZ50 row; generic indoor reference, not ERPX-VM2E actual internal volume", "generic hydraulic volume cannot be assigned to actual product")
+        require(context["installation"]["model_scope"] == "PUZ-WZ50VAA(-BS) and ERPX hydraulic design context", "installation model scope changed")
+        require(context["installation"]["unpriced_scope"] == ["site piping", "insulation", "drainage", "electrical work", "emitters", "commissioning", "conditional buffer"], "unpriced installation scope changed")
+        for key, value in (("table_indoor_reference", "5"), ("additional_average_or_warmer", "2"), ("additional_colder", "24")):
+            require(hydraulic[key] == {"value": value, "unit": "L", "truth": "OBS"}, f"conditional hydraulic fact changed {key}")
+        require(hydraulic["universal_buffer_size_admitted"] is False and hydraulic["site_climate_or_circuit_volume_known"] is False and context["installation"]["site_safe_design_certified"] is False, "site/hydraulic admission not established")
+        # Exact source/page/model/quantity roles, independently bound to the native rows.
+        water = context["water_data"]
+        expected_water = [
+            (m1, "PDF p6 / A-2", "PUZ-WZ50VAA(-BS)", "Water Flow rate range", "6.5", "L/min", "RANGE_MINIMUM"),
+            (m1, "PDF p6 / A-2", "PUZ-WZ50VAA(-BS)", "Water Flow rate range", "14.3", "L/min", "RANGE_MAXIMUM"),
+            (m3, "PDF p7 / printed p6; Table 3.4.1", "PUZ-WZ50", "Water flow rate range [L/min]", "6.5", "L/min", "RANGE_MINIMUM"),
+            (m3, "PDF p7 / printed p6; Table 3.4.1", "PUZ-WZ50", "Water flow rate range [L/min]", "14.3", "L/min", "RANGE_MAXIMUM"),
+            (m2, "PDF p2; WATER DATA", "PUZ-WZ50VAA", "Pipework Size (mm)", "22", "mm", "PIPEWORK_SIZE"),
+            (m2, "PDF p2; WATER DATA", "PUZ-WZ50VAA", "Flow Rate (l/min)", "14", "L/min", "SINGLE_FLOW_RATE"),
+            (m2, "PDF p2; WATER DATA", "PUZ-WZ50VAA", "Water Pressure Drop (kPa)", "18.16", "kPa", "WATER_PRESSURE_DROP"),
+        ]
+        water_fields = ("source_id", "locator", "model_scope", "source_label", "value", "unit", "quantity_role")
+        require([tuple(r[k] for k in water_fields) for r in water["readings"]] == expected_water, "native water-data source/page/model/unit/role changed")
+        for reading in water["readings"]:
+            require(set(reading) == set(water_fields) | {"truth", "test_condition"} and reading["truth"] == "OBS" and reading["test_condition"] is None, "water-data condition/truth/schema changed")
+        require(water["m2_flow_min_or_max_label"] is None and water["rounding_reconciliation_admitted"] is False and water["harmonised_hydraulic_default"] is None, "single M2 flow cannot acquire minimum/maximum, rounding or default authority")
+        require(water["source_reading_correction"] == "M2 has no Min/Max flow labels; an earlier qualification misread pipework size as flow. That qualification is withdrawn, not treated as a manufacturer discrepancy.", "false earlier flow conclusion must remain withdrawn")
+        expected_conflicts = {
+            "GWP_CO2EQ": [
+                (m1, "PDF p6 / A-2; refrigerant row", "PUZ-WZ50VAA(-BS)", "R290 (GWP)", "3", "ratio"),
+                (m2, "PDF p2; refrigerant row and legal footer", "PUZ-WZ50VAA", "R290 GWP / IPCC6", "0.02", "ratio"),
+                (m2, "PDF p2; refrigerant charge / CO2 equivalent", "PUZ-WZ50VAA", "charge", "0.6", "kg"),
+                (m2, "PDF p2; refrigerant charge / CO2 equivalent", "PUZ-WZ50VAA", "CO2 equivalent", "0.0018", "tCO2eq"),
+            ],
+            "COOLING_INPUT_A35_W18": [
+                (m1, "PDF p11 / A-7; A35/W18", "PUZ-WZ50VAA(-BS)", "outdoor power input", "0.35", "kW"),
+                (m1, "PDF p73 / B-7; A35/W18", "PUZ-WZ50VAA(-BS) + listed indoor combinations", "combination power input", "1.31", "kW"),
+            ],
+            "DHW_EFFICIENCY_EHPT20X": [
+                (m1, "PDF p13 / A-9; WZ50 + EHPT20X-MEHEW", "PUZ-WZ50VAA(-BS) + EHPT20X-MEHEW", "water heating efficiency", "134", "percent"),
+                (m2, "PDF p2; combination heater and note 1", "PUZ-WZ50VAA + EHPT20X-MEHEW", "water heating efficiency", "143", "percent"),
+            ],
+            "INDOOR_WATER_REFERENCE": [
+                (m1, "PDF p72 / B-6", "ERPX-VM2E", "internal heating water", "4.5", "L"),
+                (m1, "PDF p158 / B-92; Table 5.6.2", "generic indoor reference used with PUZ-WZ50 row", "indoor unit water amount", "5", "L"),
+            ],
+        }
+        conflicts = manifest["conflicts"]
+        require(len(conflicts) == 4 and {c["conflict_id"] for c in conflicts} == set(expected_conflicts), "unresolved discrepancies cannot be omitted")
+        for conflict in conflicts:
+            cid = conflict["conflict_id"]
+            require(set(conflict) == {"conflict_id", "readings", "status", "harmonised_default", "source_repaired", "boundary"}, f"unexpected/missing conflict fields {cid}")
+            require([(r["source_id"], r["locator"], r["model_scope"], r["source_label"], r["value"], r["unit"]) for r in conflict["readings"]] == expected_conflicts.get(cid), f"literal source discrepancy changed {cid}")
+            require(conflict["status"] == "UNRESOLVED_SOURCE_DISCREPANCY" and conflict["harmonised_default"] is None and conflict["source_repaired"] is False and bool(conflict["boundary"]), f"source discrepancy cannot be repaired/defaulted {cid}")
+            for reading in conflict["readings"]:
+                require(set(reading) == {"source_id", "locator", "model_scope", "source_label", "value", "unit", "truth"}, "unexpected/missing native discrepancy fields")
+            if cid == "DHW_EFFICIENCY_EHPT20X":
+                require([r["model_scope"] for r in conflict["readings"]] == ["PUZ-WZ50VAA(-BS) + EHPT20X-MEHEW", "PUZ-WZ50VAA + EHPT20X-MEHEW"], "DHW conflict cannot transfer to another cylinder")
+        debts = manifest["validation_debt"]
+        require(len(debts) == 3 and {d["debt_id"] for d in debts} == {"B05-R290-TARGET-INSTALLATION", "B05-R290-SOURCE-CONFLICTS", "B05-R290-PRICE-PROCUREMENT"} and all(d["status"] == "Q" and d["scope"] and d["next_evidence"] for d in debts), "validation debt cannot be closed")
+    except (ValueError, TypeError, KeyError, OSError, InvalidOperation) as exc:
         errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
 
 

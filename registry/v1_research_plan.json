@@ -749,6 +749,18 @@
               "expected_decision_value": "Closes all original D02 source-product criteria by exact-source and consumer reuse without adding a duplicate helper, new performance point, scientific default or numerical method.",
               "decision": "ACCEPT_BOUNDED_WM50_D02_PRODUCT_HANDOFF_BY_VERIFIED_REUSE",
               "evidence": "docs/checkpoints/V1_053_ACCEPTANCE.json"
+            },
+            {
+              "date": "2026-10-05",
+              "source_families": [
+                "Mitsubishi WZ Vol.1.0 and distinct UK WZ50 product sheet",
+                "FTC7 installation manual and distributor-hosted manufacturer Hungarian naming catalogue"
+              ],
+              "remaining_unknown": "Target installation, source contradictions, complete current Hungarian equipment/installed price and 2028 procurement applicability remain Q. No WM50 replacement, runtime/default, scenario or readiness/task acceptance.",
+              "promising_next_lead": "Use exact source/configuration boundaries for a separately justified target; resolve manufacturer discrepancies only when required by that claim.",
+              "expected_decision_value": "V1-070 retains six source-native performance anchors and distinct reversible indoor/controller routes without promoting procurement or model authority.",
+              "decision": "QUALIFY_BOUNDED_R290_REFERENCES_NO_DEFAULT_OR_RUNTIME_ADMISSION",
+              "evidence": "docs/source_packs/B05_R290_MANUFACTURER_REFERENCES.md"
             }
           ],
           "reviewed_commit": "ce641bea8082ce3e49d78f75b9f178232f91ec3b"

@@ -1,0 +1,831 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B05-R290-MANUFACTURER-REFERENCE-2026",
+  "status": "QUALIFIED_SOURCE_REFERENCES_ONLY",
+  "owner_module": "B05",
+  "research_slice_id": "B05-D02",
+  "source_fact_policy": "OBS labels source-reported declarations, not independent field observations or a claim that every manufacturer cell was directly measured. The grid may include manufacturer interpolation/calculation. SCN labels only the separated service-use descriptions. Dates, revisions, model/source/page identifiers and schema versions are provenance metadata. No model numeric input is admitted.",
+  "target_authority": {
+    "applicability_status": "Q",
+    "usable_for_engine": false,
+    "model_default_admitted": false,
+    "product_selected": false,
+    "wm50_replaced": false,
+    "annual_performance_admitted": false,
+    "installed_cost_qualified": false,
+    "current_complete_hu_price_qualified": false,
+    "procurement_2028_legal_eligibility_certified": false,
+    "scenario_widened": false,
+    "readiness_closed": false,
+    "task_accepted": false
+  },
+  "sources": [
+    {
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "title": "Ecodan ATW Databook PUZ-WZ Vol.1.0",
+      "authority": "Mitsubishi Electric",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/5483",
+      "retrieved_at": "2026-10-05T18:02:29.140130+00:00",
+      "document_date": "2025-05",
+      "document_date_precision": "month",
+      "document_date_basis": "Issued May 2025; creation/modification metadata is not issue date",
+      "document_revision": "Issued May 2025; M-E0977 SIZ2025<MEE>; PDF metadata creation 2025-05-16, modification 2025-06-13",
+      "reference_period": "Issued May 2025; M-E0977 SIZ2025<MEE>; PDF metadata creation 2025-05-16, modification 2025-06-13",
+      "geography_and_authority": "Manufacturer original hosted by Mitsubishi Electric UK; models and geography must be preserved",
+      "source_tier": "P2",
+      "sha256": "d6cc1ca7c6bb2e2af75e15930c0031623de6c25bbf49b636bb42c56004077886",
+      "bytes": 44665136,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Attributed necessary factual references and original qualification metadata only; original PDFs, page images and full extracted text are not redistributed.",
+      "document_date_role": "ISSUE_MONTH"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+      "title": "PUZ-WZ50VAA product information sheet",
+      "authority": "Mitsubishi Electric Europe UK/Ireland",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4927",
+      "retrieved_at": "2026-10-05T18:02:35.793186+00:00",
+      "document_date": "2025-01",
+      "document_date_precision": "month",
+      "document_date_basis": "Effective January 2025; PDF created/modified February 2026, not a new effective date",
+      "document_revision": "Effective January 2025; original PDF metadata created/modified 2026-02-03",
+      "reference_period": "Effective January 2025; original PDF metadata created/modified 2026-02-03",
+      "geography_and_authority": "UK/Ireland product sheet, not HU pricing or certification",
+      "source_tier": "P2",
+      "sha256": "dabe22096af02a3954365c5cb0f36f89d447b201ebf599dbf75893c473f0d0c6",
+      "bytes": 775721,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Attributed necessary factual references and original qualification metadata only; original PDFs, page images and full extracted text are not redistributed.",
+      "document_date_role": "EFFECTIVE_MONTH"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-FTC7-MANUAL-2024",
+      "title": "PAC-IF081/082/083B-E installation manual DG79H200H02",
+      "authority": "Mitsubishi Electric",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4950",
+      "retrieved_at": "2026-10-05T18:05:16.093047+00:00",
+      "document_date": null,
+      "document_date_precision": "unknown",
+      "document_date_basis": "Revision DG79H200H02; April 2024 PDF metadata, exact issue date not established",
+      "document_revision": "DG79H200H02; PDF metadata April 2024",
+      "reference_period": "DG79H200H02; PDF metadata April 2024",
+      "geography_and_authority": "Manufacturer original; installer manual, not evidence of a fully priced system",
+      "source_tier": "P2",
+      "sha256": "17cab38d2b723369e6036ec2c7886164a732ed8891a9d4d6e0707948af630082",
+      "bytes": 5351021,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Attributed necessary factual references and original qualification metadata only; original PDFs, page images and full extracted text are not redistributed.",
+      "document_date_role": "ISSUE_DATE_UNKNOWN"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-HU-CATALOGUE-2024",
+      "title": "Hungarian air-to-water heat pump catalogue",
+      "authority": "Mitsubishi Electric Europe B.V., manufacturer-authored catalogue hosted at mklima.hu",
+      "original_url": "https://mklima.hu/storage/app/uploads/public/689/995/2d6/6899952d6676a549765922.pdf",
+      "retrieved_at": "2026-10-05T18:04:29.916224+00:00",
+      "document_date": "2024-12",
+      "document_date_precision": "month",
+      "document_date_basis": "HU-00386 // 12/2024; August 2025 HTTP hosting timestamp is not issue date",
+      "document_revision": "HU-00386 // 12/2024; PDF metadata Jan/Apr 2025; HTTP Last-Modified 2025-08-11",
+      "reference_period": "HU-00386 // 12/2024; PDF metadata Jan/Apr 2025; HTTP Last-Modified 2025-08-11",
+      "geography_and_authority": "Hungarian translation/distributor-hosted manufacturer material; not independent performance corroboration or price list",
+      "source_tier": "P2",
+      "sha256": "50f77a80e559b1179114cfe8efd2b644f3dab972775979e4f1e5d8cbad22f9c4",
+      "bytes": 9408582,
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Attributed necessary factual references and original qualification metadata only; original PDFs, page images and full extracted text are not redistributed.",
+      "document_date_role": "ISSUE_MONTH"
+    }
+  ],
+  "identity": {
+    "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+    "locator": "PDF p6 / A-2",
+    "truth": "OBS",
+    "base_model": "PUZ-WZ50VAA",
+    "covered_commercial_variant": "PUZ-WZ50VAA-BS",
+    "manufacturer_table_scope": "PUZ-WZ50VAA(-BS)",
+    "refrigerant": "R290",
+    "charge": {
+      "value": "0.6",
+      "unit": "kg",
+      "truth": "OBS"
+    },
+    "phase": {
+      "value": "1",
+      "unit": "phase",
+      "truth": "OBS"
+    },
+    "voltage": {
+      "value": "230",
+      "unit": "V",
+      "truth": "OBS"
+    },
+    "frequency": {
+      "value": "50",
+      "unit": "Hz",
+      "truth": "OBS"
+    },
+    "connection": "WATER_CONNECTED_MONOBLOCK",
+    "refrigerant_water_exchanger": "BUILT_IN_OUTDOOR",
+    "base_variant_commercial_equivalence_inferred": false,
+    "boundary": "Hydro-Split denotes the water-connected arrangement, not field refrigerant piping. Base and -BS prices, regional warranty and supplied bill of materials are not interchangeable."
+  },
+  "anchor_units": {
+    "ambient_dry_bulb_c": "degC",
+    "ambient_wet_bulb_c": "degC",
+    "water_outlet_c": "degC",
+    "water_inlet_c": "degC",
+    "capacity_kw": "kW",
+    "cop": "ratio",
+    "electrical_input_kw": "kW",
+    "test_flow_l_per_min": "L/min"
+  },
+  "methods": {
+    "M1_CAPACITY_2018": {
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p11 / A-7, WZ50/60/80 capacity table",
+      "standard": "EN14511 parts 1-4:2018",
+      "standard_year_applies_to": "WZ50/60/80 capacity table only; 2022 line belongs to other models",
+      "pump_input_included": true,
+      "method_boundary": "Source-declared COP/electrical input includes EN14511 pump input; not installed-system or household electricity."
+    },
+    "M1_GRID_REFERENCE": {
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p38 / A-34, performance notes and modes",
+      "standard": "EN14511; year not specified in grid notes",
+      "values_may_include_interpolation_or_calculation": true,
+      "all_points_directly_measured": false,
+      "gray_includes_defrost": true,
+      "not_gray_means_no_defrost": false,
+      "mode_definitions": {
+        "Max": "Maximum capacity",
+        "Partload1": "Heating reference capacity defined at A-7/W35",
+        "Min": "Minimum capacity"
+      },
+      "method_boundary": "Finite manufacturer-conditioned reference. No runtime interpolation, extrapolation, mode dispatch or added defrost factor is admitted."
+    },
+    "M2_PI_NORMAL_HEATING": {
+      "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+      "locator": "PDF p2, HEATING row and note 2",
+      "standard": "Not specified for note 2 heating point",
+      "native_label": "normal heating conditions",
+      "max_label_stated": false,
+      "method_boundary": "Dry bulb -7 C / wet bulb -8 C; outlet 35 C / inlet 30 C. Numerical agreement with M1 Max does not transfer the Max label or other method boundaries."
+    }
+  },
+  "anchors": [
+    {
+      "anchor_id": "M1-A7-W35",
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p11 / A-7; capacity table",
+      "model_scope": "PUZ-WZ50VAA(-BS)",
+      "truth": "OBS",
+      "mode_label": "capacity table",
+      "method_id": "M1_CAPACITY_2018",
+      "ambient_dry_bulb_c": "7",
+      "ambient_wet_bulb_c": null,
+      "water_outlet_c": "35",
+      "water_inlet_c": null,
+      "capacity_kw": "4.00",
+      "cop": "5.10",
+      "electrical_input_kw": "0.78",
+      "test_flow_l_per_min": "11.5",
+      "defrost_annotation": "NOT_STATED_IN_CAPACITY_TABLE",
+      "use_scope": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "anchor_id": "M1-A2-W35",
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p11 / A-7; capacity table",
+      "model_scope": "PUZ-WZ50VAA(-BS)",
+      "truth": "OBS",
+      "mode_label": "capacity table",
+      "method_id": "M1_CAPACITY_2018",
+      "ambient_dry_bulb_c": "2",
+      "ambient_wet_bulb_c": null,
+      "water_outlet_c": "35",
+      "water_inlet_c": null,
+      "capacity_kw": "5.00",
+      "cop": "3.15",
+      "electrical_input_kw": "1.59",
+      "test_flow_l_per_min": "14.3",
+      "defrost_annotation": "NOT_STATED_IN_CAPACITY_TABLE",
+      "use_scope": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "anchor_id": "M1-A-7-W35-PARTLOAD1",
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p40 / A-36; WZ50 Partload1 row",
+      "model_scope": "PUZ-WZ50VAA(-BS)",
+      "truth": "OBS",
+      "mode_label": "Partload1",
+      "method_id": "M1_GRID_REFERENCE",
+      "ambient_dry_bulb_c": "-7",
+      "ambient_wet_bulb_c": null,
+      "water_outlet_c": "35",
+      "water_inlet_c": null,
+      "capacity_kw": "5.0",
+      "cop": "2.70",
+      "electrical_input_kw": null,
+      "test_flow_l_per_min": null,
+      "defrost_annotation": "NOT_GRAY_NOT_ZERO_DEFROST",
+      "use_scope": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "anchor_id": "M1-A-7-W35-MAX",
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p40 / A-36; WZ50 Max row",
+      "model_scope": "PUZ-WZ50VAA(-BS)",
+      "truth": "OBS",
+      "mode_label": "Max",
+      "method_id": "M1_GRID_REFERENCE",
+      "ambient_dry_bulb_c": "-7",
+      "ambient_wet_bulb_c": null,
+      "water_outlet_c": "35",
+      "water_inlet_c": null,
+      "capacity_kw": "5.2",
+      "cop": "2.68",
+      "electrical_input_kw": null,
+      "test_flow_l_per_min": null,
+      "defrost_annotation": "NOT_GRAY_NOT_ZERO_DEFROST",
+      "use_scope": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "anchor_id": "M2-A-7-W35-NORMAL",
+      "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+      "locator": "PDF p2; HEATING and note 2",
+      "model_scope": "PUZ-WZ50VAA",
+      "truth": "OBS",
+      "mode_label": "normal heating conditions",
+      "method_id": "M2_PI_NORMAL_HEATING",
+      "ambient_dry_bulb_c": "-7",
+      "ambient_wet_bulb_c": "-8",
+      "water_outlet_c": "35",
+      "water_inlet_c": "30",
+      "capacity_kw": "5.2",
+      "cop": "2.68",
+      "electrical_input_kw": "1.94",
+      "test_flow_l_per_min": null,
+      "defrost_annotation": "NOT_STATED",
+      "use_scope": "SOURCE_REFERENCE_ONLY"
+    },
+    {
+      "anchor_id": "M1-A-25-W35-MAX",
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p40 / A-36; WZ50 Max row",
+      "model_scope": "PUZ-WZ50VAA(-BS)",
+      "truth": "OBS",
+      "mode_label": "Max",
+      "method_id": "M1_GRID_REFERENCE",
+      "ambient_dry_bulb_c": "-25",
+      "ambient_wet_bulb_c": null,
+      "water_outlet_c": "35",
+      "water_inlet_c": null,
+      "capacity_kw": "3.2",
+      "cop": "1.85",
+      "electrical_input_kw": null,
+      "test_flow_l_per_min": null,
+      "defrost_annotation": "NOT_GRAY_NOT_ZERO_DEFROST",
+      "use_scope": "SOURCE_REFERENCE_ONLY"
+    }
+  ],
+  "anchors_sha256": "bb9a84bb5a4e6ab0ac51d90b4ced611e933fc70319338757137d7cd26143a6b2",
+  "configurations": {
+    "ERPX": {
+      "outdoor": "PUZ-WZ50VAA",
+      "indoor": "ERPX-VM2E",
+      "architecture": "INTEGRATED_HYDROBOX",
+      "hardware_reversible": true,
+      "service_scenario": "SPACE_HEATING_ONLY_REFERENCE",
+      "service_scenario_truth": "SCN",
+      "dhw_cylinder_included": false,
+      "controller_arrangement": "INTEGRATED_CONTROL_AND_MAIN_REMOTE",
+      "standalone_controller_added_to_integrated_route": false,
+      "mandatory_external_controller": null,
+      "components": [
+        "control/main remote",
+        "primary circulation pump",
+        "flow sensor",
+        "expansion vessel",
+        "booster heater",
+        "magnetic filter"
+      ],
+      "facts": {
+        "booster": {
+          "value": "2",
+          "unit": "kW",
+          "truth": "OBS"
+        },
+        "expansion_vessel": {
+          "value": "10",
+          "unit": "L",
+          "truth": "OBS"
+        },
+        "internal_heating_water": {
+          "value": "4.5",
+          "unit": "L",
+          "truth": "OBS"
+        }
+      },
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p68 / B-2; compatibility"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p72 / B-6; ERPX-VM2E specification"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p73 / B-7; combination performance"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF pp152-153 / B-86-B-87; components/hydraulics"
+        }
+      ],
+      "boundary": "A reversible hydrobox used for a heating-only service scenario; no integrated DHW cylinder. Compatibility is not an installed bill of materials or site-safe design."
+    },
+    "ERPT20X": {
+      "outdoor": "PUZ-WZ50VAA",
+      "indoor": "ERPT20X-VM2E",
+      "architecture": "INTEGRATED_CYLINDER_UNIT",
+      "hardware_reversible": true,
+      "service_scenario": "SEPARATE_DHW_ALTERNATIVE",
+      "service_scenario_truth": "SCN",
+      "dhw_cylinder_included": true,
+      "controller_arrangement": "INTEGRATED_INDOOR_CONTROL",
+      "standalone_controller_added_to_integrated_route": false,
+      "mandatory_external_controller": null,
+      "components": [
+        "integrated cylinder unit"
+      ],
+      "facts": {
+        "dhw_cylinder": {
+          "value": "200",
+          "unit": "L",
+          "truth": "OBS"
+        },
+        "booster": {
+          "value": "2",
+          "unit": "kW",
+          "truth": "OBS"
+        },
+        "expansion_vessel": {
+          "value": "12",
+          "unit": "L",
+          "truth": "OBS"
+        }
+      },
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p68 / B-2; compatibility"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p70 / B-4; ERPT20X-VM2E specification"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p73 / B-7; combination performance"
+        }
+      ],
+      "boundary": "Replaces the ERPX indoor route, not additive or included in an outdoor listing. M2 EHPT20X-MEHEW DHW ratings do not transfer to ERPT20X-VM2E."
+    },
+    "PAC_IF081": {
+      "outdoor": "PUZ-WZ50VAA(-BS)",
+      "indoor": null,
+      "architecture": "STANDALONE_CONTROLLER_LOCAL_HYDRAULICS",
+      "hardware_reversible": null,
+      "service_scenario": "SEPARATE_CONTROLLER_ALTERNATIVE",
+      "service_scenario_truth": "SCN",
+      "dhw_cylinder_included": false,
+      "controller_arrangement": "PAC-IF081B-E",
+      "standalone_controller_added_to_integrated_route": false,
+      "mandatory_external_controller": null,
+      "mandatory_flow_sensor": "PAC-FS01-E",
+      "complete_hydraulic_module": false,
+      "components": [
+        "main remote",
+        "supplied thermistors"
+      ],
+      "locally_supplied": [
+        "water circulation pump",
+        "flow protection and hydraulic safety components",
+        "hydraulic circuit",
+        "DHW tank and valve if that service is required"
+      ],
+      "facts": {},
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p187 / C-3; WZ50 compatible controller and mandatory flow sensor"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-FTC7-MANUAL-2024",
+          "locator": "PDF pp3,6-8 / printed pp2,5-7; kit contents and system requirements"
+        }
+      ],
+      "boundary": "Alternative to integrated indoor control; not a complete hydrobox or an automatic extra component charge. No WM50 controller assumption is reused."
+    }
+  },
+  "context": {
+    "erp_rating": {
+      "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "locator": "PDF p13 / A-9; PUZ-WZ50VAA(-BS) + ERPX-VM2E row",
+      "outdoor": "PUZ-WZ50VAA(-BS)",
+      "indoor": "ERPX-VM2E",
+      "condition": "ErP medium-temperature average climate",
+      "rated_heat_output": {
+        "value": "5.0",
+        "unit": "kW",
+        "truth": "OBS"
+      },
+      "legal_maximum_rated_capacity_determination": false
+    },
+    "operating_limits": {
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p6 / A-2"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p26 / A-22"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p27 / A-23"
+        }
+      ],
+      "heating_ambient_min": {
+        "value": "-25",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "heating_ambient_max": {
+        "value": "24",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "dhw_ambient_min": {
+        "value": "-25",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "dhw_ambient_max": {
+        "value": "46",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "cooling_ambient_min": {
+        "value": "10",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "cooling_ambient_max": {
+        "value": "46",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "max_outlet_at_ambient_minus25": {
+        "value": "65",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "max_outlet_at_ambient_minus15": {
+        "value": "75",
+        "unit": "degC",
+        "truth": "OBS"
+      },
+      "boundary": "Separate mode limits, not simultaneous heat-output guarantees. Return-water admissibility depends on water volume; no annual SPF/SCOP or new curve is inferred.",
+      "model_scope": "PUZ-WZ50VAA(-BS)"
+    },
+    "family_naming": {
+      "source_id": "SRC-B05-MITSUBISHI-HU-CATALOGUE-2024",
+      "locator": "PDF pp8,30; model/controller naming and R290 family",
+      "control_generation": "FTC7",
+      "scope": "E-generation indoor / R290 Power Inverter monoblock family",
+      "exact_compatibility_authority": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+      "independent_performance_corroboration": false
+    },
+    "rating_crosswalk": {
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p40 / A-36"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p73 / B-7"
+        }
+      ],
+      "A7_A2_capacity_values_match": "Partload1",
+      "A2_Partload1_defrost_annotation": "GRAY_INCLUDES_DEFROST",
+      "M2_normal_values_numerically_match": "M1 Max at A-7/W35",
+      "M2_mode_relabelled": false,
+      "boundary": "Numerical agreement is not a merge of records or authority to replace source labels."
+    },
+    "conditional_hydraulics": {
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p158 / B-92; Table 5.6.2"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p27 / A-23"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p160 / B-94"
+        }
+      ],
+      "table_indoor_reference": {
+        "value": "5",
+        "unit": "L",
+        "truth": "OBS"
+      },
+      "additional_average_or_warmer": {
+        "value": "2",
+        "unit": "L",
+        "truth": "OBS"
+      },
+      "additional_colder": {
+        "value": "24",
+        "unit": "L",
+        "truth": "OBS"
+      },
+      "universal_buffer_size_admitted": false,
+      "site_climate_or_circuit_volume_known": false,
+      "boundary": "Additional required water is climate/circuit dependent; buffer only for insufficient required water. Primary/secondary pump interlock and bypass determine counted volume. Generic 5 L table and product-specific 4.5 L remain distinct.",
+      "volume_scope": "GENERIC_INDOOR_REFERENCE_WITH_WZ50_ADDITIONAL_WATER_TABLE",
+      "model_scope": "PUZ-WZ50 row; generic indoor reference, not ERPX-VM2E actual internal volume"
+    },
+    "installation": {
+      "references": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF pp62-66 / A-58-A-62; R290 installation"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p153 / B-87; hydraulic design"
+        }
+      ],
+      "site_safe_design_certified": false,
+      "unpriced_scope": [
+        "site piping",
+        "insulation",
+        "drainage",
+        "electrical work",
+        "emitters",
+        "commissioning",
+        "conditional buffer"
+      ],
+      "boundary": "Manufacturer constraints require a site-specific design; no procurement legality or complete installation is established.",
+      "model_scope": "PUZ-WZ50VAA(-BS) and ERPX hydraulic design context"
+    },
+    "water_data": {
+      "readings": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p6 / A-2",
+          "model_scope": "PUZ-WZ50VAA(-BS)",
+          "source_label": "Water Flow rate range",
+          "value": "6.5",
+          "unit": "L/min",
+          "truth": "OBS",
+          "quantity_role": "RANGE_MINIMUM",
+          "test_condition": null
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p6 / A-2",
+          "model_scope": "PUZ-WZ50VAA(-BS)",
+          "source_label": "Water Flow rate range",
+          "value": "14.3",
+          "unit": "L/min",
+          "truth": "OBS",
+          "quantity_role": "RANGE_MAXIMUM",
+          "test_condition": null
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-FTC7-MANUAL-2024",
+          "locator": "PDF p7 / printed p6; Table 3.4.1",
+          "model_scope": "PUZ-WZ50",
+          "source_label": "Water flow rate range [L/min]",
+          "value": "6.5",
+          "unit": "L/min",
+          "truth": "OBS",
+          "quantity_role": "RANGE_MINIMUM",
+          "test_condition": null
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-FTC7-MANUAL-2024",
+          "locator": "PDF p7 / printed p6; Table 3.4.1",
+          "model_scope": "PUZ-WZ50",
+          "source_label": "Water flow rate range [L/min]",
+          "value": "14.3",
+          "unit": "L/min",
+          "truth": "OBS",
+          "quantity_role": "RANGE_MAXIMUM",
+          "test_condition": null
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; WATER DATA",
+          "model_scope": "PUZ-WZ50VAA",
+          "source_label": "Pipework Size (mm)",
+          "value": "22",
+          "unit": "mm",
+          "truth": "OBS",
+          "quantity_role": "PIPEWORK_SIZE",
+          "test_condition": null
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; WATER DATA",
+          "model_scope": "PUZ-WZ50VAA",
+          "source_label": "Flow Rate (l/min)",
+          "value": "14",
+          "unit": "L/min",
+          "truth": "OBS",
+          "quantity_role": "SINGLE_FLOW_RATE",
+          "test_condition": null
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; WATER DATA",
+          "model_scope": "PUZ-WZ50VAA",
+          "source_label": "Water Pressure Drop (kPa)",
+          "value": "18.16",
+          "unit": "kPa",
+          "truth": "OBS",
+          "quantity_role": "WATER_PRESSURE_DROP",
+          "test_condition": null
+        }
+      ],
+      "source_reading_correction": "M2 has no Min/Max flow labels; an earlier qualification misread pipework size as flow. That qualification is withdrawn, not treated as a manufacturer discrepancy.",
+      "m2_flow_min_or_max_label": null,
+      "rounding_reconciliation_admitted": false,
+      "harmonised_hydraulic_default": null,
+      "boundary": "M1/M3 ranges remain source-bound. M2 separately reports pipework 22 mm, a single flow 14 L/min and pressure drop 18.16 kPa. No test condition, maximum/minimum or rounding relationship is inferred."
+    }
+  },
+  "conflicts": [
+    {
+      "conflict_id": "GWP_CO2EQ",
+      "readings": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p6 / A-2; refrigerant row",
+          "model_scope": "PUZ-WZ50VAA(-BS)",
+          "source_label": "R290 (GWP)",
+          "value": "3",
+          "unit": "ratio",
+          "truth": "OBS"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; refrigerant row and legal footer",
+          "model_scope": "PUZ-WZ50VAA",
+          "source_label": "R290 GWP / IPCC6",
+          "value": "0.02",
+          "unit": "ratio",
+          "truth": "OBS"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; refrigerant charge / CO2 equivalent",
+          "model_scope": "PUZ-WZ50VAA",
+          "source_label": "charge",
+          "value": "0.6",
+          "unit": "kg",
+          "truth": "OBS"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; refrigerant charge / CO2 equivalent",
+          "model_scope": "PUZ-WZ50VAA",
+          "source_label": "CO2 equivalent",
+          "value": "0.0018",
+          "unit": "tCO2eq",
+          "truth": "OBS"
+        }
+      ],
+      "status": "UNRESOLVED_SOURCE_DISCREPANCY",
+      "harmonised_default": null,
+      "source_repaired": false,
+      "boundary": "The M2 CO2-equivalent figure is consistent with charge times M1 GWP, not its own stated GWP. No harmonised emissions factor or legal eligibility conclusion."
+    },
+    {
+      "conflict_id": "COOLING_INPUT_A35_W18",
+      "readings": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p11 / A-7; A35/W18",
+          "model_scope": "PUZ-WZ50VAA(-BS)",
+          "source_label": "outdoor power input",
+          "value": "0.35",
+          "unit": "kW",
+          "truth": "OBS"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p73 / B-7; A35/W18",
+          "model_scope": "PUZ-WZ50VAA(-BS) + listed indoor combinations",
+          "source_label": "combination power input",
+          "value": "1.31",
+          "unit": "kW",
+          "truth": "OBS"
+        }
+      ],
+      "status": "UNRESOLVED_SOURCE_DISCREPANCY",
+      "harmonised_default": null,
+      "source_repaired": false,
+      "boundary": "Unresolved outdoor/combination discrepancy; neither is used for a cooling scenario or numeric energy default."
+    },
+    {
+      "conflict_id": "DHW_EFFICIENCY_EHPT20X",
+      "readings": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p13 / A-9; WZ50 + EHPT20X-MEHEW",
+          "model_scope": "PUZ-WZ50VAA(-BS) + EHPT20X-MEHEW",
+          "source_label": "water heating efficiency",
+          "value": "134",
+          "unit": "percent",
+          "truth": "OBS"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ50-PI-2025",
+          "locator": "PDF p2; combination heater and note 1",
+          "model_scope": "PUZ-WZ50VAA + EHPT20X-MEHEW",
+          "source_label": "water heating efficiency",
+          "value": "143",
+          "unit": "percent",
+          "truth": "OBS"
+        }
+      ],
+      "status": "UNRESOLVED_SOURCE_DISCREPANCY",
+      "harmonised_default": null,
+      "source_repaired": false,
+      "boundary": "Same named UK cylinder has unresolved ratings; no transfer to ERPT20X-VM2E, ERPX or annual DHW performance."
+    },
+    {
+      "conflict_id": "INDOOR_WATER_REFERENCE",
+      "readings": [
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p72 / B-6",
+          "model_scope": "ERPX-VM2E",
+          "source_label": "internal heating water",
+          "value": "4.5",
+          "unit": "L",
+          "truth": "OBS"
+        },
+        {
+          "source_id": "SRC-B05-MITSUBISHI-WZ-DATABOOK-2025",
+          "locator": "PDF p158 / B-92; Table 5.6.2",
+          "model_scope": "generic indoor reference used with PUZ-WZ50 row",
+          "source_label": "indoor unit water amount",
+          "value": "5",
+          "unit": "L",
+          "truth": "OBS"
+        }
+      ],
+      "status": "UNRESOLVED_SOURCE_DISCREPANCY",
+      "harmonised_default": null,
+      "source_repaired": false,
+      "boundary": "Product-specific and generic table figures remain distinct; no repaired total or universal buffer size."
+    }
+  ],
+  "validation_debt": [
+    {
+      "debt_id": "B05-R290-TARGET-INSTALLATION",
+      "status": "Q",
+      "scope": "Target heat demand, emitters, supply/return, volume, circuit, controls, auxiliaries and site-safe R290 installation are unqualified.",
+      "next_evidence": "Claim-matched site/system design before an installed performance assertion."
+    },
+    {
+      "debt_id": "B05-R290-SOURCE-CONFLICTS",
+      "status": "Q",
+      "scope": "GWP/CO2eq, cooling, DHW and generic/product water-volume differences remain unresolved; the earlier alleged inverted-flow conflict was a withdrawn reading error.",
+      "next_evidence": "Exact manufacturer revision clarification; no silent correction or new default."
+    },
+    {
+      "debt_id": "B05-R290-PRICE-PROCUREMENT",
+      "status": "Q",
+      "scope": "Current complete Hungarian equipment/installed price and 2028 procurement eligibility are not qualified here.",
+      "next_evidence": "Separate exact configuration, geography, date and transaction scope; no price forecast or legal conclusion from this handoff."
+    }
+  ],
+  "allowed_next_use": "Reviewable source/configuration references only. No runtime loader, replacement of accepted WM50 evidence, scientific default, product choice, scenario widening, installed cost, annual performance or task/readiness acceptance."
+}
