@@ -606,7 +606,9 @@
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
+          "validation_debt_ids": [
+            "B05-WM50-INSTALLED-HOURLY"
+          ],
           "research_log": [
             {
               "date": "2026-10-01",
@@ -644,6 +646,19 @@
               "expected_decision_value": "Quantifies historical cold exposure of the current fixed-W55 reference without generalizing one product or inventing a cold performance extension",
               "decision": "BOUNDED_SOURCE_DOMAIN_CHECK_COMPLETED_NO_NATIONAL_GATE_CLOSURE",
               "evidence": "docs/checkpoints/V1_044_COLD_SOURCE_DOMAIN.md"
+            },
+            {
+              "date": "2026-10-14",
+              "source_families": [
+                "Exact EHPT FTC6 manufacturer parts/product/service references",
+                "Grundfos candidate59C90800 linked API artifacts",
+                "Grundfos UPM3 standard/catalogueprofiles03.2022"
+              ],
+              "remaining_unknown": "Hourly installedelectricity/heatservice applicability remainsQ; annualconditionalmethod does not authorize hourlyuse",
+              "promising_next_lead": "One manufacturer BOM/nameplate/profilebinding record or separately qualified full boundary-equivalent aggregate/calibrated evidence",
+              "expected_decision_value": "Preserve real component evidence and conditional method while preventing genericprofile/candidate promotion into installed performance",
+              "decision": "COMPONENT_EVIDENCE_DOCUMENTED; OEM_SEARCH_PAUSED_NO_NEW_DISTINCT_LEAD; INSTALLED_TARGETS_UNRESOLVED",
+              "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md"
             }
           ],
           "reviewed_commit": null
@@ -781,7 +796,11 @@
           ],
           "accepted_artifacts": [],
           "consumer_tests": [],
-          "validation_debt_ids": [],
+          "validation_debt_ids": [
+            "B05-WM50-OEM-PROFILE",
+            "B05-WM50-INSTALLED-ANNUAL",
+            "B05-WM50-INSTALLED-HOURLY"
+          ],
           "research_log": [
             {
               "date": "2026-10-02",
@@ -822,6 +841,19 @@
               "expected_decision_value": "Connects annual before/after source packages and gas-to-HP paths while preserving shortfall, signed unresolved installation reconciliation and already-included unit controls; no partial sum, positive-only residual, native DHW change or complete installed result is inferred",
               "decision": "CONTINUE_BOUNDED_ANNUAL_PACKAGE_INTEGRATION",
               "evidence": "docs/checkpoints/V1_041_ANNUAL_RETROFIT_PACKAGE_REFERENCE.md"
+            },
+            {
+              "date": "2026-10-14",
+              "source_families": [
+                "Exact EHPT FTC6 manufacturer parts/product/service references",
+                "Grundfos candidate59C90800 linked API artifacts",
+                "Grundfos UPM3 standard/catalogueprofiles03.2022"
+              ],
+              "remaining_unknown": "ExactMitsubishi-OEM binding and full signed annual/hourly installed electricity/heat/service/duty balance remainQ; no numerical base",
+              "promising_next_lead": "One manufacturer BOM/nameplate/profilebinding record or separately qualified full boundary-equivalent aggregate/calibrated evidence",
+              "expected_decision_value": "Preserve real component evidence and conditional method while preventing genericprofile/candidate promotion into installed performance",
+              "decision": "COMPONENT_EVIDENCE_DOCUMENTED; OEM_SEARCH_PAUSED_NO_NEW_DISTINCT_LEAD; INSTALLED_TARGETS_UNRESOLVED",
+              "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md"
             }
           ],
           "reviewed_commit": null

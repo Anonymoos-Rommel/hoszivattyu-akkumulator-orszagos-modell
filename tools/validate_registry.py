@@ -2239,6 +2239,7 @@ def validate() -> list[str]:
     validate_b04_artifacts(errors, source_ids)
     validate_b05_artifacts(errors, source_ids)
     validate_b05_r290_references(errors, source_ids)
+    validate_b05_wm50_installed_boundary_evidence(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
     validate_b07_shared_use_artifacts(errors)
@@ -2512,6 +2513,239 @@ def validate_b11_seasonal_references(errors: list[str], source_ids: set[str]) ->
         require(task["canonical_source_ids"] == ["SRC-B06-TABULA-HU-CALCULATOR-2016", "SRC-B06-TABULA-METHOD-2013-LOCAL-REFERENCE"], "seasonal references cannot replace/admit canonical defaults")
         require(set(task["validation_debt_ids"]) == {d["id"] for d in manifest["validation_debt"]} and all(d["status"] == "Q" for d in manifest["validation_debt"]), "source debt must remain explicit")
     except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, StopIteration, InvalidOperation) as exc:
+        errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
+
+
+
+def validate_b05_wm50_installed_boundary_evidence(errors: list[str], source_ids: set[str]) -> None:
+    """Validate source references, not installed performance or an engine input."""
+    prefix = "B05 WM50 installed evidence"
+
+    def require(condition, message):
+        if not condition:
+            errors.append(f"{prefix}: {message}")
+
+    g = "SRC-B05-GRUNDFOS-UPM3-"
+    identity, spec, curve = (g + "59C90800-" + part + "-2026"
+                             for part in ("IDENTITY", "SPEC", "CURVE"))
+    book = g + "DATABOOK-2022"
+    binding = "SRC-B05-MITSUBISHI-WM50-FTC6-BINDING-2026"
+    mitsubishi = {
+        "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A",
+        "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020",
+        "SRC-B05-MITSUBISHI-EHPT-SERVICE-OCH714A",
+    }
+    expected_sources = {identity, spec, curve, book} | mitsubishi
+    expected_debts = {
+        "B05-WM50-OEM-PROFILE": ("OPTIONAL_EXTENSION", "no", "claim_specific",
+                                 "OPTIONAL_EXACT_COMPONENT_ROUTE"),
+        "B05-WM50-INSTALLED-ANNUAL": ("MODEL_BLOCKER", "yes", "yes",
+                                      "COMPLETE_INSTALLED_CLAIM_ONLY"),
+        "B05-WM50-INSTALLED-HOURLY": ("MODEL_BLOCKER", "yes", "yes",
+                                      "COMPLETE_INSTALLED_CLAIM_ONLY"),
+    }
+    try:
+        from datetime import datetime
+        manifest = json.loads((REGISTRY / "b05_wm50_installed_boundary_evidence.json").read_text(encoding="utf-8"))
+        require(manifest["schema_version"] == 1 and manifest["handoff_id"] == "B05-WM50-INSTALLED-BOUNDARY-EVIDENCE"
+                and manifest["status"] == "QUALIFIED_SOURCE_REFERENCES_ONLY", "source-reference identity/status")
+        require(manifest["owner_module"] == "B05" and manifest["research_slice_ids"] == ["B05-D01", "B05-D03"],
+                "owner and existing research slices")
+        authority = manifest["target_authority"]
+        require(authority["applicability_status"] == authority["exact_oem_binding_status"] == "Q",
+                "OEM applicability remains Q")
+        flags = ("usable_for_engine", "model_default_admitted", "product_selected",
+                 "annual_installed_performance_admitted", "hourly_installed_performance_admitted",
+                 "installed_heat_service_admitted", "national_factor_admitted", "readiness_closed", "task_accepted")
+        require(all(authority[k] is False for k in flags), "no runtime/default/installed/task admission")
+        sources = manifest["sources"]
+        by_id = {s["source_id"]: s for s in sources}
+        require(set(by_id) == expected_sources and len(by_id) == len(sources), "unique artifact identity inventory")
+        global_rows = read_csv(REGISTRY / "sources.csv")[1]
+        local_rows = read_csv(REGISTRY / "heat_pump_sources.csv")[1]
+        for sid, source in by_id.items():
+            for name in ("title", "authority", "original_url", "retrieved_at", "retrieval_time_basis",
+                         "document_revision", "reference_period", "locator", "claim_scope", "reuse_note"):
+                require(isinstance(source[name], str) and bool(source[name].strip()), f"missing provenance {sid}/{name}")
+            require(source["original_url"].startswith("https://"), f"source URL {sid}")
+            require(datetime.fromisoformat(source["retrieved_at"].replace("Z", "+00:00")).utcoffset() is not None,
+                    f"timezone required {sid}")
+            require(bool(re.fullmatch(r"[0-9a-f]{64}", source["sha256"]))
+                    and type(source["bytes"]) is int and source["bytes"] > 0, f"original byte identity {sid}")
+            require(source["repo_snapshot_path"] is None
+                    and source["reuse_status"] == "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED", f"uncleared copy {sid}")
+            require(sid in source_ids, f"unregistered source {sid}")
+            for rows in (global_rows, local_rows):
+                matches = [r for r in rows if r["source_id"] == sid]
+                require(len(matches) == 1, f"missing/duplicate registry source {sid}")
+                if len(matches) != 1:
+                    continue
+                row = matches[0]
+                for sk, rk in (("original_url", "url"), ("title", "title"), ("authority", "institution"),
+                               ("reference_period", "reference_period"), ("source_tier", "source_tier")):
+                    require(source[sk] == row[rk], f"cross-registry provenance {sid}/{rk}")
+                require(row["retrieved_at"] == source["retrieved_at"][:10]
+                        and row["module_id"] == "B05" and row["evidence_status"] == "OBS", f"source date/type {sid}")
+                if "local_snapshot_sha256" in row:
+                    require(row["local_snapshot_sha256"] == source["sha256"]
+                            and row["license"] == source["reuse_status"], f"source digest/reuse {sid}")
+                else:
+                    require(row["license_status"] == source["reuse_status"] and row["layer"] == "OPERATING_CONFIG",
+                            f"source layer/reuse {sid}")
+        reused = manifest["reused_sources"]
+        require(len(reused) == 1 and reused[0]["source_id"] == binding,
+                "reuse existing named binding source separately from seven new artifacts")
+        binding_source = reused[0]
+        require(binding in source_ids and binding not in by_id, "binding is existing reuse, not an eighth artifact")
+        require(binding_source["sha256"] == "ed8090f77ffa0be787ba970254c72348b471e86275136fa77a1c12d98f70084c"
+                and binding_source["document_id"] == "BRE EPD000522 Issue01"
+                and binding_source["document_date"] == "2023-08-14", "reused EPD document identity")
+        require(binding_source["repo_snapshot_path"] is None
+                and binding_source["reuse_status"] == "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+                and binding_source["independent_replication"] is False, "reused source copy/independence boundary")
+        for rows in (global_rows, local_rows):
+            matches = [row for row in rows if row["source_id"] == binding]
+            require(len(matches) == 1, "existing binding source resolves uniquely in both registries")
+            if len(matches) == 1:
+                row = matches[0]
+                require(binding_source["original_url"] == row["url"]
+                        == "https://library.mitsubishielectric.co.uk/pdf/download_full/4888"
+                        and binding_source["authority"] == row["institution"], "reused binding provenance")
+                if "local_snapshot_sha256" in row:
+                    require(binding_source["sha256"] == row["local_snapshot_sha256"], "reused binding original digest")
+        aliases = manifest["source_aliases"]
+        require(len(aliases) == len(set(aliases.values())) and set(aliases.values()) == expected_sources,
+                "research aliases resolve without duplicate source identity")
+        families = manifest["source_families"]
+        memberships = [sid for f in families for sid in f["members"]]
+        require(set(memberships) == expected_sources and len(memberships) == len(set(memberships)),
+                "each artifact belongs to one source family")
+        require(all(f["independent_replication"] is False for f in families), "linked artifacts are not independent replications")
+        api_family = next(f for f in families if identity in f["members"])
+        require(set(api_family["members"]) == {identity, spec, curve}
+                and api_family["binding_key"] == "pumpsystemid=3064924080", "preserve linked API dependency")
+        require(any(set(f["members"]) == mitsubishi for f in families), "preserve Mitsubishi manufacturer dependency")
+        claims = {c["id"]: c for c in manifest["claims"]}
+        statuses = {**{f"OEM-{i:02d}": "OBS" for i in range(1, 9)},
+                    "OEM-09": "DER", "OEM-10": "Q", "OEM-11": "SCN", "OEM-12": "Q", "OEM-13": "Q"}
+        require(set(claims) == set(statuses) and len(claims) == len(manifest["claims"]), "unique scoped claim inventory")
+        for cid, claim in claims.items():
+            require(claim["status"] == statuses.get(cid), f"claim evidence type {cid}")
+            require(bool(claim["source_ids"]) and set(claim["source_ids"]) <= (expected_sources | {binding} if cid == "OEM-11" else expected_sources)
+                    and bool(claim["locator"]) and bool(claim["unit"]), f"claim source/unit/locator {cid}")
+        derivation = claims["OEM-09"]
+        require(derivation.get("method_id") == "STANDARD_UPM3_POWER_FEEDBACK"
+                and not ({"formula", "conditions", "numeric_result", "numerical_result"} & set(derivation)),
+                "OEM-09 references one authoritative method; duplicated derivation fields forbidden")
+        pairing = claims["OEM-11"]
+        require(binding in pairing["source_ids"]
+                and pairing["source_locators"][binding] == "PDF3 Product Description; PDF7 Functional unit",
+                "pairing lineage requires existing PDF4888 Product Description and functional unit")
+        require(pairing["limits"] == {"combined_heating_DHW_LCA_source": True,
+                                     "rating_specimen_proven": False, "actual_installation_proven": False},
+                "pairing is combined SH/DHW LCA, not rating specimen or actual installation")
+        require(claims["OEM-01"]["values"] == {"product_number": "59C90800", "name": "UPM3 15-75 130 AZA",
+                                              "pumpsystemid": "3064924080"}, "candidate API identity")
+        require(claims["OEM-02"]["values"] == {"P1_min_W": 2, "P1_max_W": 60, "curve_set": "c0016333"},
+                "candidate P1 specs, not an installed average")
+        cv = claims["OEM-03"]["values"]
+        require((cv["medium"], cv["liquid_temperature_degC"], cv["density_kg_m3"],
+                 cv["electrical_power_unit"], cv["flow_unit"]) == ("Water", 20, 998.2, "W", "m3/h"),
+                "curve medium/temperature/axes are not W55 or head-derived power")
+        require(cv["control_selector"] is None and cv["W55_transfer_admitted"] is False, "no selected curve or W55 transfer")
+        command = claims["OEM-05"]["values"]
+        require(command["input_is_speed_command"] is True and command["input_is_runtime_fraction"] is False
+                and command["MP1_profile_selected"] is None, "input PWM is not runtime or a selected MP1 profile")
+        fb = claims["OEM-06"]["values"]
+        # Source oracle: Grundfos99092813 03.2022 PDF18 TM050006 and standard UPM3 table.
+        require(fb["family"] == "UPM3" and fb["profile"] == "STANDARD_POWER_FEEDBACK", "standard UPM3 profile only")
+        require(fb["normal_output_percent"] == [0, 70] and fb["normal_power_W"] == [0, 70]
+                and fb["slope_W_per_percentagepoint"] == 1 and fb["saturation_W"] == 70, "UPM3 power scale/saturation")
+        require(tuple(fb[k] for k in ("warning_percent", "electrical_fault_percent", "blocked_percent", "standby_percent"))
+                == (75, 85, 90, 95) and fb["status_codes_are_power_samples"] is False, "status codes are not watt samples")
+        require(fb["output_frequency_Hz"] == 75 and fb["output_frequency_tolerance_percent"] == 5
+                and fb["accuracy_source_wording"] == "±2% of PWM signal", "frequency/accuracy is not annual energy accuracy")
+        require(claims["OEM-07"]["values"] == {"optional_flow_feedback_exists": True, "exact_MP1_feedback_semantics": "Q"},
+                "optional flow feedback forbids automatic power interpretation")
+        require(claims["OEM-08"]["values"] == {"text_range": [100, 1500], "table_range": [100, 4000]},
+                "retain internal input-frequency discrepancy")
+        require(len(manifest["conditional_methods"]) == 1, "one documented conditional method")
+        method = manifest["conditional_methods"][0]
+        require(method["profile"] == method["method_id"] == "STANDARD_UPM3_POWER_FEEDBACK" and method["status"] == "DER",
+                "conditional method profile/type")
+        require(method["source_ids"] == [book] and method["normal_domain_percentagepoint"]
+                == {"lower_exclusive": 0, "upper_exclusive": 70}, "normal unsaturated samples only")
+        require(method["units"] == {"feedback": "percentagepoint", "power": "W", "duration": "h", "energy": "kWh",
+                                     "slope": "W/percentagepoint"}, "conditional method dimensions")
+        require(type(method["slope_W_per_percentagepoint"]) in (int, float)
+                and method["slope_W_per_percentagepoint"] == 1 and method["energy_Wh_to_kWh"] == 0.001,
+                "conditional unit conversion")
+        require(method["numeric_result"] is None and "numerical_result" not in method
+                and method["applied_to_MP1"] is False, "not an applied installed result")
+        required_conditions = {
+            "STANDARD_POWER_FEEDBACK_BINDING": "Exact MP1 is independently bound to the standard UPM3 power-feedback profile.",
+            "NORMAL_UNSATURATED_SAMPLES": "Only normal samples with 0 < D_fb < 70 percentagepoints; alarm, standby and saturation codes are excluded.",
+            "QUALIFIED_ACQUISITION_TIME_COVERAGE": "Signal acquisition, sample durations, time coverage, missing-data treatment and uncertainty are qualified.",
+        }
+        conditions = method["conditions"]
+        require(len(conditions) == len(required_conditions)
+                and {c["condition_id"]: c["requirement"] for c in conditions} == required_conditions,
+                "all mandatory method conditions and their meanings must be preserved")
+        require(derivation["source_ids"] == method["source_ids"], "claim and authoritative method source lineage")
+        require(method["formula"] == "P1_i[W] = (1 W/percentagepoint)*D_fb_i[percentagepoint]; E_valid[kWh] = 1e-3*sum(P1_i[W]*delta_t_i[h])",
+                "documented conditional formula")
+        require(len(manifest["configurations"]) == 1, "one named conditional candidate configuration")
+        config = manifest["configurations"][0]
+        require(config["status"] == "SCN" and config["canonical_configuration_selected"] is False
+                and config["candidate_component_is_exact_MP1"] is False and config["exact_MP1_equivalence_status"] == "Q",
+                "hardware candidate is not exact or selected")
+        output = manifest["current_output_contract"]
+        require(output["rating_reference_E2"] == "UNCHANGED"
+                and output["accepted_rating_E2_continuation_blocked"] is False, "accepted rating E2 must continue")
+        require(output["annual_signed_residual"] == {"status": "Q", "sign": "SIGNED_UNKNOWN", "value_kwh": None}
+                and output["hourly_signed_residual"] == {"status": "Q", "timing": None}, "annual/hourly residuals remain unknown")
+        require(output["installed_heat_service"] == {"status": "Q", "installed_heat_delivery_kwh": None,
+                                                       "installed_service_completion": None}, "installed thermal/service remains Q")
+        require(output["national_admission"] is False and output["already_included_unit_control_safety"] is True
+                and output["no_blanket_extra_FTC_load"] is True and output["no_W35_allowance_extrapolation_to_W55"] is True,
+                "rating overlap and national boundary")
+        require(set(output["rating_boundary_source_ids"]) <= source_ids, "reuse existing rating source IDs")
+        require({e["condition"] for e in output["e2_assessment"]} == set(range(1, 9)), "all eight E2 conditions")
+        debt_assessment = next(e for e in output["e2_assessment"] if e["condition"] == 7)
+        require(debt_assessment["verdict"] == "REGISTERED_IN_LOCAL_CANDIDATE"
+                and debt_assessment["reason"] == "Three E3/Q debt rows and B05-D01/D03 research references are present in the local candidate; no completed full-suite validation, merge or task acceptance is claimed.",
+                "debt assessment must describe registered local candidate, not historical research-only state")
+        debts = {d["id"]: d for d in manifest["validation_debt"]}
+        require(set(debts) == set(expected_debts), "installed debt inventory")
+        audit_rows = read_csv(REGISTRY / "project_blocker_evidence_audit.csv")[1]
+        for did, expected in expected_debts.items():
+            debt = debts[did]
+            matches = [r for r in audit_rows if r["blocker_id"] == did]
+            require(len(matches) == 1, f"unique audit debt {did}")
+            require(debt["status"] == "Q" and debt["evidence_tier"] == "E3"
+                    and debt["blocks_accepted_rating_E2"] is False and debt["scope_of_blocking"] == expected[3],
+                    f"debt applies only to declared target {did}")
+            require(debt["blocks_complete_installed_claim"] is (expected[1] == "yes"), f"debt blocking scope {did}")
+            if len(matches) == 1:
+                row = matches[0]
+                require((row["blocker_class"], row["model_blocker"], row["finalization_blocker"]) == expected[:3]
+                        and row["evidence_tier"] == "E3" and row["current_status"] == "OPEN", f"audit classification {did}")
+                require(row["source_registry"] == "b05_wm50_installed_boundary_evidence.json"
+                        and row["linked_question_id"] == "" and row["module_id"] == "B05", f"audit linkage {did}")
+                require(expected[3] in row["reason"] and "ACCEPTED_RATING_E2_CONTINUES" in row["canonical_use"],
+                        f"blocker cannot restrict accepted rating E2 {did}")
+                require(row["validation_debt"] == debt["scope"] and row["closure_requirement"] == debt["required"],
+                        f"debt acquisition plan consistent {did}")
+        plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
+        tasks = {s["slice_id"]: s for mod in plan["modules"] for s in mod["slices"]}
+        for sid, required in (("B05-D03", set(expected_debts)), ("B05-D01", {"B05-WM50-INSTALLED-HOURLY"})):
+            task = tasks[sid]
+            require(task["status"] == "INTEGRATING" and task["accepted_artifacts"] == task["consumer_tests"] == []
+                    and task["reviewed_commit"] is None, f"no whole-task acceptance {sid}")
+            require(required <= set(task["validation_debt_ids"]), f"research debt link {sid}")
+            require(any(x.get("evidence") == "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md"
+                        for x in task["research_log"]), f"research journal evidence link {sid}")
+    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, StopIteration) as exc:
         errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
 
 
