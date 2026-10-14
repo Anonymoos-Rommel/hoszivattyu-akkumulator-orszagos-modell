@@ -1,0 +1,676 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B05-WM50-INSTALLED-BOUNDARY-EVIDENCE",
+  "status": "QUALIFIED_SOURCE_REFERENCES_ONLY",
+  "owner_module": "B05",
+  "research_slice_ids": [
+    "B05-D01",
+    "B05-D03"
+  ],
+  "source_fact_policy": "OBSsourcefacts;conditionalDERmethods;SCNcandidate;Qtargetboundary; no runtime numerical admission",
+  "target_authority": {
+    "applicability_status": "Q",
+    "exact_oem_binding_status": "Q",
+    "usable_for_engine": false,
+    "model_default_admitted": false,
+    "product_selected": false,
+    "annual_installed_performance_admitted": false,
+    "hourly_installed_performance_admitted": false,
+    "installed_heat_service_admitted": false,
+    "national_factor_admitted": false,
+    "readiness_closed": false,
+    "task_accepted": false
+  },
+  "sources": [
+    {
+      "source_id": "SRC-B05-GRUNDFOS-UPM3-59C90800-IDENTITY-2026",
+      "title": "Live Grundfos product API; productnumber59C90800; pumpsystemid3064924080; no dated edition supplied",
+      "authority": "Grundfos",
+      "source_tier": "P2",
+      "original_url": "https://api.grundfos.com/gpi/product/product?unitsystem=4&productrange=GB&productnumber=59C90800&nocad=true&currency=GBP&languageCode=ENU&frequency=50",
+      "retrieved_at": "2026-10-14T09:05:00.261073Z",
+      "retrieval_time_basis": "Original-response acquisition timestamp",
+      "document_date": null,
+      "document_date_precision": "not_asserted_as_publication_date",
+      "document_revision": "Live Grundfos product API; productnumber59C90800; pumpsystemid3064924080; no dated edition supplied",
+      "reference_period": "Live Grundfos product API; productnumber59C90800; pumpsystemid3064924080; no dated edition supplied; no observed installed-energy period",
+      "sha256": "dbc66b8c0a62fe1e64d60f6162312320b9cdbfa5ba1470300f6813ec03a99b72",
+      "bytes": 7606,
+      "locator": "JSON /productnumber, /name, /pumpsystemid, /curve/exist",
+      "claim_scope": "Candidate UPM3 15-75 130 AZA only; not established as Mitsubishi MP1",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "UNDATED_DYNAMIC_RESPONSE",
+      "document_date_basis": "No dated edition supplied; exact retrieval and hash identify inspected response"
+    },
+    {
+      "source_id": "SRC-B05-GRUNDFOS-UPM3-59C90800-SPEC-2026",
+      "title": "Live productdata API; linked by pumpsystemid3064924080 to59C90800; no dated edition",
+      "authority": "Grundfos",
+      "source_tier": "P2",
+      "original_url": "https://api.grundfos.com/gpi/product/productdata?pumpsystemid=3064924080&frequency=50&languagecode=ENU&productrange=GB&searchdomain=SALEABLE&unitsystem=4&currency=GBP",
+      "retrieved_at": "2026-10-14T09:07:44.754645Z",
+      "retrieval_time_basis": "Original-response acquisition timestamp",
+      "document_date": null,
+      "document_date_precision": "not_asserted_as_publication_date",
+      "document_revision": "Live productdata API; linked by pumpsystemid3064924080 to59C90800; no dated edition",
+      "reference_period": "Live productdata API; linked by pumpsystemid3064924080 to59C90800; no dated edition; no observed installed-energy period",
+      "sha256": "060977d79035b64b560bc6d83be3aa22068182f26835d0821512ea2794c85d50",
+      "bytes": 3345,
+      "locator": "datavalues[label=PRODNO,COMB_PROD_NAME_CONT_1,P1WMAX,P1WMIN,CURVESET,F,U,PORT_TO_PORT_MM]",
+      "claim_scope": "Candidate variant specifications, not installed energy",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "UNDATED_DYNAMIC_RESPONSE",
+      "document_date_basis": "No dated edition supplied; exact retrieval and hash identify inspected response"
+    },
+    {
+      "source_id": "SRC-B05-GRUNDFOS-UPM3-59C90800-CURVE-2026",
+      "title": "Original600x400 PNG curve via public GrundfosAPI; same pumpsystemid; no dated edition",
+      "authority": "Grundfos",
+      "source_tier": "P2",
+      "original_url": "https://api.grundfos.com/gpi/imaging/pumpcurve?pumpsystemid=3064924080&frequency=50&languagecode=ENU&productrange=GB&searchdomain=SALEABLE&unitsystem=4&currency=GBP",
+      "retrieved_at": "2026-10-14T09:08:30.944886Z",
+      "retrieval_time_basis": "Original-response acquisition timestamp",
+      "document_date": null,
+      "document_date_precision": "not_asserted_as_publication_date",
+      "document_revision": "Original600x400 PNG curve via public GrundfosAPI; same pumpsystemid; no dated edition",
+      "reference_period": "Original600x400 PNG curve via public GrundfosAPI; same pumpsystemid; no dated edition; no observed installed-energy period",
+      "sha256": "57333919d8a64ca296976e700bb85c70a2f757cba4c44cab1af5e7f8df3b7a92",
+      "bytes": 41861,
+      "locator": "Upper water/temperature/density annotation; upper H/Q panel; lower P1[W]/Q[m3/h] panel",
+      "claim_scope": "Candidate59C90800; water20degC998.2kg/m3; multiple curves without FTC speed or PWM labels",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "UNDATED_DYNAMIC_RESPONSE",
+      "document_date_basis": "No dated edition supplied; exact retrieval and hash identify inspected response"
+    },
+    {
+      "source_id": "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022",
+      "title": "Grundfos UPM3 Czech databook;99092813 03.2022;ECM1338383;109PDFpages",
+      "authority": "Grundfos",
+      "source_tier": "P2",
+      "original_url": "https://api.grundfos.com/literature/Grundfosliterature-6154040.pdf",
+      "retrieved_at": "2026-10-14T09:10:20.712490Z",
+      "retrieval_time_basis": "Original-response acquisition timestamp",
+      "document_date": "2022-03",
+      "document_date_precision": "month",
+      "document_revision": "Grundfos UPM3 Czech databook;99092813 03.2022;ECM1338383;109PDFpages",
+      "reference_period": "Grundfos UPM3 Czech databook;99092813 03.2022;ECM1338383;109PDFpages; no observed installed-energy period",
+      "sha256": "be5cf2a0b1be5705c2d2b413ae7be074fa7496340650806a21124639c435d0e0",
+      "bytes": 24526489,
+      "locator": "PDF11-13 §4 identity; PDF16-19 §6 PWM; PDF109 issue",
+      "claim_scope": "UPM3 family standard profiles and customization; not exact Mitsubishi OEM mapping",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "ISSUE_MONTH",
+      "document_date_basis": "99092813 03.2022 onPDF109"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-EHPT-SERVICE-OCH714A",
+      "title": "OCH714 Revised Edition-A; issued March2020; original published November2019; PDF1/92",
+      "authority": "Mitsubishi Electric",
+      "source_tier": "P2",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4115",
+      "retrieved_at": "2026-10-14T08:41:07.865594+00:00",
+      "retrieval_time_basis": "Original-response acquisition timestamp",
+      "document_date": "2020-03",
+      "document_date_precision": "month",
+      "document_revision": "OCH714 Revised Edition-A; issued March2020; original published November2019; PDF1/92",
+      "reference_period": "OCH714 Revised Edition-A; issued March2020; original published November2019; PDF1/92; no observed installed-energy period",
+      "sha256": "466f06c0e563fa195e74fa99dcfae02426057653795e7c53083443432bcece31",
+      "bytes": 16852519,
+      "locator": "PDF1-3 identity/reference manuals; PDF8 Table3.3 exact model column; PDF10 Table4.2; PDF18 DIP; PDF24 water diagram; PDF33-37 controls/energy monitor Table9.4.2; PDF61 §10.6; PDF64 test points; PDF89 commissioning; PDF92 issue",
+      "claim_scope": "Cylinder-unit service data; exact MHEDW.UK within multi-model book",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "ISSUE_MONTH",
+      "document_date_basis": "OCH714 RevisedEdition-A issue; exact day not asserted"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020",
+      "title": "EHPT20X-MHEDW FTC6 Product Information; effective August2020 onPDF2; file created2021-07-22/mod2022-03-14 metadata",
+      "authority": "Mitsubishi Electric",
+      "source_tier": "P2",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4147",
+      "retrieved_at": "2026-10-14T08:42:07.265031+00:00",
+      "retrieval_time_basis": "Original-response acquisition timestamp",
+      "document_date": "2020-08",
+      "document_date_precision": "month",
+      "document_revision": "EHPT20X-MHEDW FTC6 Product Information; effective August2020 onPDF2; file created2021-07-22/mod2022-03-14 metadata",
+      "reference_period": "EHPT20X-MHEDW FTC6 Product Information; effective August2020 onPDF2; file created2021-07-22/mod2022-03-14 metadata; no observed installed-energy period",
+      "sha256": "54c6146fd75462dd27a665dc74ad70d01da66e4eca099affbcd9960148096dda",
+      "bytes": 784754,
+      "locator": "PDF2 Water Data Primary Circuit Pump/Sanitary Hot Water Pump; electrical data and included-components note; effective-date footer",
+      "claim_scope": "Cylinder product specification identifies OEM pump families; not exact OEM part-number/control-profile binding",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "EFFECTIVE_MONTH",
+      "document_date_basis": "EffectiveAugust2020 onPDF2; not a publication day"
+    },
+    {
+      "source_id": "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A",
+      "title": "OCB714 Revised Edition-A; issued March2020 perPDF36; original November2019; cover says March2019 (date discrepancy retained)",
+      "authority": "Mitsubishi Electric",
+      "source_tier": "P2",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4119",
+      "retrieved_at": "2026-10-14T08:43:13.951057+00:00",
+      "retrieval_time_basis": "Task-created local file final-write timestamp; HTTP response timestamp not separately retained because parallel parser exited",
+      "document_date": "2020-03",
+      "document_date_precision": "month",
+      "document_revision": "OCB714 Revised Edition-A; issued March2020 perPDF36; original November2019; cover says March2019 (date discrepancy retained)",
+      "reference_period": "OCB714 Revised Edition-A; issued March2020 perPDF36; original November2019; cover says March2019 (date discrepancy retained); no observed installed-energy period",
+      "sha256": "d688c167aeabe8ea61d106fe86380ff0223496067b8d454cde363e7d44948814",
+      "bytes": 7189379,
+      "locator": "PDF2 service references; PDF19 exact EHPT20X-MHEDW.UK column items12/15; PDF36 issue",
+      "claim_scope": "Exact-model primary/sanitary parts identity; no P-flow data",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "reuse_note": "Only attributed bibliography, digest, exact locators and own short factual synthesis; no originalPDF/PNG/page image or extracted text payload. Task temporary copies were removed.",
+      "document_date_role": "ISSUE_MONTH",
+      "document_date_basis": "PDF36 issue; conflicting cover date retained in document_revision"
+    }
+  ],
+  "source_aliases": {
+    "NEXT-GRUNDFOS-59C90800-IDENTITY-API": "SRC-B05-GRUNDFOS-UPM3-59C90800-IDENTITY-2026",
+    "NEXT-GRUNDFOS-59C90800-SPEC-API": "SRC-B05-GRUNDFOS-UPM3-59C90800-SPEC-2026",
+    "NEXT-GRUNDFOS-59C90800-CURVE-PNG": "SRC-B05-GRUNDFOS-UPM3-59C90800-CURVE-2026",
+    "NEXT-GRUNDFOS-UPM3-DB-CZ-032022": "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022",
+    "NEXT-WM50-EHPT-PARTS-OCB714A": "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A",
+    "NEXT-WM50-EHPT-PRODUCT-2020": "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020",
+    "NEXT-WM50-EHPT-SERVICE-OCH714A": "SRC-B05-MITSUBISHI-EHPT-SERVICE-OCH714A"
+  },
+  "source_families": [
+    {
+      "id": "GRUNDFOS-UPM3-59C90800-PRODUCT-API",
+      "members": [
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-IDENTITY-2026",
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-SPEC-2026",
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-CURVE-2026"
+      ],
+      "relationship": "Linked same product/pumpsystemid responses; distinct byte artifacts, not three independent observations",
+      "independent_replication": false,
+      "binding_key": "pumpsystemid=3064924080"
+    },
+    {
+      "id": "GRUNDFOS-UPM3-STANDARD-CATALOGUE",
+      "members": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "relationship": "Family standard method; does not independently verify Mitsubishi variant",
+      "independent_replication": false
+    },
+    {
+      "id": "MITSUBISHI-EHPT-FTC6-MANUFACTURER",
+      "members": [
+        "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A",
+        "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020",
+        "SRC-B05-MITSUBISHI-EHPT-SERVICE-OCH714A"
+      ],
+      "relationship": "Distinct same-manufacturer documents with different claim scopes, not independent OEM equivalence confirmations",
+      "independent_replication": false
+    }
+  ],
+  "claims": [
+    {
+      "id": "OEM-01",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-IDENTITY-2026"
+      ],
+      "locator": "/productnumber,/name,/pumpsystemid",
+      "unit": "identifier",
+      "statement": "Manufacturer API identifies59C90800 as UPM3 15-75 130 AZA and returns pumpsystemid3064924080. It does not establish Mitsubishi S70C11355 equivalence.",
+      "values": {
+        "product_number": "59C90800",
+        "name": "UPM3 15-75 130 AZA",
+        "pumpsystemid": "3064924080"
+      }
+    },
+    {
+      "id": "OEM-02",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-SPEC-2026"
+      ],
+      "locator": "datavalues by labels PRODNO,P1WMIN,P1WMAX,CURVESET",
+      "unit": "W;identifier",
+      "values": {
+        "P1_min_W": 2,
+        "P1_max_W": 60,
+        "curve_set": "c0016333"
+      },
+      "statement": "These are candidate59C90800 product specifications. Neither a selected operating power nor an MP1 annual value."
+    },
+    {
+      "id": "OEM-03",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-CURVE-2026"
+      ],
+      "locator": "Top annotations and lower electrical-power panel",
+      "unit": "W;m3/h;degC;kg/m3",
+      "values": {
+        "liquid_temperature_degC": 20,
+        "density_kg_m3": 998.2,
+        "medium": "Water",
+        "flow_unit": "m3/h",
+        "electrical_power_unit": "W",
+        "control_selector": null,
+        "W55_transfer_admitted": false
+      },
+      "statement": "Original curve includes real P1 versus flow curves for water; not merely a hydraulic head curve. No FTC speed/PWM selector labels or W55/glycol transfer established."
+    },
+    {
+      "id": "OEM-04",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF11-13 §4",
+      "unit": "identifier",
+      "statement": "Full type key and label distinguish variant, signal profile and customer information; nameplate includes P/N and production/customer identity. A shortened AZA string is insufficient to bind exact custom profile."
+    },
+    {
+      "id": "OEM-05",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF16-17 §6; profile tablesA/C",
+      "unit": "PWM%;Hz",
+      "statement": "Input PWM is a speed command, not annual runtime share; profileA andC have materially different standby/failsafe behavior. Neither has been selected for MP1.",
+      "values": {
+        "input_is_speed_command": true,
+        "input_is_runtime_fraction": false,
+        "MP1_profile_selected": null
+      }
+    },
+    {
+      "id": "OEM-06",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF18 standardfeedback graph TM050006 and UPM3 output table; PDF19 standard-only footnote",
+      "unit": "percentagepoint;W;Hz",
+      "values": {
+        "normal_output_percent": [
+          0,
+          70
+        ],
+        "normal_power_W": [
+          0,
+          70
+        ],
+        "slope_W_per_percentagepoint": 1,
+        "saturation_W": 70,
+        "warning_percent": 75,
+        "electrical_fault_percent": 85,
+        "blocked_percent": 90,
+        "standby_percent": 95,
+        "output_frequency_Hz": 75,
+        "output_frequency_tolerance_percent": 5,
+        "accuracy_source_wording": "±2% of PWM signal",
+        "family": "UPM3",
+        "profile": "STANDARD_POWER_FEEDBACK",
+        "status_codes_are_power_samples": false
+      },
+      "statement": "Standard UPM3 feedback power decoding exists. Status codes/saturation are not power samples; accuracy does not establish ±2% annual electricity. UPM3L figure is a different family mapping."
+    },
+    {
+      "id": "OEM-07",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF18 on-demand flowfeedback paragraph; PDF19 examplegraph TM071356",
+      "unit": "m3/h;PWM%",
+      "statement": "Manufacturer also offers flow-estimating feedback for defined housings, medium, temperature and operating-point conditions. A feedback wire alone does not prove power-encoded output.",
+      "values": {
+        "optional_flow_feedback_exists": true,
+        "exact_MP1_feedback_semantics": "Q"
+      }
+    },
+    {
+      "id": "OEM-08",
+      "kind": "observed_source_fact",
+      "status": "OBS",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF16 input-frequency paragraph versus PDF19 signal-data table",
+      "unit": "Hz",
+      "values": {
+        "text_range": [
+          100,
+          1500
+        ],
+        "table_range": [
+          100,
+          4000
+        ]
+      },
+      "statement": "Internal frequency-range discrepancy retained; not silently resolved or attributed to Mitsubishi."
+    },
+    {
+      "id": "OEM-09",
+      "kind": "reproducible_conditional_derivation",
+      "status": "DER",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF18 UPM3 normalfeedback table",
+      "unit": "W;kWh;h",
+      "statement": "Partial pump electricity is conditionally calculable. No measured samples/time coverage are supplied. Alarm, saturation and standby intervals require separate treatment; zero substitution prohibited. This is not A_standard.",
+      "method_id": "STANDARD_UPM3_POWER_FEEDBACK"
+    },
+    {
+      "id": "OEM-10",
+      "kind": "missing_evidence",
+      "status": "Q",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A",
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-IDENTITY-2026",
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PartsPDF19 item12; APIidentity; databookPDF11-13,16-19",
+      "unit": "identifier",
+      "statement": "No checked manufacturer record binds Mitsubishi S70 C11 355 to a complete Grundfos P/N/customer suffix and exact input/output OEM profile. API candidate is not promoted by family resemblance."
+    },
+    {
+      "id": "OEM-11",
+      "kind": "conditional_configuration",
+      "status": "SCN",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-WM50-FTC6-BINDING-2026",
+        "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A",
+        "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020"
+      ],
+      "locator": "PDF4888 PDF3 Product Description and PDF7 Functional unit; PartsPDF19 exactMHEDW.UK column; productPDF2",
+      "unit": "configuration",
+      "statement": "WM50 + EHPT20X-MHEDW(.UK)/FTC6 is a named conditional configuration. It is not a canonical standard installation, program procurement choice, or national product selection.",
+      "source_locators": {
+        "SRC-B05-MITSUBISHI-WM50-FTC6-BINDING-2026": "PDF3 Product Description; PDF7 Functional unit",
+        "SRC-B05-MITSUBISHI-EHPT-PARTS-OCB714A": "PDF19 exact EHPT20X-MHEDW.UK parts column",
+        "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020": "PDF2 product specification"
+      },
+      "limits": {
+        "combined_heating_DHW_LCA_source": true,
+        "rating_specimen_proven": false,
+        "actual_installation_proven": false
+      }
+    },
+    {
+      "id": "OEM-12",
+      "kind": "scope_limit",
+      "status": "Q",
+      "source_ids": [
+        "SRC-B05-MITSUBISHI-EHPT-SERVICE-OCH714A"
+      ],
+      "locator": "PDF33-37 energy monitoring,Table9.4.2",
+      "unit": "kWh;configuration",
+      "statement": "Two supported electrical meter inputs are summed where used; two physical meters are not established as compulsory for every configuration. BH1 parts presence and factory0kW energy setting do not establish physical heater absence."
+    },
+    {
+      "id": "OEM-13",
+      "kind": "missing_evidence",
+      "status": "Q",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-59C90800-CURVE-2026",
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "modules/B11/annual_retrofit_reference.py:135-148; curveannotations; databookPDF18",
+      "unit": "kWh_el/year;kWh_th/year;kWh_el/hour",
+      "statement": "Exact W55 rating allowance/overlap, installed medium/flow/control/runtime, same-SH-service heat delivery, DHW allocation, pump-heat and remaining auxiliaries are unreconciled. Annual signed residual and hourly applicability remain unknown.",
+      "repo_locator": "modules/B11/annual_retrofit_reference.py:135-148"
+    }
+  ],
+  "conditional_methods": [
+    {
+      "kind": "reproducible_conditional_derivation",
+      "status": "DER",
+      "source_ids": [
+        "SRC-B05-GRUNDFOS-UPM3-DATABOOK-2022"
+      ],
+      "locator": "PDF18 UPM3 normalfeedback table",
+      "unit": "W;kWh;h",
+      "conditions": [
+        {
+          "condition_id": "STANDARD_POWER_FEEDBACK_BINDING",
+          "requirement": "Exact MP1 is independently bound to the standard UPM3 power-feedback profile."
+        },
+        {
+          "condition_id": "NORMAL_UNSATURATED_SAMPLES",
+          "requirement": "Only normal samples with 0 < D_fb < 70 percentagepoints; alarm, standby and saturation codes are excluded."
+        },
+        {
+          "condition_id": "QUALIFIED_ACQUISITION_TIME_COVERAGE",
+          "requirement": "Signal acquisition, sample durations, time coverage, missing-data treatment and uncertainty are qualified."
+        }
+      ],
+      "formula": "P1_i[W] = (1 W/percentagepoint)*D_fb_i[percentagepoint]; E_valid[kWh] = 1e-3*sum(P1_i[W]*delta_t_i[h])",
+      "numeric_result": null,
+      "statement": "Partial pump electricity is conditionally calculable. No measured samples/time coverage are supplied. Alarm, saturation and standby intervals require separate treatment; zero substitution prohibited. This is not A_standard.",
+      "method_id": "STANDARD_UPM3_POWER_FEEDBACK",
+      "profile": "STANDARD_UPM3_POWER_FEEDBACK",
+      "normal_domain_percentagepoint": {
+        "lower_exclusive": 0,
+        "upper_exclusive": 70
+      },
+      "units": {
+        "feedback": "percentagepoint",
+        "power": "W",
+        "duration": "h",
+        "energy": "kWh",
+        "slope": "W/percentagepoint"
+      },
+      "slope_W_per_percentagepoint": 1,
+      "energy_Wh_to_kWh": 0.001,
+      "applied_to_MP1": false
+    }
+  ],
+  "configurations": [
+    {
+      "configuration_id": "CONDITIONAL-WM50-EHPT20X-MHEDW-FTC6",
+      "status": "SCN",
+      "canonical_configuration_selected": false,
+      "hardware": "WM50 + EHPT20X-MHEDW(.UK)/FTC6",
+      "candidate_component": "59C90800 UPM3 15-75 130 AZA",
+      "candidate_component_is_exact_MP1": false,
+      "exact_MP1_equivalence_status": "Q",
+      "claim_ids": [
+        "OEM-10",
+        "OEM-11"
+      ]
+    }
+  ],
+  "validation_debt": [
+    {
+      "id": "B05-WM50-OEM-PROFILE",
+      "status": "Q",
+      "evidence_tier": "E3",
+      "scope": "ExactS70C11355 to completeGrundfosP/N/PC/customerprofile and applicable operatingpoint unresolved",
+      "required": "Public manufacturer BOM/nameplate/specimen chain; qualified feedback/curve under matchedmedium and state, or use the independent equivalent-aggregate route",
+      "affected_claim": "COMPONENT_METHOD_CONDITIONAL_ONLY",
+      "blocker_class": "OPTIONAL_EXTENSION",
+      "blocks_complete_installed_claim": false,
+      "blocks_accepted_rating_E2": false,
+      "scope_of_blocking": "OPTIONAL_EXACT_COMPONENT_ROUTE"
+    },
+    {
+      "id": "B05-WM50-INSTALLED-ANNUAL",
+      "status": "Q",
+      "evidence_tier": "E3",
+      "scope": "Signed annual residual, W55ratingoverlap, matchedthermalservice/duty, SH/DHW allocation and remainingauxiliaries unresolved",
+      "required": "One defensible same-SH-service equivalent electrical/thermal/duty aggregate or calibratedtransfer with uncertainty; alternatively complete qualified component reconciliation",
+      "affected_claim": "NO_COMPLETE_ANNUAL_INSTALLED_RESULT",
+      "blocker_class": "MODEL_BLOCKER",
+      "blocks_complete_installed_claim": true,
+      "blocks_accepted_rating_E2": false,
+      "scope_of_blocking": "COMPLETE_INSTALLED_CLAIM_ONLY"
+    },
+    {
+      "id": "B05-WM50-INSTALLED-HOURLY",
+      "status": "Q",
+      "evidence_tier": "E3",
+      "scope": "Time-resolved states, coverage, alignedthermalservice and electricalbalance unresolved",
+      "required": "Qualified time-resolved complete matchedboundary data/model validation with missingness, intervals, controlstates and uncertainty",
+      "affected_claim": "NO_COMPLETE_HOURLY_INSTALLED_RESULT",
+      "blocker_class": "MODEL_BLOCKER",
+      "blocks_complete_installed_claim": true,
+      "blocks_accepted_rating_E2": false,
+      "scope_of_blocking": "COMPLETE_INSTALLED_CLAIM_ONLY"
+    }
+  ],
+  "current_output_contract": {
+    "rating_reference_E2": "UNCHANGED",
+    "annual_signed_residual": {
+      "status": "Q",
+      "sign": "SIGNED_UNKNOWN",
+      "value_kwh": null
+    },
+    "hourly_signed_residual": {
+      "status": "Q",
+      "timing": null
+    },
+    "installed_heat_service": {
+      "status": "Q",
+      "installed_heat_delivery_kwh": null,
+      "installed_service_completion": null
+    },
+    "national_admission": false,
+    "already_included_unit_control_safety": true,
+    "no_blanket_extra_FTC_load": true,
+    "no_W35_allowance_extrapolation_to_W55": true,
+    "DHW": "EXCLUDED_SERVICE; shared auxiliaries allocation stillQ",
+    "meter_correction": "Supported two inputs may be summed; not mandatory two physical meters in every configuration",
+    "heater_correction": "BH1 parts and factory0kW energy setting do not prove physical heater absence",
+    "e2_assessment": [
+      {
+        "condition": 1,
+        "title": "Quantity clearly defined",
+        "verdict": "PASS_DEFINITION_ONLY",
+        "reason": "Signed installed-minus-rating electricity for the same SH service; isolated pump power is a different quantity.",
+        "claim_ids": [
+          "OEM-13"
+        ]
+      },
+      {
+        "condition": 2,
+        "title": "Unit/grain/boundary/period explicit",
+        "verdict": "PARTIAL_NOT_SATISFIED_FOR_VALUE",
+        "reason": "W and candidate curve conditions explicit; installed configuration, time coverage and matched W55 rating boundary remain Q.",
+        "claim_ids": [
+          "OEM-02",
+          "OEM-03",
+          "OEM-13"
+        ]
+      },
+      {
+        "condition": 3,
+        "title": "Authoritative direct or convergent qualified support",
+        "verdict": "PARTIAL_NOT_SATISFIED_FOR_RESIDUAL",
+        "reason": "P1 family/variant support exists for component methods, but not a numerical complete signed residual.",
+        "claim_ids": [
+          "OEM-01",
+          "OEM-06",
+          "OEM-09"
+        ]
+      },
+      {
+        "condition": 4,
+        "title": "Target applicability documented",
+        "verdict": "FAIL_Q",
+        "reason": "Exact OEM binding, control semantics and W55 medium transfer not established. No aggregate transfer/calibration dataset inspected supplies the missing link.",
+        "claim_ids": [
+          "OEM-03",
+          "OEM-07",
+          "OEM-10"
+        ]
+      },
+      {
+        "condition": 5,
+        "title": "No stronger contradiction known",
+        "verdict": "NOT_CLEARED",
+        "reason": "No source proves a residual sign. Flowfeedback option, differing profiles and internal frequency discrepancy defeat unqualified generic decoding, not all conditional use.",
+        "claim_ids": [
+          "OEM-05",
+          "OEM-07",
+          "OEM-08"
+        ]
+      },
+      {
+        "condition": 6,
+        "title": "Derivation reproducible and explicit",
+        "verdict": "PASS_CONDITIONAL_METHOD_ONLY",
+        "reason": "Formula reproducible on valid matched samples; no samples/runtime/rating reconciliation, so no admitted numerical result.",
+        "claim_ids": [
+          "OEM-09",
+          "OEM-13"
+        ]
+      },
+      {
+        "condition": 7,
+        "title": "Exact missing evidence registered as debt",
+        "verdict": "REGISTERED_IN_LOCAL_CANDIDATE",
+        "reason": "Three E3/Q debt rows and B05-D01/D03 research references are present in the local candidate; no completed full-suite validation, merge or task acceptance is claimed.",
+        "claim_ids": [
+          "OEM-10",
+          "OEM-13"
+        ]
+      },
+      {
+        "condition": 8,
+        "title": "LabelE2/provisional, never automaticOBS",
+        "verdict": "NO_E2_VALUE_ADMITTED",
+        "reason": "Source factsOBS; conditional formulaDER; named configurationSCN; required residualQ. No fabricated E2 base.",
+        "claim_ids": [
+          "OEM-09",
+          "OEM-11",
+          "OEM-13"
+        ]
+      }
+    ],
+    "rating_boundary_source_ids": [
+      "SRC-B05-EN14511-1-2013-SIST-PREVIEW",
+      "SRC-B05-EN14511-3-2013-SIST-PREVIEW",
+      "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+    ],
+    "accepted_rating_E2_continuation_blocked": false
+  },
+  "allowed_next_use": "Source/claim audit and separately qualified future acquisition/calculation only; no runtime/default/product/national admission, no task/readiness closure.",
+  "reused_sources": [
+    {
+      "source_id": "SRC-B05-MITSUBISHI-WM50-FTC6-BINDING-2026",
+      "original_url": "https://library.mitsubishielectric.co.uk/pdf/download_full/4888",
+      "authority": "BRE Global / Mitsubishi Electric",
+      "document_id": "BRE EPD000522 Issue01",
+      "document_date": "2023-08-14",
+      "reference_period": "Manufacturing 2021-04-01 to2022-03-31; combined heating/hot-water LCA scenario",
+      "prior_original_retrieved_at": "2026-10-13T23:07:07.5660640Z",
+      "sha256": "ed8090f77ffa0be787ba970254c72348b471e86275136fa77a1c12d98f70084c",
+      "bytes": 3875907,
+      "locator": "PDF3 Product Description; PDF7 Functional unit / Data sources",
+      "claim_scope": "Source-supported WM50 plus EHPT20X-MHEDW FTC6 pairing; combined SH+DHW LCA, not rating-specimen or actual-installation evidence",
+      "lineage_group": "MANUFACTURER_WM50_BRE_LCA",
+      "independent_replication": false,
+      "provenance_reuse": "Existing registered source and prior actual original-document inspection; current reacquisition blocked before any bytes were received. No new independent observation.",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    }
+  ]
+}
