@@ -2241,6 +2241,7 @@ def validate() -> list[str]:
     validate_b05_r290_references(errors, source_ids)
     validate_b05_wm50_installed_boundary_evidence(errors, source_ids)
     validate_b05_eoh_observed_boundary_evidence(errors, source_ids)
+    validate_b05_eoh_comparison_support(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
     validate_b07_shared_use_artifacts(errors)
@@ -3209,6 +3210,75 @@ def validate_b05_eoh_observed_boundary_evidence(errors: list[str], source_ids: s
     except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, StopIteration) as exc:
         errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
 
+
+
+def validate_b05_eoh_comparison_support(errors: list[str], source_ids: set[str]) -> None:
+    """A local research parser is separate from runtime and installed admission."""
+    prefix = "B05 EOH comparison support"
+
+    def require(condition, message):
+        if not condition:
+            errors.append(f"{prefix}: {message}")
+
+    try:
+        m = json.loads((REGISTRY / "b05_eoh_comparison_support_manifest.json").read_text(encoding="utf-8"))
+        require(m["schema_version"] == 1 and m["handoff_id"] == "B05-EOH-COMPARISON-SUPPORT"
+                and m["status"] == "LOCAL_RESEARCH_COMPARISON_NOT_INSTALLED_ADMISSION", "bounded identity")
+        require(m["base_commit"] == "ed528c692abb14b992e9b64be9ab5fc6acc53a87"
+                and m["base_tree"] == "c4517c3076d595f9cbbbb7bddaf8a520e19774a1", "pinned base")
+        require(len(m["source_ids"]) == len(set(m["source_ids"])) == 5
+                and set(m["source_ids"]) <= source_ids, "registered source identities")
+        binding = m["input_binding"]
+        require(binding["handoff_manifest_sha256"] == "d9c27a5c2acba40fc6ea9ab614fb02f51d98612efeeef1c3252fe2d36c24cc87"
+                and binding["input_file_count"] == 33
+                and binding["zip_bytes"] == 7572244
+                and binding["zip_sha256"] == "8fccd0d7b3eeb3784d0f1d99ad4451d2b368cdb6b66e599aea5856c527360e69"
+                and binding["raw_member_sha256"] == "5488bf47ad2c8b84ec09b1889f2739b8afc08f9d9c6b51f6b017efe5f1dae3f5",
+                "exact local handoff binding")
+        require(binding["reuse_status"] == "EXTERNAL_ONLY_LOCAL_INPUTS; NO_REPOSITORY_COPY", "external input policy")
+        d = m["definitions"]
+        require(d["adjacency_seconds"] == 120 and d["gap_fill"] is False and d["timezone"] == "Q; recorded clock only",
+                "adjacency/gap/time policy")
+        require(d["masks"] == {"HP_E": ["H", "E"], "HP_E_CP": ["H", "E", "CP"],
+                              "HP_E_IH": ["H", "E", "IH"], "HP_E_CP_IH": ["H", "E", "CP", "IH"]},
+                "distinct exact counter masks")
+        require(d["flow_channel"] == "Heat_Pump_Heating_Flow_Temperature" and d["flow_substitution"] is None,
+                "explicit heating flow without HW substitution")
+        require(d["native_supply_C"] == [25, 35, 40, 45, 50, 55, 60]
+                and d["modes"] == ["MAX", "NOMINAL", "MID", "MIN"]
+                and d["mode_policy"] == "ALL_FOUR_SEPARATE_NO_SELECTION", "native grid and fixed modes")
+        require(d["hybrid_category"] == "documented_separate_meter_hybrid_SH"
+                and d["hybrid_population"] == {"systems": 33, "windows": 4546, "intervals": 96019}
+                and d["hybrid_boiler_positive"] == "RETAIN", "full separate descriptive population")
+        flags = m["non_admission"]
+        require(set(flags) == {"usable_for_engine", "model_default_admitted", "numerical_calibration",
+                "annual_residual_admitted", "W55_transfer_admitted", "hourly_timing_admitted",
+                "installed_service_completion_admitted", "national_admission", "task_accepted",
+                "readiness_credit", "rating_reference_E2"}
+                and flags["rating_reference_E2"] == "UNCHANGED"
+                and all(value is False for key, value in flags.items() if key != "rating_reference_E2"), "no installed admission")
+        protected = m["protected_sha256"]
+        require({"modules/B05/engine.py", "modules/B05/manufacturer_wm50_reference.py",
+                 "modules/B05/annual_device_reference.py", "modules/B11/annual_retrofit_reference.py",
+                 "data/processed/b05/wm50_full_performance_v53.csv", "registry/b05_wm50_full_grid_manifest.json",
+                 "registry/b05_eoh_observed_boundary_manifest.json", "registry/b05_wm50_installed_boundary_evidence.json"}
+                <= set(protected), "runtime/rating/A-evidence protected inventory")
+        for relative, expected in protected.items():
+            path = (ROOT / relative).resolve()
+            require(path.is_relative_to(ROOT.resolve()) and bool(re.fullmatch(r"[0-9a-f]{64}", expected))
+                    and hashlib.sha256(path.read_bytes()).hexdigest() == expected, f"unchanged protected file {relative}")
+        plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
+        tasks = {s["slice_id"]: s for mod in plan["modules"] for s in mod["slices"]}
+        require(m["research_slice_ids"] == ["B05-D01", "B05-D03"] and bool(m["remaining_applicability_question"]), "scoped open applicability")
+        for sid in m["research_slice_ids"]:
+            task = tasks[sid]
+            require(task["status"] == "INTEGRATING" and not task["accepted_artifacts"]
+                    and not task["consumer_tests"] and task["reviewed_commit"] is None
+                    and any(r.get("decision") == "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION"
+                            and r.get("evidence_manifest") == "registry/b05_eoh_comparison_support_manifest.json"
+                            for r in task["research_log"]), f"research log without acceptance {sid}")
+    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError) as exc:
+        errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
 
 
 def main() -> int:

@@ -674,6 +674,22 @@
               "decision": "EOH_EVIDENCE_RECORDED_NO_NUMERICAL_ADMISSION",
               "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md",
               "evidence_manifest": "registry/b05_eoh_observed_boundary_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+              ],
+              "remaining_unknown": "Can a same-SH-service installed/rating electrical, thermal and duty boundary be defended for a declared target through a qualified aggregate or calibrated transfer with coverage and uncertainty? EOH2074 mixed SH/DHW, measured IH electricity, unknown controller/frequency and timing do not yet supply that mapping; heterogeneous hybrid ratios are descriptive.",
+              "promising_next_lead": "Review exact-mask observed balances and all four endpoint rating references before separately qualifying an equivalent aggregate or calibrated same-service transfer under canonical E2.",
+              "expected_decision_value": "Local numerical comparison and verified original controls; preserves all prior A-slice non-admission, runtime, rating grid and installed residual Q.",
+              "decision": "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION",
+              "evidence": "docs/source_packs/B05_EOH_COMPARISON_SUPPORT.md",
+              "evidence_manifest": "registry/b05_eoh_comparison_support_manifest.json"
             }
           ],
           "reviewed_commit": null
@@ -884,6 +900,22 @@
               "decision": "EOH_EVIDENCE_RECORDED_NO_NUMERICAL_ADMISSION",
               "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md",
               "evidence_manifest": "registry/b05_eoh_observed_boundary_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+              ],
+              "remaining_unknown": "Can a same-SH-service installed/rating electrical, thermal and duty boundary be defended for a declared target through a qualified aggregate or calibrated transfer with coverage and uncertainty? EOH2074 mixed SH/DHW, measured IH electricity, unknown controller/frequency and timing do not yet supply that mapping; heterogeneous hybrid ratios are descriptive.",
+              "promising_next_lead": "Review exact-mask observed balances and all four endpoint rating references before separately qualifying an equivalent aggregate or calibrated same-service transfer under canonical E2.",
+              "expected_decision_value": "Local numerical comparison and verified original controls; preserves all prior A-slice non-admission, runtime, rating grid and installed residual Q.",
+              "decision": "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION",
+              "evidence": "docs/source_packs/B05_EOH_COMPARISON_SUPPORT.md",
+              "evidence_manifest": "registry/b05_eoh_comparison_support_manifest.json"
             }
           ],
           "reviewed_commit": null

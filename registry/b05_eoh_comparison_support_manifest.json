@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B05-EOH-COMPARISON-SUPPORT",
+  "status": "LOCAL_RESEARCH_COMPARISON_NOT_INSTALLED_ADMISSION",
+  "base_commit": "ed528c692abb14b992e9b64be9ab5fc6acc53a87",
+  "base_tree": "c4517c3076d595f9cbbbb7bddaf8a520e19774a1",
+  "owner_module": "B05",
+  "research_slice_ids": [
+    "B05-D01",
+    "B05-D03"
+  ],
+  "source_ids": [
+    "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+    "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+    "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+    "SRC-B02-DESNZ-EOH-PDI-2024",
+    "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+  ],
+  "input_binding": {
+    "handoff_manifest_sha256": "d9c27a5c2acba40fc6ea9ab614fb02f51d98612efeeef1c3252fe2d36c24cc87",
+    "input_file_count": 33,
+    "zip_bytes": 7572244,
+    "zip_sha256": "8fccd0d7b3eeb3784d0f1d99ad4451d2b368cdb6b66e599aea5856c527360e69",
+    "raw_member_sha256": "5488bf47ad2c8b84ec09b1889f2739b8afc08f9d9c6b51f6b017efe5f1dae3f5",
+    "reuse_status": "EXTERNAL_ONLY_LOCAL_INPUTS; NO_REPOSITORY_COPY",
+    "manifest_role": "HANDOFF_MANIFEST describes these 33 files; older DELIVERABLE_MANIFEST is historical broader evidence"
+  },
+  "definitions": {
+    "value_status": "DER from hash-verified OBS/source-derived inputs; unresolved applicability Q",
+    "energy_unit": "kWh; original cumulative counters differenced with sign retained",
+    "adjacency_seconds": 120,
+    "gap_fill": false,
+    "calendar_assignment": "CURRENT endpoint recorded year; cross-year interval assigned wholly to current year",
+    "timezone": "Q; recorded clock only",
+    "masks": {
+      "HP_E": [
+        "H",
+        "E"
+      ],
+      "HP_E_CP": [
+        "H",
+        "E",
+        "CP"
+      ],
+      "HP_E_IH": [
+        "H",
+        "E",
+        "IH"
+      ],
+      "HP_E_CP_IH": [
+        "H",
+        "E",
+        "CP",
+        "IH"
+      ]
+    },
+    "mask_rule": "original adjacent 120s AND both counter endpoints finite for every named channel; no positivity filter",
+    "flow_channel": "Heat_Pump_Heating_Flow_Temperature",
+    "flow_substitution": null,
+    "reference_condition": "both original endpoints have ambient and heating flow; both pass native-cell guard and unchanged rating engine",
+    "native_supply_C": [
+      25,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60
+    ],
+    "mode_policy": "ALL_FOUR_SEPARATE_NO_SELECTION",
+    "modes": [
+      "MAX",
+      "NOMINAL",
+      "MID",
+      "MIN"
+    ],
+    "source_blank_policy": "No interpolation through missing native cells; no extrapolation; unchanged engine may fail more strictly at a rectangular edge",
+    "reference_statistics": "arithmetic endpoint-sample Qh[kW], Pel[kW], COP means on exact same mask; previous/current shown separately; NOT interval-average powers or integrated reference energies",
+    "measured_statistics": "signed counter increments on each exact mask/status/year/condition; H and whole E share the mask; CP/IH null unless required by mask",
+    "condition_grain": "year x temperature-proxy x current ambient bin x current heating-flow bin x current return bin",
+    "proxy_semantics": "heating indicated iff heating flow both endpoints and HW absent both; DHW indicated iff HW both and heating flow absent both; both/incomplete separate; no service-mode proof",
+    "zero_negative_heat": "retain all electric consumption for dH<=1e-8 kWh; no standby/cycling/loss attribution",
+    "missing_CP_IH": "unknown, never imputed zero; IH electricity not added to useful heat",
+    "backup_column": "absent from original EOH2074 header; physical absence not established",
+    "hybrid_category": "documented_separate_meter_hybrid_SH",
+    "hybrid_population": {
+      "systems": 33,
+      "windows": 4546,
+      "intervals": 96019
+    },
+    "hybrid_boiler_positive": "RETAIN",
+    "hybrid_year_semantics": "window energy uses year_start; exact support uses interval current-endpoint year, without splitting window energy",
+    "hybrid_statistics": "pooled=sumH/sumE; home-balanced=mean of per-home sumH/sumE; descriptive heterogeneous systems, no WM50 calibration/independent validation",
+    "hybrid_tables": "all 13 comparison source tables copied unchanged, including other categories; 6 condition/year/clock tables additionally filtered by explicit category",
+    "admission_policy": "canonical E2 and B05_WM50_INSTALLED_BOUNDARY_EVIDENCE unchanged; later defensible equivalent aggregate/calibrated transfer allowed; no new component-E1, perfect-year, boiler-free or mandatory holdout gate"
+  },
+  "non_admission": {
+    "usable_for_engine": false,
+    "model_default_admitted": false,
+    "numerical_calibration": false,
+    "annual_residual_admitted": false,
+    "W55_transfer_admitted": false,
+    "hourly_timing_admitted": false,
+    "installed_service_completion_admitted": false,
+    "national_admission": false,
+    "task_accepted": false,
+    "readiness_credit": false,
+    "rating_reference_E2": "UNCHANGED"
+  },
+  "protected_sha256": {
+    "modules/B05/engine.py": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+    "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+    "modules/B05/annual_device_reference.py": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+    "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+    "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+    "registry/b05_eoh_observed_boundary_manifest.json": "6ea5921e2d85d928b9225dacb8e8441931b5e9f42c825c80eb5e03faf1d46dcf",
+    "registry/b05_wm50_installed_boundary_evidence.json": "7b4cd3e731ce453c3ebfe08b9253758e5ee57cc8a6a17115dfc88a4e09bd0039",
+    "modules/B11/__init__.py": "1f4f4821c1dcc399758b0203765070157c8601c7dab2e04e6d1889c1272e1afb",
+    "modules/B11/annual_retrofit_reference.py": "e8852b6560b42e3754a110ebf54e01b4b0439da77b4146d5b0c1bd41428e41e6",
+    "modules/B11/annual_same_service_reference.py": "595ffa907e0da7a62fa827c6d77a67841d64457887a317888c21df8ebbe0d9cd",
+    "modules/B11/calorific_reference.py": "ea8d6f98dc05a0e82d135d873b257698f705115cac4ad595c26ac3e2b627f17a",
+    "modules/B11/county_baseline_contract.py": "c16bf4252da2d99514a987f15c5db20c0228c3327f00c655e928610dc8978908",
+    "modules/B11/gas_efficiency_authority.py": "93106b9574563a83f3c1783dc433da5ab7483a88be6f6e2249a6ca1dabc61005",
+    "modules/B11/gas_quality_reference.py": "5ecd6b371e3f6e47048405e8c6a41ba9e22809936769eade8226b78cc397523b",
+    "modules/B11/gas_quality_snapshot_contract.py": "a8f61adfe3bdba53779726bfbc6f720d52ef447e93c9795b8c906423d3dd3348",
+    "modules/B11/gas_reference_contract.py": "8164d1dd9209e1f2cc073501f3ad2cbd84629b1cddd00a4660e15a693c3677af",
+    "modules/B11/gas_volume_bridge_contract.py": "4922098f5f01d9b03685bf4b3fefe23d956420ba3364fa3badfb8ae8d84abc46",
+    "modules/B11/national_gas_displacement_inference.py": "85540e092eea996d3de32822548b03779beda3d38b48f24a41da0190a02cfaef",
+    "modules/B11/physical_displacement_contract.py": "68991b77b15422d693d702d2939f77adb803300d5671235e77765831c08f8238"
+  },
+  "remaining_applicability_question": "Can a same-SH-service installed/rating electrical, thermal and duty boundary be defended for a declared target through a qualified aggregate or calibrated transfer with coverage and uncertainty? EOH2074 mixed SH/DHW, measured IH electricity, unknown controller/frequency and timing do not yet supply that mapping; heterogeneous hybrid ratios are descriptive."
+}
