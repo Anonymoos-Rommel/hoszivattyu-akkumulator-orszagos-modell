@@ -515,8 +515,8 @@
       "id": "B05-WM50-INSTALLED-ANNUAL",
       "status": "Q",
       "evidence_tier": "E3",
-      "scope": "Signed annual residual, W55ratingoverlap, matchedthermalservice/duty, SH/DHW allocation and remainingauxiliaries unresolved",
-      "required": "One defensible same-SH-service equivalent electrical/thermal/duty aggregate or calibratedtransfer with uncertainty; alternatively complete qualified component reconciliation",
+      "scope": "Field evidence now documented in b05_eoh_observed_boundary_manifest.json; complete signed annual residual, matched SH heat/duty, rating overlap and allocation remain Q",
+      "required": "Qualify one same-SH-service equivalent electrical/thermal/duty aggregate or calibrated transfer with uncertainty using the documented observed evidence; no perfect-year, boiler-off or E1-per-component prerequisite",
       "affected_claim": "NO_COMPLETE_ANNUAL_INSTALLED_RESULT",
       "blocker_class": "MODEL_BLOCKER",
       "blocks_complete_installed_claim": true,
@@ -527,8 +527,8 @@
       "id": "B05-WM50-INSTALLED-HOURLY",
       "status": "Q",
       "evidence_tier": "E3",
-      "scope": "Time-resolved states, coverage, alignedthermalservice and electricalbalance unresolved",
-      "required": "Qualified time-resolved complete matchedboundary data/model validation with missingness, intervals, controlstates and uncertainty",
+      "scope": "Observed recorded-clock and interval support documented; complete hourly service/state/timing and matched installed/rating boundary remain Q",
+      "required": "Qualified time-resolved same-service aggregate or validated transfer with explicit time basis, coverage, missingness and uncertainty; annual or active-window evidence alone is insufficient",
       "affected_claim": "NO_COMPLETE_HOURLY_INSTALLED_RESULT",
       "blocker_class": "MODEL_BLOCKER",
       "blocks_complete_installed_claim": true,
@@ -671,6 +671,18 @@
       "provenance_reuse": "Existing registered source and prior actual original-document inspection; current reacquisition blocked before any bytes were received. No new independent observation.",
       "repo_snapshot_path": null,
       "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED"
+    }
+  ],
+  "aggregate_evidence_updates": [
+    {
+      "date": "2026-10-15",
+      "evidence_manifest": "registry/b05_eoh_observed_boundary_manifest.json",
+      "verification": "Consumer reviewed exact owner-supplied excerpts; reviewer original-file/hash checks attributed separately; no consumer ZIP verification",
+      "historical_assessment_preserved": true,
+      "numerical_installed_admission": false,
+      "finding": "A condition-tagged separate-meter hybrid SH comparison set and closer WM50-family mixed-service observations now exist. They do not yet reconcile the complete target installed/rating electricity, heat and duty boundary.",
+      "remaining_Q": "Same-SH-service boundary and W55/actual-duty transfer; IH allocation, exact timing and configuration; no annual/hourly residual or service completion",
+      "OEM_route": "OPTIONAL"
     }
   ]
 }

@@ -1,0 +1,900 @@
+{
+  "schema_version": 1,
+  "handoff_id": "B05-EOH-OBSERVED-BOUNDARY-EVIDENCE",
+  "status": "EVIDENCE_RECORDING_ONLY",
+  "base_commit": "00c5ea0152534f10769f9cc4d9e9888063ffd9f7",
+  "owner_module": "B05",
+  "research_slice_ids": [
+    "B05-D01",
+    "B05-D03"
+  ],
+  "inspection": {
+    "date": "2026-10-15",
+    "consumer": "Codex consumer; read the two owner-supplied exact textual handoffs and report",
+    "consumer_textual_excerpts_reviewed": true,
+    "consumer_original_bytes_hashed": false,
+    "consumer_full_artifact_files_inspected": false,
+    "consumer_library_zip_materialized": false,
+    "reviewer": "Cloud reviewer, as attributed in owner handoff",
+    "reviewer_original_artifacts_inspected": true,
+    "reviewer_manifest_files_checked": 53,
+    "reviewer_manifest_mismatches": 0,
+    "reviewer_check_is_independent_physical_measurement": false,
+    "locator_convention": "Original field names and composite keys; parsed CSV record numbers would use header=1, not physical text lines. No unprovided record number is invented.",
+    "producer_paths_are_consumer_local": false
+  },
+  "sources": [
+    {
+      "source_id": "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+      "original_url": "https://datacatalogue.ukdataservice.ac.uk/studies/study/9050#details",
+      "doi": "10.5255/UKDA-SN-9050-2",
+      "title": "Electrification of Heat cleansed two-minute data; acquired official CSV package",
+      "authority": "DESNZ / Energy Systems Catapult / UK Data Service",
+      "source_tier": "P1",
+      "evidence_status": "OBS",
+      "retrieved_at": "2026-10-14T16:10:40Z",
+      "retrieval_basis": "Reviewer-reported official download completion",
+      "reference_period": "Acquired package 2020-10-26 to 2023-09-29; subset of project",
+      "revision": "UKDA-SN-9050-2; acquired package",
+      "sha256": "325a0f8edcfd2b3935ca8ee9b666d6ab7a4b2137af82ed14fe7f9b485b82004f",
+      "bytes": 1286711795,
+      "reuse_status": "OGL_REPORTED_BY_PRODUCER_EXTERNAL_ONLY",
+      "repo_snapshot_path": null,
+      "lineage": "Original observations; not the 742-record summary"
+    },
+    {
+      "source_id": "SRC-B02-DESNZ-EOH-PDI-2024",
+      "original_url": "https://usmart.ai/organisation/esc/discovery/5325ef18-9cd1-493c-beae-e278d8998400",
+      "snapshot_date": "2026-10-14",
+      "sha256": "46429fe7948a55da4afb6e3429e6c859cb9bd2ac05f4bebb54b102ce84702e59",
+      "bytes": 3786827,
+      "reference_period": "New dated current PDI snapshot; historical registry provenance retained",
+      "reuse_status": "OGL_REPORTED_BY_PRODUCER_EXTERNAL_ONLY",
+      "repo_snapshot_path": null,
+      "lineage": "Reuses existing source identity; no cloned PDI source"
+    },
+    {
+      "source_id": "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+      "original_url": "https://doc.ukdataservice.ac.uk/doc/9050/mrdoc/excel/9050_eoh_public_datasets_data_dictionary_v2-0.xlsx",
+      "title": "EOH Public Datasets Data Dictionary v2.0",
+      "authority": "DESNZ / Energy Systems Catapult / UK Data Service",
+      "source_tier": "P1",
+      "evidence_status": "OBS",
+      "retrieved_at": "2026-10-15",
+      "retrieval_basis": "Owner exact handoff date; original acquisition instant not supplied",
+      "revision": "v2.0",
+      "reference_period": "UKDS9050 dictionary v2.0",
+      "sha256": "b0df7899064e0d33679d760b6bc2be52d06f1d3093d7b20aa283a632db4175f7",
+      "bytes": 165294,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "repo_snapshot_path": null,
+      "lineage": "Definitions of original observation channels"
+    },
+    {
+      "source_id": "SRC-B05-DESNZ-EOH-MONITORING-2024",
+      "original_url": "https://esc-production-2021.s3.eu-west-2.amazonaws.com/wp-content/uploads/2024/12/18093557/EoH-Heat-Pump-Performance-Data-Analysis-Report.pdf#page=25",
+      "title": "EOH Heat Pump Performance Data Analysis Report December 2024",
+      "authority": "DESNZ / Energy Systems Catapult",
+      "source_tier": "P1",
+      "evidence_status": "DER",
+      "retrieved_at": "2026-10-15",
+      "retrieval_basis": "Reviewer text inspection handoff date; original retrieval instant not supplied",
+      "revision": "December 2024",
+      "reference_period": "EOH monitoring; sections 4.1.3-4.1.4",
+      "locator": "Printed pp23-24 / PDF pp25-26",
+      "sha256": null,
+      "bytes": null,
+      "byte_identity": "NOT_ACQUIRED",
+      "diagram_inspection_claimed": false,
+      "reuse_status": "EXTERNAL_ONLY_REPOSITORY_COPY_NOT_CLEARED",
+      "repo_snapshot_path": null,
+      "lineage": "Distinct from 2022 installation report; same project, not independent measurement"
+    },
+    {
+      "source_id": "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+      "original_url": "https://chatgpt.com/api/library/files/libfile_e25b039ad79c81919e4c7def579cb75b/download",
+      "title": "EOH all available years derived evidence bundle 2026-10-15",
+      "authority": "Project analysis / owner-supplied cloud review",
+      "source_tier": "P4",
+      "evidence_status": "DER",
+      "retrieved_at": "2026-10-15",
+      "retrieval_basis": "Owner-provided exact textual handoffs; no consumer ZIP download",
+      "revision": "Library version 0",
+      "reference_period": "Derived analysis of acquired 2020-2023 package",
+      "sha256": "07a58409217bc33d4e6e105126cba1ec396de6b713ca53d3fa608c4db27adbe2",
+      "bytes": 20259038,
+      "library_file_id": "libfile_e25b039ad79c81919e4c7def579cb75b",
+      "library_version": 0,
+      "hash_basis": "OWNER_REPORTED_NOT_CONSUMER_VERIFIED",
+      "reuse_status": "OWN_SYNTHESIS_ONLY_NO_RAW_SOURCE_REPUBLICATION",
+      "repo_snapshot_path": null,
+      "lineage": "Derived from original archive/PDI/dictionary; reviewer inspected files directly, not this consumer-local ZIP"
+    }
+  ],
+  "processing_reference": {
+    "repository": "https://github.com/ES-Catapult/electrification_of_heat/tree/af2596a9e7cfcc5fbc2c986484f44b20de5d7f64",
+    "commit": "af2596a9e7cfcc5fbc2c986484f44b20de5d7f64",
+    "exact_released_archive_code_binding": "Q",
+    "individual_alteration_histories": "Q",
+    "independent_physical_replication": false
+  },
+  "artifacts": [
+    {
+      "file": "METHOD_AND_SCOPE.md",
+      "sha256": "65f14794c54e8cf875b94cbf03c8062d31443dd0d32f8e9d4ec19b40cbbb5329",
+      "bytes": 9241,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": false,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "ALL_AVAILABLE_YEARS_EVIDENCE_REPORT.md",
+      "sha256": "f49f914de464836c04fe306af96e4a6cf8c27a4e74344899f5283aa920a9da79",
+      "bytes": 12442,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": false,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "DELIVERABLE_MANIFEST.json",
+      "sha256": "aa50efe18805d930fd5fd118aacab692ff1fa3ac237f4f65c7579bc4dcdd366a",
+      "bytes": 10608,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": false,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "EOH2074_target_family_review.json",
+      "sha256": "cf8af2357fcc5a6e936232e37b55ab316f4bf06e0031fddfe76977a6ae2de5bf",
+      "bytes": 4194,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "EOH2074_target_family_review.py",
+      "sha256": "071d106e5adaafc4523e33091cd02885a26835a685554745ebf977803c8e8f10",
+      "bytes": 3891,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "audit_common_interval_balances.py",
+      "sha256": "a482d22fc03bc3093917bc18a75cc3a75ba70a2659738295f2f2fff3c54e641b",
+      "bytes": 4366,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "analyze_archive.py",
+      "sha256": "0603bc7de1b78971c11cc6ea0d9158696f27e210b13a95902688636be4da33c3",
+      "bytes": 14817,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "summarize_archive.py",
+      "sha256": "b33e9473e24cb8e08c7c48faf787d7703d22dafff97d7b1e80720394fa40472f",
+      "bytes": 9203,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "audit_year_drift.py",
+      "sha256": "c7f873c524d9ae924bd6cd4afe6d465957e924654aa838cd54451641fc5dfee4",
+      "bytes": 2665,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "summarize_support.py",
+      "sha256": "74f31d8a38dba9246f2b353f43f8917d0985d466faf33f0d01a02a918ff7411e",
+      "bytes": 2240,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "all_period_common_interval_year.csv",
+      "sha256": "da5aadb46df1952a5e72d73b6780ec166bb9d77c5371f23ccc0549fe0459cf9a",
+      "bytes": 127625,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "system_year_coverage.csv",
+      "sha256": "fe06e8bac3666e6e5266b8b9f3c7dd630cfaf3b979b0327c6660d8ac9ff86d60",
+      "bytes": 432739,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "all_systems_quality_inventory.csv",
+      "sha256": "cc242ade0e68191def80c819cd50b9e6475d0b7975ab495fc4f68994e8158b15",
+      "bytes": 83210,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "documented_SH_primary_comparative_population.csv",
+      "sha256": "9aeee07eb02f7bb769aa4b0514f9349ecf9d7a93a9e0371b7831272ff700f913",
+      "bytes": 2609191,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "whole_E_candidate_population_all_scopes.csv",
+      "sha256": "81626812885dc3f16098783d9e17e92f70869c71e31aa04f2e653ebd6ebb7049",
+      "bytes": null,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "condition_pooled_observed_ratios_not_rating_or_annual.csv",
+      "sha256": "d42a6ef8d2f4db8fd7e9dadb8c52316589f311c8503f6786f25c6c34318e8e85",
+      "bytes": null,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    },
+    {
+      "file": "pdi_public_current_2026-10-14.csv",
+      "source_id": "SRC-B02-DESNZ-EOH-PDI-2024",
+      "role": "EXTERNAL_SOURCE_SNAPSHOT_NOT_DERIVATIVE_BUNDLE_MEMBER",
+      "sha256": "46429fe7948a55da4afb6e3429e6c859cb9bd2ac05f4bebb54b102ce84702e59",
+      "bytes": 3786827,
+      "hash_basis": "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES",
+      "consumer_full_file_inspected": false,
+      "consumer_textual_excerpt_inspected": true,
+      "repo_snapshot_path": null
+    }
+  ],
+  "claims": [
+    {
+      "id": "EOH-01",
+      "status": "DER",
+      "manifest_locator": "populations",
+      "artifact": "ALL_AVAILABLE_YEARS_EVIDENCE_REPORT.md",
+      "locator": "Result and working dataset; What all data means",
+      "unit": "rows;systems;system-years;h",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-02",
+      "status": "DER",
+      "manifest_locator": "definitions",
+      "artifact": "analyze_archive.py",
+      "locator": "27-49,61-68",
+      "unit": "s;kWh;degC",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-03",
+      "status": "DER",
+      "manifest_locator": "selected_rows.year",
+      "artifact": "all_period_common_interval_year.csv",
+      "locator": "property_id=EOH2074,year=2022; original field names retained",
+      "unit": "kWh;intervals",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-04",
+      "status": "DER",
+      "manifest_locator": "selected_rows.IH",
+      "artifact": "system_year_coverage.csv",
+      "locator": "property_id=EOH2074,year=2022; separate IH mask",
+      "unit": "kWh;intervals",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-05",
+      "status": "OBS",
+      "manifest_locator": "target.pdi_fields",
+      "artifact": "pdi_public_current_2026-10-14.csv",
+      "locator": "Dated PDI snapshot 2026-10-14; row key Property_ID=EOH2074; original technical fields retained",
+      "unit": "identifier;kW;degC;L",
+      "source_ids": [
+        "SRC-B02-DESNZ-EOH-PDI-2024"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false,
+      "snapshot_date": "2026-10-14",
+      "row_key": {
+        "Property_ID": "EOH2074"
+      },
+      "original_fields": [
+        "Property_ID",
+        "HP_Installed",
+        "HP_Installed_Detail",
+        "HP_Brand",
+        "HP_Model",
+        "HP_Size_kW",
+        "HP_Refrigerant",
+        "MCS_Flow_Temp",
+        "TS_Type",
+        "TS_Water_Size",
+        "HP_Control_Zones"
+      ],
+      "extraction_lineage": "Dated PDI CSV -> owner exact textual PDI row -> target.pdi_fields; not EOH2074_target_family_review.json"
+    },
+    {
+      "id": "EOH-06",
+      "status": "DER",
+      "manifest_locator": "primary_identity_groups",
+      "artifact": "all_systems_quality_inventory.csv",
+      "locator": "33 supplied property_id keys; PDI identity columns; service_scope",
+      "unit": "identifier;kW",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-07",
+      "status": "DER",
+      "manifest_locator": "selected_rows.windows",
+      "artifact": "whole_E_candidate_population_all_scopes.csv",
+      "locator": "Composite property_id,boundary_screen,start,end; examples also identify primary-population file",
+      "unit": "kWh;intervals",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-08",
+      "status": "DER",
+      "manifest_locator": "selected_rows.cell",
+      "artifact": "condition_pooled_observed_ratios_not_rating_or_annual.csv",
+      "locator": "category,ambient_mean_bin,return_mean_bin,recorded_start_clock_block",
+      "unit": "ratio;h",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    },
+    {
+      "id": "EOH-09",
+      "status": "Q",
+      "manifest_locator": "remaining_unknowns",
+      "artifact": "METHOD_AND_SCOPE.md",
+      "locator": "Reviewer limitations and canonical B05 installed debt",
+      "unit": "applicability",
+      "source_ids": [
+        "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+        "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+      ],
+      "verification_basis": "CONSUMER_READ_EXACT_OWNER_HANDOFF; REVIEWER_INSPECTED_ORIGINALS",
+      "independent_physical_replication": false
+    }
+  ],
+  "populations": {
+    "members": 185,
+    "nonempty_systems": 184,
+    "rows": 102564000,
+    "system_years": 538,
+    "reference_start": "2020-10-26",
+    "reference_end": "2023-09-29",
+    "primary": {
+      "systems": 33,
+      "windows": 4546,
+      "intervals": 96019,
+      "observed_hours_reported": 3200.6333,
+      "all_months": 12,
+      "all_recorded_hours": 24,
+      "weekdays": 7,
+      "largest_home_duration_percent": 24.22,
+      "top_three_duration_percent": 54.67
+    },
+    "selection": "All acquired member-years, including partial records; historical summary inclusion flag not used",
+    "sampling": "Package membership not established random; not all 742 project installations",
+    "status": "DER",
+    "independent_unit": "Systems; repeated intervals/years are correlated; no national weights"
+  },
+  "primary_identity_groups": [
+    {
+      "PDI_type": "Hybrid",
+      "PDI_brand": "Daikin",
+      "PDI_model": "EHY2KOMB28AA",
+      "PDI_size_kW": 4,
+      "PDI_detail": "Separate_New Boiler",
+      "service_scope": "hybrid_SH_separate_meters",
+      "property_ids": [
+        "EOH2205",
+        "EOH2285",
+        "EOH1876",
+        "EOH2206",
+        "EOH1999",
+        "EOH1970",
+        "EOH1708",
+        "EOH2012",
+        "EOH1847",
+        "EOH1699",
+        "EOH2167",
+        "EOH2350",
+        "EOH2228",
+        "EOH2397",
+        "EOH1712",
+        "EOH1837",
+        "EOH2005",
+        "EOH2003",
+        "EOH2045",
+        "EOH1694",
+        "EOH2056"
+      ]
+    },
+    {
+      "PDI_type": "Hybrid",
+      "PDI_brand": "Daikin",
+      "PDI_model": "EHY2KOMB32AA",
+      "PDI_size_kW": 4,
+      "PDI_detail": "Separate_New Boiler",
+      "service_scope": "hybrid_SH_separate_meters",
+      "property_ids": [
+        "EOH1792",
+        "EOH2155",
+        "EOH2022",
+        "EOH1935",
+        "EOH2058",
+        "EOH2089"
+      ]
+    },
+    {
+      "PDI_type": "Hybrid",
+      "PDI_brand": "Vaillant",
+      "PDI_model": "VWL 125/6 A 230V S2",
+      "PDI_size_kW": 12,
+      "PDI_detail": "Separate_New Boiler",
+      "service_scope": "hybrid_SH_separate_meters",
+      "property_ids": [
+        "EOH1701"
+      ]
+    },
+    {
+      "PDI_type": "Hybrid",
+      "PDI_brand": "Vaillant",
+      "PDI_model": "VWL 125/6 A 230V S2",
+      "PDI_size_kW": 12,
+      "PDI_detail": "Separate_Existing Boiler",
+      "service_scope": "hybrid_SH_separate_meters",
+      "property_ids": [
+        "EOH2264",
+        "EOH1980",
+        "EOH1884",
+        "EOH2308"
+      ]
+    },
+    {
+      "PDI_type": "Hybrid",
+      "PDI_brand": "Vaillant",
+      "PDI_model": "VWL 55/6 A 230V S2",
+      "PDI_size_kW": 5,
+      "PDI_detail": "Separate_New Boiler",
+      "service_scope": "hybrid_SH_separate_meters",
+      "property_ids": [
+        "EOH2198"
+      ]
+    }
+  ],
+  "sime_exceptions": [
+    {
+      "property_id": "EOH2004",
+      "PDI_model": "SIME MURELLE REVOLUTION",
+      "service_scope": "hybrid_SH_allocated_SIME"
+    },
+    {
+      "property_id": "EOH1751",
+      "PDI_model": "SIME MURELLE REVOLUTION",
+      "service_scope": "hybrid_SH_allocated_SIME"
+    }
+  ],
+  "metering": {
+    "source_ids": [
+      "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+      "SRC-B05-DESNZ-EOH-MONITORING-2024"
+    ],
+    "dictionary_sheet": "Performance - Raw",
+    "dictionary_rows": {
+      "Timestamp": 8,
+      "backup": 15,
+      "boiler_heat": 16,
+      "CP": 19,
+      "HP_heat": 21,
+      "IH": 25,
+      "whole_E": 27
+    },
+    "energy_unit": "cumulative kWh",
+    "standard_hybrids": "Separate HP/boiler SH heat; DHW boiler-only/unmetered; no project-installed IH/backup. Boiler-off is not required.",
+    "CP": "Multiple circulation pumps where present; not automatically exact rated embedded pump",
+    "HP_heat": "Meter near HP on primary flow/return; HP output, not useful room heat",
+    "whole_E": "Primary heat-pump-system wiring; exact installed/rating overlap Q",
+    "IH": "Primary thermal storage when present; no common-mask intersection computed",
+    "crosswalk_limit": "Project-class metering plus PDI technical identity; no inspected home-specific wiring/control or historical configuration",
+    "PDI_model_is_automatically_outdoor_identity": false,
+    "nonhybrid_scope": "Mixed SH/DHW whole counters; heating endpoint proxy is not interval mode telemetry"
+  },
+  "definitions": {
+    "adjacency": {
+      "script": "analyze_archive.py",
+      "locator": "61-66",
+      "seconds": 120,
+      "requires": "Original adjacent rows and nonnull previous/current endpoints per channel",
+      "gap_fill": false,
+      "signed_counter_changes_retained": true
+    },
+    "near55": {
+      "script": "analyze_archive.py",
+      "locator": "27-49,61-68",
+      "minimum_intervals": 5,
+      "flow_both_endpoints_c": [
+        53,
+        57
+      ],
+      "minimum_heat_increment_kwh": "1/30",
+      "minimum_whole_E_increment_kwh": "0.2/30",
+      "condition_endpoints": [
+        "flow",
+        "return",
+        "ambient"
+      ],
+      "mask_before_segmentation": true,
+      "chunk_runs_stitch": true,
+      "start": "PREVIOUS endpoint of first interval",
+      "end": "CURRENT endpoint of last interval",
+      "COP_selection": false,
+      "scope": "RESEARCH_DIAGNOSTIC_NOT_EN14511_TOLERANCE_OR_E2_GATE"
+    },
+    "e_minus_cp": {
+      "script": "analyze_archive.py",
+      "locator": "66",
+      "requires": "near55 plus valid CP; dCP >= -1e-8 kWh; dE-dCP >= 0.2/30 kWh",
+      "compressor_only": false,
+      "nonhybrid_label": "electrical residual; not pure SH/H2",
+      "overlaps_whole_E_population": true
+    },
+    "heating_proxy": {
+      "script": "analyze_archive.py",
+      "locator": "35-38,68",
+      "rule": "F present at both endpoints; HW absent at both endpoints",
+      "true_mode_telemetry": false
+    },
+    "common_interval": {
+      "script": "audit_common_interval_balances.py",
+      "locator": "27-35",
+      "he": "grid120s AND H previous/current nonnull AND E previous/current nonnull",
+      "hec": "he AND CP previous/current nonnull",
+      "signed_differences_retained": true,
+      "zero_or_negative_heat": "he AND dH <= 1e-8 kWh",
+      "calendar_assignment": "CURRENT endpoint",
+      "aggregations": [
+        "year",
+        "month",
+        "recorded_clock"
+      ],
+      "state_ledger_exists": false,
+      "IH_BUH_common_intersection_exists": false,
+      "E_minus_CP_uses": "Exactly hec sums"
+    },
+    "cells": {
+      "script": "summarize_archive.py",
+      "locator": "7,20-26",
+      "keys": [
+        "category",
+        "ambient_mean_bin",
+        "return_mean_bin",
+        "recorded_start_clock_block"
+      ],
+      "ambient_edges": [
+        "-inf",
+        0,
+        2,
+        5,
+        7,
+        10,
+        15,
+        20,
+        "inf"
+      ],
+      "return_edges": [
+        "-inf",
+        35,
+        40,
+        45,
+        50,
+        55,
+        "inf"
+      ],
+      "right": false,
+      "clock_block": "start.hour//6",
+      "pooled": "sumH/sumE",
+      "home_balanced": "mean(per-home sumH/sumE)",
+      "LOSO": "(sumH-H_home)/(sumE-E_home); only min/max exposed",
+      "independent_validation": false
+    },
+    "year_drift": {
+      "script": "audit_year_drift.py",
+      "locator": "7-10",
+      "year": "WINDOW START YEAR",
+      "cross_year_windows_flagged": true,
+      "metric": "max(year heat/E ratios)-min(year heat/E ratios)",
+      "residual_drift": false,
+      "configuration_or_duty_explanation_measured": false
+    },
+    "exact_count_support": {
+      "script": "summarize_archive.py",
+      "locator": "28-35",
+      "timestamps": "start+2min through end",
+      "unit": "interval COUNT",
+      "window_energy_split_across_year_or_clock": false,
+      "support_summary_script": "summarize_support.py"
+    },
+    "window_key": [
+      "property_id",
+      "boundary_screen",
+      "start",
+      "end"
+    ],
+    "not_existing_columns": [
+      "configuration_segment_id",
+      "validated_duty_state",
+      "interval_level_window_id",
+      "per_home_LOSO_output"
+    ]
+  },
+  "selected_rows": {
+    "year": {
+      "artifact": "all_period_common_interval_year.csv",
+      "key": {
+        "property_id": "EOH2074",
+        "year": 2022
+      },
+      "fields": {
+        "present_rows": 262791,
+        "service_scope": "mixed_SH_DHW_unallocated",
+        "HP_E_common_steps": 261997,
+        "HP_heat_kWh_HP_E_common": 2515.232000000001,
+        "whole_E_kWh_HP_E_common": 1272.3270000000025,
+        "HP_zero_or_negative_heat_HP_E_common_steps": 230462,
+        "whole_E_kWh_when_HP_heat_zero_or_negative": 430.84800000000746,
+        "HP_E_CP_common_steps": 261847,
+        "HP_heat_kWh_HP_E_CP_common": 2514.0880000000006,
+        "whole_E_kWh_HP_E_CP_common": 1271.6850000000027,
+        "CP_kWh_HP_E_CP_common": 407.46500000000003,
+        "HP_heat_negative_HP_E_common_steps": 0,
+        "whole_E_negative_HP_E_common_steps": 0,
+        "CP_negative_common_steps": 0
+      }
+    },
+    "IH": {
+      "artifact": "system_year_coverage.csv",
+      "key": {
+        "property_id": "EOH2074",
+        "year": 2022
+      },
+      "fields": {
+        "calendar_year_expected_rows": 262800,
+        "IH_E_valid_adjacent_steps": 262197,
+        "IH_E_negative_steps": 0,
+        "IH_E_signed_kWh_valid_steps_only": 131.2,
+        "IH_E_first_valid_time": "2022-01-01 00:00:00",
+        "IH_E_last_valid_time": "2022-12-31 23:58:00"
+      },
+      "HP_E_IH_common_intersection": "NOT_COMPUTED"
+    },
+    "windows": [
+      {
+        "artifact": "documented_SH_primary_comparative_population.csv",
+        "key": {
+          "property_id": "EOH1694",
+          "boundary_screen": "whole_E_aggregate",
+          "start": "2021-03-31 20:00:00",
+          "end": "2021-03-31 20:56:00"
+        },
+        "fields": {
+          "steps": 28,
+          "HP_heat_kWh": 1.7309999999999943,
+          "whole_E_kWh": 1.0580000000001064,
+          "CP_valid_steps": 28,
+          "CP_kWh_valid_steps_only": 0,
+          "boiler_valid_steps": 28,
+          "boiler_positive_steps": 28,
+          "boiler_signed_kWh_valid_steps_only": 0.7119999999999891
+        },
+        "selection": "First alphabetic home, earliest retained window; not efficiency selected"
+      },
+      {
+        "artifact": "whole_E_candidate_population_all_scopes.csv",
+        "key": {
+          "property_id": "EOH2005",
+          "boundary_screen": "whole_E_aggregate",
+          "start": "2021-12-31 21:52:00",
+          "end": "2022-01-01 01:08:00"
+        },
+        "fields": {
+          "steps": 98,
+          "year_start": 2021,
+          "year_end": 2022,
+          "category": "documented_separate_meter_hybrid_SH"
+        },
+        "selection": "Only cross-year window; count support is not year-split energy"
+      },
+      {
+        "artifact": "documented_SH_primary_comparative_population.csv",
+        "key": {
+          "property_id": "EOH1694",
+          "boundary_screen": "whole_E_aggregate",
+          "start": "2021-10-07 04:32:00",
+          "end": "2021-10-07 05:08:00"
+        },
+        "fields": {
+          "steps": 18,
+          "CP_valid_steps": 16,
+          "CP_all_steps_observed": false,
+          "CP_common_residual_E_kWh": null
+        },
+        "selection": "Example of 32 incomplete-CP primary windows"
+      }
+    ],
+    "cell": {
+      "artifact": "condition_pooled_observed_ratios_not_rating_or_annual.csv",
+      "key": {
+        "category": "documented_separate_meter_hybrid_SH",
+        "ambient_mean_bin": "[0.0, 2.0)",
+        "return_mean_bin": "[45.0, 50.0)",
+        "recorded_start_clock_block": 0
+      },
+      "fields": {
+        "systems": 3,
+        "windows": 9,
+        "steps": 158,
+        "hours": 5.266666666666667,
+        "largest_system_duration_share": 0.8291139240506329,
+        "observed_HP_heat_per_whole_E_ratio_pooled": 2.2239729681663483,
+        "home_equal_weight_mean_of_system_ratios": 2.2477635605142448,
+        "median_system_ratio": 2.206125445772983,
+        "minimum_system_ratio": 2.1593252108716703,
+        "maximum_system_ratio": 2.377840024898081,
+        "leave_one_system_out_pooled_ratio_min": 2.204120150991853,
+        "leave_one_system_out_pooled_ratio_max": 2.3233644859807687
+      },
+      "scope": "Illustrative descriptive cell; not full-population replacement or fitted-model validation"
+    }
+  },
+  "target": {
+    "property_id": "EOH2074",
+    "source_ids": [
+      "SRC-B02-DESNZ-EOH-PDI-2024",
+      "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050"
+    ],
+    "pdi_fields": {
+      "Property_ID": "EOH2074",
+      "HP_Installed": "ASHP",
+      "HP_Installed_Detail": null,
+      "HP_Brand": "Mitsubishi",
+      "HP_Model": "PUZ-WM50VHA-BS",
+      "HP_Size_kW": 5,
+      "HP_Refrigerant": "R32",
+      "MCS_Flow_Temp": 45,
+      "TS_Type": "Water_New",
+      "TS_Water_Size": 150,
+      "HP_Control_Zones": 1
+    },
+    "member": "clean/Property_ID=EOH2074.csv",
+    "member_sha256": "5488bf47ad2c8b84ec09b1889f2739b8afc08f9d9c6b51f6b017efe5f1dae3f5",
+    "rows": 546896,
+    "first": "2021-08-28 09:50:00",
+    "last": "2023-09-28 23:58:00",
+    "joint_HP_E_CP_current_rows": 545909,
+    "timezone": "Q",
+    "service_scope": "mixed_SH_DHW_unallocated",
+    "near55_screens": {
+      "basic_current": {
+        "raw": 238,
+        "max_contiguous": 2,
+        "runs_10min": 0
+      },
+      "basic_both": {
+        "raw": 14,
+        "max_contiguous": 1,
+        "runs_10min": 0
+      },
+      "stronger_both": {
+        "raw": 0,
+        "max_contiguous": 0,
+        "runs_10min": 0
+      },
+      "stronger_both_condition_complete": {
+        "raw": 0,
+        "max_contiguous": 0,
+        "runs_10min": 0
+      }
+    },
+    "activity_selected_flow_c": {
+      "median": 31.04,
+      "p90": 34.25
+    },
+    "exact_indoor_controller_pairing": "Q",
+    "W55_transfer_admitted": false
+  },
+  "remaining_unknowns": [
+    "Same-SH-service installed/rating electrical and thermal/duty reconciliation",
+    "IH/BUH common interval allocation and nonhybrid SH/DHW allocation",
+    "Exact time zone and hourly applicability",
+    "Actual controller/indoor/historical configuration and meter overlap",
+    "Qualified W55/target-population transfer and uncertainty",
+    "Exact released archive/code binding and alteration history"
+  ],
+  "debt_links": [
+    "B05-WM50-OEM-PROFILE",
+    "B05-WM50-INSTALLED-ANNUAL",
+    "B05-WM50-INSTALLED-HOURLY"
+  ],
+  "non_admission": {
+    "runtime_parser_added": false,
+    "usable_for_engine": false,
+    "model_default_admitted": false,
+    "numerical_calibration": false,
+    "annual_residual_admitted": false,
+    "W55_transfer_admitted": false,
+    "hourly_timing_admitted": false,
+    "installed_service_completion_admitted": false,
+    "national_admission": false,
+    "task_accepted": false,
+    "readiness_credit": false,
+    "rating_reference_E2": "UNCHANGED",
+    "exact_OEM_route": "OPTIONAL",
+    "required_raw_samples_for_evidence_recording": false
+  }
+}

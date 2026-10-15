@@ -659,6 +659,21 @@
               "expected_decision_value": "Preserve real component evidence and conditional method while preventing genericprofile/candidate promotion into installed performance",
               "decision": "COMPONENT_EVIDENCE_DOCUMENTED; OEM_SEARCH_PAUSED_NO_NEW_DISTINCT_LEAD; INSTALLED_TARGETS_UNRESOLVED",
               "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "UKDS9050 acquired cleansed package; original project observations",
+                "Existing PDI identity with dated 2026-10-14 snapshot",
+                "Distinct December2024 monitoring report and v2 dictionary",
+                "Derived all-years analysis; same archive, not independent physical measurements"
+              ],
+              "remaining_unknown": "Complete same-SH-service installed/rating heat/electric/duty reconciliation, W55 transfer and hourly timing remain Q; mixed target IH allocation not computed",
+              "promising_next_lead": "Separately authorized comparison of documented actual-duty/service boundaries; B calculation/calibration not included in evidence slice A",
+              "expected_decision_value": "Preserve exact populations/masks/limits without claiming source absence or numerical installed admission",
+              "decision": "EOH_EVIDENCE_RECORDED_NO_NUMERICAL_ADMISSION",
+              "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md",
+              "evidence_manifest": "registry/b05_eoh_observed_boundary_manifest.json"
             }
           ],
           "reviewed_commit": null
@@ -854,6 +869,21 @@
               "expected_decision_value": "Preserve real component evidence and conditional method while preventing genericprofile/candidate promotion into installed performance",
               "decision": "COMPONENT_EVIDENCE_DOCUMENTED; OEM_SEARCH_PAUSED_NO_NEW_DISTINCT_LEAD; INSTALLED_TARGETS_UNRESOLVED",
               "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "UKDS9050 acquired cleansed package; original project observations",
+                "Existing PDI identity with dated 2026-10-14 snapshot",
+                "Distinct December2024 monitoring report and v2 dictionary",
+                "Derived all-years analysis; same archive, not independent physical measurements"
+              ],
+              "remaining_unknown": "Complete same-SH-service installed/rating heat/electric/duty reconciliation, W55 transfer and hourly timing remain Q; mixed target IH allocation not computed",
+              "promising_next_lead": "Separately authorized comparison of documented actual-duty/service boundaries; B calculation/calibration not included in evidence slice A",
+              "expected_decision_value": "Preserve exact populations/masks/limits without claiming source absence or numerical installed admission",
+              "decision": "EOH_EVIDENCE_RECORDED_NO_NUMERICAL_ADMISSION",
+              "evidence": "docs/source_packs/B05_WM50_INSTALLED_BOUNDARY_EVIDENCE.md",
+              "evidence_manifest": "registry/b05_eoh_observed_boundary_manifest.json"
             }
           ],
           "reviewed_commit": null
