@@ -690,6 +690,44 @@
               "decision": "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION",
               "evidence": "docs/source_packs/B05_EOH_COMPARISON_SUPPORT.md",
               "evidence_manifest": "registry/b05_eoh_comparison_support_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "A target-duty-weighted same-SH-service installed-minus-rating energy mapping, reconciling mixed-service/IH and meter overlap, W55 operation and the existing active/inertia/idle terms, including the numerically unidentified target cells. Monthly/full-period controls give marginal inactive electricity but no joint service-temperature-load duty allocation; active hybrid windows cannot supply the annual inactive mapping. One qualified aggregate/calibrated mapping with uncertainty is sufficient; component-E1 is not required.",
+              "promising_next_lead": "Review new-weather research replay, complete-period controls, exact target support and conditional year/aggregation sensitivity before qualifying one same-service aggregate/calibrated transfer.",
+              "expected_decision_value": "Numeric conditional research result; original weather identity/guards, runtime and installed/national admission unchanged.",
+              "decision": "LOCAL_ANNUAL_TRANSFER_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "decision": "ANNUAL_TRANSFER_REVIEW_CORRECTION_EVALUATE_ENGINEERING_ROUTES",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "Claim-specific SH/service, installed residual invariance and zero-state transport assessment after calculated engineering alternatives; no preset central point.",
+              "promising_next_lead": "Review corrected preaggregation source splitting and target-weighted EOH/hybrid conditional route estimates.",
+              "expected_decision_value": "Separates data exclusion from algorithmic matching, computes service/IH/fixed-auxiliary uncertainty and derives conditional/E2 classification.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
             }
           ],
           "reviewed_commit": null
@@ -916,6 +954,44 @@
               "decision": "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION",
               "evidence": "docs/source_packs/B05_EOH_COMPARISON_SUPPORT.md",
               "evidence_manifest": "registry/b05_eoh_comparison_support_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "A target-duty-weighted same-SH-service installed-minus-rating energy mapping, reconciling mixed-service/IH and meter overlap, W55 operation and the existing active/inertia/idle terms, including the numerically unidentified target cells. Monthly/full-period controls give marginal inactive electricity but no joint service-temperature-load duty allocation; active hybrid windows cannot supply the annual inactive mapping. One qualified aggregate/calibrated mapping with uncertainty is sufficient; component-E1 is not required.",
+              "promising_next_lead": "Review new-weather research replay, complete-period controls, exact target support and conditional year/aggregation sensitivity before qualifying one same-service aggregate/calibrated transfer.",
+              "expected_decision_value": "Numeric conditional research result; original weather identity/guards, runtime and installed/national admission unchanged.",
+              "decision": "LOCAL_ANNUAL_TRANSFER_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "decision": "ANNUAL_TRANSFER_REVIEW_CORRECTION_EVALUATE_ENGINEERING_ROUTES",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "Claim-specific SH/service, installed residual invariance and zero-state transport assessment after calculated engineering alternatives; no preset central point.",
+              "promising_next_lead": "Review corrected preaggregation source splitting and target-weighted EOH/hybrid conditional route estimates.",
+              "expected_decision_value": "Separates data exclusion from algorithmic matching, computes service/IH/fixed-auxiliary uncertainty and derives conditional/E2 classification.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
             }
           ],
           "reviewed_commit": null
