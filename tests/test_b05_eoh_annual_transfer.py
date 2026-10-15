@@ -1,0 +1,326 @@
+"""Load-matched energy arithmetic, preserved controls and explicit non-identification."""
+import copy
+import json
+import math
+import os
+import unittest
+from datetime import datetime
+from pathlib import Path
+from unittest.mock import patch
+
+from tools import analyze_b05_eoh_annual_transfer as a
+from tools import validate_registry as validator
+
+
+def row(at='2022-01-01T00:00:00', **values):
+    return {'t': datetime.fromisoformat(at), 'H': 0., 'E': 0., 'CP': 0., 'IH': 0.,
+            'A': 7., 'F': 55., 'R': 48., 'HW': None, **values}
+
+
+class EnergyMethodTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.model = a.LoadReference()
+
+    def test_ordered_load_interpolation_is_power_not_best_cop(self):
+        points, reason = self.model.points(7, 55)
+        self.assertIsNone(reason)
+        lo, hi = points[0:2]
+        q = (lo[0] + hi[0]) / 2
+        result = self.model.evaluate(q, 7, 55)
+        self.assertEqual('PAIRED_POWER_CONTINUOUS', result['branch'])
+        self.assertAlmostEqual((lo[1] + hi[1]) / 2, result['reference_kWh'])
+        self.assertEqual(1., result['stage_on_fraction'])
+
+    def test_minimum_stage_components_sum_once_and_duration_scales(self):
+        points, _ = self.model.points(7, 55)
+        q, p = points[0]
+        result = self.model.evaluate(q / 4, 7, 55, duration_h=.5)
+        self.assertAlmostEqual(.25 * p * .5, result['active_kWh'])
+        self.assertAlmostEqual(p * (140 / 1370) * .25 * .75 * .5, result['inertia_kWh'])
+        self.assertAlmostEqual(.015 * .75 * .5, result['idle_kWh'])
+        self.assertAlmostEqual(sum(result[k] for k in ('active_kWh', 'inertia_kWh', 'idle_kWh')), result['reference_kWh'])
+
+    def test_zero_heat_keeps_declared_idle_and_negative_heat_not_clipped(self):
+        zero = self.model.evaluate(0, 30, 55, duration_h=2)
+        self.assertEqual((0., 0., .03, .03), tuple(zero[k] for k in ('active_kWh', 'inertia_kWh', 'idle_kWh', 'reference_kWh')))
+        negative = self.model.evaluate(-1, 7, 55)
+        self.assertIsNone(negative['reference_kWh'])
+        self.assertIn('NEGATIVE_HEAT', negative['branch'])
+
+    def test_unserved_or_blank_never_supplies_same_service_reference(self):
+        self.assertIsNone(self.model.evaluate(1, -17, 42.5)['reference_kWh'])
+        above = self.model.evaluate(20, 7, 55)
+        self.assertEqual('ABOVE_MAX_NOT_SAME_SERVICE', above['branch'])
+        self.assertIsNone(above['reference_kWh'])
+        self.assertGreater(above['unserved_H_kWh'], 0)
+
+    def test_reversed_modes_and_conflicting_equal_capacity_fail_closed(self):
+        original = self.model.guard.evaluate
+        def altered(mode, ambient, flow):
+            status, p = original(mode, ambient, flow)
+            if mode == 'MAX':
+                from dataclasses import replace
+                p = replace(p, thermal_capacity_kw=.1)
+            return status, p
+        model = a.LoadReference()
+        with patch.object(model.guard, 'evaluate', altered):
+            self.assertIn('REVERSED', model.points(7, 55)[1])
+
+    def test_physical_nonfinite_or_nonpositive_duration_rejected(self):
+        for q, ta, f, h in ((math.nan, 7, 55, 1), (1, math.inf, 55, 1), (1, 7, 55, 0)):
+            with self.assertRaises(ValueError):
+                self.model.evaluate(q, ta, f, duration_h=h)
+
+    def test_gaps_and_missing_counters_split_without_energy_allocation(self):
+        rows = [row(), row('2022-01-01T00:02:00', H=1., E=2.),
+                row('2022-01-01T00:08:00', H=50., E=40.),
+                row('2022-01-01T00:10:00', H=51., E=42.)]
+        segments = list(a.segments(rows, 60, 0))
+        self.assertEqual(2, len(segments))
+        self.assertEqual((2., 4., 2), (sum(s['H'] for s in segments), sum(s['E'] for s in segments), sum(s['steps'] for s in segments)))
+
+    def test_signed_heat_zero_heat_electricity_and_missing_cp_ih_retained(self):
+        rows = [row(), row('2022-01-01T00:02:00', H=-1., E=2., CP=None, IH=None)]
+        segment = next(a.segments(rows, 2, 0))
+        output = a.segment_reference(segment, self.model)
+        self.assertEqual((-1., 2., 2.), tuple(output[k] for k in ('H_kWh', 'E_kWh', 'zero_or_negative_heat_E_kWh')))
+        self.assertIsNone(output['CP_kWh_complete_same_mask'])
+        self.assertIsNone(output['IH_kWh_complete_same_mask'])
+        self.assertFalse(output['same_SH_service_proven'])
+
+    def test_immersion_electricity_never_becomes_heat(self):
+        segment = next(a.segments([row(), row('2022-01-01T00:02:00', H=.02, E=.03, IH=2.)], 2, 0))
+        output = a.segment_reference(segment, self.model)
+        self.assertEqual((.02, 2.), (output['H_kWh'], output['IH_kWh_complete_same_mask']))
+
+    def test_calendar_year_assignment_and_no_invented_timezone(self):
+        output = a.segment_reference(next(a.segments([row('2021-12-31T23:58:00'), row(H=.1, E=.05)], 60, 0)), self.model)
+        self.assertEqual((2022, '2022-01', 'Q'), (output['year_current_endpoint'], output['month'], output['timezone']))
+
+    def test_hw_flow_is_not_substituted_and_proxies_split(self):
+        rows = [row(), row('2022-01-01T00:02:00', H=.1, E=.1, F=None, HW=55.)]
+        result = a.segment_reference(next(a.segments(rows, 30, 0)), self.model)
+        self.assertIsNone(result['reference_kWh'])
+        self.assertFalse(result['all_endpoint_heating_flow_near55'])
+
+    def test_aggregation_keeps_measured_energy_but_exposes_reference_sensitivity(self):
+        rows = [row(), row('2022-01-01T00:02:00', H=0., E=.01),
+                row('2022-01-01T00:04:00', H=.04, E=.03)]
+        fine = [a.segment_reference(s, self.model) for s in a.segments(rows, 2, 0)]
+        coarse = [a.segment_reference(s, self.model) for s in a.segments(rows, 30, 0)]
+        self.assertAlmostEqual(sum(s['H_kWh'] for s in fine), sum(s['H_kWh'] for s in coarse))
+        self.assertAlmostEqual(sum(s['E_kWh'] for s in fine), sum(s['E_kWh'] for s in coarse))
+        self.assertNotAlmostEqual(sum(s['reference_kWh'] for s in fine), sum(s['reference_kWh'] for s in coarse), places=8)
+
+    def test_segment_mean_cannot_hide_original_source_blank(self):
+        rows = [row(A=-20., F=25.), row('2022-01-01T00:02:00', H=.01, E=.02, A=20., F=25.)]
+        result = a.segment_reference(next(a.segments(rows, 30, 0)), self.model)
+        self.assertEqual('Q_ORIGINAL_ENDPOINT_SOURCE_SUPPORT', result['branch'])
+        self.assertIsNone(result['reference_kWh'])
+
+    def test_shifted_hour_segments_can_cross_recorded_clock_hour(self):
+        rows = [row('2022-01-01T00:58:00'), row('2022-01-01T01:00:00', H=.01, E=.02),
+                row('2022-01-01T01:02:00', H=.02, E=.04)]
+        parts = list(a.segments(rows, 60, 30))
+        self.assertEqual(1, len(parts))
+        self.assertEqual(2, parts[0]['steps'])
+
+    def test_conditional_mapping_replaces_complete_reference_not_adds_overhead(self):
+        target = [dict(interval_start_utc='2025-01-01T00:00:00+00:00', ambient_C=7., load_over_min=.3,
+                       generator_H_kWh=1., reference_kWh=.4, stage_on_fraction=.3)]
+        cell = a.transfer_cell(7., .3, True)
+        cells = {'2min_offset0': {(2021, *cell): dict(E=2., reference=1., H=3., hours=4., segments=2)}}
+        rows, support = a.target_transfer(target, cells, {})
+        year = next(r for r in rows if r['donor_year'] == 2021)
+        self.assertEqual((.8, .4), (year['conditional_replacement_E_kWh'], year['conditional_signed_delta_kWh']))
+        self.assertIsNone(year['installed_total_kWh'])
+        unknown = next(r for r in support if r['donor_year'] == 2022 and r['support'] == 'UNIDENTIFIED')
+        self.assertEqual((1., 1., .4), (unknown['hours'], unknown['H_kWh'], unknown['reference_E_kWh']))
+        self.assertIsNone(unknown['conditional_replacement_E_kWh'])
+
+    def test_hybrid_context_never_turns_into_transfer(self):
+        target = [dict(interval_start_utc='2025-01-01T00:00:00+00:00', ambient_C=7., load_over_min=.3,
+                       generator_H_kWh=1., reference_kWh=.4, stage_on_fraction=.3)]
+        rows, _ = a.target_transfer(target, {'2min_offset0': {}}, {a.transfer_cell(7., .3, True): {'home1'}})
+        self.assertTrue(all(r['support'] == 'UNIDENTIFIED' and r['hybrid_context_systems_not_transfer'] == 1 for r in rows))
+
+    def test_lower_supply_is_retained_in_explicit_normalized_route(self):
+        s = next(a.segments([row(F=35.), row('2022-01-01T00:02:00', H=.02, E=.01, F=35.)], 60, 0, self.model))
+        r = a.segment_reference(s, self.model)
+        pools = {}; a.collect_eoh_routes(pools, '60min_offset0', r, self.model)
+        self.assertTrue(any(k[1] == 'EOH_ACTUAL_CONDITIONS_TO_W55' for k in pools))
+        self.assertFalse(any(k[1] == 'EOH_NEAR55_OBSERVED' for k in pools))
+
+    def test_bad_endpoint_splits_before_aggregation_and_preserves_ledger(self):
+        data = [row(F=35.), row('2022-01-01T00:02:00', H=.02, E=.01, F=35.),
+                row('2022-01-01T00:04:00', H=.04, E=.02, F=None),
+                row('2022-01-01T00:06:00', H=.06, E=.03, F=35.),
+                row('2022-01-01T00:08:00', H=.08, E=.04, F=35.)]
+        parts = list(a.segments(data, 60, 0, self.model))
+        self.assertEqual(['SUPPORTED', 'MISSING_ENDPOINT_CONDITIONS', 'SUPPORTED'], [s['source_status'] for s in parts])
+        self.assertAlmostEqual(.08, sum(s['H'] for s in parts))
+        self.assertAlmostEqual(.04, sum(s['E'] for s in parts))
+        good = [a.segment_reference(s, self.model) for s in parts if s['source_status'] == 'SUPPORTED']
+        self.assertEqual(2, sum(s['steps'] for s in good))
+        self.assertTrue(all(s['reference_kWh'] is not None for s in good))
+
+    def test_IH_over_whole_E_is_not_clamped_or_automatically_subtracted(self):
+        r = {'temperature_proxy': 'heating_temperature_indicated_not_service_proven',
+             'H_kWh': .1, 'E_kWh': .02, 'IH_kWh_complete_same_mask': .03}
+        self.assertEqual((.1, .02), a.allocated_observation(r, 'HEATING_PROXY_WHOLE_E')[0])
+        self.assertEqual('IH_OUTSIDE_AGGREGATED_WHOLE_E_BOUNDARY', a.allocated_observation(r, 'HEATING_PROXY_LESS_IH_VALID')[1])
+
+    def test_conditional_and_E2_qualification_follow_evidence_and_coverage(self):
+        conditional = {'mapping': {'status': 'CONDITIONAL', 'source_ids': ['source']}}
+        justified = {'mapping': {'status': 'JUSTIFIED_FOR_TARGET', 'source_ids': ['source']}}
+        self.assertEqual('SCN_COMPLETE_CONDITIONAL', a.route_qualification(complete=True, physical=True, documented_assumptions=conditional)[0])
+        self.assertEqual('E2_CANDIDATE', a.route_qualification(complete=True, physical=True, documented_assumptions=justified)[0])
+        self.assertNotEqual('E2_CANDIDATE', a.route_qualification(complete=False, physical=True, documented_assumptions=justified)[0])
+
+    def test_variable_replacement_adds_target_idle_exactly_once(self):
+        target = [dict(interval_start_utc='2025-01-01T00:00:00+00:00', ambient_C=7., load_over_min=.3,
+                       generator_H_kWh=1., reference_kWh=.5, active_kWh=.3, inertia_kWh=.1, idle_kWh=.1)]
+        pools = {}; obs = dict(recorded_start='2022-01-01', recorded_end='2022-01-02', hours=1.)
+        ref = dict(reference_kWh=.5, active_kWh=.3, inertia_kWh=.1, idle_kWh=.1)
+        a.add_pool(pools, ('60min_offset0','EOH_ACTUAL_CONDITIONS_TO_W55','HEATING_PROXY_WHOLE_E','EOH2074',2022,a.transfer_cell(7.,.3,True)),obs,1.,.9,ref)
+        _, results = a.evaluate_transfer_routes(target,pools,{}, {'mapping':{'status':'CONDITIONAL','source_ids':['source']}})
+        r = next(r for r in results if r['accounting']=='VARIABLE_REPLACEMENT_IDLE_ONCE' and r['donor_year']=='ALL_YEARS_POOLED')
+        self.assertAlmostEqual(.9,r['conditional_full_annual_E_kWh'])
+        self.assertIsNone(r['admissible_E2_annual_E_kWh'])
+
+    def test_hybrid_fixed_CP_and_boiler_share_are_not_added_twice(self):
+        source = dict(category=a.comparison.CATEGORY, HP_heat_kWh='1', whole_E_kWh='1', hours='1',
+            PDI_size_kW='4', ambient_mean_C='7', flow_mean_C='55', CP_valid_steps='30', steps='30',
+            CP_kWh_valid_steps_only='.2', boiler_valid_steps='30', boiler_signed_kWh_valid_steps_only='1',
+            start='2022-01-01T00:00:00', end='2022-01-01T01:00:00', property_id='hybrid', year_start='2022',
+            boiler_positive_steps='30')
+        with patch.object(a, 'csv_rows', return_value=iter([source])):
+            pools, _ = a.hybrid_transfer_pools(Path('synthetic'), self.model)
+        energy = {k[2]: v['E_kWh'] for k, v in pools.items()}
+        self.assertAlmostEqual(1.25, energy['LINEAR_ALL_E'])
+        self.assertAlmostEqual(1.2, energy['CP_NONSCALING_RETAINED'])
+        self.assertAlmostEqual(1.1, energy['BOILER_SHARED_CP_HEAT_SHARE'])
+        self.assertTrue(all(v['boiler_positive_windows'] == 1 for v in pools.values()))
+
+
+class ManifestAndControlTests(unittest.TestCase):
+    def errors(self, change=None):
+        spec = json.loads(a.MANIFEST.read_text(encoding='utf-8'))
+        if change:
+            change(spec)
+        original = Path.read_text
+        def read(path, *args, **kwargs):
+            return json.dumps(spec) if path == a.MANIFEST else original(path, *args, **kwargs)
+        ids = {r['source_id'] for r in validator.read_csv(a.ROOT / 'registry/sources.csv')[1]}
+        errors = []
+        with patch.object(Path, 'read_text', read):
+            validator.validate_b05_eoh_annual_transfer(errors, ids)
+        return errors
+
+    def test_new_research_contract_and_protected_canonical_bytes(self):
+        self.assertEqual([], self.errors())
+        spec = json.loads(a.MANIFEST.read_text(encoding='utf-8'))
+        self.assertNotEqual(spec['recovered_weather']['sha256'], spec['recovered_weather']['old_canonical_weather_sha256_unchanged'])
+        for path, expected in spec['protected_sha256'].items():
+            self.assertEqual(expected, a.digest(a.ROOT / path))
+
+    def test_weather_identity_guard_admission_and_double_count_mutations_reject(self):
+        for change in (
+            lambda m: m['recovered_weather'].__setitem__('canonical_guard_bypassed', True),
+            lambda m: m['recovered_weather'].__setitem__('sha256', m['recovered_weather']['old_canonical_weather_sha256_unchanged']),
+            lambda m: m['target'].__setitem__('expected_device_reference_kWh', 2472.633793065277 + 82.1090879123),
+            lambda m: m['target'].__setitem__('components_included', ['active_rating']),
+            lambda m: m['target'].__setitem__('installed_annual_kWh', 3000),
+            lambda m: m['non_admission'].__setitem__('central_E2_installed_selected', True),
+        ):
+            self.assertTrue(self.errors(change))
+
+    def test_period_controls_detect_missing_or_changed_month(self):
+        annual = [dict(property_id='home', year='2021', present_rows='2', HP_E_common_steps='2')]
+        monthly = [dict(property_id='home', month='2021-01', present_rows='1', HP_E_common_steps='1'),
+                   dict(property_id='home', month='2021-02', present_rows='1', HP_E_common_steps='1')]
+        self.assertEqual(2, len(a.check_period_controls(annual, monthly)))
+        with self.assertRaises(ValueError):
+            a.check_period_controls(annual, monthly[:1])
+
+
+@unittest.skipUnless(os.environ.get('B05_ANNUAL_ADDITIVE') and os.environ.get('B05_ANNUAL_OUTPUT'), 'optional hash-bound local input/output')
+class LocalIntegrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.additive = Path(os.environ['B05_ANNUAL_ADDITIVE'])
+        cls.output = Path(os.environ['B05_ANNUAL_OUTPUT'])
+        cls.spec = json.loads(a.MANIFEST.read_text(encoding='utf-8'))
+        a.verify_additive(cls.additive, cls.spec)
+
+    def test_all_weather_rows_and_reference_components_independently_reproduce(self):
+        weather = a.recovered_weather(self.additive, self.spec)
+        _, summary = a.target_reference(weather, a.LoadReference(), self.spec)
+        self.assertEqual(2472.633793065277, summary['device_reference_kWh'])
+        self.assertEqual({'MINIMUM_STAGE_ONOFF_E2_TRANSFER': 6028, 'PAIRED_POWER_CONTINUOUS': 72, 'ZERO_HEAT': 2660}, summary['branch_hours'])
+        self.assertAlmostEqual(2321.7472067406616, summary['active_kWh'])
+        self.assertAlmostEqual(68.77749841231555, summary['inertia_kWh'])
+        self.assertAlmostEqual(82.10908791230001, summary['idle_kWh'])
+        self.assertAlmostEqual(6050.554431653909, summary['generator_H_kWh'])
+
+    def test_target_support_partitions_close_and_unknown_not_zero_energy(self):
+        rows = list(a.csv_rows(self.output / 'target_support_by_year_and_aggregation.csv'))
+        for minutes, offset in a.AGGREGATIONS:
+            for year in ('2021', '2022', '2023', 'ALL_YEARS_POOLED'):
+                selected = [r for r in rows if r['aggregation'] == f'{minutes}min_offset{offset}' and r['donor_year'] == year]
+                self.assertEqual(2, len(selected))
+                for column, expected in (('hours', 8760.), ('H_kWh', 6050.554431653909), ('reference_E_kWh', 2472.633793065277)):
+                    self.assertAlmostEqual(expected, math.fsum(float(r[column]) for r in selected), places=7)
+                self.assertTrue(all(r['qualified_direct_hours'] == '0.0' and r['installed_annual_point_estimate_kWh'] == '' for r in selected))
+                self.assertEqual('', next(r for r in selected if r['support'] == 'UNIDENTIFIED')['conditional_replacement_E_kWh'])
+
+    def test_all_years_original_controls_and_hybrid_population_remain(self):
+        years = list(a.csv_rows(self.output / 'all_34_system_year_observed_period_balances.csv'))
+        months = list(a.csv_rows(self.output / 'all_34_system_month_observed_period_balances.csv'))
+        self.assertEqual((98, 901, 34), (len(years), len(months), len({r['property_id'] for r in years})))
+        self.assertEqual(45, len(list(a.csv_rows(self.output / 'eoh2074_original_45_year_control_checks.csv'))))
+        windows = list(a.csv_rows(self.output / 'hybrid_all_windows_counterfactual_context.csv'))
+        self.assertEqual((4546, 96019, 3334), (len(windows), sum(int(r['steps']) for r in windows), sum(int(r['boiler_positive_steps']) > 0 for r in windows)))
+        self.assertTrue(all(r['cross_product_transfer_qualified'] == 'False' for r in windows))
+        self.assertEqual(1, sum(r['year_start'] != r['year_end'] for r in windows))
+
+    def test_output_hash_chain_and_no_central_point(self):
+        manifest = json.loads((self.output / 'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
+        self.assertEqual(a.digest(a.MANIFEST), manifest['research_manifest_sha256'])
+        self.assertEqual(a.digest(Path(a.__file__)), manifest['research_code_sha256'])
+        for item in manifest['outputs']:
+            self.assertEqual(item['sha256'], a.digest(self.output / item['path']))
+        decision = json.loads((self.output / 'ANNUAL_TRANSFER_DECISION.json').read_text())
+        self.assertIsNone(decision['selected_central_E2_installed_kWh'])
+        self.assertIsNone(decision['annual_signed_installed_residual_kWh'])
+        self.assertGreater(decision['evaluated_route_variants'], 0)
+        self.assertGreater(decision['complete_conditional_variants'], 0)
+
+    def test_reviewer_recovered_intervals_and_complementary_energy(self):
+        recovery = json.loads((self.output / 'preaggregation_split_recovery_summary.json').read_text())
+        self.assertEqual(493, recovery['old_segments_with_supported_positive_steps'])
+        self.assertEqual(6758, recovery['supported_positive_2min_steps_recovered'])
+        self.assertAlmostEqual(594.518, recovery['H_kWh_recovered'], places=7)
+        self.assertAlmostEqual(165.109, recovery['E_kWh_recovered'], places=7)
+
+    def test_evaluated_engineering_routes_and_broad_zero_state_are_numeric(self):
+        variants = list(a.csv_rows(self.output / 'evaluated_annual_transfer_routes.csv'))
+        self.assertEqual({'EOH_NEAR55_OBSERVED','EOH_ACTUAL_CONDITIONS_TO_W55','HYBRID_AGGREGATE_TO_W55'}, {r['route'] for r in variants})
+        complete = [r for r in variants if r['conditional_full_annual_E_kWh'] != '']
+        self.assertTrue(complete)
+        self.assertTrue(all(r['admissible_E2_annual_E_kWh'] == '' for r in variants))
+        base = next(r for r in variants if r['aggregation']=='60min_offset0' and r['route']=='EOH_ACTUAL_CONDITIONS_TO_W55'
+                    and r['assumption']=='HEATING_PROXY_WHOLE_E' and r['donor_year']=='ALL_YEARS_POOLED'
+                    and r['accounting']=='VARIABLE_REPLACEMENT_IDLE_ONCE')
+        self.assertEqual(8760.,float(base['supported_hours']))
+        cells=list(a.csv_rows(self.output/'all_evaluated_donor_route_cells.csv'))
+        zero=[r for r in cells if r['aggregation']=='60min_offset0' and r['route']=='EOH_ZERO_MONTH_POWER'
+              and r['assumption']=='HEATING_PROXY_WHOLE_E']
+        self.assertGreater(math.fsum(float(r['hours']) for r in zero),1000.)
+        audit=list(a.csv_rows(self.output/'service_IH_CP_zero_heat_boundary_audit.csv'))
+        self.assertGreater(sum(int(r['IH_exceeds_E_segments']) for r in audit if r['aggregation']=='2min_offset0'),0)
+
+
+if __name__ == '__main__':
+    unittest.main()
