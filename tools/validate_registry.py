@@ -2240,6 +2240,7 @@ def validate() -> list[str]:
     validate_b05_artifacts(errors, source_ids)
     validate_b05_r290_references(errors, source_ids)
     validate_b05_wm50_installed_boundary_evidence(errors, source_ids)
+    validate_b05_eoh_observed_boundary_evidence(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
     validate_b07_shared_use_artifacts(errors)
@@ -3026,6 +3027,188 @@ def validate_b05_r290_references(errors: list[str], source_ids: set[str]) -> Non
         require(len(debts) == 3 and {d["debt_id"] for d in debts} == {"B05-R290-TARGET-INSTALLATION", "B05-R290-SOURCE-CONFLICTS", "B05-R290-PRICE-PROCUREMENT"} and all(d["status"] == "Q" and d["scope"] and d["next_evidence"] for d in debts), "validation debt cannot be closed")
     except (ValueError, TypeError, KeyError, OSError, InvalidOperation) as exc:
         errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
+
+
+def validate_b05_eoh_observed_boundary_evidence(errors: list[str], source_ids: set[str]) -> None:
+    """Evidence metadata only: no raw parser, physical validation or calibration."""
+    prefix = "B05 EOH observed evidence"
+
+    def require(condition, message):
+        if not condition:
+            errors.append(f"{prefix}: {message}")
+
+    try:
+        m = json.loads((REGISTRY / "b05_eoh_observed_boundary_manifest.json").read_text(encoding="utf-8"))
+        require(m["schema_version"] == 1 and m["handoff_id"] == "B05-EOH-OBSERVED-BOUNDARY-EVIDENCE"
+                and m["status"] == "EVIDENCE_RECORDING_ONLY", "evidence-only identity")
+        i = m["inspection"]
+        require(i["consumer_textual_excerpts_reviewed"] is True
+                and i["consumer_original_bytes_hashed"] is False
+                and i["consumer_full_artifact_files_inspected"] is False
+                and i["consumer_library_zip_materialized"] is False, "consumer inspection scope")
+        require(i["reviewer_original_artifacts_inspected"] is True
+                and i["reviewer_manifest_files_checked"] == 53 and i["reviewer_manifest_mismatches"] == 0
+                and i["reviewer_check_is_independent_physical_measurement"] is False
+                and i["producer_paths_are_consumer_local"] is False, "reviewer attribution")
+        sources = {s["source_id"]: s for s in m["sources"]}
+        require(len(sources) == len(m["sources"]) and set(sources) <= source_ids, "unique registered sources")
+        require("SRC-B02-DESNZ-EOH-PDI-2024" in sources
+                and "SRC-B02-DESNZ-EOH-PERF-2024" not in sources, "PDI reuse; summary not two-minute authority")
+        require(len({s["original_url"] for s in sources.values()}) == len(sources), "distinct document roles")
+        global_rows = read_csv(REGISTRY / "sources.csv")[1]
+        local_rows = read_csv(REGISTRY / "heat_pump_sources.csv")[1]
+        for sid, s in sources.items():
+            require(s["repo_snapshot_path"] is None and s["reuse_status"], f"external source policy {sid}")
+            if s.get("sha256") is not None:
+                require(bool(re.fullmatch(r"[0-9a-f]{64}", s["sha256"]))
+                        and type(s["bytes"]) is int and s["bytes"] > 0, f"reported byte identity {sid}")
+            require(s["original_url"].startswith("https://"), f"URL {sid}")
+            if sid.startswith("SRC-B05-"):
+                for rows in (global_rows, local_rows):
+                    found = [r for r in rows if r["source_id"] == sid]
+                    require(len(found) == 1, f"registry linkage {sid}")
+                    if len(found) == 1:
+                        r = found[0]
+                        require(r["url"] == s["original_url"] and r["title"] == s["title"]
+                                and r["institution"] == s["authority"] and r["reference_period"] == s["reference_period"]
+                                and r["evidence_status"] == s["evidence_status"], f"registry provenance {sid}")
+                        if "local_snapshot_sha256" in r:
+                            require(r["local_snapshot_sha256"] == (s["sha256"] or ""), f"registry digest {sid}")
+        monitor = sources["SRC-B05-DESNZ-EOH-MONITORING-2024"]
+        require(monitor["sha256"] is None and monitor["byte_identity"] == "NOT_ACQUIRED"
+                and monitor["diagram_inspection_claimed"] is False, "no invented PDF hash/diagram inspection")
+        bundle = sources["SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"]
+        require(bundle["library_version"] == 0
+                and bundle["hash_basis"] == "OWNER_REPORTED_NOT_CONSUMER_VERIFIED", "bundle not local verification")
+        require(m["processing_reference"]["exact_released_archive_code_binding"] == "Q"
+                and m["processing_reference"]["individual_alteration_histories"] == "Q", "code/archive binding debt")
+        arts = {a["file"]: a for a in m["artifacts"]}
+        require(len(arts) == len(m["artifacts"]), "unique derivative artifacts")
+        for name, a in arts.items():
+            require(bool(re.fullmatch(r"[0-9a-f]{64}", a["sha256"]))
+                    and a["hash_basis"] == "REVIEWER_REPORTED_ORIGINAL_FILE_BYTES"
+                    and a["consumer_full_file_inspected"] is False
+                    and type(a["consumer_textual_excerpt_inspected"]) is bool
+                    and a["repo_snapshot_path"] is None, f"artifact inspection provenance {name}")
+        claims = {c["id"]: c for c in m["claims"]}
+        require(len(claims) == len(m["claims"]) and set(claims) == {f"EOH-{n:02d}" for n in range(1, 10)},
+                "bounded claim inventory")
+        for c in claims.values():
+            require(c["status"] in {"OBS", "DER", "Q"} and c["unit"] and c["locator"]
+                    and c["artifact"] in arts and c["source_ids"] and set(c["source_ids"]) <= set(sources)
+                    and c["independent_physical_replication"] is False, f"claim provenance {c['id']}")
+            obj = m
+            for part in c["manifest_locator"].split("."):
+                obj = obj[part]
+        require(claims["EOH-05"]["status"] == "OBS" and claims["EOH-09"]["status"] == "Q"
+                and all(claims[f"EOH-{n:02d}"]["status"] == "DER" for n in (1, 2, 3, 4, 6, 7, 8)),
+                "native identity versus diagnostic derivation")
+        pdi_claim = claims["EOH-05"]
+        pdi_artifact = arts[pdi_claim["artifact"]]
+        require(pdi_claim["artifact"] == "pdi_public_current_2026-10-14.csv"
+                and pdi_claim["source_ids"] == ["SRC-B02-DESNZ-EOH-PDI-2024"]
+                and pdi_claim["snapshot_date"] == "2026-10-14"
+                and pdi_claim["row_key"] == {"Property_ID": "EOH2074"}
+                and set(pdi_claim["original_fields"]) == set(m["target"]["pdi_fields"])
+                and pdi_artifact["source_id"] == "SRC-B02-DESNZ-EOH-PDI-2024"
+                and pdi_artifact["sha256"] == sources["SRC-B02-DESNZ-EOH-PDI-2024"]["sha256"]
+                and pdi_artifact["role"] == "EXTERNAL_SOURCE_SNAPSHOT_NOT_DERIVATIVE_BUNDLE_MEMBER",
+                "PDI identity claim must resolve to dated original PDI row, not target diagnostic JSON")
+        pop = m["populations"]
+        require(pop["status"] == "DER" and (pop["members"], pop["nonempty_systems"], pop["rows"],
+                pop["system_years"]) == (185, 184, 102564000, 538), "observed package scope")
+        primary = pop["primary"]
+        require((primary["systems"], primary["windows"], primary["intervals"]) == (33, 4546, 96019),
+                "primary population not all installations")
+        ids = [p for g in m["primary_identity_groups"] for p in g["property_ids"]]
+        require(len(ids) == len(set(ids)) == 33
+                and all(g["service_scope"] == "hybrid_SH_separate_meters" for g in m["primary_identity_groups"]),
+                "unique separate-meter cohort")
+        require({s["property_id"] for s in m["sime_exceptions"]} == {"EOH2004", "EOH1751"}
+                and not ({s["property_id"] for s in m["sime_exceptions"]} & set(ids)), "SIME remains separate")
+        require(m["metering"]["PDI_model_is_automatically_outdoor_identity"] is False,
+                "PDI model not automatic outdoor identity")
+        target = m["target"]
+        require(target["property_id"] == target["pdi_fields"]["Property_ID"] == "EOH2074"
+                and target["pdi_fields"]["HP_Model"] == "PUZ-WM50VHA-BS"
+                and target["service_scope"] == "mixed_SH_DHW_unallocated"
+                and target["timezone"] == target["exact_indoor_controller_pairing"] == "Q"
+                and target["W55_transfer_admitted"] is False, "target identity/service qualification")
+        require(all(s["runs_10min"] == 0 for s in target["near55_screens"].values()), "no sustained target W55 evidence")
+        d = m["definitions"]
+        require(d["window_key"] == ["property_id", "boundary_screen", "start", "end"]
+                and d["adjacency"]["seconds"] == 120 and d["adjacency"]["gap_fill"] is False
+                and d["adjacency"]["signed_counter_changes_retained"] is True, "original interval/key semantics")
+        require(d["near55"]["mask_before_segmentation"] is True and d["near55"]["COP_selection"] is False
+                and d["near55"]["scope"] == "RESEARCH_DIAGNOSTIC_NOT_EN14511_TOLERANCE_OR_E2_GATE"
+                and d["heating_proxy"]["true_mode_telemetry"] is False, "screen not admission or mode telemetry")
+        require(d["e_minus_cp"]["compressor_only"] is False and d["e_minus_cp"]["overlaps_whole_E_population"] is True,
+                "E-minus-CP interpretation and overlap")
+        common = d["common_interval"]
+        require(common["zero_or_negative_heat"] == "he AND dH <= 1e-8 kWh"
+                and common["calendar_assignment"] == "CURRENT endpoint"
+                and common["state_ledger_exists"] is False and common["IH_BUH_common_intersection_exists"] is False
+                and common["E_minus_CP_uses"] == "Exactly hec sums", "common audit is not a state ledger")
+        require(d["cells"]["script"] == "summarize_archive.py" and d["cells"]["independent_validation"] is False
+                and d["cells"]["right"] is False and d["cells"]["clock_block"] == "start.hour//6",
+                "descriptive cell method")
+        require(d["year_drift"]["year"] == "WINDOW START YEAR" and d["year_drift"]["residual_drift"] is False
+                and d["year_drift"]["configuration_or_duty_explanation_measured"] is False
+                and d["exact_count_support"]["unit"] == "interval COUNT"
+                and d["exact_count_support"]["window_energy_split_across_year_or_clock"] is False,
+                "start-year ratio drift versus exact count support")
+        require(set(d["not_existing_columns"]) == {"configuration_segment_id", "validated_duty_state",
+                "interval_level_window_id", "per_home_LOSO_output"}, "do not invent produced columns")
+        rows = m["selected_rows"]
+        require(rows["year"]["key"] == rows["IH"]["key"] == {"property_id": "EOH2074", "year": 2022}
+                and rows["year"]["artifact"] == "all_period_common_interval_year.csv"
+                and rows["IH"]["artifact"] == "system_year_coverage.csv"
+                and rows["IH"]["HP_E_IH_common_intersection"] == "NOT_COMPUTED", "separate original masks")
+        for w in rows["windows"]:
+            require(w["artifact"] in arts and list(w["key"]) == d["window_key"], "original window composite key")
+            require(arts[w["artifact"]]["consumer_textual_excerpt_inspected"] is True,
+                    "selected window excerpts were read; not a full-file inspection")
+        cp = next(w for w in rows["windows"] if w["key"]["start"] == "2021-10-07 04:32:00")["fields"]
+        require(cp["CP_all_steps_observed"] is False and cp["CP_common_residual_E_kWh"] is None,
+                "incomplete CP residual remains null")
+        require(m["debt_links"] == ["B05-WM50-OEM-PROFILE", "B05-WM50-INSTALLED-ANNUAL",
+                "B05-WM50-INSTALLED-HOURLY"], "existing debt links")
+        n = m["non_admission"]
+        required_false_flags = {
+            "runtime_parser_added", "usable_for_engine", "model_default_admitted", "numerical_calibration",
+            "annual_residual_admitted", "W55_transfer_admitted", "hourly_timing_admitted",
+            "installed_service_completion_admitted", "national_admission", "task_accepted",
+            "readiness_credit", "required_raw_samples_for_evidence_recording",
+        }
+        require(set(n) == required_false_flags | {"rating_reference_E2", "exact_OEM_route"},
+                "complete explicit non-admission key set required")
+        require(all(n.get(k) is False for k in required_false_flags)
+                and n["rating_reference_E2"] == "UNCHANGED" and n["exact_OEM_route"] == "OPTIONAL",
+                "evidence only; no runtime/numeric/task admission")
+        wm = json.loads((REGISTRY / "b05_wm50_installed_boundary_evidence.json").read_text(encoding="utf-8"))
+        link = wm["aggregate_evidence_updates"][-1]
+        require(link["evidence_manifest"] == "registry/b05_eoh_observed_boundary_manifest.json"
+                and link["numerical_installed_admission"] is False, "dated aggregate link")
+        out = wm["current_output_contract"]
+        require(out["annual_signed_residual"]["value_kwh"] is None
+                and out["hourly_signed_residual"]["timing"] is None
+                and out["installed_heat_service"]["installed_service_completion"] is None
+                and out["rating_reference_E2"] == "UNCHANGED", "existing outputs remain Q")
+        audit = read_csv(REGISTRY / "project_blocker_evidence_audit.csv")[1]
+        for row in audit:
+            if row["blocker_id"] in m["debt_links"]:
+                require(row["current_status"] == "OPEN" and row["evidence_tier"] == "E3", "no debt closure")
+        plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
+        tasks = {s["slice_id"]: s for mod in plan["modules"] for s in mod["slices"]}
+        for sid in m["research_slice_ids"]:
+            task = tasks[sid]
+            require(task["status"] == "INTEGRATING" and not task["accepted_artifacts"]
+                    and not task["consumer_tests"] and task["reviewed_commit"] is None
+                    and any(r.get("decision") == "EOH_EVIDENCE_RECORDED_NO_NUMERICAL_ADMISSION"
+                            for r in task["research_log"]), f"bounded research update {sid}")
+    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError, StopIteration) as exc:
+        errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
+
 
 
 def main() -> int:
