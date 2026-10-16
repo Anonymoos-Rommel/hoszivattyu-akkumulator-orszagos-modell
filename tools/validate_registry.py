@@ -3341,6 +3341,24 @@ def validate_b05_eoh_annual_transfer(errors: list[str], source_ids: set[str]) ->
                 and matched["target_return_and_controller_mix_observed"] is False
                 and matched["exposure_modes"] == ["TARGET_SAME_MONTH", "ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC"],
                 "derived assessment gates and conditional matched-state support without annualization or causal attribution")
+        weighted=m["target_weighted_assessment"]
+        require(weighted["response_safeguards"] == {
+                    "service_component_contract":"REJECT_SERVICE_SHARE_LT1_WITH_POSITIVE_IH_OR_CP_EXCLUSION",
+                    "derived_energy_contract":"REJECT_ANY_NONFINITE_DELTA_ADJUSTMENT_POSITIVE_ZERO_OR_TOTAL_BALANCE",
+                    "CP_replacement_scope":"POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z",
+                    "prior_review_zip_sha256":"899ae33fcd91400cef9d5425215a2d087bd5b881f4b68dd56358e8b01504fe55"},
+                "unambiguous service/component accounting, finite derived balances and positive-period CP replacement")
+        require(weighted["base_main_commit"] == "c3adf1ee27faf27692468cfbbb91f670e0d52bbf"
+                and weighted["verified_main_tree"] == "e2098e64e01d79746692616ee65621ed9066cc86"
+                and weighted["prior_R1_manifest_sha256"] == "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987"
+                and weighted["prior_R2_manifest_sha256"] == "7c9e85e33fe019b716126a6fd73a8eddb7d698ba8be004f00f6d94ec1a35f965",
+                "target-weighted exact merged baseline and preserved numerical identities")
+        require(weighted["selected_central_E2_kWh"] is None and weighted["canonical_or_national_admission"] is False
+                and weighted["boundary"]["modeled_duty_is_measured_controller_state"] is False
+                and weighted["month_kernel_bandwidths_months"] == [0,1,3,None]
+                and weighted["sampling_seed"] == 20261016 and weighted["sampling_replicates"] == 100
+                and set(weighted["parameter_domain"]) == {"theta","s","alpha_IH","beta_CP","z","pi_state"},
+                "conditional response domain, modeled duty, sampling and non-admission")
         require(revision["source_support_split_before_aggregation"] is True
                 and revision["positive_routes"] == ["EOH_NEAR55_OBSERVED", "EOH_ACTUAL_CONDITIONS_TO_W55", "HYBRID_AGGREGATE_TO_W55"]
                 and revision["target_accounting"] == ["TOTAL_REFERENCE_REPLACEMENT", "VARIABLE_REPLACEMENT_IDLE_ONCE"]

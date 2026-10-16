@@ -291,6 +291,8 @@ class ManifestAndControlTests(unittest.TestCase):
             lambda m: m['non_admission'].__setitem__('central_E2_installed_selected', True),
             lambda m: m['aggregate_assessment'].__setitem__('prediction_admission_gates', 'HARDCODED_TRUE'),
             lambda m: m['aggregate_assessment']['season_state_matching'].__setitem__('partial_support_annualized', True),
+            lambda m: m['target_weighted_assessment'].__setitem__('canonical_or_national_admission', True),
+            lambda m: m['target_weighted_assessment']['boundary'].__setitem__('modeled_duty_is_measured_controller_state', True),
         ):
             self.assertTrue(self.errors(change))
 
@@ -384,6 +386,131 @@ class LocalIntegrationTests(unittest.TestCase):
         self.assertGreater(sum(int(r['IH_exceeds_E_segments']) for r in audit if r['aggregation']=='2min_offset0'),0)
 
 
+class TargetWeightingMethodTests(unittest.TestCase):
+    def sample(self,month='01',duty=.3):
+        t=dict(interval_start_utc=f'2025-{month}-01T00:00:00+00:00',ambient_C=7.,load_over_min=.3,
+               stage_on_fraction=duty,generator_H_kWh=1.,reference_kWh=.5,active_kWh=.3,inertia_kWh=.1,idle_kWh=.1)
+        donor=dict(year='2022',month='01',day='2022-01-01',cell=a.weighted_cell(7.,.3,.3),ref_var=.4,
+                   H_kWh=1.,E_kWh=.9,idle_kWh=.1,hours=1.,IH=.1,CP=.2,joint_valid=True,
+                   endpoint_proxy_mean_flow_C=30.,return_C=25.)
+        return t,donor
+
+    def test_target_month_heat_reference_duty_and_month_pooling_are_explicit(self):
+        self.assertEqual(a.month_kernel('12','01',1),a.month_kernel('01','02',1))
+        self.assertEqual(0,a.month_kernel('01','02',0))
+        t,d=self.sample('02');g=a.weighted_target_groups([t])
+        c,_,_=a.target_weighted_coefficients(g,[d],bandwidth=0)
+        self.assertFalse(c['complete_positive_target'])
+        c,_,_=a.target_weighted_coefficients(g,[d],bandwidth=1)
+        self.assertTrue(c['complete_positive_target'])
+        self.assertEqual(1,c['supported_H_kWh'])
+        self.assertAlmostEqual(.9,a.conditional_response(c,.5,0,0)['conditional_annual_kWh'])
+        january={**t,'interval_start_utc':'2025-01-01T00:00:00+00:00'}
+        june={**t,'interval_start_utc':'2025-06-01T00:00:00+00:00'}
+        july_donor={**d,'month':'07','day':'2022-07-01','E_kWh':1.7}
+        jan,_,_=a.target_weighted_coefficients(a.weighted_target_groups([january]),[d,july_donor],bandwidth=1)
+        jun,_,_=a.target_weighted_coefficients(a.weighted_target_groups([june]),[d,july_donor],bandwidth=1)
+        pooled,_,_=a.target_weighted_coefficients(a.weighted_target_groups([january]),[d,july_donor],bandwidth=None)
+        self.assertLess(a.conditional_response(jan,.5,0,0)['conditional_annual_kWh'],1.)
+        self.assertGreater(a.conditional_response(jun,.5,0,0)['conditional_annual_kWh'],1.6)
+        self.assertAlmostEqual(1.3,a.conditional_response(pooled,.5,0,0)['conditional_annual_kWh'])
+        t['stage_on_fraction']=.8
+        c,_,_=a.target_weighted_coefficients(a.weighted_target_groups([t]),[d],bandwidth=1)
+        self.assertFalse(c['complete_positive_target'])
+
+    def test_paired_component_allocation_and_fixed_CP_replacement_do_not_double_idle(self):
+        t,d=self.sample();c,_,_=a.target_weighted_coefficients(a.weighted_target_groups([t]),[d],cohort='JOINT_VALID')
+        self.assertAlmostEqual(.9,a.conditional_response(c,.5,0,0)['conditional_annual_kWh'])
+        self.assertAlmostEqual(.5,a.conditional_response(c,.5,0,0,theta=0)['conditional_annual_kWh'])
+        self.assertAlmostEqual(.8,a.conditional_response(c,.5,0,0,IH_excluded=1)['conditional_annual_kWh'])
+        self.assertAlmostEqual(.7,a.conditional_response(c,.5,0,0,CP_excluded=1)['conditional_annual_kWh'])
+        self.assertAlmostEqual(.06,c['CP_fixed_reference_on_coefficient_kWh'])
+        self.assertAlmostEqual(.2,c['CP_fixed_positive_hours_coefficient_kWh'])
+        c,_,_=a.target_weighted_coefficients(a.weighted_target_groups([t]),[d])
+        with self.assertRaises(ValueError):a.conditional_response(c,.5,0,0,IH_excluded=1)
+
+    def test_conditional_response_has_no_fabricated_transfer_upper_bound_or_partial_annual(self):
+        t,d=self.sample();c,_,_=a.target_weighted_coefficients(a.weighted_target_groups([t]),[d])
+        self.assertGreater(a.conditional_response(c,.5,0,0,theta=100)['conditional_annual_kWh'],30.)
+        self.assertIn('NOT_HOURLY_ADMISSION',a.conditional_response(c,.5,0,0,theta=100)['physical_response_scope'])
+        bad=a.conditional_response(c,.5,0,0,theta=-100)
+        self.assertFalse(bad['physical_response']);self.assertIsNone(bad['conditional_annual_kWh'])
+        partial={**c,'complete_positive_target':False}
+        self.assertIsNone(a.conditional_response(partial,.5,0,0)['conditional_annual_kWh'])
+        with self.assertRaises(ValueError):a.conditional_response(c,.5,0,0,theta=float('nan'))
+
+    def test_service_allocation_cannot_silently_repeat_component_exclusion(self):
+        t,d=self.sample();c,_,_=a.target_weighted_coefficients(a.weighted_target_groups([t]),[d],cohort='JOINT_VALID')
+        for exclusions in ({'IH_excluded':1.},{'CP_excluded':1.},{'IH_excluded':.5,'CP_excluded':.5}):
+            with self.assertRaisesRegex(ValueError,'mixed allocation is undefined'):
+                a.conditional_response(c,.5,0,0,service_share=.5,**exclusions)
+        self.assertAlmostEqual(.45,a.conditional_response(c,.5,0,0,service_share=.5)['conditional_annual_kWh'])
+        self.assertAlmostEqual(.7,a.conditional_response(c,.5,0,0,CP_excluded=1.)['conditional_annual_kWh'])
+
+    def test_finite_parameters_cannot_overflow_derived_energy_balances(self):
+        t,d=self.sample();c,_,_=a.target_weighted_coefficients(a.weighted_target_groups([t]),[d])
+        scenarios=[({**c,'whole_coefficient_kWh':10.},.5,0.,0.,{'theta':1e308}),
+                   ({**c,'whole_coefficient_kWh':1e308,'donor_idle_coefficient_kWh':-1e308},.5,0.,0.,{}),
+                   (c,.5,1e308,-1e308,{}),
+                   (c,.5,2.,0.,{'zero_transfer':1e308}),
+                   ({**c,'whole_coefficient_kWh':1e308,'donor_idle_coefficient_kWh':0.,'target_variable_kWh':0.},1e308,0.,0.,{}),
+                   ({**c,'whole_coefficient_kWh':1e308,'donor_idle_coefficient_kWh':0.,'target_variable_kWh':0.},1e308,1e308,1e308,{})]
+        for coefficients,reference,zero_observed,zero_reference,parameters in scenarios:
+            with self.assertRaisesRegex(ValueError,'nonfinite derived energy'):
+                a.conditional_response(coefficients,reference,zero_observed,zero_reference,**parameters)
+
+
+@unittest.skipUnless(os.environ.get('B05_TARGET_WEIGHTED_OUTPUT'), 'optional target monthly/duty output')
+class TargetWeightedIntegrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.output=Path(os.environ['B05_TARGET_WEIGHTED_OUTPUT'])
+        cls.result=json.loads((cls.output/'TARGET_WEIGHTED_RESPONSE_FAMILY.json').read_text())
+
+    def test_preserved_reference_complete_support_and_new_output_identity(self):
+        manifest=json.loads((self.output/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
+        self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
+        self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
+        for item in manifest['outputs']:self.assertEqual(item['sha256'],a.digest(self.output/item['path']))
+        self.assertEqual(2472.633793065277,self.result['reference_kWh'])
+        self.assertAlmostEqual(4003.3949236948883,self.result['preserved_conditional_route_kWh'],places=7)
+        c=self.result['anchor_coefficients']
+        self.assertEqual(6100,c['supported_hours']);self.assertEqual(2660,self.result['zero_target_hours'])
+        self.assertAlmostEqual(6050.554431653909,c['supported_H_kWh'],places=7)
+        self.assertIsNone(self.result['selected_central_kWh'])
+        self.assertTrue(self.result['no_finite_total_uncertainty_interval'])
+        with self.assertRaisesRegex(ValueError,'nonfinite derived energy'):
+            a.conditional_response(c,self.result['reference_kWh'],self.result['zero_observed_kWh'],
+                                   self.result['zero_reference_kWh'],theta=1e308)
+
+    def test_target_state_shares_are_normalized_conditional_not_observed(self):
+        rows=list(a.csv_rows(self.output/'target_cell_conditional_donor_state_shares.csv'))
+        sums={}
+        for r in rows:
+            key=tuple(r[k] for k in ('target_month','ambient_bin','reference_load_bin','reference_duty_bin'))
+            sums[key]=sums.get(key,0.)+float(r['conditional_donor_reference_share'])
+            self.assertIn('NOT_OBSERVED_TARGET_SHARES',r['share_status'])
+        for total in sums.values():self.assertAlmostEqual(1,total)
+        self.assertAlmostEqual(2390.524705152976,math.fsum(float(r['target_variable_exposure_kWh']) for r in rows),places=7)
+        months=list(a.csv_rows(self.output/'target_monthly_positive_energy_and_support.csv'))
+        self.assertAlmostEqual(6050.554431653909,math.fsum(float(r['target_H_kWh']) for r in months),places=7)
+
+    def test_pooling_support_and_sampling_uncertainty_are_not_population_bounds(self):
+        rows=list(a.csv_rows(self.output/'declared_month_pooling_flow_accounting_responses.csv'))
+        primary=[r for r in rows if r['cohort']=='ALL_HE' and r['flow_range']=='None']
+        strict=next(r for r in primary if r['bandwidth_months']=='0.0')
+        self.assertEqual('',strict['conditional_annual_kWh']);self.assertEqual(5043,int(strict['supported_hours']))
+        pooled=next(r for r in primary if r['bandwidth_months']=='')
+        self.assertAlmostEqual(4003.3949236948883,float(pooled['conditional_annual_kWh']),places=7)
+        sampling=list(a.csv_rows(self.output/'within_installation_block_multiplier_responses.csv'))
+        self.assertEqual(300,len(sampling))
+        self.assertTrue(all(r['is_population_confidence_interval']=='False' and r['central_E2_selected']=='False' for r in sampling))
+        for summary in self.result['within_donor_sampling']:
+            self.assertEqual(100,summary['complete_replicates'])
+            values=sorted(float(r['conditional_annual_kWh']) for r in sampling if int(r['block_days'])==summary['block_days'])
+            self.assertEqual(values[49],summary['q50'])
+
+
 @unittest.skipUnless(os.environ.get('B05_E2_ASSESSMENT_OUTPUT'), 'optional aggregate assessment outputs')
 class AggregateAssessmentIntegrationTests(unittest.TestCase):
     @classmethod
@@ -392,8 +519,12 @@ class AggregateAssessmentIntegrationTests(unittest.TestCase):
 
     def test_assessment_hash_chain_and_exact_qualification(self):
         manifest=json.loads((self.output/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
-        self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
-        self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
+        if os.environ.get('B05_TARGET_WEIGHTED_OUTPUT'):
+            spec=json.loads(a.MANIFEST.read_text(encoding='utf-8'))
+            self.assertEqual(spec['target_weighted_assessment']['prior_R2_manifest_sha256'],a.digest(self.output/'INPUT_CODE_OUTPUT_MANIFEST.json'))
+        else:
+            self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
+            self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
         for entry in manifest['outputs']:
             self.assertEqual(entry['sha256'],a.digest(self.output/entry['path']))
         record=json.loads((self.output/'EXACT_ROUTE_QUALIFICATION_RECORD.json').read_text())
