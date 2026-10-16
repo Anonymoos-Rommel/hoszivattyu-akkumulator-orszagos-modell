@@ -135,7 +135,7 @@
     ],
     "policy": "canonical E2 aggregate/calibrated route preserved; no component-E1, perfect-year, boiler-free, mandatory-holdout requirement"
   },
-  "remaining_identifying_link": "A target-duty-weighted same-SH-service installed-minus-rating energy mapping, reconciling mixed-service/IH and meter overlap, W55 operation and the existing active/inertia/idle terms, including the numerically unidentified target cells. Monthly/full-period controls give marginal inactive electricity but no joint service-temperature-load duty allocation; active hybrid windows cannot supply the annual inactive mapping. One qualified aggregate/calibrated mapping with uncertainty is sufficient; component-E1 is not required.",
+  "remaining_identifying_link": "Designated conditional route covers8760hours. Prior2021/2023 flow/cell contrast confounds year and season. Month,observation-duration,return-temperature and reference-duty matching now quantify composition changes and remaining common-support discrepancy; target installation/controller and zero-state mapping remain conditional, not an unperformed analysis or annualized partial support.",
   "non_admission": {
     "central_E2_installed_selected": false,
     "canonical_input_changed": false,
@@ -244,5 +244,60 @@
       }
     },
     "E2_assessment": "derived coverage and physical closure plus explicit claim-specific evidence assessment; a justified aggregate/calibrated E2 route is allowed without E1 components, boiler-off or perfect donor year"
+  },
+  "aggregate_assessment": {
+    "base_main_commit": "cd176ed8f5b314525cf082bd2dd4d69c0348cea6",
+    "verified_main_tree": "aadf578dd32fcbffeba867749c8e3f8b8fd565df",
+    "prior_output_manifest_sha256": "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987",
+    "prior_merged_code_sha256": "53df6a70161b791a67ae42889161b6f929cbd3d8abaee656d0f202656ecaa9dc",
+    "binding": {
+      "route": "EOH_ACTUAL_CONDITIONS_TO_W55",
+      "product": "PUZ-WM50VHA(-BS)",
+      "service_case": "HEATING_PROXY_WHOLE_E",
+      "accounting": "VARIABLE_REPLACEMENT_IDLE_ONCE",
+      "donor_scope": "EOH2074:ALL_YEARS_POOLED",
+      "aggregation": "60min_offset0",
+      "target_id": "HU.N.SFH.01.Bel80.ReEx.001.013:W55:UTC2025"
+    },
+    "qualification_authority": "EXACT_BOUND_EIGHT_CRITERIA_ONLY",
+    "dictionary_acquisition": {
+      "url": "https://doc.ukdataservice.ac.uk/doc/9050/mrdoc/excel/9050_eoh_public_datasets_data_dictionary_v2-0.xlsx",
+      "bytes": 165294,
+      "sha256": "b0df7899064e0d33679d760b6bc2be52d06f1d3093d7b20aa283a632db4175f7",
+      "local_status": "NETWORK_ACCESS_DENIED_NOT_VERIFIED",
+      "parent_reported_mode_semantics": "Clean2min rows16/18; Raw22/24: valve-mode-specific temperature recording; return temperature unrestricted",
+      "use": "Parent-provided source interpretation pending direct local workbook inspection; original hash-verified energy/time extracts retained"
+    },
+    "revision": "SEASON_STATE_MATCHING_AND_DERIVED_GATES_R2",
+    "prediction_admission_gates": "DERIVED_FROM_UNIQUE_COMPLETE_TARGET_PREDICTIONS_AND_FINITE_NONNEGATIVE_ENERGY",
+    "season_state_matching": {
+      "donor_calendar_month_matched": true,
+      "flow_bin_matched": true,
+      "ambient_load_cells_matched": true,
+      "observation_duration_minutes_edges": [
+        0,
+        15,
+        30,
+        45,
+        60
+      ],
+      "minimum_duration_diagnostic_minutes": 45,
+      "return_temperature_bin_width_C": 5,
+      "reference_duty_fraction_edges": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "standardization": "SYMMETRIC_POOLED_DONOR_REFERENCE_SHARES",
+      "target_return_and_controller_mix_observed": false,
+      "exposure_modes": [
+        "TARGET_SAME_MONTH",
+        "ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC"
+      ],
+      "partial_support_annualized": false,
+      "causal_year_or_controller_effect_identified": false
+    }
   }
 }

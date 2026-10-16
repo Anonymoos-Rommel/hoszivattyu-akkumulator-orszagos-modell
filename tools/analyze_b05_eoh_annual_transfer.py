@@ -15,7 +15,7 @@ import json
 import math
 import shutil
 import zipfile
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, deque
 from datetime import datetime, timedelta, timezone
 from functools import lru_cache
 from pathlib import Path
@@ -653,10 +653,24 @@ def summarize_pools(pools):
             for key, v in sorted(pools.items(), key=lambda item: str(item[0]))]
 
 
-def route_qualification(*, complete, physical, documented_assumptions):
+QUALIFICATION_BINDING_KEYS = ('route', 'product', 'service_case', 'accounting', 'donor_scope', 'aggregation', 'target_id')
+
+
+def route_qualification(*, complete, physical, documented_assumptions, route_context=None):
     """E2 can use a justified aggregate mapping with validation debt, not E1 parts."""
-    missing = [name for name, evidence in documented_assumptions.items()
-               if evidence.get('status') != 'JUSTIFIED_FOR_TARGET' or not evidence.get('source_ids')]
+    records = documented_assumptions.get('qualification_records', [])
+    bound = [r for r in records if route_context is not None
+             and set(r.get('binding', {})) == set(QUALIFICATION_BINDING_KEYS)
+             and all(r['binding'][k] == route_context.get(k) for k in QUALIFICATION_BINDING_KEYS)]
+    missing = ['EXACT_ROUTE_BOUND_EVIDENCE_ABSENT']
+    if len(bound) == 1:
+        criteria = bound[0].get('e2_criteria', [])
+        if {c.get('criterion') for c in criteria} == set(range(1, 9)) and len(criteria) == 8:
+            missing = [f'E2_CONDITION_{c["criterion"]}' for c in criteria
+                       if c.get('verdict') != 'SUPPORTED_PROVISIONAL'
+                       or not c.get('reason') or not c.get('quantitative_or_source_locators')]
+        else:
+            missing = ['EIGHT_CLAIM_SPECIFIC_E2_CRITERIA_REQUIRED']
     if complete and physical and not missing:
         return 'E2_CANDIDATE', []
     return ('SCN_COMPLETE_CONDITIONAL' if complete and physical else 'SCN_PARTIAL_OR_BOUNDARY_INCONSISTENT'), missing
@@ -719,8 +733,11 @@ def evaluate_transfer_routes(target, eoh_pools, hybrid_pools, assumption_evidenc
                             'donor_segments_correlated': sum(p['segments'] for p in ps),
                             'target_idle_kWh_already_included': t['idle']})
                     complete = math.isclose(known_hours, len(target))
+                    context = dict(route=route, product='HETEROGENEOUS_HYBRID' if route.startswith('HYBRID') else wm50.PRODUCT,
+                        service_case=case, accounting=accounting, donor_scope=f'{"HYBRID33" if route.startswith("HYBRID") else "EOH2074"}:{year}',
+                        aggregation=label, target_id='HU.N.SFH.01.Bel80.ReEx.001.013:W55:UTC2025')
                     qualification, missing = route_qualification(complete=complete, physical=not negative_prediction,
-                                                                  documented_assumptions=assumption_evidence)
+                                                                  documented_assumptions=assumption_evidence, route_context=context)
                     total_h = math.fsum(t['generator_H_kWh'] for t in target)
                     total_e = math.fsum(t['reference_kWh'] for t in target)
                     results.append({'status': qualification, 'aggregation': label, 'route': route, 'assumption': case,
@@ -781,6 +798,475 @@ def evaluated_decision(results, spec, target_summary):
         'unqualified_assumptions': sorted({s for r in results for s in r['unqualified_assumptions'].split(';') if s}),
         'uncertainty_kind': 'EMPIRICAL_AND_ENGINEERING_SCENARIO_ENVELOPE_NOT_CONFIDENCE_INTERVAL',
         'remaining_identifying_link': spec['remaining_identifying_link'], 'non_admission': spec['non_admission']}
+
+
+def assessment_target(prior):
+    fields = ('ambient_C','load_over_min','generator_H_kWh','reference_kWh','active_kWh','inertia_kWh','idle_kWh')
+    return [{**r, **{k: float(r[k]) for k in fields}} for r in csv_rows(Path(prior)/'target_8760_hour_device_reference.csv')]
+
+
+def correlation_stat():
+    return dict(n=0, H_kWh=0., E_kWh=0., IH_kWh=0., IH_over_E_steps=0, excess_kWh=0.,
+                sx=0., sy=0., sxx=0., syy=0., sxy=0.)
+
+
+def add_timing_stat(s, h, e, ih):
+    s['n'] += 1; s['H_kWh'] += h; s['E_kWh'] += e; s['IH_kWh'] += ih
+    s['IH_over_E_steps'] += ih > e
+    s['excess_kWh'] += max(ih-e,0.)
+    for k, v in (('sx',ih),('sy',e),('sxx',ih*ih),('syy',e*e),('sxy',ih*e)):
+        s[k] += v
+
+
+def finish_timing(s):
+    n=s['n']; vx=n*s['sxx']-s['sx']**2; vy=n*s['syy']-s['sy']**2
+    return {k:v for k,v in s.items() if k not in ('sx','sy','sxx','syy','sxy')} | {
+        'pearson_r': (n*s['sxy']-s['sx']*s['sy'])/math.sqrt(vx*vy) if vx>0 and vy>0 else None}
+
+
+def endpoint_mode(row):
+    """Dictionary valve-mode temperature channels, not return-temperature inference."""
+    sh=row['F'] is not None;dhw=row['HW'] is not None
+    return 'SH' if sh and not dhw else 'DHW' if dhw and not sh else 'BOTH' if sh else 'MISSING'
+
+
+def interval_mode(previous,current):
+    left,right=endpoint_mode(previous),endpoint_mode(current)
+    if left==right and left in ('SH','DHW'):return f'{left}_MODE_ENDPOINTS'
+    if {left,right}=={'SH','DHW'}:return 'SH_DHW_TRANSITION'
+    if left==right=='BOTH':return 'BOTH_CHANNELS_UNALLOCATED'
+    if left==right=='MISSING':return 'MISSING_MODE'
+    return 'MODE_BOUNDARY_OR_INCOMPLETE'
+
+
+def raw_service_and_timing(handoff, output):
+    """Signed same-mask ledgers, common-lag cohort and common-hour aggregation."""
+    ledger={}; lag_stats={}; aggregate={}; recent=deque(maxlen=31)
+    lags=(-15,-5,-2,-1,0,1,2,5,15)
+    previous=None; hour_key=None; hour_rows=[]
+    totals=dict(HEI_steps=0,HEI_H_kWh=0.,HEI_E_kWh=0.,HEI_IH_kWh=0.,
+                complete_hour_steps=0,complete_hour_H_kWh=0.,complete_hour_E_kWh=0.,complete_hour_IH_kWh=0.)
+    def flush_hour():
+        if len(hour_rows)!=30 or not all(all(k in r['d'] for k in ('H','E','IH')) for r in hour_rows):
+            return
+        totals['complete_hour_steps']+=30
+        for c in ('H','E','IH'):
+            totals[f'complete_hour_{c}_kWh']+=math.fsum(r['d'][c] for r in hour_rows)
+        for steps in (1,5,15,30):
+            for start in range(0,30,steps):
+                subset=hour_rows[start:start+steps]
+                service={r['proxy'] for r in subset}
+                proxy=next(iter(service)) if len(service)==1 else 'MIXED_WITHIN_BLOCK'
+                key=(hour_key[0],steps*2,proxy)
+                if key not in aggregate:aggregate[key]=correlation_stat()
+                add_timing_stat(aggregate[key],*(math.fsum(r['d'][c] for r in subset) for c in ('H','E','IH')))
+    for cur in comparison.parsed_rows(Path(handoff)/'eoh2074/clean/Property_ID=EOH2074.csv'):
+        d=comparison.differences(previous,cur)
+        if previous is not None:
+            proxy=comparison.proxy(previous,cur)
+            for mask,channels in comparison.MASKS.items():
+                if all(c in d for c in channels):
+                    key=(cur['t'].year,cur['t'].strftime('%Y-%m'),proxy,mask,interval_mode(previous,cur))
+                    if key not in ledger:ledger[key]=comparison.empty_balance(channels)
+                    comparison.add_balance(ledger[key],d)
+            rec=dict(t=cur['t'],proxy=proxy,d=d)
+            recent.append(rec)
+            if all(c in d for c in ('H','E','IH')):
+                totals['HEI_steps']+=1
+                for c in ('H','E','IH'):totals[f'HEI_{c}_kWh']+=d[c]
+            k=(cur['t'].year,int(((cur['t']-datetime(1970,1,1)).total_seconds()-1)//3600))
+            if hour_key is not None and k!=hour_key:
+                flush_hour();hour_rows=[]
+            hour_key=k;hour_rows.append(rec)
+            if len(recent)==31 and all('E' in r['d'] for r in recent):
+                centre=recent[15]
+                if all(c in centre['d'] for c in ('H','E','IH')):
+                    for lag in lags:
+                        for service in ('ALL_SAME_LAG_MASK',centre['proxy']):
+                            key=(centre['t'].year,service,lag)
+                            if key not in lag_stats:lag_stats[key]=correlation_stat()
+                            add_timing_stat(lag_stats[key],centre['d']['H'],recent[15+lag]['d']['E'],centre['d']['IH'])
+        previous=cur
+    flush_hour()
+    rows=[dict(status='DER',year=k[0],month=k[1],temperature_proxy=k[2],mask=k[3],documented_mode_endpoints=k[4],
+               **comparison.finish_balance(v,comparison.MASKS[k[3]])) for k,v in sorted(ledger.items())]
+    write_csv(output/'same_mask_service_month_ledgers.csv',rows)
+    lag_rows=[dict(status='DER',year=k[0],temperature_proxy=k[1],E_lag_minutes=k[2]*2,
+                   cohort='HEI_CENTRE_AND_E_ALL_31_ORIGINAL_ADJACENT_STEPS',**finish_timing(v)) for k,v in sorted(lag_stats.items())]
+    write_csv(output/'IH_E_same_mask_lag_diagnostics.csv',lag_rows)
+    write_csv(output/'IH_E_common_hour_aggregation_diagnostics.csv',[
+        dict(status='DER',year=k[0],aggregation_minutes=k[1],temperature_proxy=k[2],
+             cohort='SAME_COMPLETE_60MIN_HEI_COHORT',**finish_timing(v)) for k,v in sorted(aggregate.items())])
+    totals.update({f'complement_{c}_kWh':totals[f'HEI_{c}_kWh']-totals[f'complete_hour_{c}_kWh'] for c in ('H','E','IH')})
+    totals['complement_steps']=totals['HEI_steps']-totals['complete_hour_steps']
+    totals['lag_choice_is_diagnostic_not_applied']=True
+    write_json(output/'IH_timing_cohort_closure.json',totals)
+    return rows,lag_rows,totals
+
+
+def assessment_pool_add(pools,key,r,energy):
+    if key not in pools:pools[key]=dict(E=0.,variable_E=0.,variable_ref=0.,H=0.,hours=0.,segments=0)
+    p=pools[key]
+    for k,v in (('E',energy),('variable_E',energy-r['idle_kWh']),
+                ('variable_ref',r['active_kWh']+r['inertia_kWh']),('H',r['H_kWh']),('hours',r['hours']),('segments',1)):
+        p[k]+=v
+
+
+def assessment_predict(target,positive_pools,zero_pools):
+    known_hours=known_h=known_ref=estimate=0.; weights=[]
+    for t in target:
+        pos=t['generator_H_kWh']>1e-8
+        key=transfer_cell(t['ambient_C'],t['load_over_min'],True) if pos else t['interval_start_utc'][5:7]
+        p=positive_pools.get(key) if pos else zero_pools.get(key)
+        value=None
+        if p:
+            if pos and p['variable_ref']>0:
+                value=(t['active_kWh']+t['inertia_kWh'])*p['variable_E']/p['variable_ref']+t['idle_kWh']
+            elif not pos and p['hours']>0:value=p['E']/p['hours']
+        if value is not None:
+            known_hours+=1;known_h+=t['generator_H_kWh'];known_ref+=t['reference_kWh'];estimate+=value
+        weights.append(dict(interval_start_utc=t['interval_start_utc'],positive_heat=pos,supported=value is not None,
+                            H_kWh=t['generator_H_kWh'],baseline_E_kWh=t['reference_kWh'],conditional_E_kWh=value))
+    return dict(supported_hours=known_hours,supported_H_kWh=known_h,supported_baseline_E_kWh=known_ref,
+                conditional_known_E_kWh=estimate,conditional_annual_E_kWh=estimate if known_hours==len(target) else None),weights
+
+
+def normalized_assessment(prior,target,output):
+    """Observed-condition stratification, exact paired IH cohorts and target weights."""
+    cases=('REFERENCE_HEATING_WHOLE','HEI_COMPLETE_WHOLE','HEI_VALID_PAIR_WHOLE','HEI_VALID_PAIR_MINUS_IH')
+    pools={c:defaultdict(dict) for c in cases}; strata={}; slices={}; zero={}
+    path=Path(prior)/'eoh2074_60min_offset0_segments.csv.gz'
+    with gzip.open(path,'rt',encoding='utf-8',newline='') as f:
+        for text in csv.DictReader(f):
+            r={**text,**{k:float(text[k]) if text[k] else None for k in ('H_kWh','E_kWh','hours','active_kWh','inertia_kWh','idle_kWh','load_over_min',
+                'endpoint_proxy_mean_ambient_C','endpoint_proxy_mean_flow_C','IH_kWh_complete_same_mask')}}
+            heating=r['temperature_proxy']=='heating_temperature_indicated_not_service_proven'
+            positive=r['H_kWh']>1e-8
+            pure_zero=abs(r['H_kWh'])<=1e-8 and int(r['negative_heat_steps'])==0
+            ref_ok=positive and text['reference_kWh'] and r['source_status_before_aggregation']=='SUPPORTED' and int(r['negative_heat_steps'])==0
+            if not (ref_ok or pure_zero):continue
+            if not positive:
+                # Zero observed power is not a rating interpolation at missing/outside temperatures.
+                r.update(active_kWh=0.,inertia_kWh=0.,idle_kWh=.015*r['hours'])
+            cell=transfer_cell(r['endpoint_proxy_mean_ambient_C'],r['load_over_min'],True) if positive else r['month'][5:7]
+            ih=r['IH_kWh_complete_same_mask']; complete=ih is not None; consistent=complete and 0<=ih<=r['E_kWh']
+            if heating:
+                for c in cases:
+                    if c=='HEI_COMPLETE_WHOLE' and not complete:continue
+                    if c.startswith('HEI_VALID_PAIR') and not consistent:continue
+                    energy=r['E_kWh']-(ih if c=='HEI_VALID_PAIR_MINUS_IH' else 0.)
+                    kind='positive' if positive else 'zero'
+                    assessment_pool_add(pools[c][kind],cell,r,energy)
+            if pure_zero:
+                key=(r['year_current_endpoint'],r['month'],r['temperature_proxy'])
+                if key not in zero:zero[key]=dict(hours=0.,E_kWh=0.,segments=0)
+                z=zero[key];z['hours']+=r['hours'];z['E_kWh']+=r['E_kWh'];z['segments']+=1
+            if ref_ok:
+                flow=comparison.band(r['endpoint_proxy_mean_flow_C'],(-math.inf,25,30,35,40,45,50,53,57,60,math.inf))
+                key=(r['year_current_endpoint'],flow,cell[0],cell[1],r['temperature_proxy'])
+                assessment_pool_add(strata,key,r,r['E_kWh'])
+                if heating:
+                    for dimension,value in (('FLOW',flow),('YEAR',r['year_current_endpoint'])):
+                        assessment_pool_add(slices,(dimension,value,cell),r,r['E_kWh'])
+    results=[]
+    for c in cases:
+        pred,weights=assessment_predict(target,pools[c]['positive'],pools[c]['zero'])
+        results.append(dict(status='SCN',case=c,**pred))
+        if c=='REFERENCE_HEATING_WHOLE':
+            if not math.isclose(pred['conditional_annual_E_kWh'],4003.3949236948883,abs_tol=1e-7):
+                raise ValueError('designated route replay changed')
+            write_csv(output/'designated_route_target_weights.csv',weights)
+    write_csv(output/'same_mask_IH_allocation_target_effects.csv',results)
+    write_csv(output/'normalized_residual_joint_strata.csv',[
+        dict(status='DER',year=k[0],flow_bin_C=k[1],ambient_bin_C=k[2],load_min_bin=k[3],temperature_proxy=k[4],**p,
+             normalized_variable_E_ratio=p['variable_E']/p['variable_ref'] if p['variable_ref'] else None)
+        for k,p in sorted(strata.items())])
+    exposures=[]
+    for dim,value in sorted({(k[0],k[1]) for k in slices}):
+        ps={k[2]:p for k,p in slices.items() if k[:2]==(dim,value)}
+        pred,_=assessment_predict(target,ps,pools['REFERENCE_HEATING_WHOLE']['zero'])
+        exposures.append(dict(status='SCN',dimension=dim,value=value,**pred))
+    write_csv(output/'normalized_residual_target_exposure_by_flow_year.csv',exposures)
+    # Compare flow strata only on the identical positive target-cell intersection.
+    comparisons=[]
+    flows=sorted({k[1] for k in slices if k[0]=='FLOW'})
+    for i,left in enumerate(flows):
+        for right in flows[i+1:]:
+            lp={k[2]:p for k,p in slices.items() if k[:2]==('FLOW',left)}
+            rp={k[2]:p for k,p in slices.items() if k[:2]==('FLOW',right)}
+            eligible=[t for t in target if t['generator_H_kWh']>1e-8 and transfer_cell(t['ambient_C'],t['load_over_min'],True) in lp
+                      and transfer_cell(t['ambient_C'],t['load_over_min'],True) in rp]
+            if not eligible:continue
+            l,_=assessment_predict(eligible,lp,{})
+            r,_=assessment_predict(eligible,rp,{})
+            comparisons.append(dict(status='DER',left_flow=left,right_flow=right,common_target_hours=len(eligible),
+                common_target_H_kWh=math.fsum(t['generator_H_kWh'] for t in eligible),
+                common_baseline_E_kWh=math.fsum(t['reference_kWh'] for t in eligible),
+                left_conditional_E_kWh=l['conditional_known_E_kWh'],right_conditional_E_kWh=r['conditional_known_E_kWh'],
+                right_minus_left_kWh=r['conditional_known_E_kWh']-l['conditional_known_E_kWh'],causal_temperature_effect=False))
+    write_csv(output/'normalized_flow_comparison_same_target_cells.csv',comparisons)
+    year_comparisons=[]
+    years=sorted({k[1] for k in slices if k[0]=='YEAR'})
+    for i,left in enumerate(years):
+        for right in years[i+1:]:
+            lp={k[2]:p for k,p in slices.items() if k[:2]==('YEAR',left)}
+            rp={k[2]:p for k,p in slices.items() if k[:2]==('YEAR',right)}
+            eligible=[t for t in target if t['generator_H_kWh']>1e-8 and transfer_cell(t['ambient_C'],t['load_over_min'],True) in lp
+                      and transfer_cell(t['ambient_C'],t['load_over_min'],True) in rp]
+            l,_=assessment_predict(eligible,lp,{});r,_=assessment_predict(eligible,rp,{})
+            year_comparisons.append(dict(status='DER',left_year=left,right_year=right,common_target_hours=len(eligible),
+                common_target_H_kWh=math.fsum(t['generator_H_kWh'] for t in eligible),
+                left_conditional_E_kWh=l['conditional_known_E_kWh'],right_conditional_E_kWh=r['conditional_known_E_kWh'],
+                right_minus_left_kWh=r['conditional_known_E_kWh']-l['conditional_known_E_kWh']))
+    write_csv(output/'normalized_year_comparison_same_target_cells.csv',year_comparisons)
+    joint={}
+    for (year,flow,ambient,load,service),p in strata.items():
+        if service=='heating_temperature_indicated_not_service_proven':joint[year,flow,(ambient,load,True)]=p
+    joint_comparisons=[]
+    for dimension,fixed,values in [('YEAR_WITHIN_FLOW',f,years) for f in flows]+[('FLOW_WITHIN_YEAR',y,flows) for y in years]:
+        for i,left in enumerate(values):
+            for right in values[i+1:]:
+                def select(value):
+                    return {k[2]:p for k,p in joint.items() if (k[0]==value and k[1]==fixed if dimension=='YEAR_WITHIN_FLOW' else k[0]==fixed and k[1]==value)}
+                lp,rp=select(left),select(right)
+                eligible=[t for t in target if t['generator_H_kWh']>1e-8 and transfer_cell(t['ambient_C'],t['load_over_min'],True) in lp
+                          and transfer_cell(t['ambient_C'],t['load_over_min'],True) in rp]
+                if not eligible:continue
+                l,_=assessment_predict(eligible,lp,{});r,_=assessment_predict(eligible,rp,{})
+                joint_comparisons.append(dict(status='DER',dimension=dimension,fixed_stratum=fixed,left=left,right=right,
+                    common_target_hours=len(eligible),common_target_H_kWh=math.fsum(t['generator_H_kWh'] for t in eligible),
+                    left_conditional_E_kWh=l['conditional_known_E_kWh'],right_conditional_E_kWh=r['conditional_known_E_kWh'],
+                    right_minus_left_kWh=r['conditional_known_E_kWh']-l['conditional_known_E_kWh'],
+                    left_donor_hours=sum(p['hours'] for p in lp.values()),right_donor_hours=sum(p['hours'] for p in rp.values()),
+                    causal_effect_identified=False))
+    write_csv(output/'normalized_joint_year_flow_same_target_cells.csv',joint_comparisons)
+    zero_rows=[dict(status='DER',year=k[0],month=k[1],temperature_proxy=k[2],**p,observed_zero_heat_kW=p['E_kWh']/p['hours'])
+               for k,p in sorted(zero.items())]
+    write_csv(output/'broad_month_zero_heat_service_rates.csv',zero_rows)
+    zero_effects=[]
+    for year in ('2021','2022','2023','ALL_YEARS_POOLED'):
+        ps={}
+        for (y,month,proxy),p in zero.items():
+            if (year=='ALL_YEARS_POOLED' or y==year) and proxy=='heating_temperature_indicated_not_service_proven':
+                m=month[5:7]
+                if m not in ps:ps[m]=dict(E=0.,hours=0.)
+                ps[m]['E']+=p['E_kWh'];ps[m]['hours']+=p['hours']
+        pred,_=assessment_predict([t for t in target if t['generator_H_kWh']<=1e-8],{},ps)
+        zero_effects.append(dict(status='SCN',donor_year=year,**pred))
+    write_csv(output/'zero_heat_target_month_transport_by_year.csv',zero_effects)
+    return results,exposures,comparisons,zero_effects,joint_comparisons
+
+
+def matched_season_state_assessment(prior,target,output):
+    """Donor composition standardization; no causal year/controller identification.
+
+    Symmetric donor-reference weights compare the same state mix. They do not
+    identify target return temperature or controller state. Target-month exposure
+    is separate from applying a donor-month diagnostic to all target cells.
+    """
+    rows=[];inventory={};unmatched={};month_unmatched={}
+    with gzip.open(Path(prior)/'eoh2074_60min_offset0_segments.csv.gz','rt',encoding='utf-8',newline='') as f:
+        for text in csv.DictReader(f):
+            if (text['temperature_proxy']!='heating_temperature_indicated_not_service_proven'
+                or text['source_status_before_aggregation']!='SUPPORTED' or not text['reference_kWh']
+                or int(text['negative_heat_steps']) or float(text['H_kWh'])<=1e-8):continue
+            r={**text,**{k:float(text[k]) for k in ('H_kWh','E_kWh','hours','active_kWh','inertia_kWh','idle_kWh','load_over_min',
+                'endpoint_proxy_mean_ambient_C','endpoint_proxy_mean_flow_C','stage_on_fraction')}}
+            r['return_C']=float(text['endpoint_proxy_mean_return_C']) if text['endpoint_proxy_mean_return_C'] else None
+            r['cell']=transfer_cell(r['endpoint_proxy_mean_ambient_C'],r['load_over_min'],True)
+            r['flow']=comparison.band(r['endpoint_proxy_mean_flow_C'],(-math.inf,25,30,35,40,45,50,53,57,60,math.inf))
+            r['month_number']=text['month'][5:7]
+            rows.append(r)
+            assessment_pool_add(inventory,(r['year_current_endpoint'],r['month_number'],r['flow']),r,r['E_kWh'])
+            assessment_pool_add(unmatched,(r['year_current_endpoint'],r['flow'],r['cell']),r,r['E_kWh'])
+            assessment_pool_add(month_unmatched,(r['year_current_endpoint'],r['month_number'],r['flow'],r['cell']),r,r['E_kWh'])
+    write_csv(output/'season_state_donor_inventory.csv',[dict(year=k[0],month=k[1],flow_bin_C=k[2],**p) for k,p in sorted(inventory.items())])
+    levels=('MONTH_FLOW','MONTH_FLOW_GE45MIN','MONTH_FLOW_DURATION','MONTH_FLOW_DURATION_RETURN','MONTH_FLOW_DURATION_RETURN_DUTY')
+    estimates=[]
+    for level in levels:
+        pools={}
+        for r in rows:
+            if level=='MONTH_FLOW_GE45MIN' and r['hours']<.75:continue
+            if 'RETURN' in level and r['return_C'] is None:continue
+            duration=comparison.band(r['hours'],(-math.inf,.25,.5,.75,1.000001,math.inf)) if 'DURATION' in level else 'ALL'
+            ret=comparison.band(r['return_C'],(-math.inf,*range(10,66,5),math.inf)) if 'RETURN' in level else 'ALL'
+            duty=comparison.band(r['stage_on_fraction'],(-math.inf,.25,.5,.75,1.000001,math.inf)) if 'DUTY' in level else 'ALL'
+            assessment_pool_add(pools,(r['year_current_endpoint'],r['month_number'],r['flow'],r['cell'],duration,ret,duty),r,r['E_kWh'])
+        for month,flow in sorted({k[1:3] for k in pools}):
+            years=sorted({k[0] for k in pools if k[1:3]==(month,flow)})
+            for i,left in enumerate(years):
+                for right in years[i+1:]:
+                    lp={k[3:]:p for k,p in pools.items() if k[:3]==(left,month,flow)}
+                    rp={k[3:]:p for k,p in pools.items() if k[:3]==(right,month,flow)}
+                    common={k for k in lp.keys()&rp.keys() if lp[k]['variable_ref']>0 and rp[k]['variable_ref']>0}
+                    cells={k[0] for k in common}
+                    lrat={};rrat={}
+                    for cell in cells:
+                        group=[k for k in common if k[0]==cell]
+                        total=math.fsum(lp[k]['variable_ref']+rp[k]['variable_ref'] for k in group)
+                        lrat[cell]=math.fsum((lp[k]['variable_ref']+rp[k]['variable_ref'])/total*lp[k]['variable_E']/lp[k]['variable_ref'] for k in group)
+                        rrat[cell]=math.fsum((lp[k]['variable_ref']+rp[k]['variable_ref'])/total*rp[k]['variable_E']/rp[k]['variable_ref'] for k in group)
+                    for exposure in ('TARGET_SAME_MONTH','ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC'):
+                        eligible=[t for t in target if t['generator_H_kWh']>1e-8
+                            and (exposure!='TARGET_SAME_MONTH' or t['interval_start_utc'][5:7]==month)
+                            and transfer_cell(t['ambient_C'],t['load_over_min'],True) in cells]
+                        if not eligible:continue
+                        def predicted(ratios):
+                            return math.fsum((t['active_kWh']+t['inertia_kWh'])*ratios[transfer_cell(t['ambient_C'],t['load_over_min'],True)]+t['idle_kWh'] for t in eligible)
+                        le,re=predicted(lrat),predicted(rrat)
+                        def raw_ratios(year,selected_month):
+                            result={}
+                            for cell in cells:
+                                if selected_month:
+                                    p=month_unmatched[year,month,flow,cell];result[cell]=p['variable_E']/p['variable_ref']
+                                else:
+                                    p=unmatched[year,flow,cell];result[cell]=p['variable_E']/p['variable_ref']
+                            return result
+                        original=predicted(raw_ratios(right,False))-predicted(raw_ratios(left,False))
+                        month_delta=predicted(raw_ratios(right,True))-predicted(raw_ratios(left,True))
+                        estimates.append(dict(status='DER_CONDITIONAL_STANDARDIZATION',level=level,exposure=exposure,month=month,
+                            flow_bin_C=flow,left_year=left,right_year=right,common_state_cells=len(common),common_target_hours=len(eligible),
+                            common_target_H_kWh=math.fsum(t['generator_H_kWh'] for t in eligible),
+                            common_target_reference_kWh=math.fsum(t['reference_kWh'] for t in eligible),
+                            left_common_donor_hours=math.fsum(lp[k]['hours'] for k in common),right_common_donor_hours=math.fsum(rp[k]['hours'] for k in common),
+                            left_common_donor_segments=sum(lp[k]['segments'] for k in common),right_common_donor_segments=sum(rp[k]['segments'] for k in common),
+                            left_conditional_E_kWh=le,right_conditional_E_kWh=re,remaining_standardized_difference_kWh=re-le,
+                            original_year_mix_difference_same_target_kWh=original,month_selected_difference_same_target_kWh=month_delta,
+                            month_selection_change_kWh=original-month_delta,within_month_composition_change_kWh=month_delta-(re-le),
+                            total_composition_change_kWh=original-(re-le),annual_extrapolated=False,causal_year_or_controller_effect=False,
+                            standardization='SYMMETRIC_POOLED_DONOR_REFERENCE_SHARES_NOT_OBSERVED_TARGET_STATE_MIX'))
+    write_csv(output/'matched_month_duration_return_duty_target_exposure.csv',estimates)
+    return estimates
+
+
+def qualify_assessment(target,weights,record):
+    """Derive completeness and physical validity from actual hourly predictions."""
+    expected={t['interval_start_utc'] for t in target}
+    ids=[r.get('interval_start_utc') for r in weights]
+    complete=(len(expected)==len(target)==len(ids) and len(set(ids))==len(ids) and set(ids)==expected
+              and all(r.get('supported') in (True,'True') for r in weights))
+    target_by_id={t['interval_start_utc']:t for t in target}
+    physical=bool(weights)
+    for r in weights:
+        try:value=float(r.get('conditional_E_kWh'))
+        except (TypeError,ValueError):complete=False;physical=False;continue
+        if not math.isfinite(value):complete=False;physical=False
+        if value<0 or (target_by_id.get(r.get('interval_start_utc'),{}).get('generator_H_kWh',0)>1e-8 and value<=0):physical=False
+    status,missing=route_qualification(complete=complete,physical=physical,
+        documented_assumptions={'qualification_records':[record]},route_context=record['binding'])
+    return dict(qualification=status,unqualified_criteria=missing,complete=complete,physical=physical)
+
+
+def assess_aggregate_e2(additive,handoff,prior,output):
+    spec=json.loads(MANIFEST.read_text(encoding='utf-8'));cfg=spec['aggregate_assessment']
+    prior=Path(prior).resolve();output=Path(output).resolve();additive=Path(additive).resolve();handoff=Path(handoff).resolve()
+    if any(output==p or output.is_relative_to(p) for p in (ROOT,prior,additive,handoff)):
+        raise ValueError('separate new assessment output required')
+    verify_additive(additive,spec)
+    comparison.verify_handoff(handoff,json.loads((ROOT/'registry/b05_eoh_comparison_support_manifest.json').read_text())['input_binding'])
+    if digest(prior/'INPUT_CODE_OUTPUT_MANIFEST.json')!=cfg['prior_output_manifest_sha256']:
+        raise ValueError('prior output identity mismatch')
+    previous=json.loads((prior/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
+    if previous['research_code_sha256']!=cfg['prior_merged_code_sha256']:
+        raise ValueError('prior merged analyzer identity mismatch')
+    for entry in previous['outputs']:
+        p=(prior/entry['path']).resolve()
+        if not p.is_relative_to(prior) or digest(p)!=entry['sha256']:raise ValueError('prior numerical output mismatch')
+    for rel,h in spec['protected_sha256'].items():
+        if digest(ROOT/rel)!=h:raise ValueError('protected runtime/evidence changed')
+    output.mkdir(parents=True,exist_ok=False)
+    print('Verified 52 original/additive inputs and every prior R1 output',flush=True)
+    target=assessment_target(prior)
+    ledger,lags,timing=raw_service_and_timing(handoff,output)
+    effects,exposures,flow,zero,joint=normalized_assessment(prior,target,output)
+    matched=matched_season_state_assessment(prior,target,output)
+    summary=dict(status='CONDITIONAL_ASSESSED_NOT_ADMITTED',designated_conditional_kWh=effects[0]['conditional_annual_E_kWh'],
+        same_mask_IH_effects=effects,normalization_flow_comparisons=flow,year_exposures=[r for r in exposures if r['dimension']=='YEAR'],
+        zero_state_year_effects=zero,normalization_joint_comparisons=joint,matched_season_state_comparisons=matched,IH_timing_cohort=timing,canonical_or_national_admission=False,
+        remaining_identification='Numeric target coverage is complete. Remaining claims concern same-SH/electrical boundary and transport of normalized positive/zero-state energy, assessed in E2 evidence table; not unidentified target cells.')
+    claims=claim_evidence_table(spec,summary)
+    write_csv(output/'claim_specific_eight_point_E2_evidence.csv',claims)
+    record=dict(binding=cfg['binding'],
+        e2_criteria=[dict(criterion=r['criterion'],verdict=r['verdict'],reason=r['reason'],
+                         quantitative_or_source_locators=r['locators']) for r in claims if r['claim_id']=='C_INSTALLED_ANNUAL'])
+    summary.update(qualify_assessment(target,list(csv_rows(output/'designated_route_target_weights.csv')),record))
+    summary['dictionary_local_verification']=cfg['dictionary_acquisition']['local_status']
+    write_json(output/'AGGREGATE_E2_ASSESSMENT.json',summary)
+    write_json(output/'EXACT_ROUTE_QUALIFICATION_RECORD.json',record)
+    manifest=dict(main_commit=cfg['base_main_commit'],source_manifest_sha256=digest(MANIFEST),source_code_sha256=digest(Path(__file__)),
+        original_manifest_sha256=digest(handoff/'HANDOFF_MANIFEST.json'),additive_manifest_sha256=digest(additive/'ADDITIVE_INPUT_MANIFEST.json'),
+        prior_output_manifest_sha256=digest(prior/'INPUT_CODE_OUTPUT_MANIFEST.json'),protected_sha256=spec['protected_sha256'],
+        outputs=[dict(path=p.name,bytes=p.stat().st_size,sha256=digest(p)) for p in sorted(output.iterdir()) if p.is_file()])
+    write_json(output/'INPUT_CODE_OUTPUT_MANIFEST.json',manifest)
+    print(f'Aggregate assessment complete; designated conditional result {summary["designated_conditional_kWh"]!r}',flush=True)
+
+
+def claim_evidence_table(spec, summary):
+    """Apply the canonical eight requirements separately to each asserted quantity.
+
+    SUPPORTED_PROVISIONAL is a scoped assessment, never observed installed truth.
+    A conditional criterion prevents promotion without demanding E1 components.
+    """
+    names = ('defined quantity', 'unit/grain/boundary/period', 'qualified direct support',
+             'target applicability', 'contradictory evidence assessment', 'reproducible derivation',
+             'exact validation debt', 'provisional label')
+    flow = max(summary['normalization_flow_comparisons'],
+               key=lambda r: abs(r['right_minus_left_kWh']), default=None)
+    paired = {r['case']: r for r in summary['same_mask_IH_effects']}
+    ih_delta = (paired['HEI_VALID_PAIR_WHOLE']['conditional_known_E_kWh']
+                - paired['HEI_VALID_PAIR_MINUS_IH']['conditional_known_E_kWh'])
+    boundary = (f'Documented valve-mode temperature recording supports stable endpoint service classification. '
+                f'Exact valid-IH paired target exposure changes by {ih_delta:.9g} kWh; '
+                'transition/missing modes and nonadditive cumulative meters remain explicit, not zero-imputed.')
+    transport = (f'Largest observed flow-stratum contrast on identical target cells: {flow["right_minus_left_kWh"]:.9g} kWh '
+                 f'over {flow["common_target_hours"]} positive target hours; '
+                 'ambient/load cell conditioning does not identify flow causality or target installation state.' if flow
+                 else 'No pair of observed flow strata shares positive target cells.')
+    year = max((r for r in summary['normalization_joint_comparisons'] if r['dimension']=='YEAR_WITHIN_FLOW'),
+               key=lambda r:abs(r['right_minus_left_kWh']),default=None)
+    if year:
+        transport += (f' Within the same {year["fixed_stratum"]} C flow bin, years {year["left"]}/{year["right"]} '
+                      f'differ by {year["right_minus_left_kWh"]:.9g} kWh on {year["common_target_hours"]} identical positive '
+                      f'target hours; donor exposure {year["left_donor_hours"]:.9g}/{year["right_donor_hours"]:.9g} h. '
+                      'This contrast confounds donor year with seasonal composition; it is not an isolated year or controller effect.')
+    season = next((r for r in summary['matched_season_state_comparisons'] if r['level']=='MONTH_FLOW_GE45MIN'
+                   and r['exposure']=='ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC' and r['month']=='02'
+                   and r['flow_bin_C']=='[25,30)' and (r['left_year'],r['right_year'])==('2022','2023')),None)
+    if season:
+        transport += (f' Independently matched February2022/2023 donors,25--30C,at least45min observation duration '
+                      f'leave {season["remaining_standardized_difference_kWh"]:.9g} kWh on {season["common_target_hours"]} '
+                      f'common target-cell exposure hours; composition/eligibility change versus original year mix '
+                      f'{season["total_composition_change_kWh"]:.9g} kWh on those same hours. '
+                      'Target-same-month results and return/duty-standardized common support are separately emitted; '
+                      'partial support is never annualized and no causal controller attribution is made.')
+    claims = {
+        'C_REFERENCE_METHOD': ('Manufacturer power interpolation and existing E2 on/off reference, not installed energy',
+                               'registry/b05_annual_device_reference_manifest.json', {}),
+        'C_SERVICE_BOUNDARY': ('Stable documented SH mode with whole-system electricity; transition allocation retained',
+                               'same_mask_service_month_ledgers.csv;IH_E_same_mask_lag_diagnostics.csv', {4: boundary, 5: boundary}),
+        'C_NORMALIZED_TRANSPORT': ('Dimensionless variable-energy residual transported from actual conditions to W55',
+                                   'normalized_residual_joint_strata.csv;matched_month_duration_return_duty_target_exposure.csv', {4: transport, 5: transport}),
+        'C_ZERO_STATE_TRANSPORT': ('Broad observed SH-mode zero-heat month power transported to target zero hours',
+                                  'broad_month_zero_heat_service_rates.csv;zero_heat_target_month_transport_by_year.csv',
+                                  {4: 'Month/year/service composition is measured; observed zero heat does not identify idle, storage, defrost or auxiliary states. Target zero-state composition is not observed.'}),
+        'C_INSTALLED_ANNUAL': (f'Conditional {summary["designated_conditional_kWh"]:.12g} kWh over all 8760 target hours',
+                               'AGGREGATE_E2_ASSESSMENT.json;designated_route_target_weights.csv',
+                               {4: transport + ' ' + boundary, 5: transport}),
+    }
+    rows=[]
+    for claim,(quantity,locators,conditional) in claims.items():
+        for criterion,name in enumerate(names,1):
+            reasons={1:quantity, 2:json.dumps(spec['aggregate_assessment']['binding'],sort_keys=True),
+                     3:'Hash-bound official EOH measurements/dictionary extracts and manufacturer rating evidence; these support measured donor quantities and reference arithmetic within their boundaries.',
+                     4:'Applicable to the named reference method only; no installed residual or hybrid promotion.',
+                     5:'Measured residual variation does not contradict the rating-only reference claim.',
+                     6:'Pinned inputs, prior numerical output hash verification and emitted target weights reproduce the stated quantity.',
+                     7:'VD-B05-AGGREGATE-SERVICE-TRANSITION: interval mode/energy attribution; VD-B05-AGGREGATE-TRANSPORT: target installation and zero-state transport; supplier: EOH meter/controller metadata and target calibration. Material to installed annual finalization; not an E1 prerequisite.',
+                     8:'Existing reference E2 remains unchanged; installed results remain SCN unless all eight exact-bound criteria support one provisional base.'}
+            rows.append(dict(claim_id=claim,criterion=criterion,requirement=name,
+                             verdict='CONDITIONAL_NOT_IDENTIFIED' if criterion in conditional else 'SUPPORTED_PROVISIONAL',
+                             reason=conditional.get(criterion,reasons[criterion]),locators=locators))
+    return rows
 
 
 def run(additive, handoff, output):
@@ -892,8 +1378,14 @@ def main():
     p.add_argument('--additive', type=Path, required=True)
     p.add_argument('--handoff', type=Path, required=True)
     p.add_argument('--output', type=Path, required=True)
+    p.add_argument('--assessment-only', action='store_true')
+    p.add_argument('--prior-output', type=Path)
     a = p.parse_args()
-    run(a.additive, a.handoff, a.output)
+    if a.assessment_only:
+        if a.prior_output is None:p.error('--assessment-only requires --prior-output')
+        assess_aggregate_e2(a.additive,a.handoff,a.prior_output,a.output)
+    else:
+        run(a.additive, a.handoff, a.output)
 
 
 if __name__ == '__main__':

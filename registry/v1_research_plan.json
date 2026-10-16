@@ -728,6 +728,29 @@
               "expected_decision_value": "Separates data exclusion from algorithmic matching, computes service/IH/fixed-auxiliary uncertainty and derives conditional/E2 classification.",
               "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
               "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "CLAIM_SPECIFIC_AGGREGATE_E2_ASSESSMENT_NO_INSTALLED_ADMISSION",
+              "source_families": [
+                "Hash-verified EOH2074 original two-minute signed energy counters and prior R1 target weights",
+                "Existing manufacturer reference and canonical eight-condition E2 policy"
+              ],
+              "remaining_unknown": "All 8760 target hours have a numerical conditional route. Within flow [25,30) C and identical ambient/load target cells, 2021/2023 imply -452.972377 kWh over 3173 target hours. Target installation/year-state mapping remains materially unidentified; sparse near55 evidence is not a calibration. Exact-mask IH exclusion is 34.433913 kWh; transitions and missing modes remain explicit.",
+              "promising_next_lead": "Resolve target-relevant installation/controller state or documented calibration of the normalized residual; full dictionary local acquisition failed network access, parent-provided valve-mode interpretation distinguished from directly inspected evidence.",
+              "expected_decision_value": "Quantifies applicability gap after actual analysis, without demanding E1 components, direct full-year W55 or perfect donor years. Exact-bound qualification cannot leak to hybrid/product/accounting/donor variants.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "AGGREGATE_E2_REVIEW_R2_SEASON_STATE_MATCHING_NO_ADMISSION",
+              "source_families": [
+                "Same hash-verified original EOH and merged R1 segment outputs; no new archive or workbook acquisition"
+              ],
+              "remaining_unknown": "Earlier2021/2023 contrast confounds season; no same-month25--30C donor support. Independent2022/2023 February GE45min contrast is-415.665501kWh on2962 all-target-cell diagnostic hours, but-14.843381kWh on229 same-target-February hours. Duration/return/reference-duty matching acrossJan-Apr gives-50.016188kWh on685 same-month targethours in25--30C and-37.086843 on1088 in30--35C. Partial exposure is not annualized; no causal year/controller effect identified.",
+              "promising_next_lead": "Assess a defensible target state mapping using the now-completed measured-state matching; no missing-data claim substitutes for unperformed analysis. Local workbook restriction remains explicit.",
+              "expected_decision_value": "Separates season/composition from remaining descriptive discrepancy; completeness/physical admission flags derive from actual hourly predictions with negative regressions.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
             }
           ],
           "reviewed_commit": null
@@ -992,6 +1015,29 @@
               "expected_decision_value": "Separates data exclusion from algorithmic matching, computes service/IH/fixed-auxiliary uncertainty and derives conditional/E2 classification.",
               "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
               "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "CLAIM_SPECIFIC_AGGREGATE_E2_ASSESSMENT_NO_INSTALLED_ADMISSION",
+              "source_families": [
+                "Hash-verified EOH2074 original two-minute signed energy counters and prior R1 target weights",
+                "Existing manufacturer reference and canonical eight-condition E2 policy"
+              ],
+              "remaining_unknown": "All 8760 target hours have a numerical conditional route. Within flow [25,30) C and identical ambient/load target cells, 2021/2023 imply -452.972377 kWh over 3173 target hours. Target installation/year-state mapping remains materially unidentified; sparse near55 evidence is not a calibration. Exact-mask IH exclusion is 34.433913 kWh; transitions and missing modes remain explicit.",
+              "promising_next_lead": "Resolve target-relevant installation/controller state or documented calibration of the normalized residual; full dictionary local acquisition failed network access, parent-provided valve-mode interpretation distinguished from directly inspected evidence.",
+              "expected_decision_value": "Quantifies applicability gap after actual analysis, without demanding E1 components, direct full-year W55 or perfect donor years. Exact-bound qualification cannot leak to hybrid/product/accounting/donor variants.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "AGGREGATE_E2_REVIEW_R2_SEASON_STATE_MATCHING_NO_ADMISSION",
+              "source_families": [
+                "Same hash-verified original EOH and merged R1 segment outputs; no new archive or workbook acquisition"
+              ],
+              "remaining_unknown": "Earlier2021/2023 contrast confounds season; no same-month25--30C donor support. Independent2022/2023 February GE45min contrast is-415.665501kWh on2962 all-target-cell diagnostic hours, but-14.843381kWh on229 same-target-February hours. Duration/return/reference-duty matching acrossJan-Apr gives-50.016188kWh on685 same-month targethours in25--30C and-37.086843 on1088 in30--35C. Partial exposure is not annualized; no causal year/controller effect identified.",
+              "promising_next_lead": "Assess a defensible target state mapping using the now-completed measured-state matching; no missing-data claim substitutes for unperformed analysis. Local workbook restriction remains explicit.",
+              "expected_decision_value": "Separates season/composition from remaining descriptive discrepancy; completeness/physical admission flags derive from actual hourly predictions with negative regressions.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
             }
           ],
           "reviewed_commit": null

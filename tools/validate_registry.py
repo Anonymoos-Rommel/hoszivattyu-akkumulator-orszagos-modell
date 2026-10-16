@@ -3321,6 +3321,26 @@ def validate_b05_eoh_annual_transfer(errors: list[str], source_ids: set[str]) ->
                 "named device reference without duplicate overhead or installed point")
         method = m["method"]
         revision = m["revision"]
+        assessment = m["aggregate_assessment"]
+        binding = assessment["binding"]
+        require(assessment["base_main_commit"] == "cd176ed8f5b314525cf082bd2dd4d69c0348cea6"
+                and assessment["verified_main_tree"] == "aadf578dd32fcbffeba867749c8e3f8b8fd565df"
+                and assessment["prior_output_manifest_sha256"] == "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987"
+                and assessment["prior_merged_code_sha256"] == "53df6a70161b791a67ae42889161b6f929cbd3d8abaee656d0f202656ecaa9dc",
+                "aggregate assessment exact merged baseline and prior numerical output")
+        require(binding == {"route":"EOH_ACTUAL_CONDITIONS_TO_W55", "product":"PUZ-WM50VHA(-BS)",
+                "service_case":"HEATING_PROXY_WHOLE_E", "accounting":"VARIABLE_REPLACEMENT_IDLE_ONCE",
+                "donor_scope":"EOH2074:ALL_YEARS_POOLED", "aggregation":"60min_offset0",
+                "target_id":"HU.N.SFH.01.Bel80.ReEx.001.013:W55:UTC2025"}
+                and assessment["qualification_authority"] == "EXACT_BOUND_EIGHT_CRITERIA_ONLY",
+                "qualification evidence must bind exact product/service/accounting/donor/target route")
+        matched = assessment["season_state_matching"]
+        require(assessment["prediction_admission_gates"] == "DERIVED_FROM_UNIQUE_COMPLETE_TARGET_PREDICTIONS_AND_FINITE_NONNEGATIVE_ENERGY"
+                and matched["donor_calendar_month_matched"] is True and matched["ambient_load_cells_matched"] is True
+                and matched["partial_support_annualized"] is False and matched["causal_year_or_controller_effect_identified"] is False
+                and matched["target_return_and_controller_mix_observed"] is False
+                and matched["exposure_modes"] == ["TARGET_SAME_MONTH", "ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC"],
+                "derived assessment gates and conditional matched-state support without annualization or causal attribution")
         require(revision["source_support_split_before_aggregation"] is True
                 and revision["positive_routes"] == ["EOH_NEAR55_OBSERVED", "EOH_ACTUAL_CONDITIONS_TO_W55", "HYBRID_AGGREGATE_TO_W55"]
                 and revision["target_accounting"] == ["TOTAL_REFERENCE_REPLACEMENT", "VARIABLE_REPLACEMENT_IDLE_ONCE"]
