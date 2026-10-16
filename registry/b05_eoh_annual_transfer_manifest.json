@@ -299,5 +299,54 @@
       "partial_support_annualized": false,
       "causal_year_or_controller_effect_identified": false
     }
+  },
+  "target_weighted_assessment": {
+    "id": "TARGET_MONTHLY_REFERENCE_DUTY_RESPONSE_FAMILY_20261016",
+    "base_main_commit": "c3adf1ee27faf27692468cfbbb91f670e0d52bbf",
+    "verified_main_tree": "e2098e64e01d79746692616ee65621ed9066cc86",
+    "prior_R1_manifest_sha256": "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987",
+    "prior_R2_manifest_sha256": "7c9e85e33fe019b716126a6fd73a8eddb7d698ba8be004f00f6d94ec1a35f965",
+    "sampling_seed": 20261016,
+    "sampling_replicates": 100,
+    "month_kernel_bandwidths_months": [
+      0,
+      1,
+      3,
+      null
+    ],
+    "month_kernel_policy": "Cyclic Gaussian weights at fixed target month/ambient/reference load/reference duty; bandwidth0 is support diagnostic only, positive bandwidth permits tested cross-month pooling. No target shares inferred from donor frequencies.",
+    "boundary": {
+      "target": "HU.N.SFH.01.Bel80.ReEx.001.013,56m2,W55 nominal SH supply,UTC2025,6050.554431653909kWh generator SH including302.4 distribution",
+      "electricity": "SH heat-pump whole-system electricity including SH-attributable circulation,excluding DHW service; IH/CP alternative accounting on identical joint-valid donor mask only",
+      "reference": "active + inertia + nonoverlapping idle exactly once; source variable normalization subtracts source reference idle then target idle retained once",
+      "target_known_controls": [
+        "month",
+        "ambient_C",
+        "reference_load_over_min",
+        "modeled_reference_stage_on_fraction",
+        "hourly_SH_heat_and_reference_energy"
+      ],
+      "modeled_duty_is_measured_controller_state": false,
+      "actual_target_flow_return_controller_and_service_shares": "Not observed; W55 is reference supply, not evidence of achieved installation flow; state marginalization and residual transfer remain explicit conditional parameters",
+      "zero_heat": "Observed broad-month no-heat whole-system power is not asserted to be pure standby; excess over target reference zero idle has separate transfer parameter"
+    },
+    "parameter_domain": {
+      "theta": "Unidentified real ANNUAL positive-period residual-transfer coefficient; annual positive-period electricity must remain positive. Does not prescribe a uniform hourly multiplier or admit an hourly installed profile. No evidence-supported finite upper bound. Values0,1,1.1 are response probes, not bounds.",
+      "s": "SH-attributable donor whole-meter electricity share in[0,1]; no empirically selected target service-allocation share Service-only sensitivity: s<1 cannot be combined with positive IH/CP exclusions.",
+      "alpha_IH": "Excluded IH accounting fraction in[0,1],only exact joint-valid complete mask; nonadditive short counters not repaired",
+      "beta_CP": "Excluded circulation fraction in[0,1],only exact joint-valid complete mask. Retaining CP is the whole-system target boundary; exclusion is a boundary sensitivity,not compressor identification",
+      "z": "Unidentified real transfer of observed zero-heat excess,subject to nonnegative target zero electricity; no evidence-based finite upper bound",
+      "pi_state": "Conditional kernel/reference-energy donor marginalization; not observed target flow/return/controller/duration/year shares"
+    },
+    "selected_central_E2_kWh": null,
+    "sampling_interpretation": "Positive block-multiplier reweighting with14/28/56day clusters within one installation; conditional within-donor quantiles,not population confidence intervals",
+    "canonical_or_national_admission": false,
+    "CP_fixed_power_alternative": "On the same joint-valid mask,remove normalized observed CP component once then add p times observed donor CP power times either modeled reference-on hours or positive-target hours. p>=0 is unidentified target/source aggregate pump-power ratio,not a bound or measured target controller state.",
+    "response_safeguards": {
+      "service_component_contract": "REJECT_SERVICE_SHARE_LT1_WITH_POSITIVE_IH_OR_CP_EXCLUSION",
+      "derived_energy_contract": "REJECT_ANY_NONFINITE_DELTA_ADJUSTMENT_POSITIVE_ZERO_OR_TOTAL_BALANCE",
+      "CP_replacement_scope": "POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z",
+      "prior_review_zip_sha256": "899ae33fcd91400cef9d5425215a2d087bd5b881f4b68dd56358e8b01504fe55"
+    }
   }
 }

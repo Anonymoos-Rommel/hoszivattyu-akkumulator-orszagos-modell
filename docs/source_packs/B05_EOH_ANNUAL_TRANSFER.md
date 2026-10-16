@@ -436,3 +436,260 @@ R2 validation:38 targeted/adatintegration tests and726 B05 tests pass, none skip
 registry VALID. Full-suite limitations remain as previously documented, without
 claiming a new complete repository-suite pass. The new review package has a new
 private Library identity; the previous package is retained.
+
+
+## Target-month and modeled-reference-duty response family, 2026-10-16
+
+Starting main: `c3adf1ee27faf27692468cfbbb91f670e0d52bbf` (PR331).
+All six starting files match both the preserved R2 ZIP and remote main byte for
+byte. The exact local index tree is `e2098e64e01d79746692616ee65621ed9066cc86`;
+local HEAD remains the earlier ancestor. The review patch compares the frozen
+merged-main index to current work, not HEAD. No new network source was needed,
+no denied download retried, and all old packages/outputs remain unchanged.
+
+The target is the existing56m2 named house, WM50 nominalW55 SH reference under
+UTC2025 weather:6050.554432 kWh generator heat, including302.4 kWh distribution.
+The desired electricity boundary is the SH heat-pump whole system, including
+SH-attributable circulation, excluding DHW service. Resistance heating and shared
+circulation attribution are explicit accounting alternatives, not silently
+identified components. W55 is the declared reference supply; achieved target
+flow, return, controller state and auxiliary-pump configuration are not observed.
+The existing active2321.747207 + inertia68.777498 + nonoverlapping idle82.109088
+= **2472.633793 kWh** reference is retained exactly once.
+
+### Weighting and support
+
+The target's actual monthly heat-demand/reference-energy exposure weights source
+observations within ambient, reference load-over-min and modeled reference
+stage_on_fraction cells. The latter two are model outputs, not measured cycling
+or controller duty. Manufacturer interpolation at source conditions supplies a
+reference denominator, not evidence that an installed residual is W55-invariant.
+
+2528 positive, stable-SH-endpoint, source-supported60min segments enter the
+positive-load donor frame. Signed negative/zero heat, unsupported references and
+other service endpoints remain in the separately hash-bound prior ledgers; they
+are not clipped into this estimator. Source electric component availability is
+not imputed. H/E-only and a separately identified joint-valid H/E/IH/CP cohort
+are compared; the latter requires complete nonnegative aggregate components
+whose sum does not exceed whole E. This is arithmetic consistency, not proof of
+meter nesting or of attribution to the target.
+
+For target month m and donor month n, the conditional kernel is
+`exp(-0.5*(cyclic_month_distance(m,n)/h)^2)` within the same ambient/load/reference-
+duty cell. h=0 is exact-month support diagnostic; h=1, h=3 and all-month pooling
+are tested conditional marginalizations. Thermal/load/duty conditioning supplies
+the comparability basis; the bandwidth and donor state weights remain ASS.
+They are not a claim that source-month or source-year frequencies equal target
+installation-state shares. The full observed joint donor year/month/flow/return/
+observation-duration shares, and their target-variable-energy exposure, are
+emitted instead of multiplying independent marginals.
+
+| Month pooling, all supported source flows | Positive target hours | Conditional annual E kWh |
+|---|---:|---:|
+| Exact month only |5043 of6100|not annualized|
+| Cyclic h=1 month |6100|3994.708794|
+| Cyclic h=3 months |6100|3998.163365|
+| All months |6100|4003.394924|
+
+Exact-month support contains5487.892711 kWh of the6050.554432 target heat. It is
+not an exclusion gate for the full calculation. Positive bandwidths pool across
+comparable measured-condition cells and cover all6100 positive target hours;
+2660 zero-heat target hours are handled separately. The old4003.394924 route is
+also reproduced by the all-month weighting and remains unchanged. Restricting
+donor mean flow to25--35C leaves5290 supported positive target hours; restricting
+to53--57C leaves2403. These conditional partial totals are not annual estimates.
+
+The new h=1 conditional anchor is **3994.708794 kWh**, comprising3930.905690 kWh
+positive-period electricity and63.803104 kWh observed-month zero-heat transport.
+The reference positive/zero parts are2432.733793/39.9 kWh, so the increments are
+**1498.171897/23.903104 kWh**. Monthly target heat and positive energy close to
+the annual controls. Source reference idle is removed before normalization,
+then target idle is retained once:42.209088 kWh on positive target hours plus
+39.9 kWh on zero-heat hours. No overhead is added twice. Zero measured heat is
+not assumed to mean pure standby.
+
+### Explicit conditional family and identification
+
+For the H/E cohort, the annual response is
+
+`E =2472.633793 +theta*[1498.171897 -3961.457029*(1-s)] +23.903104*z` kWh.
+
+Here s in[0,1] is the SH-attributable share of donor whole-meter electricity;
+theta is the unidentified **annual** positive-period installed-excess transfer
+to the target, and z transfers the zero-heat excess. These are aggregate response
+parameters, not an admitted common hourly multiplier or installed hourly shape.
+Their physical check concerns the annual positive-period and zero-period energy
+balances only. theta=1,s=1,z=1 gives the3994.708794 conditional anchor; this is
+not evidence selecting a central E2 value. theta=0 retains only the reference
+positive energy; theta=1.1 adds149.817190 kWh relative to theta=1. A one-percentage-
+point decrease in s changes energy by-39.614570 kWh at theta=1. z changing by one
+changes energy by23.903104 kWh. No evidence-supported finite upper bound for
+theta or z is established. These probes are not endpoints of a finite uncertainty
+interval. A positive annual response is not permission for a household or hourly
+installed claim.
+
+On the **same joint-valid component cohort**, the response instead uses
+
+`D =s*3952.038087 -alpha*28.022451 -beta*1236.134398 -72.718407 -2390.524705`,
+`E =2472.633793 +theta*D +23.903104*z` kWh.
+
+alpha and beta in[0,1] exclude IH and circulation accounting shares respectively.
+The domain excludes mixed service/component allocation: if s<1, alpha=beta=0;
+positive component exclusions require s=1. The formula does not define whether
+a component was already removed by service allocation, so that mixture is rejected.
+Component shares cannot be applied to the H/E-only cohort. Joint-cohort whole E
+is3985.331872 kWh,9.376921 below the primary anchor due to mask selection; pure
+IH exclusion is28.022451 kWh **within that same cohort**, not37.399373 kWh across
+cohorts. Full CP exclusion changes the joint-cohort result by1236.134398 kWh.
+It is a boundary sensitivity, not a finding that this is compressor-only energy
+or that CP causes that amount of inefficiency. The electricity/heat metering
+boundary and pump mixture must support any attribution.
+
+A fixed-power pump alternative removes the normalized **positive-period** CP term once and then
+replaces it with observed donor CP power times a declared target exposure:
+
+| Same joint mask, theta=s=z=1, alpha=0 | Annual response kWh |
+|---|---:|
+| Whole E, CP normalized with variable reference |3985.331872|
+| CP removed once |2749.197474|
+| CP removed, then source aggregate pump power on modeled reference-on hours, p=1 |3251.062078|
+| CP removed, then source aggregate pump power on all positive target hours, p=1 |3538.209282|
+
+The conditional replacement families are `2749.197474+p*501.864604` or
+`2749.197474+p*789.011808` kWh, with p the unobserved target/source aggregate
+pump-power ratio. p>=0 has no evidence-backed finite upper bound here. p=1 is an
+explicit hypothesis, not target pump evidence. Modeled reference-on hours are
+not measured pump run time; shared/DHW pumps in the source may not belong to the
+target system. This large accounting sensitivity is why target hydraulic/pump
+and service mapping matters more than merely selecting a month bandwidth.
+Neither excluding all source CP nor transporting all CP as proportional to heat
+is silently chosen as the central target model.
+
+### Quantitative uncertainty with its scope preserved
+
+For the h=1,s=theta=z=1 conditional mapping, positive calendar-block multipliers
+reweight the one installation's episodes. Exponential weights preserve the
+observed support.100 deterministic replicates at each of14/28/56day block sizes
+have full support; they do not generate new installations, repair representation
+bias or define a population confidence interval.
+
+| Block days | Conditional q05 | Conditional median | Conditional q95 kWh |
+|---|---:|---:|---:|
+|14|3945.822586|3990.381402|4019.015674|
+|28|3935.475569|3986.391900|4037.321972|
+|56|3906.660953|3983.534290|4022.370723|
+
+These are within-donor reweighting quantiles **conditional on the declared
+service/state/W55 mapping**, not bounds on total uncertainty. Leaving each donor
+year out gives3829.424154,3595.579303 and4048.689764 kWh (excluding2021,2022,2023
+respectively), each with6100 positive hours. This is a temporal-composition
+sensitivity, not three independent installations or a mandatory holdout gate.
+The bandwidth sensitivity is small compared with the year/state and CP mapping
+sensitivities, but small bandwidth sensitivity cannot prove residual invariance.
+
+There is no identified central E2 installed annual value in this deliverable.
+The useful result is the supported response family and its numerical derivatives.
+The missing relationship is specifically how a target SH installation's pump/
+service/operating state maps the manufacturer's normalized donor positive-energy
+excess to nominalW55. Target flow/return/controller state and electrical service
+shares have explicit conditional mappings above; none is filled from donor
+shares as an observed target value. This conclusion follows the completed
+weighting and component analyses. It does not impose a perfect donor year,
+mandatory holdout, full-year directW55 measurement or component-E1 prerequisite.
+The existing reference E2, canonical runtime/admission/readiness and national
+outputs remain unchanged.
+
+Reproduce with `--weighted-only --prior-output <R1-final> --prior-assessment
+<R2-output> --handoff <verified-original> --additive <verified-additive> --output
+<fresh-separate-directory>`. Exact52 input hashes, every R1/R2 output hash and
+protected runtime hashes are checked before analysis. Sampling seed20261016 and
+100 replicates are pinned. The official workbook restriction remains explicit;
+no retry or alternative access was attempted.
+
+
+### Verification of target weighting
+
+44 targeted tests, including the local hash-bound integrations, and732 B05 tests
+pass with no skips when inputs are explicitly supplied. Registry validation is
+VALID. New regressions cover target-month kernel behavior, modeled-duty mismatch,
+partial support without annualization, one-time idle and component arithmetic,
+CP fixed-power units, explicit unknown component shares, unbounded annual
+transfer responses and nonphysical annual balances. The old R1/R2 integrations
+verify the pinned prior manifests instead of misidentifying those old outputs
+as outputs of the new code.
+
+The configured `unittest discover -s tests -v` collection was attempted on both
+verified merged-main source contents and the candidate, with a45second per-test
+bound and durable per-test outcomes. Both terminate in the same B13 test:
+`FiscalOutputIndexTests.test_controlled_external_directory_still_reaches_first_fiscal_source_read`.
+Its explicit`/tmp` fixture resolves to C:\tmp outside writable roots; the saved
+stack traces are in tempfile.mkdtemp. Permissions and test behavior were not
+changed to evade the restriction. Counts at bounded termination:
+
+| Run | Collected | Passed | Failed | Errors | Skipped by configured suite | Blocked timeout | Not started |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Verified merged R2 baseline |4171|3747|5|12|14|1|392|
+| Candidate before response safeguards |4177|3750|5|12|17|1|392|
+
+All17 failing/error test IDs are identical on the two sides. The issues comprise
+POSIX path strings versus Windows separators (including B14's data-identity path
+comparison), unavailable os.O_NOFOLLOW/os.O_DIRECTORY and WinError1314 symlink
+privilege. The candidate adds three passed unit tests and three configured
+external-output skips; those skipped integrations pass in the separate44/732
+local-data runs. The392 unstarted tests are **not** counted as skipped or passed.
+This is not a complete successful repository-suite result. One preliminary45s
+overall-bound run stopped during legitimate B02 computation; it was replaced by
+the per-test-bound run and is not used as environment-failure evidence.
+
+The fresh private review bundle includes all six candidate files with SHA256,
+the exact input/prior-output bindings, new numerical tables and conditional
+sampling results, targeted/B05/registry logs, both full-suite partial event logs
+and paired baseline proof. The small human-readable patch preserves the source
+file line endings and applies to the verified merged-R2 contents. Previous ZIPs
+and output directories are unchanged. No GitHub write or model-value acceptance
+is part of this work.
+
+
+## Conditional-response safeguards correction
+
+The first target-weighted package (682076bytes, SHA256
+`899ae33fcd91400cef9d5425215a2d087bd5b881f4b68dd56358e8b01504fe55`) and all
+its historical outputs remain unchanged. Independent review reconstructed the
+anchor and40 declared variants,434 numeric checks with maximum error3.64e-12.
+This correction changes admissible parameter combinations and numerical safety;
+it does not change the delivered conditional anchor or empirical estimates.
+
+Service-only allocation and component-only exclusions are separate sensitivities.
+`service_share<1` together with positive IH or CP exclusion now raises ValueError,
+including combinations with both components. Component exclusions remain allowed
+on the exact joint-valid mask when service_share=1; service-only sensitivity
+remains allowed with both exclusion shares zero. This prevents silently removing
+a component twice or guessing whether its share was already allocated away.
+For example, E=.9, CP=.2, service_share=.5, CP_excluded=1 does not have an accepted
+response: whole-meter allocation then full CP subtraction gives a different
+answer from proportional allocation of CP. Neither convention is silently chosen.
+
+Finite parameters do not guarantee finite energy arithmetic. The code checks the
+derived excess coefficients, positive/zero adjustments, positive/zero balances
+and total energy before labelling physical validity or emitting a response.
+Any nonfinite derived energy raises ValueError. Regressions exercise overflowing
+delta, positive adjustment/balance, zero coefficient/adjustment and total balance,
+including theta=1e308 on the actual1498.171897kWh anchor coefficient. Large finite
+responses remain legal when every derived energy remains finite and the declared
+annual energy balances are physical; no arbitrary transfer upper bound is added.
+
+The CP replacement families remove/replace **positive-period CP only**. Their
+full-year totals still include the separately handled zero-period power with z=1
+in the displayed examples. Changing z changes that separate zero-period excess;
+it does not change the CP replacement coefficient. These families are not a
+replacement of all-year pump power and do not double-add a zero-period CP term.
+The output carries the explicit scope marker
+`POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z`.
+
+Post-correction verification uses46 targeted/data tests and734 B05 tests with no
+skips, plus registry validation. The previous paired full-Windows run and its
+exact counts above are retained as historical evidence, not relabelled as a new
+complete run. Post-edit discovery and coverage are separately recorded; the two
+new negative regressions and all affected B05 tests run on the corrected source.
+No permissions, downloads, unrelated platform tests or model-admission flags are
+changed. A new private review package preserves the first package and identities.

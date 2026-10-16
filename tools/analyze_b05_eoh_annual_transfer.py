@@ -13,6 +13,7 @@ import hashlib
 import io
 import json
 import math
+import random
 import shutil
 import zipfile
 from collections import Counter, defaultdict, deque
@@ -1373,6 +1374,247 @@ def run(additive, handoff, output):
     print(f'Annual transfer decision: {decision["status"]}; all outputs saved to {output}', flush=True)
 
 
+def month_kernel(target_month, donor_month, bandwidth):
+    distance=abs(int(target_month)-int(donor_month));distance=min(distance,12-distance)
+    if bandwidth==0:return float(distance==0)
+    return 1. if bandwidth is None else math.exp(-.5*(distance/bandwidth)**2)
+
+
+def weighted_cell(ambient,load,duty):
+    return transfer_cell(ambient,load,True)+(comparison.band(duty,DUTY_EDGES),)
+
+
+def weighted_donors(prior):
+    accepted=[];excluded=Counter()
+    with gzip.open(Path(prior)/'eoh2074_60min_offset0_segments.csv.gz','rt',encoding='utf-8',newline='') as f:
+        for text in csv.DictReader(f):
+            reason=None
+            if text['temperature_proxy']!='heating_temperature_indicated_not_service_proven':reason='NON_STABLE_SH_ENDPOINTS'
+            elif float(text['H_kWh'])<=1e-8:reason='NONPOSITIVE_HEAT'
+            elif int(text['negative_heat_steps']):reason='SIGNED_NEGATIVE_HEAT_PRESENT'
+            elif not text['reference_kWh'] or text['source_status_before_aggregation']!='SUPPORTED':reason='OUTSIDE_REFERENCE_SUPPORT'
+            elif float(text['E_kWh'])<0:reason='SIGNED_NEGATIVE_E_AGGREGATE'
+            if reason:excluded[reason]+=1;continue
+            r={k:float(text[k]) for k in ('H_kWh','E_kWh','hours','active_kWh','inertia_kWh','idle_kWh','load_over_min',
+                 'endpoint_proxy_mean_ambient_C','endpoint_proxy_mean_flow_C','stage_on_fraction')}
+            r['ref_var']=r['active_kWh']+r['inertia_kWh']
+            if r['ref_var']<=0:excluded['NONPOSITIVE_REFERENCE_VARIABLE']+=1;continue
+            for c in ('IH','CP'):
+                value=text[f'{c}_kWh_complete_same_mask'];r[c]=float(value) if value else None
+            r.update(year=text['year_current_endpoint'],month=text['month'][5:7],day=text['recorded_start'][:10],
+                     return_C=float(text['endpoint_proxy_mean_return_C']) if text['endpoint_proxy_mean_return_C'] else None)
+            r['cell']=weighted_cell(r['endpoint_proxy_mean_ambient_C'],r['load_over_min'],r['stage_on_fraction'])
+            r['joint_valid']=(r['IH'] is not None and r['CP'] is not None and min(r['IH'],r['CP'])>=0
+                              and r['IH']+r['CP']<=r['E_kWh'])
+            accepted.append(r)
+    return accepted,dict(excluded)
+
+
+def weighted_target_groups(target):
+    groups={}
+    for t in target:
+        if t['generator_H_kWh']<=1e-8:continue
+        key=(t['interval_start_utc'][5:7],weighted_cell(t['ambient_C'],t['load_over_min'],float(t['stage_on_fraction'])))
+        if key not in groups:groups[key]=dict(hours=0,H=0.,V=0.,idle=0.,reference=0.,reference_on_hours=0.)
+        p=groups[key];p['hours']+=1;p['H']+=t['generator_H_kWh'];p['V']+=t['active_kWh']+t['inertia_kWh']
+        p['idle']+=t['idle_kWh'];p['reference']+=t['reference_kWh']
+        p['reference_on_hours']+=float(t['stage_on_fraction'])
+    return groups
+
+
+def target_weighted_coefficients(groups,donors,bandwidth=1.,cohort='ALL_HE',flow_range=None,excluded_year=None,
+                                 block_weights=None,block_days=28,detail=False):
+    selected=[r for r in donors if (cohort!='JOINT_VALID' or r['joint_valid'])
+              and (flow_range is None or flow_range[0]<=r['endpoint_proxy_mean_flow_C']<flow_range[1])
+              and r['year']!=excluded_year]
+    indexed=defaultdict(list)
+    for r in selected:indexed[r['cell']].append(r)
+    totals=dict(supported_hours=0,supported_H_kWh=0.,supported_reference_kWh=0.,target_variable_kWh=0.,target_idle_kWh=0.,
+                whole_coefficient_kWh=0.,donor_idle_coefficient_kWh=0.,IH_coefficient_kWh=0.,CP_coefficient_kWh=0.,
+                CP_fixed_positive_hours_coefficient_kWh=0.,CP_fixed_reference_on_coefficient_kWh=0.)
+    cells=[];state_weights=[]
+    for (month,cell),t in sorted(groups.items()):
+        rows=indexed[cell];values=[]
+        for r in rows:
+            weight=month_kernel(month,r['month'],bandwidth)
+            block=f'{r["year"]}:{(datetime.fromisoformat(r["day"]).timetuple().tm_yday-1)//block_days}'
+            if block_weights is not None:weight*=block_weights[block]
+            if weight>0:values.append((r,weight,block))
+        ref=math.fsum(w*r['ref_var'] for r,w,_ in values)
+        result=dict(month=month,ambient_bin=cell[0],reference_load_bin=cell[1],reference_duty_bin=cell[3],
+                    target_hours=t['hours'],target_H_kWh=t['H'],supported=ref>0)
+        if ref<=0:cells.append(result);continue
+        coefficients={k:math.fsum(w*r[c] for r,w,_ in values)/ref*t['V'] for k,c in
+                      (('whole_coefficient_kWh','E_kWh'),('donor_idle_coefficient_kWh','idle_kWh'))}
+        if cohort=='JOINT_VALID':
+            for c in ('IH','CP'):coefficients[f'{c}_coefficient_kWh']=math.fsum(w*r[c] for r,w,_ in values)/ref*t['V']
+            cp_power=math.fsum(w*r['CP'] for r,w,_ in values)/math.fsum(w*r['hours'] for r,w,_ in values)
+            coefficients['CP_fixed_positive_hours_coefficient_kWh']=t['hours']*cp_power
+            coefficients['CP_fixed_reference_on_coefficient_kWh']=t['reference_on_hours']*cp_power
+        else:
+            coefficients.update(IH_coefficient_kWh=None,CP_coefficient_kWh=None,
+                CP_fixed_positive_hours_coefficient_kWh=None,CP_fixed_reference_on_coefficient_kWh=None)
+        for k,v in coefficients.items():
+            if v is not None:totals[k]+=v
+        for k,v in (('supported_hours',t['hours']),('supported_H_kWh',t['H']),('supported_reference_kWh',t['reference']),
+                    ('target_variable_kWh',t['V']),('target_idle_kWh',t['idle'])):totals[k]+=v
+        shares=[w*r['ref_var']/ref for r,w,_ in values]
+        result.update(coefficients,donor_segments=len(values),donor_hours=math.fsum(r['hours'] for r,_,_ in values),
+                      kernel_weighted_donor_hours=math.fsum(w*r['hours'] for r,w,_ in values),donor_blocks=len({b for _,_,b in values}),
+                      donor_segment_reference_weight_effective_n=1/math.fsum(w*w for w in shares),
+                      target_variable_kWh=t['V'],target_idle_kWh=t['idle'])
+        cells.append(result)
+        if detail:
+            states=defaultdict(float)
+            for (r,w,_),share in zip(values,shares):
+                state=(r['year'],r['month'],comparison.band(r['endpoint_proxy_mean_flow_C'],(-math.inf,25,30,35,40,45,50,53,57,60,math.inf)),
+                       comparison.band(r['return_C'],(-math.inf,*range(10,66,5),math.inf)),
+                       comparison.band(r['hours'],(-math.inf,.25,.5,.75,1.000001,math.inf)))
+                states[state]+=share
+            state_weights.extend(dict(target_month=month,ambient_bin=cell[0],reference_load_bin=cell[1],reference_duty_bin=cell[3],
+                donor_year=k[0],donor_month=k[1],donor_flow_bin_C=k[2],donor_return_bin_C=k[3],observation_duration_bin_hours=k[4],
+                conditional_donor_reference_share=v,target_variable_exposure_kWh=v*t['V'],
+                share_status='ASS_CONDITIONAL_DONOR_MARGINALIZATION_NOT_OBSERVED_TARGET_SHARES') for k,v in sorted(states.items()))
+    totals['complete_positive_target']=totals['supported_hours']==sum(t['hours'] for t in groups.values())
+    totals['positive_excess_kWh']=totals['whole_coefficient_kWh']-totals['donor_idle_coefficient_kWh']-totals['target_variable_kWh']
+    if cohort!='JOINT_VALID':totals.update(IH_coefficient_kWh=None,CP_coefficient_kWh=None,
+        CP_fixed_positive_hours_coefficient_kWh=None,CP_fixed_reference_on_coefficient_kWh=None)
+    return totals,cells,state_weights
+
+
+def conditional_response(coefficients,reference_total,zero_observed,zero_reference,*,theta=1.,service_share=1.,IH_excluded=0.,CP_excluded=0.,zero_transfer=1.):
+    """Response, not fitted W55/service parameters or a finite uncertainty bound."""
+    pars=(theta,service_share,IH_excluded,CP_excluded,zero_transfer)
+    if not all(math.isfinite(x) for x in pars):raise ValueError('finite conditional parameters required')
+    if not all(0<=x<=1 for x in (service_share,IH_excluded,CP_excluded)):raise ValueError('accounting shares outside [0,1]')
+    if service_share<1 and (IH_excluded>0 or CP_excluded>0):
+        raise ValueError('service allocation and component exclusions are separate sensitivities; mixed allocation is undefined')
+    for c,share in (('IH',IH_excluded),('CP',CP_excluded)):
+        if share and coefficients[f'{c}_coefficient_kWh'] is None:raise ValueError('component share requires exact joint-valid cohort')
+    delta=(service_share*coefficients['whole_coefficient_kWh']-IH_excluded*(coefficients['IH_coefficient_kWh'] or 0.)
+           -CP_excluded*(coefficients['CP_coefficient_kWh'] or 0.)-coefficients['donor_idle_coefficient_kWh']-coefficients['target_variable_kWh'])
+    zero_excess=zero_observed-zero_reference
+    positive_adjustment=theta*delta;zero_adjustment=zero_transfer*zero_excess
+    positive_balance=reference_total-zero_reference+positive_adjustment
+    zero_balance=zero_reference+zero_adjustment
+    value=reference_total+positive_adjustment+zero_adjustment
+    if not all(math.isfinite(x) for x in (delta,zero_excess,positive_adjustment,zero_adjustment,positive_balance,zero_balance,value)):
+        raise ValueError('nonfinite derived energy balance')
+    physical=(positive_balance>0 and zero_balance>=0)
+    return dict(conditional_known_response_kWh=value,conditional_annual_kWh=value if coefficients['complete_positive_target'] and physical else None,
+                physical_response=physical,
+                physical_response_scope='ANNUAL_POSITIVE_AND_ZERO_ENERGY_BALANCES_ONLY_NOT_HOURLY_ADMISSION',
+                positive_excess_coefficient_kWh=delta,zero_excess_coefficient_kWh=zero_excess,
+                is_population_confidence_interval=False,central_E2_selected=False)
+
+
+def run_target_weighted(additive,handoff,prior,assessment,output):
+    spec=json.loads(MANIFEST.read_text(encoding='utf-8'));cfg=spec['target_weighted_assessment']
+    prior,assessment,output,additive,handoff=map(lambda p:Path(p).resolve(),(prior,assessment,output,additive,handoff))
+    if any(output==p or output.is_relative_to(p) for p in (ROOT,prior,assessment,additive,handoff)):raise ValueError('new separate output required')
+    verify_additive(additive,spec)
+    comparison.verify_handoff(handoff,json.loads((ROOT/'registry/b05_eoh_comparison_support_manifest.json').read_text())['input_binding'])
+    for folder,expected in ((prior,cfg['prior_R1_manifest_sha256']),(assessment,cfg['prior_R2_manifest_sha256'])):
+        if digest(folder/'INPUT_CODE_OUTPUT_MANIFEST.json')!=expected:raise ValueError('prior output manifest mismatch')
+        for r in json.loads((folder/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())['outputs']:
+            p=(folder/r['path']).resolve()
+            if not p.is_relative_to(folder) or digest(p)!=r['sha256']:raise ValueError('prior numerical output changed')
+    for p,h in spec['protected_sha256'].items():
+        if digest(ROOT/p)!=h:raise ValueError('protected runtime changed')
+    target=assessment_target(prior);groups=weighted_target_groups(target)
+    reference=math.fsum(t['reference_kWh'] for t in target)
+    legacy=json.loads((assessment/'AGGREGATE_E2_ASSESSMENT.json').read_text())['designated_conditional_kWh']
+    if not math.isclose(reference,2472.633793065277,abs_tol=1e-7) or not math.isclose(legacy,4003.3949236948883,abs_tol=1e-7):raise ValueError('preserved numerical baseline changed')
+    output.mkdir(parents=True,exist_ok=False)
+    donors,excluded=weighted_donors(prior)
+    zero=next(r for r in csv_rows(assessment/'zero_heat_target_month_transport_by_year.csv') if r['donor_year']=='ALL_YEARS_POOLED')
+    zero_observed=float(zero['conditional_annual_E_kWh']);zero_reference=math.fsum(t['idle_kWh'] for t in target if t['generator_H_kWh']<=1e-8)
+    variants=[];anchor=None;anchor_cells=None
+    for cohort in ('ALL_HE','JOINT_VALID'):
+        for bandwidth in (0.,1.,3.,None):
+            for flow_range in (None,(25,35),(25,30),(30,35),(53,57)):
+                c,cells,states=target_weighted_coefficients(groups,donors,bandwidth,cohort,flow_range,detail=(cohort=='ALL_HE' and bandwidth==1. and flow_range is None))
+                case=f'{cohort}:month_kernel_{bandwidth}:flow_{flow_range}'
+                response=conditional_response(c,c['supported_reference_kWh']+zero_reference,zero_observed,zero_reference)
+                variants.append(dict(case=case,cohort=cohort,bandwidth_months=bandwidth,flow_range=str(flow_range),**c,**response,
+                                     zero_observed_kWh=zero_observed,zero_reference_kWh=zero_reference,reference_total_kWh=reference))
+                if cohort=='ALL_HE' and bandwidth==1. and flow_range is None:
+                    anchor=c;anchor_cells=cells
+                    write_csv(output/'target_cell_conditional_donor_state_shares.csv',states)
+                    write_csv(output/'target_month_ambient_load_reference_duty_cells.csv',cells)
+    write_csv(output/'declared_month_pooling_flow_accounting_responses.csv',variants)
+    leave_year=[]
+    for year in ('2021','2022','2023'):
+        c,_,_=target_weighted_coefficients(groups,donors,excluded_year=year)
+        leave_year.append(dict(excluded_year=year,**c,**conditional_response(c,c['supported_reference_kWh']+zero_reference,zero_observed,zero_reference)))
+    write_csv(output/'leave_one_donor_year_out_conditional_responses.csv',leave_year)
+    monthly=[]
+    for month in sorted({k[0] for k in groups}):
+        chosen={k:v for k,v in groups.items() if k[0]==month}
+        c,_,_=target_weighted_coefficients(chosen,donors)
+        monthly.append(dict(month=month,**c,conditional_positive_E_kWh=c['supported_reference_kWh']+c['positive_excess_kWh'],
+                            target_positive_hours=sum(p['hours'] for p in chosen.values()),target_H_kWh=math.fsum(p['H'] for p in chosen.values())))
+    write_csv(output/'target_monthly_positive_energy_and_support.csv',monthly)
+    # Positive multipliers preserve support; these are within-one-installation
+    # block reweighting diagnostics, not a calibrated confidence interval.
+    sampling=[];rng=random.Random(cfg['sampling_seed'])
+    for block_days in (14,28,56):
+        blocks=sorted({f'{r["year"]}:{(datetime.fromisoformat(r["day"]).timetuple().tm_yday-1)//block_days}' for r in donors})
+        for iteration in range(cfg['sampling_replicates']):
+            weights={b:rng.expovariate(1.) for b in blocks}
+            c,_,_=target_weighted_coefficients(groups,donors,block_weights=weights,block_days=block_days)
+            sampling.append(dict(block_days=block_days,iteration=iteration,blocks=len(blocks),supported_hours=c['supported_hours'],
+                **conditional_response(c,c['supported_reference_kWh']+zero_reference,zero_observed,zero_reference)))
+    write_csv(output/'within_installation_block_multiplier_responses.csv',sampling)
+    sampling_summary=[]
+    for days in (14,28,56):
+        values=sorted(r['conditional_annual_kWh'] for r in sampling if r['block_days']==days and r['conditional_annual_kWh'] is not None)
+        sampling_summary.append(dict(block_days=days,replicates=cfg['sampling_replicates'],complete_replicates=len(values),
+            q05=values[int(.05*(len(values)-1))] if values else None,q50=values[int(.5*(len(values)-1))] if values else None,
+            q95=values[int(.95*(len(values)-1))] if values else None,interpretation='CONDITIONAL_WITHIN_DONOR_REWEIGHTING_QUANTILES_NOT_POPULATION_CI'))
+    joint=next(r for r in variants if r['cohort']=='JOINT_VALID' and r['bandwidth_months']==1. and r['flow_range']=='None')
+    joint_whole=conditional_response(joint,reference,zero_observed,zero_reference)
+    joint_no_cp=conditional_response(joint,reference,zero_observed,zero_reference,CP_excluded=1.)
+    cp_replacement=[]
+    for basis in ('CP_fixed_positive_hours_coefficient_kWh','CP_fixed_reference_on_coefficient_kWh'):
+        cp_replacement.append(dict(status='SCN_COMPONENT_MAPPING_NOT_ADMITTED',basis=basis,
+            CP_replacement_scope='POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z',
+            same_mask_whole_kWh=joint_whole['conditional_annual_kWh'],same_mask_CP_removed_kWh=joint_no_cp['conditional_annual_kWh'],
+            source_CP_variable_transport_kWh=joint['CP_coefficient_kWh'],replacement_power_ratio_coefficient_kWh=joint[basis],
+            conditional_p_equals1_kWh=joint_no_cp['conditional_known_response_kWh']+joint[basis],
+            target_power_ratio_p='UNIDENTIFIED_NONNEGATIVE_NO_FINITE_UPPER_BOUND',
+            reference_on_is_measured_pump_runtime=False,compressor_energy_identified=False))
+    write_csv(output/'CP_fixed_power_replacement_conditional_family.csv',cp_replacement)
+    response_examples=[]
+    for theta,s,ih,cp,z in ((0.,1.,0.,0.,1.),(1.,1.,0.,0.,1.),(1.1,1.,0.,0.,1.),(1.,.99,0.,0.,1.),
+                           (1.,1.,1.,0.,1.),(1.,1.,0.,1.,1.),(1.,1.,0.,0.,0.)):
+        cohort=joint if ih or cp else anchor
+        response_examples.append(dict(theta=theta,SH_electricity_share=s,IH_excluded_share=ih,CP_excluded_share=cp,zero_transfer=z,
+                                      cohort='JOINT_VALID' if ih or cp else 'ALL_HE',**conditional_response(cohort,reference,zero_observed,zero_reference,
+                                      theta=theta,service_share=s,IH_excluded=ih,CP_excluded=cp,zero_transfer=z)))
+    write_csv(output/'conditional_parameter_response_examples_not_bounds.csv',response_examples)
+    result=dict(status='CONDITIONAL_RESPONSE_FAMILY_NO_IDENTIFIED_E2_CENTRAL',selected_central_kWh=None,
+        reference_kWh=reference,preserved_conditional_route_kWh=legacy,anchor_coefficients=anchor,
+        conditional_anchor=conditional_response(anchor,reference,zero_observed,zero_reference),
+        zero_observed_kWh=zero_observed,zero_reference_kWh=zero_reference,zero_target_hours=int(float(zero['supported_hours'])),
+        within_donor_sampling=sampling_summary,donor_excluded_segment_counts=excluded,accepted_donor_segments=len(donors),
+        joint_accounting_coefficients=joint,CP_replacement_family=cp_replacement,
+        donor_installations=1,target_state_shares_observed=False,parameter_domain=cfg['parameter_domain'],
+        boundary=cfg['boundary'],formula='E_ref + theta*(s*C_whole-alpha*C_IH-beta*C_CP-C_donor_idle-V_target) + z*(Z_observed-I_zero)',
+        sensitivities=dict(per_unit_theta_kWh=anchor['positive_excess_kWh'],per_unit_SH_electricity_share_at_theta1_kWh=anchor['whole_coefficient_kWh'],
+                           per_unit_IH_exclusion_at_theta1_joint_cohort_kWh=-joint['IH_coefficient_kWh'],
+                           per_unit_CP_exclusion_at_theta1_joint_cohort_kWh=-joint['CP_coefficient_kWh'],
+                           per_unit_zero_transfer_kWh=zero_observed-zero_reference),
+        missing_relationship='Target W55 installed positive-energy residual versus manufacturer-normalized donor residual conditional on modeled duty and actual service/installation state; theta has no evidence-supported finite upper bound. Donor state marginalization is explicit ASS, not observed target shares.',
+        no_finite_total_uncertainty_interval=True,canonical_admission=False)
+    write_json(output/'TARGET_WEIGHTED_RESPONSE_FAMILY.json',result)
+    write_json(output/'INPUT_CODE_OUTPUT_MANIFEST.json',dict(base_main_commit=cfg['base_main_commit'],source_code_sha256=digest(Path(__file__)),
+        source_manifest_sha256=digest(MANIFEST),prior_R1_manifest_sha256=digest(prior/'INPUT_CODE_OUTPUT_MANIFEST.json'),
+        prior_R2_manifest_sha256=digest(assessment/'INPUT_CODE_OUTPUT_MANIFEST.json'),protected_sha256=spec['protected_sha256'],
+        outputs=[dict(path=p.name,bytes=p.stat().st_size,sha256=digest(p)) for p in sorted(output.iterdir()) if p.is_file()]))
+    print(f'Target-weighted conditional anchor: {result["conditional_anchor"]}; no E2 central selected',flush=True)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--additive', type=Path, required=True)
@@ -1380,8 +1622,13 @@ def main():
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--assessment-only', action='store_true')
     p.add_argument('--prior-output', type=Path)
+    p.add_argument('--weighted-only',action='store_true')
+    p.add_argument('--prior-assessment',type=Path)
     a = p.parse_args()
-    if a.assessment_only:
+    if a.weighted_only:
+        if a.prior_output is None or a.prior_assessment is None:p.error('--weighted-only requires --prior-output and --prior-assessment')
+        run_target_weighted(a.additive,a.handoff,a.prior_output,a.prior_assessment,a.output)
+    elif a.assessment_only:
         if a.prior_output is None:p.error('--assessment-only requires --prior-output')
         assess_aggregate_e2(a.additive,a.handoff,a.prior_output,a.output)
     else:
