@@ -1,0 +1,9 @@
+{
+  "base_commit": "c040c13f83077cc20e85d61d042bc5a6a09b89c8",
+  "branch": "agent/circulation-owner-handoff-20261016",
+  "verified_utc": "2026-10-16T13:11:50Z",
+  "file": "registry/v1_research_plan.json",
+  "size": 213717,
+  "sha256": "4b9f34614e12caa82bd5fa4b8ef40583df5d1a561718415043c1a7bed2719ae7",
+  "git_blob": "d33f3cae9d197dbcb018c85088ed9437071fe16d"
+}
