@@ -175,8 +175,64 @@ class EnergyMethodTests(unittest.TestCase):
         conditional = {'mapping': {'status': 'CONDITIONAL', 'source_ids': ['source']}}
         justified = {'mapping': {'status': 'JUSTIFIED_FOR_TARGET', 'source_ids': ['source']}}
         self.assertEqual('SCN_COMPLETE_CONDITIONAL', a.route_qualification(complete=True, physical=True, documented_assumptions=conditional)[0])
-        self.assertEqual('E2_CANDIDATE', a.route_qualification(complete=True, physical=True, documented_assumptions=justified)[0])
+        self.assertEqual('SCN_COMPLETE_CONDITIONAL', a.route_qualification(complete=True, physical=True, documented_assumptions=justified)[0])
         self.assertNotEqual('E2_CANDIDATE', a.route_qualification(complete=False, physical=True, documented_assumptions=justified)[0])
+
+    def test_eight_point_qualification_cannot_leak_between_routes_or_boundaries(self):
+        binding=json.loads(a.MANIFEST.read_text(encoding='utf-8'))['aggregate_assessment']['binding']
+        record=dict(binding=binding,e2_criteria=[dict(criterion=i,verdict='SUPPORTED_PROVISIONAL',
+                    reason='claim-specific applicability assessment',quantitative_or_source_locators=['assessment.csv']) for i in range(1,9)])
+        def qualify(context=binding, records=None, complete=True, physical=True):
+            return a.route_qualification(complete=complete,physical=physical,route_context=context,
+                documented_assumptions={'qualification_records':[record] if records is None else records})[0]
+        self.assertEqual('E2_CANDIDATE',qualify())
+        for key in a.QUALIFICATION_BINDING_KEYS:
+            self.assertNotEqual('E2_CANDIDATE',qualify({**binding,key:'OTHER'}),key)
+        self.assertNotEqual('E2_CANDIDATE',qualify(complete=False))
+        self.assertNotEqual('E2_CANDIDATE',qualify(physical=False))
+        for broken in ([],[record,record], [{**record,'e2_criteria':record['e2_criteria'][:7]}]):
+            self.assertNotEqual('E2_CANDIDATE',qualify(records=broken))
+        for criterion in range(8):
+            bad=copy.deepcopy(record);bad['e2_criteria'][criterion]['reason']=''
+            self.assertNotEqual('E2_CANDIDATE',qualify(records=[bad]))
+            bad=copy.deepcopy(record);bad['e2_criteria'][criterion]['verdict']='CONDITIONAL_NOT_IDENTIFIED'
+            self.assertNotEqual('E2_CANDIDATE',qualify(records=[bad]))
+
+    def test_paired_energy_prediction_keeps_idle_once_and_missing_cells_unknown(self):
+        target=[dict(interval_start_utc='2025-01-01',ambient_C=7.,load_over_min=.3,
+                     generator_H_kWh=1.,reference_kWh=.5,active_kWh=.3,inertia_kWh=.1,idle_kWh=.1)]
+        cell=a.transfer_cell(7.,.3,True)
+        p={cell:dict(variable_ref=.4,variable_E=.8)}
+        pred,_=a.assessment_predict(target,p,{})
+        self.assertAlmostEqual(.9,pred['conditional_annual_E_kWh'])
+        pred,_=a.assessment_predict(target,{},{})
+        self.assertIsNone(pred['conditional_annual_E_kWh'])
+        self.assertEqual(0,pred['supported_hours'])
+
+    def test_documented_mode_does_not_impute_transitions_missing_or_return_channel(self):
+        self.assertEqual('SH_MODE_ENDPOINTS',a.interval_mode(row(),row()))
+        self.assertEqual('DHW_MODE_ENDPOINTS',a.interval_mode(row(F=None,HW=50.),row(F=None,HW=51.)))
+        self.assertEqual('SH_DHW_TRANSITION',a.interval_mode(row(),row(F=None,HW=50.)))
+        self.assertEqual('MISSING_MODE',a.interval_mode(row(F=None,R=48.),row(F=None,R=48.)))
+        self.assertEqual('BOTH_CHANNELS_UNALLOCATED',a.interval_mode(row(HW=50.),row(HW=50.)))
+        self.assertEqual('MODE_BOUNDARY_OR_INCOMPLETE',a.interval_mode(row(),row(F=None)))
+
+    def test_assessment_derives_coverage_and_physical_validity_from_predictions(self):
+        binding=json.loads(a.MANIFEST.read_text(encoding='utf-8'))['aggregate_assessment']['binding']
+        record=dict(binding=binding,e2_criteria=[dict(criterion=i,verdict='SUPPORTED_PROVISIONAL',reason='scoped evidence',
+                    quantitative_or_source_locators=['evidence.csv']) for i in range(1,9)])
+        target=[dict(interval_start_utc='2025-02-01T00:00:00+00:00',generator_H_kWh=1.)]
+        valid=[dict(interval_start_utc=target[0]['interval_start_utc'],supported=True,conditional_E_kWh=.5)]
+        self.assertEqual('E2_CANDIDATE',a.qualify_assessment(target,valid,record)['qualification'])
+        for predictions in ([],valid+valid,[{**valid[0],'supported':False}],
+                            [{**valid[0],'interval_start_utc':'WRONG'}],[{**valid[0],'conditional_E_kWh':None}]):
+            result=a.qualify_assessment(target,predictions,record)
+            self.assertFalse(result['complete'])
+            self.assertNotEqual('E2_CANDIDATE',result['qualification'])
+        for energy in (-1.,0.,float('inf'),float('nan')):
+            result=a.qualify_assessment(target,[{**valid[0],'conditional_E_kWh':energy}],record)
+            self.assertFalse(result['physical'])
+            self.assertNotEqual('E2_CANDIDATE',result['qualification'])
 
     def test_variable_replacement_adds_target_idle_exactly_once(self):
         target = [dict(interval_start_utc='2025-01-01T00:00:00+00:00', ambient_C=7., load_over_min=.3,
@@ -233,6 +289,8 @@ class ManifestAndControlTests(unittest.TestCase):
             lambda m: m['target'].__setitem__('components_included', ['active_rating']),
             lambda m: m['target'].__setitem__('installed_annual_kWh', 3000),
             lambda m: m['non_admission'].__setitem__('central_E2_installed_selected', True),
+            lambda m: m['aggregate_assessment'].__setitem__('prediction_admission_gates', 'HARDCODED_TRUE'),
+            lambda m: m['aggregate_assessment']['season_state_matching'].__setitem__('partial_support_annualized', True),
         ):
             self.assertTrue(self.errors(change))
 
@@ -287,8 +345,12 @@ class LocalIntegrationTests(unittest.TestCase):
 
     def test_output_hash_chain_and_no_central_point(self):
         manifest = json.loads((self.output / 'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
-        self.assertEqual(a.digest(a.MANIFEST), manifest['research_manifest_sha256'])
-        self.assertEqual(a.digest(Path(a.__file__)), manifest['research_code_sha256'])
+        if os.environ.get('B05_E2_ASSESSMENT_OUTPUT'):
+            self.assertEqual(self.spec['aggregate_assessment']['prior_merged_code_sha256'],manifest['research_code_sha256'])
+            self.assertEqual(self.spec['aggregate_assessment']['prior_output_manifest_sha256'],a.digest(self.output/'INPUT_CODE_OUTPUT_MANIFEST.json'))
+        else:
+            self.assertEqual(a.digest(a.MANIFEST), manifest['research_manifest_sha256'])
+            self.assertEqual(a.digest(Path(a.__file__)), manifest['research_code_sha256'])
         for item in manifest['outputs']:
             self.assertEqual(item['sha256'], a.digest(self.output / item['path']))
         decision = json.loads((self.output / 'ANNUAL_TRANSFER_DECISION.json').read_text())
@@ -320,6 +382,73 @@ class LocalIntegrationTests(unittest.TestCase):
         self.assertGreater(math.fsum(float(r['hours']) for r in zero),1000.)
         audit=list(a.csv_rows(self.output/'service_IH_CP_zero_heat_boundary_audit.csv'))
         self.assertGreater(sum(int(r['IH_exceeds_E_segments']) for r in audit if r['aggregation']=='2min_offset0'),0)
+
+
+@unittest.skipUnless(os.environ.get('B05_E2_ASSESSMENT_OUTPUT'), 'optional aggregate assessment outputs')
+class AggregateAssessmentIntegrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.output=Path(os.environ['B05_E2_ASSESSMENT_OUTPUT'])
+
+    def test_assessment_hash_chain_and_exact_qualification(self):
+        manifest=json.loads((self.output/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
+        self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
+        self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
+        for entry in manifest['outputs']:
+            self.assertEqual(entry['sha256'],a.digest(self.output/entry['path']))
+        record=json.loads((self.output/'EXACT_ROUTE_QUALIFICATION_RECORD.json').read_text())
+        self.assertEqual('SCN_COMPLETE_CONDITIONAL',a.route_qualification(complete=True,physical=True,
+            route_context=record['binding'],documented_assumptions={'qualification_records':[record]})[0])
+        claims=list(a.csv_rows(self.output/'claim_specific_eight_point_E2_evidence.csv'))
+        self.assertEqual(40,len(claims))
+        for claim in {r['claim_id'] for r in claims}:
+            self.assertEqual(set(range(1,9)),{int(r['criterion']) for r in claims if r['claim_id']==claim})
+        summary=json.loads((self.output/'AGGREGATE_E2_ASSESSMENT.json').read_text())
+        self.assertTrue(summary['complete'])
+        self.assertTrue(summary['physical'])
+
+    def test_complete_target_replay_and_cohort_conservation(self):
+        weights=list(a.csv_rows(self.output/'designated_route_target_weights.csv'))
+        self.assertEqual(8760,len(weights))
+        self.assertTrue(all(r['supported']=='True' for r in weights))
+        self.assertAlmostEqual(4003.3949236948883,math.fsum(float(r['conditional_E_kWh']) for r in weights),places=7)
+        closure=json.loads((self.output/'IH_timing_cohort_closure.json').read_text())
+        for c in ('H','E','IH'):
+            self.assertAlmostEqual(closure[f'HEI_{c}_kWh'],closure[f'complete_hour_{c}_kWh']+closure[f'complement_{c}_kWh'])
+        ledger=[r for r in a.csv_rows(self.output/'same_mask_service_month_ledgers.csv') if r['mask']=='HP_E_IH']
+        self.assertEqual(closure['HEI_steps'],sum(int(r['steps']) for r in ledger))
+        for c in ('H','E','IH'):
+            self.assertAlmostEqual(closure[f'HEI_{c}_kWh'],math.fsum(float(r[f'{c}_kWh']) for r in ledger),places=7)
+        lag=list(a.csv_rows(self.output/'IH_E_same_mask_lag_diagnostics.csv'))
+        for key in {(r['year'],r['temperature_proxy']) for r in lag}:
+            self.assertEqual(1,len({r['n'] for r in lag if (r['year'],r['temperature_proxy'])==key}))
+        aggregate=list(a.csv_rows(self.output/'IH_E_common_hour_aggregation_diagnostics.csv'))
+        for minutes in ('2','10','30','60'):
+            chosen=[r for r in aggregate if r['aggregation_minutes']==minutes]
+            self.assertAlmostEqual(closure['complete_hour_steps'],sum(int(r['n'])*int(minutes)/2 for r in chosen))
+            for c in ('H','E','IH'):
+                self.assertAlmostEqual(closure[f'complete_hour_{c}_kWh'],math.fsum(float(r[f'{c}_kWh']) for r in chosen),places=7)
+        joint=list(a.csv_rows(self.output/'normalized_joint_year_flow_same_target_cells.csv'))
+        self.assertTrue(any(r['dimension']=='YEAR_WITHIN_FLOW' and int(r['common_target_hours'])>3000
+                            and abs(float(r['right_minus_left_kWh']))>300 for r in joint))
+
+    def test_season_state_matching_has_no_annualization_and_decomposition_closes(self):
+        rows=list(a.csv_rows(self.output/'matched_month_duration_return_duty_target_exposure.csv'))
+        self.assertTrue(rows)
+        for r in rows:
+            original=float(r['original_year_mix_difference_same_target_kWh'])
+            remaining=float(r['remaining_standardized_difference_kWh'])
+            self.assertAlmostEqual(original,remaining+float(r['total_composition_change_kWh']),places=7)
+            self.assertAlmostEqual(float(r['total_composition_change_kWh']),float(r['month_selection_change_kWh'])
+                                   +float(r['within_month_composition_change_kWh']),places=7)
+            self.assertEqual('False',r['annual_extrapolated'])
+            self.assertEqual('False',r['causal_year_or_controller_effect'])
+            if r['exposure']=='TARGET_SAME_MONTH':self.assertLessEqual(int(r['common_target_hours']),31*24)
+        example=next(r for r in rows if r['level']=='MONTH_FLOW_GE45MIN' and r['month']=='02'
+                     and r['flow_bin_C']=='[25,30)' and (r['left_year'],r['right_year'])==('2022','2023')
+                     and r['exposure']=='ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC')
+        self.assertEqual(2962,int(example['common_target_hours']))
+        self.assertAlmostEqual(-415.6655011716441,float(example['remaining_standardized_difference_kWh']),places=7)
 
 
 if __name__ == '__main__':
