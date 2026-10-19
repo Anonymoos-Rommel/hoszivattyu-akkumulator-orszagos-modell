@@ -3342,6 +3342,29 @@ def validate_b05_eoh_annual_transfer(errors: list[str], source_ids: set[str]) ->
                 and matched["exposure_modes"] == ["TARGET_SAME_MONTH", "ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC"],
                 "derived assessment gates and conditional matched-state support without annualization or causal attribution")
         weighted=m["target_weighted_assessment"]
+        cp=m["circulation_identification"]
+        require(cp["reviewed_head"] == "6c72f1aa4988ea645bf16f129fbc7c7db5c27175"
+                and cp["reviewed_tree"] == "b4d56a129b2cc39822579bf4a0a0693a1988d75b"
+                and cp["prior_R1_manifest_sha256"] == "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987"
+                and cp["prior_corrected_weighted_manifest_sha256"] == "2ad924bdff3ee2776ec653121e1c82d21331e0f6b96731c607012bebcea5f104",
+                "CP reviewed checkpoint and preserved numerical identities")
+        topology=cp["topology"]
+        require(set(cp["source_ids"]) <= source_ids and cp["target_pump_kWh"] is None and cp["canonical_admission"] is False
+                and topology["donor"]["PDI"]["TS_Water_Size"] == 150
+                and topology["donor"]["indoor_unit"] is None and topology["donor"]["controller"] is None
+                and topology["donor"]["pump_model"] is None
+                and topology["target"]["target_pump_power_kW"] is None
+                and topology["target"]["actual_pump_runtime_rule"] is None
+                and topology["target"]["annual_pump_substitution_admitted"] is False
+                and topology["candidate_only"]["assigned_to_donor"] is False
+                and topology["candidate_only"]["assigned_to_target"] is False,
+                "CP aggregate metering must not identify an internal pump or assign a candidate target topology")
+        require(cp["aggregation_minutes_offsets"] == [[30,0],[60,0],[60,30],[180,0],[1440,0]]
+                and cp["timing_diagnostics_minutes"] == [-10,-2,0,2,10]
+                and cp["primary_minimum_component_hours"] == .5
+                and topology["report_parent_verified"]["local_PDF_inspected"] is False
+                and topology["report_parent_verified"]["sha256"] is None,
+                "CP accumulated-energy sensitivity and attributed report inspection")
         require(weighted["response_safeguards"] == {
                     "service_component_contract":"REJECT_SERVICE_SHARE_LT1_WITH_POSITIVE_IH_OR_CP_EXCLUSION",
                     "derived_energy_contract":"REJECT_ANY_NONFINITE_DELTA_ADJUSTMENT_POSITIVE_ZERO_OR_TOTAL_BALANCE",
