@@ -774,6 +774,18 @@
               "promising_next_lead": "Use service-only or same-mask component-only sensitivities; mixed partial-service/positive-component exclusions are rejected until an explicit allocation convention is defined. All nonfinite derived energy balances are rejected.",
               "expected_decision_value": "Prevents silent double allocation and overflow-based physical-validity claims; CP replacement is explicitly positive-period only with zero-period power handled independently by z.",
               "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "EOH2074_CONTIGUOUS_CP_ENERGY_IDENTIFICATION_NO_TARGET_PUMP_SUBSTITUTION",
+              "source_families": [
+                "Exact reviewed PR332 checkpoint head6c72f1aa/treeb4d56a12 and preserved corrected package",
+                "Full original EOH2074 telemetry and pinned source references; parent-reviewed report topology/timing facts; local manufacturer standard-pump boundary"
+              ],
+              "remaining_unknown": "Donor positive-SH CP follows elapsed state time near161W: matched180min year-test WAPE0.642099% versus24.594062% reference scaling on1509.033333h/243.039kWh. Full zero-SH CP472.616kWh has weak state-time/year prediction155.009290% WAPE,month-conditioned101.703797%; actual target pump topology/runtime and applicable standard-pump allowance remain unassigned.",
+              "promising_next_lead": "Specify target external-pump functional boundary/control/runtime or qualify an equivalent aggregate mapping; do not assign EHPT20X200L candidate, source aggregate CP or modeled reference duty as target pump hardware/runtime.",
+              "expected_decision_value": "544833 all-four intervals/795.140kWh CP preserved; independent/complement/unallocated-span ledgers close exactly. CP-only nesting violations disappear in accumulated parents,IH-related discrepancies remain. Same-mask positive E-CP-R58.507083kWh does not identify compressor-only electricity or target annual residual.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
             }
           ],
           "reviewed_commit": null
@@ -1083,6 +1095,18 @@
               "remaining_unknown": "AnnualW55/service/pump mapping remains conditional; numerical safeguards do not select a central value. Prior3994.708794kWh anchor and previous packages preserved.",
               "promising_next_lead": "Use service-only or same-mask component-only sensitivities; mixed partial-service/positive-component exclusions are rejected until an explicit allocation convention is defined. All nonfinite derived energy balances are rejected.",
               "expected_decision_value": "Prevents silent double allocation and overflow-based physical-validity claims; CP replacement is explicitly positive-period only with zero-period power handled independently by z.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "EOH2074_CONTIGUOUS_CP_ENERGY_IDENTIFICATION_NO_TARGET_PUMP_SUBSTITUTION",
+              "source_families": [
+                "Exact reviewed PR332 checkpoint head6c72f1aa/treeb4d56a12 and preserved corrected package",
+                "Full original EOH2074 telemetry and pinned source references; parent-reviewed report topology/timing facts; local manufacturer standard-pump boundary"
+              ],
+              "remaining_unknown": "Donor positive-SH CP follows elapsed state time near161W: matched180min year-test WAPE0.642099% versus24.594062% reference scaling on1509.033333h/243.039kWh. Full zero-SH CP472.616kWh has weak state-time/year prediction155.009290% WAPE,month-conditioned101.703797%; actual target pump topology/runtime and applicable standard-pump allowance remain unassigned.",
+              "promising_next_lead": "Specify target external-pump functional boundary/control/runtime or qualify an equivalent aggregate mapping; do not assign EHPT20X200L candidate, source aggregate CP or modeled reference duty as target pump hardware/runtime.",
+              "expected_decision_value": "544833 all-four intervals/795.140kWh CP preserved; independent/complement/unallocated-span ledgers close exactly. CP-only nesting violations disappear in accumulated parents,IH-related discrepancies remain. Same-mask positive E-CP-R58.507083kWh does not identify compressor-only electricity or target annual residual.",
               "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
             }
           ],

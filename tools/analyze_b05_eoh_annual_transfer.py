@@ -1615,6 +1615,282 @@ def run_target_weighted(additive,handoff,prior,assessment,output):
     print(f'Target-weighted conditional anchor: {result["conditional_anchor"]}; no E2 central selected',flush=True)
 
 
+class CPEnergyBlocks:
+    """Contiguous four-counter parent blocks; disjoint state/ref subledgers.
+
+    State subledgers can contain several runs inside one contiguous parent.
+    Missing measured intervals always end a parent; no gaps are filled.
+    """
+    def __init__(self,path,minutes,offset=0):
+        self.path=Path(path);self.minutes=minutes;self.offset=offset
+        self.handle=self.path.open('w',encoding='utf-8',newline='');self.writer=None
+        self.key=None;self.start=None;self.end=None;self.components={};self.number=0
+
+    def add(self,event):
+        end=event['end'];key=(end.strftime('%Y-%m'),int(((end-datetime(1970,1,1)).total_seconds()-1-self.offset*60)//(self.minutes*60)))
+        if self.key is not None and (key!=self.key or event['start']!=self.end):self.flush()
+        if self.key is None:self.key=key;self.start=event['start']
+        self.end=end;k=(event['mode'],event['heat_state'],event['ref_available'])
+        if k not in self.components:
+            self.components[k]=dict(steps=0,H_kWh=0.,E_kWh=0.,CP_kWh=0.,IH_kWh=0.,
+                ref_active_kWh=0.,ref_inertia_kWh=0.,ref_idle_kWh=0.,CP_gt_E_steps=0,CP_gt_E_excess_kWh=0.,
+                CP_IH_gt_E_steps=0,CP_IH_gt_E_excess_kWh=0.,H_negative_steps=0,E_negative_steps=0,CP_negative_steps=0,IH_negative_steps=0)
+        p=self.components[k];p['steps']+=1
+        for c in ('H','E','CP','IH'):
+            p[f'{c}_kWh']+=event[c];p[f'{c}_negative_steps']+=event[c]<-1e-8
+        for c in ('active','inertia','idle'):p[f'ref_{c}_kWh']+=event[f'ref_{c}']
+        p['CP_gt_E_steps']+=event['CP']>event['E']+1e-8;p['CP_gt_E_excess_kWh']+=max(event['CP']-event['E'],0.)
+        p['CP_IH_gt_E_steps']+=event['CP']+event['IH']>event['E']+1e-8;p['CP_IH_gt_E_excess_kWh']+=max(event['CP']+event['IH']-event['E'],0.)
+
+    def flush(self):
+        if self.key is None:return
+        self.number+=1;parent_steps=sum(p['steps'] for p in self.components.values())
+        if not math.isclose((self.end-self.start).total_seconds(),parent_steps*120):raise ValueError('noncontiguous CP parent')
+        for (mode,heat,ref),p in sorted(self.components.items()):
+            row=dict(status='DER_OBSERVED_BLOCK',block_id=self.number,year=self.key[0][:4],month=self.key[0],
+                parent_start=self.start.isoformat(),parent_end=self.end.isoformat(),parent_steps=parent_steps,
+                parent_hours=parent_steps/30,service=mode,heat_state=heat,reference_available=ref,
+                hours=p['steps']/30,**p,reference_kWh=(p['ref_active_kWh']+p['ref_inertia_kWh']+p['ref_idle_kWh']) if ref else None,
+                E_minus_CP_kWh=p['E_kWh']-p['CP_kWh'],E_minus_CP_IH_kWh=p['E_kWh']-p['CP_kWh']-p['IH_kWh'],
+                residual_is_compressor_electricity=False,timezone='RECORDED_TIME_TIMEZONE_Q')
+            if not ref:
+                for c in ('active','inertia','idle'):row[f'ref_{c}_kWh']=None
+            if self.writer is None:self.writer=csv.DictWriter(self.handle,fieldnames=list(row));self.writer.writeheader()
+            self.writer.writerow(row)
+        self.key=None;self.components={};self.start=None;self.end=None
+
+    def close(self):self.flush();self.handle.close()
+
+
+def cp_event(previous,current,delta,reference):
+    complete=all(c in delta for c in ('H','E','CP','IH'))
+    if not complete:return None
+    ref_ok=reference is not None and bool(reference['reference_kWh'])
+    return dict(start=previous['t'],end=current['t'],mode=interval_mode(previous,current),
+        heat_state='POSITIVE' if delta['H']>1e-8 else 'NEGATIVE' if delta['H']<-1e-8 else 'ZERO_WITH_TOLERANCE_1E-8',
+        ref_available=ref_ok,**delta,
+        **{f'ref_{c}':float(reference[f'{c}_kWh']) if ref_ok else 0. for c in ('active','inertia','idle')})
+
+
+def cp_counter_span_ledger(current,first,last,spans):
+    """Keep known counter change across missing rows outside fitted time states."""
+    for c in ('H','E','CP','IH'):
+        if current[c] is None:continue
+        if c not in first:first[c]=(current['t'],current[c])
+        if c in last:
+            start,value=last[c];seconds=(current['t']-start).total_seconds()
+            if seconds!=120:
+                spans.append(dict(channel=c,start=start.isoformat(),end=current['t'].isoformat(),hours=seconds/3600,
+                    signed_counter_change_kWh=current[c]-value,service='UNALLOCATED_VALID_ENDPOINT_SPAN',
+                    used_in_model_fit=False,missing_intervals_imputed=False))
+        last[c]=(current['t'],current[c])
+
+
+def construct_cp_energy_blocks(handoff,prior,output):
+    aggregations=((30,0),(60,0),(60,30),(180,0),(1440,0))
+    writers={f'{m}min_offset{o}':CPEnergyBlocks(output/f'CP_common_blocks_{m}min_offset{o}.csv',m,o) for m,o in aggregations}
+    lag_writers={lag:CPEnergyBlocks(output/f'CP_same_cohort_lag_{lag:+d}min_blocks.csv',180) for lag in (-10,-2,0,2,10)}
+    totals={c:dict(independent_steps=0,independent_kWh=0.,common_steps=0,common_kWh=0.) for c in ('H','E','CP','IH')}
+    masks=Counter();previous=None;recent=deque(maxlen=11);gaps=0;joined=0;lag_steps=0
+    heat_counts=dict(POSITIVE=0,ZERO_WITH_TOLERANCE_1E_8=0,NEGATIVE=0)
+    first_valid={};last_valid={};spans=[];missing_grid_positions=0
+    lag_totals={lag:dict(steps=0,H_kWh=0.,E_kWh=0.,CP_kWh=0.,IH_kWh=0.) for lag in lag_writers}
+    with gzip.open(Path(prior)/'eoh2074_2min_offset0_segments.csv.gz','rt',encoding='utf-8',newline='') as f:
+        refs=iter(csv.DictReader(f));ref=next(refs,None)
+        for current in comparison.parsed_rows(Path(handoff)/'eoh2074/clean/Property_ID=EOH2074.csv'):
+            cp_counter_span_ledger(current,first_valid,last_valid,spans)
+            if previous is None:previous=current;continue
+            delta=comparison.differences(previous,current)
+            if (current['t']-previous['t']).total_seconds()!=120:
+                gaps+=1;missing_grid_positions+=max((current['t']-previous['t']).total_seconds()/120-1,0)
+            masks['+'.join(c for c in ('H','E','CP','IH') if c in delta) or 'NO_ADJACENT_VALID_COUNTER_PAIR']+=1
+            for c in totals:
+                if c in delta:totals[c]['independent_steps']+=1;totals[c]['independent_kWh']+=delta[c]
+            matched=None
+            if all(c in delta for c in ('H','E')):
+                while ref is not None and datetime.fromisoformat(ref['recorded_end'])<current['t']:ref=next(refs,None)
+                if ref is None or datetime.fromisoformat(ref['recorded_end'])!=current['t'] or int(ref['steps'])!=1:
+                    raise ValueError('raw/reference interval join mismatch')
+                for c in ('H','E'):
+                    if not math.isclose(delta[c],float(ref[f'{c}_kWh']),abs_tol=1e-9):raise ValueError('raw/reference energy mismatch')
+                matched=ref;joined+=1
+            event=cp_event(previous,current,delta,matched)
+            if event is not None:
+                heat_counts['ZERO_WITH_TOLERANCE_1E_8' if event['heat_state'].startswith('ZERO') else event['heat_state']]+=1
+                for c in totals:totals[c]['common_steps']+=1;totals[c]['common_kWh']+=delta[c]
+                for writer in writers.values():writer.add(event)
+            recent.append(event)
+            if len(recent)==11 and all(e is not None for e in recent):
+                if (all(recent[i]['end']==recent[i+1]['start'] for i in range(10))
+                    and len({e['end'].strftime('%Y-%m') for e in recent})==1):
+                    centre=recent[5];lag_steps+=1
+                    for lag,writer in lag_writers.items():
+                        shifted={**centre,'CP':recent[5+lag//2]['CP']};writer.add(shifted)
+                        lag_totals[lag]['steps']+=1
+                        for c in totals:lag_totals[lag][f'{c}_kWh']+=shifted[c]
+            previous=current
+    for writer in [*writers.values(),*lag_writers.values()]:writer.close()
+    for c,p in totals.items():
+        p['complement_steps']=p['independent_steps']-p['common_steps'];p['complement_kWh']=p['independent_kWh']-p['common_kWh']
+        p['unallocated_valid_endpoint_span_kWh']=math.fsum(r['signed_counter_change_kWh'] for r in spans if r['channel']==c)
+        p['first_to_last_valid_counter_change_kWh']=last_valid[c][1]-first_valid[c][1]
+        if not math.isclose(p['independent_kWh']+p['unallocated_valid_endpoint_span_kWh'],p['first_to_last_valid_counter_change_kWh'],abs_tol=1e-8):
+            raise ValueError('counter endpoint-span closure mismatch')
+    write_csv(output/'CP_unallocated_valid_counter_spans.csv',spans)
+    closure=dict(channel_masks=totals,interval_mask_counts=dict(masks),heat_state_interval_counts=heat_counts,timestamp_gaps=gaps,raw_HE_reference_joins=joined,
+        missing_two_minute_grid_positions=missing_grid_positions,
+        primary_aggregations=[list(v) for v in aggregations],same_lag_cohort_centres=lag_steps,lag_ledgers=lag_totals,
+        lag_shifts_are_diagnostic_not_applied=True,all_missing_or_negative_states_preserved=True)
+    write_json(output/'CP_masks_gaps_signed_closure.json',closure)
+    return closure
+
+
+def cp_block_rows(path,reference_only=False):
+    merged={}
+    for r in csv_rows(path):
+        if reference_only and r['reference_available']!='True':continue
+        key=(r['block_id'],r['service'],r['heat_state'])
+        if key not in merged:
+            merged[key]={k:r[k] for k in ('block_id','year','month','service','heat_state')}
+            merged[key].update({k:0. for k in ('hours','CP_kWh','E_kWh','H_kWh','IH_kWh','reference_kWh','ref_active_kWh','ref_inertia_kWh','ref_idle_kWh')})
+        p=merged[key]
+        for k in ('hours','CP_kWh','E_kWh','H_kWh','IH_kWh','reference_kWh','ref_active_kWh','ref_inertia_kWh','ref_idle_kWh'):
+            if r[k]!='':p[k]+=float(r[k])
+    return list(merged.values())
+
+
+def fit_cp_energy_model(rows,model):
+    if not rows:return None
+    tt=math.fsum(r['hours']**2 for r in rows);rr=math.fsum(r['reference_kWh']**2 for r in rows)
+    tr=math.fsum(r['hours']*r['reference_kWh'] for r in rows)
+    ty=math.fsum(r['hours']*r['CP_kWh'] for r in rows);ry=math.fsum(r['reference_kWh']*r['CP_kWh'] for r in rows)
+    rank=(tt*rr-tr*tr)/(tt*rr) if tt*rr>0 else 0.
+    if model=='ELAPSED_STATE_TIME':return dict(time_kW=ty/tt,reference_multiplier=0.,relative_determinant=rank) if tt>0 else None
+    if model=='PROPORTIONAL_REFERENCE':return dict(time_kW=0.,reference_multiplier=ry/rr,relative_determinant=rank) if rr>0 else None
+    candidates=[(0.,0.)]
+    if tt>0:candidates.append((max(ty/tt,0.),0.))
+    if rr>0:candidates.append((0.,max(ry/rr,0.)))
+    det=tt*rr-tr*tr
+    if rank>1e-10:
+        a=(ty*rr-ry*tr)/det;b=(ry*tt-ty*tr)/det
+        if a>=0 and b>=0:candidates.append((a,b))
+    a,b=min(candidates,key=lambda p:math.fsum((r['CP_kWh']-p[0]*r['hours']-p[1]*r['reference_kWh'])**2 for r in rows))
+    return dict(time_kW=a,reference_multiplier=b,relative_determinant=rank)
+
+
+def cp_prediction_error(rows,fit):
+    errors=[fit['time_kW']*r['hours']+fit['reference_multiplier']*r['reference_kWh']-r['CP_kWh'] for r in rows]
+    n=len(rows);sse=math.fsum(e*e for e in errors);sae=math.fsum(abs(e) for e in errors)
+    return dict(predicted_blocks=n,predicted_hours=math.fsum(r['hours'] for r in rows),
+        observed_CP_kWh=math.fsum(r['CP_kWh'] for r in rows),observed_abs_CP_kWh=math.fsum(abs(r['CP_kWh']) for r in rows),
+        bias_kWh=math.fsum(errors),squared_error_kWh2=sse,absolute_error_kWh=sae,
+        RMSE_block_kWh=math.sqrt(sse/n) if n else None,MAE_block_kWh=sae/n if n else None)
+
+
+def cp_blocked_predictive_comparisons(path,label):
+    folds=[];fits=[];summaries=[]
+    for cohort in ('ALL_COMMON_STATES','REFERENCE_MATCHED_STATES'):
+        raw=cp_block_rows(path,reference_only=cohort=='REFERENCE_MATCHED_STATES')
+        models=('ELAPSED_STATE_TIME',) if cohort=='ALL_COMMON_STATES' else ('ELAPSED_STATE_TIME','PROPORTIONAL_REFERENCE','NONNEGATIVE_TIME_PLUS_REFERENCE')
+        for minimum in (0.,.5):
+            rows=[r for r in raw if r['hours']>=minimum-1e-12]
+            states=sorted({(r['service'],r['heat_state']) for r in rows})
+            for state in states:
+                selected=[r for r in rows if (r['service'],r['heat_state'])==state]
+                for model in models:
+                    fit=fit_cp_energy_model(selected,model)
+                    if fit is not None:
+                        fits.append(dict(aggregation=label,cohort=cohort,minimum_component_hours=minimum,service=state[0],heat_state=state[1],model=model,
+                            train_blocks=len(selected),train_hours=math.fsum(r['hours'] for r in selected),
+                            observed_CP_kWh=math.fsum(r['CP_kWh'] for r in selected),**fit))
+            for fold_type,field in (('LEAVE_YEAR_OUT','year'),('LEAVE_YEAR_MONTH_OUT','month')):
+                for held in sorted({r[field] for r in rows}):
+                    for state in states:
+                        train=[r for r in rows if r[field]!=held and (r['service'],r['heat_state'])==state]
+                        test=[r for r in rows if r[field]==held and (r['service'],r['heat_state'])==state]
+                        if not test:continue
+                        trained={model:fit_cp_energy_model(train,model) for model in models}
+                        common=all(f is not None for f in trained.values())
+                        for model in models:
+                            metrics=cp_prediction_error(test,trained[model]) if common else cp_prediction_error([],dict(time_kW=0.,reference_multiplier=0.))
+                            folds.append(dict(aggregation=label,cohort=cohort,minimum_component_hours=minimum,fold_type=fold_type,held_block=held,
+                                service=state[0],heat_state=state[1],model=model,eligible_blocks=len(test),
+                                fitted_time_kW=trained[model]['time_kW'] if common else None,
+                                fitted_reference_multiplier=trained[model]['reference_multiplier'] if common else None,
+                                relative_determinant=trained[model]['relative_determinant'] if common else None,
+                                eligible_hours=math.fsum(r['hours'] for r in test),eligible_CP_kWh=math.fsum(r['CP_kWh'] for r in test),
+                                unpredicted_blocks=0 if common else len(test),**metrics))
+                selected_folds=[r for r in folds if r['aggregation']==label and r['cohort']==cohort and r['minimum_component_hours']==minimum and r['fold_type']==fold_type]
+                for service,heat in [*states,('ALL','ALL')]:
+                    for model in models:
+                        chosen=[r for r in selected_folds if r['model']==model and (service=='ALL' or (r['service'],r['heat_state'])==(service,heat))]
+                        if not chosen:continue
+                        keys=('eligible_blocks','eligible_hours','eligible_CP_kWh','unpredicted_blocks','predicted_blocks','predicted_hours','observed_CP_kWh','observed_abs_CP_kWh','bias_kWh','squared_error_kWh2','absolute_error_kWh')
+                        p={k:math.fsum(r[k] for r in chosen) for k in keys};n=p['predicted_blocks']
+                        summaries.append(dict(aggregation=label,cohort=cohort,minimum_component_hours=minimum,fold_type=fold_type,
+                            service=service,heat_state=heat,model=model,**p,RMSE_block_kWh=math.sqrt(p['squared_error_kWh2']/n) if n else None,
+                            WAPE_percent=100*p['absolute_error_kWh']/p['observed_abs_CP_kWh'] if p['observed_abs_CP_kWh'] else None,
+                            inference='WITHIN_ONE_DONOR_BLOCK_PREDICTION_NOT_TARGET_PUMP_IDENTIFICATION'))
+    return folds,fits,summaries
+
+
+def run_cp_identification(additive,handoff,prior,weighted,output):
+    spec=json.loads(MANIFEST.read_text(encoding='utf-8'));cfg=spec['circulation_identification']
+    additive,handoff,prior,weighted,output=map(lambda p:Path(p).resolve(),(additive,handoff,prior,weighted,output))
+    if any(output==p or output.is_relative_to(p) for p in (ROOT,additive,handoff,prior,weighted)):raise ValueError('new separate CP output required')
+    verify_additive(additive,spec)
+    comparison.verify_handoff(handoff,json.loads((ROOT/'registry/b05_eoh_comparison_support_manifest.json').read_text())['input_binding'])
+    for folder,h in ((prior,cfg['prior_R1_manifest_sha256']),(weighted,cfg['prior_corrected_weighted_manifest_sha256'])):
+        if digest(folder/'INPUT_CODE_OUTPUT_MANIFEST.json')!=h:raise ValueError('prior CP input snapshot mismatch')
+        for r in json.loads((folder/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())['outputs']:
+            p=(folder/r['path']).resolve()
+            if not p.is_relative_to(folder) or digest(p)!=r['sha256']:raise ValueError('prior numerical file mismatch')
+    for rel,h in spec['protected_sha256'].items():
+        if digest(ROOT/rel)!=h:raise ValueError('protected runtime changed')
+    output.mkdir(parents=True,exist_ok=False)
+    print('Verified raw telemetry,52 inputs and preserved R1/corrected output hashes',flush=True)
+    closure=construct_cp_energy_blocks(handoff,prior,output)
+    print('Constructed contiguous CP energy parent blocks and signed state/ref subledgers',flush=True)
+    folds=[];fits=[];summaries=[]
+    for path in sorted(output.glob('*blocks*.csv')):
+        label=path.stem.removeprefix('CP_')
+        f,p,s=cp_blocked_predictive_comparisons(path,label);folds.extend(f);fits.extend(p);summaries.extend(s)
+    write_csv(output/'CP_blocked_prediction_folds.csv',folds)
+    write_csv(output/'CP_energy_model_full_observed_fits.csv',fits)
+    write_csv(output/'CP_blocked_prediction_summary.csv',summaries)
+    monthly={}
+    for r in cp_block_rows(output/'CP_common_blocks_180min_offset0.csv'):
+        key=(r['year'],r['month'],r['service'],r['heat_state'])
+        if key not in monthly:monthly[key]={k:0. for k in ('hours','H_kWh','E_kWh','CP_kWh','IH_kWh')}
+        for k in monthly[key]:monthly[key][k]+=r[k]
+    write_csv(output/'CP_observed_year_month_state_balances.csv',[
+        dict(status='DER_OBSERVED_PERIOD_NOT_ANNUALIZED',year=k[0],month=k[1],service=k[2],heat_state=k[3],**p,
+            observed_aggregate_CP_kW=p['CP_kWh']/p['hours'] if p['hours'] else None,
+            E_minus_CP_kWh=p['E_kWh']-p['CP_kWh'],E_minus_CP_IH_kWh=p['E_kWh']-p['CP_kWh']-p['IH_kWh'])
+        for k,p in sorted(monthly.items())])
+    residual=[]
+    for r in cp_block_rows(output/'CP_common_blocks_180min_offset0.csv',reference_only=True):
+        residual.append(dict(status='DER_SIGNED_SAME_MASK',year=r['year'],month=r['month'],service=r['service'],heat_state=r['heat_state'],
+            block_id=r['block_id'],hours=r['hours'],H_kWh=r['H_kWh'],E_kWh=r['E_kWh'],CP_kWh=r['CP_kWh'],IH_kWh=r['IH_kWh'],
+            E_minus_CP_kWh=r['E_kWh']-r['CP_kWh'],E_minus_CP_IH_kWh=r['E_kWh']-r['CP_kWh']-r['IH_kWh'],
+            reference_active_kWh=r['ref_active_kWh'],reference_inertia_kWh=r['ref_inertia_kWh'],reference_idle_kWh=r['ref_idle_kWh'],
+            reference_kWh=r['reference_kWh'],E_minus_CP_minus_reference_kWh=r['E_kWh']-r['CP_kWh']-r['reference_kWh'],
+            residual_is_compressor_energy=False,rating_standard_pump_allowance_identified=False))
+    write_csv(output/'CP_removed_same_mask_reference_residuals.csv',residual)
+    result=dict(status='DONOR_EMPIRICAL_CIRCULATION_RELATIONSHIP_NO_TARGET_SUBSTITUTION',topology=cfg['topology'],
+        masks_and_gaps=closure,primary_comparison=[r for r in summaries if r['aggregation']=='common_blocks_180min_offset0'
+            and r['cohort']=='REFERENCE_MATCHED_STATES' and r['minimum_component_hours']==.5],
+        target_annual_pump_kWh=None,internal_primary_pump_identified=False,canonical_admission=False,
+        rating_overlap='Existing manufacturer reference includes EN14511 standard pump correction. Its kWh contribution is not separately identified; adding measured external CP or all internal auxiliaries to that reference can double-count the allowance. CP-removed E still includes internal auxiliaries and is not compressor electricity.',
+        missing_target_relationship='Target external-pump topology, electrical boundary and P_pump(flow,head,control) integrated over actual service-state runtime, minus the applicable rating pump allowance. Modeled reference duty is not measured pump runtime; donor aggregate CP is not a target pump default.')
+    write_json(output/'CP_EMPIRICAL_IDENTIFICATION.json',result)
+    write_json(output/'INPUT_CODE_OUTPUT_MANIFEST.json',dict(reviewed_head=cfg['reviewed_head'],reviewed_tree=cfg['reviewed_tree'],
+        source_code_sha256=digest(Path(__file__)),source_manifest_sha256=digest(MANIFEST),
+        prior_R1_manifest_sha256=digest(prior/'INPUT_CODE_OUTPUT_MANIFEST.json'),prior_corrected_manifest_sha256=digest(weighted/'INPUT_CODE_OUTPUT_MANIFEST.json'),
+        protected_sha256=spec['protected_sha256'],outputs=[dict(path=p.name,bytes=p.stat().st_size,sha256=digest(p)) for p in sorted(output.iterdir()) if p.is_file()]))
+    print(f'CP empirical analysis complete: {len(summaries)} predictive summaries; target pump energy remains unassigned',flush=True)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--additive', type=Path, required=True)
@@ -1624,8 +1900,13 @@ def main():
     p.add_argument('--prior-output', type=Path)
     p.add_argument('--weighted-only',action='store_true')
     p.add_argument('--prior-assessment',type=Path)
+    p.add_argument('--cp-only',action='store_true')
+    p.add_argument('--prior-weighted',type=Path)
     a = p.parse_args()
-    if a.weighted_only:
+    if a.cp_only:
+        if a.prior_output is None or a.prior_weighted is None:p.error('--cp-only requires --prior-output and --prior-weighted')
+        run_cp_identification(a.additive,a.handoff,a.prior_output,a.prior_weighted,a.output)
+    elif a.weighted_only:
         if a.prior_output is None or a.prior_assessment is None:p.error('--weighted-only requires --prior-output and --prior-assessment')
         run_target_weighted(a.additive,a.handoff,a.prior_output,a.prior_assessment,a.output)
     elif a.assessment_only:

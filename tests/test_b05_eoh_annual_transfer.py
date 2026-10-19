@@ -4,7 +4,8 @@ import json
 import math
 import os
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
+from tempfile import TemporaryDirectory
 from pathlib import Path
 from unittest.mock import patch
 
@@ -293,6 +294,8 @@ class ManifestAndControlTests(unittest.TestCase):
             lambda m: m['aggregate_assessment']['season_state_matching'].__setitem__('partial_support_annualized', True),
             lambda m: m['target_weighted_assessment'].__setitem__('canonical_or_national_admission', True),
             lambda m: m['target_weighted_assessment']['boundary'].__setitem__('modeled_duty_is_measured_controller_state', True),
+            lambda m: m['circulation_identification'].__setitem__('target_pump_kWh',100.),
+            lambda m: m['circulation_identification']['topology']['candidate_only'].__setitem__('assigned_to_donor',True),
         ):
             self.assertTrue(self.errors(change))
 
@@ -469,8 +472,12 @@ class TargetWeightedIntegrationTests(unittest.TestCase):
 
     def test_preserved_reference_complete_support_and_new_output_identity(self):
         manifest=json.loads((self.output/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
-        self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
-        self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
+        if os.environ.get('B05_CP_OUTPUT'):
+            spec=json.loads(a.MANIFEST.read_text(encoding='utf-8'))
+            self.assertEqual(spec['circulation_identification']['prior_corrected_weighted_manifest_sha256'],a.digest(self.output/'INPUT_CODE_OUTPUT_MANIFEST.json'))
+        else:
+            self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
+            self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
         for item in manifest['outputs']:self.assertEqual(item['sha256'],a.digest(self.output/item['path']))
         self.assertEqual(2472.633793065277,self.result['reference_kWh'])
         self.assertAlmostEqual(4003.3949236948883,self.result['preserved_conditional_route_kWh'],places=7)
@@ -509,6 +516,129 @@ class TargetWeightedIntegrationTests(unittest.TestCase):
             self.assertEqual(100,summary['complete_replicates'])
             values=sorted(float(r['conditional_annual_kWh']) for r in sampling if int(r['block_days'])==summary['block_days'])
             self.assertEqual(values[49],summary['q50'])
+
+
+class CPEnergyBlockMethodTests(unittest.TestCase):
+    def event(self,at,**changes):
+        start=datetime.fromisoformat(at)
+        return dict(start=start,end=start+timedelta(minutes=2),mode='SH_MODE_ENDPOINTS',heat_state='POSITIVE',
+            ref_available=True,H=.1,E=.02,CP=.005,IH=.001,ref_active=.01,ref_inertia=.001,ref_idle=.0001,**changes)
+
+    def test_contiguous_parent_preserves_service_sign_reference_and_gap_complements(self):
+        with TemporaryDirectory() as temp:
+            path=Path(temp)/'blocks.csv';writer=a.CPEnergyBlocks(path,60)
+            writer.add(self.event('2022-01-01T00:00:00'))
+            e=self.event('2022-01-01T00:02:00');e.update(mode='DHW_MODE_ENDPOINTS',heat_state='ZERO_WITH_TOLERANCE_1E-8',H=0.,ref_available=False,ref_active=0.,ref_inertia=0.,ref_idle=0.)
+            writer.add(e)
+            e=self.event('2022-01-01T00:08:00');e.update(heat_state='NEGATIVE',H=-.1,E=-.02,CP=-.005,IH=0.,ref_available=False,ref_active=0.,ref_inertia=0.,ref_idle=0.)
+            writer.add(e);writer.close();rows=list(a.csv_rows(path))
+            self.assertEqual(2,len({r['block_id'] for r in rows}))
+            self.assertEqual({'POSITIVE','NEGATIVE','ZERO_WITH_TOLERANCE_1E-8'},{r['heat_state'] for r in rows})
+            self.assertAlmostEqual(.005,math.fsum(float(r['CP_kWh']) for r in rows))
+            negative=next(r for r in rows if r['heat_state']=='NEGATIVE')
+            self.assertEqual('-0.015',negative['E_minus_CP_kWh'])
+            self.assertEqual('',negative['reference_kWh'])
+            self.assertEqual('',negative['ref_idle_kWh'])
+            for r in rows:self.assertEqual('False',r['residual_is_compressor_electricity'])
+            previous=row();current=row(at='2022-01-01T00:02:00')
+            self.assertIsNone(a.cp_event(previous,current,{'H':.1,'E':.02,'CP':.005},None))
+
+    def test_reference_comparison_keeps_the_same_measured_subset(self):
+        with TemporaryDirectory() as temp:
+            path=Path(temp)/'blocks.csv';w=a.CPEnergyBlocks(path,60)
+            w.add(self.event('2022-01-01T00:00:00'))
+            e=self.event('2022-01-01T00:02:00');e.update(ref_available=False,ref_active=0.,ref_inertia=0.,ref_idle=0.)
+            w.add(e);w.close()
+            self.assertAlmostEqual(2/30,a.cp_block_rows(path)[0]['hours'])
+            self.assertAlmostEqual(1/30,a.cp_block_rows(path,reference_only=True)[0]['hours'])
+
+    def test_missing_counter_spans_keep_signed_energy_without_assigning_runtime(self):
+        first={};last={};spans=[]
+        for minute,cp in ((0,1.),(2,1.1),(4,None),(6,1.3),(8,1.2),(10,None),(12,1.1)):
+            r=row(at=f'2022-01-01T00:{minute:02d}:00',CP=cp)
+            a.cp_counter_span_ledger(r,first,last,spans)
+        self.assertEqual(2,len(spans))
+        self.assertAlmostEqual(.2,spans[0]['signed_counter_change_kWh'])
+        self.assertAlmostEqual(-.1,spans[1]['signed_counter_change_kWh'])
+        self.assertTrue(all(not r['used_in_model_fit'] and not r['missing_intervals_imputed'] for r in spans))
+
+    def test_energy_fit_distinguishes_time_and_reference_and_reports_zero_collinearity(self):
+        rows=[dict(hours=t,reference_kWh=r,CP_kWh=.16*t) for t,r in ((1.,.2),(2.,.1),(1.,.7),(2.,1.))]
+        time=a.fit_cp_energy_model(rows,'ELAPSED_STATE_TIME');ref=a.fit_cp_energy_model(rows,'PROPORTIONAL_REFERENCE')
+        self.assertAlmostEqual(.16,time['time_kW'])
+        self.assertLess(a.cp_prediction_error(rows,time)['squared_error_kWh2'],1e-20)
+        self.assertGreater(a.cp_prediction_error(rows,ref)['squared_error_kWh2'],.01)
+        zero=[dict(hours=t,reference_kWh=.015*t,CP_kWh=.05*t) for t in (1.,2.,3.)]
+        joint=a.fit_cp_energy_model(zero,'NONNEGATIVE_TIME_PLUS_REFERENCE')
+        self.assertLess(abs(joint['relative_determinant']),1e-10)
+        self.assertAlmostEqual(0.,a.cp_prediction_error(zero,joint)['squared_error_kWh2'])
+
+    def test_blocked_prediction_does_not_train_on_held_year_or_impute_unknown_states(self):
+        with TemporaryDirectory() as temp:
+            path=Path(temp)/'blocks.csv';rows=[]
+            for i,(year,power) in enumerate((('2021',.1),('2022',.2),('2023',.3))):
+                rows.append(dict(block_id=i,year=year,month=year+'-01',service='SH_MODE_ENDPOINTS',heat_state='POSITIVE',
+                    reference_available=True,hours=1.,CP_kWh=power,E_kWh=.5,H_kWh=1.,IH_kWh=0.,reference_kWh=1.,
+                    ref_active_kWh=1.,ref_inertia_kWh=0.,ref_idle_kWh=0.))
+            rows.append({**rows[-1],'block_id':4,'service':'DHW_MODE_ENDPOINTS'})
+            a.write_csv(path,rows);folds,_,_=a.cp_blocked_predictive_comparisons(path,'synthetic')
+            r=next(r for r in folds if r['fold_type']=='LEAVE_YEAR_OUT' and r['held_block']=='2023'
+                   and r['service']=='SH_MODE_ENDPOINTS' and r['model']=='ELAPSED_STATE_TIME')
+            self.assertAlmostEqual(.15,r['fitted_time_kW']);self.assertAlmostEqual(-.15,r['bias_kWh'])
+            r=next(r for r in folds if r['fold_type']=='LEAVE_YEAR_OUT' and r['held_block']=='2023'
+                   and r['service']=='DHW_MODE_ENDPOINTS' and r['model']=='ELAPSED_STATE_TIME')
+            self.assertEqual(1,r['unpredicted_blocks']);self.assertEqual(0,r['predicted_blocks'])
+
+
+@unittest.skipUnless(os.environ.get('B05_CP_OUTPUT'),'optional full-telemetry CP energy output')
+class CPIdentificationIntegrationTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):cls.output=Path(os.environ['B05_CP_OUTPUT'])
+
+    def test_reviewed_hash_chain_and_no_target_or_internal_pump_assignment(self):
+        manifest=json.loads((self.output/'INPUT_CODE_OUTPUT_MANIFEST.json').read_text())
+        self.assertEqual(a.digest(Path(a.__file__)),manifest['source_code_sha256'])
+        self.assertEqual(a.digest(a.MANIFEST),manifest['source_manifest_sha256'])
+        self.assertEqual('b4d56a129b2cc39822579bf4a0a0693a1988d75b',manifest['reviewed_tree'])
+        for r in manifest['outputs']:self.assertEqual(r['sha256'],a.digest(self.output/r['path']))
+        result=json.loads((self.output/'CP_EMPIRICAL_IDENTIFICATION.json').read_text())
+        self.assertIsNone(result['target_annual_pump_kWh']);self.assertFalse(result['internal_primary_pump_identified'])
+        self.assertIn('standard pump correction',result['rating_overlap'])
+
+    def test_every_aggregation_preserves_full_mask_signed_energy_and_contiguity(self):
+        closure=json.loads((self.output/'CP_masks_gaps_signed_closure.json').read_text())
+        self.assertEqual(544833,closure['channel_masks']['CP']['common_steps'])
+        for channel in ('H','E','CP','IH'):
+            p=closure['channel_masks'][channel]
+            self.assertAlmostEqual(p['independent_kWh'],p['common_kWh']+p['complement_kWh'])
+            self.assertAlmostEqual(p['first_to_last_valid_counter_change_kWh'],p['independent_kWh']+p['unallocated_valid_endpoint_span_kWh'])
+        for path in self.output.glob('CP_common_blocks_*.csv'):
+            rows=list(a.csv_rows(path));self.assertEqual(544833,sum(int(r['steps']) for r in rows))
+            for channel in ('H','E','CP','IH'):
+                self.assertAlmostEqual(closure['channel_masks'][channel]['common_kWh'],math.fsum(float(r[f'{channel}_kWh']) for r in rows),places=7)
+            parents={}
+            for r in rows:
+                p=parents.setdefault(r['block_id'],dict(steps=0,start=r['parent_start'],end=r['parent_end']))
+                p['steps']+=int(r['steps'])
+            for p in parents.values():self.assertAlmostEqual(p['steps']*120,(datetime.fromisoformat(p['end'])-datetime.fromisoformat(p['start'])).total_seconds())
+        ledgers=closure['lag_ledgers']
+        for channel in ('H','E','IH'):
+            self.assertAlmostEqual(0.,max(p[f'{channel}_kWh'] for p in ledgers.values())-min(p[f'{channel}_kWh'] for p in ledgers.values()))
+
+    def test_blocked_error_same_support_and_signed_auxiliary_residual_identity(self):
+        rows=list(a.csv_rows(self.output/'CP_blocked_prediction_summary.csv'))
+        rows=[r for r in rows if r['aggregation']=='common_blocks_180min_offset0' and r['cohort']=='REFERENCE_MATCHED_STATES'
+              and r['minimum_component_hours']=='0.5' and r['fold_type']=='LEAVE_YEAR_OUT'
+              and r['service']=='SH_MODE_ENDPOINTS' and r['heat_state']=='POSITIVE']
+        time=next(r for r in rows if r['model']=='ELAPSED_STATE_TIME');ref=next(r for r in rows if r['model']=='PROPORTIONAL_REFERENCE')
+        self.assertEqual(time['predicted_blocks'],ref['predicted_blocks']);self.assertEqual(time['observed_CP_kWh'],ref['observed_CP_kWh'])
+        self.assertLess(float(time['WAPE_percent']),float(ref['WAPE_percent'])/10)
+        residual=list(a.csv_rows(self.output/'CP_removed_same_mask_reference_residuals.csv'))
+        self.assertTrue(any(float(r['E_minus_CP_IH_kWh'])<0 for r in residual))
+        for r in residual:
+            self.assertAlmostEqual(float(r['E_kWh']),float(r['E_minus_CP_kWh'])+float(r['CP_kWh']))
+            self.assertAlmostEqual(float(r['E_minus_CP_minus_reference_kWh']),float(r['E_minus_CP_kWh'])-float(r['reference_kWh']))
+            self.assertEqual('False',r['residual_is_compressor_energy'])
 
 
 @unittest.skipUnless(os.environ.get('B05_E2_ASSESSMENT_OUTPUT'), 'optional aggregate assessment outputs')
