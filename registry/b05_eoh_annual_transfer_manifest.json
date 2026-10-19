@@ -348,5 +348,117 @@
       "CP_replacement_scope": "POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z",
       "prior_review_zip_sha256": "899ae33fcd91400cef9d5425215a2d087bd5b881f4b68dd56358e8b01504fe55"
     }
+  },
+  "circulation_identification": {
+    "id": "EOH2074_CP_ENERGY_BLOCK_IDENTIFICATION_20261016",
+    "reviewed_head": "6c72f1aa4988ea645bf16f129fbc7c7db5c27175",
+    "reviewed_tree": "b4d56a129b2cc39822579bf4a0a0693a1988d75b",
+    "prior_R1_manifest_sha256": "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987",
+    "prior_corrected_weighted_manifest_sha256": "2ad924bdff3ee2776ec653121e1c82d21331e0f6b96731c607012bebcea5f104",
+    "source_ids": [
+      "SRC-B05-DESNZ-EOH-MONITORING-2024",
+      "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+      "SRC-B02-DESNZ-EOH-PDI-2024",
+      "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+      "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+    ],
+    "topology": {
+      "donor": {
+        "PDI": {
+          "Property_ID": "EOH2074",
+          "HP_Installed": "ASHP",
+          "HP_Installed_Detail": null,
+          "HP_Brand": "Mitsubishi",
+          "HP_Model": "PUZ-WM50VHA-BS",
+          "HP_Size_kW": 5,
+          "HP_Refrigerant": "R32",
+          "MCS_Flow_Temp": 45,
+          "TS_Type": "Water_New",
+          "TS_Water_Size": 150,
+          "HP_Control_Zones": 1
+        },
+        "PDI_provenance": "Locally read registered observed-boundary manifest target.pdi_fields; original PDI workbook is not newly acquired",
+        "indoor_unit": null,
+        "controller": null,
+        "pump_model": null,
+        "CP_meter": "Aggregate of external circulation pumps covered by project CP meter,not heat-pump internal primary pump identity",
+        "heat_meter": "Near HP primary flow/return,measures HP heat output only",
+        "E_meter": "Primary whole-system electrical wiring; documented HP-energy derivation subtracts other metered loads; exact home wiring history uninspected",
+        "IH_meter": "Immersion electricity for primary thermal storage",
+        "mode_scope": "Documented valve-mode-specific temperature-channel endpoints; transitions/missing/both remain unallocated; not measured pump runtime"
+      },
+      "target": {
+        "reference": "Named56m2 WM50 nominalW55 SH reference,2472.633793065277kWh",
+        "indoor_unit": null,
+        "controller": null,
+        "external_pump_topology": null,
+        "actual_pump_runtime_rule": null,
+        "target_pump_power_kW": null,
+        "annual_pump_substitution_admitted": false
+      },
+      "candidate_only": {
+        "configuration": "WM50 + EHPT20X-MHEDW/FTC6,200L",
+        "source_id": "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020",
+        "assigned_to_donor": false,
+        "assigned_to_target": false
+      },
+      "report_parent_verified": {
+        "source_id": "SRC-B05-DESNZ-EOH-MONITORING-2024",
+        "url": "https://esc-production-2021.s3.eu-west-2.amazonaws.com/wp-content/uploads/2024/12/18093557/EoH-Heat-Pump-Performance-Data-Analysis-Report.pdf",
+        "local_PDF_inspected": false,
+        "sha256": null,
+        "inspection_basis": "Parent independent official-source review supplied2026-10-16; not a local report-byte inspection",
+        "facts": [
+          {
+            "locator": "Table4.1 printed26/PDF28",
+            "claim": "CP captures multiple circulation pumps"
+          },
+          {
+            "locator": "section7.3 printed57/PDF59",
+            "claim": "Auxiliaries and pumps inside HP were not separately monitored"
+          },
+          {
+            "locator": "section6.6.2 printed53/PDF55",
+            "claim": "Cleansed two-minute alignment can distort instantaneous power"
+          }
+        ]
+      },
+      "rating_boundary_local_manifest": "registry/b05_wm50_full_grid_manifest.json input_boundary: EN14511-2013 total-unit reference including nominal-table standard pump correction; numerical allowance unknown"
+    },
+    "primary_aggregation_minutes": 180,
+    "aggregation_minutes_offsets": [
+      [
+        30,
+        0
+      ],
+      [
+        60,
+        0
+      ],
+      [
+        60,
+        30
+      ],
+      [
+        180,
+        0
+      ],
+      [
+        1440,
+        0
+      ]
+    ],
+    "timing_diagnostics_minutes": [
+      -10,
+      -2,
+      0,
+      2,
+      10
+    ],
+    "primary_minimum_component_hours": 0.5,
+    "reference_feature": "Sum preserved source-condition2min manufacturer+onoff reference components; reference-missing parts retained separately,not imputed; all-state time model uses full common mask",
+    "validation": "Leave recorded year and recorded year-month blocks out; same reference-compatible test components for time/reference/joint models; observed-period support only",
+    "target_pump_kWh": null,
+    "canonical_admission": false
   }
 }
