@@ -693,3 +693,260 @@ complete run. Post-edit discovery and coverage are separately recorded; the two
 new negative regressions and all affected B05 tests run on the corrected source.
 No permissions, downloads, unrelated platform tests or model-admission flags are
 changed. A new private review package preserves the first package and identities.
+
+
+## Circulation energy identification from full EOH2074 telemetry
+
+This separate local slice starts from reviewed PR332 head
+`6c72f1aa4988ea645bf16f129fbc7c7db5c27175`, tree
+`b4d56a129b2cc39822579bf4a0a0693a1988d75b`. All six reviewed files exactly match
+the preserved corrected package bytes. Both the six-file checkpoint ZIP and a
+separate copy of the unchanged696994byte/a607af1b... reviewed package are retained
+outside this repository. The previous working folder and PR branch/package are
+not edited. Only the same six research files change in a new detached local
+working folder. No publication, new model-value admission or source download is
+part of the slice.
+
+### Equipment and metering boundary
+
+Locally read registered PDI fields identify donor EOH2074 as Mitsubishi
+PUZ-WM50VHA-BS,5kW,R32,design flow45C,one control zone and150L Water_New store.
+The indoor unit, controller, hydraulic role of the store and individual pumps
+are not identified. The named WM50+EHPT20X-MHEDW/FTC6,200L candidate remains a
+candidate only. A product-family pairing document does not assign it to this
+donor or to the target;150L versus200L is not used to infer another hidden
+configuration. The56m2 nominalW55 SH target reference specifies thermal demand
+and a device reference, not an installed external-pump circuit or runtime rule.
+
+Existing local channel-definition extracts bind CP to the circulation meter
+covering multiple pumps, H to the heat meter near HP primary flow/return, E to
+the whole-system electrical meter and IH to immersion electricity associated
+with primary thermal storage. Project-class wiring definitions do not prove the
+home-specific meter nesting or service/control history. The source facts supplied
+by the parent's fresh official review are attributed separately:
+
+- SRC-B05-DESNZ-EOH-MONITORING-2024,Table4.1 printed26/PDF28: CP covers multiple
+  circulation pumps.
+- Same report section7.3 printed57/PDF59: auxiliaries and pumps inside the HP were
+  not separately monitored.
+- Same report section6.6.2 printed53/PDF55: cleansed two-minute alignment can
+  distort instantaneous power.
+
+Official report URL:
+https://esc-production-2021.s3.eu-west-2.amazonaws.com/wp-content/uploads/2024/12/18093557/EoH-Heat-Pump-Performance-Data-Analysis-Report.pdf
+
+These are parent-verified source facts; no local PDF inspection/hash is claimed.
+No dictionary download was retried. The existing hash-verified channel extracts,
+registered PDI snapshot and full telemetry supply this analysis. CP is measured
+aggregate external circulation for this project boundary; it is not identified
+with compressor electricity or an internal primary pump.
+
+The locally read WM50 full-grid manifest states the EN14511-2013 total-unit
+operating-point reference. Its nominal table explicitly includes standard pump
+correction in input/COP. That declared reference therefore cannot be treated as
+a compressor-only baseline and then augmented with every pump/controller term.
+The numerical standard pump allowance at the observed/target operating states
+is not separately identified. No original manufacturer PDF reacquisition is
+claimed; the already registered source/locators and manifest are reused.
+
+### Complete masks, accumulated blocks and signed missingness
+
+All546896 source rows are scanned. Original adjacent120second differences define
+independent H,E,CP,IH masks. The all-four intersection contains **544833 intervals,
+18161.1 observed hours**,5138.530kWh H,2533.961kWh E,**795.140kWh CP** and280.947kWh
+IH. Negative changes are never clipped; this particular common mask contains
+60861 positive-heat and483972 zero-with1e-8tolerance intervals, with zero observed
+negative-heat intervals. Synthetic tests retain negative states and residuals.
+
+Three timestamp gaps account for1449 missing two-minute grid positions. Each
+channel's known change between nonadjacent valid counter endpoints is saved as
+an **unallocated signed span**, not assigned to an operating state or fitted as
+observed runtime. For CP the exact ledger is:
+
+`797.601 first-to-last change =795.140 all-four common +1.934 other adjacent
+valid CP energy +0.527 unallocated nonadjacent endpoint-span energy` kWh.
+
+The analogous H/E/IH closures are saved. Missing samples are not zero; known span
+energy is not lost or silently spread over missing timestamps.545593 H/E intervals
+are independently joined to the hash-bound R1 two-minute source reference; H/E
+increments match within1e-9kWh. No new rating interpolation or altered historical
+reference is introduced.
+
+Contiguous all-four-mask parent blocks end at a gap, recorded month boundary or
+30/60/180/1440minute clock edge; the60min clock is also shifted30min. Parent
+span seconds must equal120 times observed steps. Within each parent, disjoint
+service/heat/reference-availability subledgers preserve SH,DHW,transitions,both,
+missing and incomplete modes. A state subledger can contain several state runs
+inside the contiguous parent; it is not falsely described as a continuous pump
+run. Unknown reference components remain blank, never zero-filled. Fits operate
+on accumulated energy over those subledgers, not instantaneous two-minute power.
+The primary180min comparison requires at least30 accumulated minutes in the
+component; all durations and other aggregations are separately retained as
+sensitivity/support diagnostics.
+
+Two-minute CP exceeds E in211 common intervals, with0.213kWh positive excess.
+After accumulation, **no30/60/180/1440minute contiguous parent** exceeds E by more
+than1e-8kWh in CP alone. This supports using energy blocks for CP reconciliation.
+CP+IH versus E is different:180min parents still have79 excess cases totaling
+184.184kWh; daily parents have43 totaling130.484kWh. Thus this slice does not
+claim that temporal aggregation repairs all IH/meter-boundary inconsistencies.
+No automatic IH subtraction or nonnegative residual clipping is performed.
+
+### Blocked predictive test of time versus reference energy
+
+For each service/heat state, through-origin energy least squares fits either
+`CP_kWh=P_state_kW*elapsed_state_hours` or
+`CP_kWh=k_state*source_reference_kWh`. A nonnegative two-feature time+reference
+fit is an additional nested diagnostic; a nearly rank-deficient design is
+reported, not interpreted as identified components. Source reference includes
+the preserved active/inertia/nonoverlapping-idle terms; it is a modeled reference,
+not measured pump runtime. Time-only fits also use the full common-mask frame
+where a source reference is unavailable. Time/reference comparisons use exactly
+the same reference-compatible measured components and held-out support.
+
+Recorded year and recorded year-month folds are held out in full. No random
+interval split or perfect-year gate is used. Unsupported training states remain
+unpredicted with their observed energy/support visible. This is within-one-
+installation prediction, not a population confidence interval or target control
+validation. The several aggregations reuse observations and are not independent
+replications.
+
+Primary positive SH results (180min parents,component>=30min):
+
+| Held-out blocks | Model | Test components | Test hours | Observed CP kWh | Bias kWh | RMSE/component kWh | WAPE |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Recorded year |Elapsed state time|912|1509.033333|243.039|0.160232|0.002326|0.642099%|
+| Recorded year |Proportional reference|912|1509.033333|243.039|-21.247619|0.087986|24.594062%|
+| Recorded year-month |Elapsed state time|912|1509.033333|243.039|0.147529|0.002222|0.609891%|
+| Recorded year-month |Proportional reference|912|1509.033333|243.039|-19.132962|0.082428|23.106447%|
+
+The full reference-compatible time fit is0.161174kW; the combined nonnegative fit
+selects the same time coefficient and zero reference coefficient. In the full
+common-mask positive SH frame,1639.6h carries263.619kWh CP, mean**160.783W**.
+The all-reference-status time-only year test covers1590.5h/256.300kWh with0.658392%
+WAPE, so the good time relationship is not created only by reference selection.
+These are effective aggregate donor power relationships, not the nameplate or
+identity of one pump.
+
+Aggregation sensitivity on matched positive SH components:
+
+| Parent clock | Common test hours | Time WAPE | Reference WAPE |
+|---|---:|---:|---:|
+|30min|632.5|0.769037%|26.105340%|
+|60min|1296.7|0.694649%|25.709224%|
+|60min shifted30|1287.3|0.665434%|25.867893%|
+|180min|1509.033333|0.642099%|24.594062%|
+|1440min|1545.666667|0.517158%|23.253514%|
+
+Support changes with aggregation; partial totals are not treated as annual
+estimates or compared as if their hours were identical. A fixed539566-centre
+cohort with11 consecutive complete intervals and no month-crossing lag window
+also tests CP shifts-10,-2,0,+2,+10min on identical H/E/IH support. Positive SH
+comparison support is1489.7h. Time WAPE ranges0.499593..1.937413%, versus reference
+24.534356..24.697661%; at zero shift it is0.638168% versus24.578080%. No lag is
+selected as a data correction. All lagged ledgers are diagnostic and separate
+from the original signed counter balances.
+
+### Zero heat is a distinct unresolved control mixture
+
+The full common mask has16092.733333h of SH-mode zero HP heat,472.616kWh CP,
+864.569kWh whole E and270.457kWh IH. The source CP mean is29.368W, but its
+variation is poorly predicted by a constant state-time rate. The full-mask
+>=30min year test covers16007.966667h/465.554kWh CP and has**155.009290% WAPE**;
+month-block prediction has157.600813%. A calendar-month-specific time model
+reduces it to101.703797% on the same support, still inadequate. An ancillary
+nonnegative time+measured-IH-energy predictor gives155.024419% year WAPE and
+adds no useful explanation. These measured-state checks are reproducible in the
+review metrics helper; they are not extra target pump defaults.
+
+The smaller reference-compatible zero frame has1635.133333h/68.540kWh test CP.
+Its time and reference models are exactly equivalent because the zero reference
+is0.015kWh per hour: the joint design cannot identify two separate terms.
+Year WAPE127.513707% is not evidence of an independent reference-energy effect.
+The full-mask time result above avoids hiding most zero-state observations
+behind reference-domain availability.
+
+Substantial circulation when HP heat is zero means source positive heat time
+or modeled stage_on_fraction cannot stand in for pump runtime. The weak zero-
+state prediction remains a control/runtime-mixture question; neither a pure
+standby interpretation nor an inferred pump-off state is assigned. DHW-positive
+observations are separately368.933333h/54.525kWh CP,mean147.791W. Ambiguous and
+transition balances are retained, not half-allocated into SH or DHW.
+
+### CP-removed residual and the standard-pump overlap
+
+On the exact same reference-compatible positive SH mask (1552.233333h), the
+observed/reference energy ledger is:
+
+| Quantity | kWh |
+|---|---:|
+| Whole E |1029.675|
+| CP |249.545|
+| IH |5.215|
+| E minus CP |780.130|
+| Reference active |711.515027|
+| Reference inertia |6.374200|
+| Reference nonoverlapping idle |3.733691|
+| Complete reference R |721.622917|
+| E minus CP minus R |**58.507083**|
+
+The source whole-reference excess is308.052083kWh; its algebraic CP term is
+249.545kWh and the remaining signed term58.507083kWh. This is a measured same-mask
+reconciliation, not a target annual adjustment or compressor-only identification.
+Subtracting IH as well is a separately labelled accounting diagnostic; no mixed
+service-allocation/component exclusion is permitted by the retained API guards.
+On reference-compatible zero SH, E-CP-IH is-142.354kWh and is explicitly retained.
+
+Let A_std be the unknown applicable standard-pump contribution already embedded
+in R. The non-pump residual relative to R-A_std is
+`E-CP-(R-A_std)=(E-CP-R)+A_std`. It is not separately identified merely by measuring
+external CP. For a component-based target reconciliation, the compatible form is
+`E_target=(R_target-A_std_target)+C_external_target+Delta_remaining_target`.
+Changing the applicable allowance by1kWh changes that accounting by-1kWh when
+other terms are held fixed. Neither A_std nor Delta_remaining is defaulted to
+zero. Internal auxiliaries remain in E-CP; the report says they were not
+separately monitored. Therefore adding all external CP or generic internal
+auxiliaries to R without the corresponding allowance/residual reconciliation can
+overlap the standard reference. Existing reference idle is not added or
+subtracted a second time, and positive/zero balances remain separate.
+
+### Target applicability and verification
+
+The useful identification is the donor's approximately161W positive-SH aggregate
+circulation relationship and its low blocked prediction error, together with the
+separately weak zero-state rule and preserved signed energy ledger. It does not
+identify individual pump hardware or a transferable target annual circulation
+value. That target requires an explicit hydraulic/electrical pump boundary and
+`C_target=integral(P_target(flow,head,control,state)*dt)` under a stated actual
+runtime rule, reconciled with the reference allowance and SH/DHW allocation.
+A functional equivalent aggregate/calibrated mapping can qualify without exact
+OEM identity or a universal component-E1 requirement; no such target mapping is
+supplied in this slice. The donor power is not installed as a target default.
+Target annual pump kWh, indoor/controller and internal-primary-pump identity
+remain null/unassigned. Historical2472.633793,4003.394924 and3994.708794kWh results
+and their hash-bound input/output identities remain unchanged.
+
+54 targeted/data tests and742 B05 tests pass with no skips; registry VALID. New
+regressions cover gaps, signed negative states, unknown reference subsets,
+counter-span closure without time imputation, blocked-year training leakage,
+unpredicted state support, reference/time collinearity, all-aggregation energy
+closure, timing-cohort consistency and prohibition on target/internal-pump
+assignment. Post-edit full discovery and coverage are recorded separately.
+The precise earlier paired Windows limitations (same5failures/12errors and B13
+external/tmp timeout,392not started) remain historical; a fresh successful full
+suite is not claimed and no permission or unrelated test is changed to bypass it.
+
+CLI: `--cp-only --prior-output <R1-final> --prior-weighted <corrected-weighted>
+--handoff <original> --additive <additive> --output <new-separate-directory>`.
+Inputs and prior numerical files are fully hash-checked before block construction.
+The review package includes source, data-backed tests, derived block tables,
+predictive errors, topology/source attribution, readable patches and exact hashes.
+
+
+After this analysis the parent confirmed PR332 merged as
+`c040c13f83077cc20e85d61d042bc5a6a09b89c8`, with the identical reviewed tree
+`b4d56a129b2cc39822579bf4a0a0693a1988d75b`. That merge is the content-equivalent
+base for this separate circulation slice. The reported4162passed/17skipped Linux
+CI belongs to PR332, not to these new circulation edits. The frozen reviewed
+head/tree and original package checkpoint remain intact; no branch or publication
+change is made for this slice.
