@@ -1,0 +1,12 @@
+{
+  "id": "SCN-NORMALIZED-365-ENERGY-REFERENCE-20261025",
+  "mode": "NORMALIZED_365_DAY_REFERENCE",
+  "days": 365,
+  "programme_start_anchor": "2028-01-01",
+  "calendar_year": null,
+  "remap_original_timestamps": false,
+  "money": "FROZEN_2026_NOMINAL_HUF",
+  "recurrence_years": null,
+  "payment_dates": null,
+  "decision_ref": "Sentinel_3edee9c757008191a603f883d7495649"
+}

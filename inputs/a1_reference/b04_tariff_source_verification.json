@@ -1,0 +1,55 @@
+{
+  "verification_id": "B04-V1-2026-10-01",
+  "current_listing_url": "https://www.mvmnext.hu/aram/Arak",
+  "sources": [
+    {
+      "source_id": "SRC-B04-MVM-M1-2026",
+      "original_url": "https://www.mvmnext.hu/aram/servlet/download?id=16548&type=file",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "2026-03-01",
+      "authority": "MVM Next",
+      "sha256": "777828acc44c73f266cdafc6f3a1b6d765b7632b523e4c3e07e51b499fefe735",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_DOCUMENT_BYTES_NOT_CLEARED",
+      "scope": "M.1 sections 2.2.3.1, 2.2.4–2.2.5 and 3.1: B Alap, energy components, season and allocation boundary; bundled M.2.2 section 6.10: distributor-supplied seasonal consumption split",
+      "numeric_handling": "Curated tariff facts with attribution; no document/text dump republished"
+    },
+    {
+      "source_id": "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+      "original_url": "https://www.mvmnext.hu/aram/servlet/download?id=16214&type=file",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "VE_Lakossági_Árak_2025/1",
+      "authority": "MVM Next",
+      "sha256": "5a771af5ad6b1f505aca14a2af1c9bf49101f77cc9ccc98b77356fa5d9b039df",
+      "repo_snapshot_path": null,
+      "reuse_status": "EXTERNAL_ONLY_DOCUMENT_BYTES_NOT_CLEARED",
+      "scope": "All four distributor groups; published final prices and fixed/network components",
+      "numeric_handling": "Curated tariff facts with attribution; no document/text dump republished"
+    },
+    {
+      "source_id": "SRC-B04-MEKH-SYSTEM-FEES-2024",
+      "original_url": "https://njt.jog.gov.hu/jogszabaly/2024-10-20-5Z",
+      "retrieved_at": "2026-10-01",
+      "document_revision": "Consolidated text 2026-08-30",
+      "authority": "Official National Legislation Database / MEKH regulation",
+      "sha256": null,
+      "repo_snapshot_path": null,
+      "reuse_status": "Official legal text; no original snapshot archived",
+      "access_status": "Full public rendered text independently rechecked on 2026-10-01; prior direct original HTML request returned 502, so no source-byte hash is claimed",
+      "scope": "Sections 14(1) annual base fee/monthly installments and 26(3),(7) profiled KIF I default/seasonal KIF II exception; supports derived outside-H rate mapping only"
+    }
+  ],
+  "limits": [
+    "No H battery/export or individual site permission",
+    "Profiled outside-H rates derived; exact discounted allocation, period months and annual settlement remain supplied inputs/Q",
+    "Smart-meter H mapping not established by profiled clause",
+    "No future tariff guarantee"
+  ],
+  "outside_h_derivation": {
+    "energy": "M.1 section 3.1 outside-H energy prices equal A1, including common 31.80 net excess rate",
+    "network": "MEKH section 26(3) establishes profiled KIF I default; section 26(7) applies KIF II base and volume rates only October 15–April 15",
+    "rates": "Use published A1 final gross values and 153.035 HUF/month fixed rate; do not reconstruct final rates by summing rounded gross components",
+    "allocation": "M.1 section 2.2.5 states 2523 kWh/year and day-prorating; no H-specific complete worked settlement is implemented. Bundled M.2.2 section 6.10 requires distributor-supplied seasonal consumption split",
+    "status": "DER_RATE_MAPPING_ONLY"
+  }
+}

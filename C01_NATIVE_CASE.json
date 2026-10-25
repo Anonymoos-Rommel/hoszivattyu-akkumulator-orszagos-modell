@@ -1,0 +1,836 @@
+{
+  "__native_record__": "Case",
+  "case_id": "SCN-CASE-C01-WM50-20280101",
+  "mode": "CONDITIONAL_CASE",
+  "intervention_id": "SCN-ONE-NEW-WM50-ACQUISITION",
+  "archetype_id": "SCN-DECLARED-HU-56M2-W55",
+  "region_id": "R1",
+  "transition_ref": "S2_TO_S3",
+  "identity_binding": {
+    "__native_record__": "Reference",
+    "kind": "EXTERNAL_ADMISSION",
+    "ref": "SCN-B12-C01-WM50-T0-20280101-V1:BOUNDED_SCN_IDENTITY_NOT_B01_READINESS",
+    "reason": null,
+    "acquisition_ref": null
+  },
+  "scope": {
+    "__native_record__": "Scope",
+    "scope_id": "SCN-HH1-OUTDOOR-C01",
+    "household_id": "SCN-MODEL-HH1",
+    "shares": {
+      "__tuple__": [
+        {
+          "__native_record__": "PayerShare",
+          "household_id": "SCN-MODEL-HH1",
+          "dwelling_id": "SCN-MODEL-DWELLING1",
+          "role": "OCCUPIER",
+          "cost_share": {
+            "__native_record__": "Scalar",
+            "value": {
+              "__decimal__": "1"
+            },
+            "unit": "ratio",
+            "truth": "SCN",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2028-01-01"
+              },
+              "end": {
+                "__date__": "2028-01-01"
+              }
+            },
+            "basis_id": "SINGLE_MODEL_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+            "evidence_tier": "E3",
+            "admission_ref": null,
+            "reason": null,
+            "acquisition_ref": null
+          },
+          "payment_share": {
+            "__native_record__": "Scalar",
+            "value": null,
+            "unit": "ratio",
+            "truth": "Q",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2028-01-01"
+              },
+              "end": {
+                "__date__": "2028-01-01"
+              }
+            },
+            "basis_id": "PAYMENT_ATTRIBUTION_Q",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": null,
+            "evidence_tier": null,
+            "admission_ref": null,
+            "reason": "Actual payment share and funding mode not established",
+            "acquisition_ref": "B12-D01"
+          }
+        }
+      ]
+    },
+    "mapping": {
+      "__native_record__": "Reference",
+      "kind": "EXTERNAL_ADMISSION",
+      "ref": "SCN-B12-C01-WM50-T0-20280101-V1:MODEL_HOUSEHOLD_COMPONENT_MAPPING_NOT_LEGAL_TENURE",
+      "reason": null,
+      "acquisition_ref": null
+    }
+  },
+  "population": {
+    "__native_record__": "PopulationBinding",
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "No population inference for one declared model",
+      "acquisition_ref": "B12-D01"
+    },
+    "target": "ONE_DECLARED_MODEL_HOUSEHOLD",
+    "target_unit": "household",
+    "source_unit": "household",
+    "household_dwelling_bridge": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "No population household/dwelling bridge",
+      "acquisition_ref": "B12-D01"
+    },
+    "evidence_class": "Q",
+    "selection": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "missingness": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "weighting": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "estimator": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "diagnostics": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "uncertainty": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "structural_sensitivity": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Population inference not admitted",
+      "acquisition_ref": "B12-D01"
+    },
+    "reference_period": {
+      "__native_record__": "Period",
+      "start": {
+        "__date__": "2028-01-01"
+      },
+      "end": {
+        "__date__": "2028-01-01"
+      }
+    }
+  },
+  "baseline_id": "SCN-BASELINE-NO-NEW-WM50",
+  "programme_id": "SCN-PROGRAMME-ONE-NEW-WM50",
+  "as_of": {
+    "__date__": "2026-10-23"
+  },
+  "physical_reference_period": {
+    "__native_record__": "Period",
+    "start": {
+      "__date__": "2025-01-01"
+    },
+    "end": {
+      "__date__": "2025-12-31"
+    }
+  },
+  "evaluation_period": {
+    "__native_record__": "Period",
+    "start": {
+      "__date__": "2028-01-01"
+    },
+    "end": {
+      "__date__": "2028-01-01"
+    }
+  },
+  "reporting_periods": {
+    "__tuple__": [
+      {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      }
+    ]
+  },
+  "time_grain": "DATED",
+  "service_basis_ref": "SPACE_HEATING_ONLY_RETAINED_W55_REFERENCE",
+  "monetary_basis": {
+    "__native_record__": "MoneyBasis",
+    "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+    "currency": "HUF",
+    "nominal_real": "NOMINAL",
+    "price_date": {
+      "__date__": "2026-10-21"
+    },
+    "convention": {
+      "__native_record__": "Reference",
+      "kind": "EXTERNAL_ADMISSION",
+      "ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+      "reason": null,
+      "acquisition_ref": null
+    }
+  },
+  "other_bases": {
+    "__tuple__": []
+  },
+  "conversions": {
+    "__tuple__": []
+  },
+  "costs": {
+    "__native_record__": "Section",
+    "state": "ROWS",
+    "rows": {
+      "__tuple__": [
+        {
+          "__native_record__": "Cost",
+          "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+          "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+          "leg": "programme",
+          "component_id": "C01",
+          "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+          "phase_ref": "S2_TO_S3",
+          "category": "INITIAL_CAPEX",
+          "quantity": {
+            "__native_record__": "Scalar",
+            "value": {
+              "__decimal__": "1"
+            },
+            "unit": "item",
+            "truth": "SCN",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2028-01-01"
+              },
+              "end": {
+                "__date__": "2028-01-01"
+              }
+            },
+            "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+            "evidence_tier": "E3",
+            "admission_ref": null,
+            "reason": null,
+            "acquisition_ref": null
+          },
+          "gross": {
+            "__native_record__": "Scalar",
+            "value": {
+              "__decimal__": "1220781"
+            },
+            "unit": "HUF",
+            "truth": "SCN",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2026-10-21"
+              },
+              "end": {
+                "__date__": "2026-10-21"
+              }
+            },
+            "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+            "source_ids": {
+              "__tuple__": [
+                "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+              ]
+            },
+            "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+            "evidence_tier": "E2",
+            "admission_ref": "USE-C01-WM50-SCN-T0-20261023",
+            "reason": null,
+            "acquisition_ref": null
+          },
+          "net": {
+            "__native_record__": "Scalar",
+            "value": null,
+            "unit": "HUF",
+            "truth": "Q",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2026-10-21"
+              },
+              "end": {
+                "__date__": "2026-10-21"
+              }
+            },
+            "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": null,
+            "evidence_tier": null,
+            "admission_ref": null,
+            "reason": "net not established",
+            "acquisition_ref": "B12-D01"
+          },
+          "vat": {
+            "__native_record__": "Scalar",
+            "value": null,
+            "unit": "HUF",
+            "truth": "Q",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2026-10-21"
+              },
+              "end": {
+                "__date__": "2026-10-21"
+              }
+            },
+            "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": null,
+            "evidence_tier": null,
+            "admission_ref": null,
+            "reason": "vat not established",
+            "acquisition_ref": "B12-D01"
+          },
+          "vat_representation": "GROSS_ONLY",
+          "tax_treatment": {
+            "__native_record__": "Reference",
+            "kind": "Q",
+            "ref": null,
+            "reason": "tax treatment not established",
+            "acquisition_ref": "B12-D01"
+          },
+          "eligible_gross": {
+            "__native_record__": "Scalar",
+            "value": null,
+            "unit": "HUF",
+            "truth": "Q",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2026-10-21"
+              },
+              "end": {
+                "__date__": "2026-10-21"
+              }
+            },
+            "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": null,
+            "evidence_tier": null,
+            "admission_ref": null,
+            "reason": "eligible subset not established",
+            "acquisition_ref": "B12-D01"
+          },
+          "eligibility_rule": {
+            "__native_record__": "Reference",
+            "kind": "Q",
+            "ref": null,
+            "reason": "eligibility not established",
+            "acquisition_ref": "B12-D01"
+          },
+          "eligibility_caps": {
+            "__tuple__": []
+          },
+          "period": {
+            "__native_record__": "Period",
+            "start": {
+              "__date__": "2028-01-01"
+            },
+            "end": {
+              "__date__": "2028-01-01"
+            }
+          },
+          "scope_ref": "SCN-HH1-OUTDOOR-C01",
+          "payer": "SCN-MODEL-HH1",
+          "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+          "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+          "inclusion_scope": {
+            "__tuple__": [
+              "outdoor"
+            ]
+          },
+          "procurement_basis": "PROCUREMENT",
+          "attribution": {
+            "__native_record__": "Reference",
+            "kind": "EXTERNAL_ADMISSION",
+            "ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+            "reason": null,
+            "acquisition_ref": null
+          }
+        }
+      ]
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "EXTERNAL_ADMISSION",
+      "ref": "USE-C01-WM50-SCN-T0-20261023",
+      "reason": null,
+      "acquisition_ref": null
+    },
+    "absent_legs": {
+      "__tuple__": [
+        "baseline"
+      ]
+    }
+  },
+  "assets": {
+    "__native_record__": "Section",
+    "state": "ROWS",
+    "rows": {
+      "__tuple__": [
+        {
+          "__native_record__": "Asset",
+          "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+          "leg": "programme",
+          "component_id": "C01",
+          "commissioning_date": {
+            "__date__": "2028-01-01"
+          },
+          "service_life": {
+            "__native_record__": "Scalar",
+            "value": {
+              "__decimal__": "17"
+            },
+            "unit": "year",
+            "truth": "ASS",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2021-04-01"
+              },
+              "end": {
+                "__date__": "2022-04-01"
+              }
+            },
+            "basis_id": "WM50_HU_HEAT_ONLY_MODELED_REFERENCE_LIFE",
+            "source_ids": {
+              "__tuple__": [
+                "SRC-B05-MITSUBISHI-WM50-FTC6-BINDING-2026"
+              ]
+            },
+            "scenario_ref": "ASS-B06-WM50-MODELED-REFERENCE-LIFE-17Y",
+            "evidence_tier": "E2",
+            "admission_ref": "B06-WM50-MODELED-LIFE-E2-001",
+            "reason": null,
+            "acquisition_ref": null
+          },
+          "life_definition": "EXPLICIT_SCENARIO_LIFE",
+          "retired_generation_id": null,
+          "replacement_cost_ids": {
+            "__native_record__": "Section",
+            "state": "Q",
+            "rows": {
+              "__tuple__": []
+            },
+            "authority": {
+              "__native_record__": "Reference",
+              "kind": "Q",
+              "ref": null,
+              "reason": "Replacement schedule remains Q",
+              "acquisition_ref": "B12-D01"
+            },
+            "absent_legs": {
+              "__tuple__": []
+            }
+          },
+          "operating_coverage": {
+            "__native_record__": "Reference",
+            "kind": "Q",
+            "ref": null,
+            "reason": "Operating coverage beyond model start not established",
+            "acquisition_ref": "B12-D01"
+          },
+          "operating_coverage_end": {
+            "__date__": "2028-01-01"
+          },
+          "terminal_kind": "Q",
+          "terminal_value": {
+            "__native_record__": "Scalar",
+            "value": null,
+            "unit": "HUF",
+            "truth": "Q",
+            "reference_period": {
+              "__native_record__": "Period",
+              "start": {
+                "__date__": "2028-01-01"
+              },
+              "end": {
+                "__date__": "2028-01-01"
+              }
+            },
+            "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+            "source_ids": {
+              "__tuple__": []
+            },
+            "scenario_ref": null,
+            "evidence_tier": null,
+            "admission_ref": null,
+            "reason": "Terminal treatment remains Q",
+            "acquisition_ref": "B12-D01"
+          },
+          "terminal_receipt_id": null
+        }
+      ]
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "EXTERNAL_ADMISSION",
+      "ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_NEW_WM50_GENERATION_ONLY",
+      "reason": null,
+      "acquisition_ref": null
+    },
+    "absent_legs": {
+      "__tuple__": [
+        "baseline"
+      ]
+    }
+  },
+  "bills": {
+    "__native_record__": "Section",
+    "state": "Q",
+    "rows": {
+      "__tuple__": []
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Bills not admitted to this initial-event-only case",
+      "acquisition_ref": "B12-D01"
+    },
+    "absent_legs": {
+      "__tuple__": []
+    }
+  },
+  "instruments": {
+    "__native_record__": "Section",
+    "state": "Q",
+    "rows": {
+      "__tuple__": []
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Financing remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "absent_legs": {
+      "__tuple__": []
+    }
+  },
+  "receipts": {
+    "__native_record__": "Section",
+    "state": "Q",
+    "rows": {
+      "__tuple__": []
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Receipts/grants/refunds remain Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "absent_legs": {
+      "__tuple__": []
+    }
+  },
+  "resources": {
+    "__native_record__": "Section",
+    "state": "Q",
+    "rows": {
+      "__tuple__": []
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Income/resources remain Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "absent_legs": {
+      "__tuple__": []
+    }
+  },
+  "required_expenditure_coverage": {
+    "__native_record__": "Reference",
+    "kind": "Q",
+    "ref": null,
+    "reason": "Expenditure coverage remains Q",
+    "acquisition_ref": "B12-D01"
+  },
+  "liquid_assets": {
+    "__native_record__": "Section",
+    "state": "Q",
+    "rows": {
+      "__tuple__": []
+    },
+    "authority": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Opening liquidity remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "absent_legs": {
+      "__tuple__": []
+    }
+  },
+  "policy": {
+    "__native_record__": "Policy",
+    "floor_variable": "VAR-B01-CASH-FLOW-FLOOR",
+    "horizon_variable": "VAR-B01-HORIZON-YEARS",
+    "floor_metric": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Floor metric unresolved",
+      "acquisition_ref": "B12-D01"
+    },
+    "floor_actor": {
+      "__native_record__": "Reference",
+      "kind": "EXTERNAL_ADMISSION",
+      "ref": "POL-OWNER-20261004:MANDATORY_HOUSEHOLD_PROTECTION",
+      "reason": null,
+      "acquisition_ref": null
+    },
+    "floor_group_period": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Full household settlement coverage unresolved",
+      "acquisition_ref": "B12-D01"
+    },
+    "floor_value": {
+      "__native_record__": "Scalar",
+      "value": null,
+      "unit": "HUF",
+      "truth": "Q",
+      "reference_period": {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      },
+      "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+      "source_ids": {
+        "__tuple__": []
+      },
+      "scenario_ref": null,
+      "evidence_tier": null,
+      "admission_ref": null,
+      "reason": "No numeric floor selected",
+      "acquisition_ref": "B12-D01"
+    },
+    "reserve": {
+      "__native_record__": "Scalar",
+      "value": null,
+      "unit": "HUF",
+      "truth": "Q",
+      "reference_period": {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      },
+      "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+      "source_ids": {
+        "__tuple__": []
+      },
+      "scenario_ref": null,
+      "evidence_tier": null,
+      "admission_ref": null,
+      "reason": "Reserve remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "debt_constraint": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Debt constraint remains Q",
+      "acquisition_ref": "B12-D01"
+    }
+  },
+  "valuation": {
+    "__native_record__": "Valuation",
+    "discount_rate": {
+      "__native_record__": "Scalar",
+      "value": null,
+      "unit": "ratio",
+      "truth": "Q",
+      "reference_period": {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      },
+      "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+      "source_ids": {
+        "__tuple__": []
+      },
+      "scenario_ref": null,
+      "evidence_tier": null,
+      "admission_ref": null,
+      "reason": "Discount rate remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+    "valuation_date": {
+      "__date__": "2028-01-01"
+    },
+    "time_convention": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Valuation time convention remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "terminal_debt_treatment": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "Debt terminal treatment remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "escalation": {
+      "__native_record__": "Reference",
+      "kind": "Q",
+      "ref": null,
+      "reason": "No escalation selected; frozen quote is not a forecast",
+      "acquisition_ref": "B12-D01"
+    },
+    "nominal_rate": {
+      "__native_record__": "Scalar",
+      "value": null,
+      "unit": "ratio",
+      "truth": "Q",
+      "reference_period": {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      },
+      "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+      "source_ids": {
+        "__tuple__": []
+      },
+      "scenario_ref": null,
+      "evidence_tier": null,
+      "admission_ref": null,
+      "reason": "Nominal valuation rate remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "real_rate": {
+      "__native_record__": "Scalar",
+      "value": null,
+      "unit": "ratio",
+      "truth": "Q",
+      "reference_period": {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      },
+      "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+      "source_ids": {
+        "__tuple__": []
+      },
+      "scenario_ref": null,
+      "evidence_tier": null,
+      "admission_ref": null,
+      "reason": "Real valuation rate remains Q",
+      "acquisition_ref": "B12-D01"
+    },
+    "inflation": {
+      "__native_record__": "Scalar",
+      "value": null,
+      "unit": "ratio",
+      "truth": "Q",
+      "reference_period": {
+        "__native_record__": "Period",
+        "start": {
+          "__date__": "2028-01-01"
+        },
+        "end": {
+          "__date__": "2028-01-01"
+        }
+      },
+      "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+      "source_ids": {
+        "__tuple__": []
+      },
+      "scenario_ref": null,
+      "evidence_tier": null,
+      "admission_ref": null,
+      "reason": "Inflation remains Q",
+      "acquisition_ref": "B12-D01"
+    }
+  }
+}

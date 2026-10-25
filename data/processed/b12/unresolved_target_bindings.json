@@ -1,0 +1,756 @@
+{
+  "bindings": [
+    {
+      "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+      "offer_id": "OUTDOOR_GROSS",
+      "product": "PUZ-WM50VHA",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": "1",
+        "unit": "item",
+        "truth": "SCN",
+        "reference_period": [
+          "2028-01-01",
+          "2028-01-01"
+        ],
+        "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+        "source_ids": [],
+        "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+        "evidence_tier": "E3",
+        "admission_ref": null,
+        "reason": null,
+        "acquisition_ref": null
+      },
+      "leg": "programme",
+      "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+      "component_id": "C01",
+      "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+      "phase_ref": "S2_TO_S3",
+      "scope_ref": "SCN-HH1-OUTDOOR-C01",
+      "payer": "SCN-MODEL-HH1",
+      "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+      "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+      "cash_period": [
+        "2028-01-01",
+        "2028-01-01"
+      ],
+      "service_period": null,
+      "inclusion_scope": [
+        "outdoor"
+      ],
+      "attribution_ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+      "price_basis_ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+      "applicability_ref": "SCN-B12-C01-WM50-T0-20280101-V1:EXACT_OUTDOOR_ONLY",
+      "review_id": "USE-C01-WM50-SCN-T0-20261023",
+      "scope_event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101"
+    },
+    {
+      "cost_id": "UNSELECTED:C02:CONTROLLER_GROSS",
+      "offer_id": "CONTROLLER_GROSS",
+      "product": "PAC-IF071B-E",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "item",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C02",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "controller",
+        "water_temperature_sensors",
+        "main_remote",
+        "remote_cable",
+        "SD"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C03:PUMP_FAMILY_COMPARISON",
+      "offer_id": "PUMP_FAMILY_COMPARISON",
+      "product": "Wilo Yonos PICO 25/1-4",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "item",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C03",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "pump"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C11:PUMP_SHIPPING_COMPARISON",
+      "offer_id": "PUMP_SHIPPING_COMPARISON",
+      "product": "PUMP_SHIPPING_COMPARISON",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "delivery",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C11",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "PUMP_SHIPPING_COMPARISON"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C13:MAINT_VISIT",
+      "offer_id": "MAINT_VISIT",
+      "product": "MAINT_VISIT",
+      "category": "O_AND_M",
+      "quantity": {
+        "value": null,
+        "unit": "visit",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C13",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "MAINT_VISIT"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C14:MAINT_TRAVEL_RATE",
+      "offer_id": "MAINT_TRAVEL_RATE",
+      "product": "MAINT_TRAVEL_RATE",
+      "category": "O_AND_M",
+      "quantity": {
+        "value": null,
+        "unit": "km",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C14",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "MAINT_TRAVEL_RATE"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C14:MAINT_TRAVEL_BASE",
+      "offer_id": "MAINT_TRAVEL_BASE",
+      "product": "MAINT_TRAVEL_BASE",
+      "category": "O_AND_M",
+      "quantity": {
+        "value": null,
+        "unit": "visit",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C14",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "MAINT_TRAVEL_BASE"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C08:PAUL_COMMISSION",
+      "offer_id": "PAUL_COMMISSION",
+      "product": "PAUL_COMMISSION",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "commissioning",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C08",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "PAUL_COMMISSION"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C08:PAUL_TRAVEL_RATE",
+      "offer_id": "PAUL_TRAVEL_RATE",
+      "product": "PAUL_TRAVEL_RATE",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "km",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C08",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "PAUL_TRAVEL_RATE"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C08:PAUL_TRAVEL_MIN",
+      "offer_id": "PAUL_TRAVEL_MIN",
+      "product": "PAUL_TRAVEL_MIN",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "visit",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C08",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "PAUL_TRAVEL_MIN"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C15:PAUL_LABOUR_HOUR",
+      "offer_id": "PAUL_LABOUR_HOUR",
+      "product": "PAUL_LABOUR_HOUR",
+      "category": "O_AND_M",
+      "quantity": {
+        "value": null,
+        "unit": "person-hour",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C15",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "PAUL_LABOUR_HOUR"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C08:LANG_COMMISSION",
+      "offer_id": "LANG_COMMISSION",
+      "product": "LANG_COMMISSION",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "commissioning",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C08",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "LANG_COMMISSION"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C06:RADIATOR_UK",
+      "offer_id": "RADIATOR_UK",
+      "product": "RADIATOR_UK",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "item",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C06",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "RADIATOR_UK"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C07:HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "offer_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "product": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "service",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C07",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C07:HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "offer_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "product": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "service",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C07",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "HU_DOBAI_GEPHAZ_MUNKADIJ"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C07:HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "offer_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "product": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "service",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C07",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C02:Q-072-HU",
+      "offer_id": "Q-072-HU",
+      "product": "PAC-IF072B-E",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "item",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C02",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "controller",
+        "water_temperature_sensors",
+        "main_remote",
+        "remote_cable",
+        "SD"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    },
+    {
+      "cost_id": "UNSELECTED:C02:OBS-FS01-GROUPSUMI-HU",
+      "offer_id": "OBS-FS01-GROUPSUMI-HU",
+      "product": "PAC-FS01-E",
+      "category": "INITIAL_CAPEX",
+      "quantity": {
+        "value": null,
+        "unit": "item",
+        "truth": "Q",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "basis_id": "TARGET_QUANTITY_UNRESOLVED",
+        "source_ids": [],
+        "scenario_ref": null,
+        "evidence_tier": null,
+        "admission_ref": null,
+        "reason": "Target quantity not selected or evidenced",
+        "acquisition_ref": "B12-D01"
+      },
+      "leg": null,
+      "event_id": null,
+      "component_id": "C02",
+      "asset_generation_id": null,
+      "phase_ref": null,
+      "scope_ref": null,
+      "payer": null,
+      "payee": null,
+      "settlement_ref": null,
+      "cash_period": null,
+      "service_period": null,
+      "inclusion_scope": [
+        "flow_sensor",
+        "flow_sensor_cable",
+        "flow_sensor_orings"
+      ],
+      "attribution_ref": null,
+      "price_basis_ref": null,
+      "applicability_ref": null,
+      "review_id": null,
+      "scope_event_id": null
+    }
+  ],
+  "target_selection_applied": true
+}

@@ -1,0 +1,86 @@
+{
+  "id": "B08-D02-ONE-NEW-NONELECTRIC-SH-HOUSEHOLD-REFERENCE-UTC2025-V1",
+  "checked_at_utc": "2026-10-21T19:24:44.675790+00:00",
+  "status": "ONE_UNIT_REFERENCE_INCREMENT_COINCIDENCE_AND_B12_GAP_MAP_COMPLETE",
+  "hourly_rows": 8760,
+  "native_quarter_rows": 35040,
+  "start_utc": "2025-01-01T00:00:00+00:00",
+  "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+  "unit_incremental_device_reference_annual_kWh": 2472.633793065277,
+  "no_programme_selected_boundary_annual_kWh": 2419.0,
+  "programme_selected_boundary_annual_kWh": 4891.633793065277,
+  "quarter_minus_hour_incremental_energy_kWh": 0.0,
+  "baseline_actual_native_PT15M_peak": {
+    "load_mw": 7449.97,
+    "coincident_unit_contributions": [
+      {
+        "interval_start_utc": "2025-01-20T11:00:00+00:00",
+        "unit_HP_hourly_mean_hold_kw": 0.90293171181204,
+        "unit_HP_hourly_mean_hold_mw": 0.00090293171181204
+      }
+    ]
+  },
+  "baseline_actual_hourly_mean_peak": {
+    "load_mw": 7394.7575,
+    "coincident_unit_contributions": [
+      {
+        "interval_start_utc": "2025-01-20T10:00:00+00:00",
+        "unit_HP_hourly_mean_kw": 0.9197801821443645
+      }
+    ]
+  },
+  "unit_HP_own_hourly_mean_peak": {
+    "power_kw": 1.4003138414512877,
+    "interval_starts_utc": [
+      "2025-02-19T04:00:00+00:00"
+    ]
+  },
+  "one_unit_reference_perturbation_native_peak_diagnostic": {
+    "load_mw": 7449.970902931712,
+    "interval_starts_utc": [
+      "2025-01-20T11:00:00+00:00"
+    ],
+    "difference_from_historical_peak_mw": 0.00090293171181204,
+    "claim_scope": "One-unit SCN perturbation, not a weighted national programme projection or physical installed-system result"
+  },
+  "base_annual_kWh_counted_as_increment": 0,
+  "existing_population_HP_removed_or_inferred": false,
+  "population_weights": null,
+  "population_existing_HP_counterfactual": null,
+  "population_aggregation_executed": false,
+  "national_programme_result_claimed": false,
+  "real_DSO_or_county_assignment_inferred": false,
+  "HP_quarter_hold_not_subhourly_peak": true,
+  "DST_native_source_days_quarters": {
+    "2025-03-30": 92,
+    "2025-10-26": 100
+  },
+  "UTC2025_is_complete_canonical_civil_year": false,
+  "canonical_meteorological_winter_complete": false,
+  "winter_2025_missing_model_support": "2024-12-01 local start through 2025-01-01T00:00Z is outside this unit profile",
+  "winter_2026_missing_model_support": "2026-01-01T00:00Z through 2026-03-01 local start is outside this unit profile",
+  "HMV_electricity": null,
+  "outside_unit_auxiliary_correction": null,
+  "pump_D_difference": null,
+  "physical_net_increment_annual_kWh": null,
+  "B07_B08_original_annual_import_kWh_unchanged": 4891.633793065277,
+  "new_tariff_or_financial_model_choice_applied": false,
+  "numerical_B12_or_B15_output_produced": false,
+  "canonical_status_or_readiness_changed": false,
+  "published": false,
+  "complete_E2_closure": false,
+  "model_switch": false,
+  "targeted_tests_run": 12,
+  "targeted_tests_passed": true,
+  "test_output_sha256": "eb9eb2a09e723e43ce78735f27aefa1f9927e95d9e4648abb2b44842da3ae2b4",
+  "sources_unchanged_after_run": true,
+  "exit_code": 0,
+  "output_sha256": {
+    "UNIT_INCREMENT_HOURLY_8760.csv": "cd1247bb9c904531e06951542958b257e2471cf8fbd7469fed2e9ce55ffe554b",
+    "NATIVE_LOAD_COINCIDENCE_PT15M_35040.csv": "6508baf3c4d1b21365ac08377b7119bc4153cdabd03e833afe90778372c7f353",
+    "B01_B12_INPUT_GAP_MAP.csv": "3606302b85f66379f9a5b6d4b740e0159e5f42f566264a0574a33e57e7212253",
+    "B12_INPUT_GAP_MAP.json": "10406ff4615e99ea63b42da1c9ae6d7ff334ae5b34ef35a17b7a7e7f6ede61fd",
+    "APPROVED_REFERENCE_SCN.json": "e3861f362b68541872327589369162736497e2ae8bf1d996a14efcc30e6b39d9",
+    "INPUT_MANIFEST.json": "d9f30efb96d44057bb2e4389ef4ef75cfc86c0e1bb014b1a595160a9ab3aa6f3"
+  }
+}

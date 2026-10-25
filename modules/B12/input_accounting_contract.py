@@ -1,4 +1,4 @@
-"""B12 entry contract and synthetic accounting witnesses, not an admission engine.
+"""B12 entry contract, synthetic accounts and optional qualified Cost subsets.
 
 All input amounts are Decimal. Identities use precision 50, ROUND_HALF_EVEN,
 without implicit currency rounding; source rounding belongs in supplied amounts.
@@ -18,7 +18,7 @@ class B12ContractError(ValueError):
 
 
 SYNTHETIC = "SYNTHETIC_WITNESS"
-EXTERNAL_Q = "external_admission: source/quantity/scope review resolver not implemented in this slice"
+EXTERNAL_Q = "external_admission: full-case evidence/execution unresolved; qualified Cost subsets are separate"
 LEGS = ("baseline", "programme")
 COST_CATEGORIES = {"INITIAL_CAPEX", "O_AND_M", "INSURANCE", "REPLACEMENT", "DISPOSAL", "TAX"}
 TRUTH = {"OBS", "DER", "ASS", "SCN", "POL", "Q"}
@@ -481,6 +481,8 @@ class AccountingAudit:
     liquidity: tuple[tuple[str, date, Decimal], ...]
     unavailable: Any
     unverified_checks: tuple[str, ...]
+    source_costs: tuple[Cost, ...] = ()
+    source_cost_missing: tuple[MissingInput, ...] = ()
 
 
 def _walk(value, path="case"):
@@ -1087,22 +1089,44 @@ def assess_readiness(case: Case):
     return MappingProxyType({name: tuple(dict.fromkeys(refs)) for name, refs in missing.items()})
 
 
-def audit_accounting(case: Case) -> AccountingAudit:
-    """Return available synthetic identities; real output execution stays Q."""
+def audit_accounting(case: Case, *, source_catalogue=None, cost_bindings=()) -> AccountingAudit:
+    """Keep full external outputs Q; optionally expose verified Cost subsets.
+
+    The optional source resolver replays pinned price/use/quantity/cash evidence.
+    It cannot clear full CAPEX, finance, income, tax-refund or valuation gates.
+    """
     with localcontext() as ctx:
         ctx.prec = 50
         ctx.rounding = ROUND_HALF_EVEN
-        return _audit(case)
+        return _audit(case, source_catalogue=source_catalogue, cost_bindings=cost_bindings)
 
 
-def _audit(case):
+def _audit(case, *, source_catalogue=None, cost_bindings=()):
     readiness = assess_readiness(case)
     provenance = tuple(_walk(case))
     unverified = tuple(f"{i.instrument_id}: external accrual correctness unverified" for i in case.instruments.rows
                        if i.interest_definition == "EXTERNAL_ACCRUAL_Q")
     if case.mode != SYNTHETIC:
+        if source_catalogue is not None:
+            from .source_cost_inputs import resolve_cost_inputs, case_cost_context
+            resolved = resolve_cost_inputs(source_catalogue, cost_bindings, case.monetary_basis,
+                                           case_context=case_cost_context(case))
+            native = {(c.leg, c.cost_id): c for c in case.costs.rows}
+            for cost in resolved.costs:
+                _require(native.get((cost.leg, cost.cost_id)) == cost,
+                         "resolved source Cost must equal the actual native case input")
+            partial = {f"qualified_cost.{c.leg}.{c.cost_id}.gross": c.gross.value for c in resolved.costs}
+            for leg in LEGS:
+                initial = tuple(c for c in resolved.costs if c.leg == leg and c.category == "INITIAL_CAPEX")
+                if initial:
+                    partial[f"qualified_initial_cost_subset.{leg}"] = sum((c.gross.value for c in initial), Decimal(0))
+            return AccountingAudit(case.case_id, case.mode, case.time_grain, case.monetary_basis, "Q", provenance, (),
+                                   MappingProxyType(partial), (), readiness, unverified,
+                                   resolved.costs, resolved.missing)
+        _require(not cost_bindings, "cost bindings require a pinned source catalogue")
         return AccountingAudit(case.case_id, case.mode, case.time_grain, case.monetary_basis, "Q", provenance, (),
                                MappingProxyType({}), (), readiness, unverified)
+    _require(source_catalogue is None and not cost_bindings, "synthetic witnesses cannot claim source cost admission")
     amounts = {}
     def total(name, rows, attr):
         if not readiness[name]:

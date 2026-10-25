@@ -1,0 +1,94 @@
+{
+  "status": "BOUND_NORMALIZED_REFERENCE_COMPONENTS",
+  "missing": [],
+  "complete": false,
+  "native_case_id": "SCN-CASE-C01-WM50-20280101",
+  "one_off_initial_component": {
+    "gross_HUF": "1220781",
+    "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+    "scope": "C01 standalone outdoor only; not fullCAPEX",
+    "repeat_annually": false
+  },
+  "preserved_reference_components": {
+    "A1_increment_HUF": "169834.84742904817137129684000000000000000000000000",
+    "gas_u": {
+      "name": "u",
+      "unit": "MJ",
+      "domain": "u >= 0",
+      "selected_value": null
+    },
+    "gas_formula": "M(u)=F(u+Q)-F(u)",
+    "gas_use": "B13 conditional benchmark; not native MARKET_RESIDENTIAL_FINAL BillInput",
+    "source_periods": {
+      "physical": "UTC2025 8760h unchanged",
+      "A1": "two partial Budapest billing-year windows; accepted day fractions unchanged",
+      "gas": "abstract completeAugJulyear",
+      "money": "frozen2026nominalHUF",
+      "projection": "approved normalized365-day reference anchored to programme start, not calendar2028"
+    }
+  },
+  "proposed_binding_applied": false,
+  "original_timestamp_remap": false,
+  "operating_year": null,
+  "settlement_dates": null,
+  "payment_dates": null,
+  "annual_economic_cashflow": null,
+  "full_CAPEX": null,
+  "additional_CAPEX": null,
+  "monetary_OM": null,
+  "external_auxiliary_delta": null,
+  "ROI": null,
+  "household_first_day_non_worsening": null,
+  "subsidy_exit": null,
+  "new_Costs": 0,
+  "new_BillInputs": 0,
+  "recurrence_years": null,
+  "source_use_adoption": false,
+  "temporal_policy_applied": true,
+  "normalized_reference": {
+    "id": "SCN-NORMALIZED-365-ENERGY-REFERENCE-20261025",
+    "mode": "NORMALIZED_365_DAY_REFERENCE",
+    "days": 365,
+    "programme_start_anchor": "2028-01-01",
+    "calendar_year": null,
+    "remap_original_timestamps": false,
+    "money": "FROZEN_2026_NOMINAL_HUF",
+    "recurrence_years": null,
+    "payment_dates": null,
+    "decision_ref": "Sentinel_3edee9c757008191a603f883d7495649"
+  },
+  "annual_component_model": {
+    "formula": "F(u+Q)-F(u)-Delta_A1; F(x)=L*min(x,T)+H*max(x-T,0)",
+    "Q_MJ": "16438600071499716369/781250000000000",
+    "T_MJ": "63645/1",
+    "L_HUF_per_MJ": "17907/6250",
+    "H_HUF_per_MJ": "11001/500",
+    "Delta_A1_HUF": "4245871185726204284282421/25000000000000000000",
+    "u_selected": null,
+    "unit": "gross frozen2026 HUF per normalized365-day reference",
+    "scope": "Energy reference component only, not full operating saving or native receipt"
+  },
+  "annual_om": {
+    "status": "INCOMPLETE_ANNUAL_OM",
+    "baseline_gross_HUF": null,
+    "programme_gross_HUF": null,
+    "delta_programme_minus_baseline_HUF_exact": null,
+    "money_basis": null,
+    "normalized_policy_id": "SCN-NORMALIZED-365-ENERGY-REFERENCE-20261025",
+    "settlement_dates_required_for_this_annual_view": false,
+    "new_native_Cost_events": 0,
+    "evidence_adoption": false,
+    "scope": "Non-energy O&M annual input view only; no native cash-event issuance",
+    "input_records": null,
+    "input_records_sha256": null,
+    "classified_components": null,
+    "missing": [
+      "baseline gross annual O&M",
+      "programme gross annual O&M",
+      "explicit shared money basis and bridge",
+      "both annual coverage references"
+    ]
+  },
+  "full_operating_balance": null,
+  "dated_cashflow_status": "UNFULFILLED_EXPLICIT_NATIVE_EVENT_AND_SETTLEMENT_BINDING_REQUIRED"
+}

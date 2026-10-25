@@ -1,0 +1,386 @@
+{
+  "records": {
+    "OUTDOOR_GROSS": {
+      "input_revision": "44c751f8c2318c8a00537878f4976c7a59d78054c0015e40a67b4e8e475a4b1f",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "inclusions": [
+          "outdoor"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "CONTROLLER_GROSS": {
+      "input_revision": "8011f7b965b3d7d2b328b0b76ba2d388ba262d6dd12e67e924ab7819ba822cd2",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "controller",
+          "water_temperature_sensors",
+          "main_remote",
+          "remote_cable",
+          "SD"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "PUMP_FAMILY_COMPARISON": {
+      "input_revision": "b28931825e2057edc7d7cee0a1330becafdf340a70fe1bd9df8ebb230a6ee410",
+      "normalized": {
+        "tax_basis": "GROSS_WITH_PUBLISHED_ROUNDED_NET",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "pump"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "PUMP_SHIPPING_COMPARISON": {
+      "input_revision": "624f2f6f148eadfcacd202e718a80f390474d3fb7b8d5821ac8a2fadadcd518d",
+      "normalized": {
+        "tax_basis": "Q_NOT_EXPLICITLY_SEPARATED",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "PUMP_SHIPPING_COMPARISON"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "MAINT_VISIT": {
+      "input_revision": "eea2c47248318b4945f77887292392de6c6511b24adaa1d93cfeb66e6737a309",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "inclusions": [
+          "MAINT_VISIT"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "MAINT_TRAVEL_RATE": {
+      "input_revision": "91a7bc5ba6ca629d6960081ee3831d99a8531c784920c7e7039230b7558a7818",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "UNIT_RATE",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "inclusions": [
+          "MAINT_TRAVEL_RATE"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "MAINT_TRAVEL_BASE": {
+      "input_revision": "a396d57c37d72fcab2e4680f2dd96b008fba3d216c476b62f154dd50ab349669",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "inclusions": [
+          "MAINT_TRAVEL_BASE"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "PAUL_COMMISSION": {
+      "input_revision": "27c54dc4f2aa8ceb3694326fe0f0956391d529be17d1dc52ef75a628b8de0984",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "PAUL_COMMISSION"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "PAUL_TRAVEL_RATE": {
+      "input_revision": "1f7f88050b190de1fde3b2a87e32ca1d217d6815685e8fe9a77d2ff01ec8b55a",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "UNIT_RATE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "PAUL_TRAVEL_RATE"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "PAUL_TRAVEL_MIN": {
+      "input_revision": "e8ad64e74777ff9ae88a578551d960303df05c3fa8d7629cd1dd75d577e71d2b",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "MINIMUM_FEE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "PAUL_TRAVEL_MIN"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "PAUL_LABOUR_HOUR": {
+      "input_revision": "51ad2a4061e8867d3e2215f8ef6905c18d703554f855eff69d8b49c9a36425f9",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "PAUL_LABOUR_HOUR"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "LANG_COMMISSION": {
+      "input_revision": "87179eabc0c98e7a5e0c810ace3711920e1d6999dcf8cdc35b5110fbb704e57e",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "STARTING_FROM",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "LANG_COMMISSION"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "RADIATOR_UK": {
+      "input_revision": "922637986cebf524c5153c69982af1c1d6c06c69c43440e96cd72c3be77d6841",
+      "normalized": {
+        "tax_basis": "UK_GROSS_INC_VAT",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "RADIATOR_UK"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "ERPX_BUNDLE": {
+      "input_revision": "d129e95104427612c7041792d03b295e1ea0868c977aa96ff48feb95be4a523b",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-21",
+          "2026-10-21"
+        ],
+        "inclusions": [
+          "outdoor",
+          "controller",
+          "pump",
+          "expansion",
+          "backup_heater"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "HU_DOMUSA_SZERELÉSI_MUNKADIJ": {
+      "input_revision": "1b6b6d7db68a09eb355f51acc37bfb62de457275103b1c2ed6593f02bc57b1d3",
+      "normalized": {
+        "tax_basis": "GROSS",
+        "price_kind": "OPTION_FEE_PLUS_MATERIALS",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "HU_DOBAI_GEPHAZ_MUNKADIJ": {
+      "input_revision": "a8bdd32228fc4a65bb864a4e5cf370565bc5a56201ee2d8733ee03db92234dcb",
+      "normalized": {
+        "tax_basis": "Q",
+        "price_kind": "INDICATIVE_PLUS_MATERIALS",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "HU_DOBAI_GEPHAZ_MUNKADIJ"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "HU_OPTI_THERM_GEPHAZ_ALSOHATAR": {
+      "input_revision": "961897791fd63b9260ee42f93c8c839e6bb082789c4d6e4deb715368b8fd35d6",
+      "normalized": {
+        "tax_basis": "Q",
+        "price_kind": "STARTING_FROM",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER": {
+      "input_revision": "1212962a0af2833109d1366bd307163e0f22da828b0dcc2e9106d7d329e6ae9c",
+      "normalized": {
+        "tax_basis": "main consumer price not explicitly labelled brutto in page text; interpreted VAT-inclusive beside explicit netto field; do not treat tax rate as independently proved",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "BACKGROUND-UK-EST-SE764-HEATHER": {
+      "input_revision": "8ce394a99fe944737a928b82681fd49e6cf1eb7db47c35de231cc8b5ae050a76",
+      "normalized": {
+        "tax_basis": "VAT/net/gross not stated; retain original reported spend without tax conversion",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "BACKGROUND-UK-EST-SE764-HEATHER"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "BACKGROUND-UK-EST-SC380-DAVID": {
+      "input_revision": "261de566b0e6514a3d97e99d75cc838892d88be0dd492b3fcc6c79b0aa896444",
+      "normalized": {
+        "tax_basis": "VAT/net/gross not stated; no inferred tax or currency conversion",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "BACKGROUND-UK-EST-SC380-DAVID"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE": {
+      "input_revision": "da52d0ffe82ddae86a5f04cba89627fd55aa777e3f79bdefb9a01465db5df499",
+      "normalized": {
+        "tax_basis": "conditions section6: supplier alanyi adomentes, no VAT charged; not a net-plus-27% price",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "Q-072-HU": {
+      "input_revision": "44db53b21c51cdaa4d1da8b5ab51bd77e3aa0976bd1d9b3b4e10affa6881ffaf",
+      "normalized": {
+        "tax_basis": "Q",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "controller",
+          "water_temperature_sensors",
+          "main_remote",
+          "remote_cable",
+          "SD"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    },
+    "OBS-FS01-GROUPSUMI-HU": {
+      "input_revision": "d26cd6860f1679fc654b9da2c4ca299c870c727e109c054974a22fda03a34d91",
+      "normalized": {
+        "tax_basis": "VAT_INCLUDED_GENERAL_TERMS_WITH_CURRENCY_LOCALIZATION_CAVEAT",
+        "price_kind": "EXACT_PRICE",
+        "reference_period": [
+          "2026-10-22",
+          "2026-10-22"
+        ],
+        "inclusions": [
+          "flow_sensor",
+          "flow_sensor_cable",
+          "flow_sensor_orings"
+        ]
+      },
+      "qualification_pin": null,
+      "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+    }
+  }
+}

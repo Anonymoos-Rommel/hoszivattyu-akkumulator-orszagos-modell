@@ -1,0 +1,987 @@
+{
+  "id": "B12-COST-COVERAGE-LOCAL-20261022",
+  "created_at_utc": "2026-10-22T14:53:05.127607+00:00",
+  "boundary": {
+    "outdoor": "PUZ-WM50VHA",
+    "service": "SPACE_HEATING_ONLY",
+    "base_kWh": "2419",
+    "base_truth": "ASS",
+    "physical_8760_unchanged": true,
+    "B05_energy_reference_changed": false,
+    "PV": false,
+    "battery": false,
+    "installed_BOM_accepted": false,
+    "selected_architecture": null,
+    "paid_maintenance_visits_per_year": null,
+    "WM50_model_life_years": "17",
+    "WM50_model_life_truth": "ASS",
+    "whole_system_life_years": null,
+    "HMV": "EXCLUDED_FROM_REFERENCE_NOT_PROVEN_ZERO",
+    "external_aux": "UNKNOWN_NOT_ZERO",
+    "full_CAPEX_gross_huf": null,
+    "annual_OM_huf": null,
+    "NPV": null,
+    "IRR": null,
+    "DSCR": null
+  },
+  "source_ids": [
+    "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+    "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+    "BACKGROUND-UK-EST-SC380-DAVID",
+    "BACKGROUND-UK-EST-SE764-HEATHER",
+    "HU_DOBAI_GEPHAZ_MUNKADIJ",
+    "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+    "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+    "SRC-B06-CALEFFI-108601-LEAD-20261022",
+    "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+    "SRC-B06-COP-COMMISSIONING-20261022",
+    "SRC-B06-ECODANSHIPPING-20261022",
+    "SRC-B06-ECODANSHOP-SHIPPING-20261021",
+    "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+    "SRC-B06-GEPESZWEB-YONOS-20261022",
+    "SRC-B06-LANGPOWER-SERVICE-20261022",
+    "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+    "SRC-B06-PAULUS-COMMISSIONING-2026",
+    "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+    "SRC-B06-WAGNER-MAINTENANCE-RECHECK-20261022",
+    "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+  ],
+  "facts": {
+    "OUTDOOR_GROSS": {
+      "fact_id": "OUTDOOR_GROSS",
+      "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+      "value": "1220781",
+      "unit": "HUF/item",
+      "truth": "OBS",
+      "scope": "EXACT_PRODUCT_PART_PRICE",
+      "target_selected": false,
+      "product": "PUZ-WM50VHA",
+      "old_crossed_out": "1488758"
+    },
+    "CONTROLLER_GROSS": {
+      "fact_id": "CONTROLLER_GROSS",
+      "source_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+      "value": "462772",
+      "unit": "HUF/item",
+      "truth": "OBS",
+      "scope": "CONDITIONAL_COMPONENT_PRICE",
+      "target_selected": false,
+      "product": "PAC-IF071B-E",
+      "old_crossed_out": "564356",
+      "stock": "OUT_OF_STOCK"
+    },
+    "PUMP_FAMILY_COMPARISON": {
+      "fact_id": "PUMP_FAMILY_COMPARISON",
+      "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+      "value": "61600",
+      "unit": "HUF/item",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY",
+      "target_selected": false,
+      "product": "Wilo Yonos PICO 25/1-4",
+      "required_article": "4215513",
+      "article_matched": false,
+      "published_rounded_net": "48504"
+    },
+    "PUMP_SHIPPING_COMPARISON": {
+      "fact_id": "PUMP_SHIPPING_COMPARISON",
+      "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+      "value": "2794",
+      "unit": "HUF/delivery",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY_TAX_Q",
+      "target_selected": false
+    },
+    "MAINT_VISIT": {
+      "fact_id": "MAINT_VISIT",
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "value": "57150",
+      "unit": "HUF/visit",
+      "truth": "OBS",
+      "scope": "GENERIC_MAINTENANCE_VISIT",
+      "target_selected": false
+    },
+    "MAINT_TRAVEL_RATE": {
+      "fact_id": "MAINT_TRAVEL_RATE",
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "value": "254",
+      "unit": "HUF/km",
+      "truth": "OBS",
+      "scope": "TRAVEL_RULE_ONLY",
+      "target_selected": false
+    },
+    "MAINT_TRAVEL_BASE": {
+      "fact_id": "MAINT_TRAVEL_BASE",
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "value": "12700",
+      "unit": "HUF/visit",
+      "truth": "OBS",
+      "scope": "TRAVEL_RULE_ONLY",
+      "target_selected": false
+    },
+    "PAUL_COMMISSION": {
+      "fact_id": "PAUL_COMMISSION",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "value": "190500",
+      "unit": "HUF/commissioning",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY_NO_TARGET_AUTHORITY",
+      "target_selected": false
+    },
+    "PAUL_TRAVEL_RATE": {
+      "fact_id": "PAUL_TRAVEL_RATE",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "value": "360",
+      "unit": "HUF/km",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY_ROUND_TRIP",
+      "target_selected": false
+    },
+    "PAUL_TRAVEL_MIN": {
+      "fact_id": "PAUL_TRAVEL_MIN",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "value": "12700",
+      "unit": "HUF/visit",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY_MINIMUM",
+      "target_selected": false
+    },
+    "PAUL_LABOUR_HOUR": {
+      "fact_id": "PAUL_LABOUR_HOUR",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "value": "13300",
+      "unit": "HUF/person-hour",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY_REPAIR_LABOUR_NOT_TOTAL",
+      "target_selected": false
+    },
+    "LANG_COMMISSION": {
+      "fact_id": "LANG_COMMISSION",
+      "source_id": "SRC-B06-LANGPOWER-SERVICE-20261022",
+      "value": "60000",
+      "unit": "HUF/commissioning",
+      "truth": "OBS",
+      "scope": "COMPARISON_ONLY_STARTING_FROM",
+      "target_selected": false
+    },
+    "RADIATOR_UK": {
+      "fact_id": "RADIATOR_UK",
+      "source_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+      "value": "426.96",
+      "unit": "GBP/item",
+      "truth": "OBS",
+      "scope": "FOREIGN_PROTOTYPE_COMPARISON_ONLY",
+      "target_selected": false
+    },
+    "ERPX_BUNDLE": {
+      "fact_id": "ERPX_BUNDLE",
+      "source_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+      "value": "2370877",
+      "unit": "HUF/set",
+      "truth": "OBS",
+      "scope": "DIFFERENT_INDOOR_BUNDLE_BACKGROUND",
+      "target_selected": false,
+      "includes_roles": [
+        "outdoor",
+        "controller",
+        "pump",
+        "expansion",
+        "backup_heater"
+      ]
+    },
+    "HU_DOMUSA_SZERELÉSI_MUNKADIJ": {
+      "fact_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "source_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "value": "571500",
+      "unit": "HUF/service",
+      "truth": "OBS",
+      "scope": "INSTALLATION_COMPARISON_ONLY",
+      "target_selected": false,
+      "price_kind": "közzétett opciódíj, készülékcsomagon felül",
+      "published_net": 450000,
+      "materials_included": false,
+      "commissioning_included_proven": false,
+      "full_installation_proven": false,
+      "included": "Primer és szekunder víz-, fűtési és villamos szerelés kiépített csatlakozókra/osztókra; HMV-bekötés csak akkor, ha a választott csomag tartályt is tartalmaz.",
+      "excluded": "Villamos bővítés; mérő–HP betápvezeték; talapzat; HMV-cirkuláció és pumpája; hőleadók.",
+      "tax_note": "bruttó, kifejezetten megjelölve",
+      "date_note": "Nincs feltüntetett árkiadási vagy lejárati dátum; a leolvasás dátuma nem pótolja ezeket."
+    },
+    "HU_DOBAI_GEPHAZ_MUNKADIJ": {
+      "fact_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "source_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "value": "500000",
+      "unit": "HUF/service",
+      "truth": "OBS",
+      "scope": "INSTALLATION_COMPARISON_ONLY",
+      "target_selected": false,
+      "price_kind": "500 000 Ft + anyag; végleges ár helyszíni felmérés után",
+      "published_net": null,
+      "materials_included": false,
+      "commissioning_included_proven": false,
+      "full_installation_proven": false,
+      "included": "Gépház kialakítása monoblokkos és split hőszivattyúhoz egyaránt; részletes hidraulikai munkajegyzék és mennyiség nincs a díjsorban.",
+      "excluded": "Split kalorikus összekötés és felprogramozás 4 m-ig külön +300 000 Ft; ez nem a monoblokkos eset többlete.",
+      "tax_note": "Az árlistában nincs nettó/bruttó címke; e tétel adótartalma ismeretlen.",
+      "date_note": "2026 szerepel a címben; pontos közzététel, módosítás és lejárat nem szerepel."
+    },
+    "HU_OPTI_THERM_GEPHAZ_ALSOHATAR": {
+      "fact_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "source_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "value": "300000",
+      "unit": "HUF/service",
+      "truth": "OBS",
+      "scope": "INSTALLATION_COMPARISON_ONLY",
+      "target_selected": false,
+      "price_kind": "300 000 Ft-tól; egyeztetés utáni egyedi árszabás, felső határ nélkül",
+      "published_net": null,
+      "materials_included": false,
+      "commissioning_included_proven": false,
+      "full_installation_proven": false,
+      "included": "Teljeskörű gépházkialakítás hőszivattyúhoz vagy más hőtermelőhöz; tételes munkajegyzék és standard darabszám nincs.",
+      "excluded": "Tervezés és hőleadók külön szolgáltatássorok; nem feltételezzük ingyenes beletartozásukat.",
+      "tax_note": "A munkadíjnál nettó/bruttó vagy AAM megjelölés nincs; ismeretlen. Más sorok anyagárai melletti +Áfa nem vihető át erre.",
+      "date_note": "Közzététel és érvényességi idő nem szerepel; lábléc éve és kereső kora nem árérvényesség."
+    },
+    "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER": {
+      "fact_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+      "source_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+      "value": "4057200",
+      "unit": "HUF/case",
+      "truth": "OBS",
+      "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "target_selected": false
+    },
+    "BACKGROUND-UK-EST-SE764-HEATHER": {
+      "fact_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+      "source_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+      "value": "16500",
+      "unit": "GBP/case",
+      "truth": "OBS",
+      "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "target_selected": false
+    },
+    "BACKGROUND-UK-EST-SC380-DAVID": {
+      "fact_id": "BACKGROUND-UK-EST-SC380-DAVID",
+      "source_id": "BACKGROUND-UK-EST-SC380-DAVID",
+      "value": "18000",
+      "unit": "GBP/case",
+      "truth": "OBS",
+      "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "target_selected": false
+    },
+    "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE": {
+      "fact_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+      "source_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+      "value": "1790000",
+      "unit": "HUF/case",
+      "truth": "OBS",
+      "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "target_selected": false
+    }
+  },
+  "components": [
+    {
+      "component_id": "C01",
+      "name": "PUZ-WM50VHA kültéri készülék",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "EXACT_COMPONENT_PRICE",
+      "reference_status": "FIXED_NAMED_ENERGY_REFERENCE_NOT_FULL_BOM",
+      "fact_ids": [
+        "OUTDOOR_GROSS"
+      ],
+      "source_ids": [
+        "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+      ],
+      "gap_ids": [],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "teljes telepített scope",
+        "pénzesemény és mennyiségkötés",
+        "szállítás"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "OUTDOOR_GROSS"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C02",
+      "name": "Beltéri / vezérlés / érzékelők",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "CONDITIONAL_COMPONENT_PRICE",
+      "reference_status": "FTC6_OR_INTEGRATED_ROUTE_UNSELECTED",
+      "fact_ids": [
+        "CONTROLLER_GROSS"
+      ],
+      "source_ids": [
+        "SRC-B06-PACIF071-HU-ECODANSHOP-20261022"
+      ],
+      "gap_ids": [
+        "CAPEX-CONTROLLER"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "elfogadott beltéri/vezérlési út",
+        "kompatibilitás és tartozékjegyzék",
+        "darabszám",
+        "készlet és időpont"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "CONTROLLER_GROSS"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C03",
+      "name": "Keringtetés / pumpa",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "COMPARISON_ONLY",
+      "reference_status": "ONE_MODEL_PUMP_SENSITIVITY_IS_NOT_PROCUREMENT_BOM",
+      "fact_ids": [
+        "PUMP_FAMILY_COMPARISON"
+      ],
+      "source_ids": [
+        "SRC-B06-GEPESZWEB-YONOS-20261022"
+      ],
+      "gap_ids": [
+        "CAPEX-HYDRAULICS"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "4215513 cikkszámhoz kötött ár",
+        "integrált vagy külső szerep",
+        "beszerzési darabszám"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "PUMP_FAMILY_COMPARISON"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C04",
+      "name": "Hidraulikai, cső-, szelep- és szigetelőanyagok",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "SCOPE_ONLY",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "CAPEX-HYDRAULICS"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "kapcsolási funkciók",
+        "méretek/hosszak/darabszámok",
+        "szelepek és leválasztás szükségessége",
+        "illeszkedő egységárak"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": [
+        "SRC-B06-CALEFFI-108601-LEAD-20261022"
+      ]
+    },
+    {
+      "component_id": "C05",
+      "name": "Konzol, alap, fagyvédelem, kondenzvíz",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "OPEN",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "CAPEX-HYDRAULICS",
+        "CAPEX-INSTALLATION"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "referencia elhelyezés",
+        "fagyvédelmi kialakítás",
+        "anyag és munka külön ára"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C06",
+      "name": "Hőleadók, csatlakozás, átmosás, beszabályozás",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "COMPARISON_ONLY",
+      "reference_status": "PROTOTYPE_NOT_ACCEPTED_FOUR_RADIATOR_PROCUREMENT",
+      "fact_ids": [
+        "RADIATOR_UK"
+      ],
+      "source_ids": [
+        "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022"
+      ],
+      "gap_ids": [
+        "CAPEX-EMITTERS"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "megtartás/átalakítás modellhatára",
+        "HU mennyiség és ár",
+        "munkatartalom"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "RADIATOR_UK"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C07",
+      "name": "Telepítési / gépházi munkadíj",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "COMPARISON_ONLY",
+      "reference_status": "THREE_DISTINCT_PROVIDER_PRICES_NOT_THREE_EQUIVALENT_INVOICES",
+      "fact_ids": [
+        "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+        "HU_DOBAI_GEPHAZ_MUNKADIJ",
+        "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+      ],
+      "source_ids": [
+        "HU_DOBAI_GEPHAZ_MUNKADIJ",
+        "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+        "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+      ],
+      "gap_ids": [
+        "CAPEX-INSTALLATION"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "egyező munkajegyzék és mennyiségek",
+        "két ár adótartalma",
+        "helyszíni eltérések",
+        "beüzemelési átfedés"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+        "HU_DOBAI_GEPHAZ_MUNKADIJ",
+        "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C08",
+      "name": "Beüzemelés, próbaüzem, átadás",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "COMPARISON_ONLY",
+      "reference_status": "DISTRIBUTOR_SCOPE_NO_PUBLIC_TARGET_AMOUNT",
+      "fact_ids": [
+        "PAUL_COMMISSION",
+        "LANG_COMMISSION",
+        "PAUL_TRAVEL_RATE",
+        "PAUL_TRAVEL_MIN"
+      ],
+      "source_ids": [
+        "SRC-B06-LANGPOWER-SERVICE-20261022",
+        "SRC-B06-PAULUS-COMMISSIONING-2026"
+      ],
+      "gap_ids": [
+        "CAPEX-INSTALLATION"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "Mitsubishi célra alkalmazható szolgáltatás és ár",
+        "fő telepítési csomagba foglalás",
+        "kiszállás"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "PAUL_COMMISSION",
+        "LANG_COMMISSION",
+        "PAUL_TRAVEL_RATE",
+        "PAUL_TRAVEL_MIN"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": [
+        "SRC-B06-COP-COMMISSIONING-20261022"
+      ]
+    },
+    {
+      "component_id": "C09",
+      "name": "Villamos betáp, védelem, mérés és csatlakozás",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "OPEN",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "CAPEX-ELECTRICAL"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "meglévő betáp referencia-SCN-je",
+        "kiépítendő mennyiségek",
+        "háztartási és B10 hálózati fizetői határ",
+        "ár"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C10",
+      "name": "Tervezés, felmérés, engedély és helyreállítás",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "OPEN",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "CAPEX-INSTALLATION",
+        "ACCOUNTING"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "alkalmazhatóság",
+        "munkamennyiség",
+        "külön díj vagy csomagba foglalás"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C11",
+      "name": "Szállítás, mozgatás, emelés",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "SCOPE_ONLY",
+      "reference_status": "FREE_PICKUP_NOT_SELECTED_OTHER_PUMP_FEE_NOT_TRANSFERABLE",
+      "fact_ids": [
+        "PUMP_SHIPPING_COMPARISON"
+      ],
+      "source_ids": [
+        "SRC-B06-GEPESZWEB-YONOS-20261022"
+      ],
+      "gap_ids": [
+        "CAPEX-DELIVERY"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "választott logisztikai modellút",
+        "céltételekre vonatkozó díj",
+        "adókezelés"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "PUMP_SHIPPING_COMPARISON"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": [
+        "SRC-B06-ECODANSHIPPING-20261022",
+        "SRC-B06-ECODANSHOP-SHIPPING-20261021"
+      ]
+    },
+    {
+      "component_id": "C12",
+      "name": "Régi rendszer bontása, elszállítása",
+      "category": "INITIAL_CAPEX",
+      "coverage_status": "OPEN",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "CAPEX-INSTALLATION",
+        "LIFE-TERMINAL"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "mi szűnik meg és mi marad",
+        "bontási és hulladékkezelési tartalom",
+        "ár és fizető"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C13",
+      "name": "Időszakos karbantartás",
+      "category": "O_AND_M",
+      "coverage_status": "GENERIC_VISIT_PRICE",
+      "reference_status": "VISIT_NOT_INSTALLATION_OR_ANNUAL_TOTAL",
+      "fact_ids": [
+        "MAINT_VISIT"
+      ],
+      "source_ids": [
+        "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+      ],
+      "gap_ids": [
+        "OM-FREQUENCY"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "fizetett alkalmak/év",
+        "pontos WM50-szolgáltatási kör",
+        "jótállási elfogadhatóság"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "MAINT_VISIT"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": [
+        "SRC-B06-WAGNER-MAINTENANCE-RECHECK-20261022"
+      ]
+    },
+    {
+      "component_id": "C14",
+      "name": "Karbantartási kiszállás",
+      "category": "O_AND_M",
+      "coverage_status": "RULE_ONLY",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [
+        "MAINT_TRAVEL_RATE",
+        "MAINT_TRAVEL_BASE"
+      ],
+      "source_ids": [
+        "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+      ],
+      "gap_ids": [
+        "OM-TRAVEL"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "hely és díjköteles km",
+        "oda-vissza értelmezés",
+        "alap/km díj együttalkalmazása",
+        "helyi mentesség"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "MAINT_TRAVEL_RATE",
+        "MAINT_TRAVEL_BASE"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C15",
+      "name": "Javítás, alkatrész, releváns biztosítás",
+      "category": "O_AND_M",
+      "coverage_status": "COMPARISON_ONLY",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [
+        "PAUL_LABOUR_HOUR"
+      ],
+      "source_ids": [
+        "SRC-B06-PAULUS-COMMISSIONING-2026"
+      ],
+      "gap_ids": [
+        "OM-REPAIR"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "célra illeszkedő javítási kör",
+        "órák/alkatrész",
+        "előfordulás",
+        "biztosítás alkalmazhatósága"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [
+        "PAUL_LABOUR_HOUR"
+      ],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C16",
+      "name": "Eszközélet, csere és eszközgenerációk",
+      "category": "REPLACEMENT",
+      "coverage_status": "SCOPED_LIFE_ONLY",
+      "reference_status": "WM50_ONLY_17_YEAR_ASS_NOT_WHOLE_SYSTEM_LIFE",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "LIFE-REPLACEMENT"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "más komponensek élete",
+        "értékelési horizont",
+        "csere dátuma és költsége",
+        "baseline csere"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C17",
+      "name": "Maradványérték és végső hulladékkezelés",
+      "category": "DISPOSAL",
+      "coverage_status": "OPEN",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "LIFE-TERMINAL"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "élettartamvégi kezelés",
+        "pénzes/nem pénzes maradvány",
+        "időpont és fizető"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    },
+    {
+      "component_id": "C18",
+      "name": "Áfa, jogosultság és költség-hozzárendelés",
+      "category": "ACCOUNTING",
+      "coverage_status": "OPEN",
+      "reference_status": "FUNCTIONAL_ROLE_ONLY",
+      "fact_ids": [],
+      "source_ids": [],
+      "gap_ids": [
+        "ACCOUNTING"
+      ],
+      "target_quantity": null,
+      "target_total_gross_huf": null,
+      "target_net_huf": null,
+      "target_vat_huf": null,
+      "missing": [
+        "bruttó/nettó/áfa felbontás ahol igazolt",
+        "fizető és kedvezményezett",
+        "cash dátum",
+        "fázis/archetípus/generáció",
+        "teljes és eligible költség"
+      ],
+      "selected_fact_ids": [],
+      "allowed_fact_ids": [],
+      "count_in_target_total": false,
+      "nonprice_source_ids": []
+    }
+  ],
+  "gaps": [
+    {
+      "gap_id": "CAPEX-CONTROLLER",
+      "component_ids": [
+        "C02"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Compatible target indoor/controller package and price",
+      "next_action": "Confirm existing reference boundary; source compatible priced package, no substitution"
+    },
+    {
+      "gap_id": "CAPEX-HYDRAULICS",
+      "component_ids": [
+        "C03",
+        "C04",
+        "C05"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Field hydraulics, protection, valves, supports, piping and insulation",
+      "next_action": "Itemised materials/quantities; distinguish integrated from separate components"
+    },
+    {
+      "gap_id": "CAPEX-INSTALLATION",
+      "component_ids": [
+        "C05",
+        "C07",
+        "C08",
+        "C10",
+        "C12"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Installation labour and commissioning",
+      "next_action": "Dated matching installation reference with inclusions/exclusions; never use a maintenance fee"
+    },
+    {
+      "gap_id": "CAPEX-ELECTRICAL",
+      "component_ids": [
+        "C09"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Electrical supply and connection works",
+      "next_action": "Separate household work from utility network investment and actual payer"
+    },
+    {
+      "gap_id": "CAPEX-EMITTERS",
+      "component_ids": [
+        "C06"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Target emitter/reuse work and balancing",
+      "next_action": "Actual reference action/quantity and compatible price; KEHOP ceiling is not an offer"
+    },
+    {
+      "gap_id": "CAPEX-DELIVERY",
+      "component_ids": [
+        "C11"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Selected delivery/collection logistics",
+      "next_action": "Do not choose free collection or invent a delivery fee"
+    },
+    {
+      "gap_id": "OM-FREQUENCY",
+      "component_ids": [
+        "C13"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Target paid visits per year",
+      "next_action": "Manufacturer cycle, supplier scope and temporal alignment; no automatic join"
+    },
+    {
+      "gap_id": "OM-TRAVEL",
+      "component_ids": [
+        "C14"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Maintenance call-out total",
+      "next_action": "Location/chargeable km/convention/base and exemption rules"
+    },
+    {
+      "gap_id": "OM-REPAIR",
+      "component_ids": [
+        "C15"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Other maintenance, repairs and spare parts",
+      "next_action": "Qualified service coverage and priced repair basis; not zero"
+    },
+    {
+      "gap_id": "LIFE-REPLACEMENT",
+      "component_ids": [
+        "C16"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Asset generations, dates, replacement costs and schedule",
+      "next_action": "Keep 17-year WM50 ASS/E2 local to that asset; horizon/other component life remain separate"
+    },
+    {
+      "gap_id": "LIFE-TERMINAL",
+      "component_ids": [
+        "C12",
+        "C17"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Disposal, residual value and other applicable lifecycle costs",
+      "next_action": "Qualified terminal basis and payer/cash dates"
+    },
+    {
+      "gap_id": "ACCOUNTING",
+      "component_ids": [
+        "C10",
+        "C18"
+      ],
+      "target_value": null,
+      "truth": "Q",
+      "closed": false,
+      "reason": "Cost quantities, cash dates, payer/payee, attribution and eligibility",
+      "next_action": "Complete native Cost/Asset contract only after missing fields qualify"
+    }
+  ],
+  "native_B12_cost_rows": [],
+  "native_B12_asset_rows": [],
+  "native_external_admission_ready": false,
+  "applied_new_financial_assumption": false,
+  "averaged_installation_prices": false,
+  "source_families_counted_once": [
+    "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+  ],
+  "scope": "LOCAL_MAPPING_ONLY_NOT_CANONICAL_ADMISSION",
+  "background_unallocated_fact_ids": [
+    "ERPX_BUNDLE",
+    "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+    "BACKGROUND-UK-EST-SE764-HEATHER",
+    "BACKGROUND-UK-EST-SC380-DAVID",
+    "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+  ]
+}

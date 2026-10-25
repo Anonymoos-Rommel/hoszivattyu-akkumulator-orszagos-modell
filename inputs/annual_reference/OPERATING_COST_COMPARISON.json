@@ -1,0 +1,136 @@
+{
+  "status": "SCN_A1_OPERATING_CHARGE_COMPARISON_ONLY_REVIEW_REQUIRED",
+  "adapter_status": "EVALUATED_CONTEXT_INCOMPLETE",
+  "missing_context": [
+    "context: explicit BillContext required; C01 t0 is not a payment date"
+  ],
+  "truth": "SCN",
+  "units": "gross nominal HUF at frozen2026 tariffs",
+  "tariff_rates": {
+    "low_gross_HUF_per_kWh": "36.386",
+    "high_gross_HUF_per_kWh": "70.104",
+    "fixed_gross_HUF_per_year": "1836.42"
+  },
+  "periods": [
+    {
+      "id": "S1",
+      "baseline_consumption_gross_HUF": "50763.642850410046981338600",
+      "programme_consumption_gross_HUF": "151686.32447502244215212481654794520547945205479452",
+      "common_fixed_gross_HUF": "1071.0393077956989247311827956989247311827956989248",
+      "baseline_total_gross_HUF": "51834.682158205745906069782795698924731182795698925",
+      "programme_total_gross_HUF": "152757.36378281814107685599934364413021063485049344",
+      "incremental_consumption_gross_HUF": "100922.68162461239517078621654794520547945205479452"
+    },
+    {
+      "id": "S2",
+      "baseline_consumption_gross_HUF": "37254.091149589949855990280",
+      "programme_consumption_gross_HUF": "106166.25695402572605650090345205479452054794520548",
+      "common_fixed_gross_HUF": "765.38069220430107526881720430107526881720430107526",
+      "baseline_total_gross_HUF": "38019.471841794250931259097204301075268817204301075",
+      "programme_total_gross_HUF": "106931.63764623002713176972065635586978936514950656",
+      "incremental_consumption_gross_HUF": "68912.16580443577620051062345205479452054794520548"
+    }
+  ],
+  "totals": {
+    "baseline_consumption_gross_HUF": "88017.733999999996837328880",
+    "programme_consumption_gross_HUF": "257852.58142904816820862572000000000000000000000000",
+    "common_fixed_gross_HUF": "1836.4200000000000000000000000000000000000000000001",
+    "baseline_total_gross_HUF": "89854.153999999996837328880000000000000000000000000",
+    "programme_total_gross_HUF": "259689.00142904816820862572000000000000000000000000",
+    "incremental_consumption_gross_HUF": "169834.84742904817137129684000000000000000000000000"
+  },
+  "readable_HUF_2_places": [
+    {
+      "period": "S1",
+      "baseline_consumption_gross_HUF": "50763.64",
+      "programme_consumption_gross_HUF": "151686.32",
+      "common_fixed_gross_HUF": "1071.04",
+      "baseline_total_gross_HUF": "51834.68",
+      "programme_total_gross_HUF": "152757.36",
+      "incremental_consumption_gross_HUF": "100922.68"
+    },
+    {
+      "period": "S2",
+      "baseline_consumption_gross_HUF": "37254.09",
+      "programme_consumption_gross_HUF": "106166.26",
+      "common_fixed_gross_HUF": "765.38",
+      "baseline_total_gross_HUF": "38019.47",
+      "programme_total_gross_HUF": "106931.64",
+      "incremental_consumption_gross_HUF": "68912.17"
+    },
+    {
+      "period": "TOTAL",
+      "baseline_consumption_gross_HUF": "88017.73",
+      "programme_consumption_gross_HUF": "257852.58",
+      "common_fixed_gross_HUF": "1836.42",
+      "baseline_total_gross_HUF": "89854.15",
+      "programme_total_gross_HUF": "259689.00",
+      "incremental_consumption_gross_HUF": "169834.85"
+    }
+  ],
+  "physical_windows": [
+    {
+      "id": "S1",
+      "start_utc": "2025-01-01T00:00:00+00:00",
+      "end_utc_exclusive": "2025-07-31T22:00:00+00:00",
+      "hours": 5086,
+      "base_kWh": "1395.142165954214450100",
+      "HP_reference_kWh": "1473.2737920445158662490"
+    },
+    {
+      "id": "S2",
+      "start_utc": "2025-07-31T22:00:00+00:00",
+      "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+      "hours": 3674,
+      "base_kWh": "1023.857834045785462980",
+      "HP_reference_kWh": "999.3600010207610694760"
+    }
+  ],
+  "source_ids": [
+    "SRC-B04-MVM-BILLING-2026",
+    "SRC-B04-MVM-M1-2026",
+    "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026"
+  ],
+  "fixed_fee_checks": [
+    {
+      "period": "S1",
+      "baseline_fixed_HUF": "1071.0393077956989247311827956989247311827956989248",
+      "programme_fixed_HUF": "1071.0393077956989247311827956989247311827956989248",
+      "fixed_fee_difference_exact": "0/1",
+      "rational_total_difference_equals_consumption_difference": true,
+      "native_total_difference_minus_reported_consumption_delta": {
+        "exact": "-1/200000000000000000000000000000000000000000000",
+        "decimal_precision_50": "-5E-45"
+      }
+    },
+    {
+      "period": "S2",
+      "baseline_fixed_HUF": "765.38069220430107526881720430107526881720430107526",
+      "programme_fixed_HUF": "765.38069220430107526881720430107526881720430107526",
+      "fixed_fee_difference_exact": "0/1",
+      "rational_total_difference_equals_consumption_difference": true,
+      "native_total_difference_minus_reported_consumption_delta": {
+        "exact": "1/200000000000000000000000000000000000000000000",
+        "decimal_precision_50": "5E-45"
+      }
+    }
+  ],
+  "exact_rational_and_decimal_deviations": "DEVIATION_AUDIT.json",
+  "financial_epsilon_selected": false,
+  "new_BillInputs": 0,
+  "new_Costs": 0,
+  "payment_dates": null,
+  "settlement_dates": null,
+  "complete_local_civil_year": false,
+  "profile_remapped_to_2028": false,
+  "extra_VAT_or_network_added": false,
+  "HMV": null,
+  "outside_auxiliary_correction": null,
+  "pump_D_difference": null,
+  "gas_saving": null,
+  "full_household_or_system_saving": null,
+  "full_CAPEX": null,
+  "ROI": null,
+  "cashflow": null,
+  "E2_source_use_adopted": false
+}

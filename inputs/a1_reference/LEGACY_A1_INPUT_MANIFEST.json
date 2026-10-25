@@ -1,0 +1,59 @@
+{
+  "sources": {
+    "physical_profile": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\candidate-mvm-b07-b08-20261021\\b08-unit-increment-b12-handoff-v1\\UNIT_INCREMENT_HOURLY_8760.csv",
+      "sha256": "cd1247bb9c904531e06951542958b257e2471cf8fbd7469fed2e9ce55ffe554b"
+    },
+    "physical_receipt": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\candidate-mvm-b07-b08-20261021\\b08-unit-increment-b12-handoff-v1\\RESULT.json",
+      "sha256": "ce0bbcb22eba74dc14324ea347657587f9c0dffeb1288356cc4a0277b20d0c28"
+    },
+    "physical_SCN": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\candidate-mvm-b07-b08-20261021\\b08-unit-increment-b12-handoff-v1\\APPROVED_REFERENCE_SCN.json",
+      "sha256": "e3861f362b68541872327589369162736497e2ae8bf1d996a14efcc30e6b39d9"
+    },
+    "B04_engine": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\modules\\B04\\engine.py",
+      "sha256": "57f00eb92999a317cfc016f96ae87378f548b0d1be93f5e70a08cac2874fbdcb"
+    },
+    "B04_tariffs": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\data\\processed\\residential_electricity_tariff_schedule.csv",
+      "sha256": "e587240e93ec602f375c9bb668e14fb8ec984ed504f8d11cb0e5de84ec83fccb"
+    },
+    "B04_source_pack": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\docs\\source_packs\\B04_ELECTRICITY_PRICE_AND_TARIFFS.md",
+      "sha256": "ef5df225629b0a1bca092c5b353e3f3725910f9fc7287be6a996b67638a48479"
+    },
+    "B04_source_verification": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\registry\\b04_tariff_source_verification.json",
+      "sha256": "709304cfec57c7b14a58574a06e077ef786367aa16414355db9427859ebbec67"
+    },
+    "B12_adapter": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\modules\\B12\\input_accounting_contract.py",
+      "sha256": "b07d3fe7aa237ff11b5d38629b6316570398d575b5aa111e147d458059ec87b0"
+    },
+    "B12_inventory": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\registry\\b12_input_inventory.json",
+      "sha256": "92124d4685d0c12afc973463bbb96844c15929ecd2d104510ced256c2d277c79"
+    },
+    "B12_existing_test_helpers": {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-15\\task-3\\cp-identification-checkout\\tests\\test_b12_input_accounting_contract.py",
+      "sha256": "3893f9b5a7d14fddf48fcb88978b4dd7591aee6c6e7b36d36d015d49641cf2a3"
+    }
+  },
+  "initial_manifest_checks": [
+    {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\candidate-mvm-b07-b08-20261021\\ARTIFACT_MANIFEST.json",
+      "files": 36,
+      "mismatches": []
+    },
+    {
+      "path": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\candidate-mvm-b07-b08-20261021\\b08-unit-increment-b12-handoff-v1\\ARTIFACT_MANIFEST.json",
+      "files": 15,
+      "mismatches": []
+    }
+  ],
+  "weekly_remaining_percent": 95,
+  "no_download": true,
+  "old_civil_year_annual_consumer_relabelled_or_bypassed": false
+}

@@ -1,0 +1,4182 @@
+{
+  "schema_version": 2,
+  "offers": [
+    {
+      "offer_id": "OUTDOOR_GROSS",
+      "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+      "family_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+      "original_url": "https://ecodanshop.hu/mitsubishi-electric-hoszivattyuk/kulteri/puz-wm50vha-mitsubishi-electric-power-inverter-monoblokk-kulteri-egyseg-r32",
+      "reference_period": [
+        "2026-10-21",
+        "2026-10-21"
+      ],
+      "product": "PUZ-WM50VHA",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C01"
+      ],
+      "inclusions": [
+        "outdoor"
+      ],
+      "value": "1220781",
+      "amount_field": "value",
+      "unit": "HUF/item",
+      "quantity_unit": "item",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261021",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "EXACT_PRODUCT_PART_PRICE",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "OUTDOOR_GROSS"
+        ],
+        "expected": {
+          "fact_id": "OUTDOOR_GROSS",
+          "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+          "value": "1220781",
+          "unit": "HUF/item",
+          "truth": "OBS",
+          "scope": "EXACT_PRODUCT_PART_PRICE",
+          "target_selected": false,
+          "product": "PUZ-WM50VHA",
+          "old_crossed_out": "1488758"
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "OUTDOOR_GROSS"
+        ],
+        "expected": {
+          "fact_id": "OUTDOOR_GROSS",
+          "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+          "value": "1220781",
+          "unit": "HUF/item",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "EXACT_PRODUCT_PART_PRICE",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+          "reference_date"
+        ],
+        "expected": "2026-10-21"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "0"
+        ],
+        "expected": {
+          "component_id": "C01",
+          "function": "PUZ-WM50VHA kültéri készülék",
+          "offer_id": "OUTDOOR_GROSS",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "outdoor"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "teljes telepített scope",
+            "pénzesemény és mennyiségkötés",
+            "szállítás"
+          ],
+          "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "0"
+        ],
+        "expected": {
+          "component_id": "C01",
+          "name": "PUZ-WM50VHA kültéri készülék",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "EXACT_COMPONENT_PRICE",
+          "reference_status": "FIXED_NAMED_ENERGY_REFERENCE_NOT_FULL_BOM",
+          "fact_ids": [
+            "OUTDOOR_GROSS"
+          ],
+          "source_ids": [
+            "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+          ],
+          "gap_ids": [],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "teljes telepített scope",
+            "pénzesemény és mennyiségkötés",
+            "szállítás"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "OUTDOOR_GROSS"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "OUTDOOR_GROSS"
+        ],
+        "expected": {
+          "input_revision": "44c751f8c2318c8a00537878f4976c7a59d78054c0015e40a67b4e8e475a4b1f",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-21",
+              "2026-10-21"
+            ],
+            "inclusions": [
+              "outdoor"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "CONTROLLER_GROSS",
+      "source_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+      "family_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+      "original_url": "https://ecodanshop.hu/mitsubishi-electric-hoszivattyuk/tartozek/pac-if071b-e-master-controller-vezerloegyseg-d-series",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAC-IF071B-E",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C02"
+      ],
+      "inclusions": [
+        "controller",
+        "water_temperature_sensors",
+        "main_remote",
+        "remote_cable",
+        "SD"
+      ],
+      "value": "462772",
+      "amount_field": "value",
+      "unit": "HUF/item",
+      "quantity_unit": "item",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "CONDITIONAL_COMPONENT_PRICE",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "CONTROLLER_GROSS"
+        ],
+        "expected": {
+          "fact_id": "CONTROLLER_GROSS",
+          "source_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+          "value": "462772",
+          "unit": "HUF/item",
+          "truth": "OBS",
+          "scope": "CONDITIONAL_COMPONENT_PRICE",
+          "target_selected": false,
+          "product": "PAC-IF071B-E",
+          "old_crossed_out": "564356",
+          "stock": "OUT_OF_STOCK"
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "CONTROLLER_GROSS"
+        ],
+        "expected": {
+          "fact_id": "CONTROLLER_GROSS",
+          "source_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+          "value": "462772",
+          "unit": "HUF/item",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "CONDITIONAL_COMPONENT_PRICE",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-PACIF071-HU-ECODANSHOP-20261022",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "1"
+        ],
+        "expected": {
+          "component_id": "C02",
+          "function": "Beltéri / vezérlés / érzékelők",
+          "offer_id": "CONTROLLER_GROSS",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "controller",
+            "water_temperature_sensors",
+            "main_remote",
+            "remote_cable",
+            "SD"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "elfogadott beltéri/vezérlési út",
+            "kompatibilitás és tartozékjegyzék",
+            "darabszám",
+            "készlet és időpont"
+          ],
+          "source_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "1"
+        ],
+        "expected": {
+          "component_id": "C02",
+          "name": "Beltéri / vezérlés / érzékelők",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "CONDITIONAL_COMPONENT_PRICE",
+          "reference_status": "FTC6_OR_INTEGRATED_ROUTE_UNSELECTED",
+          "fact_ids": [
+            "CONTROLLER_GROSS"
+          ],
+          "source_ids": [
+            "SRC-B06-PACIF071-HU-ECODANSHOP-20261022"
+          ],
+          "gap_ids": [
+            "CAPEX-CONTROLLER"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "elfogadott beltéri/vezérlési út",
+            "kompatibilitás és tartozékjegyzék",
+            "darabszám",
+            "készlet és időpont"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "CONTROLLER_GROSS"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "CONTROLLER_GROSS"
+        ],
+        "expected": {
+          "input_revision": "8011f7b965b3d7d2b328b0b76ba2d388ba262d6dd12e67e924ab7819ba822cd2",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "controller",
+              "water_temperature_sensors",
+              "main_remote",
+              "remote_cable",
+              "SD"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "PUMP_FAMILY_COMPARISON",
+      "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+      "family_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+      "original_url": "https://www.gepeszweb.hu/wilo_yonos_pico_251_4_nagyhatasfoku_szivattyu_1075",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "Wilo Yonos PICO 25/1-4",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C03"
+      ],
+      "inclusions": [
+        "pump"
+      ],
+      "value": "61600",
+      "amount_field": "value",
+      "unit": "HUF/item",
+      "quantity_unit": "item",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS_WITH_PUBLISHED_ROUNDED_NET",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "COMPARISON_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "PUMP_FAMILY_COMPARISON"
+        ],
+        "expected": {
+          "fact_id": "PUMP_FAMILY_COMPARISON",
+          "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+          "value": "61600",
+          "unit": "HUF/item",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY",
+          "target_selected": false,
+          "product": "Wilo Yonos PICO 25/1-4",
+          "required_article": "4215513",
+          "article_matched": false,
+          "published_rounded_net": "48504"
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "PUMP_FAMILY_COMPARISON"
+        ],
+        "expected": {
+          "fact_id": "PUMP_FAMILY_COMPARISON",
+          "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+          "value": "61600",
+          "unit": "HUF/item",
+          "tax_basis": "GROSS_WITH_PUBLISHED_ROUNDED_NET",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-GEPESZWEB-YONOS-20261022",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "2"
+        ],
+        "expected": {
+          "component_id": "C03",
+          "function": "Keringtetés / pumpa",
+          "offer_id": "PUMP_FAMILY_COMPARISON",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "pump"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "4215513 cikkszámhoz kötött ár",
+            "integrált vagy külső szerep",
+            "beszerzési darabszám"
+          ],
+          "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "2"
+        ],
+        "expected": {
+          "component_id": "C03",
+          "name": "Keringtetés / pumpa",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "ONE_MODEL_PUMP_SENSITIVITY_IS_NOT_PROCUREMENT_BOM",
+          "fact_ids": [
+            "PUMP_FAMILY_COMPARISON"
+          ],
+          "source_ids": [
+            "SRC-B06-GEPESZWEB-YONOS-20261022"
+          ],
+          "gap_ids": [
+            "CAPEX-HYDRAULICS"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "4215513 cikkszámhoz kötött ár",
+            "integrált vagy külső szerep",
+            "beszerzési darabszám"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PUMP_FAMILY_COMPARISON"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "PUMP_FAMILY_COMPARISON"
+        ],
+        "expected": {
+          "input_revision": "b28931825e2057edc7d7cee0a1330becafdf340a70fe1bd9df8ebb230a6ee410",
+          "normalized": {
+            "tax_basis": "GROSS_WITH_PUBLISHED_ROUNDED_NET",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "pump"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "PUMP_SHIPPING_COMPARISON",
+      "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+      "family_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+      "original_url": "https://www.gepeszweb.hu/wilo_yonos_pico_251_4_nagyhatasfoku_szivattyu_1075",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PUMP_SHIPPING_COMPARISON",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C11"
+      ],
+      "inclusions": [
+        "PUMP_SHIPPING_COMPARISON"
+      ],
+      "value": "2794",
+      "amount_field": "value",
+      "unit": "HUF/delivery",
+      "quantity_unit": "delivery",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "Q_NOT_EXPLICITLY_SEPARATED",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "COMPARISON_ONLY_TAX_Q",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "PUMP_SHIPPING_COMPARISON"
+        ],
+        "expected": {
+          "fact_id": "PUMP_SHIPPING_COMPARISON",
+          "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+          "value": "2794",
+          "unit": "HUF/delivery",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY_TAX_Q",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "PUMP_SHIPPING_COMPARISON"
+        ],
+        "expected": {
+          "fact_id": "PUMP_SHIPPING_COMPARISON",
+          "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022",
+          "value": "2794",
+          "unit": "HUF/delivery",
+          "tax_basis": "Q_NOT_EXPLICITLY_SEPARATED",
+          "tax_origin": "SOURCE_REVIEW.sources[].delivery_tax_basis",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY_TAX_Q",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-GEPESZWEB-YONOS-20261022",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "3"
+        ],
+        "expected": {
+          "component_id": "C11",
+          "function": "Szállítás, mozgatás, emelés",
+          "offer_id": "PUMP_SHIPPING_COMPARISON",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "PUMP_SHIPPING_COMPARISON"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "választott logisztikai modellút",
+            "céltételekre vonatkozó díj",
+            "adókezelés"
+          ],
+          "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "10"
+        ],
+        "expected": {
+          "component_id": "C11",
+          "name": "Szállítás, mozgatás, emelés",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "SCOPE_ONLY",
+          "reference_status": "FREE_PICKUP_NOT_SELECTED_OTHER_PUMP_FEE_NOT_TRANSFERABLE",
+          "fact_ids": [
+            "PUMP_SHIPPING_COMPARISON"
+          ],
+          "source_ids": [
+            "SRC-B06-GEPESZWEB-YONOS-20261022"
+          ],
+          "gap_ids": [
+            "CAPEX-DELIVERY"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "választott logisztikai modellút",
+            "céltételekre vonatkozó díj",
+            "adókezelés"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PUMP_SHIPPING_COMPARISON"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": [
+            "SRC-B06-ECODANSHIPPING-20261022",
+            "SRC-B06-ECODANSHOP-SHIPPING-20261021"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "PUMP_SHIPPING_COMPARISON"
+        ],
+        "expected": {
+          "input_revision": "624f2f6f148eadfcacd202e718a80f390474d3fb7b8d5821ac8a2fadadcd518d",
+          "normalized": {
+            "tax_basis": "Q_NOT_EXPLICITLY_SEPARATED",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "PUMP_SHIPPING_COMPARISON"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "MAINT_VISIT",
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "family_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "original_url": "https://wagnersolar.hu/hoszivattyu-klima-karbantartas/",
+      "reference_period": [
+        "2026-10-21",
+        "2026-10-21"
+      ],
+      "product": "MAINT_VISIT",
+      "category": "O_AND_M",
+      "function_ids": [
+        "C13"
+      ],
+      "inclusions": [
+        "MAINT_VISIT"
+      ],
+      "value": "57150",
+      "amount_field": "value",
+      "unit": "HUF/visit",
+      "quantity_unit": "visit",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261021",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "GENERIC_MAINTENANCE_VISIT",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "MAINT_VISIT"
+        ],
+        "expected": {
+          "fact_id": "MAINT_VISIT",
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "value": "57150",
+          "unit": "HUF/visit",
+          "truth": "OBS",
+          "scope": "GENERIC_MAINTENANCE_VISIT",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "MAINT_VISIT"
+        ],
+        "expected": {
+          "fact_id": "MAINT_VISIT",
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "value": "57150",
+          "unit": "HUF/visit",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "GENERIC_MAINTENANCE_VISIT",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "reference_date"
+        ],
+        "expected": "2026-10-21"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "4"
+        ],
+        "expected": {
+          "component_id": "C13",
+          "function": "Időszakos karbantartás",
+          "offer_id": "MAINT_VISIT",
+          "category": "O_AND_M",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "MAINT_VISIT"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "fizetett alkalmak/év",
+            "pontos WM50-szolgáltatási kör",
+            "jótállási elfogadhatóság"
+          ],
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "12"
+        ],
+        "expected": {
+          "component_id": "C13",
+          "name": "Időszakos karbantartás",
+          "category": "O_AND_M",
+          "coverage_status": "GENERIC_VISIT_PRICE",
+          "reference_status": "VISIT_NOT_INSTALLATION_OR_ANNUAL_TOTAL",
+          "fact_ids": [
+            "MAINT_VISIT"
+          ],
+          "source_ids": [
+            "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+          ],
+          "gap_ids": [
+            "OM-FREQUENCY"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "fizetett alkalmak/év",
+            "pontos WM50-szolgáltatási kör",
+            "jótállási elfogadhatóság"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "MAINT_VISIT"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": [
+            "SRC-B06-WAGNER-MAINTENANCE-RECHECK-20261022"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "MAINT_VISIT"
+        ],
+        "expected": {
+          "input_revision": "eea2c47248318b4945f77887292392de6c6511b24adaa1d93cfeb66e6737a309",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-21",
+              "2026-10-21"
+            ],
+            "inclusions": [
+              "MAINT_VISIT"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "MAINT_TRAVEL_RATE",
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "family_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "original_url": "https://wagnersolar.hu/hoszivattyu-klima-karbantartas/",
+      "reference_period": [
+        "2026-10-21",
+        "2026-10-21"
+      ],
+      "product": "MAINT_TRAVEL_RATE",
+      "category": "O_AND_M",
+      "function_ids": [
+        "C14"
+      ],
+      "inclusions": [
+        "MAINT_TRAVEL_RATE"
+      ],
+      "value": "254",
+      "amount_field": "value",
+      "unit": "HUF/km",
+      "quantity_unit": "km",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261021",
+      "tax_basis": "GROSS",
+      "price_kind": "UNIT_RATE",
+      "original_price_kind": "DISTANCE_RATE",
+      "use_scope": "TRAVEL_RULE_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "MAINT_TRAVEL_RATE"
+        ],
+        "expected": {
+          "fact_id": "MAINT_TRAVEL_RATE",
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "value": "254",
+          "unit": "HUF/km",
+          "truth": "OBS",
+          "scope": "TRAVEL_RULE_ONLY",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "MAINT_TRAVEL_RATE"
+        ],
+        "expected": {
+          "fact_id": "MAINT_TRAVEL_RATE",
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "value": "254",
+          "unit": "HUF/km",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "DISTANCE_RATE",
+          "original_price_kind": "",
+          "scope": "TRAVEL_RULE_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "reference_date"
+        ],
+        "expected": "2026-10-21"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "5"
+        ],
+        "expected": {
+          "component_id": "C14",
+          "function": "Karbantartási kiszállás",
+          "offer_id": "MAINT_TRAVEL_RATE",
+          "category": "O_AND_M",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "MAINT_TRAVEL_RATE"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "hely és díjköteles km",
+            "oda-vissza értelmezés",
+            "alap/km díj együttalkalmazása",
+            "helyi mentesség"
+          ],
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "13"
+        ],
+        "expected": {
+          "component_id": "C14",
+          "name": "Karbantartási kiszállás",
+          "category": "O_AND_M",
+          "coverage_status": "RULE_ONLY",
+          "reference_status": "FUNCTIONAL_ROLE_ONLY",
+          "fact_ids": [
+            "MAINT_TRAVEL_RATE",
+            "MAINT_TRAVEL_BASE"
+          ],
+          "source_ids": [
+            "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+          ],
+          "gap_ids": [
+            "OM-TRAVEL"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "hely és díjköteles km",
+            "oda-vissza értelmezés",
+            "alap/km díj együttalkalmazása",
+            "helyi mentesség"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "MAINT_TRAVEL_RATE",
+            "MAINT_TRAVEL_BASE"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "MAINT_TRAVEL_RATE"
+        ],
+        "expected": {
+          "input_revision": "91a7bc5ba6ca629d6960081ee3831d99a8531c784920c7e7039230b7558a7818",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "UNIT_RATE",
+            "reference_period": [
+              "2026-10-21",
+              "2026-10-21"
+            ],
+            "inclusions": [
+              "MAINT_TRAVEL_RATE"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "MAINT_TRAVEL_BASE",
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "family_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+      "original_url": "https://wagnersolar.hu/hoszivattyu-klima-karbantartas/",
+      "reference_period": [
+        "2026-10-21",
+        "2026-10-21"
+      ],
+      "product": "MAINT_TRAVEL_BASE",
+      "category": "O_AND_M",
+      "function_ids": [
+        "C14"
+      ],
+      "inclusions": [
+        "MAINT_TRAVEL_BASE"
+      ],
+      "value": "12700",
+      "amount_field": "value",
+      "unit": "HUF/visit",
+      "quantity_unit": "visit",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261021",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "TRAVEL_RULE_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "MAINT_TRAVEL_BASE"
+        ],
+        "expected": {
+          "fact_id": "MAINT_TRAVEL_BASE",
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "value": "12700",
+          "unit": "HUF/visit",
+          "truth": "OBS",
+          "scope": "TRAVEL_RULE_ONLY",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "MAINT_TRAVEL_BASE"
+        ],
+        "expected": {
+          "fact_id": "MAINT_TRAVEL_BASE",
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "value": "12700",
+          "unit": "HUF/visit",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "TRAVEL_RULE_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-WAGNER-HP-MAINTENANCE-20261021",
+          "reference_date"
+        ],
+        "expected": "2026-10-21"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "6"
+        ],
+        "expected": {
+          "component_id": "C14",
+          "function": "Karbantartási kiszállás",
+          "offer_id": "MAINT_TRAVEL_BASE",
+          "category": "O_AND_M",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "MAINT_TRAVEL_BASE"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "hely és díjköteles km",
+            "oda-vissza értelmezés",
+            "alap/km díj együttalkalmazása",
+            "helyi mentesség"
+          ],
+          "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "13"
+        ],
+        "expected": {
+          "component_id": "C14",
+          "name": "Karbantartási kiszállás",
+          "category": "O_AND_M",
+          "coverage_status": "RULE_ONLY",
+          "reference_status": "FUNCTIONAL_ROLE_ONLY",
+          "fact_ids": [
+            "MAINT_TRAVEL_RATE",
+            "MAINT_TRAVEL_BASE"
+          ],
+          "source_ids": [
+            "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+          ],
+          "gap_ids": [
+            "OM-TRAVEL"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "hely és díjköteles km",
+            "oda-vissza értelmezés",
+            "alap/km díj együttalkalmazása",
+            "helyi mentesség"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "MAINT_TRAVEL_RATE",
+            "MAINT_TRAVEL_BASE"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "MAINT_TRAVEL_BASE"
+        ],
+        "expected": {
+          "input_revision": "a396d57c37d72fcab2e4680f2dd96b008fba3d216c476b62f154dd50ab349669",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-21",
+              "2026-10-21"
+            ],
+            "inclusions": [
+              "MAINT_TRAVEL_BASE"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "PAUL_COMMISSION",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "family_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "original_url": "https://paulusklima.hu/beuzemeles_2026",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAUL_COMMISSION",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C08"
+      ],
+      "inclusions": [
+        "PAUL_COMMISSION"
+      ],
+      "value": "190500",
+      "amount_field": "value",
+      "unit": "HUF/commissioning",
+      "quantity_unit": "commissioning",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "COMPARISON_ONLY_NO_TARGET_AUTHORITY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "PAUL_COMMISSION"
+        ],
+        "expected": {
+          "fact_id": "PAUL_COMMISSION",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "190500",
+          "unit": "HUF/commissioning",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY_NO_TARGET_AUTHORITY",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "PAUL_COMMISSION"
+        ],
+        "expected": {
+          "fact_id": "PAUL_COMMISSION",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "190500",
+          "unit": "HUF/commissioning",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY_NO_TARGET_AUTHORITY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "7"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "function": "Beüzemelés, próbaüzem, átadás",
+          "offer_id": "PAUL_COMMISSION",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "PAUL_COMMISSION"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "7"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "name": "Beüzemelés, próbaüzem, átadás",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "DISTRIBUTOR_SCOPE_NO_PUBLIC_TARGET_AMOUNT",
+          "fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "source_ids": [
+            "SRC-B06-LANGPOWER-SERVICE-20261022",
+            "SRC-B06-PAULUS-COMMISSIONING-2026"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": [
+            "SRC-B06-COP-COMMISSIONING-20261022"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "PAUL_COMMISSION"
+        ],
+        "expected": {
+          "input_revision": "27c54dc4f2aa8ceb3694326fe0f0956391d529be17d1dc52ef75a628b8de0984",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "PAUL_COMMISSION"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "PAUL_TRAVEL_RATE",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "family_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "original_url": "https://paulusklima.hu/beuzemeles_2026",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAUL_TRAVEL_RATE",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C08"
+      ],
+      "inclusions": [
+        "PAUL_TRAVEL_RATE"
+      ],
+      "value": "360",
+      "amount_field": "value",
+      "unit": "HUF/km",
+      "quantity_unit": "km",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "UNIT_RATE",
+      "original_price_kind": "DISTANCE_RATE",
+      "use_scope": "COMPARISON_ONLY_ROUND_TRIP",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "PAUL_TRAVEL_RATE"
+        ],
+        "expected": {
+          "fact_id": "PAUL_TRAVEL_RATE",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "360",
+          "unit": "HUF/km",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY_ROUND_TRIP",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "PAUL_TRAVEL_RATE"
+        ],
+        "expected": {
+          "fact_id": "PAUL_TRAVEL_RATE",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "360",
+          "unit": "HUF/km",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "DISTANCE_RATE",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY_ROUND_TRIP",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "8"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "function": "Beüzemelés, próbaüzem, átadás",
+          "offer_id": "PAUL_TRAVEL_RATE",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "PAUL_TRAVEL_RATE"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "7"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "name": "Beüzemelés, próbaüzem, átadás",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "DISTRIBUTOR_SCOPE_NO_PUBLIC_TARGET_AMOUNT",
+          "fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "source_ids": [
+            "SRC-B06-LANGPOWER-SERVICE-20261022",
+            "SRC-B06-PAULUS-COMMISSIONING-2026"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": [
+            "SRC-B06-COP-COMMISSIONING-20261022"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "PAUL_TRAVEL_RATE"
+        ],
+        "expected": {
+          "input_revision": "1f7f88050b190de1fde3b2a87e32ca1d217d6815685e8fe9a77d2ff01ec8b55a",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "UNIT_RATE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "PAUL_TRAVEL_RATE"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "PAUL_TRAVEL_MIN",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "family_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "original_url": "https://paulusklima.hu/beuzemeles_2026",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAUL_TRAVEL_MIN",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C08"
+      ],
+      "inclusions": [
+        "PAUL_TRAVEL_MIN"
+      ],
+      "value": "12700",
+      "amount_field": "value",
+      "unit": "HUF/visit",
+      "quantity_unit": "visit",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "MINIMUM_FEE",
+      "original_price_kind": "MINIMUM_FEE",
+      "use_scope": "COMPARISON_ONLY_MINIMUM",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "PAUL_TRAVEL_MIN"
+        ],
+        "expected": {
+          "fact_id": "PAUL_TRAVEL_MIN",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "12700",
+          "unit": "HUF/visit",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY_MINIMUM",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "PAUL_TRAVEL_MIN"
+        ],
+        "expected": {
+          "fact_id": "PAUL_TRAVEL_MIN",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "12700",
+          "unit": "HUF/visit",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "MINIMUM_FEE",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY_MINIMUM",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "9"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "function": "Beüzemelés, próbaüzem, átadás",
+          "offer_id": "PAUL_TRAVEL_MIN",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "PAUL_TRAVEL_MIN"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "7"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "name": "Beüzemelés, próbaüzem, átadás",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "DISTRIBUTOR_SCOPE_NO_PUBLIC_TARGET_AMOUNT",
+          "fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "source_ids": [
+            "SRC-B06-LANGPOWER-SERVICE-20261022",
+            "SRC-B06-PAULUS-COMMISSIONING-2026"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": [
+            "SRC-B06-COP-COMMISSIONING-20261022"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "PAUL_TRAVEL_MIN"
+        ],
+        "expected": {
+          "input_revision": "e8ad64e74777ff9ae88a578551d960303df05c3fa8d7629cd1dd75d577e71d2b",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "MINIMUM_FEE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "PAUL_TRAVEL_MIN"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "PAUL_LABOUR_HOUR",
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "family_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+      "original_url": "https://paulusklima.hu/beuzemeles_2026",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAUL_LABOUR_HOUR",
+      "category": "O_AND_M",
+      "function_ids": [
+        "C15"
+      ],
+      "inclusions": [
+        "PAUL_LABOUR_HOUR"
+      ],
+      "value": "13300",
+      "amount_field": "value",
+      "unit": "HUF/person-hour",
+      "quantity_unit": "person-hour",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "COMPARISON_ONLY_REPAIR_LABOUR_NOT_TOTAL",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "PAUL_LABOUR_HOUR"
+        ],
+        "expected": {
+          "fact_id": "PAUL_LABOUR_HOUR",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "13300",
+          "unit": "HUF/person-hour",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY_REPAIR_LABOUR_NOT_TOTAL",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "PAUL_LABOUR_HOUR"
+        ],
+        "expected": {
+          "fact_id": "PAUL_LABOUR_HOUR",
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "value": "13300",
+          "unit": "HUF/person-hour",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY_REPAIR_LABOUR_NOT_TOTAL",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-PAULUS-COMMISSIONING-2026",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "10"
+        ],
+        "expected": {
+          "component_id": "C15",
+          "function": "Javítás, alkatrész, releváns biztosítás",
+          "offer_id": "PAUL_LABOUR_HOUR",
+          "category": "O_AND_M",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "PAUL_LABOUR_HOUR"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "célra illeszkedő javítási kör",
+            "órák/alkatrész",
+            "előfordulás",
+            "biztosítás alkalmazhatósága"
+          ],
+          "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "14"
+        ],
+        "expected": {
+          "component_id": "C15",
+          "name": "Javítás, alkatrész, releváns biztosítás",
+          "category": "O_AND_M",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "FUNCTIONAL_ROLE_ONLY",
+          "fact_ids": [
+            "PAUL_LABOUR_HOUR"
+          ],
+          "source_ids": [
+            "SRC-B06-PAULUS-COMMISSIONING-2026"
+          ],
+          "gap_ids": [
+            "OM-REPAIR"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "célra illeszkedő javítási kör",
+            "órák/alkatrész",
+            "előfordulás",
+            "biztosítás alkalmazhatósága"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PAUL_LABOUR_HOUR"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "PAUL_LABOUR_HOUR"
+        ],
+        "expected": {
+          "input_revision": "51ad2a4061e8867d3e2215f8ef6905c18d703554f855eff69d8b49c9a36425f9",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "PAUL_LABOUR_HOUR"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "LANG_COMMISSION",
+      "source_id": "SRC-B06-LANGPOWER-SERVICE-20261022",
+      "family_id": "SRC-B06-LANGPOWER-SERVICE-20261022",
+      "original_url": "https://langpower.hu/araink/",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "LANG_COMMISSION",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C08"
+      ],
+      "inclusions": [
+        "LANG_COMMISSION"
+      ],
+      "value": "60000",
+      "amount_field": "value",
+      "unit": "HUF/commissioning",
+      "quantity_unit": "commissioning",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "STARTING_FROM",
+      "original_price_kind": "STARTING_FROM",
+      "use_scope": "COMPARISON_ONLY_STARTING_FROM",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "LANG_COMMISSION"
+        ],
+        "expected": {
+          "fact_id": "LANG_COMMISSION",
+          "source_id": "SRC-B06-LANGPOWER-SERVICE-20261022",
+          "value": "60000",
+          "unit": "HUF/commissioning",
+          "truth": "OBS",
+          "scope": "COMPARISON_ONLY_STARTING_FROM",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "LANG_COMMISSION"
+        ],
+        "expected": {
+          "fact_id": "LANG_COMMISSION",
+          "source_id": "SRC-B06-LANGPOWER-SERVICE-20261022",
+          "value": "60000",
+          "unit": "HUF/commissioning",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "STARTING_FROM",
+          "original_price_kind": "",
+          "scope": "COMPARISON_ONLY_STARTING_FROM",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-LANGPOWER-SERVICE-20261022",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "11"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "function": "Beüzemelés, próbaüzem, átadás",
+          "offer_id": "LANG_COMMISSION",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "LANG_COMMISSION"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "source_id": "SRC-B06-LANGPOWER-SERVICE-20261022"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "7"
+        ],
+        "expected": {
+          "component_id": "C08",
+          "name": "Beüzemelés, próbaüzem, átadás",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "DISTRIBUTOR_SCOPE_NO_PUBLIC_TARGET_AMOUNT",
+          "fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "source_ids": [
+            "SRC-B06-LANGPOWER-SERVICE-20261022",
+            "SRC-B06-PAULUS-COMMISSIONING-2026"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "Mitsubishi célra alkalmazható szolgáltatás és ár",
+            "fő telepítési csomagba foglalás",
+            "kiszállás"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "PAUL_COMMISSION",
+            "LANG_COMMISSION",
+            "PAUL_TRAVEL_RATE",
+            "PAUL_TRAVEL_MIN"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": [
+            "SRC-B06-COP-COMMISSIONING-20261022"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "LANG_COMMISSION"
+        ],
+        "expected": {
+          "input_revision": "87179eabc0c98e7a5e0c810ace3711920e1d6999dcf8cdc35b5110fbb704e57e",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "STARTING_FROM",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "LANG_COMMISSION"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "RADIATOR_UK",
+      "source_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+      "family_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+      "original_url": "https://www.cityplumbing.co.uk/p/stelrad-compact-k3-radiator-200mm-x-1600mm-20023316/p/268681",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "RADIATOR_UK",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C06"
+      ],
+      "inclusions": [
+        "RADIATOR_UK"
+      ],
+      "value": "426.96",
+      "amount_field": "value",
+      "unit": "GBP/item",
+      "quantity_unit": "item",
+      "basis_id": "GBP_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "UK_GROSS_INC_VAT",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "FOREIGN_PROTOTYPE_COMPARISON_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "RADIATOR_UK"
+        ],
+        "expected": {
+          "fact_id": "RADIATOR_UK",
+          "source_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+          "value": "426.96",
+          "unit": "GBP/item",
+          "truth": "OBS",
+          "scope": "FOREIGN_PROTOTYPE_COMPARISON_ONLY",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "RADIATOR_UK"
+        ],
+        "expected": {
+          "fact_id": "RADIATOR_UK",
+          "source_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+          "value": "426.96",
+          "unit": "GBP/item",
+          "tax_basis": "UK_GROSS_INC_VAT",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "FOREIGN_PROTOTYPE_COMPARISON_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "12"
+        ],
+        "expected": {
+          "component_id": "C06",
+          "function": "Hőleadók, csatlakozás, átmosás, beszabályozás",
+          "offer_id": "RADIATOR_UK",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "RADIATOR_UK"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "megtartás/átalakítás modellhatára",
+            "HU mennyiség és ár",
+            "munkatartalom"
+          ],
+          "source_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "5"
+        ],
+        "expected": {
+          "component_id": "C06",
+          "name": "Hőleadók, csatlakozás, átmosás, beszabályozás",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "PROTOTYPE_NOT_ACCEPTED_FOUR_RADIATOR_PROCUREMENT",
+          "fact_ids": [
+            "RADIATOR_UK"
+          ],
+          "source_ids": [
+            "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022"
+          ],
+          "gap_ids": [
+            "CAPEX-EMITTERS"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "megtartás/átalakítás modellhatára",
+            "HU mennyiség és ár",
+            "munkatartalom"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "RADIATOR_UK"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "RADIATOR_UK"
+        ],
+        "expected": {
+          "input_revision": "922637986cebf524c5153c69982af1c1d6c06c69c43440e96cd72c3be77d6841",
+          "normalized": {
+            "tax_basis": "UK_GROSS_INC_VAT",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "RADIATOR_UK"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "ERPX_BUNDLE",
+      "source_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+      "family_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+      "original_url": "https://ecodanshop.hu/mitsubishi-electric-hoszivattyuk/ecodan-rendszerek/puz-wm50vha-erpx-ym9d-power-inverter-monoblokk-hoszivattyu-szett",
+      "reference_period": [
+        "2026-10-21",
+        "2026-10-21"
+      ],
+      "product": "ERPX_BUNDLE",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "BACKGROUND"
+      ],
+      "inclusions": [
+        "outdoor",
+        "controller",
+        "pump",
+        "expansion",
+        "backup_heater"
+      ],
+      "value": "2370877",
+      "amount_field": "value",
+      "unit": "HUF/set",
+      "quantity_unit": "set",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261021",
+      "tax_basis": "GROSS",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "DIFFERENT_INDOOR_BUNDLE_BACKGROUND",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "ERPX_BUNDLE"
+        ],
+        "expected": {
+          "fact_id": "ERPX_BUNDLE",
+          "source_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+          "value": "2370877",
+          "unit": "HUF/set",
+          "truth": "OBS",
+          "scope": "DIFFERENT_INDOOR_BUNDLE_BACKGROUND",
+          "target_selected": false,
+          "includes_roles": [
+            "outdoor",
+            "controller",
+            "pump",
+            "expansion",
+            "backup_heater"
+          ]
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "ERPX_BUNDLE"
+        ],
+        "expected": {
+          "fact_id": "ERPX_BUNDLE",
+          "source_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+          "value": "2370877",
+          "unit": "HUF/set",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "DIFFERENT_INDOOR_BUNDLE_BACKGROUND",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+          "reference_date"
+        ],
+        "expected": "2026-10-21"
+      },
+      "package_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "ERPX_BUNDLE"
+        ],
+        "expected": {
+          "fact_id": "ERPX_BUNDLE",
+          "source_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+          "value": "2370877",
+          "unit": "HUF/set",
+          "truth": "OBS",
+          "scope": "DIFFERENT_INDOOR_BUNDLE_BACKGROUND",
+          "target_selected": false,
+          "includes_roles": [
+            "outdoor",
+            "controller",
+            "pump",
+            "expansion",
+            "backup_heater"
+          ]
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "ERPX_BUNDLE"
+        ],
+        "expected": {
+          "fact_id": "ERPX_BUNDLE",
+          "source_id": "SRC-B06-ECODANSHOP-WM50-ERPX-COMPARISON-20261021",
+          "value": "2370877",
+          "unit": "HUF/set",
+          "truth": "OBS",
+          "scope": "DIFFERENT_INDOOR_BUNDLE_BACKGROUND",
+          "target_selected": false,
+          "includes_roles": [
+            "outdoor",
+            "controller",
+            "pump",
+            "expansion",
+            "backup_heater"
+          ]
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "ERPX_BUNDLE"
+        ],
+        "expected": {
+          "input_revision": "d129e95104427612c7041792d03b295e1ea0868c977aa96ff48feb95be4a523b",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-21",
+              "2026-10-21"
+            ],
+            "inclusions": [
+              "outdoor",
+              "controller",
+              "pump",
+              "expansion",
+              "backup_heater"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "source_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "family_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "original_url": "https://domusashop.hu/index.php?product_id=245&route=product/product",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C07"
+      ],
+      "inclusions": [
+        "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+      ],
+      "value": "571500",
+      "amount_field": "value",
+      "unit": "HUF/service",
+      "quantity_unit": "service",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "GROSS",
+      "price_kind": "OPTION_FEE_PLUS_MATERIALS",
+      "original_price_kind": "OPTION_FEE_PLUS_MATERIALS",
+      "use_scope": "INSTALLATION_COMPARISON_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+        ],
+        "expected": {
+          "fact_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+          "source_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+          "value": "571500",
+          "unit": "HUF/service",
+          "truth": "OBS",
+          "scope": "INSTALLATION_COMPARISON_ONLY",
+          "target_selected": false,
+          "price_kind": "közzétett opciódíj, készülékcsomagon felül",
+          "published_net": 450000,
+          "materials_included": false,
+          "commissioning_included_proven": false,
+          "full_installation_proven": false,
+          "included": "Primer és szekunder víz-, fűtési és villamos szerelés kiépített csatlakozókra/osztókra; HMV-bekötés csak akkor, ha a választott csomag tartályt is tartalmaz.",
+          "excluded": "Villamos bővítés; mérő–HP betápvezeték; talapzat; HMV-cirkuláció és pumpája; hőleadók.",
+          "tax_note": "bruttó, kifejezetten megjelölve",
+          "date_note": "Nincs feltüntetett árkiadási vagy lejárati dátum; a leolvasás dátuma nem pótolja ezeket."
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+        ],
+        "expected": {
+          "fact_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+          "source_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+          "value": "571500",
+          "unit": "HUF/service",
+          "tax_basis": "GROSS",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OPTION_FEE_PLUS_MATERIALS",
+          "original_price_kind": "közzétett opciódíj, készülékcsomagon felül",
+          "scope": "INSTALLATION_COMPARISON_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "13"
+        ],
+        "expected": {
+          "component_id": "C07",
+          "function": "Telepítési / gépházi munkadíj",
+          "offer_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "egyező munkajegyzék és mennyiségek",
+            "két ár adótartalma",
+            "helyszíni eltérések",
+            "beüzemelési átfedés"
+          ],
+          "source_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "6"
+        ],
+        "expected": {
+          "component_id": "C07",
+          "name": "Telepítési / gépházi munkadíj",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "THREE_DISTINCT_PROVIDER_PRICES_NOT_THREE_EQUIVALENT_INVOICES",
+          "fact_ids": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "source_ids": [
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "egyező munkajegyzék és mennyiségek",
+            "két ár adótartalma",
+            "helyszíni eltérések",
+            "beüzemelési átfedés"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+        ],
+        "expected": {
+          "input_revision": "1b6b6d7db68a09eb355f51acc37bfb62de457275103b1c2ed6593f02bc57b1d3",
+          "normalized": {
+            "tax_basis": "GROSS",
+            "price_kind": "OPTION_FEE_PLUS_MATERIALS",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "source_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "family_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "original_url": "https://www.klimatszeretnek.hu/szerelesi-arak",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C07"
+      ],
+      "inclusions": [
+        "HU_DOBAI_GEPHAZ_MUNKADIJ"
+      ],
+      "value": "500000",
+      "amount_field": "value",
+      "unit": "HUF/service",
+      "quantity_unit": "service",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "Q",
+      "price_kind": "INDICATIVE_PLUS_MATERIALS",
+      "original_price_kind": "INDICATIVE_PLUS_MATERIALS",
+      "use_scope": "INSTALLATION_COMPARISON_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "HU_DOBAI_GEPHAZ_MUNKADIJ"
+        ],
+        "expected": {
+          "fact_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+          "source_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+          "value": "500000",
+          "unit": "HUF/service",
+          "truth": "OBS",
+          "scope": "INSTALLATION_COMPARISON_ONLY",
+          "target_selected": false,
+          "price_kind": "500 000 Ft + anyag; végleges ár helyszíni felmérés után",
+          "published_net": null,
+          "materials_included": false,
+          "commissioning_included_proven": false,
+          "full_installation_proven": false,
+          "included": "Gépház kialakítása monoblokkos és split hőszivattyúhoz egyaránt; részletes hidraulikai munkajegyzék és mennyiség nincs a díjsorban.",
+          "excluded": "Split kalorikus összekötés és felprogramozás 4 m-ig külön +300 000 Ft; ez nem a monoblokkos eset többlete.",
+          "tax_note": "Az árlistában nincs nettó/bruttó címke; e tétel adótartalma ismeretlen.",
+          "date_note": "2026 szerepel a címben; pontos közzététel, módosítás és lejárat nem szerepel."
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "HU_DOBAI_GEPHAZ_MUNKADIJ"
+        ],
+        "expected": {
+          "fact_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+          "source_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+          "value": "500000",
+          "unit": "HUF/service",
+          "tax_basis": "Q",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "INDICATIVE_PLUS_MATERIALS",
+          "original_price_kind": "500 000 Ft + anyag; végleges ár helyszíni felmérés után",
+          "scope": "INSTALLATION_COMPARISON_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "HU_DOBAI_GEPHAZ_MUNKADIJ",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "14"
+        ],
+        "expected": {
+          "component_id": "C07",
+          "function": "Telepítési / gépházi munkadíj",
+          "offer_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "HU_DOBAI_GEPHAZ_MUNKADIJ"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "egyező munkajegyzék és mennyiségek",
+            "két ár adótartalma",
+            "helyszíni eltérések",
+            "beüzemelési átfedés"
+          ],
+          "source_id": "HU_DOBAI_GEPHAZ_MUNKADIJ"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "6"
+        ],
+        "expected": {
+          "component_id": "C07",
+          "name": "Telepítési / gépházi munkadíj",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "THREE_DISTINCT_PROVIDER_PRICES_NOT_THREE_EQUIVALENT_INVOICES",
+          "fact_ids": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "source_ids": [
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "egyező munkajegyzék és mennyiségek",
+            "két ár adótartalma",
+            "helyszíni eltérések",
+            "beüzemelési átfedés"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "HU_DOBAI_GEPHAZ_MUNKADIJ"
+        ],
+        "expected": {
+          "input_revision": "a8bdd32228fc4a65bb864a4e5cf370565bc5a56201ee2d8733ee03db92234dcb",
+          "normalized": {
+            "tax_basis": "Q",
+            "price_kind": "INDICATIVE_PLUS_MATERIALS",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "HU_DOBAI_GEPHAZ_MUNKADIJ"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "source_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "family_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "original_url": "https://opti-therm.hu/arak/",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C07"
+      ],
+      "inclusions": [
+        "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+      ],
+      "value": "300000",
+      "amount_field": "value",
+      "unit": "HUF/service",
+      "quantity_unit": "service",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "Q",
+      "price_kind": "STARTING_FROM",
+      "original_price_kind": "STARTING_FROM",
+      "use_scope": "INSTALLATION_COMPARISON_ONLY",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+        ],
+        "expected": {
+          "fact_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+          "source_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+          "value": "300000",
+          "unit": "HUF/service",
+          "truth": "OBS",
+          "scope": "INSTALLATION_COMPARISON_ONLY",
+          "target_selected": false,
+          "price_kind": "300 000 Ft-tól; egyeztetés utáni egyedi árszabás, felső határ nélkül",
+          "published_net": null,
+          "materials_included": false,
+          "commissioning_included_proven": false,
+          "full_installation_proven": false,
+          "included": "Teljeskörű gépházkialakítás hőszivattyúhoz vagy más hőtermelőhöz; tételes munkajegyzék és standard darabszám nincs.",
+          "excluded": "Tervezés és hőleadók külön szolgáltatássorok; nem feltételezzük ingyenes beletartozásukat.",
+          "tax_note": "A munkadíjnál nettó/bruttó vagy AAM megjelölés nincs; ismeretlen. Más sorok anyagárai melletti +Áfa nem vihető át erre.",
+          "date_note": "Közzététel és érvényességi idő nem szerepel; lábléc éve és kereső kora nem árérvényesség."
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+        ],
+        "expected": {
+          "fact_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+          "source_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+          "value": "300000",
+          "unit": "HUF/service",
+          "tax_basis": "Q",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "STARTING_FROM",
+          "original_price_kind": "300 000 Ft-tól; egyeztetés utáni egyedi árszabás, felső határ nélkül",
+          "scope": "INSTALLATION_COMPARISON_ONLY",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "15"
+        ],
+        "expected": {
+          "component_id": "C07",
+          "function": "Telepítési / gépházi munkadíj",
+          "offer_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "egyező munkajegyzék és mennyiségek",
+            "két ár adótartalma",
+            "helyszíni eltérések",
+            "beüzemelési átfedés"
+          ],
+          "source_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "components",
+          "6"
+        ],
+        "expected": {
+          "component_id": "C07",
+          "name": "Telepítési / gépházi munkadíj",
+          "category": "INITIAL_CAPEX",
+          "coverage_status": "COMPARISON_ONLY",
+          "reference_status": "THREE_DISTINCT_PROVIDER_PRICES_NOT_THREE_EQUIVALENT_INVOICES",
+          "fact_ids": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "source_ids": [
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "gap_ids": [
+            "CAPEX-INSTALLATION"
+          ],
+          "target_quantity": null,
+          "target_total_gross_huf": null,
+          "target_net_huf": null,
+          "target_vat_huf": null,
+          "missing": [
+            "egyező munkajegyzék és mennyiségek",
+            "két ár adótartalma",
+            "helyszíni eltérések",
+            "beüzemelési átfedés"
+          ],
+          "selected_fact_ids": [],
+          "allowed_fact_ids": [
+            "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+            "HU_DOBAI_GEPHAZ_MUNKADIJ",
+            "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+          ],
+          "count_in_target_total": false,
+          "nonprice_source_ids": []
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+        ],
+        "expected": {
+          "input_revision": "961897791fd63b9260ee42f93c8c839e6bb082789c4d6e4deb715368b8fd35d6",
+          "normalized": {
+            "tax_basis": "Q",
+            "price_kind": "STARTING_FROM",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+      "source_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+      "family_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+      "original_url": "https://domusashop.hu/index.php?product_id=153&route=product/product",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "BACKGROUND"
+      ],
+      "inclusions": [
+        "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+      ],
+      "value": "4057200",
+      "amount_field": "value",
+      "unit": "HUF/case",
+      "quantity_unit": "case",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "main consumer price not explicitly labelled brutto in page text; interpreted VAT-inclusive beside explicit netto field; do not treat tax rate as independently proved",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "source_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "value": "4057200",
+          "unit": "HUF/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "source_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "value": "4057200",
+          "unit": "HUF/case",
+          "tax_basis": "main consumer price not explicitly labelled brutto in page text; interpreted VAT-inclusive beside explicit netto field; do not treat tax rate as independently proved",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": null,
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "source_id": "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER",
+          "value": "4057200",
+          "unit": "HUF/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+        ],
+        "expected": {
+          "input_revision": "1212962a0af2833109d1366bd307163e0f22da828b0dcc2e9106d7d329e6ae9c",
+          "normalized": {
+            "tax_basis": "main consumer price not explicitly labelled brutto in page text; interpreted VAT-inclusive beside explicit netto field; do not treat tax rate as independently proved",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "BACKGROUND-HU-DOMUSA-6KW-INSTALLED-OFFER"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+      "source_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+      "family_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+      "original_url": "https://greenhomesnetwork.energysavingtrust.org.uk/CaseStudy.aspx?cid=1782",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "BACKGROUND-UK-EST-SE764-HEATHER",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "BACKGROUND"
+      ],
+      "inclusions": [
+        "BACKGROUND-UK-EST-SE764-HEATHER"
+      ],
+      "value": "16500",
+      "amount_field": "value",
+      "unit": "GBP/case",
+      "quantity_unit": "case",
+      "basis_id": "GBP_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "VAT/net/gross not stated; retain original reported spend without tax conversion",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-UK-EST-SE764-HEATHER"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+          "source_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+          "value": "16500",
+          "unit": "GBP/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "BACKGROUND-UK-EST-SE764-HEATHER"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+          "source_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+          "value": "16500",
+          "unit": "GBP/case",
+          "tax_basis": "VAT/net/gross not stated; retain original reported spend without tax conversion",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "BACKGROUND-UK-EST-SE764-HEATHER",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": null,
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-UK-EST-SE764-HEATHER"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+          "source_id": "BACKGROUND-UK-EST-SE764-HEATHER",
+          "value": "16500",
+          "unit": "GBP/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "BACKGROUND-UK-EST-SE764-HEATHER"
+        ],
+        "expected": {
+          "input_revision": "8ce394a99fe944737a928b82681fd49e6cf1eb7db47c35de231cc8b5ae050a76",
+          "normalized": {
+            "tax_basis": "VAT/net/gross not stated; retain original reported spend without tax conversion",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "BACKGROUND-UK-EST-SE764-HEATHER"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "BACKGROUND-UK-EST-SC380-DAVID",
+      "source_id": "BACKGROUND-UK-EST-SC380-DAVID",
+      "family_id": "BACKGROUND-UK-EST-SC380-DAVID",
+      "original_url": "https://greenhomesnetwork.energysavingtrust.org.uk/CaseStudy.aspx?cid=1716&cindex=0",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "BACKGROUND-UK-EST-SC380-DAVID",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "BACKGROUND"
+      ],
+      "inclusions": [
+        "BACKGROUND-UK-EST-SC380-DAVID"
+      ],
+      "value": "18000",
+      "amount_field": "value",
+      "unit": "GBP/case",
+      "quantity_unit": "case",
+      "basis_id": "GBP_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "VAT/net/gross not stated; no inferred tax or currency conversion",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-UK-EST-SC380-DAVID"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-UK-EST-SC380-DAVID",
+          "source_id": "BACKGROUND-UK-EST-SC380-DAVID",
+          "value": "18000",
+          "unit": "GBP/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "BACKGROUND-UK-EST-SC380-DAVID"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-UK-EST-SC380-DAVID",
+          "source_id": "BACKGROUND-UK-EST-SC380-DAVID",
+          "value": "18000",
+          "unit": "GBP/case",
+          "tax_basis": "VAT/net/gross not stated; no inferred tax or currency conversion",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "BACKGROUND-UK-EST-SC380-DAVID",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": null,
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-UK-EST-SC380-DAVID"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-UK-EST-SC380-DAVID",
+          "source_id": "BACKGROUND-UK-EST-SC380-DAVID",
+          "value": "18000",
+          "unit": "GBP/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "BACKGROUND-UK-EST-SC380-DAVID"
+        ],
+        "expected": {
+          "input_revision": "261de566b0e6514a3d97e99d75cc838892d88be0dd492b3fcc6c79b0aa896444",
+          "normalized": {
+            "tax_basis": "VAT/net/gross not stated; no inferred tax or currency conversion",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "BACKGROUND-UK-EST-SC380-DAVID"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+      "source_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+      "family_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+      "original_url": "https://www.klimatszeretnek.hu/hoszivattyu-csomag-feltetelek",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "BACKGROUND"
+      ],
+      "inclusions": [
+        "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+      ],
+      "value": "1790000",
+      "amount_field": "value",
+      "unit": "HUF/case",
+      "quantity_unit": "case",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "conditions section6: supplier alanyi adomentes, no VAT charged; not a net-plus-27% price",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "OBSERVED_PRICE_OR_FEE",
+      "use_scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+      "scope_field": "scope",
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "source_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "value": "1790000",
+          "unit": "HUF/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "qualifier_pin": {
+        "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+        "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+        "pointer": [
+          "qualifiers",
+          "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "source_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "value": "1790000",
+          "unit": "HUF/case",
+          "tax_basis": "conditions section6: supplier alanyi adomentes, no VAT charged; not a net-plus-27% price",
+          "tax_origin": "source rule applicable to this observation; no fact override",
+          "price_kind": "OBSERVED_PRICE_OR_FEE",
+          "original_price_kind": "",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+        "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+        "pointer": [
+          "sources",
+          "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": null,
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "scope_pin": {
+        "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+        "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+        "pointer": [
+          "facts",
+          "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+        ],
+        "expected": {
+          "fact_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "source_id": "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE",
+          "value": "1790000",
+          "unit": "HUF/case",
+          "truth": "OBS",
+          "scope": "BACKGROUND_UNALLOCATED_BUNDLE_NOT_INSTALL_LABOUR",
+          "target_selected": false
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+        ],
+        "expected": {
+          "input_revision": "da52d0ffe82ddae86a5f04cba89627fd55aa777e3f79bdefb9a01465db5df499",
+          "normalized": {
+            "tax_basis": "conditions section6: supplier alanyi adomentes, no VAT charged; not a net-plus-27% price",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "BACKGROUND-HU-FOX-AIR-9KW-LABOUR-PACKAGE"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "Q-072-HU",
+      "source_id": "Q-072-HU",
+      "family_id": "Q-072-HU",
+      "original_url": null,
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAC-IF072B-E",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C02"
+      ],
+      "inclusions": [
+        "controller",
+        "water_temperature_sensors",
+        "main_remote",
+        "remote_cable",
+        "SD"
+      ],
+      "value": null,
+      "amount_field": "current_price",
+      "unit": "HUF/item",
+      "quantity_unit": "item",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "Q",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "CURRENT_OBSERVATION",
+      "use_scope": "EXACT_PRODUCT_PART_PRICE",
+      "scope_field": null,
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json",
+        "sha256": "8e59b0dc91508fa79c00b6ba3e7390ca9976f07d4e8cab74a8e7bf732afbce30",
+        "pointer": [
+          "observations",
+          "1"
+        ],
+        "expected": {
+          "id": "Q-072-HU",
+          "model": "PAC-IF072B-E",
+          "merchant": null,
+          "merchant_article": null,
+          "url": null,
+          "current_price": null,
+          "currency": "HUF",
+          "unit": "item",
+          "tax": "Q",
+          "net": null,
+          "vat_rate": null,
+          "vat_amount": null,
+          "publication_date": null,
+          "price_valid_until": null,
+          "stock": null,
+          "delivery_price": null,
+          "manufacturer_package": "M5 PDF588/D-4: PCB/case,flow-return thermistor,remote,10m cable,SD; FS01 and external pump not listed as included",
+          "merchant_complete_package_confirmed": false,
+          "target_quantity": null,
+          "target_price_admitted": false,
+          "hu_price_status": "NO_EXACT_PUBLIC_HU_PRICE_VERIFIED_IN_THIS_BOUNDED_SEARCH",
+          "hu_application_status": "NO_EXACT_HU_DISTRIBUTOR_WM50_PLUS_072_BINDING_VERIFIED",
+          "catalog_status": "M5 D-3 lists072 plus requiredFS01;033 also listed, not exclusive"
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json",
+        "sha256": "8e59b0dc91508fa79c00b6ba3e7390ca9976f07d4e8cab74a8e7bf732afbce30",
+        "pointer": [
+          "inspected_at_utc"
+        ],
+        "expected": "2026-10-22T17:10:23.039803+00:00"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "16"
+        ],
+        "expected": {
+          "component_id": "C02",
+          "function": "Conditional alternative controller / separate flow sensor",
+          "offer_id": "Q-072-HU",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "controller",
+            "water_temperature_sensors",
+            "main_remote",
+            "remote_cable",
+            "SD"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "exact target scope",
+            "quantity",
+            "cash event",
+            "tax where unresolved"
+          ],
+          "source_id": "Q-072-HU"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "qualifier_pin": null,
+      "scope_pin": {
+        "path": "inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json",
+        "sha256": "8e59b0dc91508fa79c00b6ba3e7390ca9976f07d4e8cab74a8e7bf732afbce30",
+        "pointer": [
+          "observations",
+          "1"
+        ],
+        "expected": {
+          "id": "Q-072-HU",
+          "model": "PAC-IF072B-E",
+          "merchant": null,
+          "merchant_article": null,
+          "url": null,
+          "current_price": null,
+          "currency": "HUF",
+          "unit": "item",
+          "tax": "Q",
+          "net": null,
+          "vat_rate": null,
+          "vat_amount": null,
+          "publication_date": null,
+          "price_valid_until": null,
+          "stock": null,
+          "delivery_price": null,
+          "manufacturer_package": "M5 PDF588/D-4: PCB/case,flow-return thermistor,remote,10m cable,SD; FS01 and external pump not listed as included",
+          "merchant_complete_package_confirmed": false,
+          "target_quantity": null,
+          "target_price_admitted": false,
+          "hu_price_status": "NO_EXACT_PUBLIC_HU_PRICE_VERIFIED_IN_THIS_BOUNDED_SEARCH",
+          "hu_application_status": "NO_EXACT_HU_DISTRIBUTOR_WM50_PLUS_072_BINDING_VERIFIED",
+          "catalog_status": "M5 D-3 lists072 plus requiredFS01;033 also listed, not exclusive"
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "Q-072-HU"
+        ],
+        "expected": {
+          "input_revision": "44db53b21c51cdaa4d1da8b5ab51bd77e3aa0976bd1d9b3b4e10affa6881ffaf",
+          "normalized": {
+            "tax_basis": "Q",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "controller",
+              "water_temperature_sensors",
+              "main_remote",
+              "remote_cable",
+              "SD"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    },
+    {
+      "offer_id": "OBS-FS01-GROUPSUMI-HU",
+      "source_id": "OBS-FS01-GROUPSUMI-HU",
+      "family_id": "OBS-FS01-GROUPSUMI-HU",
+      "original_url": "https://groupsumi.hu/klima/aerotermia/aerotermia-kiegeszitok/aramlasmero-mitsubishi-sika-vvx20-pac-fs01-e",
+      "reference_period": [
+        "2026-10-22",
+        "2026-10-22"
+      ],
+      "product": "PAC-FS01-E",
+      "category": "INITIAL_CAPEX",
+      "function_ids": [
+        "C02"
+      ],
+      "inclusions": [
+        "flow_sensor",
+        "flow_sensor_cable",
+        "flow_sensor_orings"
+      ],
+      "value": "51991.15",
+      "amount_field": "current_price",
+      "unit": "HUF/item",
+      "quantity_unit": "item",
+      "basis_id": "HUF_OFFER_SNAPSHOT_20261022",
+      "tax_basis": "VAT_INCLUDED_GENERAL_TERMS_WITH_CURRENCY_LOCALIZATION_CAVEAT",
+      "price_kind": "EXACT_PRICE",
+      "original_price_kind": "CURRENT_OBSERVATION",
+      "use_scope": "EXACT_PRODUCT_PART_PRICE",
+      "scope_field": null,
+      "target_selected": false,
+      "fact_pin": {
+        "path": "inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json",
+        "sha256": "8e59b0dc91508fa79c00b6ba3e7390ca9976f07d4e8cab74a8e7bf732afbce30",
+        "pointer": [
+          "observations",
+          "2"
+        ],
+        "expected": {
+          "id": "OBS-FS01-GROUPSUMI-HU",
+          "model": "PAC-FS01-E",
+          "merchant": "GroupSumi / TRUE-MAKERS,S.L.",
+          "merchant_country": "Spain",
+          "merchant_article": "MIBC141F214",
+          "url": "https://groupsumi.hu/klima/aerotermia/aerotermia-kiegeszitok/aramlasmero-mitsubishi-sika-vvx20-pac-fs01-e",
+          "reference_date": "2026-10-22",
+          "current_price": "51991.15",
+          "currency": "HUF",
+          "unit": "item",
+          "tax": "VAT_INCLUDED_GENERAL_TERMS_WITH_CURRENCY_LOCALIZATION_CAVEAT",
+          "net": null,
+          "vat_rate": null,
+          "vat_amount": null,
+          "previous_crossed_price": "76799.41",
+          "previous_price_tax": "NOT_A_NET_PRICE",
+          "price_decoration_observed": "76799.41 line-through;51991.15 active",
+          "terms_url": "https://groupsumi.hu/legal/felhasznalasi-feltetelek",
+          "terms_updated": "2026-07-20",
+          "terms_locator": "Operator identification;precontract information;home delivery",
+          "terms_tax_note": "General terms say applicableVAT/taxes included but erroneously/generalized all pricesEUR; live countryHU page displaysFt. No27percent or net derived.",
+          "shipping_included": false,
+          "delivery_price": null,
+          "delivery_note": "Express label without price; general terms shipping separate by weight/destination/method; not free",
+          "delivery_window_display": "October28-November2, indicative live display; not price validity",
+          "publication_date": null,
+          "price_valid_until": null,
+          "stock": "Orderability/delivery estimate only, no quantified physicalstock",
+          "manufacturer_package": "M2 PDF1: sensor body,5m cable,2O-rings,manual",
+          "merchant_complete_package_confirmed": false,
+          "excluded": [
+            "installation",
+            "commissioning",
+            "pump",
+            "other hydraulics",
+            "priced delivery"
+          ],
+          "target_quantity": null,
+          "target_price_admitted": false,
+          "scope": "Direct merchant Hungarian-market HUF observation; not domestic Hungarian legalentity or Mitsubishi HU authorizeddistribution proof",
+          "stale_search_price_rejected": "55577.45 HUF from older crawl, replaced only for this new observation by live51991.15"
+        }
+      },
+      "period_pin": {
+        "path": "inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json",
+        "sha256": "8e59b0dc91508fa79c00b6ba3e7390ca9976f07d4e8cab74a8e7bf732afbce30",
+        "pointer": [
+          "observations",
+          "2",
+          "reference_date"
+        ],
+        "expected": "2026-10-22"
+      },
+      "package_pin": {
+        "path": "inputs/r1_evidence/prior_function_map.json",
+        "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+        "pointer": [
+          "mapping",
+          "17"
+        ],
+        "expected": {
+          "component_id": "C02",
+          "function": "Conditional alternative controller / separate flow sensor",
+          "offer_id": "OBS-FS01-GROUPSUMI-HU",
+          "category": "INITIAL_CAPEX",
+          "quantity": null,
+          "cash_period": null,
+          "inclusion_scope": [
+            "flow_sensor",
+            "flow_sensor_cable",
+            "flow_sensor_orings"
+          ],
+          "applicability": "Q",
+          "missing": [
+            "exact target scope",
+            "quantity",
+            "cash event",
+            "tax where unresolved"
+          ],
+          "source_id": "OBS-FS01-GROUPSUMI-HU"
+        }
+      },
+      "package_evidence_basis": "PRIOR_FUNCTIONAL_MAPPING_NOT_COMPLETE_VENDOR_BOM",
+      "qualifier_pin": null,
+      "scope_pin": {
+        "path": "inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json",
+        "sha256": "8e59b0dc91508fa79c00b6ba3e7390ca9976f07d4e8cab74a8e7bf732afbce30",
+        "pointer": [
+          "observations",
+          "2"
+        ],
+        "expected": {
+          "id": "OBS-FS01-GROUPSUMI-HU",
+          "model": "PAC-FS01-E",
+          "merchant": "GroupSumi / TRUE-MAKERS,S.L.",
+          "merchant_country": "Spain",
+          "merchant_article": "MIBC141F214",
+          "url": "https://groupsumi.hu/klima/aerotermia/aerotermia-kiegeszitok/aramlasmero-mitsubishi-sika-vvx20-pac-fs01-e",
+          "reference_date": "2026-10-22",
+          "current_price": "51991.15",
+          "currency": "HUF",
+          "unit": "item",
+          "tax": "VAT_INCLUDED_GENERAL_TERMS_WITH_CURRENCY_LOCALIZATION_CAVEAT",
+          "net": null,
+          "vat_rate": null,
+          "vat_amount": null,
+          "previous_crossed_price": "76799.41",
+          "previous_price_tax": "NOT_A_NET_PRICE",
+          "price_decoration_observed": "76799.41 line-through;51991.15 active",
+          "terms_url": "https://groupsumi.hu/legal/felhasznalasi-feltetelek",
+          "terms_updated": "2026-07-20",
+          "terms_locator": "Operator identification;precontract information;home delivery",
+          "terms_tax_note": "General terms say applicableVAT/taxes included but erroneously/generalized all pricesEUR; live countryHU page displaysFt. No27percent or net derived.",
+          "shipping_included": false,
+          "delivery_price": null,
+          "delivery_note": "Express label without price; general terms shipping separate by weight/destination/method; not free",
+          "delivery_window_display": "October28-November2, indicative live display; not price validity",
+          "publication_date": null,
+          "price_valid_until": null,
+          "stock": "Orderability/delivery estimate only, no quantified physicalstock",
+          "manufacturer_package": "M2 PDF1: sensor body,5m cable,2O-rings,manual",
+          "merchant_complete_package_confirmed": false,
+          "excluded": [
+            "installation",
+            "commissioning",
+            "pump",
+            "other hydraulics",
+            "priced delivery"
+          ],
+          "target_quantity": null,
+          "target_price_admitted": false,
+          "scope": "Direct merchant Hungarian-market HUF observation; not domestic Hungarian legalentity or Mitsubishi HU authorizeddistribution proof",
+          "stale_search_price_rejected": "55577.45 HUF from older crawl, replaced only for this new observation by live51991.15"
+        }
+      },
+      "normalization_pin": {
+        "path": "data/processed/b12/offer_normalization_evidence.json",
+        "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+        "pointer": [
+          "records",
+          "OBS-FS01-GROUPSUMI-HU"
+        ],
+        "expected": {
+          "input_revision": "d26cd6860f1679fc654b9da2c4ca299c870c727e109c054974a22fda03a34d91",
+          "normalized": {
+            "tax_basis": "VAT_INCLUDED_GENERAL_TERMS_WITH_CURRENCY_LOCALIZATION_CAVEAT",
+            "price_kind": "EXACT_PRICE",
+            "reference_period": [
+              "2026-10-22",
+              "2026-10-22"
+            ],
+            "inclusions": [
+              "flow_sensor",
+              "flow_sensor_cable",
+              "flow_sensor_orings"
+            ]
+          },
+          "qualification_pin": null,
+          "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+        }
+      }
+    }
+  ],
+  "use_reviews_pin": {
+    "path": "data/processed/b12/qualified_use_reviews.json",
+    "sha256": "bce8679c1498861f63f3df7c25eab90e276776fd6eba54c29d142fb68546c31a",
+    "pointer": [
+      "uses"
+    ],
+    "expected": [
+      {
+        "review_id": "USE-C01-WM50-SCN-T0-20261023",
+        "status": "QUALIFIED",
+        "offer_evidence_revision": "397ececdfd9088e3a851232b49570810162ce8d775affb8cc7ded59e98d934cc",
+        "binding": {
+          "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+          "offer_id": "OUTDOOR_GROSS",
+          "product": "PUZ-WM50VHA",
+          "category": "INITIAL_CAPEX",
+          "quantity": {
+            "value": "1",
+            "unit": "item",
+            "truth": "SCN",
+            "reference_period": [
+              "2028-01-01",
+              "2028-01-01"
+            ],
+            "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+            "source_ids": [],
+            "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+            "evidence_tier": "E3",
+            "admission_ref": null,
+            "reason": null,
+            "acquisition_ref": null
+          },
+          "leg": "programme",
+          "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+          "component_id": "C01",
+          "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+          "phase_ref": "S2_TO_S3",
+          "scope_ref": "SCN-HH1-OUTDOOR-C01",
+          "payer": "SCN-MODEL-HH1",
+          "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+          "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+          "cash_period": [
+            "2028-01-01",
+            "2028-01-01"
+          ],
+          "service_period": null,
+          "inclusion_scope": [
+            "outdoor"
+          ],
+          "attribution_ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+          "price_basis_ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+          "applicability_ref": "SCN-B12-C01-WM50-T0-20280101-V1:EXACT_OUTDOOR_ONLY",
+          "review_id": "USE-C01-WM50-SCN-T0-20261023",
+          "scope_event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101"
+        },
+        "case_context": {
+          "case_id": "SCN-CASE-C01-WM50-20280101",
+          "intervention_id": "SCN-ONE-NEW-WM50-ACQUISITION",
+          "archetype_id": "SCN-DECLARED-HU-56M2-W55",
+          "region_id": "R1",
+          "transition_ref": "S2_TO_S3",
+          "scope_id": "SCN-HH1-OUTDOOR-C01",
+          "household_id": "SCN-MODEL-HH1",
+          "service_basis_ref": "SPACE_HEATING_ONLY_RETAINED_W55_REFERENCE"
+        },
+        "offer_id": "OUTDOOR_GROSS",
+        "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+        "monetary_basis": {
+          "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+          "currency": "HUF",
+          "nominal_real": "NOMINAL",
+          "price_date": "2026-10-21"
+        },
+        "evidence_tier": "E2",
+        "service_scope": "SPACE_HEATING_ONLY",
+        "function_ids": [
+          "C01"
+        ],
+        "price_use": "EXPLICIT_FROZEN_SOURCE_SNAPSHOT_NOT_REAL_INVOICE",
+        "known_stronger_contradiction": false,
+        "criteria": {
+          "defined_quantity": "One new exact PUZ-WM50VHA outdoor component per approved model household acquisition; 1 item is SCN, never measured stock.",
+          "unit_grain_boundary_period": "HUF/item gross offer observed 2026-10-21, outdoor only; one-time model cash/commissioning 2028-01-01, separate from price period.",
+          "direct_support": "Existing pinned direct merchant observation, exact product/price block/footer and reviewed gross/price-kind labels; no newly invented source or invoice.",
+          "target_applicability": "Same named WM50 model as approved 56m2 SH-only reference; only isolated outdoor procurement. Controller/HU installed-system suitability is not admitted.",
+          "no_stronger_contradiction": "No stronger contradiction established for this frozen exact outdoor observation; later 071/072 and FS01 limitations remain outside its inclusion scope and open.",
+          "reproducible_derivation": "Native resolver multiplies preserved Decimal unit price by approved SCN quantity1 once; nominal source price unchanged, no FX/VAT/escalation or 2028 forecast.",
+          "registered_validation_debt": "See this content-pinned review validation_debt; complete installed scope, remote source bytes and current offer validity remain unverified.",
+          "provisional_label": "E2 frozen-source partial-price use only; derived Cost truth remains SCN because quantity/timing are SCN; full CAPEX and paid-invoice status remain unavailable."
+        },
+        "validation_debt": [
+          "Original remote page bytes/hash and dated validity end not preserved; frozen curated 2026 observation only.",
+          "No observed invoice, stock availability, vendor selection, actual commissioning or payment.",
+          "Shipping, controller/HU compatibility, pump/hydraulics, emitters, installation and full system scope remain Q.",
+          "Net/VAT, eligibility, financing, grants and complete household protection remain Q."
+        ],
+        "evidence_pins": [
+          {
+            "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+            "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+            "pointer": [
+              "facts",
+              "OUTDOOR_GROSS"
+            ],
+            "expected": {
+              "fact_id": "OUTDOOR_GROSS",
+              "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+              "value": "1220781",
+              "unit": "HUF/item",
+              "truth": "OBS",
+              "scope": "EXACT_PRODUCT_PART_PRICE",
+              "target_selected": false,
+              "product": "PUZ-WM50VHA",
+              "old_crossed_out": "1488758"
+            }
+          },
+          {
+            "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+            "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+            "pointer": [
+              "qualifiers",
+              "OUTDOOR_GROSS"
+            ],
+            "expected": {
+              "fact_id": "OUTDOOR_GROSS",
+              "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+              "value": "1220781",
+              "unit": "HUF/item",
+              "tax_basis": "GROSS",
+              "tax_origin": "source rule applicable to this observation; no fact override",
+              "price_kind": "OBSERVED_PRICE_OR_FEE",
+              "original_price_kind": "",
+              "scope": "EXACT_PRODUCT_PART_PRICE",
+              "target_selected": false
+            }
+          },
+          {
+            "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+            "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+            "pointer": [
+              "sources",
+              "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+              "reference_date"
+            ],
+            "expected": "2026-10-21"
+          },
+          {
+            "path": "inputs/r1_evidence/prior_function_map.json",
+            "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+            "pointer": [
+              "mapping",
+              "0"
+            ],
+            "expected": {
+              "component_id": "C01",
+              "function": "PUZ-WM50VHA kültéri készülék",
+              "offer_id": "OUTDOOR_GROSS",
+              "category": "INITIAL_CAPEX",
+              "quantity": null,
+              "cash_period": null,
+              "inclusion_scope": [
+                "outdoor"
+              ],
+              "applicability": "Q",
+              "missing": [
+                "teljes telepített scope",
+                "pénzesemény és mennyiségkötés",
+                "szállítás"
+              ],
+              "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+            }
+          },
+          {
+            "path": "data/processed/b12/offer_normalization_evidence.json",
+            "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+            "pointer": [
+              "records",
+              "OUTDOOR_GROSS"
+            ],
+            "expected": {
+              "input_revision": "44c751f8c2318c8a00537878f4976c7a59d78054c0015e40a67b4e8e475a4b1f",
+              "normalized": {
+                "tax_basis": "GROSS",
+                "price_kind": "EXACT_PRICE",
+                "reference_period": [
+                  "2026-10-21",
+                  "2026-10-21"
+                ],
+                "inclusions": [
+                  "outdoor"
+                ]
+              },
+              "qualification_pin": null,
+              "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+            }
+          },
+          {
+            "path": "inputs/c01_context/ACCEPTED_THREE_DECISIONS.json",
+            "sha256": "463ccfa4b310f4ce9a31237bb2738a9cc9f14bafc0c62a925d9a8862d8b2797e",
+            "pointer": [],
+            "expected": {
+              "schema_version": 1,
+              "decision_id": "SCN-B12-WM50-SH-20261023",
+              "decision_date": "2026-10-23",
+              "recorded_at_utc": "2026-10-23T11:32:59.217318+00:00",
+              "status": "ACCEPTED_SCENARIO_DECISIONS_ONLY_NOT_APPLIED_TO_ACTIVE_INPUTS",
+              "truth": "SCN",
+              "source_message_ref": "Sentinel_f58e61c812b88191910c728deef987ac",
+              "base_commit": "6ae8a073635db0f3b4475a5a9b2baf618cb824b3",
+              "reference": {
+                "country": "Hungary",
+                "model_building_floor_area_m2": 56,
+                "product": "PUZ-WM50VHA",
+                "service_scope": "SPACE_HEATING_ONLY",
+                "W55_energy_reference_unchanged": true,
+                "PV_or_battery_selected": false
+              },
+              "decisions": [
+                {
+                  "id": "D1",
+                  "subject": "Cost architecture",
+                  "accepted": "Separate controller and external hydraulics; no integrated domestic-hot-water indoor unit selected",
+                  "exact_controller": null,
+                  "exact_071_072_compatibility": null,
+                  "pump_model": null,
+                  "pump_quantity": null,
+                  "manufacturer_or_HU_market_applicability_not_established_by_decision": true
+                },
+                {
+                  "id": "D2",
+                  "subject": "Heat emitter reference",
+                  "accepted": "Retain existing emitters as reference; suitability and necessary modifications remain separately evidenced",
+                  "suitability": null,
+                  "modification_quantity": null,
+                  "modification_cost": null,
+                  "unknown_cost_is_not_zero": true
+                },
+                {
+                  "id": "D3",
+                  "subject": "Unit household transition procurement",
+                  "accepted": "One modelled household transition includes one new WM50 one-time acquisition",
+                  "product": "PUZ-WM50VHA",
+                  "quantity": "1",
+                  "unit": "item",
+                  "truth": "SCN",
+                  "one_time": true,
+                  "observed_purchase": false,
+                  "observed_invoice": false,
+                  "cash_period": null,
+                  "national_suitability_claim": false
+                }
+              ],
+              "not_approved_by_these_decisions": [
+                "Exact 071/072 controller selection or compatibility",
+                "Pump type/count and hydraulic sizing",
+                "Emitter suitability or zero alteration cost",
+                "New price, tax split or current offer validity",
+                "Payer/payee settlement or payment calendar",
+                "Full installed CAPEX, O&M total, lifecycle return or E2 closure"
+              ],
+              "application_state": {
+                "production_code_modified": false,
+                "active_data_modified": false,
+                "new_native_Cost_events_created": 0,
+                "tests_run": false,
+                "uploads_performed": false,
+                "configuration_changed": false
+              }
+            }
+          },
+          {
+            "path": "inputs/c01_context/APPROVED_T0_SCN.json",
+            "sha256": "55947cad483ca0879e538bd60d41e5f742bd158bfd4ac7672e90e33ec6358eca",
+            "pointer": [],
+            "expected": {
+              "id": "SCN-B12-C01-WM50-T0-20280101-V1",
+              "recorded_at_utc": "2026-10-23T12:01:27.609420+00:00",
+              "truth": "SCN",
+              "decision_ref": "Sentinel_e2bdc99ce7d0819190b65f6025ee9ac6",
+              "product": "PUZ-WM50VHA",
+              "quantity": "1",
+              "unit": "item",
+              "one_time": true,
+              "household_transitions": "1",
+              "service_scope": "SPACE_HEATING_ONLY",
+              "controller_architecture": "SEPARATE_CONTROLLER_AND_EXTERNAL_HYDRAULICS",
+              "exact_controller": null,
+              "emitter_reference": "EXISTING_RETAINED_SUITABILITY_Q",
+              "cash_period": [
+                "2028-01-01",
+                "2028-01-01"
+              ],
+              "commissioning_date": "2028-01-01",
+              "date_meaning": "APPROVED_MODEL_T0_NOT_OBSERVED_PURCHASE_OR_COMMISSIONING",
+              "source_price_day": "2026-10-21",
+              "price_use": "FROZEN_NOMINAL_HUF_NOT_2028_FORECAST",
+              "finance_mode": null,
+              "grant": null,
+              "actual_payment": null,
+              "scope_role": "OCCUPIER_MODEL_HOUSEHOLD_ONLY_NO_LEGAL_TENURE_CLAIM",
+              "cost_attribution": "ONE_MODEL_HOUSEHOLD_ENTIRE_OUTDOOR_COMPONENT_ONCE",
+              "payment_share": null,
+              "supplier": "SYMBOLIC_EQUIPMENT_SELLER_ROLE_NO_VENDOR_SELECTED",
+              "technical_readiness": null,
+              "national_suitability": null,
+              "full_capex": null
+            }
+          },
+          {
+            "path": "inputs/c01_context/CASE_CONTEXT.json",
+            "sha256": "8a21fca086cd76c806aa50cc376da4acbdf81fc24ec6c11ac068e0222ff44b2c",
+            "pointer": [],
+            "expected": {
+              "context": {
+                "case_id": "SCN-CASE-C01-WM50-20280101",
+                "intervention_id": "SCN-ONE-NEW-WM50-ACQUISITION",
+                "archetype_id": "SCN-DECLARED-HU-56M2-W55",
+                "region_id": "R1",
+                "transition_ref": "S2_TO_S3",
+                "scope_id": "SCN-HH1-OUTDOOR-C01",
+                "household_id": "SCN-MODEL-HH1",
+                "service_basis_ref": "SPACE_HEATING_ONLY_RETAINED_W55_REFERENCE"
+              },
+              "identity_meaning": "Technical identifiers for approved bounded model, not a population cell, actual site or B01 gate admission"
+            }
+          },
+          {
+            "path": "inputs/c01_context/MONETARY_BASIS.json",
+            "sha256": "ce0d0b511eafe3afb96ecff28ea0c9bf6f28b7b108f8641c4e1fb3e9af2b562c",
+            "pointer": [],
+            "expected": {
+              "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+              "currency": "HUF",
+              "nominal_real": "NOMINAL",
+              "price_date": "2026-10-21"
+            }
+          }
+        ],
+        "binding_evidence_pin": {
+          "path": "inputs/c01_context/C01_BINDING_EVIDENCE.json",
+          "sha256": "5fcd58a4a491f28433c6127119ffc916e3b2012cd9f88f262f5e69caf85740c7",
+          "pointer": [],
+          "expected": {
+            "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+            "offer_id": "OUTDOOR_GROSS",
+            "product": "PUZ-WM50VHA",
+            "category": "INITIAL_CAPEX",
+            "quantity": {
+              "value": "1",
+              "unit": "item",
+              "truth": "SCN",
+              "reference_period": [
+                "2028-01-01",
+                "2028-01-01"
+              ],
+              "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+              "source_ids": [],
+              "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+              "evidence_tier": "E3",
+              "admission_ref": null,
+              "reason": null,
+              "acquisition_ref": null
+            },
+            "leg": "programme",
+            "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+            "component_id": "C01",
+            "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+            "phase_ref": "S2_TO_S3",
+            "scope_ref": "SCN-HH1-OUTDOOR-C01",
+            "payer": "SCN-MODEL-HH1",
+            "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+            "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+            "cash_period": [
+              "2028-01-01",
+              "2028-01-01"
+            ],
+            "service_period": null,
+            "inclusion_scope": [
+              "outdoor"
+            ],
+            "attribution_ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+            "price_basis_ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+            "applicability_ref": "SCN-B12-C01-WM50-T0-20280101-V1:EXACT_OUTDOOR_ONLY",
+            "review_id": "USE-C01-WM50-SCN-T0-20261023",
+            "scope_event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101"
+          }
+        }
+      }
+    ]
+  }
+}

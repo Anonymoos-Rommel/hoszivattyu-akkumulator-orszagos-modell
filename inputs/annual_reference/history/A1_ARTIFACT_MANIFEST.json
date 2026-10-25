@@ -1,0 +1,52 @@
+{
+  "directory": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\b12-a1-operating-cost-comparison-20261023-v1",
+  "status": "SCN_OPERATING_CHARGE_COMPARISON_REVIEW_REQUIRED",
+  "files": [
+    {
+      "path": "DEVIATION_AUDIT.json",
+      "bytes": 42850,
+      "sha256": "0bd42a31a2ecfc6cdad52ead94d5911a841a1286c799b37d306b1497f72bd807"
+    },
+    {
+      "path": "DIRECT_CHECKS.json",
+      "bytes": 582,
+      "sha256": "97a3f3346b8080cbec8fde862555b33e40cdc602800fdb7d6bdc527f5e567a60"
+    },
+    {
+      "path": "INPUT_BINDING.json",
+      "bytes": 7118,
+      "sha256": "33c720e4b8eafbebb74198b55d4c29820703a24b4069ee89e0f038189c329820"
+    },
+    {
+      "path": "OPERATING_COST_COMPARISON.json",
+      "bytes": 5400,
+      "sha256": "1dcf058483897b212c958709a3f6b3bdf636dbde868613c660191839e4d796da"
+    },
+    {
+      "path": "PROTECTED_INPUT_MANIFEST.json",
+      "bytes": 575459,
+      "sha256": "9d31a5599de823069c2500b12a7536480a2be6d365a7bb330df15a49bebea31d"
+    },
+    {
+      "path": "REVIEW_HANDOFF.txt",
+      "bytes": 2752,
+      "sha256": "7ae10513b0f77428abafe10534b6fd94c154d3a3858c23f884a8443e7c5c0f5b"
+    },
+    {
+      "path": "RUN_RAW.txt",
+      "bytes": 1049,
+      "sha256": "d358ae143fb9d19f37067b42c987871b128fd4c5e32db4fdfc5d3d607a3eb9b0"
+    },
+    {
+      "path": "RUN_RECEIPT.json",
+      "bytes": 873,
+      "sha256": "832fbad20d25264a9b97f259bd5874a4916c55ef5f067567635f0f34ebd754f6"
+    },
+    {
+      "path": "run_reference.py",
+      "bytes": 16974,
+      "sha256": "559a87cfc41dc9ea35f7a785f9fb46768fc4101ba74b85a85e4fe8676fb36164"
+    }
+  ],
+  "repository_code_changed": false
+}

@@ -1,0 +1,26 @@
+{
+  "offer_id": "OUTDOOR_GROSS",
+  "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+  "original_url": "https://ecodanshop.hu/mitsubishi-electric-hoszivattyuk/kulteri/puz-wm50vha-mitsubishi-electric-power-inverter-monoblokk-kulteri-egyseg-r32",
+  "source_locator": "Product5910-032 price block and page footer; existing pinned curated observation",
+  "observed_unit_price": "1220781",
+  "unit": "HUF/item",
+  "gross_status": "GROSS",
+  "source_price_period": [
+    "2026-10-21",
+    "2026-10-21"
+  ],
+  "SCN_quantity": "1",
+  "SCN_cash_and_asset_start": "2028-01-01",
+  "source_original_bytes_sha256": null,
+  "current_price_validity": null,
+  "use_review": "USE-C01-WM50-SCN-T0-20261023",
+  "evidence_tier": "E2",
+  "result_truth": "SCN",
+  "standalone_outdoor_only": true,
+  "not_2028_price_forecast": true,
+  "not_actual_invoice": true,
+  "full_capex": null,
+  "active_catalogue_sha256": "cf3e163048fa905637c0bd2e3b53dbc8dc1435e08c3286a87aa6b955d0d11490",
+  "native_case_sha256": "23880a977f4830c45c9c9aac34da5dee09152ff40481eb04b74f298bf5da8925"
+}

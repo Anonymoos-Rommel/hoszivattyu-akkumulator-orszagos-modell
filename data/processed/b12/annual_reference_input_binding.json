@@ -1,0 +1,50 @@
+{
+  "accepted_manifests": {
+    "C01": "inputs/annual_reference/history/C01_ARTIFACT_MANIFEST.json",
+    "A1": "inputs/annual_reference/history/A1_ARTIFACT_MANIFEST.json",
+    "GAS": "inputs/annual_reference/history/GAS_ARTIFACT_MANIFEST.json"
+  },
+  "sources": {
+    "case": {
+      "path": "inputs/annual_reference/C01_NATIVE_CASE.json",
+      "sha256": "23880a977f4830c45c9c9aac34da5dee09152ff40481eb04b74f298bf5da8925",
+      "relative": "C01_NATIVE_CASE.json",
+      "package": "C01"
+    },
+    "c01_source": {
+      "path": "inputs/annual_reference/C01_SOURCE_AND_SCOPE_BINDING.json",
+      "sha256": "df2cf68e968a9cab9223268fec215b2b88213e4fdeae687728a8312f152eae45",
+      "relative": "C01_SOURCE_AND_SCOPE_BINDING.json",
+      "package": "C01"
+    },
+    "native": {
+      "path": "modules/B12/input_accounting_contract.py",
+      "sha256": "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a",
+      "relative": "repo/modules/B12/input_accounting_contract.py",
+      "package": "C01"
+    },
+    "a1": {
+      "path": "inputs/annual_reference/OPERATING_COST_COMPARISON.json",
+      "sha256": "1dcf058483897b212c958709a3f6b3bdf636dbde868613c660191839e4d796da",
+      "relative": "OPERATING_COST_COMPARISON.json",
+      "package": "A1"
+    },
+    "gas": {
+      "path": "inputs/annual_reference/COMMON_U_RESULT.json",
+      "sha256": "c5fc907109ec525ebe221ab6d8b1d4a9b4c75f059c694d1f50612391bfc6d6ad",
+      "relative": "COMMON_U_RESULT.json",
+      "package": "GAS"
+    },
+    "temporal_policy": {
+      "path": "data/processed/b12/NORMALIZED_YEAR_POLICY.json",
+      "sha256": "5af88df8407b0d79876e8a811a4c0c2486f7a191716c5de7da142d77ff106a05"
+    }
+  },
+  "source_periods": {
+    "physical": "UTC2025 8760h unchanged",
+    "A1": "two partial Budapest billing-year windows; accepted day fractions unchanged",
+    "gas": "abstract completeAugJulyear",
+    "money": "frozen2026nominalHUF",
+    "projection": "approved normalized365-day reference anchored to programme start, not calendar2028"
+  }
+}

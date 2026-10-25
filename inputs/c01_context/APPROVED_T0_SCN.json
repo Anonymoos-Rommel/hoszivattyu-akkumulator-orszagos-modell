@@ -1,0 +1,33 @@
+{
+  "id": "SCN-B12-C01-WM50-T0-20280101-V1",
+  "recorded_at_utc": "2026-10-23T12:01:27.609420+00:00",
+  "truth": "SCN",
+  "decision_ref": "Sentinel_e2bdc99ce7d0819190b65f6025ee9ac6",
+  "product": "PUZ-WM50VHA",
+  "quantity": "1",
+  "unit": "item",
+  "one_time": true,
+  "household_transitions": "1",
+  "service_scope": "SPACE_HEATING_ONLY",
+  "controller_architecture": "SEPARATE_CONTROLLER_AND_EXTERNAL_HYDRAULICS",
+  "exact_controller": null,
+  "emitter_reference": "EXISTING_RETAINED_SUITABILITY_Q",
+  "cash_period": [
+    "2028-01-01",
+    "2028-01-01"
+  ],
+  "commissioning_date": "2028-01-01",
+  "date_meaning": "APPROVED_MODEL_T0_NOT_OBSERVED_PURCHASE_OR_COMMISSIONING",
+  "source_price_day": "2026-10-21",
+  "price_use": "FROZEN_NOMINAL_HUF_NOT_2028_FORECAST",
+  "finance_mode": null,
+  "grant": null,
+  "actual_payment": null,
+  "scope_role": "OCCUPIER_MODEL_HOUSEHOLD_ONLY_NO_LEGAL_TENURE_CLAIM",
+  "cost_attribution": "ONE_MODEL_HOUSEHOLD_ENTIRE_OUTDOOR_COMPONENT_ONCE",
+  "payment_share": null,
+  "supplier": "SYMBOLIC_EQUIPMENT_SELLER_ROLE_NO_VENDOR_SELECTED",
+  "technical_readiness": null,
+  "national_suitability": null,
+  "full_capex": null
+}

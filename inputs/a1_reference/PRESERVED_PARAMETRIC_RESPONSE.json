@@ -1,0 +1,154 @@
+{
+  "id": "B12-A1-DEMASZ-COMMON-METER-PARAMETRIC-UTC2025-ENERGY-2026-PRICES-V1",
+  "owner_approval_received_via_parent_utc": "2026-10-21T19:33:16+00:00",
+  "status": "SCN_PARAMETRIC_CONSUMPTION_CHARGE_RESPONSE_NO_SELECTED_ALLOCATION",
+  "meter_id": "SCN-SAME-A1-METER-DEMASZ",
+  "distributor": "MVM Démász",
+  "product": "A1",
+  "truth_context": "SCN",
+  "tariff_snapshot_date": "2026-10-01",
+  "nominal_money_basis": "HUF_NOMINAL_2026",
+  "price_basis": "FROZEN_2026_RATES_NOT_HISTORICAL_OR_FUTURE_INVOICE_VALIDATION",
+  "rates": {
+    "low_final_gross_HUF_per_kWh": "36.386",
+    "high_final_gross_HUF_per_kWh": "70.104",
+    "rate_difference_HUF_per_kWh": "33.718",
+    "fixed_gross_HUF_per_year": "1836.42",
+    "fixed_gross_HUF_per_billed_month": "153.035",
+    "VAT_already_in_final_prices": true,
+    "network_charges_already_in_final_prices": true,
+    "extra_VAT_or_network_added": false
+  },
+  "source_ids": [
+    "SRC-B04-MVM-BILLING-2026",
+    "SRC-B04-MVM-M1-2026",
+    "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026"
+  ],
+  "source_rows": [
+    {
+      "tariff_id": "A1-DÉMÁSZ-DISCOUNTED",
+      "distributor_area": "MVM Démász",
+      "tariff_band": "A1 discounted",
+      "valid_from": "2026-03-01",
+      "valid_to": "",
+      "threshold_kwh": "2523",
+      "energy_price_net_huf_per_kwh": "5.25",
+      "energy_price_gross_huf_per_kwh": "6.67",
+      "network_charge_huf_per_kwh": "23.40",
+      "fixed_charge_huf_per_year": "1836.42",
+      "final_gross_huf_per_kwh": "36.386",
+      "status": "OBS",
+      "source_id": "SRC-B04-MVM-M1-2026;SRC-B04-MVM-RESIDENTIAL-TARIFF-2026",
+      "notes": "MVM current M.1 energy price plus official tariff-table final gross; fixed charge is monthly-to-annual DER."
+    },
+    {
+      "tariff_id": "A1-ALL-MARKET",
+      "distributor_area": "Minden elosztói terület",
+      "tariff_band": "A1 above threshold",
+      "valid_from": "2026-03-01",
+      "valid_to": "",
+      "threshold_kwh": "2523",
+      "energy_price_net_huf_per_kwh": "31.80",
+      "energy_price_gross_huf_per_kwh": "40.39",
+      "network_charge_huf_per_kwh": "",
+      "fixed_charge_huf_per_year": "",
+      "final_gross_huf_per_kwh": "70.104",
+      "status": "OBS",
+      "source_id": "SRC-B04-MVM-M1-2026;SRC-B04-MVM-BILLING-2026",
+      "notes": "Above-threshold final gross is the MVM residential market control point; not a wholesale price."
+    }
+  ],
+  "periods": [
+    {
+      "id": "S1",
+      "allowance_parameter": "q_S1",
+      "month_fraction_parameter": "m_S1",
+      "start_utc": "2025-01-01T00:00:00+00:00",
+      "end_utc_exclusive": "2025-07-31T22:00:00+00:00",
+      "start_local": "2025-01-01T01:00:00+01:00",
+      "end_local_exclusive": "2025-08-01T00:00:00+02:00",
+      "full_settlement_year_local_start": "2024-08-01",
+      "full_settlement_year_local_end_exclusive": "2025-08-01",
+      "hours": 5086,
+      "base_kWh": "1395.142165954214450100",
+      "HP_reference_kWh": "1473.2737920445158662490",
+      "programme_kWh": "2868.4159579987303163490",
+      "low_breakpoint_q_kWh": "1395.142165954214450100",
+      "high_breakpoint_q_kWh": "2868.4159579987303163490",
+      "all_excess_intercept_HUF": "103282.3859174887402875198960",
+      "all_discounted_limit_HUF": "53606.5401973317543093361140"
+    },
+    {
+      "id": "S2",
+      "allowance_parameter": "q_S2",
+      "month_fraction_parameter": "m_S2",
+      "start_utc": "2025-07-31T22:00:00+00:00",
+      "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+      "start_local": "2025-08-01T00:00:00+02:00",
+      "end_local_exclusive": "2026-01-01T01:00:00+01:00",
+      "full_settlement_year_local_start": "2025-08-01",
+      "full_settlement_year_local_end_exclusive": "2026-08-01",
+      "hours": 3674,
+      "base_kWh": "1023.857834045785462980",
+      "HP_reference_kWh": "999.3600010207610694760",
+      "programme_kWh": "2023.2178350665465324560",
+      "low_breakpoint_q_kWh": "1023.857834045785462980",
+      "high_breakpoint_q_kWh": "2023.2178350665465324560",
+      "all_excess_intercept_HUF": "70059.1335115594340145455040",
+      "all_discounted_limit_HUF": "36362.7129971414122739537360"
+    }
+  ],
+  "parameters": {
+    "q_S1": null,
+    "q_S2": null,
+    "m_S1": null,
+    "m_S2": null
+  },
+  "parameter_meaning": "q_i is a common caller-supplied allocation to this settlement-year/window intersection, not an inferred remaining entitlement; m_i is the common billed-month fraction.",
+  "parameter_domain": "Nonnegative finite Decimal; identical q_i and m_i in baseline/programme. Actual entitlement/admissibility and billing fractions are not certified by the mathematical response.",
+  "source_threshold_not_selected_as_allocation_kWh": "2523",
+  "consumption_formula": "C_i(E,q_i)=70.104*E-33.718*min(E,q_i)",
+  "increment_formula": "Delta_i(q_i)=70.104*H_i-33.718*(min(B_i+H_i,q_i)-min(B_i,q_i))",
+  "piecewise_delta": [
+    {
+      "condition": "0 <= q_i <= B_i",
+      "formula": "70.104*H_i"
+    },
+    {
+      "condition": "B_i < q_i < B_i+H_i",
+      "formula": "70.104*H_i-33.718*(q_i-B_i)"
+    },
+    {
+      "condition": "q_i >= B_i+H_i",
+      "formula": "36.386*H_i"
+    }
+  ],
+  "annual_consumption_difference_formula": "Delta_S1(q_S1)+Delta_S2(q_S2)",
+  "common_fixed_charge_formula": "F=153.035*(m_S1+m_S2), present once in each alternative complete-meter leg, never once per end use.",
+  "full_leg_formulas": {
+    "baseline": "sum_i C_i(B_i,q_i)+F",
+    "programme": "sum_i C_i(B_i+H_i,q_i)+F"
+  },
+  "common_fixed_charge_defaulted_to_zero": false,
+  "annual_consumption_difference_mathematical_limits_HUF": [
+    "89969.2531944731665832898500",
+    "173341.5194290481743020654000"
+  ],
+  "limits_are_selected_or_certified_legal_allocations": false,
+  "physical_base_annual_kWh": "2418.999999999999913080",
+  "physical_HP_reference_annual_kWh": "2472.6337930652769357250",
+  "year_scope": "Complete UTC2025 energy support, not complete local civil2025 or two complete tariff settlement years.",
+  "partial_local_day_edges_explicit": true,
+  "rounding": "Decimal precision 50; no implicit invoice or whole-HUF rounding; displayed rounding is presentation only.",
+  "physical_system_net_saving_HUF": null,
+  "gas_bill_difference_HUF": null,
+  "HMV_cost_HUF": null,
+  "outside_auxiliary_cost_HUF": null,
+  "cashflow": null,
+  "NPV": null,
+  "IRR": null,
+  "DSCR": null,
+  "canonical_B12_numerical_admission": false,
+  "full_bill_claimed": false,
+  "published": false
+}

@@ -1,0 +1,143 @@
+{
+  "status": "COMMON_RETAINED_GAS_U_CONDITIONAL_B13_RESULT_REVIEW_REQUIRED",
+  "truth": "SCN",
+  "policy_id": "SCN-B13-COMMON-RETAINED-GAS-U-20261024-V1",
+  "u_parameter": {
+    "name": "u",
+    "unit": "MJ",
+    "domain": "u >= 0",
+    "selected_value": null
+  },
+  "Q_SH_hypothetical_tariff_MJ": {
+    "exact": "16438600071499716369/781250000000000",
+    "decimal_precision_50": "21041.40809151963695232",
+    "readable": "21041.408092"
+  },
+  "annual_cap_T_MJ": {
+    "exact": "63645/1",
+    "decimal_precision_50": "63645",
+    "readable": "63645.000000"
+  },
+  "low_gross_HUF_per_MJ": {
+    "exact": "17907/6250",
+    "decimal_precision_50": "2.86512",
+    "readable": "2.865120"
+  },
+  "high_gross_HUF_per_MJ": {
+    "exact": "11001/500",
+    "decimal_precision_50": "22.002",
+    "readable": "22.002000"
+  },
+  "gas_consumption_charge_definition": "F(x)=L*min(x,T)+H*max(x-T,0), x>=0",
+  "marginal_SH_gas_charge_definition": "M(u)=F(u+Q)-F(u)",
+  "allocation_substitution": "a_SH(u)=max(T-u,0); M(u)=C_gas_ref(a_SH(u))",
+  "piecewise": [
+    {
+      "domain": "0 <= u <= T-Q",
+      "formula": "M(u)=L*Q",
+      "slope_HUF_per_MJ": {
+        "exact": "0/1",
+        "decimal_precision_50": "0",
+        "readable": "0.000000"
+      },
+      "intercept_HUF": {
+        "exact": "294366011480345421019683/4882812500000000000",
+        "decimal_precision_50": "60286.1591511747422248310784",
+        "readable": "60286.16"
+      }
+    },
+    {
+      "domain": "T-Q < u < T",
+      "formula": "M(u)=L*Q+(H-L)*(u-(T-Q))",
+      "slope_HUF_per_MJ": {
+        "exact": "239211/12500",
+        "decimal_precision_50": "19.13688",
+        "readable": "19.136880"
+      },
+      "intercept_HUF": {
+        "exact": "-294927213582181620224631/390625000000000000",
+        "decimal_precision_50": "-755013.66677038494777505536",
+        "readable": "-755013.67"
+      }
+    },
+    {
+      "domain": "u >= T",
+      "formula": "M(u)=H*Q",
+      "slope_HUF_per_MJ": {
+        "exact": "0/1",
+        "decimal_precision_50": "0",
+        "readable": "0.000000"
+      },
+      "intercept_HUF": {
+        "exact": "180841039386568379775369/390625000000000000",
+        "decimal_precision_50": "462953.06082961505222494464",
+        "readable": "462953.06"
+      }
+    }
+  ],
+  "first_kink_T_minus_Q_MJ": {
+    "exact": "33284056178500283631/781250000000000",
+    "decimal_precision_50": "42603.59190848036304768",
+    "readable": "42603.591908"
+  },
+  "second_kink_T_MJ": {
+    "exact": "63645/1",
+    "decimal_precision_50": "63645",
+    "readable": "63645.000000"
+  },
+  "accepted_A1_increment_HUF": {
+    "exact": "4245871185726204284282421/25000000000000000000",
+    "decimal_precision_50": "169834.84742904817137129684",
+    "readable": "169834.85"
+  },
+  "component_balance_definition": "S_ref(u)=M(u)-Delta_A1",
+  "retained_gas_crossing_u_star_MJ": {
+    "exact": "513804730110796177303529/10631600000000000000",
+    "decimal_precision_50": "48328.071984536304723985947552579103803754844049814",
+    "readable": "48328.071985"
+  },
+  "exact_crossing_balance_HUF": "0/1",
+  "crossing_is_derived_not_selected_household_consumption": true,
+  "sign": {
+    "below_u_star": "negative component balance",
+    "at_exact_u_star": "zero component balance",
+    "above_u_star": "positive component balance; not complete household or system saving"
+  },
+  "plateau_marginal_charge_range_HUF": {
+    "low": {
+      "exact": "294366011480345421019683/4882812500000000000",
+      "decimal_precision_50": "60286.1591511747422248310784",
+      "readable": "60286.16"
+    },
+    "high": {
+      "exact": "180841039386568379775369/390625000000000000",
+      "decimal_precision_50": "462953.06082961505222494464",
+      "readable": "462953.06"
+    }
+  },
+  "gas_fixed_fee_value": null,
+  "common_fixed_fee_difference_under_SCN": "0/1",
+  "gas_fixed_fee_avoidance_claimed": false,
+  "actual_household_gas_or_bill": null,
+  "HMV_displacement": false,
+  "actual_HMV_or_cooking_quantities": null,
+  "actual_tariff_eligibility": null,
+  "gas_m3": null,
+  "gas_hourly_or_S1_S2_profile": null,
+  "gas_source_energy_convention": "Q_MJ_NCV_reference = G_kWh_GCV * 3.6 MJ/kWh * 0.92; hypothetical tariff denominator only",
+  "gas_period": "One abstract complete Aug1-Jul31 year, not UTC2025 chronology",
+  "A1_physical_reference": "UTC2025 unchanged",
+  "monetary_basis": "Preserved nominal 2026 tariff snapshot; not current-price verification or a 2028 forecast",
+  "model_start_2028_not_remapped": true,
+  "payment_dates": null,
+  "settlement_dates": null,
+  "retained_electrical_auxiliaries_or_pump_corrections": null,
+  "full_household_saving": null,
+  "B12_admission_changed": false,
+  "E2_adoption": false,
+  "full_CAPEX": null,
+  "ROI": null,
+  "new_BillInputs": 0,
+  "new_Costs": 0,
+  "uploaded": false
+}

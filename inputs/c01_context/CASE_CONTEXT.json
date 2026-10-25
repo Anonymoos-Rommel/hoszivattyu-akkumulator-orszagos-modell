@@ -1,0 +1,13 @@
+{
+  "context": {
+    "case_id": "SCN-CASE-C01-WM50-20280101",
+    "intervention_id": "SCN-ONE-NEW-WM50-ACQUISITION",
+    "archetype_id": "SCN-DECLARED-HU-56M2-W55",
+    "region_id": "R1",
+    "transition_ref": "S2_TO_S3",
+    "scope_id": "SCN-HH1-OUTDOOR-C01",
+    "household_id": "SCN-MODEL-HH1",
+    "service_basis_ref": "SPACE_HEATING_ONLY_RETAINED_W55_REFERENCE"
+  },
+  "identity_meaning": "Technical identifiers for approved bounded model, not a population cell, actual site or B01 gate admission"
+}

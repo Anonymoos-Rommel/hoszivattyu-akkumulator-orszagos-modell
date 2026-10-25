@@ -1,0 +1,487 @@
+{
+  "mapping": [
+    {
+      "component_id": "C01",
+      "function": "PUZ-WM50VHA kültéri készülék",
+      "offer_id": "OUTDOOR_GROSS",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "outdoor"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "teljes telepített scope",
+        "pénzesemény és mennyiségkötés",
+        "szállítás"
+      ],
+      "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+    },
+    {
+      "component_id": "C02",
+      "function": "Beltéri / vezérlés / érzékelők",
+      "offer_id": "CONTROLLER_GROSS",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "controller",
+        "water_temperature_sensors",
+        "main_remote",
+        "remote_cable",
+        "SD"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "elfogadott beltéri/vezérlési út",
+        "kompatibilitás és tartozékjegyzék",
+        "darabszám",
+        "készlet és időpont"
+      ],
+      "source_id": "SRC-B06-PACIF071-HU-ECODANSHOP-20261022"
+    },
+    {
+      "component_id": "C03",
+      "function": "Keringtetés / pumpa",
+      "offer_id": "PUMP_FAMILY_COMPARISON",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "pump"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "4215513 cikkszámhoz kötött ár",
+        "integrált vagy külső szerep",
+        "beszerzési darabszám"
+      ],
+      "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022"
+    },
+    {
+      "component_id": "C11",
+      "function": "Szállítás, mozgatás, emelés",
+      "offer_id": "PUMP_SHIPPING_COMPARISON",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "PUMP_SHIPPING_COMPARISON"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "választott logisztikai modellút",
+        "céltételekre vonatkozó díj",
+        "adókezelés"
+      ],
+      "source_id": "SRC-B06-GEPESZWEB-YONOS-20261022"
+    },
+    {
+      "component_id": "C13",
+      "function": "Időszakos karbantartás",
+      "offer_id": "MAINT_VISIT",
+      "category": "O_AND_M",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "MAINT_VISIT"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "fizetett alkalmak/év",
+        "pontos WM50-szolgáltatási kör",
+        "jótállási elfogadhatóság"
+      ],
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+    },
+    {
+      "component_id": "C14",
+      "function": "Karbantartási kiszállás",
+      "offer_id": "MAINT_TRAVEL_RATE",
+      "category": "O_AND_M",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "MAINT_TRAVEL_RATE"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "hely és díjköteles km",
+        "oda-vissza értelmezés",
+        "alap/km díj együttalkalmazása",
+        "helyi mentesség"
+      ],
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+    },
+    {
+      "component_id": "C14",
+      "function": "Karbantartási kiszállás",
+      "offer_id": "MAINT_TRAVEL_BASE",
+      "category": "O_AND_M",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "MAINT_TRAVEL_BASE"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "hely és díjköteles km",
+        "oda-vissza értelmezés",
+        "alap/km díj együttalkalmazása",
+        "helyi mentesség"
+      ],
+      "source_id": "SRC-B06-WAGNER-HP-MAINTENANCE-20261021"
+    },
+    {
+      "component_id": "C08",
+      "function": "Beüzemelés, próbaüzem, átadás",
+      "offer_id": "PAUL_COMMISSION",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "PAUL_COMMISSION"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "Mitsubishi célra alkalmazható szolgáltatás és ár",
+        "fő telepítési csomagba foglalás",
+        "kiszállás"
+      ],
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+    },
+    {
+      "component_id": "C08",
+      "function": "Beüzemelés, próbaüzem, átadás",
+      "offer_id": "PAUL_TRAVEL_RATE",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "PAUL_TRAVEL_RATE"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "Mitsubishi célra alkalmazható szolgáltatás és ár",
+        "fő telepítési csomagba foglalás",
+        "kiszállás"
+      ],
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+    },
+    {
+      "component_id": "C08",
+      "function": "Beüzemelés, próbaüzem, átadás",
+      "offer_id": "PAUL_TRAVEL_MIN",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "PAUL_TRAVEL_MIN"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "Mitsubishi célra alkalmazható szolgáltatás és ár",
+        "fő telepítési csomagba foglalás",
+        "kiszállás"
+      ],
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+    },
+    {
+      "component_id": "C15",
+      "function": "Javítás, alkatrész, releváns biztosítás",
+      "offer_id": "PAUL_LABOUR_HOUR",
+      "category": "O_AND_M",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "PAUL_LABOUR_HOUR"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "célra illeszkedő javítási kör",
+        "órák/alkatrész",
+        "előfordulás",
+        "biztosítás alkalmazhatósága"
+      ],
+      "source_id": "SRC-B06-PAULUS-COMMISSIONING-2026"
+    },
+    {
+      "component_id": "C08",
+      "function": "Beüzemelés, próbaüzem, átadás",
+      "offer_id": "LANG_COMMISSION",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "LANG_COMMISSION"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "Mitsubishi célra alkalmazható szolgáltatás és ár",
+        "fő telepítési csomagba foglalás",
+        "kiszállás"
+      ],
+      "source_id": "SRC-B06-LANGPOWER-SERVICE-20261022"
+    },
+    {
+      "component_id": "C06",
+      "function": "Hőleadók, csatlakozás, átmosás, beszabályozás",
+      "offer_id": "RADIATOR_UK",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "RADIATOR_UK"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "megtartás/átalakítás modellhatára",
+        "HU mennyiség és ár",
+        "munkatartalom"
+      ],
+      "source_id": "SRC-B06-CITYPLUMBING-20023316-COMPARISON-20261022"
+    },
+    {
+      "component_id": "C07",
+      "function": "Telepítési / gépházi munkadíj",
+      "offer_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "egyező munkajegyzék és mennyiségek",
+        "két ár adótartalma",
+        "helyszíni eltérések",
+        "beüzemelési átfedés"
+      ],
+      "source_id": "HU_DOMUSA_SZERELÉSI_MUNKADIJ"
+    },
+    {
+      "component_id": "C07",
+      "function": "Telepítési / gépházi munkadíj",
+      "offer_id": "HU_DOBAI_GEPHAZ_MUNKADIJ",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "HU_DOBAI_GEPHAZ_MUNKADIJ"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "egyező munkajegyzék és mennyiségek",
+        "két ár adótartalma",
+        "helyszíni eltérések",
+        "beüzemelési átfedés"
+      ],
+      "source_id": "HU_DOBAI_GEPHAZ_MUNKADIJ"
+    },
+    {
+      "component_id": "C07",
+      "function": "Telepítési / gépházi munkadíj",
+      "offer_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "egyező munkajegyzék és mennyiségek",
+        "két ár adótartalma",
+        "helyszíni eltérések",
+        "beüzemelési átfedés"
+      ],
+      "source_id": "HU_OPTI_THERM_GEPHAZ_ALSOHATAR"
+    },
+    {
+      "component_id": "C02",
+      "function": "Conditional alternative controller / separate flow sensor",
+      "offer_id": "Q-072-HU",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "controller",
+        "water_temperature_sensors",
+        "main_remote",
+        "remote_cable",
+        "SD"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "exact target scope",
+        "quantity",
+        "cash event",
+        "tax where unresolved"
+      ],
+      "source_id": "Q-072-HU"
+    },
+    {
+      "component_id": "C02",
+      "function": "Conditional alternative controller / separate flow sensor",
+      "offer_id": "OBS-FS01-GROUPSUMI-HU",
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [
+        "flow_sensor",
+        "flow_sensor_cable",
+        "flow_sensor_orings"
+      ],
+      "applicability": "Q",
+      "missing": [
+        "exact target scope",
+        "quantity",
+        "cash event",
+        "tax where unresolved"
+      ],
+      "source_id": "OBS-FS01-GROUPSUMI-HU"
+    },
+    {
+      "component_id": "C04",
+      "function": "Hidraulikai, cső-, szelep- és szigetelőanyagok",
+      "offer_id": null,
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "kapcsolási funkciók",
+        "méretek/hosszak/darabszámok",
+        "szelepek és leválasztás szükségessége",
+        "illeszkedő egységárak"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C05",
+      "function": "Konzol, alap, fagyvédelem, kondenzvíz",
+      "offer_id": null,
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "referencia elhelyezés",
+        "fagyvédelmi kialakítás",
+        "anyag és munka külön ára"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C09",
+      "function": "Villamos betáp, védelem, mérés és csatlakozás",
+      "offer_id": null,
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "meglévő betáp referencia-SCN-je",
+        "kiépítendő mennyiségek",
+        "háztartási és B10 hálózati fizetői határ",
+        "ár"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C10",
+      "function": "Tervezés, felmérés, engedély és helyreállítás",
+      "offer_id": null,
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "alkalmazhatóság",
+        "munkamennyiség",
+        "külön díj vagy csomagba foglalás"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C12",
+      "function": "Régi rendszer bontása, elszállítása",
+      "offer_id": null,
+      "category": "INITIAL_CAPEX",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "mi szűnik meg és mi marad",
+        "bontási és hulladékkezelési tartalom",
+        "ár és fizető"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C16",
+      "function": "Eszközélet, csere és eszközgenerációk",
+      "offer_id": null,
+      "category": "REPLACEMENT",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "más komponensek élete",
+        "értékelési horizont",
+        "csere dátuma és költsége",
+        "baseline csere"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C17",
+      "function": "Maradványérték és végső hulladékkezelés",
+      "offer_id": null,
+      "category": "DISPOSAL",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "élettartamvégi kezelés",
+        "pénzes/nem pénzes maradvány",
+        "időpont és fizető"
+      ],
+      "source_id": null
+    },
+    {
+      "component_id": "C18",
+      "function": "Áfa, jogosultság és költség-hozzárendelés",
+      "offer_id": null,
+      "category": "ACCOUNTING",
+      "quantity": null,
+      "cash_period": null,
+      "inclusion_scope": [],
+      "applicability": "Q",
+      "missing": [
+        "bruttó/nettó/áfa felbontás ahol igazolt",
+        "fizető és kedvezményezett",
+        "cash dátum",
+        "fázis/archetípus/generáció",
+        "teljes és eligible költség"
+      ],
+      "source_id": null
+    }
+  ],
+  "source_offer_count": 23,
+  "target_cost_rows": [],
+  "full_capex": null,
+  "quantity_defaults_applied": false,
+  "architecture_selected": false,
+  "gap_policy": "Unknown price/quantity/application/cash date remains Q, notzero. O&M/income do not erase price observations.",
+  "metadata_hash_scope": "preserved local source-note bytes; not a new remote-page snapshot"
+}
