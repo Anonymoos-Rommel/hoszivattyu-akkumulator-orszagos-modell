@@ -1,0 +1,464 @@
+{
+  "schema_version": 1,
+  "reference_id": "B05-EOH-ANNUAL-TRANSFER-RESEARCH-20261015",
+  "status": "CONDITIONAL_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION",
+  "base_commit": "6ae8a073635db0f3b4475a5a9b2baf618cb824b3",
+  "research_slice_ids": [
+    "B05-D01",
+    "B05-D03"
+  ],
+  "source_ids": [
+    "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+    "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+    "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+    "SRC-B02-DESNZ-EOH-PDI-2024",
+    "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+    "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+    "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+    "SRC-B06-TABULA-HU-CALCULATOR-2016"
+  ],
+  "input_binding": {
+    "additive_zip_bytes": 11285814,
+    "additive_zip_sha256": "40b8ae63adcdf5f8dfbc8714313f1d8077501ebbe4a39853c51327dd79ac4dd6",
+    "additive_manifest_sha256": "d3230850eaaa5624946e15eac5ab57b7c683d916b278eb733a600b2cc13fa4ed",
+    "additive_files": 19,
+    "original_handoff_sha256": "8fccd0d7b3eeb3784d0f1d99ad4451d2b368cdb6b66e599aea5856c527360e69",
+    "original_handoff_manifest_sha256": "d9c27a5c2acba40fc6ea9ab614fb02f51d98612efeeef1c3252fe2d36c24cc87",
+    "reuse_status": "EXTERNAL_ONLY_LOCAL_INPUTS_NO_REPOSITORY_COPY"
+  },
+  "recovered_weather": {
+    "input_id": "DER-B05-WEATHER-44527-UTC2025-RECOVERED-20261015",
+    "status": "DER",
+    "use": "EXPLICIT_RESEARCH_ONLY_NEW_REPRESENTATION",
+    "path": "weather/budapest44527_UTC2025_recovered_20261015.csv",
+    "bytes": 838059,
+    "sha256": "2c4e2fd66391b2b72409e92815e95772af66bfcafba52f1528dea4073f6900ea",
+    "rows": 8760,
+    "station_id": "44527",
+    "start_utc": "2025-01-01T00:00:00+00:00",
+    "end_utc": "2026-01-01T00:00:00+00:00",
+    "lineage_source_ids": [
+      "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+      "SRC-B05-HUNGARY-HOURLY-RECENT-20261002"
+    ],
+    "raw_zip_paths": [
+      "weather/HABP_1H_44527_20020101_20251231_hist.zip",
+      "weather/HABP_1H_44527_akt.zip"
+    ],
+    "history_snapshot_sha256": "a28ec01c28358f9af0cf846ac69642e80b1f6f0972a138d84f9269c08d3fe417",
+    "recent_snapshot_sha256": "4bab861bda3449c4503fb4c84fee176f2954ca6e59c627fc73313829d4e479b0",
+    "lineage_id_is_not_current_snapshot_identity": true,
+    "old_canonical_weather_sha256_unchanged": "a213df5a30b30360443681f81977c111145795d23f5c2a05e4eeeec6738c3f39",
+    "canonical_guard_bypassed": false
+  },
+  "target": {
+    "variant_id": "HU.N.SFH.01.Bel80.ReEx.001.013",
+    "area_m2": 56,
+    "supply_C": 55,
+    "expected_device_reference_kWh": 2472.633793065277,
+    "generator_H_kWh": 6050.554431653909,
+    "useful_H_kWh": 5748.154431653909,
+    "distribution_H_kWh": 302.4,
+    "components_included": [
+      "active_rating",
+      "inertia",
+      "nonoverlapping_idle"
+    ],
+    "installed_annual_kWh": null,
+    "signed_installed_residual_kWh": null
+  },
+  "method": {
+    "value_status": "DER source/reference quantities; SCN unvalidated transfers; unidentified installed result Q",
+    "load_reference": "four ordered MIN/MID/NOMINAL/MAX paired Q/P points; interpolate power against heat load; never select best COP",
+    "public_APIs_only": true,
+    "canonical_runtime_edited": false,
+    "minimum_stage": "existing explicit HEM_DEFAULT_SCENARIO / RADIATOR_OR_UFH_WET; tau_eq=140s, response=1370s, idle=.015kW",
+    "EOH_mask": "original adjacent120s HP/E counters both endpoints finite; signed differences and zero/negative-heat electricity retained",
+    "other_masks": "HP/E/CP and HP/E/IH remain distinct; CP residual not compressor; IH not automatically SH heat",
+    "aggregation_minutes_offsets": [
+      [
+        2,
+        0
+      ],
+      [
+        30,
+        0
+      ],
+      [
+        60,
+        0
+      ],
+      [
+        60,
+        30
+      ]
+    ],
+    "aggregation_boundaries": "split at missing/unsupported original endpoints BEFORE aggregation, retain excluded signed energies in complementary ledger; then proxy/year/month/calendar phase boundaries",
+    "condition_assumption": "arithmetic endpoint proxies plus segment mean thermal load, not measured interval-average temperature or proven quasi-stationary duty",
+    "EOH_service": "mixed SH/DHW; heating-temperature proxy does not prove same SH service",
+    "near55_interval_C": [
+      53,
+      57
+    ],
+    "near55_role": "separate close-observation branch only; not an eligibility gate for actual-condition normalized transfer",
+    "temperature_bin_edges_C": [
+      "-inf",
+      0,
+      2,
+      5,
+      7,
+      10,
+      15,
+      20,
+      "inf"
+    ],
+    "load_over_min_bin_edges": [
+      "-inf",
+      0,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      1,
+      "inf"
+    ],
+    "transfer_replacement": "both total-reference replacement and variable active+inertia replacement with target idle once; observed monthly zero-heat power replaces zero-state reference once",
+    "pooling": "sum donor E / sum conditional reference within year/cell; all years pooled also reported; repeated intervals not independent units",
+    "hybrid_role": "aggregate SCN product/service routes evaluated using all windows; compare linear, fixed-idle-preserving, CP-preserving and boiler-shared-CP allocations; no boiler-positive exclusion",
+    "period_controls": "all34 systems all98 years and901 months; observed support only, no annualization; monthly/year sum closure",
+    "clock_basis": "EOH recorded timezone Q; target UTC2025 known; clock values not equated across the two",
+    "uncertainty": "year/aggregation empirical SCN envelope; no CI or finite full-annual bound without identifying transfer",
+    "support_partition": [
+      "QUALIFIED_DIRECT_ZERO",
+      "CONDITIONAL_EOH_PROXY_W55_DUTY",
+      "UNIDENTIFIED"
+    ],
+    "policy": "canonical E2 aggregate/calibrated route preserved; no component-E1, perfect-year, boiler-free, mandatory-holdout requirement"
+  },
+  "remaining_identifying_link": "Designated conditional route covers8760hours. Prior2021/2023 flow/cell contrast confounds year and season. Month,observation-duration,return-temperature and reference-duty matching now quantify composition changes and remaining common-support discrepancy; target installation/controller and zero-state mapping remain conditional, not an unperformed analysis or annualized partial support.",
+  "non_admission": {
+    "central_E2_installed_selected": false,
+    "canonical_input_changed": false,
+    "annual_signed_residual_admitted": false,
+    "hourly_installed_admitted": false,
+    "national_admission": false,
+    "readiness_credit": false,
+    "task_accepted": false,
+    "rating_reference_E2": "UNCHANGED"
+  },
+  "protected_sha256": {
+    "data/processed/b05/wm50_full_performance_v53.csv": "09d3535d57e0b3959b8059a4f52dfe2f6ec41f7871a5a9529f2415c55aaf8ec1",
+    "data/processed/b06/tabula_three_reference_cases.json": "9b946e1ecded543bff1540273417add5b975d9ddbe5ce8b48f0d528cad76bb93",
+    "docs/methodology/evidence_tier_and_validation_debt_policy.md": "09120a0f6f1c4bc2732efaeff27ccf9aa3b70347bd4fb35c93342be43fab3862",
+    "modules/B05/annual_device_reference.py": "760088357610d2c41103c37d08761c63b7cc7c18b13b4c45de8ecef061d4a680",
+    "modules/B05/engine.py": "cd0b87b1ee10dcd87e09683d154b2c2880dcf87c64b3af21ef8b060e24036767",
+    "modules/B05/hourly_cycling_method.py": "2ca503290f257ad605cd4f276a06288edeb42691dd36a7251289d4cb01ec8570",
+    "modules/B05/hourly_onoff_parameter_policy.py": "2c71884d74d12062e1fc551aa7b14c985ccfae6af0323b9ddea3872a2f36baea",
+    "modules/B05/hourly_power_component_reference.py": "e7e02e7e6ead697a66ec26e7631587086846f8e2fdab8a02ee78999e8417308b",
+    "modules/B05/manufacturer_wm50_reference.py": "0ed1a182cdeb15203e4610d003dc1645469e9116ffc23b09c6e931e2011ed025",
+    "modules/B06/tabula_seasonal_reference.py": "70d8d021a00e506627f30c0cb31176f7d009578278f62ea22814bf5014b5cb0b",
+    "modules/B08/historical_source_balance.py": "466aba7d3f292a522612d97d686c0f24e0e27ad4389d79d874e944ecc253d145",
+    "modules/B11/__init__.py": "1f4f4821c1dcc399758b0203765070157c8601c7dab2e04e6d1889c1272e1afb",
+    "modules/B11/annual_retrofit_reference.py": "e8852b6560b42e3754a110ebf54e01b4b0439da77b4146d5b0c1bd41428e41e6",
+    "modules/B11/annual_same_service_reference.py": "595ffa907e0da7a62fa827c6d77a67841d64457887a317888c21df8ebbe0d9cd",
+    "modules/B11/calorific_reference.py": "ea8d6f98dc05a0e82d135d873b257698f705115cac4ad595c26ac3e2b627f17a",
+    "modules/B11/county_baseline_contract.py": "c16bf4252da2d99514a987f15c5db20c0228c3327f00c655e928610dc8978908",
+    "modules/B11/gas_efficiency_authority.py": "93106b9574563a83f3c1783dc433da5ab7483a88be6f6e2249a6ca1dabc61005",
+    "modules/B11/gas_quality_reference.py": "5ecd6b371e3f6e47048405e8c6a41ba9e22809936769eade8226b78cc397523b",
+    "modules/B11/gas_quality_snapshot_contract.py": "a8f61adfe3bdba53779726bfbc6f720d52ef447e93c9795b8c906423d3dd3348",
+    "modules/B11/gas_reference_contract.py": "8164d1dd9209e1f2cc073501f3ad2cbd84629b1cddd00a4660e15a693c3677af",
+    "modules/B11/gas_volume_bridge_contract.py": "4922098f5f01d9b03685bf4b3fefe23d956420ba3364fa3badfb8ae8d84abc46",
+    "modules/B11/national_gas_displacement_inference.py": "85540e092eea996d3de32822548b03779beda3d38b48f24a41da0190a02cfaef",
+    "modules/B11/physical_displacement_contract.py": "68991b77b15422d693d702d2939f77adb803300d5671235e77765831c08f8238",
+    "registry/b05_annual_device_reference_manifest.json": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15",
+    "registry/b05_eoh_comparison_support_manifest.json": "73405d6c66224baca3c430b9a3132e5924d7148465276446b1608b2fe2998c50",
+    "registry/b05_eoh_observed_boundary_manifest.json": "6ea5921e2d85d928b9225dacb8e8441931b5e9f42c825c80eb5e03faf1d46dcf",
+    "registry/b05_wm50_full_grid_manifest.json": "1cdfaab531df91df04ba6a72aa7f91af46464e89ad5aa831d871cba98505059b",
+    "registry/b05_wm50_installed_boundary_evidence.json": "7b4cd3e731ce453c3ebfe08b9253758e5ee57cc8a6a17115dfc88a4e09bd0039",
+    "registry/b06_tabula_reference_manifest.json": "bdb493ba9d37b14520d8464b4610194697c862d66dfcec6dbd93ad2f80c39085",
+    "tools/analyze_b05_eoh_comparison_support.py": "c76d0de0e8145b0bad86d3f6ad87803bd96e063850b228e8d4205e5a36f0caea"
+  },
+  "revision": {
+    "id": "REVIEW_CORRECTION_1",
+    "previous_review_zip_sha256": "599bb6816945c54facbd022e3d7e3ee2b5c30ae80dcee30912c63136d6d86a44",
+    "positive_routes": [
+      "EOH_NEAR55_OBSERVED",
+      "EOH_ACTUAL_CONDITIONS_TO_W55",
+      "HYBRID_AGGREGATE_TO_W55"
+    ],
+    "source_support_split_before_aggregation": true,
+    "service_cases": [
+      "HEATING_PROXY_WHOLE_E",
+      "ALL_SERVICE_AS_SH_WHOLE_E",
+      "MIXED_HALF_SH_WHOLE_E",
+      "HEATING_PROXY_LESS_IH_VALID"
+    ],
+    "hybrid_cases": [
+      "LINEAR_ALL_E",
+      "RATING_IDLE_NONSCALING",
+      "CP_NONSCALING_RETAINED",
+      "BOILER_SHARED_CP_HEAT_SHARE"
+    ],
+    "target_accounting": [
+      "TOTAL_REFERENCE_REPLACEMENT",
+      "VARIABLE_REPLACEMENT_IDLE_ONCE"
+    ],
+    "zero_transfer": "observed zero-heat month power from broad matched periods, with donor hours and service/IH alternatives; never high-flow38min fragment as representative annual base",
+    "predeclared_central_route": {
+      "aggregation": "60min_offset0",
+      "route": "EOH_ACTUAL_CONDITIONS_TO_W55",
+      "assumption": "HEATING_PROXY_WHOLE_E",
+      "donor_year": "ALL_YEARS_POOLED",
+      "accounting": "VARIABLE_REPLACEMENT_IDLE_ONCE"
+    },
+    "assumption_evidence": {
+      "rating_temperature_load_normalization": {
+        "status": "JUSTIFIED_FOR_TARGET",
+        "source_ids": [
+          "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+        ],
+        "scope": "rating reference Q/P only, not observed residual invariance"
+      },
+      "same_SH_service_and_electrical_boundary": {
+        "status": "CONDITIONAL_ALTERNATIVES_ONLY",
+        "source_ids": [
+          "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+          "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050"
+        ],
+        "reason": "mixed SH/DHW and nonadditive short-interval IH counters; numerical alternatives are evaluated"
+      },
+      "residual_invariance_W55_product_and_duty": {
+        "status": "CONDITIONAL_ALTERNATIVES_ONLY",
+        "source_ids": [
+          "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+          "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+        ],
+        "reason": "actual-condition dimensionless normalization and hybrid fixed-component/service alternatives are calculated; manufacturer reference alone does not establish installed residual transport"
+      },
+      "annual_zero_state_transport": {
+        "status": "CONDITIONAL_OBSERVED_MONTH_POWER",
+        "source_ids": [
+          "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026"
+        ],
+        "reason": "broad observed month power is evaluated, with partial-period and service uncertainty retained"
+      }
+    },
+    "E2_assessment": "derived coverage and physical closure plus explicit claim-specific evidence assessment; a justified aggregate/calibrated E2 route is allowed without E1 components, boiler-off or perfect donor year"
+  },
+  "aggregate_assessment": {
+    "base_main_commit": "cd176ed8f5b314525cf082bd2dd4d69c0348cea6",
+    "verified_main_tree": "aadf578dd32fcbffeba867749c8e3f8b8fd565df",
+    "prior_output_manifest_sha256": "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987",
+    "prior_merged_code_sha256": "53df6a70161b791a67ae42889161b6f929cbd3d8abaee656d0f202656ecaa9dc",
+    "binding": {
+      "route": "EOH_ACTUAL_CONDITIONS_TO_W55",
+      "product": "PUZ-WM50VHA(-BS)",
+      "service_case": "HEATING_PROXY_WHOLE_E",
+      "accounting": "VARIABLE_REPLACEMENT_IDLE_ONCE",
+      "donor_scope": "EOH2074:ALL_YEARS_POOLED",
+      "aggregation": "60min_offset0",
+      "target_id": "HU.N.SFH.01.Bel80.ReEx.001.013:W55:UTC2025"
+    },
+    "qualification_authority": "EXACT_BOUND_EIGHT_CRITERIA_ONLY",
+    "dictionary_acquisition": {
+      "url": "https://doc.ukdataservice.ac.uk/doc/9050/mrdoc/excel/9050_eoh_public_datasets_data_dictionary_v2-0.xlsx",
+      "bytes": 165294,
+      "sha256": "b0df7899064e0d33679d760b6bc2be52d06f1d3093d7b20aa283a632db4175f7",
+      "local_status": "NETWORK_ACCESS_DENIED_NOT_VERIFIED",
+      "parent_reported_mode_semantics": "Clean2min rows16/18; Raw22/24: valve-mode-specific temperature recording; return temperature unrestricted",
+      "use": "Parent-provided source interpretation pending direct local workbook inspection; original hash-verified energy/time extracts retained"
+    },
+    "revision": "SEASON_STATE_MATCHING_AND_DERIVED_GATES_R2",
+    "prediction_admission_gates": "DERIVED_FROM_UNIQUE_COMPLETE_TARGET_PREDICTIONS_AND_FINITE_NONNEGATIVE_ENERGY",
+    "season_state_matching": {
+      "donor_calendar_month_matched": true,
+      "flow_bin_matched": true,
+      "ambient_load_cells_matched": true,
+      "observation_duration_minutes_edges": [
+        0,
+        15,
+        30,
+        45,
+        60
+      ],
+      "minimum_duration_diagnostic_minutes": 45,
+      "return_temperature_bin_width_C": 5,
+      "reference_duty_fraction_edges": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "standardization": "SYMMETRIC_POOLED_DONOR_REFERENCE_SHARES",
+      "target_return_and_controller_mix_observed": false,
+      "exposure_modes": [
+        "TARGET_SAME_MONTH",
+        "ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC"
+      ],
+      "partial_support_annualized": false,
+      "causal_year_or_controller_effect_identified": false
+    }
+  },
+  "target_weighted_assessment": {
+    "id": "TARGET_MONTHLY_REFERENCE_DUTY_RESPONSE_FAMILY_20261016",
+    "base_main_commit": "c3adf1ee27faf27692468cfbbb91f670e0d52bbf",
+    "verified_main_tree": "e2098e64e01d79746692616ee65621ed9066cc86",
+    "prior_R1_manifest_sha256": "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987",
+    "prior_R2_manifest_sha256": "7c9e85e33fe019b716126a6fd73a8eddb7d698ba8be004f00f6d94ec1a35f965",
+    "sampling_seed": 20261016,
+    "sampling_replicates": 100,
+    "month_kernel_bandwidths_months": [
+      0,
+      1,
+      3,
+      null
+    ],
+    "month_kernel_policy": "Cyclic Gaussian weights at fixed target month/ambient/reference load/reference duty; bandwidth0 is support diagnostic only, positive bandwidth permits tested cross-month pooling. No target shares inferred from donor frequencies.",
+    "boundary": {
+      "target": "HU.N.SFH.01.Bel80.ReEx.001.013,56m2,W55 nominal SH supply,UTC2025,6050.554431653909kWh generator SH including302.4 distribution",
+      "electricity": "SH heat-pump whole-system electricity including SH-attributable circulation,excluding DHW service; IH/CP alternative accounting on identical joint-valid donor mask only",
+      "reference": "active + inertia + nonoverlapping idle exactly once; source variable normalization subtracts source reference idle then target idle retained once",
+      "target_known_controls": [
+        "month",
+        "ambient_C",
+        "reference_load_over_min",
+        "modeled_reference_stage_on_fraction",
+        "hourly_SH_heat_and_reference_energy"
+      ],
+      "modeled_duty_is_measured_controller_state": false,
+      "actual_target_flow_return_controller_and_service_shares": "Not observed; W55 is reference supply, not evidence of achieved installation flow; state marginalization and residual transfer remain explicit conditional parameters",
+      "zero_heat": "Observed broad-month no-heat whole-system power is not asserted to be pure standby; excess over target reference zero idle has separate transfer parameter"
+    },
+    "parameter_domain": {
+      "theta": "Unidentified real ANNUAL positive-period residual-transfer coefficient; annual positive-period electricity must remain positive. Does not prescribe a uniform hourly multiplier or admit an hourly installed profile. No evidence-supported finite upper bound. Values0,1,1.1 are response probes, not bounds.",
+      "s": "SH-attributable donor whole-meter electricity share in[0,1]; no empirically selected target service-allocation share Service-only sensitivity: s<1 cannot be combined with positive IH/CP exclusions.",
+      "alpha_IH": "Excluded IH accounting fraction in[0,1],only exact joint-valid complete mask; nonadditive short counters not repaired",
+      "beta_CP": "Excluded circulation fraction in[0,1],only exact joint-valid complete mask. Retaining CP is the whole-system target boundary; exclusion is a boundary sensitivity,not compressor identification",
+      "z": "Unidentified real transfer of observed zero-heat excess,subject to nonnegative target zero electricity; no evidence-based finite upper bound",
+      "pi_state": "Conditional kernel/reference-energy donor marginalization; not observed target flow/return/controller/duration/year shares"
+    },
+    "selected_central_E2_kWh": null,
+    "sampling_interpretation": "Positive block-multiplier reweighting with14/28/56day clusters within one installation; conditional within-donor quantiles,not population confidence intervals",
+    "canonical_or_national_admission": false,
+    "CP_fixed_power_alternative": "On the same joint-valid mask,remove normalized observed CP component once then add p times observed donor CP power times either modeled reference-on hours or positive-target hours. p>=0 is unidentified target/source aggregate pump-power ratio,not a bound or measured target controller state.",
+    "response_safeguards": {
+      "service_component_contract": "REJECT_SERVICE_SHARE_LT1_WITH_POSITIVE_IH_OR_CP_EXCLUSION",
+      "derived_energy_contract": "REJECT_ANY_NONFINITE_DELTA_ADJUSTMENT_POSITIVE_ZERO_OR_TOTAL_BALANCE",
+      "CP_replacement_scope": "POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z",
+      "prior_review_zip_sha256": "899ae33fcd91400cef9d5425215a2d087bd5b881f4b68dd56358e8b01504fe55"
+    }
+  },
+  "circulation_identification": {
+    "id": "EOH2074_CP_ENERGY_BLOCK_IDENTIFICATION_20261016",
+    "reviewed_head": "6c72f1aa4988ea645bf16f129fbc7c7db5c27175",
+    "reviewed_tree": "b4d56a129b2cc39822579bf4a0a0693a1988d75b",
+    "prior_R1_manifest_sha256": "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987",
+    "prior_corrected_weighted_manifest_sha256": "2ad924bdff3ee2776ec653121e1c82d21331e0f6b96731c607012bebcea5f104",
+    "source_ids": [
+      "SRC-B05-DESNZ-EOH-MONITORING-2024",
+      "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+      "SRC-B02-DESNZ-EOH-PDI-2024",
+      "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+      "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020"
+    ],
+    "topology": {
+      "donor": {
+        "PDI": {
+          "Property_ID": "EOH2074",
+          "HP_Installed": "ASHP",
+          "HP_Installed_Detail": null,
+          "HP_Brand": "Mitsubishi",
+          "HP_Model": "PUZ-WM50VHA-BS",
+          "HP_Size_kW": 5,
+          "HP_Refrigerant": "R32",
+          "MCS_Flow_Temp": 45,
+          "TS_Type": "Water_New",
+          "TS_Water_Size": 150,
+          "HP_Control_Zones": 1
+        },
+        "PDI_provenance": "Locally read registered observed-boundary manifest target.pdi_fields; original PDI workbook is not newly acquired",
+        "indoor_unit": null,
+        "controller": null,
+        "pump_model": null,
+        "CP_meter": "Aggregate of external circulation pumps covered by project CP meter,not heat-pump internal primary pump identity",
+        "heat_meter": "Near HP primary flow/return,measures HP heat output only",
+        "E_meter": "Primary whole-system electrical wiring; documented HP-energy derivation subtracts other metered loads; exact home wiring history uninspected",
+        "IH_meter": "Immersion electricity for primary thermal storage",
+        "mode_scope": "Documented valve-mode-specific temperature-channel endpoints; transitions/missing/both remain unallocated; not measured pump runtime"
+      },
+      "target": {
+        "reference": "Named56m2 WM50 nominalW55 SH reference,2472.633793065277kWh",
+        "indoor_unit": null,
+        "controller": null,
+        "external_pump_topology": null,
+        "actual_pump_runtime_rule": null,
+        "target_pump_power_kW": null,
+        "annual_pump_substitution_admitted": false
+      },
+      "candidate_only": {
+        "configuration": "WM50 + EHPT20X-MHEDW/FTC6,200L",
+        "source_id": "SRC-B05-MITSUBISHI-EHPT-PRODUCT-2020",
+        "assigned_to_donor": false,
+        "assigned_to_target": false
+      },
+      "report_parent_verified": {
+        "source_id": "SRC-B05-DESNZ-EOH-MONITORING-2024",
+        "url": "https://esc-production-2021.s3.eu-west-2.amazonaws.com/wp-content/uploads/2024/12/18093557/EoH-Heat-Pump-Performance-Data-Analysis-Report.pdf",
+        "local_PDF_inspected": false,
+        "sha256": null,
+        "inspection_basis": "Parent independent official-source review supplied2026-10-16; not a local report-byte inspection",
+        "facts": [
+          {
+            "locator": "Table4.1 printed26/PDF28",
+            "claim": "CP captures multiple circulation pumps"
+          },
+          {
+            "locator": "section7.3 printed57/PDF59",
+            "claim": "Auxiliaries and pumps inside HP were not separately monitored"
+          },
+          {
+            "locator": "section6.6.2 printed53/PDF55",
+            "claim": "Cleansed two-minute alignment can distort instantaneous power"
+          }
+        ]
+      },
+      "rating_boundary_local_manifest": "registry/b05_wm50_full_grid_manifest.json input_boundary: EN14511-2013 total-unit reference including nominal-table standard pump correction; numerical allowance unknown"
+    },
+    "primary_aggregation_minutes": 180,
+    "aggregation_minutes_offsets": [
+      [
+        30,
+        0
+      ],
+      [
+        60,
+        0
+      ],
+      [
+        60,
+        30
+      ],
+      [
+        180,
+        0
+      ],
+      [
+        1440,
+        0
+      ]
+    ],
+    "timing_diagnostics_minutes": [
+      -10,
+      -2,
+      0,
+      2,
+      10
+    ],
+    "primary_minimum_component_hours": 0.5,
+    "reference_feature": "Sum preserved source-condition2min manufacturer+onoff reference components; reference-missing parts retained separately,not imputed; all-state time model uses full common mask",
+    "validation": "Leave recorded year and recorded year-month blocks out; same reference-compatible test components for time/reference/joint models; observed-period support only",
+    "target_pump_kWh": null,
+    "canonical_admission": false
+  }
+}

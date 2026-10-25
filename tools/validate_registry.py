@@ -2242,6 +2242,7 @@ def validate() -> list[str]:
     validate_b05_wm50_installed_boundary_evidence(errors, source_ids)
     validate_b05_eoh_observed_boundary_evidence(errors, source_ids)
     validate_b05_eoh_comparison_support(errors, source_ids)
+    validate_b05_eoh_annual_transfer(errors, source_ids)
     validate_b06_artifacts(errors, source_ids)
     validate_b07_artifacts(errors, source_ids)
     validate_b07_shared_use_artifacts(errors)
@@ -3277,6 +3278,139 @@ def validate_b05_eoh_comparison_support(errors: list[str], source_ids: set[str])
                     and any(r.get("decision") == "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION"
                             and r.get("evidence_manifest") == "registry/b05_eoh_comparison_support_manifest.json"
                             for r in task["research_log"]), f"research log without acceptance {sid}")
+    except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError) as exc:
+        errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
+
+
+def validate_b05_eoh_annual_transfer(errors: list[str], source_ids: set[str]) -> None:
+    """A distinct DER weather representation and conditional research transfer."""
+    prefix = "B05 EOH annual transfer"
+
+    def require(condition, message):
+        if not condition:
+            errors.append(f"{prefix}: {message}")
+
+    try:
+        m = json.loads((REGISTRY / "b05_eoh_annual_transfer_manifest.json").read_text(encoding="utf-8"))
+        require(m["schema_version"] == 1 and m["reference_id"] == "B05-EOH-ANNUAL-TRANSFER-RESEARCH-20261015"
+                and m["status"] == "CONDITIONAL_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION"
+                and m["base_commit"] == "6ae8a073635db0f3b4475a5a9b2baf618cb824b3", "bounded research identity")
+        require(len(m["source_ids"]) == len(set(m["source_ids"])) == 8
+                and set(m["source_ids"]) <= source_ids, "registered source lineage")
+        b = m["input_binding"]
+        require(b["additive_manifest_sha256"] == "d3230850eaaa5624946e15eac5ab57b7c683d916b278eb733a600b2cc13fa4ed"
+                and b["additive_zip_sha256"] == "40b8ae63adcdf5f8dfbc8714313f1d8077501ebbe4a39853c51327dd79ac4dd6"
+                and b["additive_zip_bytes"] == 11285814 and b["additive_files"] == 19
+                and b["reuse_status"] == "EXTERNAL_ONLY_LOCAL_INPUTS_NO_REPOSITORY_COPY", "exact additive input binding")
+        w = m["recovered_weather"]
+        require(w["input_id"] == "DER-B05-WEATHER-44527-UTC2025-RECOVERED-20261015"
+                and w["sha256"] == "2c4e2fd66391b2b72409e92815e95772af66bfcafba52f1528dea4073f6900ea"
+                and w["bytes"] == 838059 and w["rows"] == 8760 and w["station_id"] == "44527"
+                and w["status"] == "DER" and w["use"] == "EXPLICIT_RESEARCH_ONLY_NEW_REPRESENTATION",
+                "new weather identity distinct from old bytes")
+        require(w["old_canonical_weather_sha256_unchanged"] == "a213df5a30b30360443681f81977c111145795d23f5c2a05e4eeeec6738c3f39"
+                and w["canonical_guard_bypassed"] is False and w["lineage_id_is_not_current_snapshot_identity"] is True,
+                "canonical guard and snapshot distinction")
+        require(w["recent_snapshot_sha256"] == "4bab861bda3449c4503fb4c84fee176f2954ca6e59c627fc73313829d4e479b0"
+                and w["history_snapshot_sha256"] == "a28ec01c28358f9af0cf846ac69642e80b1f6f0972a138d84f9269c08d3fe417", "official snapshot pins")
+        target = m["target"]
+        require(target["area_m2"] == 56 and target["supply_C"] == 55
+                and target["expected_device_reference_kWh"] == 2472.633793065277
+                and target["components_included"] == ["active_rating", "inertia", "nonoverlapping_idle"]
+                and target["installed_annual_kWh"] is None and target["signed_installed_residual_kWh"] is None,
+                "named device reference without duplicate overhead or installed point")
+        method = m["method"]
+        revision = m["revision"]
+        assessment = m["aggregate_assessment"]
+        binding = assessment["binding"]
+        require(assessment["base_main_commit"] == "cd176ed8f5b314525cf082bd2dd4d69c0348cea6"
+                and assessment["verified_main_tree"] == "aadf578dd32fcbffeba867749c8e3f8b8fd565df"
+                and assessment["prior_output_manifest_sha256"] == "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987"
+                and assessment["prior_merged_code_sha256"] == "53df6a70161b791a67ae42889161b6f929cbd3d8abaee656d0f202656ecaa9dc",
+                "aggregate assessment exact merged baseline and prior numerical output")
+        require(binding == {"route":"EOH_ACTUAL_CONDITIONS_TO_W55", "product":"PUZ-WM50VHA(-BS)",
+                "service_case":"HEATING_PROXY_WHOLE_E", "accounting":"VARIABLE_REPLACEMENT_IDLE_ONCE",
+                "donor_scope":"EOH2074:ALL_YEARS_POOLED", "aggregation":"60min_offset0",
+                "target_id":"HU.N.SFH.01.Bel80.ReEx.001.013:W55:UTC2025"}
+                and assessment["qualification_authority"] == "EXACT_BOUND_EIGHT_CRITERIA_ONLY",
+                "qualification evidence must bind exact product/service/accounting/donor/target route")
+        matched = assessment["season_state_matching"]
+        require(assessment["prediction_admission_gates"] == "DERIVED_FROM_UNIQUE_COMPLETE_TARGET_PREDICTIONS_AND_FINITE_NONNEGATIVE_ENERGY"
+                and matched["donor_calendar_month_matched"] is True and matched["ambient_load_cells_matched"] is True
+                and matched["partial_support_annualized"] is False and matched["causal_year_or_controller_effect_identified"] is False
+                and matched["target_return_and_controller_mix_observed"] is False
+                and matched["exposure_modes"] == ["TARGET_SAME_MONTH", "ALL_TARGET_CELL_EXPOSURE_DIAGNOSTIC"],
+                "derived assessment gates and conditional matched-state support without annualization or causal attribution")
+        weighted=m["target_weighted_assessment"]
+        cp=m["circulation_identification"]
+        require(cp["reviewed_head"] == "6c72f1aa4988ea645bf16f129fbc7c7db5c27175"
+                and cp["reviewed_tree"] == "b4d56a129b2cc39822579bf4a0a0693a1988d75b"
+                and cp["prior_R1_manifest_sha256"] == "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987"
+                and cp["prior_corrected_weighted_manifest_sha256"] == "2ad924bdff3ee2776ec653121e1c82d21331e0f6b96731c607012bebcea5f104",
+                "CP reviewed checkpoint and preserved numerical identities")
+        topology=cp["topology"]
+        require(set(cp["source_ids"]) <= source_ids and cp["target_pump_kWh"] is None and cp["canonical_admission"] is False
+                and topology["donor"]["PDI"]["TS_Water_Size"] == 150
+                and topology["donor"]["indoor_unit"] is None and topology["donor"]["controller"] is None
+                and topology["donor"]["pump_model"] is None
+                and topology["target"]["target_pump_power_kW"] is None
+                and topology["target"]["actual_pump_runtime_rule"] is None
+                and topology["target"]["annual_pump_substitution_admitted"] is False
+                and topology["candidate_only"]["assigned_to_donor"] is False
+                and topology["candidate_only"]["assigned_to_target"] is False,
+                "CP aggregate metering must not identify an internal pump or assign a candidate target topology")
+        require(cp["aggregation_minutes_offsets"] == [[30,0],[60,0],[60,30],[180,0],[1440,0]]
+                and cp["timing_diagnostics_minutes"] == [-10,-2,0,2,10]
+                and cp["primary_minimum_component_hours"] == .5
+                and topology["report_parent_verified"]["local_PDF_inspected"] is False
+                and topology["report_parent_verified"]["sha256"] is None,
+                "CP accumulated-energy sensitivity and attributed report inspection")
+        require(weighted["response_safeguards"] == {
+                    "service_component_contract":"REJECT_SERVICE_SHARE_LT1_WITH_POSITIVE_IH_OR_CP_EXCLUSION",
+                    "derived_energy_contract":"REJECT_ANY_NONFINITE_DELTA_ADJUSTMENT_POSITIVE_ZERO_OR_TOTAL_BALANCE",
+                    "CP_replacement_scope":"POSITIVE_PERIOD_ONLY_ZERO_PERIOD_POWER_SEPARATELY_HANDLED_BY_Z",
+                    "prior_review_zip_sha256":"899ae33fcd91400cef9d5425215a2d087bd5b881f4b68dd56358e8b01504fe55"},
+                "unambiguous service/component accounting, finite derived balances and positive-period CP replacement")
+        require(weighted["base_main_commit"] == "c3adf1ee27faf27692468cfbbb91f670e0d52bbf"
+                and weighted["verified_main_tree"] == "e2098e64e01d79746692616ee65621ed9066cc86"
+                and weighted["prior_R1_manifest_sha256"] == "19ecbe57f3c82b01aba196dda960c6363d2c7332ba9d6985bf344dacab097987"
+                and weighted["prior_R2_manifest_sha256"] == "7c9e85e33fe019b716126a6fd73a8eddb7d698ba8be004f00f6d94ec1a35f965",
+                "target-weighted exact merged baseline and preserved numerical identities")
+        require(weighted["selected_central_E2_kWh"] is None and weighted["canonical_or_national_admission"] is False
+                and weighted["boundary"]["modeled_duty_is_measured_controller_state"] is False
+                and weighted["month_kernel_bandwidths_months"] == [0,1,3,None]
+                and weighted["sampling_seed"] == 20261016 and weighted["sampling_replicates"] == 100
+                and set(weighted["parameter_domain"]) == {"theta","s","alpha_IH","beta_CP","z","pi_state"},
+                "conditional response domain, modeled duty, sampling and non-admission")
+        require(revision["source_support_split_before_aggregation"] is True
+                and revision["positive_routes"] == ["EOH_NEAR55_OBSERVED", "EOH_ACTUAL_CONDITIONS_TO_W55", "HYBRID_AGGREGATE_TO_W55"]
+                and revision["target_accounting"] == ["TOTAL_REFERENCE_REPLACEMENT", "VARIABLE_REPLACEMENT_IDLE_ONCE"]
+                and bool(revision["assumption_evidence"]), "evaluated engineering routes and explicit qualification evidence")
+        require(method["public_APIs_only"] is True and method["canonical_runtime_edited"] is False
+                and method["aggregation_minutes_offsets"] == [[2, 0], [30, 0], [60, 0], [60, 30]]
+                and method["near55_interval_C"] == [53, 57], "public explicit method and aggregation sensitivity")
+        flags = m["non_admission"]
+        require(set(flags) == {"central_E2_installed_selected", "canonical_input_changed", "annual_signed_residual_admitted",
+                "hourly_installed_admitted", "national_admission", "readiness_credit", "task_accepted", "rating_reference_E2"}
+                and flags["rating_reference_E2"] == "UNCHANGED"
+                and all(v is False for k, v in flags.items() if k != "rating_reference_E2"), "no installed/national admission")
+        protected = m["protected_sha256"]
+        require({"registry/b05_annual_device_reference_manifest.json", "modules/B05/annual_device_reference.py",
+                 "modules/B05/engine.py", "registry/b05_eoh_comparison_support_manifest.json",
+                 "modules/B11/annual_retrofit_reference.py", "modules/B05/hourly_onoff_parameter_policy.py"} <= set(protected),
+                "canonical and prior research protected inventory")
+        for relative, expected in protected.items():
+            path = (ROOT / relative).resolve()
+            require(path.is_relative_to(ROOT.resolve()) and hashlib.sha256(path.read_bytes()).hexdigest() == expected,
+                    f"unchanged protected file {relative}")
+        plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
+        tasks = {s["slice_id"]: s for module in plan["modules"] for s in module["slices"]}
+        require(m["research_slice_ids"] == ["B05-D01", "B05-D03"] and bool(m["remaining_identifying_link"]), "bounded unresolved link")
+        for sid in m["research_slice_ids"]:
+            task = tasks[sid]
+            require(task["status"] == "INTEGRATING" and not task["accepted_artifacts"] and not task["consumer_tests"]
+                    and task["reviewed_commit"] is None and any(r.get("decision") == "LOCAL_ANNUAL_TRANSFER_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION"
+                    for r in task["research_log"]), f"research log without acceptance {sid}")
     except (OSError, ValueError, TypeError, KeyError, IndexError, AttributeError) as exc:
         errors.append(f"{prefix}: invalid or incomplete manifest: {exc}")
 

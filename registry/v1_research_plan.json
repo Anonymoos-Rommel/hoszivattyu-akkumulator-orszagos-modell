@@ -690,6 +690,102 @@
               "decision": "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION",
               "evidence": "docs/source_packs/B05_EOH_COMPARISON_SUPPORT.md",
               "evidence_manifest": "registry/b05_eoh_comparison_support_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "A target-duty-weighted same-SH-service installed-minus-rating energy mapping, reconciling mixed-service/IH and meter overlap, W55 operation and the existing active/inertia/idle terms, including the numerically unidentified target cells. Monthly/full-period controls give marginal inactive electricity but no joint service-temperature-load duty allocation; active hybrid windows cannot supply the annual inactive mapping. One qualified aggregate/calibrated mapping with uncertainty is sufficient; component-E1 is not required.",
+              "promising_next_lead": "Review new-weather research replay, complete-period controls, exact target support and conditional year/aggregation sensitivity before qualifying one same-service aggregate/calibrated transfer.",
+              "expected_decision_value": "Numeric conditional research result; original weather identity/guards, runtime and installed/national admission unchanged.",
+              "decision": "LOCAL_ANNUAL_TRANSFER_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "decision": "ANNUAL_TRANSFER_REVIEW_CORRECTION_EVALUATE_ENGINEERING_ROUTES",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "Claim-specific SH/service, installed residual invariance and zero-state transport assessment after calculated engineering alternatives; no preset central point.",
+              "promising_next_lead": "Review corrected preaggregation source splitting and target-weighted EOH/hybrid conditional route estimates.",
+              "expected_decision_value": "Separates data exclusion from algorithmic matching, computes service/IH/fixed-auxiliary uncertainty and derives conditional/E2 classification.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "CLAIM_SPECIFIC_AGGREGATE_E2_ASSESSMENT_NO_INSTALLED_ADMISSION",
+              "source_families": [
+                "Hash-verified EOH2074 original two-minute signed energy counters and prior R1 target weights",
+                "Existing manufacturer reference and canonical eight-condition E2 policy"
+              ],
+              "remaining_unknown": "All 8760 target hours have a numerical conditional route. Within flow [25,30) C and identical ambient/load target cells, 2021/2023 imply -452.972377 kWh over 3173 target hours. Target installation/year-state mapping remains materially unidentified; sparse near55 evidence is not a calibration. Exact-mask IH exclusion is 34.433913 kWh; transitions and missing modes remain explicit.",
+              "promising_next_lead": "Resolve target-relevant installation/controller state or documented calibration of the normalized residual; full dictionary local acquisition failed network access, parent-provided valve-mode interpretation distinguished from directly inspected evidence.",
+              "expected_decision_value": "Quantifies applicability gap after actual analysis, without demanding E1 components, direct full-year W55 or perfect donor years. Exact-bound qualification cannot leak to hybrid/product/accounting/donor variants.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "AGGREGATE_E2_REVIEW_R2_SEASON_STATE_MATCHING_NO_ADMISSION",
+              "source_families": [
+                "Same hash-verified original EOH and merged R1 segment outputs; no new archive or workbook acquisition"
+              ],
+              "remaining_unknown": "Earlier2021/2023 contrast confounds season; no same-month25--30C donor support. Independent2022/2023 February GE45min contrast is-415.665501kWh on2962 all-target-cell diagnostic hours, but-14.843381kWh on229 same-target-February hours. Duration/return/reference-duty matching acrossJan-Apr gives-50.016188kWh on685 same-month targethours in25--30C and-37.086843 on1088 in30--35C. Partial exposure is not annualized; no causal year/controller effect identified.",
+              "promising_next_lead": "Assess a defensible target state mapping using the now-completed measured-state matching; no missing-data claim substitutes for unperformed analysis. Local workbook restriction remains explicit.",
+              "expected_decision_value": "Separates season/composition from remaining descriptive discrepancy; completeness/physical admission flags derive from actual hourly predictions with negative regressions.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "TARGET_MONTH_REFERENCE_DUTY_CONDITIONAL_RESPONSE_FAMILY_NO_ADMISSION",
+              "source_families": [
+                "Verified main c3adf1ee27faf27692468cfbbb91f670e0d52bbf and unchanged R1/R2 numerical outputs",
+                "2528 supported positive stable-SH source segments from one installation; monthly/ambient/load/reference-duty target controls"
+              ],
+              "remaining_unknown": "No installed E2 central selected. New full-support conditional anchor3994.708794kWh=2472.633793 reference+1498.171897 positive-period excess+23.903104 zero-period excess. W55 annual excess transfer theta,SH electricity share and target pump mapping remain conditional. One percent SH electricity allocation is39.614570kWh;theta change0.1 is149.817190kWh. Same joint mask CP variable accounting coefficient1236.134398kWh versus conditional fixed-power501.864604/789.011808kWh; no finite total uncertainty bound is justified.",
+              "promising_next_lead": "Use declared response family or qualify target hydraulic/pump/service mapping; do not treat conditional within-donor block quantiles or year composition sensitivity as population CI. Measured stage_on_fraction is not claimed; this is modeled reference duty.",
+              "expected_decision_value": "Target monthly heat and operating-reference weights now close all6100 positive plus2660 zero targethours;soft month pooling avoids strict-month exclusion and reproduces prior4003.394924kWh with full pooling. Runtime/admission/readiness unchanged.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "TARGET_WEIGHTED_RESPONSE_SAFEGUARDS_CORRECTION_NO_ADMISSION",
+              "source_families": [
+                "Same verified target/donor inputs; independent434-check reproduction of original40 variants and anchor"
+              ],
+              "remaining_unknown": "AnnualW55/service/pump mapping remains conditional; numerical safeguards do not select a central value. Prior3994.708794kWh anchor and previous packages preserved.",
+              "promising_next_lead": "Use service-only or same-mask component-only sensitivities; mixed partial-service/positive-component exclusions are rejected until an explicit allocation convention is defined. All nonfinite derived energy balances are rejected.",
+              "expected_decision_value": "Prevents silent double allocation and overflow-based physical-validity claims; CP replacement is explicitly positive-period only with zero-period power handled independently by z.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "EOH2074_CONTIGUOUS_CP_ENERGY_IDENTIFICATION_NO_TARGET_PUMP_SUBSTITUTION",
+              "source_families": [
+                "Exact reviewed PR332 checkpoint head6c72f1aa/treeb4d56a12 and preserved corrected package",
+                "Full original EOH2074 telemetry and pinned source references; parent-reviewed report topology/timing facts; local manufacturer standard-pump boundary"
+              ],
+              "remaining_unknown": "Donor positive-SH CP follows elapsed state time near161W: matched180min year-test WAPE0.642099% versus24.594062% reference scaling on1509.033333h/243.039kWh. Full zero-SH CP472.616kWh has weak state-time/year prediction155.009290% WAPE,month-conditioned101.703797%; actual target pump topology/runtime and applicable standard-pump allowance remain unassigned.",
+              "promising_next_lead": "Specify target external-pump functional boundary/control/runtime or qualify an equivalent aggregate mapping; do not assign EHPT20X200L candidate, source aggregate CP or modeled reference duty as target pump hardware/runtime.",
+              "expected_decision_value": "544833 all-four intervals/795.140kWh CP preserved; independent/complement/unallocated-span ledgers close exactly. CP-only nesting violations disappear in accumulated parents,IH-related discrepancies remain. Same-mask positive E-CP-R58.507083kWh does not identify compressor-only electricity or target annual residual.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
             }
           ],
           "reviewed_commit": null
@@ -916,6 +1012,102 @@
               "decision": "LOCAL_EOH_COMPARISON_SUPPORT_AWAITING_REVIEW_NO_INSTALLED_ADMISSION",
               "evidence": "docs/source_packs/B05_EOH_COMPARISON_SUPPORT.md",
               "evidence_manifest": "registry/b05_eoh_comparison_support_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "A target-duty-weighted same-SH-service installed-minus-rating energy mapping, reconciling mixed-service/IH and meter overlap, W55 operation and the existing active/inertia/idle terms, including the numerically unidentified target cells. Monthly/full-period controls give marginal inactive electricity but no joint service-temperature-load duty allocation; active hybrid windows cannot supply the annual inactive mapping. One qualified aggregate/calibrated mapping with uncertainty is sufficient; component-E1 is not required.",
+              "promising_next_lead": "Review new-weather research replay, complete-period controls, exact target support and conditional year/aggregation sensitivity before qualifying one same-service aggregate/calibrated transfer.",
+              "expected_decision_value": "Numeric conditional research result; original weather identity/guards, runtime and installed/national admission unchanged.",
+              "decision": "LOCAL_ANNUAL_TRANSFER_RESEARCH_NO_CENTRAL_INSTALLED_ADMISSION",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-15",
+              "decision": "ANNUAL_TRANSFER_REVIEW_CORRECTION_EVALUATE_ENGINEERING_ROUTES",
+              "source_families": [
+                "SRC-B05-DESNZ-EOH-CLEANSED-2MIN-9050",
+                "SRC-B05-EOH-ALL-YEARS-EVIDENCE-2026",
+                "SRC-B05-DESNZ-EOH-DICTIONARY-V2",
+                "SRC-B02-DESNZ-EOH-PDI-2024",
+                "SRC-B05-MITSUBISHI-DATABOOK-WM50-FULL-GRID-2020",
+                "SRC-B05-HUNGARY-HOURLY-HIST-2026",
+                "SRC-B05-HUNGARY-HOURLY-RECENT-20261002",
+                "SRC-B06-TABULA-HU-CALCULATOR-2016"
+              ],
+              "remaining_unknown": "Claim-specific SH/service, installed residual invariance and zero-state transport assessment after calculated engineering alternatives; no preset central point.",
+              "promising_next_lead": "Review corrected preaggregation source splitting and target-weighted EOH/hybrid conditional route estimates.",
+              "expected_decision_value": "Separates data exclusion from algorithmic matching, computes service/IH/fixed-auxiliary uncertainty and derives conditional/E2 classification.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md",
+              "evidence_manifest": "registry/b05_eoh_annual_transfer_manifest.json"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "CLAIM_SPECIFIC_AGGREGATE_E2_ASSESSMENT_NO_INSTALLED_ADMISSION",
+              "source_families": [
+                "Hash-verified EOH2074 original two-minute signed energy counters and prior R1 target weights",
+                "Existing manufacturer reference and canonical eight-condition E2 policy"
+              ],
+              "remaining_unknown": "All 8760 target hours have a numerical conditional route. Within flow [25,30) C and identical ambient/load target cells, 2021/2023 imply -452.972377 kWh over 3173 target hours. Target installation/year-state mapping remains materially unidentified; sparse near55 evidence is not a calibration. Exact-mask IH exclusion is 34.433913 kWh; transitions and missing modes remain explicit.",
+              "promising_next_lead": "Resolve target-relevant installation/controller state or documented calibration of the normalized residual; full dictionary local acquisition failed network access, parent-provided valve-mode interpretation distinguished from directly inspected evidence.",
+              "expected_decision_value": "Quantifies applicability gap after actual analysis, without demanding E1 components, direct full-year W55 or perfect donor years. Exact-bound qualification cannot leak to hybrid/product/accounting/donor variants.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "AGGREGATE_E2_REVIEW_R2_SEASON_STATE_MATCHING_NO_ADMISSION",
+              "source_families": [
+                "Same hash-verified original EOH and merged R1 segment outputs; no new archive or workbook acquisition"
+              ],
+              "remaining_unknown": "Earlier2021/2023 contrast confounds season; no same-month25--30C donor support. Independent2022/2023 February GE45min contrast is-415.665501kWh on2962 all-target-cell diagnostic hours, but-14.843381kWh on229 same-target-February hours. Duration/return/reference-duty matching acrossJan-Apr gives-50.016188kWh on685 same-month targethours in25--30C and-37.086843 on1088 in30--35C. Partial exposure is not annualized; no causal year/controller effect identified.",
+              "promising_next_lead": "Assess a defensible target state mapping using the now-completed measured-state matching; no missing-data claim substitutes for unperformed analysis. Local workbook restriction remains explicit.",
+              "expected_decision_value": "Separates season/composition from remaining descriptive discrepancy; completeness/physical admission flags derive from actual hourly predictions with negative regressions.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "TARGET_MONTH_REFERENCE_DUTY_CONDITIONAL_RESPONSE_FAMILY_NO_ADMISSION",
+              "source_families": [
+                "Verified main c3adf1ee27faf27692468cfbbb91f670e0d52bbf and unchanged R1/R2 numerical outputs",
+                "2528 supported positive stable-SH source segments from one installation; monthly/ambient/load/reference-duty target controls"
+              ],
+              "remaining_unknown": "No installed E2 central selected. New full-support conditional anchor3994.708794kWh=2472.633793 reference+1498.171897 positive-period excess+23.903104 zero-period excess. W55 annual excess transfer theta,SH electricity share and target pump mapping remain conditional. One percent SH electricity allocation is39.614570kWh;theta change0.1 is149.817190kWh. Same joint mask CP variable accounting coefficient1236.134398kWh versus conditional fixed-power501.864604/789.011808kWh; no finite total uncertainty bound is justified.",
+              "promising_next_lead": "Use declared response family or qualify target hydraulic/pump/service mapping; do not treat conditional within-donor block quantiles or year composition sensitivity as population CI. Measured stage_on_fraction is not claimed; this is modeled reference duty.",
+              "expected_decision_value": "Target monthly heat and operating-reference weights now close all6100 positive plus2660 zero targethours;soft month pooling avoids strict-month exclusion and reproduces prior4003.394924kWh with full pooling. Runtime/admission/readiness unchanged.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "TARGET_WEIGHTED_RESPONSE_SAFEGUARDS_CORRECTION_NO_ADMISSION",
+              "source_families": [
+                "Same verified target/donor inputs; independent434-check reproduction of original40 variants and anchor"
+              ],
+              "remaining_unknown": "AnnualW55/service/pump mapping remains conditional; numerical safeguards do not select a central value. Prior3994.708794kWh anchor and previous packages preserved.",
+              "promising_next_lead": "Use service-only or same-mask component-only sensitivities; mixed partial-service/positive-component exclusions are rejected until an explicit allocation convention is defined. All nonfinite derived energy balances are rejected.",
+              "expected_decision_value": "Prevents silent double allocation and overflow-based physical-validity claims; CP replacement is explicitly positive-period only with zero-period power handled independently by z.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
+            },
+            {
+              "date": "2026-10-16",
+              "decision": "EOH2074_CONTIGUOUS_CP_ENERGY_IDENTIFICATION_NO_TARGET_PUMP_SUBSTITUTION",
+              "source_families": [
+                "Exact reviewed PR332 checkpoint head6c72f1aa/treeb4d56a12 and preserved corrected package",
+                "Full original EOH2074 telemetry and pinned source references; parent-reviewed report topology/timing facts; local manufacturer standard-pump boundary"
+              ],
+              "remaining_unknown": "Donor positive-SH CP follows elapsed state time near161W: matched180min year-test WAPE0.642099% versus24.594062% reference scaling on1509.033333h/243.039kWh. Full zero-SH CP472.616kWh has weak state-time/year prediction155.009290% WAPE,month-conditioned101.703797%; actual target pump topology/runtime and applicable standard-pump allowance remain unassigned.",
+              "promising_next_lead": "Specify target external-pump functional boundary/control/runtime or qualify an equivalent aggregate mapping; do not assign EHPT20X200L candidate, source aggregate CP or modeled reference duty as target pump hardware/runtime.",
+              "expected_decision_value": "544833 all-four intervals/795.140kWh CP preserved; independent/complement/unallocated-span ledgers close exactly. CP-only nesting violations disappear in accumulated parents,IH-related discrepancies remain. Same-mask positive E-CP-R58.507083kWh does not identify compressor-only electricity or target annual residual.",
+              "evidence": "docs/source_packs/B05_EOH_ANNUAL_TRANSFER.md"
             }
           ],
           "reviewed_commit": null
