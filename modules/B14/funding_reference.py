@@ -145,8 +145,10 @@ def validate_snapshot(data, caps, manifest):
              "dated reference-only admission required")
     _require(type(manifest.get("schema_version")) is int and manifest["schema_version"] == 1,
              "unsupported manifest schema")
-    _require(manifest.get("data_path") == str(DATA_PATH.relative_to(ROOT)) and
-             manifest.get("caps_path") == str(CAPS_PATH.relative_to(ROOT)), "data identity mismatch")
+    # Manifest identities use canonical POSIX separators on every host.
+    # Keep the untrusted manifest value exact; do not normalize aliases.
+    _require(manifest.get("data_path") == DATA_PATH.relative_to(ROOT).as_posix() and
+             manifest.get("caps_path") == CAPS_PATH.relative_to(ROOT).as_posix(), "data identity mismatch")
     sources = manifest.get("sources", [])
     _require(len(sources) == len(EXPECTED_SOURCE_IDS) and
              {s.get("source_id") for s in sources} == EXPECTED_SOURCE_IDS,
@@ -375,8 +377,8 @@ def validate_rule_completion(data, caps, manifest, historical_data, historical_m
              manifest.get("full_old_eleven_source_reverification") is False and
              manifest.get("confers_registry_acceptance") is False,
              "source references cannot imply eligibility, new full source pass or acceptance")
-    _require(manifest.get("data_path") == str(COMPLETION_PATH.relative_to(ROOT)) and
-             manifest.get("caps_path") == str(CAPS_418_PATH.relative_to(ROOT)),
+    _require(manifest.get("data_path") == COMPLETION_PATH.relative_to(ROOT).as_posix() and
+             manifest.get("caps_path") == CAPS_418_PATH.relative_to(ROOT).as_posix(),
              "completion file identity mismatch")
     rows = data["programmes"]
     _require(len(rows) == 2 and {x["programme_id"] for x in rows} == set(SCOPES),
@@ -560,12 +562,12 @@ def _load_rule_completion(historical, old_caps, old_manifest, data_path, caps_pa
         _require(hashlib.sha256(Path(path).read_bytes()).hexdigest() == manifest.get(key),
                  f"completion file revision mismatch: {key}")
     pins = manifest.get("historical_input_sha256", {})
-    _require(set(pins) == {str(p.relative_to(ROOT)) for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH)},
+    _require(set(pins) == {p.relative_to(ROOT).as_posix() for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH)},
              "exact historical input identity set required")
     # Bind the bytes actually consumed, including supported caller overrides.
     # Checking ROOT here would let a re-bound alternative historical dataset
     # inherit the authority of an unchanged default completion manifest.
-    names = (str(p.relative_to(ROOT)) for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH))
+    names = (p.relative_to(ROOT).as_posix() for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH))
     for name, actual_path in zip(names, historical_paths):
         _require(hashlib.sha256(Path(actual_path).read_bytes()).hexdigest() == pins[name],
                  "consumed historical dated evidence changed")

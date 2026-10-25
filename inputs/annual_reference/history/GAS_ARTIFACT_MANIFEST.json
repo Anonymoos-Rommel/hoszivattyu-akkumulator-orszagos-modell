@@ -1,0 +1,56 @@
+{
+  "directory": "C:\\Users\\josep\\Documents\\Codex\\2026-10-21\\task\\b13-retained-gas-common-u-20261024-v1",
+  "status": "COMMON_U_CONDITIONAL_RESULT_REVIEW_REQUIRED",
+  "files": [
+    {
+      "path": "BOUNDARY_ARITHMETIC.json",
+      "bytes": 20611,
+      "sha256": "6a2b93b6086fdf3503005defd147229d1c84d21ae07531eef2d3e6acd6a46572"
+    },
+    {
+      "path": "calculate_common_u.py",
+      "bytes": 11845,
+      "sha256": "fab8bc9333ef3fd5491a2a8c44b4a427687c06d637c50b4b90ece095a9b94559"
+    },
+    {
+      "path": "COMMON_U_RESULT.json",
+      "bytes": 4782,
+      "sha256": "c5fc907109ec525ebe221ab6d8b1d4a9b4c75f059c694d1f50612391bfc6d6ad"
+    },
+    {
+      "path": "finalize_readback.py",
+      "bytes": 8253,
+      "sha256": "9003eb20bb7a02c84eddea0e57d0dd13c7db06d4657b798a42d7e6c11dfe3c68"
+    },
+    {
+      "path": "INPUT_BINDING.json",
+      "bytes": 3260,
+      "sha256": "4da2f0249f26686aefb03b71584fe4285136ad35718a5f1a36cf4409e66ca6e9"
+    },
+    {
+      "path": "OWNER_POLICY.json",
+      "bytes": 920,
+      "sha256": "e7cc2b03d1949e703600a898afc7b7283887bdb192dbe6735d7aa5ea48bc1d54"
+    },
+    {
+      "path": "PROTECTED_INPUT_MANIFEST.json",
+      "bytes": 586958,
+      "sha256": "11ce3ab3f893daeccbcd73383eb3eae7b80cd28e33e6e8d7f8503443d636a828"
+    },
+    {
+      "path": "REVIEW_HANDOFF.txt",
+      "bytes": 2317,
+      "sha256": "ac0e30527bfb612010a8eb28a6efadb1069fc56268fcdd5d68d38131a92cc38e"
+    },
+    {
+      "path": "RUN_RAW.txt",
+      "bytes": 617,
+      "sha256": "14636e5475094ee444b2713ed867d76a8132bb44899429a4ea1e0301159f37cc"
+    },
+    {
+      "path": "RUN_RECEIPT.json",
+      "bytes": 850,
+      "sha256": "601549d62cafd3382cd506121d9f02a0f4a94ec1400e05626b520990dad29875"
+    }
+  ]
+}

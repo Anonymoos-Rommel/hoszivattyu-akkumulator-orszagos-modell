@@ -10,3 +10,24 @@
 *.docx binary
 *.pdf binary
 *.parquet binary
+
+# Exact-byte B12 evidence snapshots; no source-use or redistribution promotion.
+/C01_NATIVE_CASE.json -text
+/data/processed/b12/NORMALIZED_YEAR_POLICY.json -text
+/data/processed/b12/offer_normalization_evidence.json -text
+/data/processed/b12/unresolved_target_bindings.json -text
+/inputs/a1_reference/APPROVED_REFERENCE_SCN.json -text
+/inputs/a1_reference/LEGACY_A1_INPUT_MANIFEST.json -text
+/inputs/a1_reference/PRESERVED_PARAMETRIC_RESPONSE.json -text
+/inputs/a1_reference/RESULT.json -text
+/inputs/annual_reference/C01_NATIVE_CASE.json -text
+/inputs/annual_reference/history/A1_ARTIFACT_MANIFEST.json -text
+/inputs/c01_context/APPROVED_T0_SCN.json -text
+/inputs/c01_context/C01_BINDING_EVIDENCE.json -text
+/inputs/c01_context/CASE_CONTEXT.json -text
+/inputs/c01_context/MONETARY_BASIS.json -text
+/inputs/preserved/b12-072-fs01-hu-price-applicability-20261022-v1/SOURCE_PRICE_OBSERVATIONS.json -text
+/inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json -text
+/inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json -text
+/inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json -text
+/inputs/r1_evidence/prior_function_map.json -text

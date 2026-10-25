@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "representation": "MINIMAL5_UTC2025",
+  "scenario_id": "B08-D02-ONE-NEW-NONELECTRIC-SH-HOUSEHOLD-REFERENCE-UTC2025-V1",
+  "schema": {
+    "path": "data/processed/b12/a1_minimal5/SCHEMA.json",
+    "sha256": "de1870b0b8837ef74a0467be2a3c163fb7e9891bb60070bb2ee0dbda8ee2203d",
+    "bytes": 866
+  },
+  "view": {
+    "path": "data/processed/b12/a1_minimal5/REFERENCE_HOURLY_5.csv",
+    "sha256": "24b26302b04cd6fc3da2f2b99d5adf8428dfcc0e9996422d6dadcf6e5680a047",
+    "bytes": 795315
+  },
+  "ancestor": {
+    "sha256": "cd1247bb9c904531e06951542958b257e2471cf8fbd7469fed2e9ce55ffe554b",
+    "bytes": 1592688,
+    "representation": "LEGACY14_UTC2025",
+    "retained_columns": [
+      "interval_start_utc",
+      "interval_end_utc",
+      "hours",
+      "common_base_reference_kw",
+      "unit_incremental_W55_device_reference_kw"
+    ]
+  },
+  "derivation": {
+    "path": "data/processed/b12/a1_minimal5/DERIVATION_RECEIPT.json",
+    "sha256": "3410d64e96f9b06ee4ff881e2f6f36b41bd2560f9d04ed9437d240f7a40c5ce3",
+    "bytes": 1167
+  },
+  "source_classification": {
+    "path": "data/processed/b12/a1_minimal5/SOURCE_CLASSIFICATION.json",
+    "sha256": "8f197cfa001439dce5de261b92fd38a41653515a01436178a58fc148b813e199",
+    "bytes": 2332
+  },
+  "scope": {
+    "truth_context": "SCN",
+    "boundary": "COMMON_BASE_PLUS_W55_SPACE_HEATING_ONLY",
+    "baseline": "COMMON_BASE_ONLY",
+    "programme": "COMMON_BASE_PLUS_W55_DEVICE_REFERENCE",
+    "PV": "ABSENT_SCN",
+    "battery": "ABSENT_SCN",
+    "complete_local_civil_year": false,
+    "original_timestamps_remapped": false,
+    "observed_household_claim": false,
+    "unknown_components": {
+      "HMV_electricity_kw": {
+        "truth": "Q",
+        "value": null,
+        "reason": "NOT_SUPPLIED_IN_ACCEPTED_SH_ONLY_REFERENCE"
+      },
+      "outside_unit_auxiliary_correction_kw": {
+        "truth": "Q",
+        "value": null,
+        "reason": "NOT_SUPPLIED_IN_ACCEPTED_SH_ONLY_REFERENCE"
+      },
+      "physical_net_increment_kw": {
+        "truth": "Q",
+        "value": null,
+        "reason": "NOT_SUPPLIED_IN_ACCEPTED_SH_ONLY_REFERENCE"
+      }
+    }
+  },
+  "rights": {
+    "publication_authorized": false,
+    "open_license_asserted": false,
+    "source_classification_review_required": true,
+    "scope": "LOCAL_PROJECTION_AND_REVIEW_ONLY"
+  }
+}

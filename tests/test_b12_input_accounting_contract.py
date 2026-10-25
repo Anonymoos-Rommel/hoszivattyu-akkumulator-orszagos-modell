@@ -903,13 +903,13 @@ class B12InputAccountingTests(unittest.TestCase):
         self.assertTrue(rule["unknowns"])
         with self.assertRaises(B12ContractError):
             validate_case(case(receipts=rows(grant(status="CONFIRMED"))))
-        inventory = json.loads((ROOT / "registry/b12_input_inventory.json").read_text())
+        inventory = json.loads((ROOT / "registry/b12_input_inventory.json").read_text(encoding="utf-8"))
         self.assertEqual(inventory["numerical_output_status"], "Q")
         self.assertEqual(inventory["b15_gate"], "BLOCKED")
         self.assertEqual([r["admission_id"] for r in inventory["current_source_admissions"]], ["B06-WM50-MODELED-LIFE-E2-001"])
         self.assertFalse(inventory["current_source_admissions"][0]["numerical_b12_output_admitted"])
         self.assertTrue(all(row["value"] is None and row["status"] == "Q" for row in inventory["inputs"]))
-        with (ROOT / "registry/variables.csv").open(newline="") as stream:
+        with (ROOT / "registry/variables.csv").open(encoding="utf-8", newline="") as stream:
             variables = {row["variable_id"]: row for row in csv.DictReader(stream)}
         for variable in inventory["derived_global_handoffs"]:
             self.assertEqual(variables[variable]["status"], "Q")

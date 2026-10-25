@@ -49,7 +49,7 @@ class B14RuleCompletionTests(unittest.TestCase):
 
     def test_historical_inputs_and_old_reads_remain_exact(self):
         for p in (DATA_PATH, CAPS_PATH, MANIFEST_PATH):
-            relative = str(p.relative_to(DATA_PATH.parents[3]))
+            relative = p.relative_to(DATA_PATH.parents[3]).as_posix()
             self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(),
                              self.manifest["historical_input_sha256"][relative])
         self.assertEqual(len(self.catalog.caps), 39)

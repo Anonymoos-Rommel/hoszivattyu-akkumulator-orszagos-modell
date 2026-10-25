@@ -1,0 +1,386 @@
+{
+  "uses": [
+    {
+      "review_id": "USE-C01-WM50-SCN-T0-20261023",
+      "status": "QUALIFIED",
+      "offer_evidence_revision": "397ececdfd9088e3a851232b49570810162ce8d775affb8cc7ded59e98d934cc",
+      "binding": {
+        "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+        "offer_id": "OUTDOOR_GROSS",
+        "product": "PUZ-WM50VHA",
+        "category": "INITIAL_CAPEX",
+        "quantity": {
+          "value": "1",
+          "unit": "item",
+          "truth": "SCN",
+          "reference_period": [
+            "2028-01-01",
+            "2028-01-01"
+          ],
+          "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+          "source_ids": [],
+          "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+          "evidence_tier": "E3",
+          "admission_ref": null,
+          "reason": null,
+          "acquisition_ref": null
+        },
+        "leg": "programme",
+        "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+        "component_id": "C01",
+        "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+        "phase_ref": "S2_TO_S3",
+        "scope_ref": "SCN-HH1-OUTDOOR-C01",
+        "payer": "SCN-MODEL-HH1",
+        "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+        "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+        "cash_period": [
+          "2028-01-01",
+          "2028-01-01"
+        ],
+        "service_period": null,
+        "inclusion_scope": [
+          "outdoor"
+        ],
+        "attribution_ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+        "price_basis_ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+        "applicability_ref": "SCN-B12-C01-WM50-T0-20280101-V1:EXACT_OUTDOOR_ONLY",
+        "review_id": "USE-C01-WM50-SCN-T0-20261023",
+        "scope_event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101"
+      },
+      "case_context": {
+        "case_id": "SCN-CASE-C01-WM50-20280101",
+        "intervention_id": "SCN-ONE-NEW-WM50-ACQUISITION",
+        "archetype_id": "SCN-DECLARED-HU-56M2-W55",
+        "region_id": "R1",
+        "transition_ref": "S2_TO_S3",
+        "scope_id": "SCN-HH1-OUTDOOR-C01",
+        "household_id": "SCN-MODEL-HH1",
+        "service_basis_ref": "SPACE_HEATING_ONLY_RETAINED_W55_REFERENCE"
+      },
+      "offer_id": "OUTDOOR_GROSS",
+      "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+      "monetary_basis": {
+        "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+        "currency": "HUF",
+        "nominal_real": "NOMINAL",
+        "price_date": "2026-10-21"
+      },
+      "evidence_tier": "E2",
+      "service_scope": "SPACE_HEATING_ONLY",
+      "function_ids": [
+        "C01"
+      ],
+      "price_use": "EXPLICIT_FROZEN_SOURCE_SNAPSHOT_NOT_REAL_INVOICE",
+      "known_stronger_contradiction": false,
+      "criteria": {
+        "defined_quantity": "One new exact PUZ-WM50VHA outdoor component per approved model household acquisition; 1 item is SCN, never measured stock.",
+        "unit_grain_boundary_period": "HUF/item gross offer observed 2026-10-21, outdoor only; one-time model cash/commissioning 2028-01-01, separate from price period.",
+        "direct_support": "Existing pinned direct merchant observation, exact product/price block/footer and reviewed gross/price-kind labels; no newly invented source or invoice.",
+        "target_applicability": "Same named WM50 model as approved 56m2 SH-only reference; only isolated outdoor procurement. Controller/HU installed-system suitability is not admitted.",
+        "no_stronger_contradiction": "No stronger contradiction established for this frozen exact outdoor observation; later 071/072 and FS01 limitations remain outside its inclusion scope and open.",
+        "reproducible_derivation": "Native resolver multiplies preserved Decimal unit price by approved SCN quantity1 once; nominal source price unchanged, no FX/VAT/escalation or 2028 forecast.",
+        "registered_validation_debt": "See this content-pinned review validation_debt; complete installed scope, remote source bytes and current offer validity remain unverified.",
+        "provisional_label": "E2 frozen-source partial-price use only; derived Cost truth remains SCN because quantity/timing are SCN; full CAPEX and paid-invoice status remain unavailable."
+      },
+      "validation_debt": [
+        "Original remote page bytes/hash and dated validity end not preserved; frozen curated 2026 observation only.",
+        "No observed invoice, stock availability, vendor selection, actual commissioning or payment.",
+        "Shipping, controller/HU compatibility, pump/hydraulics, emitters, installation and full system scope remain Q.",
+        "Net/VAT, eligibility, financing, grants and complete household protection remain Q."
+      ],
+      "evidence_pins": [
+        {
+          "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json",
+          "sha256": "ef41b70f5d96587a0434c7faa36b86ae92c4297a4016e64384c07b3d2c0f6f7a",
+          "pointer": [
+            "facts",
+            "OUTDOOR_GROSS"
+          ],
+          "expected": {
+            "fact_id": "OUTDOOR_GROSS",
+            "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+            "value": "1220781",
+            "unit": "HUF/item",
+            "truth": "OBS",
+            "scope": "EXACT_PRODUCT_PART_PRICE",
+            "target_selected": false,
+            "product": "PUZ-WM50VHA",
+            "old_crossed_out": "1488758"
+          }
+        },
+        {
+          "path": "inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json",
+          "sha256": "f3b9d5e0b49a5e579f288eea26d5b68f4949f835fb424695aa98b322e82bea54",
+          "pointer": [
+            "qualifiers",
+            "OUTDOOR_GROSS"
+          ],
+          "expected": {
+            "fact_id": "OUTDOOR_GROSS",
+            "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+            "value": "1220781",
+            "unit": "HUF/item",
+            "tax_basis": "GROSS",
+            "tax_origin": "source rule applicable to this observation; no fact override",
+            "price_kind": "OBSERVED_PRICE_OR_FEE",
+            "original_price_kind": "",
+            "scope": "EXACT_PRODUCT_PART_PRICE",
+            "target_selected": false
+          }
+        },
+        {
+          "path": "inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/FORRASKOTES.json",
+          "sha256": "8d52acc06f9ed2231e145e0ec6ef68cc4b9a14cbd3966f159ac714b424343ff4",
+          "pointer": [
+            "sources",
+            "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021",
+            "reference_date"
+          ],
+          "expected": "2026-10-21"
+        },
+        {
+          "path": "inputs/r1_evidence/prior_function_map.json",
+          "sha256": "c778192debd93485cec400988a34e3e7fd951b367f5cd80406ab483230c40b85",
+          "pointer": [
+            "mapping",
+            "0"
+          ],
+          "expected": {
+            "component_id": "C01",
+            "function": "PUZ-WM50VHA kültéri készülék",
+            "offer_id": "OUTDOOR_GROSS",
+            "category": "INITIAL_CAPEX",
+            "quantity": null,
+            "cash_period": null,
+            "inclusion_scope": [
+              "outdoor"
+            ],
+            "applicability": "Q",
+            "missing": [
+              "teljes telepített scope",
+              "pénzesemény és mennyiségkötés",
+              "szállítás"
+            ],
+            "source_id": "SRC-B06-WM50-HU-ECODANSHOP-PRICE-20261021"
+          }
+        },
+        {
+          "path": "data/processed/b12/offer_normalization_evidence.json",
+          "sha256": "5c83b8db86f21141930077ba62953c6058e431c7016c03c92f606e217ebdecf8",
+          "pointer": [
+            "records",
+            "OUTDOOR_GROSS"
+          ],
+          "expected": {
+            "input_revision": "44c751f8c2318c8a00537878f4976c7a59d78054c0015e40a67b4e8e475a4b1f",
+            "normalized": {
+              "tax_basis": "GROSS",
+              "price_kind": "EXACT_PRICE",
+              "reference_period": [
+                "2026-10-21",
+                "2026-10-21"
+              ],
+              "inclusions": [
+                "outdoor"
+              ]
+            },
+            "qualification_pin": null,
+            "scope": "Direct mapping of pinned fields; package roles remain declared partial functional scope, not a complete installed BOM"
+          }
+        },
+        {
+          "path": "inputs/c01_context/ACCEPTED_THREE_DECISIONS.json",
+          "sha256": "463ccfa4b310f4ce9a31237bb2738a9cc9f14bafc0c62a925d9a8862d8b2797e",
+          "pointer": [],
+          "expected": {
+            "schema_version": 1,
+            "decision_id": "SCN-B12-WM50-SH-20261023",
+            "decision_date": "2026-10-23",
+            "recorded_at_utc": "2026-10-23T11:32:59.217318+00:00",
+            "status": "ACCEPTED_SCENARIO_DECISIONS_ONLY_NOT_APPLIED_TO_ACTIVE_INPUTS",
+            "truth": "SCN",
+            "source_message_ref": "Sentinel_f58e61c812b88191910c728deef987ac",
+            "base_commit": "6ae8a073635db0f3b4475a5a9b2baf618cb824b3",
+            "reference": {
+              "country": "Hungary",
+              "model_building_floor_area_m2": 56,
+              "product": "PUZ-WM50VHA",
+              "service_scope": "SPACE_HEATING_ONLY",
+              "W55_energy_reference_unchanged": true,
+              "PV_or_battery_selected": false
+            },
+            "decisions": [
+              {
+                "id": "D1",
+                "subject": "Cost architecture",
+                "accepted": "Separate controller and external hydraulics; no integrated domestic-hot-water indoor unit selected",
+                "exact_controller": null,
+                "exact_071_072_compatibility": null,
+                "pump_model": null,
+                "pump_quantity": null,
+                "manufacturer_or_HU_market_applicability_not_established_by_decision": true
+              },
+              {
+                "id": "D2",
+                "subject": "Heat emitter reference",
+                "accepted": "Retain existing emitters as reference; suitability and necessary modifications remain separately evidenced",
+                "suitability": null,
+                "modification_quantity": null,
+                "modification_cost": null,
+                "unknown_cost_is_not_zero": true
+              },
+              {
+                "id": "D3",
+                "subject": "Unit household transition procurement",
+                "accepted": "One modelled household transition includes one new WM50 one-time acquisition",
+                "product": "PUZ-WM50VHA",
+                "quantity": "1",
+                "unit": "item",
+                "truth": "SCN",
+                "one_time": true,
+                "observed_purchase": false,
+                "observed_invoice": false,
+                "cash_period": null,
+                "national_suitability_claim": false
+              }
+            ],
+            "not_approved_by_these_decisions": [
+              "Exact 071/072 controller selection or compatibility",
+              "Pump type/count and hydraulic sizing",
+              "Emitter suitability or zero alteration cost",
+              "New price, tax split or current offer validity",
+              "Payer/payee settlement or payment calendar",
+              "Full installed CAPEX, O&M total, lifecycle return or E2 closure"
+            ],
+            "application_state": {
+              "production_code_modified": false,
+              "active_data_modified": false,
+              "new_native_Cost_events_created": 0,
+              "tests_run": false,
+              "uploads_performed": false,
+              "configuration_changed": false
+            }
+          }
+        },
+        {
+          "path": "inputs/c01_context/APPROVED_T0_SCN.json",
+          "sha256": "55947cad483ca0879e538bd60d41e5f742bd158bfd4ac7672e90e33ec6358eca",
+          "pointer": [],
+          "expected": {
+            "id": "SCN-B12-C01-WM50-T0-20280101-V1",
+            "recorded_at_utc": "2026-10-23T12:01:27.609420+00:00",
+            "truth": "SCN",
+            "decision_ref": "Sentinel_e2bdc99ce7d0819190b65f6025ee9ac6",
+            "product": "PUZ-WM50VHA",
+            "quantity": "1",
+            "unit": "item",
+            "one_time": true,
+            "household_transitions": "1",
+            "service_scope": "SPACE_HEATING_ONLY",
+            "controller_architecture": "SEPARATE_CONTROLLER_AND_EXTERNAL_HYDRAULICS",
+            "exact_controller": null,
+            "emitter_reference": "EXISTING_RETAINED_SUITABILITY_Q",
+            "cash_period": [
+              "2028-01-01",
+              "2028-01-01"
+            ],
+            "commissioning_date": "2028-01-01",
+            "date_meaning": "APPROVED_MODEL_T0_NOT_OBSERVED_PURCHASE_OR_COMMISSIONING",
+            "source_price_day": "2026-10-21",
+            "price_use": "FROZEN_NOMINAL_HUF_NOT_2028_FORECAST",
+            "finance_mode": null,
+            "grant": null,
+            "actual_payment": null,
+            "scope_role": "OCCUPIER_MODEL_HOUSEHOLD_ONLY_NO_LEGAL_TENURE_CLAIM",
+            "cost_attribution": "ONE_MODEL_HOUSEHOLD_ENTIRE_OUTDOOR_COMPONENT_ONCE",
+            "payment_share": null,
+            "supplier": "SYMBOLIC_EQUIPMENT_SELLER_ROLE_NO_VENDOR_SELECTED",
+            "technical_readiness": null,
+            "national_suitability": null,
+            "full_capex": null
+          }
+        },
+        {
+          "path": "inputs/c01_context/CASE_CONTEXT.json",
+          "sha256": "8a21fca086cd76c806aa50cc376da4acbdf81fc24ec6c11ac068e0222ff44b2c",
+          "pointer": [],
+          "expected": {
+            "context": {
+              "case_id": "SCN-CASE-C01-WM50-20280101",
+              "intervention_id": "SCN-ONE-NEW-WM50-ACQUISITION",
+              "archetype_id": "SCN-DECLARED-HU-56M2-W55",
+              "region_id": "R1",
+              "transition_ref": "S2_TO_S3",
+              "scope_id": "SCN-HH1-OUTDOOR-C01",
+              "household_id": "SCN-MODEL-HH1",
+              "service_basis_ref": "SPACE_HEATING_ONLY_RETAINED_W55_REFERENCE"
+            },
+            "identity_meaning": "Technical identifiers for approved bounded model, not a population cell, actual site or B01 gate admission"
+          }
+        },
+        {
+          "path": "inputs/c01_context/MONETARY_BASIS.json",
+          "sha256": "ce0d0b511eafe3afb96ecff28ea0c9bf6f28b7b108f8641c4e1fb3e9af2b562c",
+          "pointer": [],
+          "expected": {
+            "basis_id": "HUF_NOMINAL_FROZEN_20261021_C01",
+            "currency": "HUF",
+            "nominal_real": "NOMINAL",
+            "price_date": "2026-10-21"
+          }
+        }
+      ],
+      "binding_evidence_pin": {
+        "path": "inputs/c01_context/C01_BINDING_EVIDENCE.json",
+        "sha256": "5fcd58a4a491f28433c6127119ffc916e3b2012cd9f88f262f5e69caf85740c7",
+        "pointer": [],
+        "expected": {
+          "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+          "offer_id": "OUTDOOR_GROSS",
+          "product": "PUZ-WM50VHA",
+          "category": "INITIAL_CAPEX",
+          "quantity": {
+            "value": "1",
+            "unit": "item",
+            "truth": "SCN",
+            "reference_period": [
+              "2028-01-01",
+              "2028-01-01"
+            ],
+            "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+            "source_ids": [],
+            "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+            "evidence_tier": "E3",
+            "admission_ref": null,
+            "reason": null,
+            "acquisition_ref": null
+          },
+          "leg": "programme",
+          "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+          "component_id": "C01",
+          "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+          "phase_ref": "S2_TO_S3",
+          "scope_ref": "SCN-HH1-OUTDOOR-C01",
+          "payer": "SCN-MODEL-HH1",
+          "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+          "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+          "cash_period": [
+            "2028-01-01",
+            "2028-01-01"
+          ],
+          "service_period": null,
+          "inclusion_scope": [
+            "outdoor"
+          ],
+          "attribution_ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+          "price_basis_ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+          "applicability_ref": "SCN-B12-C01-WM50-T0-20280101-V1:EXACT_OUTDOOR_ONLY",
+          "review_id": "USE-C01-WM50-SCN-T0-20261023",
+          "scope_event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101"
+        }
+      }
+    }
+  ],
+  "scope": "Exactly C01 outdoor frozen-price SCN; all other uses unqualified"
+}

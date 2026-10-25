@@ -1,0 +1,34 @@
+{
+  "source_sha256": "cd1247bb9c904531e06951542958b257e2471cf8fbd7469fed2e9ce55ffe554b",
+  "view_sha256": "24b26302b04cd6fc3da2f2b99d5adf8428dfcc0e9996422d6dadcf6e5680a047",
+  "rows": 8760,
+  "columns": [
+    "interval_start_utc",
+    "interval_end_utc",
+    "hours",
+    "common_base_reference_kw",
+    "unit_incremental_W55_device_reference_kw"
+  ],
+  "all_retained_fields_text_identical": true,
+  "source_retained_fields_sha256": "94783c70782399b8cd2495f4b285c32bdd7653c2c4f00c8addf901f922f339f3",
+  "view_retained_fields_sha256": "94783c70782399b8cd2495f4b285c32bdd7653c2c4f00c8addf901f922f339f3",
+  "periods": [
+    {
+      "id": "S1",
+      "start_utc": "2025-01-01T00:00:00+00:00",
+      "end_utc_exclusive": "2025-07-31T22:00:00+00:00",
+      "hours": 5086,
+      "base_kWh": "1395.142165954214450100",
+      "HP_kWh": "1473.2737920445158662490"
+    },
+    {
+      "id": "S2",
+      "start_utc": "2025-07-31T22:00:00+00:00",
+      "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+      "hours": 3674,
+      "base_kWh": "1023.857834045785462980",
+      "HP_kWh": "999.3600010207610694760"
+    }
+  ],
+  "method": "DIRECT_COLUMN_SELECTION_NO_NUMERIC_REWRITE"
+}

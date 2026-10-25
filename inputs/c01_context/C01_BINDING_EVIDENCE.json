@@ -1,0 +1,44 @@
+{
+  "cost_id": "SCN-C01-WM50-INITIAL-HH1-20280101",
+  "offer_id": "OUTDOOR_GROSS",
+  "product": "PUZ-WM50VHA",
+  "category": "INITIAL_CAPEX",
+  "quantity": {
+    "value": "1",
+    "unit": "item",
+    "truth": "SCN",
+    "reference_period": [
+      "2028-01-01",
+      "2028-01-01"
+    ],
+    "basis_id": "ONE_NEW_WM50_PER_MODEL_HOUSEHOLD_TRANSITION",
+    "source_ids": [],
+    "scenario_ref": "SCN-B12-C01-WM50-T0-20280101-V1",
+    "evidence_tier": "E3",
+    "admission_ref": null,
+    "reason": null,
+    "acquisition_ref": null
+  },
+  "leg": "programme",
+  "event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101",
+  "component_id": "C01",
+  "asset_generation_id": "SCN-HH1-NEW-WM50-GEN1",
+  "phase_ref": "S2_TO_S3",
+  "scope_ref": "SCN-HH1-OUTDOOR-C01",
+  "payer": "SCN-MODEL-HH1",
+  "payee": "SCN-EQUIPMENT-SELLER-ROLE-NOT-A-SELECTED-VENDOR",
+  "settlement_ref": "SCN-B12-C01-WM50-T0-20280101-V1:ONE_T0_ACQUISITION_NOT_FINANCING",
+  "cash_period": [
+    "2028-01-01",
+    "2028-01-01"
+  ],
+  "service_period": null,
+  "inclusion_scope": [
+    "outdoor"
+  ],
+  "attribution_ref": "SCN-B12-C01-WM50-T0-20280101-V1:SINGLE_HOUSEHOLD_OUTDOOR_ATTRIBUTION",
+  "price_basis_ref": "SCN-B12-C01-WM50-T0-20280101-V1:FROZEN_SOURCE_PRICE_BASIS",
+  "applicability_ref": "SCN-B12-C01-WM50-T0-20280101-V1:EXACT_OUTDOOR_ONLY",
+  "review_id": "USE-C01-WM50-SCN-T0-20261023",
+  "scope_event_id": "SCN-HH1-WM50-INITIAL-PROCUREMENT-20280101"
+}
