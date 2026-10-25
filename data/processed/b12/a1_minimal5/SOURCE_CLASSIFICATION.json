@@ -1,0 +1,43 @@
+{
+  "mvm_profile": {
+    "source_id": "SRC-MVM-2025",
+    "original_url": "https://mvmhalozat.hu/attachments/39326",
+    "index_url": "https://mvmhalozat.hu/aram/oldalak/1871",
+    "workbook_sha256": "7e6135250f69f48deab35e2f8f56711b0a92b37e15eed9147090dd8be1365dc5",
+    "preserved_reuse_status": "LOCAL_ANALYSIS_ONLY_NOT_REPOSITORY_REDISTRIBUTION_CLEARED",
+    "classification_basis": "Preserved internal classification, not an MVM permission or legal conclusion",
+    "publisher_notice_url": "https://mvmhalozat.hu/aram/oldalak/2785",
+    "retained_pattern": "Whole UTC2025 hourly LAK_02-derived shape remains; normalized dimensionless weights, approved final-hour repeat and hourly aggregation. Not a raw workbook copy or only annual scalar."
+  },
+  "annual_scale": {
+    "value_kWh": 2419,
+    "truth": "ASS",
+    "source_url": "https://www.ksh.gov.hu/stadat_files/kor/hu/kor0044.html",
+    "limitation": "Owner-selected model scale, not observed56m2 HP-free consumption"
+  },
+  "hp_reference": {
+    "reference_id": "E2-ANNUAL-WM50-W55-TABULA-SFH01-UTC2025-001",
+    "hourly_source_sha256": "1dd563c4984f91a6aa5b5cbe156bcc827ad65e5252a9f14772651f10c50cb493",
+    "manifest_sha256": "d4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15",
+    "truth": "DER",
+    "evidence_tier": "E2",
+    "own_calculation": true,
+    "underlying_sources": [
+      "HungaroMet44527 hourly temperature reference",
+      "TABULA HU.N.SFH.01.Bel80.ReEx.001.013 at56m2",
+      "Mitsubishi PUZ-WM50 W55 manufacturer reference and bounded cycling/nonactive method"
+    ],
+    "limit": "Own model calculation retaining the full modelled annual HP waveform; not measured private household data, installed-system total or automatic open license"
+  },
+  "removed_national_load": {
+    "included": false,
+    "field": "native_national_hourly_mean_mw_reference_only",
+    "source_record": "B08B09-P5-R01",
+    "reason": "Not consumed by the current A1 reference tariff calculation; no national numeric series copied into this view"
+  },
+  "privacy_boundary": {
+    "private_measured_household_data_in_output": false,
+    "basis": "Documented producer uses declared model/TABULA/weather/manufacturer and public profile/load inputs; no personal measurement columns. Hans raw data not read or copied here.",
+    "not_a_license_claim": true
+  }
+}

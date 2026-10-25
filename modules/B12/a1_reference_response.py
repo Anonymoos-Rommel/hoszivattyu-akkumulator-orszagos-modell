@@ -20,6 +20,7 @@ from zoneinfo import ZoneInfo
 
 from modules.B04 import engine as b04
 from . import input_accounting_contract as native
+from .a1_profile_projection import ProjectionBinding, ProjectionError, load_payload, parse_profile, REPOSITORY_PROJECTION_BINDING
 
 
 class A1ReferenceError(ValueError):
@@ -98,6 +99,7 @@ class A1Reference:
     source_ids: tuple[str, ...]
     scenario_id: str = SCENARIO
     complete_local_civil_year: bool = False
+    projection_binding: ProjectionBinding | None = None
 
 
 @dataclass(frozen=True)
@@ -173,7 +175,7 @@ def summarize_hourly_profile(raw: bytes) -> tuple[ReferencePeriod, ...]:
                  (("S1", START, CUT, sums[0]), ("S2", CUT, END, sums[1])))
 
 
-def _verified_bundle(root):
+def _verified_bundle(root, projection_binding=None):
     root = Path(root).resolve()
     binding = _json((root / "A1_INPUT_BINDING.json").read_bytes())
     proof = {}
@@ -200,10 +202,23 @@ def _verified_bundle(root):
     _require(binding["active_B12_adapter_sha256"] == c01["repo/modules/B12/input_accounting_contract.py"],
              "active B12 identity must be separately bound")
     raw_sources = {}
+    projection_meta = None
+    projected_raw = None
+    if projection_binding is not None:
+        try:
+            projected_raw, projection_meta, projection_proof = load_payload(root, projection_binding,
+                ancestor_sha256=legacy["physical_profile"]["sha256"], scenario_id=SCENARIO)
+        except ProjectionError as exc:
+            raise A1ReferenceError("projection: " + str(exc)) from exc
+        proof.update(projection_proof)
     required = {"physical_profile", "physical_receipt", "physical_SCN", "B04_engine", "B04_tariffs",
                 "B04_source_verification", "B04_source_pack"}
     _require(set(binding["source_paths"]) == required, "complete reference-source mapping required")
     for key, relative in binding["source_paths"].items():
+        if key == "physical_profile" and projected_raw is not None:
+            raw_sources[key] = projected_raw
+            proof[key] = _hash(projected_raw)
+            continue
         raw = _path(root, relative).read_bytes()
         _require(_hash(raw) == legacy[key]["sha256"], f"{key}: source hash mismatch")
         raw_sources[key] = raw
@@ -212,22 +227,29 @@ def _verified_bundle(root):
              (b04.ROOT / "data/processed/residential_electricity_tariff_schedule.csv").resolve(),
              "B04 must consume the hash-bound tariff table")
     proof["historical_B12_adapter"] = legacy["B12_adapter"]["sha256"]
-    return raw_sources, tuple(sorted(proof.items()))
+    return raw_sources, tuple(sorted(proof.items())), projection_meta
 
 
-def load_reference(bundle_root) -> A1Reference:
-    """Load the existing source bundle; never substitute saved aggregate constants."""
-    raw, proof = _verified_bundle(bundle_root)
+def load_reference(bundle_root, *, projection_binding=REPOSITORY_PROJECTION_BINDING) -> A1Reference:
+    """Load repository minimal5 data; explicit None retains the legacy14 contract.
+
+    The default is a pinned repository-relative representation, not fallback
+    discovery. Missing/malformed minimal5 input fails closed. Legacy14 callers
+    must explicitly pass projection_binding=None and supply its original bytes.
+    """
+    raw, proof, projection_meta = _verified_bundle(bundle_root, projection_binding)
     scenario = _json(raw["physical_SCN"])
     receipt = _json(raw["physical_receipt"])
     _require(scenario["id"] == receipt["id"] == SCENARIO and scenario["truth_context"] == "SCN"
              and scenario["PV"] == scenario["battery"] == "ABSENT_SCN", "wrong physical SCN")
     _require(receipt["hourly_rows"] == 8760 and receipt["start_utc"] == START.isoformat()
              and receipt["end_utc_exclusive"] == END.isoformat(), "physical receipt time coverage mismatch")
-    _require(receipt["output_sha256"]["UNIT_INCREMENT_HOURLY_8760.csv"] == _hash(raw["physical_profile"])
+    source_hash = (_hash(raw["physical_profile"]) if projection_meta is None else projection_meta["ancestor"]["sha256"])
+    _require(receipt["output_sha256"]["UNIT_INCREMENT_HOURLY_8760.csv"] == source_hash
              and receipt["output_sha256"]["APPROVED_REFERENCE_SCN.json"] == _hash(raw["physical_SCN"]),
              "physical receipt must bind the consumed hourly data and SCN")
-    periods = summarize_hourly_profile(raw["physical_profile"])
+    periods = (summarize_hourly_profile(raw["physical_profile"]) if projection_meta is None else
+               tuple(ReferencePeriod(*p) for p in parse_profile(raw["physical_profile"])))
     with localcontext() as ctx:
         ctx.prec = 50
         ctx.rounding = ROUND_HALF_EVEN
@@ -248,7 +270,7 @@ def load_reference(bundle_root) -> A1Reference:
     verification_ids = {r["source_id"] for r in _json(raw["B04_source_verification"])["sources"]}
     _require({"SRC-B04-MVM-M1-2026", "SRC-B04-MVM-RESIDENTIAL-TARIFF-2026"} <= verification_ids,
              "frozen tariff source verification missing")
-    return A1Reference(Path(bundle_root).resolve(), periods, proof, source_ids)
+    return A1Reference(Path(bundle_root).resolve(), periods, proof, source_ids, projection_binding=projection_binding)
 
 
 def _parameter_errors(parameters, name):
@@ -297,7 +319,7 @@ def evaluate_reference(reference: A1Reference, *, allowances=None, billed_months
     BillInput. References supply explicit SCN use context; their presence is not
     an E2 qualification or an individual tariff entitlement determination.
     """
-    fresh = load_reference(reference.bundle_root)
+    fresh = load_reference(reference.bundle_root, projection_binding=reference.projection_binding)
     _require(fresh == reference, "reference data/provenance changed after loading")
     errors = _parameter_errors(allowances, "allowances") + _parameter_errors(billed_months, "billed_months")
     if errors:

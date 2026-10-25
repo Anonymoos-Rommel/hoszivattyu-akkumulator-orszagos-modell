@@ -16,6 +16,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from modules.B04 import engine as b04
+from modules.B12.a1_profile_projection import parse_profile, ProjectionError
 from modules.B12 import input_accounting_contract as native
 from modules.B12.a1_reference_response import (
     A1ReferenceError, BillContext, CUT, END, LOCAL, SCENARIO, START,
@@ -75,7 +76,7 @@ class A1ReferenceResponseTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.ref = load_reference(ROOT)
-        cls.raw = (ROOT / "inputs/a1_reference/UNIT_INCREMENT_HOURLY_8760.csv").read_bytes()
+        cls.raw = (ROOT / "data/processed/b12/a1_minimal5/REFERENCE_HOURLY_5.csv").read_bytes()
         cls.rows = list(csv.DictReader(io.StringIO(cls.raw.decode("utf-8-sig"), newline="")))
         cls.saved = json.loads((ROOT / "inputs/a1_reference/PRESERVED_PARAMETRIC_RESPONSE.json").read_text(encoding="utf-8"))
 
@@ -96,14 +97,14 @@ class A1ReferenceResponseTests(unittest.TestCase):
         columns = list(rows[0])
         change(rows, columns)
         stream = io.StringIO(newline="")
-        writer = csv.DictWriter(stream, fieldnames=columns)
+        writer = csv.DictWriter(stream, fieldnames=columns, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
         return stream.getvalue().encode("utf-8")
 
     def test_01_actual_hash_bound_profile_and_source_ids(self):
         self.assertEqual(dict(self.ref.provenance)["physical_profile"],
-                         "cd1247bb9c904531e06951542958b257e2471cf8fbd7469fed2e9ce55ffe554b")
+                         "24b26302b04cd6fc3da2f2b99d5adf8428dfcc0e9996422d6dadcf6e5680a047")
         self.assertEqual(self.ref.scenario_id, SCENARIO)
         self.assertEqual(self.ref.source_ids, tuple(self.saved["source_ids"]))
         self.assertEqual(sum(p.hours for p in self.ref.periods), 8760)
@@ -118,8 +119,8 @@ class A1ReferenceResponseTests(unittest.TestCase):
         original = Path.read_bytes
         def altered(path):
             raw = original(path)
-            return raw + b"\n" if path.name == "UNIT_INCREMENT_HOURLY_8760.csv" else raw
-        with patch.object(Path, "read_bytes", altered), self.assertRaisesRegex(A1ReferenceError, "source hash"):
+            return raw + b"\n" if path.name == "REFERENCE_HOURLY_5.csv" else raw
+        with patch.object(Path, "read_bytes", altered), self.assertRaisesRegex(A1ReferenceError, "hash"):
             load_reference(ROOT)
 
     def test_04_current_adapter_drift_rejected(self):
@@ -161,44 +162,54 @@ class A1ReferenceResponseTests(unittest.TestCase):
 
     def test_09_wrong_column_or_unit_label_rejected(self):
         def change(rows, columns):
-            old = "unit_incremental_W55_device_reference_kWh"
+            old = "unit_incremental_W55_device_reference_kw"
             columns[columns.index(old)] = "unit_incremental_W55_device_reference_MWh"
-            for row in rows: row[columns[7]] = row.pop(old)
-        with self.assertRaisesRegex(A1ReferenceError, "column/unit"):
-            summarize_hourly_profile(self.changed_csv(change))
+            for row in rows: row[columns[4]] = row.pop(old)
+        with self.assertRaises(ProjectionError):
+            parse_profile(self.changed_csv(change))
 
     def test_10_hours_power_energy_and_MW_inconsistency_rejected(self):
-        for field in ("hours", "programme_selected_reference_kw", "unit_incremental_W55_device_reference_kWh",
-                      "unit_incremental_W55_device_reference_mw"):
-            with self.subTest(field=field), self.assertRaises(A1ReferenceError):
-                summarize_hourly_profile(self.changed_csv(lambda rows, _: rows[0].update({field: "999"})))
+        for field in ("hours",):
+            with self.subTest(field=field), self.assertRaises(ProjectionError):
+                parse_profile(self.changed_csv(lambda rows, _: rows[0].update({field: "999"})))
 
     def test_11_missing_hour_rejected(self):
-        with self.assertRaises(A1ReferenceError):
-            summarize_hourly_profile(self.changed_csv(lambda rows, _: rows.pop(10)))
+        with self.assertRaises(ProjectionError):
+            parse_profile(self.changed_csv(lambda rows, _: rows.pop(10)))
 
     def test_12_duplicate_hour_rejected(self):
-        with self.assertRaises(A1ReferenceError):
-            summarize_hourly_profile(self.changed_csv(lambda rows, _: rows.__setitem__(1, dict(rows[0]))))
+        with self.assertRaises(ProjectionError):
+            parse_profile(self.changed_csv(lambda rows, _: rows.__setitem__(1, dict(rows[0]))))
 
     def test_13_unordered_hours_rejected(self):
         def change(rows, _): rows[10], rows[11] = rows[11], rows[10]
-        with self.assertRaises(A1ReferenceError): summarize_hourly_profile(self.changed_csv(change))
+        with self.assertRaises(ProjectionError): parse_profile(self.changed_csv(change))
 
     def test_14_relabelled_year_and_nonUTC_timestamps_rejected(self):
         for stamp in ("2028-01-01T00:00:00+00:00", "2025-01-01T00:00:00+01:00"):
-            with self.subTest(stamp=stamp), self.assertRaises(A1ReferenceError):
-                summarize_hourly_profile(self.changed_csv(lambda rows, _: rows[0].update(interval_start_utc=stamp)))
+            with self.subTest(stamp=stamp), self.assertRaises(ProjectionError):
+                parse_profile(self.changed_csv(lambda rows, _: rows[0].update(interval_start_utc=stamp)))
 
     def test_15_negative_and_nonfinite_physical_values_rejected(self):
         for value in ("-1", "NaN", "Infinity", ""):
-            with self.subTest(value=value), self.assertRaises(A1ReferenceError):
-                summarize_hourly_profile(self.changed_csv(lambda rows, _: rows[0].update(common_base_reference_kw=value)))
+            with self.subTest(value=value), self.assertRaises(ProjectionError):
+                parse_profile(self.changed_csv(lambda rows, _: rows[0].update(common_base_reference_kw=value)))
 
     def test_16_unknown_HMV_and_auxiliary_not_silently_zero(self):
-        for field in ("HMV_electricity_kw", "outside_unit_auxiliary_correction_kw", "physical_net_increment_kw"):
-            with self.subTest(field=field), self.assertRaises(A1ReferenceError):
-                summarize_hourly_profile(self.changed_csv(lambda rows, _: rows[0].update({field: "0"})))
+        meta=json.loads((ROOT / "data/processed/b12/a1_minimal5/PROJECTION_SIDECAR.json").read_text(encoding="utf-8"))
+        for value in meta["scope"]["unknown_components"].values():
+            self.assertEqual(value["truth"],"Q")
+            self.assertIsNone(value["value"])
+        original=Path.read_bytes
+        def altered(path):
+            raw=original(path)
+            if path.name=="PROJECTION_SIDECAR.json":
+                data=json.loads(raw)
+                data["scope"]["unknown_components"]["HMV_electricity_kw"]["value"]=0
+                return json.dumps(data).encode()
+            return raw
+        with patch.object(Path,"read_bytes",altered),self.assertRaises(A1ReferenceError):
+            load_reference(ROOT)
 
     def test_17_missing_parameters_return_incomplete_not_bill(self):
         result = evaluate_reference(self.ref)

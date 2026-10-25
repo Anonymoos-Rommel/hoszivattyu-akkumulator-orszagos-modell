@@ -1,0 +1,32 @@
+{
+  "schema_id": "B12-A1-MINIMAL5-UTC2025-V1",
+  "encoding": "UTF-8",
+  "line_endings": "LF",
+  "columns": [
+    "interval_start_utc",
+    "interval_end_utc",
+    "hours",
+    "common_base_reference_kw",
+    "unit_incremental_W55_device_reference_kw"
+  ],
+  "column_count": 5,
+  "rows": 8760,
+  "additional_columns": false,
+  "units": {
+    "interval_start_utc": "UTC ISO8601",
+    "interval_end_utc": "UTC ISO8601",
+    "hours": "h",
+    "common_base_reference_kw": "kW",
+    "unit_incremental_W55_device_reference_kw": "kW"
+  },
+  "start_utc": "2025-01-01T00:00:00+00:00",
+  "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+  "billing_cut_utc": "2025-07-31T22:00:00+00:00",
+  "period_hours": {
+    "S1": 5086,
+    "S2": 3674
+  },
+  "numeric_contract": "finite nonnegative decimal strings; duration exactly1h",
+  "precision": 50,
+  "rounding": "ROUND_HALF_EVEN"
+}

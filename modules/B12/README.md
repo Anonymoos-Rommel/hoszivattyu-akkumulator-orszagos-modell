@@ -169,7 +169,32 @@ inputs and inconsistent valuation basis rather than return zero or infinity.
 The repository now contains the accepted C01 qualified-source Cost resolver, source-bound A1 adapter, and normalized annual/non-energy O&M bridge. These supersede the earlier unimplemented optional-source path in this local candidate only. Use `load_source_catalogue(root, "data/processed/b12/source_catalogue.json", expected_sha256=...)` and `audit_accounting(case, source_catalogue=..., cost_bindings=...)` for the one qualified 1,220,781 HUF C01 component; full CAPEX remains unknown. `a1_reference_response.load_reference(root)` verifies the original hourly source and actual candidate producers. `annual_reference_adapter.prepare(binding, policy)` uses native B12 records and preserved result evidence; no work-package imports. Normalized 365-day operation is not calendar 2028, a price forecast or payment chronology. Absent annual O&M and auxiliary inputs stay incomplete; no new Cost/BillInput, ROI or canonical source adoption follows. Historical implementation hashes remain separate from deployment path/revision hashes. B14 compatibility changes are accepted POSIX identity comparisons only. Registry acceptance is pending independent integration review.
 
 
-### Source-only checkout and external hourly artifact
+### Local minimal5 CI successor (publication and review pending)
+
+`a1_reference_response.load_reference(root)` now uses the code-pinned,
+repository-relative `data/processed/b12/a1_minimal5/PROJECTION_SIDECAR.json`.
+Its five data files retain the actual 8,760 hourly rows, UTC endpoints, duration,
+base kW and W55 device-reference kW. No parent-directory binding file or external
+14-column CSV is required by this default or its tests. Missing minimal5 inputs
+fail closed; there is no silent search or fallback. Schema, Q/SCN boundary,
+derivation and source-classification receipts remain hash-bound. Tariff formulas,
+native contracts and economic assumptions are unchanged.
+
+Explicit `load_reference(root, projection_binding=None)` preserves the original
+hash-bound 14-column consumer, for callers that deliberately supply its original
+artifact. `summarize_hourly_profile` remains that legacy parser. The current
+repository tests exercise the real five-column default and strict parser; the
+prior independently reviewed old/new byte and response comparison remains
+historical evidence, not a claim that clean CI has the old dataset.
+
+This is a local candidate, not a public-data licence or CI-hosted pass. The base
+still retains the full MVM-derived profile pattern; the HP column is an own model
+calculation with external-source lineage. ENTSO-E national numeric values and
+private contributor raw data are absent. See `SOURCE_CLASSIFICATION.json` for
+the retained source identities and unresolved publication classification. No
+BillInput, payment date, 2028 calendar remapping, full CAPEX or ROI is introduced.
+
+### Historical source-only checkout and explicit legacy hourly artifact
 
 This integration intentionally does not commit
 `inputs/a1_reference/UNIT_INCREMENT_HOURLY_8760.csv` (1,592,688 bytes,
@@ -177,7 +202,7 @@ SHA-256 `cd1247bb9c904531e06951542958b257e2471cf8fbd7469fed2e9ce55ffe554b`).
 It combines the accepted household reference with the full annual national
 load series. Supply the existing accepted artifact locally at that path and
 keep it untracked/ignored, for example in the checkout-local `.git/info/exclude`.
-`A1_INPUT_BINDING.json`, the physical receipt, and `load_reference(root)` verify
+`A1_INPUT_BINDING.json`, the physical receipt, and explicit legacy loading verify
 the exact bytes, units and UTC-2025 window; missing data is not synthesized.
 
 The existing [B08 P5 acquisition contract](../../docs/source_packs/B08_B09_P5_ENTSOE_GUI_EXPORT_ACQUISITION.md)
@@ -186,8 +211,8 @@ permit qualified external model use without granting public numeric-panel reuse.
 They support registered GUI export and, separately, authorized API acquisition;
 there is no anonymous standard fetch that guarantees this composite CSV's bytes.
 The canonical civil-year B08 materializer is not a substitute for this adapter's
-different UTC-2025 interval. This source-only checkout is therefore reproducible
-with the explicitly supplied hash-bound artifact, not a self-contained dataset.
+different UTC-2025 interval. The original source-only version required the
+explicitly supplied hash-bound artifact; the minimal5 successor above does not.
 No credentials, original ENTSO-E workbook or private contributor raw data belong
 in the commit. Exact-byte `.gitattributes` overrides preserve the listed evidence
 snapshots without changing their source facts or admission status.
