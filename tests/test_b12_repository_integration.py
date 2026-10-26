@@ -52,6 +52,11 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertEqual(str(audit.amounts['qualified_initial_cost_subset.programme']),'1220781')
         self.assertTrue(audit.unavailable['total_initial_cost'])
         self.assertEqual(audit.truth,'Q')
+        self.assertEqual(len(audit.source_cost_cash_rows),1)
+        cash=audit.source_cost_cash_rows[0]
+        self.assertEqual(str(cash.unfinanced),'-1220781')
+        self.assertEqual((cash.event_id,cash.period),(result.costs[0].event_id,result.costs[0].period))
+        self.assertEqual((audit.rows,audit.liquidity,cash.bank,cash.financed),((),(),None,None))
 
     def test_a1_reads_hourly_source_and_active_producers(self):
         r=a1.load_reference(ROOT)

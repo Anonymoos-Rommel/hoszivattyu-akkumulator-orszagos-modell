@@ -19,9 +19,10 @@
     },
     "native": {
       "path": "modules/B12/input_accounting_contract.py",
-      "sha256": "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a",
+      "sha256": "c796cbd40de61b0b59d4de6d109d159a8adf4cbbdef50ea343079757749339cc",
       "relative": "repo/modules/B12/input_accounting_contract.py",
-      "package": "C01"
+      "package": "C01",
+      "baseline_sha256": "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a"
     },
     "a1": {
       "path": "inputs/annual_reference/OPERATING_COST_COMPARISON.json",

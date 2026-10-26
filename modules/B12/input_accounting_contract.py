@@ -483,6 +483,9 @@ class AccountingAudit:
     unverified_checks: tuple[str, ...]
     source_costs: tuple[Cost, ...] = ()
     source_cost_missing: tuple[MissingInput, ...] = ()
+    # Qualified initial-cost events only, not the complete boundary in rows.
+    # Financed/bank/recurring columns stay unavailable in this narrow view.
+    source_cost_cash_rows: tuple[AuditRow, ...] = ()
 
 
 def _walk(value, path="case"):
@@ -1116,13 +1119,19 @@ def _audit(case, *, source_catalogue=None, cost_bindings=()):
                 _require(native.get((cost.leg, cost.cost_id)) == cost,
                          "resolved source Cost must equal the actual native case input")
             partial = {f"qualified_cost.{c.leg}.{c.cost_id}.gross": c.gross.value for c in resolved.costs}
+            native_indices = {(c.leg, c.cost_id): i for i, c in enumerate(case.costs.rows)}
+            source_cash = tuple(
+                AuditRow(c.leg, c.event_id, c.period, c.category,
+                         -c.gross.value, None, None, None,
+                         (f"case.costs.rows[{native_indices[(c.leg, c.cost_id)]}]",))
+                for c in resolved.costs if c.category == "INITIAL_CAPEX")
             for leg in LEGS:
                 initial = tuple(c for c in resolved.costs if c.leg == leg and c.category == "INITIAL_CAPEX")
                 if initial:
                     partial[f"qualified_initial_cost_subset.{leg}"] = sum((c.gross.value for c in initial), Decimal(0))
             return AccountingAudit(case.case_id, case.mode, case.time_grain, case.monetary_basis, "Q", provenance, (),
                                    MappingProxyType(partial), (), readiness, unverified,
-                                   resolved.costs, resolved.missing)
+                                   resolved.costs, resolved.missing, source_cash)
         _require(not cost_bindings, "cost bindings require a pinned source catalogue")
         return AccountingAudit(case.case_id, case.mode, case.time_grain, case.monetary_basis, "Q", provenance, (),
                                MappingProxyType({}), (), readiness, unverified)

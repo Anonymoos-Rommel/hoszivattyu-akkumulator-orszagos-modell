@@ -10,7 +10,7 @@
     "sha256": "5826194dac284d30d54772748fb2a75aabe6e1de212b00daf847fc6783abdba7"
   },
   "active_implementation": {
-    "repo/modules/B12/input_accounting_contract.py": "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a",
+    "repo/modules/B12/input_accounting_contract.py": "c796cbd40de61b0b59d4de6d109d159a8adf4cbbdef50ea343079757749339cc",
     "repo/modules/B04/engine.py": "57f00eb92999a317cfc016f96ae87378f548b0d1be93f5e70a08cac2874fbdcb",
     "repo/data/processed/residential_electricity_tariff_schedule.csv": "e587240e93ec602f375c9bb668e14fb8ec984ed504f8d11cb0e5de84ec83fccb"
   },
@@ -24,11 +24,12 @@
     "B04_tariffs": "data/processed/residential_electricity_tariff_schedule.csv"
   },
   "legacy_B12_adapter_sha256_historical_only": "b07d3fe7aa237ff11b5d38629b6316570398d575b5aa111e147d458059ec87b0",
-  "active_B12_adapter_sha256": "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a",
+  "active_B12_adapter_sha256": "c796cbd40de61b0b59d4de6d109d159a8adf4cbbdef50ea343079757749339cc",
   "does_not_assert_old_and_active_B12_identity_equal": true,
   "deployed_implementation_paths": {
     "repo/modules/B12/input_accounting_contract.py": "modules/B12/input_accounting_contract.py",
     "repo/modules/B04/engine.py": "modules/B04/engine.py",
     "repo/data/processed/residential_electricity_tariff_schedule.csv": "data/processed/residential_electricity_tariff_schedule.csv"
-  }
+  },
+  "accepted_C01_B12_baseline_sha256": "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a"
 }
