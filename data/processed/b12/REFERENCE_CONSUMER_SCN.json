@@ -1,0 +1,32 @@
+{
+  "id": "SCN-E2-WM50-REFERENCE-CONSUMER-20261026-V1",
+  "use_role": "E2_REFERENCE_SCENARIO_CONSUMER",
+  "reference_id": "E2-ANNUAL-WM50-W55-TABULA-SFH01-UTC2025-001",
+  "household_id": "SCN-MODEL-HH1",
+  "reference_households": 1,
+  "country": "HU",
+  "model_floor_area_m2": "56",
+  "device": "PUZ-WM50VHA",
+  "supply_C": "55",
+  "service_scope": "SPACE_HEATING_ONLY",
+  "PV": "ABSENT_SCN",
+  "battery": "ABSENT_SCN",
+  "common_base_declared_kWh": "2419",
+  "common_base_truth": "ASS",
+  "temporal_policy_id": "SCN-NORMALIZED-365-ENERGY-REFERENCE-20261025",
+  "source_utc_start": "2025-01-01T00:00:00+00:00",
+  "source_utc_end_exclusive": "2026-01-01T00:00:00+00:00",
+  "price_basis": "FROZEN_2026_NOMINAL_HUF",
+  "u_selected": null,
+  "national_population": null,
+  "national_weights": null,
+  "national_representative": false,
+  "installed_measurement_claim": false,
+  "new_evidence_tier_admission": false,
+  "decision_refs": [
+    "Sentinel_84e47d5c3c948191a2e3c38a9ec45e21",
+    "Sentinel_f20a205699a88191bf81ef45aa94bb5f",
+    "Sentinel_a4f83f589850819183a8fdac7145db51"
+  ],
+  "meaning": "Use the already admitted bounded E2 device reference as one explicit scenario consumer; preserve source evidence tiers, unknown costs/corrections and installed/national validation debt."
+}

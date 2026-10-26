@@ -8,12 +8,13 @@ import dataclasses
 import hashlib
 import json
 from datetime import date
-from decimal import Decimal
+from decimal import Decimal, localcontext, ROUND_HALF_EVEN
 from pathlib import Path
 from fractions import Fraction
 from types import MappingProxyType
 
 from . import input_accounting_contract as native
+from . import a1_reference_response as a1_reference
 from .a1_reference_response import NATIVE_C01_BASELINE_SHA, NATIVE_IMPLEMENTATION_SHA
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -113,7 +114,7 @@ def _decode(value, native):
     return {k:_decode(v,native) for k,v in value.items()}
 
 
-def prepare(binding_path, temporal_binding=None, om_inputs=None):
+def prepare(binding_path, temporal_binding=None, om_inputs=None, *, reference_consumer=None):
     binding=_read(Path(binding_path))
     manifests={}
     for key,expected in ACCEPTED_MANIFESTS.items():
@@ -208,7 +209,105 @@ def prepare(binding_path, temporal_binding=None, om_inputs=None):
             'u_selected':None,'unit':'gross frozen2026 HUF per normalized365-day reference',
             'scope':'Energy reference component only, not full operating saving or native receipt',
         }
-    return integrate_annual_om(result, native, om_inputs)
+    result = integrate_annual_om(result, native, om_inputs)
+    if reference_consumer is not None:
+        result['reference_consumer'] = _reference_consumer_view(
+            reference_consumer, result, case, docs['a1'], Path(binding_path))
+    return result
+
+
+REFERENCE_CONSUMER_PATH = 'data/processed/b12/REFERENCE_CONSUMER_SCN.json'
+REFERENCE_CONSUMER_SHA256 = '63fae5b7a96b129ee857f41dec0e928ebe03fe13b1ab932857a292201341be8e'
+DEVICE_REFERENCE_PATH = 'registry/b05_annual_device_reference_manifest.json'
+DEVICE_REFERENCE_SHA256 = 'd4f53d6b8c60633723875d3cc815b40d29edd0d4f737535de3d88324cd810b15'
+
+
+def _reference_consumer_view(selection, result, case, accepted_a1, binding_path):
+    """Reuse one admitted device reference within the selected household SCN.
+
+    No installed-system calibration, national weight or financial completion is
+    inferred. The existing reference admission and its validation debt survive.
+    """
+    raw_policy = _bound_path(REFERENCE_CONSUMER_PATH).read_bytes()
+    if hashlib.sha256(raw_policy).hexdigest() != REFERENCE_CONSUMER_SHA256:
+        raise ReferenceError('Reference-consumer decision record changed')
+    policy = a1_reference._json(raw_policy)
+    try:
+        supplied = json.dumps(selection, sort_keys=True, separators=(',', ':'), allow_nan=False)
+        expected = json.dumps(policy, sort_keys=True, separators=(',', ':'), allow_nan=False)
+    except (TypeError, ValueError) as exc:
+        raise ReferenceError('Exact explicit reference-consumer SCN required') from exc
+    if type(selection) is not dict or supplied != expected:
+        raise ReferenceError('Reference-consumer selection is not the exact approved SCN')
+    if case.scope.household_id != policy['household_id']:
+        raise ReferenceError('Reference consumer and C01 household differ')
+    view = {
+        'status': 'INCOMPLETE_TEMPORAL_BINDING', 'truth_context': 'SCN',
+        'selection': json.loads(expected), 'selection_sha256': REFERENCE_CONSUMER_SHA256,
+        'native_case_id': case.case_id, 'annual_energy': None,
+        'national_scaling': None, 'installed_system_total_kWh': None,
+        'new_evidence_admission': False, 'new_Costs': 0, 'new_BillInputs': 0,
+        'full_CAPEX': None, 'full_operating_balance': None, 'ROI': None,
+    }
+    if not result['temporal_policy_applied']:
+        return view
+    raw_device = _bound_path(DEVICE_REFERENCE_PATH).read_bytes()
+    if hashlib.sha256(raw_device).hexdigest() != DEVICE_REFERENCE_SHA256:
+        raise ReferenceError('Admitted device-reference manifest changed')
+    device = a1_reference._json(raw_device)
+    if (device['reference_id'] != policy['reference_id'] or
+            device['evidence_status'] != 'DER' or device['evidence_tier'] != 'E2' or
+            device['base_status'] != 'PROVISIONAL_BASE'):
+        raise ReferenceError('Existing bounded E2 device admission required')
+    for relative, pin in device['repository_pins'].items():
+        if hashlib.sha256(_bound_path(relative).read_bytes()).hexdigest() != pin:
+            raise ReferenceError('Device-reference producer drift: ' + relative)
+    try:
+        reference = a1_reference.load_reference(ROOT)
+    except a1_reference.A1ReferenceError as exc:
+        raise ReferenceError('Selected hourly reference: ' + str(exc)) from exc
+    if reference.scenario_id != a1_reference.SCENARIO:
+        raise ReferenceError('Wrong existing household reference')
+    windows = [dict(id=p.id, start_utc=p.start_utc.isoformat(),
+        end_utc_exclusive=p.end_utc_exclusive.isoformat(), hours=p.hours,
+        base_kWh=str(p.base_kwh), HP_reference_kWh=str(p.hp_kwh))
+        for p in reference.periods]
+    if windows != accepted_a1['physical_windows']:
+        raise ReferenceError('Hourly reference does not reproduce accepted A1 energy windows')
+    base = sum((Fraction(p.base_kwh) for p in reference.periods), Fraction(0))
+    hp = sum((Fraction(p.hp_kwh) for p in reference.periods), Fraction(0))
+    def amount(value):
+        with localcontext() as ctx:
+            ctx.prec = 50; ctx.rounding = ROUND_HALF_EVEN
+            decimal = Decimal(value.numerator) / Decimal(value.denominator)
+            return {'exact_kWh': str(value), 'decimal_kWh': str(decimal),
+                    'readable_kWh_6dp': format(decimal, '.6f')}
+    view.update({
+        'status': 'E2_REFERENCE_SCENARIO_READY',
+        'device_reference': {'id': device['reference_id'], 'truth': 'DER',
+            'evidence_tier': 'E2', 'base_status': 'PROVISIONAL_BASE',
+            'scope': device['scope'], 'prior_review': device['source_and_method_review']},
+        'annual_energy': {'unit': 'kWh per normalized 365-day reference household',
+            'hours': sum(p.hours for p in reference.periods),
+            'declared_common_base_kWh': policy['common_base_declared_kWh'],
+            'declared_common_base_truth': policy['common_base_truth'],
+            'baseline_common_base': amount(base), 'programme_common_base_plus_device': amount(base + hp),
+            'incremental_W55_device_reference': amount(hp), 'windows': windows,
+            'common_base_counted_once': True, 'original_timestamps_remapped': False},
+        'energy_economic_component': result['annual_component_model'],
+        'annual_om_status': result['annual_om']['status'],
+        'validation_debt': device['validation_debt'],
+        'unknown_components': {key: {'value': None, 'truth': 'Q'} for key in
+            ('additional_CAPEX', 'monetary_OM', 'HMV', 'external_auxiliary_delta',
+             'installed_pump_correction', 'fiscal_allocation')},
+        'provenance': {'decision': REFERENCE_CONSUMER_SHA256,
+            'device_manifest': DEVICE_REFERENCE_SHA256,
+            'annual_input_binding': hashlib.sha256(binding_path.read_bytes()).hexdigest(),
+            'annual_adapter': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            'hourly_reference': dict(reference.provenance)},
+        'limits': device['limits'],
+    })
+    return view
 
 
 def component_balance(result,u):
