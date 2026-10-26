@@ -324,6 +324,11 @@ class SourceCostInputTests(unittest.TestCase):
         self.assertNotIn("financed_cash.programme", audit.amounts)
         self.assertEqual(audit.truth, "Q")
         self.assertEqual(audit.rows, ())
+        self.assertEqual(len(audit.source_cost_cash_rows), 1)
+        cash = audit.source_cost_cash_rows[0]
+        self.assertEqual((cash.event_id, cash.period, cash.unfinanced),
+                         (cost.event_id, cost.period, Decimal("-200.50")))
+        self.assertEqual((cash.financed, cash.bank, cash.recurring), (None, None, None))
         self.assertTrue(audit.unavailable["total_initial_cost"])
         self.assertTrue(audit.unavailable["recurring_budget"])
         # No matching Cost may be claimed merely by providing a resolution request.
@@ -331,6 +336,7 @@ class SourceCostInputTests(unittest.TestCase):
             audit_accounting(replace(c, costs=Section("Q", (), Reference("Q", None, "cost Q", "B12-D01"), ())),
                              source_catalogue=catalogue, cost_bindings=(self.f.binding,))
         self.assertFalse(audit_accounting(c).amounts)
+        self.assertEqual(audit_accounting(c).source_cost_cash_rows, ())
         with self.assertRaisesRegex(B12ContractError, "case context changed"):
             audit_accounting(replace(c, archetype_id="TEST_ONLY:other-archetype"),
                              source_catalogue=catalogue, cost_bindings=(self.f.binding,))

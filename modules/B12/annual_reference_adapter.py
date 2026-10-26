@@ -14,6 +14,7 @@ from fractions import Fraction
 from types import MappingProxyType
 
 from . import input_accounting_contract as native
+from .a1_reference_response import NATIVE_C01_BASELINE_SHA, NATIVE_IMPLEMENTATION_SHA
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -125,7 +126,13 @@ def prepare(binding_path, temporal_binding=None, om_inputs=None):
         path=_bound_path(item['path'])
         if key!='temporal_policy':
             base,pins=manifests[item['package']]
-            if pins.get(item['relative'])!=item['sha256']:
+            if key=='native':
+                if (item['package']!='C01' or item['relative']!='repo/modules/B12/input_accounting_contract.py'
+                        or pins.get(item['relative'])!=NATIVE_C01_BASELINE_SHA
+                        or item.get('baseline_sha256')!=NATIVE_C01_BASELINE_SHA
+                        or item['sha256']!=NATIVE_IMPLEMENTATION_SHA):
+                    raise ReferenceError('Native implementation revision/baseline identity mismatch')
+            elif pins.get(item['relative'])!=item['sha256']:
                 raise ReferenceError('Source not bound to accepted manifest: '+key)
         raw=path.read_bytes()
         if hashlib.sha256(raw).hexdigest()!=item['sha256']:

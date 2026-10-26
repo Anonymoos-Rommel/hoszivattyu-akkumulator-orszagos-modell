@@ -113,7 +113,7 @@ class A1ReferenceResponseTests(unittest.TestCase):
         pins = dict(self.ref.provenance)
         self.assertNotEqual(pins["historical_B12_adapter"], pins["repo/modules/B12/input_accounting_contract.py"])
         self.assertEqual(pins["repo/modules/B12/input_accounting_contract.py"],
-                         "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a")
+                         "c796cbd40de61b0b59d4de6d109d159a8adf4cbbdef50ea343079757749339cc")
 
     def test_03_physical_hash_change_rejected(self):
         original = Path.read_bytes

@@ -33,6 +33,11 @@ END = datetime(2026, 1, 1, tzinfo=timezone.utc)
 LOCAL = ZoneInfo("Europe/Budapest")
 SCENARIO = "B08-D02-ONE-NEW-NONELECTRIC-SH-HOUSEHOLD-REFERENCE-UTC2025-V1"
 AREA = "MVM D\u00e9m\u00e1sz"
+# The price/case source admission keeps its original implementation lineage.
+# Current implementation identity is separate and exact, never a rewritten
+# historical manifest or permission for an arbitrary caller-supplied revision.
+NATIVE_C01_BASELINE_SHA = "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a"
+NATIVE_IMPLEMENTATION_SHA = "c796cbd40de61b0b59d4de6d109d159a8adf4cbbdef50ea343079757749339cc"
 PROFILE_COLUMNS = (
     "interval_start_utc", "interval_end_utc", "hours", "common_base_reference_kw",
     "no_programme_selected_reference_kw", "programme_selected_reference_kw",
@@ -188,7 +193,13 @@ def _verified_bundle(root, projection_binding=None):
         proof[name] = _hash(raw)
     c01 = {r["path"]: r["sha256"] for r in documents["accepted_c01_manifest"]["files"]}
     for relative, expected in binding["active_implementation"].items():
-        _require(c01.get(relative) == expected, "active implementation must match accepted C01 pin")
+        if relative == "repo/modules/B12/input_accounting_contract.py":
+            _require(c01.get(relative) == binding.get("accepted_C01_B12_baseline_sha256") == NATIVE_C01_BASELINE_SHA
+                     and expected == NATIVE_IMPLEMENTATION_SHA,
+                     "native revision must preserve accepted C01 baseline and exact current implementation pin")
+            proof["accepted_C01_B12_baseline"] = NATIVE_C01_BASELINE_SHA
+        else:
+            _require(c01.get(relative) == expected, "active implementation must match accepted C01 pin")
         actual = _hash(_path(root, binding["deployed_implementation_paths"][relative]).read_bytes())
         _require(actual == expected, "accepted C01 implementation or tariff drift")
         proof[relative] = actual
@@ -199,7 +210,7 @@ def _verified_bundle(root, projection_binding=None):
     legacy = documents["legacy_a1_manifest"]["sources"]
     _require(binding["legacy_B12_adapter_sha256_historical_only"] == legacy["B12_adapter"]["sha256"],
              "historical A1 B12 identity lost")
-    _require(binding["active_B12_adapter_sha256"] == c01["repo/modules/B12/input_accounting_contract.py"],
+    _require(binding["active_B12_adapter_sha256"] == NATIVE_IMPLEMENTATION_SHA,
              "active B12 identity must be separately bound")
     raw_sources = {}
     projection_meta = None

@@ -48,6 +48,30 @@ returns an individual loan, tariff, grant, property or technical permission.
 
 ## Input sections and accounting boundaries
 
+### Qualified initial-cost cash subset
+
+`audit_accounting(..., source_catalogue=..., cost_bindings=...)` now exposes
+`source_cost_cash_rows`, using the existing native `AuditRow` type. Only replayed,
+qualified `INITIAL_CAPEX` Costs that exactly equal actual case inputs enter this
+subset. Their gross cost appears once with an expense sign at the already bound
+cash period, retaining event identity and input/provenance linkage. This is a
+declared model event, not proof of an observed payment. The accepted C01 event
+remains one outdoor unit, 2028-01-01, at the frozen 2026 source price.
+
+The complete-boundary `rows`, totals, readiness and truth are unchanged: the
+overall external case stays Q. The subset's financed, bank and recurring fields
+are None; payer identity does not select financing or establish liquidity. No
+baseline zero, annual repetition, replacement schedule, full CAPEX or ROI is
+inferred. Unqualified prices, missing quantity/date/review, altered facts or
+changed target use cannot produce a cash row. Other cost categories are outside
+this initial-cost-only slice.
+
+The C01 accepted source/case manifest keeps its original implementation hash.
+A1 and the annual bridge separately bind that historical baseline and the exact
+current native revision. Historical evidence is never rehashed to masquerade as
+approval of changed code; current revision pins belong to this candidate's code
+review and do not grant source or complete-case adoption.
+
 - `Case` binds existing B01 intervention/archetype/region and S-state transition
   references without issuing a technical transition. `Scope` keeps household,
   dwelling, payer role and separately reconciled cost/payment shares. Costs
