@@ -1,5 +1,30 @@
 # B12 input and accounting contract
 
+## Explicit E2 reference consumer
+
+`annual_reference_adapter.prepare(..., reference_consumer=selection)` connects
+the exact `data/processed/b12/REFERENCE_CONSUMER_SCN.json` selection to the existing
+normalized-year components and the repository's actual 8760-hour A1 profile.
+Omitting the keyword preserves the earlier output unchanged. The normalized-year
+policy must still be supplied explicitly; selecting a consumer alone cannot
+create temporal adoption or ready annual quantities.
+
+The one 56 m2 WM50 W55 space-heating consumer reuses the already admitted
+`E2-ANNUAL-WM50-W55-TABULA-SFH01-UTC2025-001` device reference and its original
+DER/E2/PROVISIONAL_BASE meaning. Existing validation debt is returned, not closed.
+The 2419 kWh base remains a declared ASS, and the hourly integral retains its
+source precision. Baseline includes the common base once; programme includes the
+same base plus device-reference electricity. Original UTC2025 timestamps and
+the 2026 nominal price basis remain; normalized365 is not calendar2028.
+
+`E2_REFERENCE_SCENARIO_READY` describes this bounded consumer only. It does not
+change overall completeness, installed-system claims, evidence admission,
+national weights, tariff eligibility, payment dates, new native events or ROI.
+The existing A1/GCV common-u component remains parametric; missing CAPEX, O&M,
+HMV, auxiliary/pump correction and fiscal allocation remain Q. No pump/idle
+correction is added a second time and no alternative donor annual estimate is
+silently substituted for the selected device reference.
+
 Status: **local integration candidate; full sourced outputs remain Q**. B15 is blocked.
 This slice implements the entry contract in the approved
 [V1 execution plan](../../docs/methodology/v1_evidence_feasibility_execution.md),
