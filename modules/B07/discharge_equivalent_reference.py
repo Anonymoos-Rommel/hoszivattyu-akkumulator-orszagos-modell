@@ -9,9 +9,11 @@ inventory transition.
 from __future__ import annotations
 
 from bisect import bisect_left
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict, replace
+from functools import lru_cache
 from fractions import Fraction
 import hashlib
+import json
 import math
 from pathlib import Path
 
@@ -19,6 +21,12 @@ ROOT = Path(__file__).resolve().parents[2]
 from modules.B07 import sax_source_reference as source
 
 ENERGY_TOL = 1e-9
+# Owner-approved idealization, opt-in only; never a measured loss value.
+SCN_IDLE_ZERO = "SCN_ZERO_CELL_SELF_DISCHARGE_SEPARATE_AC_STANDBY"
+CAPACITY_SCN_ID = 'SCN_CAPACITY_10KWH_SAX_CURVES_UNSCALED_20261026'
+# Exact immutable projection: only capacity and identity differ from the pinned
+# BAT2AC_STANDARD reference. Not a product specification or generic scaling API.
+CAPACITY_SCN_SHA256 = '11cec96297fa9c57fb530d86f9353c77e8de6f062ce66611821d062de3979014'
 PINS = {
     'modules/B07/sax_source_reference.py': 'c6f6cce1f0514784c20cf63d58bf4e22ad9dd2a8f12981536a086ea0054cc95c',
     'registry/b07_sax_reference_manifest.json': '18cbcbf17665da04ebea0f213bc0eda8bcaabf9726f3506516267be63b0db4db',
@@ -147,7 +155,38 @@ def source_reference(*,discharge_curve_id,reserve_dc_output_equiv_kwh):
                      'SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE')
 
 
-def _idle(ref,state,charge_kw,discharge_kw,hours,reason):
+@lru_cache(maxsize=16)
+def is_capacity_sensitivity_reference(ref):
+    """Exact approved immutable SCN, never a broad synthetic-reference waiver."""
+    return (type(ref) is Reference and ref.identity == CAPACITY_SCN_ID
+            and hashlib.sha256(json.dumps(asdict(ref),sort_keys=True,separators=(',',':'),
+                allow_nan=False).encode()).hexdigest() == CAPACITY_SCN_SHA256)
+
+
+def capacity_sensitivity_reference():
+    """Owner-approved 10kWh DC-output-equivalent sensitivity, unscaled curves.
+
+    Cycle efficiency, converter support/power and idle proxy are transferred
+    assumptions. This does not describe a measured 10kWh SAX product.
+    """
+    base=source_reference(discharge_curve_id='BAT2AC_STANDARD',reserve_dc_output_equiv_kwh=0.)
+    result=replace(base,capacity_dc_output_equiv_kwh=10.,identity=CAPACITY_SCN_ID)
+    if not is_capacity_sensitivity_reference(result):
+        raise ValueError('capacity SCN differs from the approved exact parameter transfer')
+    return result
+
+
+def _idle(ref,state,charge_kw,discharge_kw,hours,reason,idle_convention=None):
+    if idle_convention == SCN_IDLE_ZERO and state.dc_output_equiv_kwh is not None:
+        return dict(status="SCN_IDEALIZED_ZERO_CELL_IDLE",reason=None,
+            idle_convention=SCN_IDLE_ZERO,idealization_not_observation=True,
+            x_start_kwh=state.dc_output_equiv_kwh,x_end_kwh=state.dc_output_equiv_kwh,
+            admitted_charge_ac_kwh=0.,admitted_charge_dc_kwh=0.,
+            admitted_discharge_dc_kwh=0.,delivered_discharge_ac_kwh=0.,
+            unused_active_charge_request_kwh=charge_kw*hours,
+            unserved_battery_ac_request_kwh=discharge_kw*hours,
+            conditional_empty_ac_component_kwh=None,idle_dc_drain_kwh=0.,
+            actual_system_electricity_kwh=None,inventory_balance_residual_kwh=0.,selected_curve_id=None)
     known_empty=state.dc_output_equiv_kwh is not None and state.dc_output_equiv_kwh<=ENERGY_TOL
     empty_ac=ref.empty_ac_test_kw*hours if known_empty and ref.empty_ac_test_kw is not None else None
     if empty_ac is not None:number(empty_ac,'conditional empty-state AC component')
@@ -162,8 +201,14 @@ def _idle(ref,state,charge_kw,discharge_kw,hours,reason):
                 inventory_balance_residual_kwh=None,selected_curve_id=None)
 
 
-def step(ref,state,*,charge_ac_kw,discharge_ac_kw,hours):
+def step(ref,state,*,charge_ac_kw,discharge_ac_kw,hours,idle_convention=None):
     """Conditional constant-power step; no implicit duty cycle or idle zero."""
+    if idle_convention not in (None, SCN_IDLE_ZERO):
+        raise ValueError("Unknown idle convention; default remains Q")
+    if idle_convention == SCN_IDLE_ZERO and (not isinstance(ref,Reference) or
+            (ref.identity != "SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE"
+             and not is_capacity_sensitivity_reference(ref))):
+        raise ValueError("Idle idealization scoped to named SAX SCN reference")
     if not isinstance(ref,Reference) or not isinstance(state,Inventory):
         raise ValueError('explicit reference and inventory objects required')
     number(charge_ac_kw,'AC charge request');number(discharge_ac_kw,'AC discharge request')
@@ -184,20 +229,20 @@ def step(ref,state,*,charge_ac_kw,discharge_ac_kw,hours):
     if not 0<=x<=ref.capacity_dc_output_equiv_kwh:
         raise ValueError('initial inventory outside usable capacity')
     if not charge_ac_kw and not discharge_ac_kw:
-        return _idle(ref,state,charge_ac_kw,discharge_ac_kw,hours,'NO_ACTIVE_COMMAND_IDLE_DRAIN_UNQUALIFIED')
+        return _idle(ref,state,charge_ac_kw,discharge_ac_kw,hours,'NO_ACTIVE_COMMAND_IDLE_DRAIN_UNQUALIFIED',idle_convention)
     eta=ref.battery_dc_cycle_efficiency
     if charge_ac_kw:
         room=(ref.capacity_dc_output_equiv_kwh-x)/eta
         output=ref.charge.largest_output(charge_ac_kw,room/hours)
         curve=ref.charge
-        if output is None:return _idle(ref,state,charge_ac_kw,0.,hours,'CHARGE_CAPACITY_OR_SELECTED_SUPPORT_DECLINED')
+        if output is None:return _idle(ref,state,charge_ac_kw,0.,hours,'CHARGE_CAPACITY_OR_SELECTED_SUPPORT_DECLINED',idle_convention)
         # Solve the operating point before admitting any energy, including ULPs.
         for _ in range(16):
             input_kw,efficiency=curve.point(output)
             c=output*hours;charge_ac=input_kw*hours;new_x=x+eta*c
             if new_x<=ref.capacity_dc_output_equiv_kwh and input_kw<=charge_ac_kw:break
             output=math.nextafter(output,0.)
-            if output<curve.lower:return _idle(ref,state,charge_ac_kw,0.,hours,'CLIPPED_CONSTANT_POWER_BELOW_SOURCE_SUPPORT')
+            if output<curve.lower:return _idle(ref,state,charge_ac_kw,0.,hours,'CLIPPED_CONSTANT_POWER_BELOW_SOURCE_SUPPORT',idle_convention)
         else:raise ValueError('conservative charge clipping failed')
         d=discharge_ac=0.
     else:
@@ -206,13 +251,13 @@ def step(ref,state,*,charge_ac_kw,discharge_ac_kw,hours):
         available=max(0.,x-ref.reserve_dc_output_equiv_kwh)
         curve=ref.discharge
         output=curve.largest_output(available/hours,min(discharge_ac_kw,ref.discharge_ac_source_limit_kw))
-        if output is None:return _idle(ref,state,0.,discharge_ac_kw,hours,'DISCHARGE_INVENTORY_OR_SELECTED_SUPPORT_DECLINED')
+        if output is None:return _idle(ref,state,0.,discharge_ac_kw,hours,'DISCHARGE_INVENTORY_OR_SELECTED_SUPPORT_DECLINED',idle_convention)
         for _ in range(16):
             input_kw,efficiency=curve.point(output)
             d=input_kw*hours;discharge_ac=output*hours;new_x=x-d
             if new_x>=ref.reserve_dc_output_equiv_kwh:break
             output=math.nextafter(output,0.)
-            if output<curve.lower:return _idle(ref,state,0.,discharge_ac_kw,hours,'CLIPPED_CONSTANT_POWER_BELOW_SOURCE_SUPPORT')
+            if output<curve.lower:return _idle(ref,state,0.,discharge_ac_kw,hours,'CLIPPED_CONSTANT_POWER_BELOW_SOURCE_SUPPORT',idle_convention)
         else:raise ValueError('conservative discharge clipping failed')
         c=charge_ac=0.
     residual=new_x-x-eta*c+d
@@ -277,6 +322,10 @@ def _cycle_closure(ref,initial,terminal,records):
 
 def _reference_evidence(ref):
     identity='SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE'
+    if ref.identity == CAPACITY_SCN_ID:
+        if not is_capacity_sensitivity_reference(ref):
+            raise ValueError('capacity SCN parameter transfer mismatch')
+        return 'E2','OWNER_APPROVED_CAPACITY_SENSITIVITY_SCN_UNVALIDATED_PARAMETER_TRANSFER'
     if ref.identity!=identity:
         return 'E3','SCN_DECLARED_MATHEMATICAL_REFERENCE'
     expected=source_reference(discharge_curve_id=ref.discharge.identity,
@@ -286,10 +335,12 @@ def _reference_evidence(ref):
     return 'E2','PROVISIONAL_TESTED_PRODUCT_APPLICABILITY'
 
 
-def run(ref,*,initial_dc_output_equiv_kwh,commands):
+def run(ref,*,initial_dc_output_equiv_kwh,commands,idle_convention=None):
     """One contiguous declared experiment; an unknown state is never restarted."""
     if not isinstance(ref,Reference) or commands is None:
         raise ValueError('explicit reference and command sequence required')
+    if idle_convention not in (None, SCN_IDLE_ZERO):
+        raise ValueError("Unknown idle convention")
     tier,applicability=_reference_evidence(ref)
     number(initial_dc_output_equiv_kwh,'explicit initial inventory')
     if not 0<=initial_dc_output_equiv_kwh<=ref.capacity_dc_output_equiv_kwh:
@@ -300,7 +351,7 @@ def run(ref,*,initial_dc_output_equiv_kwh,commands):
     for command in commands:
         if not isinstance(command,dict) or set(command)!= {'charge_ac_kw','discharge_ac_kw','hours'}:
             raise ValueError('explicit charge, discharge and duration fields required')
-        r=step(ref,state,**command);records.append(dict(command=dict(command),result=r))
+        r=step(ref,state,**command,idle_convention=idle_convention);records.append(dict(command=dict(command),result=r))
         state=Inventory(r['x_end_kwh'],r['reason'])
     complete=all(r['result']['x_end_kwh'] is not None for r in records)
     fields=('admitted_charge_ac_kwh','admitted_charge_dc_kwh','admitted_discharge_dc_kwh','delivered_discharge_ac_kwh')
@@ -337,6 +388,8 @@ def run(ref,*,initial_dc_output_equiv_kwh,commands):
                 transient_energy_kwh=None,complete_hardware_admission=False,
                 actual_bms_soc=None,annual_result=None,national_admission=False,
                 conditional_method_adopted=True,legacy_contract_replaced=False,
+                idle_convention=idle_convention,
+                zero_cell_self_discharge_is_SCN_idealization=idle_convention==SCN_IDLE_ZERO,
                 limitations=('Constant C and battery cycle eta are explicit reference approximations',
                              'Constant power within steps and instantaneous boundary switches are conditional',
                              'Selected source-fit support is not an inferred complete hardware rating',
@@ -344,6 +397,48 @@ def run(ref,*,initial_dc_output_equiv_kwh,commands):
                              'Measured battery-cycle eta already includes its test-boundary BMS contribution; no extra active BMS penalty',
                              'No automatic curve join, duty cycle, reserve policy, tariff or B08 handoff',
                              'Bookkeeping loss assignment does not locate physical chemical heat release'))
+
+
+def project_b08_reference(ref,state,*,charge_ac_kw,discharge_ac_kw,hours,idle_convention,scenario_ref):
+    """Conditional actual AC flows and post-step same-duration alternative bounds.
+
+    Not BMS SOC, service rights or installed-system ratings. No state mutation.
+    Counterfactual capability queries reuse step's conservative endpoint clipping.
+    """
+    if not isinstance(scenario_ref,str) or not scenario_ref.strip():
+        raise ValueError('explicit SCN provenance required')
+    if idle_convention!=SCN_IDLE_ZERO:
+        raise ValueError('explicit approved idle SCN required; unknown is not zero')
+    if not isinstance(ref,Reference):raise ValueError('explicit qualified reference required')
+    tier,applicability=_reference_evidence(ref)
+    if tier!='E2':raise ValueError('qualified named reference required')
+    actual=step(ref,state,charge_ac_kw=charge_ac_kw,discharge_ac_kw=discharge_ac_kw,
+                hours=hours,idle_convention=idle_convention)
+    if actual['x_end_kwh'] is None:raise ValueError('Q inventory cannot enter B08')
+    post=Inventory(actual['x_end_kwh'])
+    charge=step(ref,post,charge_ac_kw=ref.charge.point(ref.charge.upper)[0],
+                discharge_ac_kw=0.,hours=hours,idle_convention=idle_convention)
+    discharge=step(ref,post,charge_ac_kw=0.,discharge_ac_kw=ref.discharge_ac_source_limit_kw,
+                   hours=hours,idle_convention=idle_convention)
+    idle=provisional_standby_ac_energy(idle_hours=hours if
+        actual['admitted_charge_ac_kwh']==actual['delivered_discharge_ac_kwh']==0 else 0.)
+    identity=hashlib.sha256(json.dumps(asdict(ref),sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+    binding=dict(reference_sha256=identity,initial_inventory=state.dc_output_equiv_kwh,
+                 charge_ac_kw=charge_ac_kw,discharge_ac_kw=discharge_ac_kw,hours=hours,
+                 idle_convention=idle_convention,scenario_ref=scenario_ref)
+    input_hash=hashlib.sha256(json.dumps(binding,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+    return dict(status='SCN',actual=actual,timestep_hours=hours,input_binding=binding,input_sha256=input_hash,
+                battery_charge_kw=actual['admitted_charge_ac_kwh']/hours,
+                battery_discharge_kw=actual['delivered_discharge_ac_kwh']/hours,
+                standby_ac_kwh=idle['ac_energy_debit_kwh'],
+                physical_up_flex_kw=discharge['delivered_discharge_ac_kwh']/hours,
+                physical_down_flex_kw=charge['admitted_charge_ac_kwh']/hours,
+                capability_semantics='POST_STEP_SAME_DURATION_ALTERNATIVE_REFERENCE_BOUNDS',
+                reference_identity=ref.identity,reference_sha256=identity,scenario_ref=scenario_ref,
+                applicability_status=applicability,validation_debt_id='Q-B07-003',
+                idle_evidence=idle,actual_bms_soc=None,
+                source_refs=('SRC-B07-HTW-SAX-REFERENCE-2026','SRC-B07-SAX-HOME-PLUS-STANDBY-DATASHEET-2026',
+                             'B07_REFERENCE_SHA256:'+identity,'B07_INPUT_SHA256:'+input_hash,scenario_ref))
 
 
 def provisional_standby_ac_energy(*,idle_hours):

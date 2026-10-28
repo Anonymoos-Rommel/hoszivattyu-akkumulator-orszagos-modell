@@ -486,6 +486,8 @@ class AccountingAudit:
     # Qualified initial-cost events only, not the complete boundary in rows.
     # Financed/bank/recurring columns stay unavailable in this narrow view.
     source_cost_cash_rows: tuple[AuditRow, ...] = ()
+    # Separate conditional B07 view; never changes the full external Q audit.
+    b07_view: B07ConditionalView | None = None
 
 
 def _walk(value, path="case"):
@@ -1092,7 +1094,7 @@ def assess_readiness(case: Case):
     return MappingProxyType({name: tuple(dict.fromkeys(refs)) for name, refs in missing.items()})
 
 
-def audit_accounting(case: Case, *, source_catalogue=None, cost_bindings=()) -> AccountingAudit:
+def audit_accounting(case: Case, *, source_catalogue=None, cost_bindings=(), b07_use=None) -> AccountingAudit:
     """Keep full external outputs Q; optionally expose verified Cost subsets.
 
     The optional source resolver replays pinned price/use/quantity/cash evidence.
@@ -1101,7 +1103,16 @@ def audit_accounting(case: Case, *, source_catalogue=None, cost_bindings=()) -> 
     with localcontext() as ctx:
         ctx.prec = 50
         ctx.rounding = ROUND_HALF_EVEN
-        return _audit(case, source_catalogue=source_catalogue, cost_bindings=cost_bindings)
+        result = _audit(case, source_catalogue=source_catalogue, cost_bindings=cost_bindings)
+        if b07_use is not None:
+            try:
+                view = _b07_conditional_view(case, b07_use, result.source_costs)
+            except B12ContractError:
+                raise
+            except (OSError, KeyError, TypeError, ValueError, ArithmeticError) as exc:
+                raise B12ContractError("malformed B07 conditional-use dossier") from exc
+            result = replace(result, b07_view=view)
+        return result
 
 
 def _audit(case, *, source_catalogue=None, cost_bindings=()):
@@ -1136,6 +1147,11 @@ def _audit(case, *, source_catalogue=None, cost_bindings=()):
         return AccountingAudit(case.case_id, case.mode, case.time_grain, case.monetary_basis, "Q", provenance, (),
                                MappingProxyType({}), (), readiness, unverified)
     _require(source_catalogue is None and not cost_bindings, "synthetic witnesses cannot claim source cost admission")
+    return _audit_rows(case, readiness, provenance, unverified)
+
+
+def _audit_rows(case, readiness, provenance, unverified):
+    """Existing ledger arithmetic, shared without changing admission or defaults."""
     amounts = {}
     def total(name, rows, attr):
         if not readiness[name]:
@@ -1225,3 +1241,412 @@ def _audit(case, *, source_catalogue=None, cost_bindings=()):
     return AccountingAudit(case.case_id, case.mode, case.time_grain, case.monetary_basis, "SCN", provenance,
                            tuple(sorted(rows, key=lambda r: (r.leg, r.period.start, r.event_id))),
                            MappingProxyType(amounts), tuple(liquidity), unavailable, unverified)
+
+
+# Trust roots live in a separately reviewed repository file, not in a hashed
+# producer or caller-selected dossier. This avoids a review/core hash cycle.
+def _load_b07_review_pins():
+    import hashlib
+    import json
+    from pathlib import Path
+    path = Path(__file__).resolve().parents[2] / "inputs/b07_conditional/APPROVED_REVIEW_PINS.json"
+    if not path.is_file():
+        return MappingProxyType({}), None
+    raw = path.read_bytes()
+    data = json.loads(raw.decode("utf-8-sig"))
+    _require(data.get("schema") == "B07_REVIEW_TRUST_V1" and type(data.get("reviews")) is dict,
+             "B07 repository review trust root malformed")
+    _require(all(type(k) is str and type(v) is str and len(v) == 64
+                 and all(c in "0123456789abcdef" for c in v) for k, v in data["reviews"].items()),
+             "B07 trust digest format")
+    return MappingProxyType(data["reviews"]), hashlib.sha256(raw).hexdigest()
+
+
+B07_REVIEW_PINS, _B07_TRUST_DIGEST = _load_b07_review_pins()
+B07_PRODUCERS = ("modules/B12/input_accounting_contract.py",
+                 "modules/B12/source_cost_inputs.py", "modules/B04/engine.py")
+B07_OUTPUTS = frozenset({"gross_asset_cost", "unfinanced_cash"})
+
+
+@dataclass(frozen=True)
+class B07Use:
+    root: Any
+    review_path: str | None
+
+
+@dataclass(frozen=True)
+class B07InventoryRow:
+    operation_id: str
+    leg: str
+    component_id: str
+    asset_generation_id: str
+    start: date
+    end_exclusive: date
+    opening_kwh_dc_reference: Decimal
+    closing_kwh_dc_reference: Decimal
+
+
+@dataclass(frozen=True)
+class B07ConditionalView:
+    status: str
+    truth: str
+    amounts: Any
+    rows: tuple[AuditRow, ...]
+    missing: tuple[MissingInput, ...]
+    provenance: tuple[tuple[str, str], ...]
+    # Source inventories are inspectable, never monetized or netted into cash.
+    inventory: tuple[B07InventoryRow, ...] = ()
+
+
+def b07_dossier_missing(dossier):
+    """Inspect the unfilled local template before a typed Case can exist.
+
+    This reports null dependencies only; completeness does not admit evidence
+    or validate a populated native case. There is no numeric default/builder.
+    """
+    _require(type(dossier) is dict and dossier.get("schema") == "B07_CONDITIONAL_DOSSIER_TEMPLATE_V1",
+             "B07 dossier template schema")
+    sections = {
+        "case": ("case_id", "comparison_definition", "used_household_branches", "reporting_periods",
+                 "physical_source_period", "money_basis", "native_case_snapshot_pin"),
+        "assets": ("service_life", "life_definition", "external_replacement_schedule", "commissioning_dates",
+                   "generation_links_and_cost_ids", "intervals", "terminal_treatment"),
+        "costs": ("full_payable_scope", "prices_and_units", "price_date_currency_and_use_authorization",
+                  "native_costs", "source_catalogue_and_exact_use_bindings"),
+        "receipts": ("explicit_absence_both_legs", "review_evidence"),
+        "energy": ("used_operation_pins", "full_meter_bill_bindings", "original_reference_pins_and_field_pointers",
+                   "external_target_period_application", "opening_and_closing_inventory", "year_and_generation_boundary_evidence"),
+        "review": ("review_id", "approved_outputs", "case_pin", "actual_producer_pins",
+                   "quantity_and_use_leaf_evidence", "independent_review_artifact"),
+    }
+    result = []
+    for section, names in sections.items():
+        part = dossier.get(section)
+        _require(part is None or type(part) is dict, "B07 dossier section type")
+        for name in names:
+            if part is None or part.get(name) is None:
+                result.append(MissingInput(f"dossier.{section}.{name}", "required external input not supplied",
+                                           "B07-D02/B12-D01: supply and review exact scoped input"))
+    period = (dossier.get("case") or {}).get("evaluation_period")
+    _require(period is None or type(period) is dict, "B07 evaluation period shape")
+    for name in ("start", "end_inclusive"):
+        if period is None or period.get(name) is None:
+            result.append(MissingInput("dossier.case.evaluation_period." + name, "required external date not supplied",
+                                       "B07-D02/B12-D01: explicit evaluation period"))
+    return tuple(result)
+
+
+def b07_case_payload(value):
+    """Lossless review snapshot, not an evidence admission or a case builder."""
+    if isinstance(value, Decimal):
+        return {"decimal": str(value)}
+    if type(value) is date:
+        return {"date": value.isoformat()}
+    if is_dataclass(value):
+        return {"record": type(value).__name__,
+                "fields": {f.name: b07_case_payload(getattr(value, f.name)) for f in fields(value)}}
+    if type(value) is tuple:
+        return [b07_case_payload(v) for v in value]
+    _require(value is None or type(value) in {str, int, bool}, "unsupported B07 snapshot value")
+    return value
+
+
+def _b07_conditional_view(case, use, resolved_costs):
+    """Replay a code-pinned, output-scoped B07 use; keep the base audit Q."""
+    import hashlib
+    import json
+    from pathlib import Path
+    from datetime import timedelta
+    from .source_cost_inputs import E2_CRITERIA
+
+    _require(case.mode == "CONDITIONAL_CASE", "B07 view only supports CONDITIONAL_CASE")
+    _require(type(use) is B07Use, "B07Use required")
+    missing, pins, inventory_rows = [], [], []
+    def gap(path, reason):
+        item = MissingInput(path, reason, "B07-D02/B12-D01: explicit reviewed external input")
+        if item not in missing:
+            missing.append(item)
+    def incomplete():
+        return B07ConditionalView("INCOMPLETE", "Q", MappingProxyType({}), (), tuple(missing), tuple(pins))
+    def pin(record, *, parse=True):
+        _require(type(record) is dict and set(record) == {"path", "sha256"}, "exact B07 pin required")
+        _text(record["path"], "B07 pin path")
+        root = Path(use.root).resolve()
+        relative = Path(record["path"])
+        _require(not relative.is_absolute() and ".." not in relative.parts, "B07 pin must be package-relative")
+        path = (root / relative).resolve()
+        _require(path.is_relative_to(root), "B07 evidence path outside package")
+        try:
+            raw = path.read_bytes()
+        except OSError as exc:
+            raise B12ContractError("B07 evidence unavailable: " + record["path"]) from exc
+        digest = hashlib.sha256(raw).hexdigest()
+        _require(digest == record["sha256"], "B07 evidence bytes changed: " + record["path"])
+        pins.append((record["path"], digest))
+        if not parse:
+            return None
+        try:
+            return json.loads(raw.decode("utf-8-sig"))
+        except (ValueError, UnicodeError) as exc:
+            raise B12ContractError("B07 evidence is not JSON") from exc
+
+    # Even an empty dossier gives exact native missing paths, never fake zeros.
+    required = []
+    def need(value, path):
+        for p, leaf in _walk(value, path):
+            required.append((p, leaf))
+            if (isinstance(leaf, Scalar) and leaf.truth == "Q") or (isinstance(leaf, Reference) and leaf.kind == "Q"):
+                gap(p, leaf.reason)
+    need(case.identity_binding, "case.identity_binding")
+    need(case.scope, "case.scope")
+    need(case.monetary_basis, "case.monetary_basis")
+    need(case.costs.authority, "case.costs.authority")
+    need(case.assets.authority, "case.assets.authority")
+    if case.costs.state == "Q":
+        gap("case.costs", "complete nonenergy cost scope not supplied")
+    if case.assets.state == "Q" or not case.assets.rows:
+        gap("case.assets", "B07 asset generations not supplied")
+    for i, c in enumerate(case.costs.rows):
+        for name in ("quantity", "gross", "attribution"):
+            need(getattr(c, name), f"case.costs.rows[{i}].{name}")
+    for i, a in enumerate(case.assets.rows):
+        for name in ("service_life", "replacement_cost_ids", "operating_coverage"):
+            need(getattr(a, name), f"case.assets.rows[{i}].{name}")
+    if use.review_path is None:
+        gap("b07_use.review_path", "no code-pinned qualified B07 use review")
+        return incomplete()
+    # A review ID must be sealed in this code, not supplied as an expected hash.
+    root = Path(use.root).resolve()
+    path = (root / use.review_path).resolve()
+    _require(path.is_relative_to(root), "B07 review outside package")
+    try:
+        raw = path.read_bytes()
+        review = json.loads(raw.decode("utf-8-sig"))
+    except (OSError, ValueError, UnicodeError) as exc:
+        raise B12ContractError("B07 review unavailable or malformed") from exc
+    _require(type(review) is dict, "B07 review object required")
+    digest = hashlib.sha256(raw).hexdigest()
+    _, current_trust_digest = _load_b07_review_pins()
+    _require(current_trust_digest == _B07_TRUST_DIGEST, "B07 trust root changed; fresh reviewed process required")
+    if current_trust_digest is not None:
+        pins.append(("runtime:inputs/b07_conditional/APPROVED_REVIEW_PINS.json", current_trust_digest))
+    _require(B07_REVIEW_PINS.get(review.get("review_id")) == digest, "B07 review is not code-pinned")
+    pins.append((use.review_path, digest))
+    _require(review.get("schema") == "B07_CONDITIONAL_USE_V1" and review.get("status") == "QUALIFIED"
+             and review.get("mode") == case.mode and review.get("scope") == "B07_BATTERY_ONLY", "wrong B07 review scope")
+    outputs = review.get("outputs")
+    _require(type(outputs) is list and bool(outputs) and len(set(outputs)) == len(outputs)
+             and set(outputs) <= B07_OUTPUTS, "closed B07 output allowlist")
+    _require(pin(review["case_pin"]) == b07_case_payload(case), "B07 reviewed Case changed")
+    _require(set(review["producer_pins"]) == set(B07_PRODUCERS), "exact B07 producer set required")
+    from . import source_cost_inputs as source_module
+    from modules.B04 import engine as tariff_module
+    actual_producers = dict(zip(B07_PRODUCERS, (__file__, source_module.__file__, tariff_module.__file__)))
+    for name, digest in review["producer_pins"].items():
+        pin({"path": name, "sha256": digest}, parse=False)
+        _require(hashlib.sha256(Path(actual_producers[name]).read_bytes()).hexdigest() == digest,
+                 "B07 running producer differs from reviewed producer: " + name)
+    coverage = review["scope_coverage"]
+    if coverage.get("complete_nonenergy_costs") is not True:
+        gap("b07_use.scope_coverage.complete_nonenergy_costs", "complete payable nonenergy scope not reviewed")
+    components = coverage.get("battery_components")
+    _require(type(components) is list and bool(components) and len(set(components)) == len(components), "B07 component list")
+    _require(all(a.component_id in components for a in case.assets.rows)
+             and all(c.component_id in components for c in case.costs.rows), "non-B07 component in conditional view")
+    # Every source-derived Cost must also pass the existing qualified price/use
+    # resolver; a sealed case alone cannot turn a source ID into a payable cost.
+    resolved = {(c.leg, c.cost_id): c for c in resolved_costs}
+    for i, c in enumerate(case.costs.rows):
+        if c.gross.source_ids and resolved.get((c.leg, c.cost_id)) != c:
+            gap(f"case.costs.rows[{i}]", "source Cost lacks exact existing resolver replay")
+
+    assets = {(a.leg, a.asset_generation_id): a for a in case.assets.rows}
+    intervals = review.get("intervals", [])
+    _require(type(intervals) is list, "external B07 intervals required")
+    by_asset, groups = {}, {}
+    for n, row in enumerate(intervals):
+        key = (row["leg"], row["asset_generation_id"])
+        _require(key in assets and key not in by_asset, "missing/duplicate B07 interval generation")
+        a = assets[key]
+        _require(row["component_id"] == a.component_id and type(row["order"]) is int,
+                 "B07 interval component/order")
+        start, end = date.fromisoformat(row["start"]), date.fromisoformat(row["end_exclusive"])
+        _require(a.commissioning_date == start and start <= end, "B07 interval start/order")
+        _require(end == a.operating_coverage_end + timedelta(days=1)
+                 or (start == end == a.operating_coverage_end), "B07 interval end does not bind Asset")
+        by_asset[key] = (start, end, row["order"])
+        groups.setdefault((a.leg, a.component_id), []).append(a)
+    if set(by_asset) != set(assets):
+        gap("b07_use.intervals", "every asset generation needs an explicit half-open interval")
+    else:
+        for key, members in groups.items():
+            ordered = sorted(members, key=lambda a: by_asset[(a.leg, a.asset_generation_id)][2])
+            orders = [by_asset[(a.leg, a.asset_generation_id)][2] for a in ordered]
+            _require(len(set(orders)) == len(orders), "ambiguous same-day B07 order")
+            for i, a in enumerate(ordered):
+                expected = None if i == 0 else ordered[i-1].asset_generation_id
+                _require(a.retired_generation_id == expected, "B07 chain forks or crosses component/leg")
+                if i:
+                    before = by_asset[(a.leg, expected)]
+                    current = by_asset[(a.leg, a.asset_generation_id)]
+                    if before[1] != current[0]:
+                        gap("b07_use.intervals." + "/".join(key), "generation coverage has gap or overlap")
+            if (by_asset[(ordered[0].leg, ordered[0].asset_generation_id)][0] > case.evaluation_period.start
+                    or by_asset[(ordered[-1].leg, ordered[-1].asset_generation_id)][1] < case.evaluation_period.end + timedelta(days=1)):
+                gap("b07_use.intervals." + "/".join(key), "component chain does not cover evaluation period")
+
+    cash = "unfinanced_cash" in outputs
+    if cash:
+        need(case.bills, "case.bills")
+        need(case.receipts.authority, "case.receipts.authority")
+        if case.bills.state != "ROWS" or any(not any(b.leg == leg for b in case.bills.rows) for leg in LEGS):
+            gap("case.bills", "full matched baseline/programme bills required")
+        if case.receipts.state != "NONE" or set(case.receipts.absent_legs) != set(LEGS) or coverage.get("receipt_free") is not True:
+            gap("case.receipts", "first B07 cash view requires explicit receipt-free scope for both legs")
+        for i, a in enumerate(case.assets.rows):
+            if a.terminal_kind in {"Q", "CASH_SALE"}:
+                gap(f"case.assets.rows[{i}].terminal_kind", "unsupported/unknown terminal cash treatment")
+            need(a.terminal_value, f"case.assets.rows[{i}].terminal_value")
+        # Native bill, matched service scope and money checks remain authoritative.
+        readiness = assess_readiness(case)
+        for p in readiness["retail_bills"]:
+            if p != EXTERNAL_Q:
+                gap(p, "unresolved matched retail-bill dependency")
+        operations = review.get("operations", [])
+        if not operations:
+            gap("b07_use.operations", "explicit used energy branches and inventory bindings required")
+        used, previous = set(), {}
+        bill_map = {b.bill_id: b for b in case.bills.rows}
+        for n, op in enumerate(operations):
+            # Each operation is its own sealed source/target-use evidence file.
+            data = pin(op)
+            _require(data["case_id"] == case.case_id and data["id"] not in used, "B07 operation identity")
+            used.add(data["id"])
+            key = (data["leg"], data["component_id"])
+            _require((data["leg"], data["asset_generation_id"]) in assets
+                     and assets[(data["leg"], data["asset_generation_id"])].component_id == data["component_id"], "B07 operation generation")
+            _require(data["coordinate"] == "kWh_DC_discharge_equivalent", "B07 inventory coordinate")
+            for number in (data["opening"], data["closing"]):
+                _require(type(number) is str and Decimal(number).is_finite() and Decimal(number) >= 0, "B07 inventory amount")
+            reference = pin(data["reference_pin"])
+            for name in ("opening", "closing"):
+                selected = reference
+                pointer = data["reference_fields"][name]
+                _require(type(pointer) is list and bool(pointer), "explicit inventory source pointer required")
+                for part in pointer:
+                    selected = selected[int(part)] if type(selected) is list else selected[part]
+                _require(type(selected) is str and selected == data[name], "B07 reference inventory changed")
+            _require(data["application"] == "EXPLICIT_REVIEWED_TARGET_PERIOD", "no implicit annual repetition")
+            start, end = date.fromisoformat(data["start"]), date.fromisoformat(data["end_exclusive"])
+            _require(start < end, "B07 operation interval")
+            inventory_rows.append(B07InventoryRow(data["id"], data["leg"], data["component_id"],
+                data["asset_generation_id"], start, end, Decimal(data["opening"]), Decimal(data["closing"])))
+            interval = by_asset.get((data["leg"], data["asset_generation_id"]))
+            if interval is None or not (interval[0] <= start < end <= interval[1]):
+                gap(f"b07_use.operations[{n}]", "operation not within its reviewed generation interval")
+            for bill_id in data.get("bill_ids", []):
+                _require(bill_id in bill_map, "unknown B07 operation Bill")
+                bill = bill_map[bill_id]
+                _require(bill.leg == data["leg"], "B07 operation cannot bind another leg's Bill")
+                binding = data["bill_bindings"][bill_id]
+                _require(binding["physical_ref"] == bill.physical_ref
+                         and binding["quantity"] == b07_case_payload(bill.quantity), "B07 Bill physical binding changed")
+                selected = reference
+                pointer = binding["source_quantity_pointer"]
+                _require(type(pointer) is list and bool(pointer), "explicit full-meter quantity source pointer required")
+                for part in pointer:
+                    selected = selected[int(part)] if type(selected) is list else selected[part]
+                _require(type(selected) is str and bill.quantity.value is not None
+                         and Decimal(selected) == bill.quantity.value, "B07 Bill quantity does not replay source meter quantity")
+                if not (start <= bill.service_period.start <= bill.service_period.end < end):
+                    gap(f"b07_use.operations[{n}].bill_ids", "Bill service interval not covered by operation target interval")
+            # First cash scope is one selected meter/service per operation.
+            # Merely matching partial bills on both legs is not whole-year cash.
+            op_bills = [bill_map[b] for b in data.get("bill_ids", [])]
+            if not op_bills:
+                gap(f"b07_use.operations[{n}].bill_ids", "operation has no full-meter service coverage")
+            else:
+                services = {(b.meter_id, b.end_use) for b in op_bills}
+                _require(len(services) == 1, "B07 first cash scope supports one meter/service per operation")
+                ordered_bills = sorted(op_bills, key=lambda b: b.service_period.start)
+                cursor = start
+                for bill in ordered_bills:
+                    if bill.service_period.start != cursor:
+                        gap(f"b07_use.operations[{n}].bill_ids", "Bill service coverage has gap or overlap")
+                    cursor = bill.service_period.end + timedelta(days=1)
+                if cursor != end:
+                    gap(f"b07_use.operations[{n}].bill_ids", "Bill service coverage does not reach operation end")
+            if key in previous:
+                prev = previous[key]
+                transition = data.get("transition_pin")
+                if transition is None:
+                    gap(f"b07_use.operations[{n}].transition_pin", "no implicit year reset or generation inheritance")
+                else:
+                    t = pin(transition)
+                    _require(t == {"case_id": case.case_id, "from": prev["id"], "to": data["id"],
+                                   "closing": prev["closing"], "opening": data["opening"],
+                                   "boundary": data["start"], "kind": "EXPLICIT_CONTINUITY"}, "B07 transition binding changed")
+                    if Decimal(prev["closing"]) != Decimal(data["opening"]) or prev["end_exclusive"] != data["start"]:
+                        gap(f"b07_use.operations[{n}]", "noncontinuous inventory requires separately authorized unsupported correction")
+            elif start != case.evaluation_period.start:
+                gap(f"b07_use.operations[{n}].start", "first energy interval does not start at evaluation boundary")
+            previous[key] = data
+        for key, op in previous.items():
+            if date.fromisoformat(op["end_exclusive"]) != case.evaluation_period.end + timedelta(days=1):
+                gap("b07_use.operations." + "/".join(key), "energy branch does not cover evaluation period")
+        if set(previous) != set(groups):
+            gap("b07_use.operations", "exact energy component branches required; no unused household is inferred")
+        bound_bills = [bill for op in operations for bill in pin(op).get("bill_ids", [])]
+        if (len(bound_bills) != len(set(bound_bills))
+                or set(bound_bills) != {b.bill_id for b in case.bills.rows}):
+            gap("b07_use.operations.bill_ids", "exact used Bill set required; no missing or duplicated energy allocation")
+
+    proofs = {}
+    for item in review.get("leaf_evidence", []):
+        p = item["input_path"]
+        _require(p not in proofs, "duplicate B07 leaf evidence")
+        proofs[p] = item["pin"]
+    for p, leaf in required:
+        if p not in proofs:
+            gap(p, "quantity/use-specific review evidence missing")
+            continue
+        evidence = pin(proofs[p])
+        _require(evidence.get("case_id") == case.case_id and evidence.get("input_path") == p
+                 and evidence.get("value") == b07_case_payload(leaf), "B07 leaf binding changed")
+        if isinstance(leaf, Scalar) and leaf.truth != "Q":
+            if leaf.truth in {"OBS", "DER"}:
+                _require(evidence.get("authority") == leaf.evidence_tier and leaf.evidence_tier in {"E1", "E2"}, "B07 source authority")
+                _require(bool(evidence.get("source_pins")), "B07 source evidence missing")
+                for source_pin in evidence["source_pins"]:
+                    pin(source_pin, parse=False)
+                if leaf.evidence_tier == "E2":
+                    for criterion in E2_CRITERIA:
+                        _text(evidence.get("criteria", {}).get(criterion), "B07 E2 criterion:" + criterion)
+                    _text(evidence.get("validation_debt"), "B07 E2 debt")
+            else:
+                _require(evidence.get("authority") == "OWNER_SCENARIO", "B07 external scenario authorization required")
+        elif isinstance(leaf, Reference) and leaf.kind != "Q":
+            _require(evidence.get("authority") == "REVIEWED_USE", "B07 use authority required")
+    if missing:
+        return incomplete()
+    # Clear no base-audit gate. Only a local view of allowed dependencies reaches
+    # the existing arithmetic; all other outputs remain blocked and are filtered.
+    readiness = dict(assess_readiness(case))
+    for name in readiness:
+        readiness[name] = ("B07 output not authorized",)
+    readiness["lifecycle_cost"] = ()
+    if cash:
+        readiness["unfinanced_cash"] = ()
+    calculated = _audit_rows(case, readiness, tuple(_walk(case)), ())
+    amounts = {}
+    if "gross_asset_cost" in outputs:
+        for leg in LEGS:
+            amounts["gross_asset_cost." + leg] = calculated.amounts["lifecycle_cost." + leg]
+        amounts["gross_asset_cost.incremental"] = amounts["gross_asset_cost.programme"] - amounts["gross_asset_cost.baseline"]
+    if cash:
+        for suffix in (*LEGS, "incremental"):
+            amounts["unfinanced_cash." + suffix] = calculated.amounts["unfinanced_cash." + suffix]
+    rows = tuple(replace(r, financed=None, bank=None, recurring=None) for r in calculated.rows
+                 if r.input_paths and (r.input_paths[0].startswith("case.costs.rows[")
+                                       or r.input_paths[0].startswith("case.bills.rows["))) if cash else ()
+    return B07ConditionalView("READY_SCN", "SCN", MappingProxyType(amounts), rows, (), tuple(pins), tuple(inventory_rows))

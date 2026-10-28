@@ -1,0 +1,168 @@
+{
+  "policy_id": "SCN-B12-A1-CALENDAR-DAY-PROPORTIONAL-UTC2025-20261023-V1",
+  "status": "DERIVED_SCN_PARAMETERS_ONLY_NOT_ACTIVE_B12_INPUTS",
+  "annual_quota_kWh": {
+    "exact": "2523/1",
+    "decimal_precision_50": "2523",
+    "readable_6_places": "2523.000000"
+  },
+  "quota_source_id": "SRC-B04-MVM-M1-2026",
+  "windows": [
+    {
+      "id": "S1",
+      "start_utc": "2025-01-01T00:00:00+00:00",
+      "end_utc_exclusive": "2025-07-31T22:00:00+00:00",
+      "local_start": "2025-01-01T01:00:00+01:00",
+      "local_end_exclusive": "2025-08-01T00:00:00+02:00",
+      "profile_hours": 5086,
+      "covered_civil_dates": 212,
+      "covered_day_equivalents": {
+        "exact": "5087/24",
+        "decimal_precision_50": "211.95833333333333333333333333333333333333333333333",
+        "readable_6_places": "211.958333"
+      },
+      "settlement_year_local_start": "2024-08-01",
+      "settlement_year_local_end_exclusive": "2025-08-01",
+      "settlement_year_calendar_days": 365,
+      "q_allocation_kWh": {
+        "exact": "4278167/2920",
+        "decimal_precision_50": "1465.1256849315068493150684931506849315068493150685",
+        "readable_6_places": "1465.125685"
+      },
+      "quota_outside_observed_window_kWh": {
+        "exact": "3088993/2920",
+        "decimal_precision_50": "1057.8743150684931506849315068493150684931506849315",
+        "readable_6_places": "1057.874315"
+      },
+      "outside_window_quota_is_not_observed_usage_or_carryover": true,
+      "m_allocation_month": {
+        "exact": "5207/744",
+        "decimal_precision_50": "6.9986559139784946236559139784946236559139784946237",
+        "readable_6_places": "6.998656"
+      }
+    },
+    {
+      "id": "S2",
+      "start_utc": "2025-07-31T22:00:00+00:00",
+      "end_utc_exclusive": "2026-01-01T00:00:00+00:00",
+      "local_start": "2025-08-01T00:00:00+02:00",
+      "local_end_exclusive": "2026-01-01T01:00:00+01:00",
+      "profile_hours": 3674,
+      "covered_civil_dates": 154,
+      "covered_day_equivalents": {
+        "exact": "3673/24",
+        "decimal_precision_50": "153.04166666666666666666666666666666666666666666667",
+        "readable_6_places": "153.041667"
+      },
+      "settlement_year_local_start": "2025-08-01",
+      "settlement_year_local_end_exclusive": "2026-08-01",
+      "settlement_year_calendar_days": 365,
+      "q_allocation_kWh": {
+        "exact": "3088993/2920",
+        "decimal_precision_50": "1057.8743150684931506849315068493150684931506849315",
+        "readable_6_places": "1057.874315"
+      },
+      "quota_outside_observed_window_kWh": {
+        "exact": "4278167/2920",
+        "decimal_precision_50": "1465.1256849315068493150684931506849315068493150685",
+        "readable_6_places": "1465.125685"
+      },
+      "outside_window_quota_is_not_observed_usage_or_carryover": true,
+      "m_allocation_month": {
+        "exact": "3721/744",
+        "decimal_precision_50": "5.0013440860215053763440860215053763440860215053763",
+        "readable_6_places": "5.001344"
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "parameter": "q_S1",
+      "period": "S1",
+      "unit": "kWh",
+      "truth": "SCN",
+      "derivation": "EXACT_DERIVATION_WITHIN_APPROVED_SCN_NOT_OBS",
+      "exact": "4278167/2920",
+      "decimal_precision_50": "1465.1256849315068493150684931506849315068493150685",
+      "readable_6_places": "1465.125685"
+    },
+    {
+      "parameter": "m_S1",
+      "period": "S1",
+      "unit": "month",
+      "truth": "SCN",
+      "derivation": "EXACT_DERIVATION_WITHIN_APPROVED_SCN_NOT_OBS",
+      "exact": "5207/744",
+      "decimal_precision_50": "6.9986559139784946236559139784946236559139784946237",
+      "readable_6_places": "6.998656"
+    },
+    {
+      "parameter": "q_S2",
+      "period": "S2",
+      "unit": "kWh",
+      "truth": "SCN",
+      "derivation": "EXACT_DERIVATION_WITHIN_APPROVED_SCN_NOT_OBS",
+      "exact": "3088993/2920",
+      "decimal_precision_50": "1057.8743150684931506849315068493150684931506849315",
+      "readable_6_places": "1057.874315"
+    },
+    {
+      "parameter": "m_S2",
+      "period": "S2",
+      "unit": "month",
+      "truth": "SCN",
+      "derivation": "EXACT_DERIVATION_WITHIN_APPROVED_SCN_NOT_OBS",
+      "exact": "3721/744",
+      "decimal_precision_50": "5.0013440860215053763440860215053763440860215053763",
+      "readable_6_places": "5.001344"
+    }
+  ],
+  "units": {
+    "q": "kWh",
+    "m": "month"
+  },
+  "arithmetic": "Python fractions.Fraction exact rationals; Decimal precision50 ROUND_HALF_EVEN only for serialized display",
+  "authoritative_values": "exact rational fields; decimals are rounded renderings and are not internal quota inputs",
+  "baseline_parameter_refs": [
+    "q_S1",
+    "m_S1",
+    "q_S2",
+    "m_S2"
+  ],
+  "programme_parameter_refs": [
+    "q_S1",
+    "m_S1",
+    "q_S2",
+    "m_S2"
+  ],
+  "identical_allocations_are_alternative_legs_not_simultaneous_duplicate_consumption": true,
+  "sums": {
+    "covered_hours": 8760,
+    "covered_day_equivalents": {
+      "exact": "365/1",
+      "decimal_precision_50": "365",
+      "readable_6_places": "365.000000"
+    },
+    "q_kWh": {
+      "exact": "2523/1",
+      "decimal_precision_50": "2523",
+      "readable_6_places": "2523.000000"
+    },
+    "m_month": {
+      "exact": "12/1",
+      "decimal_precision_50": "12",
+      "readable_6_places": "12.000000"
+    }
+  },
+  "sum_q_note": "2523 is a property of these two partial windows with 365-day settlement years; they remain portions of two distinct settlement years, not one complete settlement-year invoice",
+  "complete_local_civil_year": false,
+  "complete_settlement_years": false,
+  "payment_dates": null,
+  "settlement_dates": null,
+  "new_BillInputs": 0,
+  "new_Costs": 0,
+  "full_CAPEX": null,
+  "ROI": null,
+  "real_invoice": false,
+  "E2_source_use_qualified": false
+}

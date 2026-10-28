@@ -328,7 +328,16 @@ def _resolve(catalogue, bindings, basis, context):
         if binding.get("product") is not None:
             _require(binding["product"] == offer["product"], "exact product mismatch")
         if binding.get("category") is not None:
-            _require(binding["category"] == offer["category"], "device/install/O&M category mismatch")
+            if binding["category"] != offer["category"]:
+                category_review = uses.get(binding.get("review_id"), {})
+                _require(offer["category"] == "INITIAL_CAPEX" and binding["category"] == "REPLACEMENT"
+                         and binding.get("source_category") == offer["category"]
+                         and category_review.get("service_scope") == "B07_BATTERY_REFERENCE"
+                         and category_review.get("owner_module") == "B07"
+                         and category_review.get("category_mapping") == {
+                             "source": offer["category"], "economic": binding["category"],
+                             "asset_generation_id": binding["asset_generation_id"]},
+                         "device/install/O&M category mismatch; replacement needs exact B07 use review")
         quantity = _scalar(binding["quantity"])
         _require(quantity.unit == offer["quantity_unit"], "quantity/price denominator mismatch")
         _require(quantity.value is None or quantity.value > 0, "positive cost quantity required")
@@ -380,7 +389,9 @@ def _resolve(catalogue, bindings, basis, context):
                 "nominal_real": basis.nominal_real, "price_date": basis.price_date.isoformat()},
                 "unbridged price-date/currency/basis change")
             _require(review["evidence_tier"] in {"E1", "E2"}, "E3 cannot admit observed target costs")
-            _require(review["service_scope"] == "SPACE_HEATING_ONLY", "target service scope changed")
+            _require(review["service_scope"] == "SPACE_HEATING_ONLY" or (
+                review["service_scope"] == "B07_BATTERY_REFERENCE" and review.get("owner_module") == "B07"),
+                "target service scope changed")
             _require(review["function_ids"] == offer["function_ids"], "function/scope mismatch")
             _require(review["price_use"] == "EXPLICIT_FROZEN_SOURCE_SNAPSHOT_NOT_REAL_INVOICE",
                      "offer snapshot cannot become observed paid invoice")

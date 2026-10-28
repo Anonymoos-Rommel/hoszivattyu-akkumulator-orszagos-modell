@@ -89,7 +89,7 @@
     },
     {
       "path": "modules/B07/discharge_equivalent_reference.py",
-      "sha256": "fc281dd3080fa508ebbe4d6889c706d264028487905de6ffab2f0295fd8efab4"
+      "sha256": "74d8a2e9e0e4f52783cd5ce252c3cd99e3d7e62a68fcbcdd93e957a3fb774902"
     },
     {
       "path": "modules/B07/sax_source_reference.py",
@@ -334,5 +334,9 @@
     "reference_idle_ac_boundary": "Total AC response Q; qualified active component and separate E2 aggregate remain usable at their own scopes.",
     "upstream_subject_correspondence": "Native failure diagnostic is distinct from qualified mapped household failure.",
     "chronological_known_use_bounds": "Whole-window draw/duration and non-replenishing budget violations survive earlier allocation Q, including accumulated known use, partial actor rows and adjacent rights; exact ledgers remain Q and possible recharge never becomes a fixed cap."
+  },
+  "explicit_reference_idle_scn": {
+    "token": "SCN_ZERO_CELL_SELF_DISCHARGE_SEPARATE_AC_STANDBY",
+    "scope": "Named SAX SCN idealization only; default stays Q; AC standby separate; no actual permission or financial qualification."
   }
 }

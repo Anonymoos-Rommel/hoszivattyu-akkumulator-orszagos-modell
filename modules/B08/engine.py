@@ -113,6 +113,41 @@ class GridBoundaryRecord:
             raise B08ContractError("REAL handoff status cannot enter SCN truth")
 
     @classmethod
+    def from_discharge_equivalent_reference(cls, *, timestamp, source_entity_id,
+            region_id, region_scheme, b01_state_id, source_refs, scenario_ref,
+            reference, inventory, charge_ac_kw, discharge_ac_kw, timestep_hours,
+            idle_convention, household_load_kw, heat_pump_load_kw):
+        """Bounded SCN intake; disjoint household/HP loads, no PV/export.
+
+        Omit the entire legacy diagnostic group: x/C is not BMS SOC. Reference
+        inventory/flows remain reproducible from the explicit source audit.
+        Physical bounds do not confer controller or reserved-actor availability.
+        """
+        from modules.B07.discharge_equivalent_reference import project_b08_reference
+        from modules.B07.engine import compute_household_balance
+        if isinstance(source_refs,str) or not isinstance(source_refs,(tuple,list)) or not source_refs:
+            raise B08ContractError('explicit input source references required')
+        household_load_kw=_finite_nonnegative(household_load_kw,'household_load_kw')
+        heat_pump_load_kw=_finite_nonnegative(heat_pump_load_kw,'heat_pump_load_kw')
+        projection=project_b08_reference(reference,inventory,charge_ac_kw=charge_ac_kw,
+            discharge_ac_kw=discharge_ac_kw,hours=timestep_hours,
+            idle_convention=idle_convention,scenario_ref=scenario_ref)
+        balance=compute_household_balance(household_load_kw=household_load_kw,heat_pump_load_kw=heat_pump_load_kw,
+            other_household_load_kw=projection['standby_ac_kwh']/timestep_hours,onsite_generation_kw=0.,
+            battery_charge_kw=projection['battery_charge_kw'],battery_discharge_kw=projection['battery_discharge_kw'],
+            export_limit_kw=0.,export_permission_status='SCN')
+        if projection['battery_discharge_kw']>household_load_kw+heat_pump_load_kw:
+            raise B08ContractError('reference intake rejects export rather than silently curtailing it')
+        from hashlib import sha256
+        load_binding=sha256(json.dumps(dict(household_load_kw=household_load_kw,
+            heat_pump_load_kw=heat_pump_load_kw),sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+        return cls(timestamp=timestamp,timestep_hours=timestep_hours,source_entity_id=source_entity_id,
+            region_id=region_id,region_scheme=region_scheme,b01_state_id=b01_state_id,
+            truth_context='SCN',evidence_status='SCN',source_refs=tuple(source_refs)+projection['source_refs']+('B08_LOAD_SPLIT_SHA256:'+load_binding,),
+            net_grid_import_kw=balance.grid_import_kw,net_grid_export_kw=balance.grid_export_kw,
+            physical_up_flex_kw=projection['physical_up_flex_kw'],physical_down_flex_kw=projection['physical_down_flex_kw'])
+
+    @classmethod
     def from_b07_handoff(cls, *, timestamp: datetime, timestep_hours: float | None = None, source_entity_id: str,
                          region_id: str, region_scheme: str, b01_state_id: str,
                          handoff: B08PhysicalHandoff, truth_context: str,

@@ -60,3 +60,7 @@ A repository osztott licencelést használ:
 - a repository-ban létrehozott adatkészletek licencét külön, az adott adatcsomag metadata- vagy licencbejegyzésében kell rögzíteni.
 
 A részletes hatókört és elsőbbségi szabályokat a [`LICENSE`](LICENSE) fájl tartalmazza.
+
+## Infó: rendszercélok, E2 akkumulátoros döntések és koordinált töltés
+
+A [B07/B12 szakmai SCN-kontraktus](docs/checkpoints/B07_E2_OWNER_DECISIONS_20261026.md) leírja az országos termelés–igény–tárolás–hálózat vizsgálati célt, a modulkapcsolatokat és a kritikus időszakok adatfeltételeit. Elkülöníti a háztartás és a hálózat szerepét, a 10 kWh-s forgatókönyvet az eredeti forráshoz kötött referenciától, valamint a koordinált töltés feltételeit a tényleges szolgáltatási jogosultságtól. A helyi műszaki eredmények nyilvános hozzáférése nem igazolt. A dokumentáció nem módosít végrehajtható bemenetet vagy readiness-státuszt.

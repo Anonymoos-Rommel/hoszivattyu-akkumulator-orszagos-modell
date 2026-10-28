@@ -37,7 +37,7 @@ AREA = "MVM D\u00e9m\u00e1sz"
 # Current implementation identity is separate and exact, never a rewritten
 # historical manifest or permission for an arbitrary caller-supplied revision.
 NATIVE_C01_BASELINE_SHA = "ced2880d4dda1f91e8f1ae72014f945806e1768e0befa954c5f684e1f2bdbd6a"
-NATIVE_IMPLEMENTATION_SHA = "c796cbd40de61b0b59d4de6d109d159a8adf4cbbdef50ea343079757749339cc"
+NATIVE_IMPLEMENTATION_SHA = "9aa201924cf08862233927b6e09d4ae1fa3e1c8f6663d7f27c7f4e356fa4c590"
 PROFILE_COLUMNS = (
     "interval_start_utc", "interval_end_utc", "hours", "common_base_reference_kw",
     "no_programme_selected_reference_kw", "programme_selected_reference_kw",
