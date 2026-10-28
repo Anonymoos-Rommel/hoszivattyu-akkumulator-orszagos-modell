@@ -1,5 +1,36 @@
 # B12 input and accounting contract
 
+## Opt-in B07 conditional view (local implementation candidate)
+
+`audit_accounting(case, b07_use=B07Use(package_root, review_path))` retains the
+ordinary external Q audit and adds only `b07_view`. The old general external,
+C01 initial-cost and synthetic behavior is unchanged. Only CONDITIONAL_CASE
+with an exact reviewed B07 dossier can expose allowlisted gross asset costs or
+the narrower unfinanced cash view. No financing, bank, recurring, VAT, eligibility,
+valuation, affordability or national output is unlocked. The existing ledger
+arithmetic is shared; no new cash-flow engine or replacement scheduler exists.
+
+The actual repository's `inputs/b07_conditional/APPROVED_REVIEW_PINS.json` is a
+separately reviewed trust root, shipped empty. An arbitrary review/hash from a
+caller does not open the gate. Life, dates, replacement schedule, prices, full
+scope, target use and every other material parameter stay explicit external
+inputs. Missing input gives INCOMPLETE/null rather than an assumed zero.
+`B07Use(package_root, None)` reports missing native dependencies without computing.
+
+See `inputs/b07_conditional/README.md` and its unfilled dossier template for
+exact review, producer, leaf, interval and Bill/inventory bindings. The cash
+scope requires full matched meter coverage and explicit absence of Receipts;
+an asset-free baseline remains unsupported. The gross cost-only view is
+independent of energy inventory correction. HH2-style repeated-year resets and
+automatic inventory transfer to a new generation are rejected. No inventory
+correction method or runtime aging law is selected. Positive tests use fictional
+TEST_ONLY inputs and do not adopt equipment, prices, life or policy values.
+
+This is a local candidate, not a source admission, deployment or module closure.
+Existing A1/annual consumer producerpins still refer to their prior reviewed
+native revision and intentionally reject this changed revision until a separate
+current-revision integration is reviewed. Their historical receipts are preserved.
+
 ## Explicit E2 reference consumer
 
 `annual_reference_adapter.prepare(..., reference_consumer=selection)` connects

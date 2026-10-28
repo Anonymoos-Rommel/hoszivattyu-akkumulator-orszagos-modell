@@ -1,0 +1,48 @@
+{
+  "schema": "B07_CONDITIONAL_DOSSIER_TEMPLATE_V1",
+  "status": "INCOMPLETE_NO_MODEL_VALUES_SELECTED",
+  "case": {
+    "case_id": null,
+    "comparison_definition": null,
+    "used_household_branches": null,
+    "evaluation_period": {"start": null, "end_inclusive": null},
+    "reporting_periods": null,
+    "physical_source_period": null,
+    "money_basis": null,
+    "native_case_snapshot_pin": null
+  },
+  "assets": {
+    "service_life": null,
+    "life_definition": null,
+    "external_replacement_schedule": null,
+    "commissioning_dates": null,
+    "generation_links_and_cost_ids": null,
+    "intervals": null,
+    "terminal_treatment": null
+  },
+  "costs": {
+    "full_payable_scope": null,
+    "prices_and_units": null,
+    "price_date_currency_and_use_authorization": null,
+    "native_costs": null,
+    "source_catalogue_and_exact_use_bindings": null
+  },
+  "receipts": {"explicit_absence_both_legs": null, "review_evidence": null},
+  "energy": {
+    "used_operation_pins": null,
+    "full_meter_bill_bindings": null,
+    "original_reference_pins_and_field_pointers": null,
+    "external_target_period_application": null,
+    "opening_and_closing_inventory": null,
+    "year_and_generation_boundary_evidence": null
+  },
+  "review": {
+    "review_id": null,
+    "approved_outputs": null,
+    "case_pin": null,
+    "actual_producer_pins": null,
+    "quantity_and_use_leaf_evidence": null,
+    "independent_review_artifact": null
+  },
+  "not_in_scope": ["aging_law", "warranty_to_life_conversion", "automatic_replacement_scheduler", "inventory_correction_method", "financed_cash", "liquidity", "affordability", "ROI", "population_scaling"]
+}

@@ -304,8 +304,12 @@ def content_digest(value):
 
 def comparison_digest(case):
     """Bind both full schedules and baseline meaning, independent of claims."""
-    return digest((case.version, case.case_id, case.identity, case.scope,
-                   case.state_service_id, case.baseline, case.baseline_leg, case.actual_leg))
+    identity = (case.version, case.case_id, case.identity, case.scope,
+                case.state_service_id, case.baseline, case.baseline_leg, case.actual_leg)
+    # Preserve historical hashes while binding the opt-in new assumption.
+    if case.stored_standing_loss_condition == reference.SCN_IDLE_ZERO:
+        identity += (reference.SCN_IDLE_ZERO,)
+    return digest(identity)
 
 
 def _unknown(value):
@@ -429,9 +433,15 @@ def _validate(case):
         _require(identity.capacity_denominator == "DC_DISCHARGE_EQUIVALENT_CAPACITY_KWH"
                  and identity.capacity_kwh == case.executor.capacity_dc_output_equiv_kwh,
                  "reference capacity denominator mismatch")
-        _require(case.stored_standing_loss_condition == "NOT_APPLICABLE_REFERENCE_IDLE_Q", "reference idle boundary")
+        _require(case.stored_standing_loss_condition in ("NOT_APPLICABLE_REFERENCE_IDLE_Q", reference.SCN_IDLE_ZERO), "reference idle boundary")
+        if case.stored_standing_loss_condition == reference.SCN_IDLE_ZERO:
+            _require(case.truth_context == "SCN" and
+                     (case.executor.identity == "SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE"
+                      or reference.is_capacity_sensitivity_reference(case.executor)),
+                     "idealized idle is exact named-reference SCN only")
         source_ref = case.executor.identity == "SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE"
-        _require(dict(case.source_pins) == (reference.PINS if source_ref else {}), "exact native source pins required")
+        transferred = reference.is_capacity_sensitivity_reference(case.executor)
+        _require(dict(case.source_pins) == (reference.PINS if source_ref or transferred else {}), "exact native source pins required")
     else:
         raise SharedUseError("unsupported coordinate or implicit conversion")
     _number(case.absolute_tolerance_kwh, "absolute numerical tolerance")
@@ -523,7 +533,8 @@ def _execute(case, leg):
     rows = []
     if case.identity.coordinate == REFERENCE:
         native_run = reference.run(case.executor, initial_dc_output_equiv_kwh=leg.initial_inventory_kwh,
-                                   commands=commands)
+                                   commands=commands, idle_convention=(reference.SCN_IDLE_ZERO
+                                     if case.stored_standing_loss_condition == reference.SCN_IDLE_ZERO else None))
         for entry in native_run["records"]:
             r = entry["result"]
             c, d = r["admitted_charge_dc_kwh"], r["admitted_discharge_dc_kwh"]
@@ -677,6 +688,33 @@ def _rights(case, leg, rows):
     known_budget_drawn = {b.budget_id: 0. for b in g.budgets}
     r_pool = g.initial_protected_kwh.value if g.mode == PROTECTED else None
     f_pool = None if r_pool is None else leg.initial_inventory_kwh-r_pool
+    previous_pool_residual = 0.
+    ledger_roundoff = {}
+    ledger_reconciliations = []
+
+    def reconcile_active_ledger(label, before, credit, debit, after, row):
+        # Opt-in E2 bookkeeping only: independent binary64 ledgers can end a
+        # validated active depletion a few ulps below zero while native stock
+        # is exactly at its protected floor. Bound accumulated arithmetic error
+        # by one ulp per operand/result (conservative versus half-ulp rounding).
+        # No new idle allowance, stock-scaled tolerance or change to guards.
+        if (case.stored_standing_loss_condition != reference.SCN_IDLE_ZERO
+                or g.mode != PROTECTED or g.transfers or before is None or after is None
+                or before < 0 or not (credit or debit)
+                or row['physical_status'] != 'PASS_SCN'
+                or row['allocation']['status'] != 'PASS_SCN'
+                or r_pool is None or row['inventory_after_kwh'] < r_pool):
+            return after
+        bound = ledger_roundoff.get(label, 0.) + _sum(math.ulp(v) for v in (before, credit, debit, after))
+        ledger_roundoff[label] = bound
+        allowed = min(bound, _allowance(case, credit, debit))
+        if -allowed <= after < 0:
+            ledger_reconciliations.append(dict(interval_id=row['interval_id'], ledger=label,
+                raw_after_kwh=after, reconciled_after_kwh=0., arithmetic_bound_kwh=bound,
+                active_flow_allowance_kwh=_allowance(case, credit, debit)))
+            ledger_roundoff[label] = 0.
+            return 0.
+        return after
     if g.mode == PROTECTED:
         if r_pool is None: all_q.append("INITIAL_POOL_Q")
         elif f_pool < -_allowance(case, r_pool, leg.initial_inventory_kwh): all_fail.append("INITIAL_PROTECTED_TARGET_UNMET")
@@ -783,6 +821,12 @@ def _rights(case, leg, rows):
                     q.append(request.actor_id+":BUDGET_Q")
                 else:
                     budget_remaining[right.budget_id] = after_debit+(credit if b.replenishment == "ATTRIBUTED_CHARGE_CREDIT" and not outside_budget else 0.)
+                    if (request.actor_id == case.identity.household_actor_id
+                            and b.replenishment == 'ATTRIBUTED_CHARGE_CREDIT'):
+                        credited = credit if b.replenishment == 'ATTRIBUTED_CHARGE_CREDIT' and not outside_budget else 0.
+                        budget_remaining[right.budget_id] = reconcile_active_ledger(
+                            'budget:'+right.budget_id, before_budget, credited, debit,
+                            budget_remaining[right.budget_id], row)
                 if right_remaining is None: q.append(request.actor_id+":ENERGY_RIGHT_Q")
                 called[right.right_id] = None if called[right.right_id] is None else called[right.right_id]+allocation["admitted_active_hours"]
             else:
@@ -821,10 +865,22 @@ def _rights(case, leg, rows):
                     a = row["allocation"]["actors"][actor]["allocation"]
                     delta = a["inventory_credit_kwh"]-a["inventory_debit_kwh"]
                     if pool_name == "R": r_pool += delta
-                    else: f_pool += delta
+                    else:
+                        before_free = f_pool
+                        f_pool += delta
+                        f_pool = reconcile_active_ledger('free_pool', before_free,
+                            a['inventory_credit_kwh'], a['inventory_debit_kwh'], f_pool, row)
                 if min(r_pool, f_pool) < -_allowance(case, row["inventory_credit_kwh"], row["inventory_debit_kwh"]): fail.append("PROTECTED_POOL_BORROWING_OR_SHORTAGE")
                 residual = r_pool+f_pool-row["inventory_after_kwh"]
-                if abs(residual) > _allowance(case, row["inventory_credit_kwh"], row["inventory_debit_kwh"]): fail.append("POOL_CONSERVATION")
+                checked_residual = residual
+                if (case.stored_standing_loss_condition == reference.SCN_IDLE_ZERO
+                        and row["inventory_credit_kwh"] == row["inventory_debit_kwh"] == 0.):
+                    # An idealized zero-flow interval must preserve exactly the
+                    # already checked preceding decomposition residual. No new
+                    # zero-flow tolerance or stock-sized allowance is granted.
+                    checked_residual -= previous_pool_residual
+                if abs(checked_residual) > _allowance(case, row["inventory_credit_kwh"], row["inventory_debit_kwh"]): fail.append("POOL_CONSERVATION")
+                previous_pool_residual = residual
         minimum = g.minimum_total_retained_kwh
         if minimum.status == "Q": q.append("MINIMUM_TOTAL_RETAINED_Q")
         elif minimum.status == "SCN":
@@ -859,7 +915,8 @@ def _rights(case, leg, rows):
     boundary(_time(leg.intervals[-1].end), rows[-1]["inventory_after_kwh"])
     return dict(status=_status(all_fail, all_q), failures=all_fail, unknowns=all_q,
                 intervals=result, transfers=transfers, remaining_budgets_kwh=budget_remaining,
-                terminal_protected_free_kwh=(r_pool, f_pool))
+                terminal_protected_free_kwh=(r_pool, f_pool),
+                numerical_ledger_reconciliations=ledger_reconciliations)
 
 
 def _idle(case, leg, rows):
@@ -869,7 +926,8 @@ def _idle(case, leg, rows):
         return dict(status="Q", reason=supplied.reason, ac_energy_debit_kwh=None, dc_inventory_drain_kwh=None)
     _require(type(supplied) is IdleAccounting and case.identity.coordinate == REFERENCE,
              "E2 idle proxy requires explicit reference exposure")
-    _require(case.executor.identity == "SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE",
+    transferred = reference.is_capacity_sensitivity_reference(case.executor)
+    _require(case.executor.identity == "SAX_2026_A1_V23.50_DISCHARGE_EQUIVALENT_E2_REFERENCE" or transferred,
              "synthetic reference cannot acquire SAX idle authority")
     _tuple(supplied.interval_ids, "idle exposure interval IDs")
     _require(len(set(supplied.interval_ids)) == len(supplied.interval_ids), "duplicate idle exposure")
@@ -885,6 +943,10 @@ def _idle(case, leg, rows):
              "proxy plus same conditional empty-state component double count")
     result = reference.provisional_standby_ac_energy(idle_hours=supplied.idle_hours)
     result["status"] = "E2_AGGREGATE_ONLY"
+    if transferred:
+        result.update(status='SCN_TRANSFERRED_AGGREGATE_ONLY',
+                      scenario_reference=reference.CAPACITY_SCN_ID,
+                      source_use='Owner-approved unscaled4.07W proxy; not a10kWh product observation')
     result["native_empty_components"] = "DIAGNOSTIC_ONLY_NOT_ADDED"
     if type(supplied.actor_ac_debits_kwh) is Unknown:
         _unknown(supplied.actor_ac_debits_kwh); result["actor_allocation_status"] = "Q"
