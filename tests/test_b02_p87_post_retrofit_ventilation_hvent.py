@@ -46,6 +46,44 @@ def rows(path, key=None):
 
 
 class B02P87PostRetrofitVentilationHventTests(unittest.TestCase):
+    def test_each_ventilation_input_rejects_nonfinite_or_negative_values(self):
+        valid = dict(volume_m3=200., required_air_change_h=.5,
+                     infiltration_air_change_h=.1,
+                     air_volumetric_heat_capacity_wh_m3k=.35)
+        for field in valid:
+            for value in (float('nan'), float('inf'), -float('inf'), -1.):
+                arguments = dict(valid, **{field: value})
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    ventilation_h_w_per_k(**arguments)
+
+    def test_ventilation_rejects_nonfinite_intermediates_and_output(self):
+        cases = (
+            dict(volume_m3=0., required_air_change_h=1e308,
+                 infiltration_air_change_h=1e308),
+            dict(volume_m3=0., required_air_change_h=2.,
+                 infiltration_air_change_h=0.,
+                 air_volumetric_heat_capacity_wh_m3k=1e308),
+            dict(volume_m3=1e308, required_air_change_h=2.,
+                 infiltration_air_change_h=0.,
+                 air_volumetric_heat_capacity_wh_m3k=1.),
+        )
+        for arguments in cases:
+            with self.subTest(arguments=arguments), self.assertRaises(ValueError):
+                ventilation_h_w_per_k(**arguments)
+
+    def test_ventilation_zero_bounds_and_float_conversion_remain_valid(self):
+        self.assertEqual(ventilation_h_w_per_k(
+            volume_m3=0., required_air_change_h=.5, infiltration_air_change_h=.1), 0.)
+        self.assertEqual(ventilation_h_w_per_k(
+            volume_m3=200., required_air_change_h=0., infiltration_air_change_h=0.), 0.)
+        self.assertEqual(ventilation_h_w_per_k(
+            volume_m3=200., required_air_change_h=.5, infiltration_air_change_h=.1,
+            air_volumetric_heat_capacity_wh_m3k=0.), 0.)
+        self.assertEqual(ventilation_h_w_per_k(
+            volume_m3='200', required_air_change_h='.5', infiltration_air_change_h='.1'),
+            ventilation_h_w_per_k(
+                volume_m3=200., required_air_change_h=.5, infiltration_air_change_h=.1))
+
     def test_current_method_constants_are_exact(self):
         self.assertEqual(AIR_VOLUMETRIC_HEAT_CAPACITY_WH_M3K, 0.35)
         self.assertEqual(RESIDENTIAL_REQUIRED_AIR_CHANGE_H, 0.5)

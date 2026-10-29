@@ -127,12 +127,13 @@ class Inventory:
     unknown_reason: str | None = None
 
     def __post_init__(self):
-        if self.dc_output_equiv_kwh is not None:
+        if self.dc_output_equiv_kwh is None:
+            if not isinstance(self.unknown_reason,str) or not self.unknown_reason.strip():
+                raise ValueError('unknown reason must be explicit text')
+        else:
             number(self.dc_output_equiv_kwh,'inventory')
             if self.unknown_reason is not None:
                 raise ValueError('unknown inventory cannot also be a numeric state')
-        if self.unknown_reason is not None and (not isinstance(self.unknown_reason,str) or not self.unknown_reason):
-            raise ValueError('unknown reason must be explicit text')
 
 
 def source_reference(*,discharge_curve_id,reserve_dc_output_equiv_kwh):
