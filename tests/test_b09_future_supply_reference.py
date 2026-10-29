@@ -5,12 +5,14 @@ import hashlib
 import io
 import json
 import stat
+import struct
 import subprocess
 import tempfile
 import unittest
 import warnings
 import xml.etree.ElementTree as ET
 import zipfile
+from binascii import crc32
 from dataclasses import replace
 from decimal import Decimal
 from pathlib import Path
@@ -56,6 +58,30 @@ def zip_bytes(entries):
             for name, content in entries:
                 z.writestr(name, content)
     return stream.getvalue()
+
+
+def raw_zip_bytes(entries):
+    """Stored synthetic ZIPs with explicit, unsanitized local/central names."""
+    local = bytearray()
+    central = bytearray()
+    payload = b'synthetic payload'
+    checksum = crc32(payload)
+    for name, extra, flags in entries:
+        offset = len(local)
+        local += struct.pack('<4s5H3I2H', b'PK\x03\x04', 20, flags, 0, 0, 33,
+                             checksum, len(payload), len(payload), len(name), len(extra))
+        local += name + extra + payload
+        central += struct.pack('<4s6H3I5H2I', b'PK\x01\x02', 20, 20, flags, 0, 0, 33,
+                               checksum, len(payload), len(payload), len(name), len(extra),
+                               0, 0, 0, 0, offset)
+        central += name + extra
+    return bytes(local + central + struct.pack('<4s4H2IH', b'PK\x05\x06', 0, 0,
+                 len(entries), len(entries), len(central), len(local), 0))
+
+
+def unicode_path(raw_name, alias, *, version=1, checksum=None):
+    field = struct.pack('<BL', version, crc32(raw_name) if checksum is None else checksum) + alias
+    return struct.pack('<HH', 0x7075, len(field)) + field
 
 
 def xlsx_bytes(rows=None, *, mutate=None, target='worksheets/sheet2.xml'):
@@ -225,7 +251,7 @@ class SourceParsingTests(unittest.TestCase):
     def test_archive_traversal_duplicates_symlinks_rejected(self):
         for name in ('../x', '/x', 'a/../b', 'a\\b', 'a//b', 'C:/x', './x'):
             with self.subTest(name=name), self.assertRaises(ValueError):
-                ref._safe_archive(zip_bytes([(name, b'x')]))
+                ref._safe_archive(self._raw_name_witness(name.encode('utf-8')))
         with self.assertRaisesRegex(ValueError, 'duplicate'):
             ref._safe_archive(zip_bytes([('x', b'a'), ('x', b'b')]))
         link = zipfile.ZipInfo('link')
@@ -233,6 +259,125 @@ class SourceParsingTests(unittest.TestCase):
         link.external_attr = (stat.S_IFLNK | 0o777) << 16
         with self.assertRaises(ValueError):
             ref._safe_archive(zip_bytes([(link, b'target')]))
+
+    def _raw_name_witness(self, name, extra=b'', flags=0):
+        data = raw_zip_bytes([(name, extra, flags)])
+        # Inspect actual stored fields independently of writer string handling.
+        self.assertEqual(data[:4], b'PK\x03\x04')
+        local_name_size, local_extra_size = struct.unpack_from('<HH', data, 26)
+        self.assertEqual(data[30:30 + local_name_size], name)
+        self.assertEqual(data[30 + local_name_size:30 + local_name_size + local_extra_size], extra)
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
+            central = archive.start_dir
+            self.assertEqual(data[central:central + 4], b'PK\x01\x02')
+            name_size, extra_size = struct.unpack_from('<HH', data, central + 28)
+            self.assertEqual(data[central + 46:central + 46 + name_size], name)
+            self.assertEqual(data[central + 46 + name_size:central + 46 + name_size + extra_size], extra)
+            info, = archive.infolist()
+            codec = 'utf-8' if flags & 0x800 else 'cp437'
+            self.assertEqual(info.orig_filename, name.decode(codec))
+            self.assertEqual(info.orig_filename.encode(codec), name)
+            self.assertEqual(info.flag_bits, flags)
+            # A bad ZIP/CRC must not masquerade as an unsafe-name rejection.
+            self.assertEqual(archive.read(info), b'synthetic payload')
+        return data
+
+    def test_raw_central_backslash_and_nul_rejected(self):
+        for name in (b'a\\b', b'safe\x00hidden', b'\x00'):
+            with self.subTest(name=name):
+                data = self._raw_name_witness(name)
+                with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'unsafe archive member path/type'):
+                    ref._safe_archive(data)
+
+    def test_safe_raw_names_and_codecs_remain_accepted(self):
+        for name, flags in ((b'normal/file', 0), (b'directory/', 0),
+                            ('árvíz'.encode('utf-8'), 0x800), (b'caf\x82', 0)):
+            with self.subTest(name=name, flags=flags):
+                data = self._raw_name_witness(name, flags=flags)
+                with ref._safe_archive(data) as archive:
+                    self.assertEqual(archive.read(archive.infolist()[0]), b'synthetic payload')
+
+    def test_active_unicode_aliases_rejected_before_sanitization(self):
+        name = b'safe'
+        for alias in (b'a\\b', b'ok\x00hidden', b'../bad', b'/bad', b'C:/bad', b'a//b'):
+            with self.subTest(alias=alias):
+                extra = unicode_path(name, alias)
+                self.assertEqual(extra[9:], alias)
+                data = self._raw_name_witness(name, extra)
+                with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'unsafe archive member path/type'):
+                    ref._safe_archive(data)
+
+    def test_each_active_unicode_alias_is_checked(self):
+        name = b'safe'
+        extra = unicode_path(name, b'a\\b') + unicode_path(name, b'final-safe')
+        data = self._raw_name_witness(name, extra)
+        with zipfile.ZipFile(io.BytesIO(data)) as archive:
+            self.assertEqual(archive.infolist()[0].filename, 'final-safe')
+        with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'unsafe archive member path/type'):
+            ref._safe_archive(data)
+
+    def test_safe_unicode_aliases_and_crc_codec_roundtrip(self):
+        for name, flags in ((b'caf\x82', 0), ('árvíz'.encode('utf-8'), 0x800)):
+            with self.subTest(name=name, flags=flags):
+                alias = 'külön/név'.encode('utf-8')
+                extra = unicode_path(name, alias)
+                self.assertEqual(struct.unpack_from('<L', extra, 5)[0], crc32(name))
+                data = self._raw_name_witness(name, extra, flags)
+                with ref._safe_archive(data) as archive:
+                    info, = archive.infolist()
+                    self.assertEqual(info.filename, alias.decode('utf-8'))
+                    self.assertEqual(archive.read(info), b'synthetic payload')
+
+    def test_ignored_unicode_alias_does_not_gain_authority(self):
+        name = b'safe'
+        for alias in (b'../bad', b'invalid\xff'):
+            for changes in ({'version': 2}, {'checksum': crc32(name) ^ 1}):
+                with self.subTest(alias=alias, changes=changes):
+                    data = self._raw_name_witness(name, unicode_path(name, alias, **changes))
+                    with ref._safe_archive(data) as archive:
+                        self.assertEqual(archive.infolist()[0].filename, 'safe')
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore', UserWarning)
+            data = self._raw_name_witness(name, unicode_path(name, b''))
+            with ref._safe_archive(data) as archive:
+                self.assertEqual(archive.infolist()[0].filename, 'safe')
+
+    def test_corrupt_unicode_and_extra_fields_fail_closed(self):
+        name = b'safe'
+        for extra in (unicode_path(name, b'\xff'), b'up\x09\x00x', b'up\x01\x00x'):
+            with self.subTest(extra=extra), self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'invalid source archive'):
+                ref._safe_archive(raw_zip_bytes([(name, extra, 0)]))
+
+    def test_effective_alias_duplicates_remain_rejected(self):
+        first, second = b'first', b'second'
+        data = raw_zip_bytes([(first, unicode_path(first, b'same'), 0),
+                              (second, unicode_path(second, b'same'), 0)])
+        with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'duplicate'):
+            ref._safe_archive(data)
+
+    def test_archive_encryption_count_and_declared_size_limits(self):
+        with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'unsafe archive member path/type'):
+            ref._safe_archive(raw_zip_bytes([(b'file', b'', 1)]))
+        entries = [(str(n).encode('ascii'), b'', 0) for n in range(200)]
+        with ref._safe_archive(raw_zip_bytes(entries)) as archive:
+            self.assertEqual(len(archive.infolist()), 200)
+        with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'excessive archive members'):
+            ref._safe_archive(raw_zip_bytes(entries + [(b'extra', b'', 0)]))
+        # The gate limits declared sizes before any decompression/content read.
+        for declared in (25_000_000, 25_000_001):
+            data = bytearray(self._raw_name_witness(b'file'))
+            with zipfile.ZipFile(io.BytesIO(data)) as archive:
+                central = archive.start_dir
+            struct.pack_into('<I', data, 22, declared)
+            struct.pack_into('<I', data, central + 24, declared)
+            with zipfile.ZipFile(io.BytesIO(data)) as archive:
+                self.assertEqual(archive.infolist()[0].file_size, declared)
+            if declared == 25_000_000:
+                with ref._safe_archive(data) as archive:
+                    self.assertEqual(archive.infolist()[0].file_size, declared)
+            else:
+                with self.assertRaisesRegex(ref.FutureSupplyReferenceError, 'oversized archive contents'):
+                    ref._safe_archive(data)
 
     def test_xml_entity_rejected(self):
         for data in (b'<!DOCTYPE x><x/>', b'<!ENTITY x "123"><x/>', '<!DOCTYPE x><x/>'.encode('utf-16'), b'<bad'):
