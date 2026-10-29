@@ -197,7 +197,7 @@
     },
     "ventilation_method": {
       "path": "modules/B02/post_retrofit_ventilation_hvent.py",
-      "sha256": "b00526a74687852551adef9e780a54aff288577f34efc105f7ca86bc4bce0e40",
+      "sha256": "ecb0039cf26c0d2677f5fe5f42736ab0132aa2afb6ef99e87c4579cd47525203",
       "source_ids": [
         "SRC-B06-HU-ENERGY-METHOD-2023"
       ]

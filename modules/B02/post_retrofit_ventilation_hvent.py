@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from functools import lru_cache
+from math import isfinite
 import csv
 from pathlib import Path
 
@@ -85,13 +86,15 @@ def ventilation_h_w_per_k(
         infiltration_air_change_h,
         air_volumetric_heat_capacity_wh_m3k,
     )
-    if any(float(v) < 0 for v in values):
-        raise ValueError("ventilation inputs must be nonnegative")
-    return (
-        float(air_volumetric_heat_capacity_wh_m3k)
-        * (float(required_air_change_h) + float(infiltration_air_change_h))
-        * float(volume_m3)
-    )
+    volume, required, infiltration, capacity = (float(v) for v in values)
+    if any(not isfinite(v) or v < 0 for v in (volume, required, infiltration, capacity)):
+        raise ValueError("ventilation inputs must be finite and nonnegative")
+    air_change = required + infiltration
+    coefficient = capacity * air_change
+    result = coefficient * volume
+    if not all(isfinite(v) for v in (air_change, coefficient, result)):
+        raise ValueError("ventilation calculation must remain finite")
+    return result
 
 
 def _load_p85_surface(path: Path = P85_SURFACE) -> tuple[dict[str, str], ...]:

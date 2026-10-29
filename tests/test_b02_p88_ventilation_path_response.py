@@ -9,6 +9,8 @@ from modules.B02.post_retrofit_ventilation_path import (
     NATURAL_WINDOW,
     fourteen_stratum_response_coefficients,
     hrv_recovered_h_w_per_k,
+    infiltration_h_w_per_k,
+    required_air_h_w_per_k,
     response_envelope_state,
     semantic_boundaries,
     ventilation_design_load_kw,
@@ -39,6 +41,78 @@ def rows(path, key=None):
 
 
 class B02P88VentilationPathResponseTests(unittest.TestCase):
+    def test_volume_and_infiltration_reject_nonfinite_or_negative_values(self):
+        for value in (float('nan'), float('inf'), -float('inf'), -1.):
+            calls = (
+                lambda: required_air_h_w_per_k(volume_m3=value),
+                lambda: infiltration_h_w_per_k(volume_m3=value, infiltration_air_change_h=.1),
+                lambda: infiltration_h_w_per_k(volume_m3=200., infiltration_air_change_h=value),
+                lambda: hrv_recovered_h_w_per_k(volume_m3=value, heat_recovery_efficiency=.8),
+            )
+            for index, call in enumerate(calls):
+                with self.subTest(value=value, call=index), self.assertRaises(ValueError):
+                    call()
+            for path in ALLOWED_POST_RETROFIT_VENTILATION_PATHS:
+                extra = dict(heat_recovery_efficiency=.8) if path == MECHANICAL_HEAT_RECOVERY else {}
+                for field in ('volume_m3', 'infiltration_air_change_h'):
+                    arguments = dict(volume_m3=200., infiltration_air_change_h=.1)
+                    arguments[field] = value
+                    with self.subTest(value=value, path=path, field=field), self.assertRaises(ValueError):
+                        ventilation_path_h_w_per_k(path=path, **arguments, **extra)
+
+    def test_design_load_requires_finite_inputs_and_nonnegative_h(self):
+        valid = dict(h_vent_w_per_k=14., indoor_temperature_c=20., outdoor_temperature_c=-12.)
+        for field in valid:
+            for value in (float('nan'), float('inf'), -float('inf')):
+                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                    ventilation_design_load_kw(**dict(valid, **{field: value}))
+        with self.assertRaises(ValueError):
+            ventilation_design_load_kw(**dict(valid, h_vent_w_per_k=-1.))
+        with self.assertRaises(ValueError):
+            ventilation_design_load_kw(**dict(valid, indoor_temperature_c=-13.))
+
+    def test_ventilation_and_design_load_reject_intermediate_overflow(self):
+        with self.assertRaises(ValueError):
+            infiltration_h_w_per_k(volume_m3=1e308, infiltration_air_change_h=10.)
+        for path in ALLOWED_POST_RETROFIT_VENTILATION_PATHS:
+            extra = dict(heat_recovery_efficiency=1.) if path == MECHANICAL_HEAT_RECOVERY else {}
+            with self.subTest(path=path), self.assertRaises(ValueError):
+                ventilation_path_h_w_per_k(path=path, volume_m3=1e308,
+                                          infiltration_air_change_h=5., **extra)
+        for arguments in (
+            dict(h_vent_w_per_k=0., indoor_temperature_c=1e308, outdoor_temperature_c=-1e308),
+            dict(h_vent_w_per_k=1e308, indoor_temperature_c=20., outdoor_temperature_c=-12.),
+        ):
+            with self.subTest(arguments=arguments), self.assertRaises(ValueError):
+                ventilation_design_load_kw(**arguments)
+
+    def test_existing_eta_domain_and_endpoints_remain(self):
+        for value in (float('nan'), float('inf'), -float('inf'), -.1, 1.1):
+            with self.subTest(eta=value), self.assertRaises(ValueError):
+                hrv_recovered_h_w_per_k(volume_m3=200., heat_recovery_efficiency=value)
+            with self.subTest(path_eta=value), self.assertRaises(ValueError):
+                ventilation_path_h_w_per_k(path=MECHANICAL_HEAT_RECOVERY, volume_m3=200.,
+                                          infiltration_air_change_h=.1, heat_recovery_efficiency=value)
+        for eta, expected in ((0., 42.), (1., 7.)):
+            result = ventilation_path_h_w_per_k(path=MECHANICAL_HEAT_RECOVERY,
+                volume_m3=200., infiltration_air_change_h=.1, heat_recovery_efficiency=eta)
+            self.assertEqual(result.h_vent_w_per_k, expected)
+
+    def test_zero_bounds_negative_temperatures_and_float_conversion_remain(self):
+        self.assertEqual(required_air_h_w_per_k(volume_m3=0.), 0.)
+        self.assertEqual(infiltration_h_w_per_k(volume_m3=200., infiltration_air_change_h=0.), 0.)
+        for path in ALLOWED_POST_RETROFIT_VENTILATION_PATHS:
+            extra = dict(heat_recovery_efficiency=.8) if path == MECHANICAL_HEAT_RECOVERY else {}
+            result = ventilation_path_h_w_per_k(path=path, volume_m3=0.,
+                                              infiltration_air_change_h=0., **extra)
+            self.assertEqual(result.h_vent_w_per_k, 0.)
+        self.assertEqual(ventilation_design_load_kw(
+            h_vent_w_per_k=0., indoor_temperature_c=20., outdoor_temperature_c=-12.), 0.)
+        self.assertEqual(ventilation_design_load_kw(
+            h_vent_w_per_k=14., indoor_temperature_c=-12., outdoor_temperature_c=-12.), 0.)
+        self.assertEqual(ventilation_design_load_kw(
+            h_vent_w_per_k='14', indoor_temperature_c='-10', outdoor_temperature_c='-12'), .028)
+
     def test_exact_allowed_post_retrofit_paths(self):
         self.assertEqual(
             ALLOWED_POST_RETROFIT_VENTILATION_PATHS,

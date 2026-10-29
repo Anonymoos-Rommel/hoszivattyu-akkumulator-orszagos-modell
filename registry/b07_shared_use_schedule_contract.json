@@ -89,7 +89,7 @@
     },
     {
       "path": "modules/B07/discharge_equivalent_reference.py",
-      "sha256": "68438e585e969294705655947ff036fe2666c8d07b5efd8a9db15e5845b41eb1"
+      "sha256": "38ab5c54a807173431f5c16f6b79ad4a46b8026742bd2888d65d618aa3ba553f"
     },
     {
       "path": "modules/B07/sax_source_reference.py",

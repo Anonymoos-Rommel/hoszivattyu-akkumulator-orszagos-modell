@@ -61,6 +61,31 @@ class CurveTests(unittest.TestCase):
 
 
 class ConditionalFlowTests(unittest.TestCase):
+    def test_unknown_inventory_requires_meaningful_text_reason(self):
+        for reason in (None, '', ' ', '\t\r\n', 0, True, {}):
+            with self.subTest(reason=reason), self.assertRaises(ValueError):
+                m.Inventory(None, reason)
+
+    def test_unknown_inventory_preserves_reason_and_q_fields(self):
+        reason = '  UNKNOWN_INITIAL: no measured state\t'
+        state = m.Inventory(None, reason)
+        self.assertEqual(state.unknown_reason, reason)
+        result = m.step(toy(), state, **command(charge=1.))
+        self.assertEqual(result['status'], 'Q_PREVIOUS_INVENTORY')
+        self.assertEqual(result['reason'], reason)
+        for field in ('x_start_kwh', 'x_end_kwh', 'admitted_charge_ac_kwh',
+                      'delivered_discharge_ac_kwh', 'actual_system_electricity_kwh',
+                      'inventory_balance_residual_kwh'):
+            with self.subTest(field=field):
+                self.assertIsNone(result[field])
+
+    def test_numeric_inventory_has_no_unknown_reason(self):
+        for value in (0., 3.):
+            self.assertEqual(m.Inventory(value).dc_output_equiv_kwh, value)
+            for reason in ('UNKNOWN', '', ' ', 0):
+                with self.subTest(value=value, reason=reason), self.assertRaises(ValueError):
+                    m.Inventory(value, reason)
+
     def test_full_synthetic_cycle_requires_ten_input_for_nine_output(self):
         r=m.run(toy(),initial_dc_output_equiv_kwh=0.,commands=[command(charge=2.,hours=5.),command(discharge=3.,hours=3.)])
         self.assertEqual(r['active_reference_totals']['admitted_charge_dc_kwh'],10.)

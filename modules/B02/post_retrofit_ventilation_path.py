@@ -36,6 +36,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import csv
 from functools import lru_cache
+from math import isfinite
 from pathlib import Path
 
 from modules.B02.post_retrofit_ventilation_hvent import (
@@ -86,8 +87,15 @@ class VentilationPathResult:
     status: str
 
 
-def _require_nonnegative(name: str, value: float) -> float:
+def _require_finite(name: str, value: float) -> float:
     value = float(value)
+    if not isfinite(value):
+        raise ValueError(f"{name} must be finite")
+    return value
+
+
+def _require_nonnegative(name: str, value: float) -> float:
+    value = _require_finite(name, value)
     if value < 0:
         raise ValueError(f"{name} must be nonnegative")
     return value
@@ -95,10 +103,11 @@ def _require_nonnegative(name: str, value: float) -> float:
 
 def required_air_h_w_per_k(*, volume_m3: float) -> float:
     volume = _require_nonnegative("volume_m3", volume_m3)
-    return (
+    return _require_nonnegative(
+        "required_air_h_w_per_k",
         AIR_VOLUMETRIC_HEAT_CAPACITY_WH_M3K
         * RESIDENTIAL_REQUIRED_AIR_CHANGE_H
-        * volume
+        * volume,
     )
 
 
@@ -112,7 +121,10 @@ def infiltration_h_w_per_k(
         "infiltration_air_change_h",
         infiltration_air_change_h,
     )
-    return AIR_VOLUMETRIC_HEAT_CAPACITY_WH_M3K * infiltration * volume
+    return _require_nonnegative(
+        "infiltration_h_w_per_k",
+        AIR_VOLUMETRIC_HEAT_CAPACITY_WH_M3K * infiltration * volume,
+    )
 
 
 def hrv_recovered_h_w_per_k(
@@ -123,7 +135,9 @@ def hrv_recovered_h_w_per_k(
     eta = float(heat_recovery_efficiency)
     if not 0.0 <= eta <= 1.0:
         raise ValueError("heat_recovery_efficiency must be within [0, 1]")
-    return required_air_h_w_per_k(volume_m3=volume_m3) * eta
+    return _require_nonnegative(
+        "recovered_h_w_per_k", required_air_h_w_per_k(volume_m3=volume_m3) * eta
+    )
 
 
 def ventilation_path_h_w_per_k(
@@ -162,6 +176,8 @@ def ventilation_path_h_w_per_k(
         eta = None
         status = "NO_HEAT_RECOVERY_RESPONSE"
 
+    unrecovered = _require_nonnegative("unrecovered_h_w_per_k", h_required + h_infiltration)
+    h_vent = _require_nonnegative("h_vent_w_per_k", unrecovered - recovered)
     return VentilationPathResult(
         path=path,
         volume_m3=float(volume_m3),
@@ -170,7 +186,7 @@ def ventilation_path_h_w_per_k(
         required_air_h_w_per_k=h_required,
         infiltration_h_w_per_k=h_infiltration,
         recovered_h_w_per_k=recovered,
-        h_vent_w_per_k=h_required + h_infiltration - recovered,
+        h_vent_w_per_k=h_vent,
         status=status,
     )
 
@@ -181,10 +197,14 @@ def ventilation_design_load_kw(
     indoor_temperature_c: float,
     outdoor_temperature_c: float,
 ) -> float:
-    delta_t = float(indoor_temperature_c) - float(outdoor_temperature_c)
+    h_vent = _require_nonnegative("h_vent_w_per_k", h_vent_w_per_k)
+    indoor = _require_finite("indoor_temperature_c", indoor_temperature_c)
+    outdoor = _require_finite("outdoor_temperature_c", outdoor_temperature_c)
+    delta_t = _require_finite("temperature_difference_k", indoor - outdoor)
     if delta_t < 0:
         raise ValueError("indoor_temperature_c must not be below outdoor_temperature_c")
-    return float(h_vent_w_per_k) * delta_t / 1000.0
+    heat_loss_w = _require_nonnegative("ventilation_heat_loss_w", h_vent * delta_t)
+    return heat_loss_w / 1000.0
 
 
 @lru_cache(maxsize=None)
