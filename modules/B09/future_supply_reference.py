@@ -12,8 +12,10 @@ import io
 import json
 import re
 import stat
+import struct
 import xml.etree.ElementTree as ET
 import zipfile
+from binascii import crc32
 from collections import Counter
 from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
@@ -181,6 +183,53 @@ def _validate_selection(selection):
     return spec
 
 
+def _validate_archive_name(name):
+    """Validate before platform sanitization can hide a forbidden component."""
+    if (not isinstance(name, str) or not name or '\x00' in name
+            or name.startswith('/') or '\\' in name or ':' in name
+            or any(part in ('', '.', '..') for part in name.rstrip('/').split('/'))):
+        raise FutureSupplyReferenceError('unsafe archive member path/type')
+
+
+def _validate_archive_names(item):
+    """Check central, applicable Unicode Path aliases and effective names.
+
+    Keep ZipFile's default UTF8/CP437 decoding and 0x7075 applicability. This
+    does not independently parse unselected local headers or extract files.
+    """
+    original = getattr(item, 'orig_filename', None)
+    _validate_archive_name(original)
+    codec = 'utf-8' if item.flag_bits & 0x800 else 'cp437'
+    try:
+        raw_name = original.encode(codec)
+    except UnicodeEncodeError as exc:
+        raise FutureSupplyReferenceError('invalid original archive name encoding') from exc
+    name_crc = crc32(raw_name)
+    extra = item.extra
+    offset = 0
+    while len(extra) - offset >= 4:
+        kind, size = struct.unpack_from('<HH', extra, offset)
+        offset += 4
+        if offset + size > len(extra):
+            raise FutureSupplyReferenceError('invalid source archive extra field')
+        field = extra[offset:offset + size]
+        offset += size
+        if kind != 0x7075:
+            continue
+        if len(field) < 5:
+            raise FutureSupplyReferenceError('invalid source archive Unicode Path field')
+        version, expected_crc = struct.unpack_from('<BL', field)
+        if version == 1 and expected_crc == name_crc:
+            try:
+                alias = field[5:].decode('utf-8')
+            except UnicodeDecodeError as exc:
+                raise FutureSupplyReferenceError('invalid source archive Unicode Path encoding') from exc
+            # ZipFile ignores an empty Unicode Path alias rather than renaming.
+            if alias:
+                _validate_archive_name(alias)
+    _validate_archive_name(item.filename)
+
+
 def _safe_archive(data):
     """Never extract paths; reject traversal, duplicates, links and oversized ZIPs."""
     try:
@@ -190,11 +239,8 @@ def _safe_archive(data):
         if len(names) != len(set(names)) or len(names) > 200:
             raise FutureSupplyReferenceError('duplicate or excessive archive members')
         for item in members:
-            name = item.filename
-            parts = name.rstrip('/').split('/')
-            if (not name or name.startswith('/') or '\\' in name or ':' in name
-                    or any(part in ('', '.', '..') for part in parts)
-                    or stat.S_ISLNK(item.external_attr >> 16) or item.flag_bits & 1):
+            _validate_archive_names(item)
+            if stat.S_ISLNK(item.external_attr >> 16) or item.flag_bits & 1:
                 raise FutureSupplyReferenceError('unsafe archive member path/type')
         if sum(m.file_size for m in members) > 25_000_000:
             raise FutureSupplyReferenceError('oversized archive contents')
