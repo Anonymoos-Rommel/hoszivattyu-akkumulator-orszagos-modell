@@ -18,6 +18,105 @@ from modules.B05.cycling_input_colocation import MEASUREMENT_DETERMINED
 ROOT = Path(__file__).resolve().parents[1]
 
 
+# This pins one technical revision, not a new source-admission authority.
+REVISION_PROOF_PATH = 'registry/b05_independent_contract_current_revision_20261029.json'
+REVISION_PROOF_SHA256 = '87dbe6185f262eaabe5f942a8c4356e605fb4283457cc90bb7aaf5a6c027dbc9'
+INDEPENDENT_HISTORY_PATH = 'evidence/history/B05-CYCLING-ADMISSION-2026-10-02/manifest.json'
+B06_CURRENT_PATH = 'modules/B06/prospective_capacity_reference.py'
+B06_INPUT_MANIFEST_PATH = 'registry/b06_prospective_capacity_reference_manifest.json'
+
+
+def _revision_require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def _revision_json(raw):
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            _revision_require(key not in result, 'duplicate JSON key')
+            result[key] = value
+        return result
+    return json.loads(raw, object_pairs_hook=unique)
+
+
+def verify_independent_contract_revision(read_bytes):
+    """Offline exact-byte proof; read_bytes permits isolated negative fixtures only.
+
+    The historical checkpoint asserted 17 then-current files unchanged. That
+    literal current-byte invariant is superseded for precisely one reviewed B06
+    revision; historical bytes and the other 16 current pins remain unchanged.
+    No production source admission, Q, readiness or physical formula is altered.
+    """
+    import re
+    digest = lambda raw: hashlib.sha256(raw).hexdigest()
+    raw = read_bytes(REVISION_PROOF_PATH)
+    _revision_require(digest(raw) == REVISION_PROOF_SHA256, 'reviewed proof raw hash')
+    proof = _revision_json(raw)
+    _revision_require(set(proof) == {'schema_version', 'revision_id', 'date', 'purpose',
+                                  'history', 'transition', 'input_manifest', 'limitations'}, 'proof fields')
+    _revision_require(proof['schema_version'] == 1 and
+                      proof['revision_id'] == 'B05-INDEPENDENT-CONTRACT-CURRENT-REVISION-20261029' and
+                      proof['date'] == '2026-10-29' and
+                      proof['purpose'] == 'TECHNICAL_CURRENT_REVISION_ONLY_NOT_PHYSICAL_SOURCE_ADMISSION',
+                      'technical revision identity')
+    _revision_require(proof['limitations'] == [
+        'EXACT_SINGLE_REVISION_NO_AUTOMATIC_REPINNING', 'SIXTEEN_OTHER_CURRENT_CONTRACTS_RAW_IDENTICAL',
+        'NO_PHYSICAL_ADMISSION_Q_OR_READINESS_CHANGE', 'B06_REMAINS_SCN_CAPACITY_ONLY'], 'revision scope')
+    history_pin, transition, manifest_pin = proof['history'], proof['transition'], proof['input_manifest']
+    _revision_require(set(history_pin) == {'path', 'sha256', 'contract_count'} and
+                      history_pin['path'] == INDEPENDENT_HISTORY_PATH and
+                      history_pin['contract_count'] == 17, 'history contract')
+    _revision_require(set(transition) == {'path', 'predecessor_sha256', 'current_sha256', 'old_assignment',
+                                        'new_assignment', 'old_pin_set_sha256', 'current_pin_set_sha256'} and
+                      transition['path'] == B06_CURRENT_PATH, 'single exact transition')
+    _revision_require(set(manifest_pin) == {'path', 'predecessor_sha256', 'current_sha256', 'changed_input',
+                                          'old_method_sha256', 'current_method_sha256'} and
+                      manifest_pin['path'] == B06_INPUT_MANIFEST_PATH and
+                      manifest_pin['changed_input'] == 'ventilation_method', 'single input transition')
+    history_raw = read_bytes(INDEPENDENT_HISTORY_PATH)
+    _revision_require(digest(history_raw) == history_pin['sha256'], 'historical manifest raw hash')
+    history = _revision_json(history_raw)['unchanged_independent_contracts']
+    _revision_require(len(history) == 17 and B06_CURRENT_PATH in history and
+                      history[B06_CURRENT_PATH] == transition['predecessor_sha256'], '17 historical pins')
+    for path, expected in history.items():
+        if path != B06_CURRENT_PATH:
+            _revision_require(digest(read_bytes(path)) == expected, 'unchanged current contract: ' + path)
+
+    current = read_bytes(B06_CURRENT_PATH)
+    _revision_require(digest(current) == transition['current_sha256'], 'exact current B06 raw hash')
+    old_pin = transition['old_pin_set_sha256'].encode('ascii')
+    new_pin = transition['current_pin_set_sha256'].encode('ascii')
+    old_assignment = transition['old_assignment'].encode('ascii')
+    new_assignment = transition['new_assignment'].encode('ascii')
+    assignments = re.findall(rb"^PIN_SET_SHA256 = '[0-9a-f]{64}'\r?$", current, re.M)
+    _revision_require(assignments == [new_assignment] and current.count(new_pin) == 1 and
+                      old_pin not in current and old_assignment == new_assignment.replace(new_pin, old_pin),
+                      'one anchored exact assignment, no old literal')
+    predecessor = current.replace(new_assignment, old_assignment, 1)
+    _revision_require(digest(predecessor) == transition['predecessor_sha256'], 'entire B06 predecessor bytes')
+
+    manifest_raw = read_bytes(B06_INPUT_MANIFEST_PATH)
+    _revision_require(digest(manifest_raw) == manifest_pin['current_sha256'], 'exact current input manifest')
+    old_method = manifest_pin['old_method_sha256'].encode('ascii')
+    new_method = manifest_pin['current_method_sha256'].encode('ascii')
+    _revision_require(manifest_raw.count(new_method) == 1 and old_method not in manifest_raw,
+                      'one exact method pin delta')
+    old_manifest_raw = manifest_raw.replace(new_method, old_method, 1)
+    _revision_require(digest(old_manifest_raw) == manifest_pin['predecessor_sha256'], 'entire manifest predecessor bytes')
+    manifest, old_manifest = _revision_json(manifest_raw), _revision_json(old_manifest_raw)
+    _revision_require(manifest['inputs']['ventilation_method']['sha256'] == new_method.decode(), 'method pin')
+    expected_old = _revision_json(manifest_raw)
+    expected_old['inputs']['ventilation_method']['sha256'] = old_method.decode()
+    _revision_require(old_manifest == expected_old, 'only method pin changed')
+    for value, expected in ((manifest, new_pin), (old_manifest, old_pin)):
+        canonical = json.dumps(value['inputs'], sort_keys=True, separators=(',', ':')).encode()
+        _revision_require(digest(canonical) == expected.decode(), 'canonical input pin set')
+    for name, pin in manifest['inputs'].items():
+        _revision_require(digest(read_bytes(pin['path'])) == pin['sha256'], 'current input raw hash: ' + name)
+
+
 def point(**changes):
     context = CyclingSourceContext(
         observation_id="WM50-20261002-average-low_temperature-A7",
@@ -208,14 +307,109 @@ class CyclingSourceAdmissionTests(unittest.TestCase):
         self.assertIn(manifest["method_condition_authority"]["source_id"], registered)
 
     def test_independent_v53_capacity_consumer_and_grid_bytes_are_unchanged(self):
-        manifest = json.loads((ROOT / "evidence/history/B05-CYCLING-ADMISSION-2026-10-02/manifest.json").read_text())
-        for path, digest in manifest["unchanged_independent_contracts"].items():
-            self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), digest, path)
+        # Historical test ID retained; current acceptance is the exact reviewed transition.
+        verify_independent_contract_revision(lambda path: (ROOT / path).read_bytes())
         minimum = load_wm50_reference("MIN", fixed_supply_c=55).evaluate(-7, 55).point
         maximum = load_wm50_reference("MAX", fixed_supply_c=55).evaluate(-7, 55).point
         self.assertEqual(minimum.thermal_capacity_kw, 2)
         self.assertEqual(maximum.thermal_capacity_kw, 4.4)
         self.assertEqual(minimum.cop, 1.76)
+
+    def revision_bytes(self):
+        read = lambda path: (ROOT / path).read_bytes()
+        proof = json.loads(read(REVISION_PROOF_PATH))
+        history = json.loads(read(INDEPENDENT_HISTORY_PATH))['unchanged_independent_contracts']
+        inputs = json.loads(read(B06_INPUT_MANIFEST_PATH))['inputs']
+        paths = {REVISION_PROOF_PATH, INDEPENDENT_HISTORY_PATH, B06_CURRENT_PATH, B06_INPUT_MANIFEST_PATH}
+        paths.update(history)
+        paths.update(pin['path'] for pin in inputs.values())
+        return {path: read(path) for path in paths}, proof
+
+    def reject_revision_mutation(self, changes, expected=None):
+        files, _ = self.revision_bytes()
+        files.update(changes)
+        with self.assertRaisesRegex(ValueError, expected or '.'):
+            verify_independent_contract_revision(files.__getitem__)
+
+    def test_revision_positive_uses_same_offline_gate(self):
+        files, _ = self.revision_bytes()
+        verify_independent_contract_revision(files.__getitem__)
+
+    def test_revision_rejects_other_source_bytes_and_assignment_mutations(self):
+        files, proof = self.revision_bytes()
+        current = files[B06_CURRENT_PATH]
+        t = proof['transition']
+        new, old = t['new_assignment'].encode(), t['old_assignment'].encode()
+        mutations = [current + b'\n# unrelated change\n', current.replace(b'SCOPE_METADATA_SHA256', b'OTHER_METADATA_SHA256'),
+                     current.replace(new, b''), current + b'\n' + new,
+                     current.replace(new, old), current + t['current_pin_set_sha256'].encode(),
+                     current.replace(new, b' ' + new), current.replace(new, new.replace(b' = ', b'=')),
+                     current.replace(t['current_pin_set_sha256'].encode(), b'0' * 64)]
+        for mutated in mutations:
+            with self.subTest(sha256=hashlib.sha256(mutated).hexdigest()):
+                self.reject_revision_mutation({B06_CURRENT_PATH: mutated}, 'exact current B06 raw hash')
+
+    def test_revision_rejects_proof_identity_scope_path_and_override_mutations(self):
+        files, proof = self.revision_bytes()
+        changes = [('purpose', 'PHYSICAL_SOURCE_ADMISSION'), ('date', '2026-10-30'),
+                   ('revision_id', 'NEXT_REVISION'), ('schema_version', 2), ('limitations', [])]
+        for key, value in changes:
+            changed = json.loads(json.dumps(proof)); changed[key] = value
+            with self.subTest(field=key):
+                self.reject_revision_mutation({REVISION_PROOF_PATH: json.dumps(changed).encode()}, 'reviewed proof raw hash')
+        for path in ('../modules/B06/prospective_capacity_reference.py', 'modules/B06/other.py',
+                     './modules/B06/prospective_capacity_reference.py'):
+            changed = json.loads(json.dumps(proof)); changed['transition']['path'] = path
+            with self.subTest(path=path):
+                self.reject_revision_mutation({REVISION_PROOF_PATH: json.dumps(changed).encode()})
+        for addition in ({'second_transition': proof['transition']}, {'allowed_hashes': ['arbitrary']},
+                         {'physical_admission': True}, {'readiness_credit': True}):
+            changed = dict(proof, **addition)
+            with self.subTest(extra=list(addition)):
+                self.reject_revision_mutation({REVISION_PROOF_PATH: json.dumps(changed).encode()})
+        self.reject_revision_mutation({REVISION_PROOF_PATH: files[REVISION_PROOF_PATH] + b' '})
+
+    def test_revision_rejects_history_and_each_of_sixteen_other_current_contracts(self):
+        files, _ = self.revision_bytes()
+        self.reject_revision_mutation({INDEPENDENT_HISTORY_PATH: files[INDEPENDENT_HISTORY_PATH] + b' '},
+                                      'historical manifest raw hash')
+        history = json.loads(files[INDEPENDENT_HISTORY_PATH])['unchanged_independent_contracts']
+        for path in history:
+            if path != B06_CURRENT_PATH:
+                with self.subTest(path=path):
+                    self.reject_revision_mutation({path: files[path] + b'\n'}, 'unchanged current contract')
+
+    def test_revision_rejects_current_manifest_scope_source_and_input_mutations(self):
+        files, _ = self.revision_bytes()
+        manifest = json.loads(files[B06_INPUT_MANIFEST_PATH])
+        for field, value in (('claim_scope', 'ANNUAL_APPROVED'), ('physical_evidence_status', 'OBS')):
+            changed = json.loads(json.dumps(manifest)); changed[field] = value
+            with self.subTest(field=field):
+                self.reject_revision_mutation({B06_INPUT_MANIFEST_PATH: json.dumps(changed).encode()}, 'exact current input manifest')
+        for name, pin in manifest['inputs'].items():
+            with self.subTest(input=name):
+                self.reject_revision_mutation({pin['path']: files[pin['path']] + b'\n'})
+        changed = json.loads(json.dumps(manifest))
+        changed['inputs']['ventilation_method']['source_ids'] = ['NEW_AUTHORITY']
+        self.reject_revision_mutation({B06_INPUT_MANIFEST_PATH: json.dumps(changed).encode()})
+
+    def test_revision_rejects_coordinated_unauthorized_repin(self):
+        files, proof = self.revision_bytes()
+        manifest = json.loads(files[B06_INPUT_MANIFEST_PATH])
+        method = manifest['inputs']['ventilation_method']['path']
+        modified_method = files[method] + b'\n# unreviewed method revision\n'
+        manifest['inputs']['ventilation_method']['sha256'] = hashlib.sha256(modified_method).hexdigest()
+        new_pin = hashlib.sha256(json.dumps(manifest['inputs'], sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+        modified_source = files[B06_CURRENT_PATH].replace(proof['transition']['current_pin_set_sha256'].encode(), new_pin.encode())
+        changes = {method: modified_method, B06_INPUT_MANIFEST_PATH: json.dumps(manifest).encode(), B06_CURRENT_PATH: modified_source}
+        self.reject_revision_mutation(changes, 'exact current B06 raw hash')
+        changed_proof = json.loads(json.dumps(proof))
+        changed_proof['transition']['current_sha256'] = hashlib.sha256(modified_source).hexdigest()
+        changed_proof['transition']['current_pin_set_sha256'] = new_pin
+        changed_proof['input_manifest']['current_sha256'] = hashlib.sha256(changes[B06_INPUT_MANIFEST_PATH]).hexdigest()
+        changes[REVISION_PROOF_PATH] = json.dumps(changed_proof).encode()
+        self.reject_revision_mutation(changes, 'reviewed proof raw hash')
+
 
 
 if __name__ == "__main__":

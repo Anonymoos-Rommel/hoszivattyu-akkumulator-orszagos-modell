@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "revision_id": "B05-INDEPENDENT-CONTRACT-CURRENT-REVISION-20261029",
+  "date": "2026-10-29",
+  "purpose": "TECHNICAL_CURRENT_REVISION_ONLY_NOT_PHYSICAL_SOURCE_ADMISSION",
+  "history": {
+    "path": "evidence/history/B05-CYCLING-ADMISSION-2026-10-02/manifest.json",
+    "sha256": "13e909898c72cb3a11dfa70b2dd649444cbe78d71ce4c4f34708e9825fed8247",
+    "contract_count": 17
+  },
+  "transition": {
+    "path": "modules/B06/prospective_capacity_reference.py",
+    "predecessor_sha256": "9bbc863ff40cf6b12162ce23980881d15c3056db65a434b4ce6a49dc97e62c45",
+    "current_sha256": "aed6fb6a9505535b793bd098391f78c7af0c8492c5795f4df23834fb654402f5",
+    "old_assignment": "PIN_SET_SHA256 = 'ffa05c894396266d0291428718d664a3d138a101bfa4f6eda45105233ea68c05'",
+    "new_assignment": "PIN_SET_SHA256 = 'f5448e69517a43b7931646d6d60d33d29326cdeb305b7973bf4f99885cae4219'",
+    "old_pin_set_sha256": "ffa05c894396266d0291428718d664a3d138a101bfa4f6eda45105233ea68c05",
+    "current_pin_set_sha256": "f5448e69517a43b7931646d6d60d33d29326cdeb305b7973bf4f99885cae4219"
+  },
+  "input_manifest": {
+    "path": "registry/b06_prospective_capacity_reference_manifest.json",
+    "predecessor_sha256": "74ea72259ebd9d3b856a5326c018bda4f034a242e04bfd5dea242a6a2e9901e8",
+    "current_sha256": "529a7c2496d398153701ccc4c251a2a576929705bf2aec8691a37d0f2abcbe80",
+    "changed_input": "ventilation_method",
+    "old_method_sha256": "b00526a74687852551adef9e780a54aff288577f34efc105f7ca86bc4bce0e40",
+    "current_method_sha256": "ecb0039cf26c0d2677f5fe5f42736ab0132aa2afb6ef99e87c4579cd47525203"
+  },
+  "limitations": [
+    "EXACT_SINGLE_REVISION_NO_AUTOMATIC_REPINNING",
+    "SIXTEEN_OTHER_CURRENT_CONTRACTS_RAW_IDENTICAL",
+    "NO_PHYSICAL_ADMISSION_Q_OR_READINESS_CHANGE",
+    "B06_REMAINS_SCN_CAPACITY_ONLY"
+  ]
+}
