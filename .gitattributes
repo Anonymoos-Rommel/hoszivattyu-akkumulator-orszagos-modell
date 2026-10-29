@@ -31,3 +31,13 @@
 /inputs/preserved/b12-cost-coverage-and-roadmap-20261022-v1/KOLTSEG_LEFEDETSEG.json -text
 /inputs/preserved/b12-cost-export-fix-and-decision-20261022-v2/EXPORT_FACT_QUALIFIERS.json -text
 /inputs/r1_evidence/prior_function_map.json -text
+
+/.gitattributes text eol=lf
+/.github/CODEOWNERS text eol=lf
+/.gitignore text eol=lf
+/LICENSE text eol=lf
+/requirements-research.txt text eol=lf
+/tools/extract_b02_ksh_energy.mjs text eol=lf
+/evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/general_metadata.html -text
+/evidence/history/SRC-B02-EUROSTAT-HOUSEHOLD-ENDUSE-2024/hu_metadata.html -text
+/evidence/history/SRC-B02-JRC-IDEES-HU-2023/copyright_2026-10-01.txt -text
