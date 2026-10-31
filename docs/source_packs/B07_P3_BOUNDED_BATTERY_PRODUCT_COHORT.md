@@ -73,7 +73,15 @@ Q-B07-002 remains open for procurement/supply-chain claims, but the missing upst
 
 ## Temperature boundary
 
-Only VARTA currently has a materialized operating-temperature range. P3 does not invent a second-product temperature envelope or a cohort derating curve.
+Both canonical products now have a materialized operating-temperature range. The stable product ID `SONNEN-BATTERY-10-PERFORMANCE` is bound to **10p/11**, the **May 2024** datasheet and performance module article **3000364**, not all configurations marketed under the family name.
+
+Source `SRC-B07-SONNEN-10P11-DATASHEET-2024` gives **11 kWh nominal**, **10 kWh usable (OBS)** and **7/7 kW rated inverter charge/discharge power** for 10p/11, retained as the existing catalog AC power-cap values without claiming the source labels them maximum. The 9.9 kW figures of larger variants are not imported. `capacity_boundary=NOMINAL` continues to identify the nominal-capacity field; it does not relabel usable capacity or substitute it into the unchanged cohort nominal-capacity envelope.
+
+The operating range is **−5..45 °C**; **5..35 °C** is a separate optimal range, recorded as a note rather than substituted for operating limits. Power reduction below 5 °C or above 35 °C is possible but unquantified. **No full-power guarantee across the operating range** is inferred. A validated temperature-dependent power/efficiency/aging response is still required; no derating curve is invented.
+
+Maximum inverter efficiency in this datasheet is not product-specific one-way AC/grid or round-trip efficiency. All existing efficiency Q fields, lifecycle/degradation limits, PARTIAL status and readiness percentages remain unchanged. No runtime input, engine, schema, product choice or market-share inference is introduced.
+
+The source gives only May 2024, not a publication day: `published_at=undated` preserves the existing exact-day schema without inventing precision; the month is retained in the title, reference period and notes. The exact source URL, retrieval date and SHA256 are recorded in `registry/sources.csv` and `registry/battery_sources.csv`; the original PDF is preserved in the authorized project archive, not copied into the repository (`EXTERNAL_ONLY`).
 
 ## State
 

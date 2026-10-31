@@ -80,6 +80,66 @@ class B07P3BoundedBatteryProductCohortTests(unittest.TestCase):
         self.assertEqual(reg["B07-P3-C09"]["status"], "PROCUREMENT_POLICY_GAP")
         self.assertEqual(reg["B07-P3-C10"]["status"], "OPEN_NARROWED_TO_RUNTIME_AGING")
 
+    def test_sonnen_exact_variant_and_usable_capacity_are_source_bound(self):
+        products = rows(ROOT / "registry/battery_products.csv", "product_id")
+        evidence = rows(ROOT / "data/processed/battery_product_evidence.csv", "product_id")
+        product_id = "SONNEN-BATTERY-10-PERFORMANCE"
+        for row in (products[product_id], evidence[product_id]):
+            self.assertIn("10p/11", row["model"])
+            self.assertIn("May 2024", row["model"])
+            self.assertIn("3000364", row["model"])
+            self.assertEqual(row["nominal_capacity_kwh"], "11")
+            self.assertEqual(row["usable_capacity_kwh"], "10")
+            self.assertEqual(row["usable_capacity_status"], "OBS")
+            self.assertEqual(row["capacity_boundary"], "NOMINAL")
+            self.assertEqual(row["max_charge_power_kw"], "7")
+            self.assertEqual(row["max_discharge_power_kw"], "7")
+            self.assertEqual(row["power_boundary"], "AC")
+            self.assertEqual(row["status"], "PARTIAL")
+            self.assertIn("SRC-B07-SONNEN-10P11-DATASHEET-2024", row["source_ids"].split(";"))
+
+    def test_temperature_operating_is_not_optimal_or_guaranteed_power(self):
+        product = rows(ROOT / "registry/battery_products.csv", "product_id")["SONNEN-BATTERY-10-PERFORMANCE"]
+        evidence = rows(ROOT / "data/processed/battery_product_evidence.csv", "product_id")["SONNEN-BATTERY-10-PERFORMANCE"]
+        for row, note in ((product, "notes"), (evidence, "limitations")):
+            self.assertEqual(row["operating_temp_min_c"], "-5")
+            self.assertEqual(row["operating_temp_max_c"], "45")
+            self.assertIn("optimal 5..35 C is not the operating range", row[note])
+            self.assertIn("possible but unquantified", row[note])
+            self.assertIn("no full-power guarantee", row[note])
+        residual = "VALIDATED_TEMPERATURE_DERATING_RESPONSE_REQUIRED_FOR_COHORT_RUNTIME"
+        self.assertIn(residual, bounded_product_cohort().residuals)
+        surface = rows(DATA, "cohort_id")
+        self.assertIn(residual, next(iter(surface.values()))["residuals"])
+        self.assertNotIn("SECOND_PRODUCT_TEMPERATURE_ENVELOPE_REQUIRED_FOR_COHORT_DERATING", bounded_product_cohort().residuals)
+
+    def test_datasheet_provenance_is_exact_and_not_republished(self):
+        sid = "SRC-B07-SONNEN-10P11-DATASHEET-2024"
+        sources = rows(ROOT / "registry/sources.csv", "source_id")
+        battery_sources = rows(ROOT / "registry/battery_sources.csv", "source_id")
+        expected_hash = "39016d76a5b8f7e301deee3e45ab3e1f5a006afc4a4ee27dbd79f35e179c268c"
+        self.assertEqual(sources[sid]["local_snapshot_sha256"], expected_hash)
+        for row in (sources[sid], battery_sources[sid]):
+            self.assertEqual(row["published_at"], "undated")
+            self.assertEqual(row["retrieved_at"], "2026-10-31")
+            self.assertEqual(row["evidence_status"], "OBS")
+            self.assertIn("EXTERNAL_ONLY", row["license"])
+            self.assertIn("3000364", row["title"])
+            self.assertEqual(row["url"], sources[sid]["url"])
+
+    def test_catalog_update_does_not_promote_efficiency_or_readiness(self):
+        product = rows(ROOT / "registry/battery_products.csv", "product_id")["SONNEN-BATTERY-10-PERFORMANCE"]
+        for prefix in ("charge_efficiency", "discharge_efficiency", "round_trip_efficiency"):
+            self.assertEqual(product[prefix + "_value"], "")
+            self.assertEqual(product[prefix + "_status"], "Q")
+        self.assertEqual(product["efficiency_value"], "")
+        self.assertEqual(product["efficiency_status"], "Q")
+        self.assertEqual(product["efficiency_boundary"], "UNSPECIFIED")
+        self.assertEqual((product["warranty_years"], product["warranty_cycles"], product["warranty_retention_pct"]), ("10", "10000", "80"))
+        readiness = rows(ROOT / "registry/battery_readiness.csv", "component_id")
+        for key, status, percent in (("TEMPERATURE_ENVELOPE", "PARTIAL", "45"), ("PRODUCT_EVIDENCE", "PARTIAL", "65"), ("DEGRADATION_MODEL", "Q", "20")):
+            self.assertEqual((readiness[key]["status"], readiness[key]["readiness_percent"]), (status, percent))
+
     def test_document_freezes_readiness_and_nonpromotion(self):
         text = DOC.read_text(encoding="utf-8")
         for phrase in (

@@ -98,6 +98,8 @@ class GridBoundaryRecord:
                 raise B08ContractError("soc_fraction must be in [0, 1]")
             if self.handoff_status not in {"OBS", "DER", "SCN", "Q"}:
                 raise B08ContractError("invalid handoff status")
+            if self.evidence_status != self.handoff_status and self.evidence_status != "Q":
+                raise B08ContractError("B08 cannot replace B07 handoff status")
             if not isfinite(self.upstream_timestep_hours) or self.upstream_timestep_hours <= 0:
                 raise B08ContractError("upstream timestep must be positive")
             if self.upstream_timestep_hours != self.timestep_hours:

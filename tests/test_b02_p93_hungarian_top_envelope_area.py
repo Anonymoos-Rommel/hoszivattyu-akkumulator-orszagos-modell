@@ -170,7 +170,7 @@ class B02P93HungarianTopEnvelopeAreaTests(unittest.TestCase):
         family_rows = b"".join(line for line in SURFACE.read_bytes().splitlines(keepends=True)
                                if b",FAMILY_HOUSE," in line)
         precision = json.loads(PRECISION.read_text(encoding="utf-8"))
-        historical = precision["historical_artifacts"][str(SURFACE.relative_to(ROOT))]
+        historical = precision["historical_artifacts"][SURFACE.relative_to(ROOT).as_posix()]
         self.assertEqual(family_rows.count(b"\n"), historical["preserved_family_house_row_count"])
         self.assertEqual(hashlib.sha256(family_rows).hexdigest(),
                          historical["preserved_family_house_rows_sha256"])
