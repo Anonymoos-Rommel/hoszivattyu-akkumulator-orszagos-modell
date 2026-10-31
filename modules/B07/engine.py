@@ -42,6 +42,9 @@ class BatterySpec:
     status: str = "SCN"
 
     def __post_init__(self) -> None:
+        if (self.capacity_boundary != "USABLE" or self.power_boundary != "AC"
+                or self.efficiency_boundary != "SCN_ONE_WAY" or self.status != "SCN"):
+            raise BatteryModelError("BatterySpec requires USABLE/AC/SCN_ONE_WAY boundaries and SCN status")
         values = (
             self.nominal_capacity_kwh, self.usable_capacity_kwh,
             self.soc_min_fraction, self.soc_max_fraction,

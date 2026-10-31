@@ -1,56 +1,34 @@
-"""B02-P114 current Hungarian window-glazing population bound.
+"""B02-P114 conditional interval from published Hungarian 2023 marginals.
 
-P103-P113 pursued a current replaced-window compliance population surface through
-record-level EKR/KEHOP administrative routes. P114 adds a direct current-stock
-observation that is closer to the physical programme question.
+HC004 reports only single glazing 16.2%, only double 63.1%, triple or more
+12.2%, mixed single/multi 5.3%, mixed double/triple 3.2%. The published
+single-glazing-present share is 21.5%. HC001 reports district heating 15.4%
+and hence non-district 84.6%. HC001 means the mainly used heating system.
 
-EU-SILC 2023 household-energy-efficiency results for Hungary report the current
-window-glazing mix:
-- only single glazing: 16.2%
-- only double glazing: 63.1%
-- triple glazing or more: 12.2%
-- mixed single and double/triple: 5.3%
-- mixed double and triple: 3.2%
+The assessment corroborates a common household/current/H-file scope and
+published near-complete survey coverage. Its rounded HU flags report missing
+0.0% for both variables and survey/interview 100% for both; these are not exact
+denominator, weighting or revision identifiers. Missing table-level metadata
+does not establish incompatible populations or unweighted tables.
 
-Thus 21.5% of Hungarian surveyed households have at least one single-glazed
-window in the current dwelling.
+If both published marginals refer to the same empirical probability measure,
+dependence-free Frechet algebra yields intersection [0.061, 0.215] and
+conditional interval [7.2104018913%, 25.4137115839%]. The computation is
+preserved, but is not a proven uncertainty-free national population bound.
+Sampling and publication rounding uncertainty remain separate validation debt.
+No new confidence level, replacement bound or independence assumption is chosen.
 
-The same survey reports Hungary's current main heating-system marginal:
-- district heating: 15.4%
-- non-district: 84.6%.
-
-Without assuming independence, Frechet bounds imply that at least 6.1% of the
-whole household population is simultaneously:
-- non-district heated; and
-- single-glazing-present.
-
-Conditioned on the non-district household population this is a hard lower bound
-of 6.1 / 84.6 = 7.2104018913%.
-
-Current Hungarian technical authority sets the glazing requirement at
-U <= 1.0 W/m2K. The official calculation appendix gives ordinary 4 mm
-single glazing U_glass = 5.8 W/m2K. Therefore the single-glazing-present class
-is a direct current glazing-deficit class against the current glazing reference.
+The recorded technical references compare ordinary 4 mm glazing 5.8 W/m2K
+with glazing requirement 1.0 W/m2K. This is a reference-class comparison, not
+a measured Ug/Uw value or legal retrofit obligation for each surveyed record.
 
 Critical limitations:
-- HC004 observes glazing type, not whole-window realized Uw.
-- double glazing spans materially different U-values in the official reference
-  table and cannot be promoted to compliant.
-- household-weighted survey shares are not exact Census dwelling counts.
-- the Frechet bound is intentionally dependence-free and does not identify the
-  exact HC001 x HC004 joint distribution.
-
-P114 therefore replaces the generic absence of current national window evidence
-with an observed current glazing-type population surface and a hard
-non-district single-glazing deficit floor. The remaining performance blocker is
-the realized whole-window Uw distribution of the multi-glazed stock.
-
-Boundaries:
-SINGLE_GLAZING_PRESENT != WHOLE_WINDOW_UW_VALUE
-DOUBLE_GLAZING != CURRENT_UW_COMPLIANCE
-TRIPLE_GLAZING != CURRENT_UW_COMPLIANCE
-HOUSEHOLD_WEIGHTED_SURVEY_SHARE != EXACT_DWELLING_COUNT
-MARGINALS_PLUS_FRECHET != OBSERVED_JOINT_TABLE
+- the exact common table denominator, weight and release are not pinned;
+- the reference period is 2023, with no admitted transfer to a later stock;
+- household shares are not an admitted Census dwelling-count estimator;
+- HC004 glazing categories do not identify realized whole-window Uw;
+- no observed HC001 x HC004 joint table is manufactured;
+- P102/HP_ONLY numbers and overall readiness remain unchanged.
 """
 
 from __future__ import annotations
@@ -78,7 +56,15 @@ HU_NON_DISTRICT_HEATING_SHARE = 1.0 - HU_DISTRICT_HEATING_SHARE
 CURRENT_GLAZING_U_REQUIREMENT_W_M2K = 1.0
 OFFICIAL_SINGLE_GLAZING_REFERENCE_U_W_M2K = 5.8
 
-P114_STATUS = "QUALIFIED_CURRENT_WINDOW_GLAZING_POPULATION_BOUND"
+P114_STATUS = "CONDITIONAL_CURRENT_WINDOW_GLAZING_EMPIRICAL_INTERVAL"
+CONDITIONAL_INTERVAL_STATUS = "DERIVED_CONDITIONAL_EMPIRICAL_INTERVAL"
+VALIDATION_DEBTS = (
+    "HC001_HC004_TABLE_DENOMINATOR_WEIGHT_RELEASE_BINDING_REQUIRED",
+    "HC001_HC004_SAMPLING_AND_PUBLICATION_ROUNDING_UNCERTAINTY_REQUIRED",
+    "HC004_HOUSEHOLD_TO_B02_DWELLING_POPULATION_BINDING_REQUIRED",
+    "CURRENT_MULTIGLAZED_WINDOW_REALIZED_UW_DISTRIBUTION_REQUIRED",
+    "HC001_HC004_2023_TO_TARGET_PERIOD_STOCK_BRIDGE_REQUIRED",
+)
 SUPERSEDED_GENERIC_GAP = "CURRENT_REPLACED_WINDOW_COMPLIANCE_POPULATION_SURFACE_REQUIRED"
 PRIMARY_NEXT_RESIDUAL = "CURRENT_MULTIGLAZED_WINDOW_REALIZED_UW_DISTRIBUTION_REQUIRED"
 DWELLING_GRAIN_RESIDUAL = "HC004_HOUSEHOLD_TO_B02_DWELLING_POPULATION_BINDING_REQUIRED"
@@ -125,6 +111,22 @@ def p114_state() -> dict[str, object]:
     b = frechet_non_district_single_glazing_bound()
     return {
         "status": P114_STATUS,
+        "conditional_interval_status": CONDITIONAL_INTERVAL_STATUS,
+        "reference_period": "2023",
+        "common_household_current_scope_corroborated": True,
+        "published_survey_coverage_corroborated": True,
+        "exact_common_table_measure_proven": False,
+        "incompatible_populations_proven": False,
+        "unweighted_tables_proven": False,
+        "true_population_hard_bound_proven": False,
+        "exact_table_denominator": None,
+        "table_weight_revision": None,
+        "table_release_binding": None,
+        "sampling_and_rounding_uncertainty": None,
+        "target_period_stock_transfer_admitted": False,
+        "reference_glazing_comparison_only": True,
+        "record_level_glazing_deficit_proven": False,
+        "validation_debt": VALIDATION_DEBTS,
         "hungary_current_window_type_surface_observed": True,
         "only_single_glazing_share": HU_ONLY_SINGLE_GLAZING_SHARE,
         "only_double_glazing_share": HU_ONLY_DOUBLE_GLAZING_SHARE,
@@ -171,4 +173,10 @@ def semantic_boundaries() -> tuple[str, ...]:
         "TRIPLE_GLAZING_IS_NOT_CURRENT_UW_COMPLIANCE",
         "HOUSEHOLD_WEIGHTED_SURVEY_SHARE_IS_NOT_EXACT_DWELLING_COUNT",
         "MARGINALS_PLUS_FRECHET_IS_NOT_OBSERVED_JOINT_TABLE",
+        "CONDITIONAL_EMPIRICAL_INTERVAL_IS_NOT_TRUE_POPULATION_HARD_BOUND",
+        "PUBLISHED_COVERAGE_IS_NOT_EXACT_TABLE_WEIGHT_RELEASE_BINDING",
+        "MISSING_WEIGHT_METADATA_IS_NOT_PROOF_OF_INCOMPATIBILITY",
+        "ROUNDED_MARGINALS_ARE_NOT_EXACT_POPULATION_PARAMETERS",
+        "GLAZING_REFERENCE_COMPARISON_IS_NOT_RECORD_LEVEL_DEFICIT_OR_LEGAL_DUTY",
+        "REFERENCE_2023_IS_NOT_LATER_TARGET_STOCK",
     )

@@ -36,3 +36,10 @@ The following remain policy questions and never change physical dispatch:
 Physical flexibility means what the battery could move from its current SOC and
 power limits. It is not legal eligibility or a VPP market commitment.
 
+
+## Direct executor evidence boundary
+
+The current `BatterySpec` numerical executor accepts only `USABLE` capacity,
+`AC` power, `SCN_ONE_WAY` efficiency, and `SCN` status together. Unknown or
+round-trip boundaries and real-evidence labels are rejected rather than
+converted. Source-native product catalog records are not executable specs.

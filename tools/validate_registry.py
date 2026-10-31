@@ -7,6 +7,8 @@ import hashlib
 import json
 import re
 import sys
+import subprocess
+import os
 from datetime import date
 from decimal import Decimal, InvalidOperation, localcontext
 from pathlib import Path
@@ -3213,6 +3215,39 @@ def validate_b05_eoh_observed_boundary_evidence(errors: list[str], source_ids: s
 
 
 
+# Historical manifest scope; not current EOH replay admission.
+_EOH_HISTORICAL_B11 = {
+    "b05_eoh_comparison_support_manifest.json": "ed528c692abb14b992e9b64be9ab5fc6acc53a87",
+    "b05_eoh_annual_transfer_manifest.json": "6ae8a073635db0f3b4475a5a9b2baf618cb824b3",
+}
+_EOH_B11_PATH = "modules/B11/physical_displacement_contract.py"
+
+
+def _eoh_protected_matches(manifest_name, manifest, relative, expected):
+    """Historical B11 identity only for two exact manifests; others stay live.
+
+    Missing local Git history fails closed. No network fetch or alternative
+    revision lookup. Annual analyzer's current-ROOT guard remains independent.
+    """
+    if not isinstance(expected, str) or re.fullmatch(r"[0-9a-f]{64}", expected) is None:
+        return False
+    if manifest_name in _EOH_HISTORICAL_B11 and relative == _EOH_B11_PATH:
+        commit = _EOH_HISTORICAL_B11[manifest_name]
+        if manifest.get("base_commit") != commit:
+            return False
+        try:
+            result = subprocess.run(
+                ["git", "--no-replace-objects", "-C", str(ROOT), "show", commit + ":" + relative],
+                capture_output=True, check=False, timeout=10,
+                env={**os.environ, "GIT_NO_LAZY_FETCH": "1"},
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            return False
+        return result.returncode == 0 and hashlib.sha256(result.stdout).hexdigest() == expected
+    path = (ROOT / relative).resolve()
+    return path.is_relative_to(ROOT.resolve()) and path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == expected
+
+
 def validate_b05_eoh_comparison_support(errors: list[str], source_ids: set[str]) -> None:
     """A local research parser is separate from runtime and installed admission."""
     prefix = "B05 EOH comparison support"
@@ -3265,9 +3300,8 @@ def validate_b05_eoh_comparison_support(errors: list[str], source_ids: set[str])
                  "registry/b05_eoh_observed_boundary_manifest.json", "registry/b05_wm50_installed_boundary_evidence.json"}
                 <= set(protected), "runtime/rating/A-evidence protected inventory")
         for relative, expected in protected.items():
-            path = (ROOT / relative).resolve()
-            require(path.is_relative_to(ROOT.resolve()) and bool(re.fullmatch(r"[0-9a-f]{64}", expected))
-                    and hashlib.sha256(path.read_bytes()).hexdigest() == expected, f"unchanged protected file {relative}")
+            require(_eoh_protected_matches("b05_eoh_comparison_support_manifest.json", m, relative, expected),
+                    f"protected historical/live file {relative}")
         plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
         tasks = {s["slice_id"]: s for mod in plan["modules"] for s in mod["slices"]}
         require(m["research_slice_ids"] == ["B05-D01", "B05-D03"] and bool(m["remaining_applicability_question"]), "scoped open applicability")
@@ -3400,9 +3434,8 @@ def validate_b05_eoh_annual_transfer(errors: list[str], source_ids: set[str]) ->
                  "modules/B11/annual_retrofit_reference.py", "modules/B05/hourly_onoff_parameter_policy.py"} <= set(protected),
                 "canonical and prior research protected inventory")
         for relative, expected in protected.items():
-            path = (ROOT / relative).resolve()
-            require(path.is_relative_to(ROOT.resolve()) and hashlib.sha256(path.read_bytes()).hexdigest() == expected,
-                    f"unchanged protected file {relative}")
+            require(_eoh_protected_matches("b05_eoh_annual_transfer_manifest.json", m, relative, expected),
+                    f"protected historical/live file {relative}")
         plan = json.loads((REGISTRY / "v1_research_plan.json").read_text(encoding="utf-8"))
         tasks = {s["slice_id"]: s for module in plan["modules"] for s in module["slices"]}
         require(m["research_slice_ids"] == ["B05-D01", "B05-D03"] and bool(m["remaining_identifying_link"]), "bounded unresolved link")

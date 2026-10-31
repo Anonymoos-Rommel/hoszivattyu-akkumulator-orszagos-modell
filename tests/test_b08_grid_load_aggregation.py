@@ -32,7 +32,7 @@ class _PytestCompat:
 pytest = _PytestCompat()
 
 from modules.B05.engine import HourlyDemand, OperatingConfig, PerformanceMap, PerformancePoint, simulate_hourly
-from modules.B07.engine import BatteryEngine, BatterySpec, compute_household_balance, make_b08_handoff
+from modules.B07.engine import BatteryEngine, BatterySpec, B08PhysicalHandoff, compute_household_balance, make_b08_handoff
 from modules.B08.engine import B08ContractError, GridBoundaryRecord, aggregate_grid_load as _aggregate_grid_load, run_fixture
 
 
@@ -348,8 +348,9 @@ def test_b07_truth_status_cannot_be_relabelled():
         GridBoundaryRecord.from_b07_handoff(timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc),
             source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN", b01_state_id="S3",
             handoff=handoff, truth_context="SCN", evidence_status="DER", source_refs=SOURCE)
-    real_spec = BatterySpec(10, 10, 0, 1, 5, 5, 0.9, 0.9, 0.5, status="DER")
-    real_handoff = make_b08_handoff(compute_household_balance(1, 0, 0, 0, 0, 0), BatteryEngine(real_spec, 5).step(), real_spec)
+    # Synthetic DER handoff tests the intake contract, not observed battery physics.
+    # SCN_ONE_WAY efficiencies must not be promoted into REAL evidence.
+    real_handoff = B08PhysicalHandoff(1, 0, 0, 0, 1, 1, 0.5, status="DER", timestep_hours=0.5)
     real_row = GridBoundaryRecord.from_b07_handoff(timestamp=datetime(2026, 1, 1, tzinfo=timezone.utc),
         source_entity_id="HH-1", region_id="R1", region_scheme="HU_COUNTY_SCN", b01_state_id="S3",
         handoff=real_handoff, truth_context="REAL", evidence_status="DER", source_refs=SOURCE)

@@ -18,6 +18,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 import math
+from numbers import Real
 
 
 class EvidenceStatus(str, Enum):
@@ -42,7 +43,8 @@ class EvidenceValue:
             raise ValueError(f"expected unit {expected_unit!r}, got {self.unit!r}")
         if self.status not in _ALLOWED_NUMERIC_STATUSES:
             raise ValueError("Q evidence cannot authorize a numeric physical calculation")
-        if self.value is None or not math.isfinite(self.value):
+        if (isinstance(self.value, bool) or not isinstance(self.value, Real)
+                or not math.isfinite(self.value)):
             raise ValueError("missing/non-finite evidence is not zero")
         return float(self.value)
 
@@ -78,7 +80,7 @@ def _combined_status(values: tuple[EvidenceValue, ...]) -> EvidenceStatus:
         return EvidenceStatus.SCN
     if EvidenceStatus.DER in statuses:
         return EvidenceStatus.DER
-    return EvidenceStatus.OBS
+    return EvidenceStatus.DER
 
 
 def calculate_physical_gas_displacement(inputs: GasDisplacementInputs) -> GasDisplacementResult:
