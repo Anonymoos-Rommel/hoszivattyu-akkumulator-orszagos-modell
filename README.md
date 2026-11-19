@@ -1,10 +1,28 @@
 # Hőszigetelés + hőszivattyú + akkumulátor országos modell
 
-Nyilvános, forrásolt és reprodukálható kutatási projekt egy magyarországi, országos léptékű hőszigetelési, hőszivattyú- és háztartásiakkumulátor-program műszaki, hálózati, pénzügyi, fiskális, társadalmi és környezeti feltételeinek vizsgálatához.
+**Helyzetkép frissítve: 2026. november 19.**
 
-## Jelenlegi állapot
+Nyilvános, forrásolt és reprodukálható kutatás arról, hogy **milyen feltételekkel lenne megvalósítható Magyarországon egy ütemezett lakossági energetikai korszerűsítési program**. A hőszigetelést, a hőszivattyúkat és az akkumulátoros tárolást háztartási és országos szinten is vizsgáljuk, a program nélküli alapforgatókönyvhöz képest.
 
-**P0 — kutatási infrastruktúra és V1.2-szerződés.** A repository a kutatás szerződését, modulstruktúráját, bizonyítási szabályait, a B02 reprodukálható adat-alapját és a lépcsőzetes országos projektportfólió gépi szerződésének üres vázát tartalmazza. Még nem közöl végleges szakpolitikai következtetést vagy validált országos portfóliószámot.
+## Mit vizsgál a projekt?
+
+| Terület | Fő kérdés |
+| --- | --- |
+| **Épületek és energia** | Mely épülettípusoknál milyen beavatkozás jöhet szóba, mennyi energiát és földgázt válthat ki, és hogyan alakul az áramigény a hideg, illetve a csúcsidőszakokban? |
+| **Háztartási számlák és finanszírozás** | Hogyan változik a gáz- és villanyszámla, ha a beruházás, az üzemeltetés és a hiteltörlesztés is számít? Milyen feltételekkel nem nő a háztartás pénzügyi terhe a belépéstől kezdve? |
+| **Állami költségvetés és támogatás** | Mit jelentene a rezsitámogatás igazoltan átirányítható részének fokozatos felhasználása a belépők korszerűsítésére, miközben a programon kívül maradók támogatása megmarad? Mi a hatása az éves állami kiadásokra és adóbevételekre, beleértve az áfát? |
+| **GDP, foglalkoztatás és bérek** | Mennyi hazai hozzáadott érték és nettó munkahely keletkezhet az import és a más tevékenységekből kiszoruló munka figyelembevételével? Hogyan változhat a munkaerőigény és a bértömeg? A GDP-hatás előjelét nem rögzítjük előre. |
+| **Képzés és kivitelezés** | Hány szakember, munkaóra és kivitelezői csapat kell, mekkora a régiók és szakmák kapacitása, és milyen képzési utánpótlással tartható az ütem? |
+| **Villamos hálózat és tárolás** | Hogyan hat a program a helyi és országos csúcsterhelésre? Mikor képes a tárolás a napelemes többletet későbbre áttenni, és ezt milyen hálózati korlátok mellett tudjuk igazolni? |
+| **Klíma, levegőminőség és egészség** | Mennyivel változik a fosszilis energiaigény, a kibocsátás és a helyi légszennyezés, és milyen egészségi hatások becsülhetők az alkalmazott adatokból? |
+
+A részletes kutatási kérdések és a módszertani korlátok a [projektalapító okiratban](PROJECT_CHARTER.md) és a [B01–B20 kutatási tervben](registry/v1_research_plan.json) követhetők.
+
+## Hol tart a munka?
+
+- **A nyilvános főágban** elérhető a módszertan, a modulok és források nyilvántartása, valamint több visszaellenőrzött részadat és részmodell. Például a lakott lakásállomány feldolgozása és a hazai gazdasági ágak történeti adatai már szerepelnek a [modulstátuszokban](registry/module_status.csv). Ezek önmagukban nem országos programeredmények.
+- **Fejlesztés alatt** áll a B01–B19 modulok összekapcsolása. Egy elkülönített fejlesztési változaton az integrációs kódellenőrzés már lefutott; ez nem azonos a nyilvános főágba emeléssel vagy az országos eredmények igazolásával. A B20 végleges alkalmazási interfészének kidolgozása még nem indult el.
+- **Még hiányzik** többek között ugyanazon háztartás azonos fogyasztási időszakra szóló gáz- és villanyelszámolása, az átcsoportosítható állami forrás igazolása, összeillő helyi hálózati mérések és régiós kivitelezési kapacitásadatok. Ezért nincs még igazolt országos beruházási ütem, megtakarítási, GDP- vagy foglalkoztatási eredmény.
 
 ## V1 végrehajtási terv
 
